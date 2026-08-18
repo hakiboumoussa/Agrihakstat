@@ -1,0 +1,93 @@
+import React, { useState } from "react";
+import { Sprout, Loader2, AlertCircle, CheckCircle2 } from "lucide-react";
+import { supabase, isSupabaseConfigured } from "../supabaseClient.js";
+
+const NAVY = "#1F3864";
+const GOLD = "#C99A2E";
+
+export default function Signup({ onGoLogin, onGoLanding }) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [done, setDone] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+    if (!isSupabaseConfigured) {
+      setError("Supabase n'est pas encore configuré (voir src/config.js). La création de compte réelle sera possible une fois les clés renseignées.");
+      return;
+    }
+    setLoading(true);
+    const { error } = await supabase.auth.signUp({ email, password });
+    setLoading(false);
+    if (error) setError(error.message);
+    else setDone(true);
+  };
+
+  if (done) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] px-4">
+        <div className="w-full max-w-sm bg-white rounded-2xl shadow-sm border border-black/5 p-8 text-center">
+          <CheckCircle2 size={32} className="mx-auto mb-3" style={{ color: "#3E9C6B" }} />
+          <h1 className="font-serif text-lg font-bold mb-2" style={{ color: NAVY }}>Compte créé</h1>
+          <p className="text-sm text-gray-500 mb-5">
+            Vérifiez votre boîte e-mail pour confirmer votre adresse, puis connectez-vous.
+          </p>
+          <button onClick={onGoLogin} className="px-4 py-2.5 rounded-xl text-sm font-medium text-white shadow-md"
+            style={{ background: `linear-gradient(135deg, ${NAVY}, #2A4A82)` }}>
+            Aller à la connexion
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans px-4">
+      <div className="w-full max-w-sm bg-white rounded-2xl shadow-sm border border-black/5 p-8">
+        <div className="flex flex-col items-center mb-6">
+          <div className="w-11 h-11 rounded-xl flex items-center justify-center shadow-md mb-3" style={{ background: GOLD }}>
+            <Sprout size={20} className="text-white" />
+          </div>
+          <h1 className="font-serif text-xl font-bold" style={{ color: NAVY }}>Créer un compte</h1>
+        </div>
+
+        {error && (
+          <div className="flex items-start gap-2 rounded-xl p-3 mb-4 text-xs" style={{ background: "#FBE7E5", color: "#B3413A" }}>
+            <AlertCircle size={14} className="mt-0.5 shrink-0" /> {error}
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit} className="space-y-3">
+          <div>
+            <label className="text-xs font-medium text-gray-600 block mb-1.5">Adresse e-mail</label>
+            <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)}
+              className="w-full text-sm rounded-xl border border-gray-200 p-2.5 focus:outline-none focus:ring-2"
+              style={{ "--tw-ring-color": GOLD }} placeholder="vous@exemple.com" />
+          </div>
+          <div>
+            <label className="text-xs font-medium text-gray-600 block mb-1.5">Mot de passe</label>
+            <input type="password" required minLength={6} value={password} onChange={(e) => setPassword(e.target.value)}
+              className="w-full text-sm rounded-xl border border-gray-200 p-2.5 focus:outline-none focus:ring-2"
+              style={{ "--tw-ring-color": GOLD }} placeholder="6 caractères minimum" />
+          </div>
+          <button type="submit" disabled={loading}
+            className="w-full mt-2 px-4 py-2.5 rounded-xl text-sm font-medium flex items-center justify-center gap-2 text-white shadow-md"
+            style={{ background: `linear-gradient(135deg, ${NAVY}, #2A4A82)` }}>
+            {loading && <Loader2 size={15} className="animate-spin" />} Créer mon compte
+          </button>
+        </form>
+
+        <p className="text-center text-xs text-gray-400 mt-5">
+          Déjà un compte ?{" "}
+          <button onClick={onGoLogin} className="font-medium" style={{ color: NAVY }}>Se connecter</button>
+        </p>
+        <p className="text-center text-xs text-gray-300 mt-2">
+          <button onClick={onGoLanding}>← Retour à l'accueil</button>
+        </p>
+      </div>
+    </div>
+  );
+}

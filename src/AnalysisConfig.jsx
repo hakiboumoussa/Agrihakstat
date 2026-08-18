@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import {
   LayoutDashboard, ClipboardList, BarChart3, FileText, Settings, Sprout,
   Bell, ChevronDown, Wand2, Pencil, Plus, X, Play, Check, Info,
-  TrendingUp, Layers, Sigma, ShieldCheck, AlertTriangle, XCircle, CheckCircle2,
+  TrendingUp, Layers, Sigma, ShieldCheck, AlertTriangle, XCircle, CheckCircle2, MapPin,
 } from "lucide-react";
 
 const NAVY = "#1F3864";
@@ -14,11 +14,11 @@ const AMBER_TINT = "#FDF1DA";
 const NAVY_TINT = "#EBEEF7";
 
 const nav = [
-  { label: "Tableau de bord", icon: LayoutDashboard },
-  { label: "Enquêtes", icon: ClipboardList },
-  { label: "Analyses", icon: BarChart3, active: true },
-  { label: "Rapports", icon: FileText },
-  { label: "Paramètres", icon: Settings },
+  { id: "dashboard", label: "Tableau de bord", icon: LayoutDashboard },
+  { id: "import", label: "Assistant d'import", icon: ClipboardList },
+  { id: "config", label: "Configuration des analyses", icon: BarChart3 },
+  { id: "results", label: "Résultats & rapport", icon: FileText },
+  { id: "map", label: "Cartographie", icon: MapPin },
 ];
 
 const VARIABLES = [
@@ -162,7 +162,7 @@ function Select({ value, onChange, options, placeholder }) {
   );
 }
 
-export default function AnalysisConfig() {
+export default function AnalysisConfig({ active, onNavigate }) {
   const [tab, setTab] = useState("bivariee");
   const [included, setIncluded] = useState(["sup_semee", "rendement", "filiere", "commune", "pluvio_decade", "acces_credit"]);
   const [x, setX] = useState("sup_semee");
@@ -220,11 +220,12 @@ export default function AnalysisConfig() {
           </div>
           <nav className="space-y-1.5">
             {nav.map((item) => (
-              <div key={item.label}
+              <div key={item.id}
+                onClick={() => onNavigate(item.id)}
                 className={`flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer text-sm transition-colors ${
-                  item.active ? "bg-[#16294B] text-white font-medium border-l-4" : "hover:bg-white/5"
+                  item.id === active ? "bg-[#16294B] text-white font-medium border-l-4" : "hover:bg-white/5"
                 }`}
-                style={item.active ? { borderColor: GOLD } : {}}>
+                style={item.id === active ? { borderColor: GOLD } : {}}>
                 <item.icon size={17} />
                 {item.label}
               </div>

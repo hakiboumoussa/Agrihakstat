@@ -2,7 +2,7 @@ import React from "react";
 import {
   LayoutDashboard, ClipboardList, BarChart3, FileText, Settings, Sprout,
   Bell, ChevronDown, Plus, Upload, TrendingUp, AlertTriangle, CheckCircle2,
-  Clock, MoreHorizontal, Droplets, Sun, Leaf,
+  Clock, MoreHorizontal, Droplets, Sun, Leaf, MapPin,
 } from "lucide-react";
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
@@ -56,11 +56,11 @@ const kpis = [
 ];
 
 const nav = [
-  { label: "Tableau de bord", icon: LayoutDashboard, active: true },
-  { label: "Enquêtes", icon: ClipboardList },
-  { label: "Analyses", icon: BarChart3 },
-  { label: "Rapports", icon: FileText },
-  { label: "Paramètres", icon: Settings },
+  { id: "dashboard", label: "Tableau de bord", icon: LayoutDashboard },
+  { id: "import", label: "Assistant d'import", icon: ClipboardList },
+  { id: "config", label: "Configuration des analyses", icon: BarChart3 },
+  { id: "results", label: "Résultats & rapport", icon: FileText },
+  { id: "map", label: "Cartographie", icon: MapPin },
 ];
 
 const NAVY = "#1F3864";
@@ -85,7 +85,7 @@ function Watermark() {
   );
 }
 
-export default function Dashboard() {
+export default function Dashboard({ active, onNavigate }) {
   return (
     <div className="min-h-screen relative bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans">
       <Watermark />
@@ -108,13 +108,14 @@ export default function Dashboard() {
           <nav className="space-y-1.5">
             {nav.map((item) => (
               <div
-                key={item.label}
+                key={item.id}
+                onClick={() => onNavigate(item.id)}
                 className={`flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer text-sm transition-colors ${
-                  item.active
+                  item.id === active
                     ? "bg-[#16294B] text-white font-medium shadow-inner border-l-4"
                     : "hover:bg-white/5"
                 }`}
-                style={item.active ? { borderColor: GOLD } : {}}
+                style={item.id === active ? { borderColor: GOLD } : {}}
               >
                 <item.icon size={17} />
                 {item.label}
@@ -157,11 +158,11 @@ export default function Dashboard() {
           <main className="p-8">
             {/* Actions rapides */}
             <div className="flex gap-3 mb-6">
-              <button className="px-4 py-2.5 rounded-xl text-sm font-medium flex items-center gap-2 text-white shadow-md hover:shadow-lg transition-shadow"
+              <button onClick={() => onNavigate("import")} className="px-4 py-2.5 rounded-xl text-sm font-medium flex items-center gap-2 text-white shadow-md hover:shadow-lg transition-shadow"
                 style={{ background: `linear-gradient(135deg, ${NAVY}, #2A4A82)` }}>
                 <Plus size={15} /> Nouvelle enquête
               </button>
-              <button className="px-4 py-2.5 rounded-xl text-sm font-medium flex items-center gap-2 shadow-sm hover:shadow-md transition-shadow bg-white"
+              <button onClick={() => onNavigate("import")} className="px-4 py-2.5 rounded-xl text-sm font-medium flex items-center gap-2 shadow-sm hover:shadow-md transition-shadow bg-white"
                 style={{ border: `1.5px solid ${GOLD}`, color: "#8A5A00" }}>
                 <Upload size={15} /> Importer questionnaire + base
               </button>

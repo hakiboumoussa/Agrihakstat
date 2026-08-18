@@ -70,6 +70,45 @@ actifs), puis rafraîchissez `public/index.html`.
    supplémentaire n'est nécessaire.
 3. Chaque nouveau `git push` déclenche un redéploiement automatique.
 
+## Authentification et panneau admin (Supabase)
+
+Le site inclut désormais une page d'accueil publique, un système de compte
+(inscription / connexion) et un panneau d'administration, connectés à
+**Supabase** (service gratuit d'authentification + base de données).
+
+### Mise en place (une seule fois)
+
+1. Créez un compte gratuit sur **https://supabase.com** → **New project**
+2. Une fois le projet créé, allez dans **Project Settings → API** et notez
+   deux valeurs : **Project URL** et **anon public key**
+3. Ouvrez `src/config.js` dans ce projet et remplacez les deux valeurs
+   d'exemple par les vôtres
+4. Dans Supabase, ouvrez **SQL Editor → New query**, collez le contenu du
+   fichier `supabase_setup.sql` fourni à la racine de ce projet, puis **Run**
+5. Dans Supabase, **Authentication → Providers**, vérifiez que **Email** est
+   activé (c'est le cas par défaut)
+6. `npm run build`, puis `git add . && git commit -m "Connexion Supabase" && git push`
+   — Vercel redéploiera automatiquement
+
+### Vous désigner comme administrateur
+
+1. Créez votre compte depuis le site déployé (bouton **Créer un compte**)
+2. Confirmez votre adresse e-mail (lien reçu par courriel)
+3. Dans Supabase → **SQL Editor**, exécutez :
+   ```sql
+   update public.profiles set role = 'admin' where email = 'votre-email@exemple.com';
+   ```
+4. Reconnectez-vous sur le site : un bouton **Admin** apparaît désormais en
+   haut à droite, donnant accès au nombre d'utilisateurs inscrits et à la
+   fréquentation par écran.
+
+### Tant que Supabase n'est pas configuré
+
+Le site reste pleinement consultable via le bouton **Voir la démonstration
+sans créer de compte** sur la page d'accueil. Les boutons de connexion et
+d'inscription, eux, affichent un message explicite plutôt que d'échouer
+silencieusement tant que les clés Supabase ne sont pas renseignées.
+
 ## Conçu par
 
 Hakibou MOUSSA — Ingénieur Agronome, Spécialiste en Biostatistique & Modélisation

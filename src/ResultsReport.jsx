@@ -22,11 +22,11 @@ const FILIERES = {
 };
 
 const nav = [
-  { label: "Tableau de bord", icon: LayoutDashboard },
-  { label: "Enquêtes", icon: ClipboardList },
-  { label: "Analyses", icon: BarChart3, active: true },
-  { label: "Rapports", icon: FileText },
-  { label: "Paramètres", icon: Settings },
+  { id: "dashboard", label: "Tableau de bord", icon: LayoutDashboard },
+  { id: "import", label: "Assistant d'import", icon: ClipboardList },
+  { id: "config", label: "Configuration des analyses", icon: BarChart3 },
+  { id: "results", label: "Résultats & rapport", icon: FileText },
+  { id: "map", label: "Cartographie", icon: MapPin },
 ];
 
 const rendementParFiliere = [
@@ -173,7 +173,7 @@ function ClimateMap() {
   );
 }
 
-export default function ResultsReport() {
+export default function ResultsReport({ active, onNavigate }) {
   const [sections, setSections] = useState(reportSections);
   const [format, setFormat] = useState("docx");
 
@@ -198,11 +198,12 @@ export default function ResultsReport() {
           </div>
           <nav className="space-y-1.5">
             {nav.map((item) => (
-              <div key={item.label}
+              <div key={item.id}
+                onClick={() => onNavigate(item.id)}
                 className={`flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer text-sm transition-colors ${
-                  item.active ? "bg-[#16294B] text-white font-medium border-l-4" : "hover:bg-white/5"
+                  item.id === active ? "bg-[#16294B] text-white font-medium border-l-4" : "hover:bg-white/5"
                 }`}
-                style={item.active ? { borderColor: GOLD } : {}}>
+                style={item.id === active ? { borderColor: GOLD } : {}}>
                 <item.icon size={17} />
                 {item.label}
               </div>
