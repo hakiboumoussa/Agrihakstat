@@ -1,0 +1,25 @@
+{
+  "name": "agrihakstat-demo",
+  "version": "1.0.0",
+  "description": "Maquette interactive AgriHakStat (tableau de bord, import, analyses, résultats, cartographie)",
+  "main": "src/entry.jsx",
+  "scripts": {
+    "build:js": "esbuild src/entry.jsx --bundle --outfile=dist/bundle.js --loader:.js=jsx",
+    "build:css": "tailwindcss -i input.css -o dist/styles.css",
+    "build": "npm run build:js && npm run build:css",
+    "watch:js": "esbuild src/entry.jsx --bundle --outfile=dist/bundle.js --loader:.js=jsx --watch",
+    "watch:css": "tailwindcss -i input.css -o dist/styles.css --watch",
+    "serve": "npx serve ."
+  },
+  "keywords": [],
+  "author": "Hakibou MOUSSA",
+  "license": "ISC",
+  "dependencies": {
+    "esbuild": "^0.28.1",
+    "lucide-react": "^1.28.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "recharts": "^3.10.1",
+    "tailwindcss": "^3.4.19"
+  }
+}
