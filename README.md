@@ -16,10 +16,10 @@ agrihakstat_demo/
 │   ├── AnalysisConfig.jsx   # Écran 3 — Configuration des analyses
 │   ├── ResultsReport.jsx    # Écran 4 — Résultats & rapport
 │   └── Cartographie.jsx     # Écran 5 — Cartographie
-├── dist/                    # Fichiers compilés (générés, ne pas éditer à la main)
-│   ├── bundle.js
-│   └── styles.css
-├── index.html                # Page racine à ouvrir dans le navigateur
+├── public/                   # Dossier publié par Vercel
+│   ├── index.html             # Page racine (suivie par Git)
+│   ├── bundle.js               # Généré par npm run build (non suivi par Git)
+│   └── styles.css               # Généré par npm run build (non suivi par Git)
 ├── input.css                  # Point d'entrée Tailwind (@tailwind base/components/utilities)
 ├── tailwind.config.js
 └── package.json
@@ -52,16 +52,23 @@ npm run watch:css
 
 ## Aperçu dans le navigateur
 
-Ouvrez simplement `index.html` dans un navigateur (double-clic, ou extension
-**Live Server** de VS Code pour un rechargement automatique). Aucun serveur
-n'est requis pour la consultation ; `npm run serve` reste disponible si vous
-préférez un petit serveur local.
+Après `npm run build`, ouvrez `public/index.html` dans un navigateur (double-clic,
+ou extension **Live Server** de VS Code pour un rechargement automatique).
+`npm run serve` lance aussi un petit serveur local sur le dossier `public/`.
 
 ## Modifier un écran
 
 Chaque écran est un composant React autonome dans `src/`. Éditez le fichier
 correspondant, relancez `npm run build` (ou laissez `watch:js`/`watch:css`
-actifs), puis rafraîchissez `index.html`.
+actifs), puis rafraîchissez `public/index.html`.
+
+## Déploiement (GitHub → Vercel)
+
+1. `git add . && git commit -m "..." && git push`
+2. Sur vercel.com, importez le dépôt GitHub — Vercel détecte automatiquement
+   le dossier `public/` comme dossier de sortie, aucune configuration
+   supplémentaire n'est nécessaire.
+3. Chaque nouveau `git push` déclenche un redéploiement automatique.
 
 ## Conçu par
 
