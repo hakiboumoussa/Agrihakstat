@@ -3,6 +3,7 @@ import {
   LayoutDashboard, ClipboardList, BarChart3, FileText, Settings, Sprout,
   Bell, ChevronDown, MapPin, Layers, Droplets, Download, FileOutput, Filter,
 } from "lucide-react";
+import UserMenu from "./UserMenu.jsx";
 
 const NAVY = "#1F3864";
 const GOLD = "#C99A2E";
@@ -99,7 +100,7 @@ function Chip({ label, active, onClick, color }) {
   );
 }
 
-export default function Cartographie({ active, onNavigate }) {
+export default function Cartographie({ active, onNavigate, userEmail, roleLabel, isAdmin, isGuest, onLogout, onOpenAdmin }) {
   const [layer, setLayer] = useState("points");
   const [indicateur, setIndicateur] = useState("taux");
   const [filieres, setFilieres] = useState(Object.keys(FILIERES));
@@ -118,14 +119,9 @@ export default function Cartographie({ active, onNavigate }) {
         {/* Sidebar */}
         <aside className="w-60 min-h-screen shrink-0 py-6 px-4 text-[#C7D2E8]"
           style={{ background: `linear-gradient(180deg, ${NAVY} 0%, #16294B 100%)` }}>
-          <div className="flex items-center gap-2 px-2 mb-8">
-            <div className="w-10 h-10 rounded-xl flex items-center justify-center shadow-lg" style={{ background: GOLD }}>
-              <Sprout size={19} className="text-white" />
-            </div>
-            <div>
-              <div className="font-serif font-bold text-white text-[16px] leading-none">AgriHakStat</div>
-              <div className="text-[10px] opacity-60 mt-1">DDAEP-Borgou</div>
-            </div>
+          <div className="flex flex-col items-start gap-1 px-2 mb-8">
+            <img src="./logo-compact.png" alt="AgriHakStat" className="h-16 w-auto -ml-1" />
+            <div className="text-[10px] opacity-60">DDAEP-Borgou</div>
           </div>
           <nav className="space-y-1.5">
             {nav.map((item) => (
@@ -152,14 +148,8 @@ export default function Cartographie({ active, onNavigate }) {
             </div>
             <div className="flex items-center gap-4">
               <Bell size={18} className="text-gray-400" />
-              <div className="flex items-center gap-2 text-sm">
-                <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold text-white" style={{ background: NAVY }}>HM</div>
-                <div className="leading-tight">
-                  <div className="font-medium text-gray-800">H. Moussa</div>
-                  <div className="text-[11px] text-gray-500">C/SESSEC</div>
-                </div>
-                <ChevronDown size={14} className="text-gray-400" />
-              </div>
+              <UserMenu email={userEmail} roleLabel={roleLabel} isAdmin={isAdmin} isGuest={isGuest}
+                onLogout={onLogout} onOpenAdmin={onOpenAdmin} />
             </div>
           </header>
 

@@ -48,9 +48,7 @@ export default function Signup({ onGoLogin, onGoLanding }) {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans px-4">
       <div className="w-full max-w-sm bg-white rounded-2xl shadow-sm border border-black/5 p-8">
         <div className="flex flex-col items-center mb-6">
-          <div className="w-11 h-11 rounded-xl flex items-center justify-center shadow-md mb-3" style={{ background: GOLD }}>
-            <Sprout size={20} className="text-white" />
-          </div>
+          <img src="./logo-compact.png" alt="AgriHakStat" className="h-14 w-auto mb-2" />
           <h1 className="font-serif text-xl font-bold" style={{ color: NAVY }}>Créer un compte</h1>
         </div>
 

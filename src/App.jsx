@@ -64,34 +64,35 @@ export default function App() {
   // --- Connecté (ou démonstration libre) : application ---
   const Active = SCREENS[active];
   const isAdmin = profile?.role === "admin";
+  const isGuest = guestMode && !session;
+  const userEmail = session?.user?.email || "";
+  const roleLabel = isGuest ? "Démonstration" : isAdmin ? "Administrateur" : "Utilisateur";
+  const handleTopRightLogout = isGuest ? () => setGuestMode(false) : handleLogout;
 
   return (
     <div className="relative">
-      {guestMode && !session && (
-        <div className="fixed top-0 left-0 right-0 z-[70] bg-[#C99A2E] text-[#1F3864] text-xs font-medium text-center py-1.5">
+      {isGuest && (
+        <div className="sticky top-0 z-[70] bg-[#C99A2E] text-[#1F3864] text-xs font-medium text-center py-1.5">
           Mode démonstration — aucune donnée n'est enregistrée.{" "}
           <button onClick={() => { setGuestMode(false); setAuthView("signup"); }} className="underline font-semibold">
             Créer un compte
           </button>
         </div>
       )}
-      <div className={`fixed ${guestMode && !session ? "top-9" : "top-3"} right-4 z-[60] flex items-center gap-2`}>
-        {isAdmin && (
-          <button onClick={() => setShowAdmin(true)}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-[#1F3864] text-white shadow-md">
-            <ShieldCheck size={13} /> Admin
-          </button>
-        )}
-        <button onClick={guestMode && !session ? () => setGuestMode(false) : handleLogout}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-white shadow-md border border-gray-200 text-gray-600">
-          <LogOut size={13} /> {guestMode && !session ? "Quitter la démo" : "Déconnexion"}
-        </button>
-      </div>
 
       {showAdmin ? (
         <AdminDashboard onBack={() => setShowAdmin(false)} />
       ) : (
-        <Active active={active} onNavigate={handleNavigate} />
+        <Active
+          active={active}
+          onNavigate={handleNavigate}
+          userEmail={userEmail}
+          roleLabel={roleLabel}
+          isAdmin={isAdmin}
+          isGuest={isGuest}
+          onLogout={handleTopRightLogout}
+          onOpenAdmin={() => setShowAdmin(true)}
+        />
       )}
     </div>
   );

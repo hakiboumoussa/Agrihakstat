@@ -1337,7 +1337,7 @@
           return dispatcher;
         }
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-        var React65 = require_react(), Internals = {
+        var React66 = require_react(), Internals = {
           d: {
             f: noop6,
             r: function() {
@@ -1355,7 +1355,7 @@
           },
           p: 0,
           findDOMNode: null
-        }, REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), ReactSharedInternals = React65.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
+        }, REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), ReactSharedInternals = React66.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
         "function" === typeof Map && null != Map.prototype && "function" === typeof Map.prototype.forEach && "function" === typeof Set && null != Set.prototype && "function" === typeof Set.prototype.clear && "function" === typeof Set.prototype.forEach || console.error(
           "React depends on Map and Set built-in types. Make sure that you load a polyfill in older browsers. https://reactjs.org/link/react-polyfills"
         );
@@ -2890,7 +2890,7 @@
           "number" === type && getActiveElement(node.ownerDocument) === node || node.defaultValue === "" + value || (node.defaultValue = "" + value);
         }
         function validateOptionProps(element, props) {
-          null == props.value && ("object" === typeof props.children && null !== props.children ? React65.Children.forEach(props.children, function(child) {
+          null == props.value && ("object" === typeof props.children && null !== props.children ? React66.Children.forEach(props.children, function(child) {
             null == child || "string" === typeof child || "number" === typeof child || "bigint" === typeof child || didWarnInvalidChild || (didWarnInvalidChild = true, console.error(
               "Cannot infer the option value of complex children. Pass a `value` prop or use a plain string as children to <option>."
             ));
@@ -18522,14 +18522,14 @@
           ));
         }
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-        var Scheduler = require_scheduler(), React65 = require_react(), ReactDOM = require_react_dom(), assign2 = Object.assign, REACT_LEGACY_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.element"), REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = /* @__PURE__ */ Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = /* @__PURE__ */ Symbol.for("react.profiler"), REACT_CONSUMER_TYPE = /* @__PURE__ */ Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.context"), REACT_FORWARD_REF_TYPE2 = /* @__PURE__ */ Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = /* @__PURE__ */ Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = /* @__PURE__ */ Symbol.for("react.suspense_list"), REACT_MEMO_TYPE2 = /* @__PURE__ */ Symbol.for("react.memo"), REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy");
+        var Scheduler = require_scheduler(), React66 = require_react(), ReactDOM = require_react_dom(), assign2 = Object.assign, REACT_LEGACY_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.element"), REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = /* @__PURE__ */ Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = /* @__PURE__ */ Symbol.for("react.profiler"), REACT_CONSUMER_TYPE = /* @__PURE__ */ Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.context"), REACT_FORWARD_REF_TYPE2 = /* @__PURE__ */ Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = /* @__PURE__ */ Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = /* @__PURE__ */ Symbol.for("react.suspense_list"), REACT_MEMO_TYPE2 = /* @__PURE__ */ Symbol.for("react.memo"), REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy");
         /* @__PURE__ */ Symbol.for("react.scope");
         var REACT_ACTIVITY_TYPE = /* @__PURE__ */ Symbol.for("react.activity");
         /* @__PURE__ */ Symbol.for("react.legacy_hidden");
         /* @__PURE__ */ Symbol.for("react.tracing_marker");
         var REACT_MEMO_CACHE_SENTINEL = /* @__PURE__ */ Symbol.for("react.memo_cache_sentinel");
         /* @__PURE__ */ Symbol.for("react.view_transition");
-        var MAYBE_ITERATOR_SYMBOL = Symbol.iterator, REACT_CLIENT_REFERENCE = /* @__PURE__ */ Symbol.for("react.client.reference"), isArrayImpl = Array.isArray, ReactSharedInternals = React65.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, ReactDOMSharedInternals = ReactDOM.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, NotPending = Object.freeze({
+        var MAYBE_ITERATOR_SYMBOL = Symbol.iterator, REACT_CLIENT_REFERENCE = /* @__PURE__ */ Symbol.for("react.client.reference"), isArrayImpl = Array.isArray, ReactSharedInternals = React66.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, ReactDOMSharedInternals = ReactDOM.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, NotPending = Object.freeze({
           pending: false,
           data: null,
           method: null,
@@ -21317,7 +21317,7 @@
           }
         };
         (function() {
-          var isomorphicReactPackageVersion = React65.version;
+          var isomorphicReactPackageVersion = React66.version;
           if ("19.2.8" !== isomorphicReactPackageVersion)
             throw Error(
               'Incompatible React versions: The "react" and "react-dom" packages must have the exact same version. Instead got:\n  - react:      ' + (isomorphicReactPackageVersion + "\n  - react-dom:  19.2.8\nLearn more: https://react.dev/warnings/version-mismatch")
@@ -21466,7 +21466,7 @@
           return x2 === y2 && (0 !== x2 || 1 / x2 === 1 / y2) || x2 !== x2 && y2 !== y2;
         }
         function useSyncExternalStore$2(subscribe, getSnapshot) {
-          didWarnOld18Alpha || void 0 === React65.startTransition || (didWarnOld18Alpha = true, console.error(
+          didWarnOld18Alpha || void 0 === React66.startTransition || (didWarnOld18Alpha = true, console.error(
             "You are using an outdated, pre-release alpha of React 18 that does not support useSyncExternalStore. The use-sync-external-store shim will not work correctly. Upgrade to a newer pre-release."
           ));
           var value = getSnapshot();
@@ -21476,7 +21476,7 @@
               "The result of getSnapshot should be cached to avoid an infinite loop"
             ), didWarnUncachedGetSnapshot = true);
           }
-          cachedValue = useState23({
+          cachedValue = useState24({
             inst: { value, getSnapshot }
           });
           var inst = cachedValue[0].inst, forceUpdate = cachedValue[1];
@@ -21488,7 +21488,7 @@
             },
             [subscribe, value, getSnapshot]
           );
-          useEffect25(
+          useEffect26(
             function() {
               checkIfSnapshotChanged(inst) && forceUpdate({ inst });
               return subscribe(function() {
@@ -21514,8 +21514,8 @@
           return getSnapshot();
         }
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-        var React65 = require_react(), objectIs = "function" === typeof Object.is ? Object.is : is3, useState23 = React65.useState, useEffect25 = React65.useEffect, useLayoutEffect10 = React65.useLayoutEffect, useDebugValue2 = React65.useDebugValue, didWarnOld18Alpha = false, didWarnUncachedGetSnapshot = false, shim = "undefined" === typeof window || "undefined" === typeof window.document || "undefined" === typeof window.document.createElement ? useSyncExternalStore$1 : useSyncExternalStore$2;
-        exports.useSyncExternalStore = void 0 !== React65.useSyncExternalStore ? React65.useSyncExternalStore : shim;
+        var React66 = require_react(), objectIs = "function" === typeof Object.is ? Object.is : is3, useState24 = React66.useState, useEffect26 = React66.useEffect, useLayoutEffect10 = React66.useLayoutEffect, useDebugValue2 = React66.useDebugValue, didWarnOld18Alpha = false, didWarnUncachedGetSnapshot = false, shim = "undefined" === typeof window || "undefined" === typeof window.document || "undefined" === typeof window.document.createElement ? useSyncExternalStore$1 : useSyncExternalStore$2;
+        exports.useSyncExternalStore = void 0 !== React66.useSyncExternalStore ? React66.useSyncExternalStore : shim;
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop(Error());
       })();
     }
@@ -21542,9 +21542,9 @@
           return x2 === y2 && (0 !== x2 || 1 / x2 === 1 / y2) || x2 !== x2 && y2 !== y2;
         }
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-        var React65 = require_react(), shim = require_shim(), objectIs = "function" === typeof Object.is ? Object.is : is3, useSyncExternalStore2 = shim.useSyncExternalStore, useRef24 = React65.useRef, useEffect25 = React65.useEffect, useMemo15 = React65.useMemo, useDebugValue2 = React65.useDebugValue;
+        var React66 = require_react(), shim = require_shim(), objectIs = "function" === typeof Object.is ? Object.is : is3, useSyncExternalStore2 = shim.useSyncExternalStore, useRef25 = React66.useRef, useEffect26 = React66.useEffect, useMemo15 = React66.useMemo, useDebugValue2 = React66.useDebugValue;
         exports.useSyncExternalStoreWithSelector = function(subscribe, getSnapshot, getServerSnapshot, selector, isEqual2) {
-          var instRef = useRef24(null);
+          var instRef = useRef25(null);
           if (null === instRef.current) {
             var inst = { hasValue: false, value: null };
             instRef.current = inst;
@@ -21585,7 +21585,7 @@
             [getSnapshot, getServerSnapshot, selector, isEqual2]
           );
           var value = useSyncExternalStore2(subscribe, instRef[0], instRef[1]);
-          useEffect25(
+          useEffect26(
             function() {
               inst.hasValue = true;
               inst.value = value;
@@ -21621,9 +21621,9 @@
           return x2 === y2 && (0 !== x2 || 1 / x2 === 1 / y2) || x2 !== x2 && y2 !== y2;
         }
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-        var React65 = require_react(), objectIs = "function" === typeof Object.is ? Object.is : is3, useSyncExternalStore2 = React65.useSyncExternalStore, useRef24 = React65.useRef, useEffect25 = React65.useEffect, useMemo15 = React65.useMemo, useDebugValue2 = React65.useDebugValue;
+        var React66 = require_react(), objectIs = "function" === typeof Object.is ? Object.is : is3, useSyncExternalStore2 = React66.useSyncExternalStore, useRef25 = React66.useRef, useEffect26 = React66.useEffect, useMemo15 = React66.useMemo, useDebugValue2 = React66.useDebugValue;
         exports.useSyncExternalStoreWithSelector = function(subscribe, getSnapshot, getServerSnapshot, selector, isEqual2) {
-          var instRef = useRef24(null);
+          var instRef = useRef25(null);
           if (null === instRef.current) {
             var inst = { hasValue: false, value: null };
             instRef.current = inst;
@@ -21664,7 +21664,7 @@
             [getSnapshot, getServerSnapshot, selector, isEqual2]
           );
           var value = useSyncExternalStore2(subscribe, instRef[0], instRef[1]);
-          useEffect25(
+          useEffect26(
             function() {
               inst.hasValue = true;
               inst.value = value;
@@ -22945,11 +22945,11 @@
   });
 
   // src/entry.jsx
-  var import_react79 = __toESM(require_react());
+  var import_react80 = __toESM(require_react());
   var import_client = __toESM(require_client());
 
   // src/App.jsx
-  var import_react78 = __toESM(require_react());
+  var import_react79 = __toESM(require_react());
 
   // node_modules/lucide-react/dist/esm/createLucideIcon.mjs
   var import_react3 = __toESM(require_react(), 1);
@@ -23485,22 +23485,8 @@
   ];
   var Sparkles = createLucideIcon("sparkles", __iconNode40);
 
-  // node_modules/lucide-react/dist/esm/icons/sprout.mjs
-  var __iconNode41 = [
-    [
-      "path",
-      {
-        d: "M14 9.536V7a4 4 0 0 1 4-4h1.5a.5.5 0 0 1 .5.5V5a4 4 0 0 1-4 4 4 4 0 0 0-4 4c0 2 1 3 1 5a5 5 0 0 1-1 3",
-        key: "139s4v"
-      }
-    ],
-    ["path", { d: "M4 9a5 5 0 0 1 8 4 5 5 0 0 1-8-4", key: "1dlkgp" }],
-    ["path", { d: "M5 21h14", key: "11awu3" }]
-  ];
-  var Sprout = createLucideIcon("sprout", __iconNode41);
-
   // node_modules/lucide-react/dist/esm/icons/sun.mjs
-  var __iconNode42 = [
+  var __iconNode41 = [
     ["circle", { cx: "12", cy: "12", r: "4", key: "4exip2" }],
     ["path", { d: "M12 2v2", key: "tus03m" }],
     ["path", { d: "M12 20v2", key: "1lh1kg" }],
@@ -23511,33 +23497,33 @@
     ["path", { d: "m6.34 17.66-1.41 1.41", key: "1m8zz5" }],
     ["path", { d: "m19.07 4.93-1.41 1.41", key: "1shlcs" }]
   ];
-  var Sun = createLucideIcon("sun", __iconNode42);
+  var Sun = createLucideIcon("sun", __iconNode41);
 
   // node_modules/lucide-react/dist/esm/icons/thermometer.mjs
-  var __iconNode43 = [
+  var __iconNode42 = [
     ["path", { d: "M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0Z", key: "17jzev" }]
   ];
-  var Thermometer = createLucideIcon("thermometer", __iconNode43);
+  var Thermometer = createLucideIcon("thermometer", __iconNode42);
 
   // node_modules/lucide-react/dist/esm/icons/trash-2.mjs
-  var __iconNode44 = [
+  var __iconNode43 = [
     ["path", { d: "M10 11v6", key: "nco0om" }],
     ["path", { d: "M14 11v6", key: "outv1u" }],
     ["path", { d: "M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6", key: "miytrc" }],
     ["path", { d: "M3 6h18", key: "d0wm0j" }],
     ["path", { d: "M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2", key: "e791ji" }]
   ];
-  var Trash2 = createLucideIcon("trash-2", __iconNode44);
+  var Trash2 = createLucideIcon("trash-2", __iconNode43);
 
   // node_modules/lucide-react/dist/esm/icons/trending-up.mjs
-  var __iconNode45 = [
+  var __iconNode44 = [
     ["path", { d: "M16 7h6v6", key: "box55l" }],
     ["path", { d: "m22 7-8.5 8.5-5-5L2 17", key: "1t1m79" }]
   ];
-  var TrendingUp = createLucideIcon("trending-up", __iconNode45);
+  var TrendingUp = createLucideIcon("trending-up", __iconNode44);
 
   // node_modules/lucide-react/dist/esm/icons/triangle-alert.mjs
-  var __iconNode46 = [
+  var __iconNode45 = [
     [
       "path",
       {
@@ -23548,27 +23534,27 @@
     ["path", { d: "M12 9v4", key: "juzpu7" }],
     ["path", { d: "M12 17h.01", key: "p32p05" }]
   ];
-  var TriangleAlert = createLucideIcon("triangle-alert", __iconNode46);
+  var TriangleAlert = createLucideIcon("triangle-alert", __iconNode45);
 
   // node_modules/lucide-react/dist/esm/icons/upload.mjs
-  var __iconNode47 = [
+  var __iconNode46 = [
     ["path", { d: "M12 3v12", key: "1x0j5s" }],
     ["path", { d: "m17 8-5-5-5 5", key: "7q97r8" }],
     ["path", { d: "M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4", key: "ih7n3h" }]
   ];
-  var Upload = createLucideIcon("upload", __iconNode47);
+  var Upload = createLucideIcon("upload", __iconNode46);
 
   // node_modules/lucide-react/dist/esm/icons/users.mjs
-  var __iconNode48 = [
+  var __iconNode47 = [
     ["path", { d: "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2", key: "1yyitq" }],
     ["path", { d: "M16 3.128a4 4 0 0 1 0 7.744", key: "16gr8j" }],
     ["path", { d: "M22 21v-2a4 4 0 0 0-3-3.87", key: "kshegd" }],
     ["circle", { cx: "9", cy: "7", r: "4", key: "nufk8" }]
   ];
-  var Users = createLucideIcon("users", __iconNode48);
+  var Users = createLucideIcon("users", __iconNode47);
 
   // node_modules/lucide-react/dist/esm/icons/wand-sparkles.mjs
-  var __iconNode49 = [
+  var __iconNode48 = [
     [
       "path",
       {
@@ -23584,21 +23570,57 @@
     ["path", { d: "M21 16h-4", key: "1cnmox" }],
     ["path", { d: "M11 3H9", key: "1obp7u" }]
   ];
-  var WandSparkles = createLucideIcon("wand-sparkles", __iconNode49);
+  var WandSparkles = createLucideIcon("wand-sparkles", __iconNode48);
 
   // node_modules/lucide-react/dist/esm/icons/x.mjs
-  var __iconNode50 = [
+  var __iconNode49 = [
     ["path", { d: "M18 6 6 18", key: "1bl5f8" }],
     ["path", { d: "m6 6 12 12", key: "d8bk6v" }]
   ];
-  var X = createLucideIcon("x", __iconNode50);
+  var X = createLucideIcon("x", __iconNode49);
 
   // src/Dashboard.jsx
-  var import_react69 = __toESM(require_react());
+  var import_react70 = __toESM(require_react());
+
+  // src/UserMenu.jsx
+  var import_react4 = __toESM(require_react());
+  var NAVY = "#1F3864";
+  function UserMenu({ email, roleLabel, isAdmin, isGuest, onLogout, onOpenAdmin }) {
+    const [open, setOpen] = (0, import_react4.useState)(false);
+    const ref = (0, import_react4.useRef)(null);
+    (0, import_react4.useEffect)(() => {
+      function onClickOutside(e) {
+        if (ref.current && !ref.current.contains(e.target)) setOpen(false);
+      }
+      document.addEventListener("mousedown", onClickOutside);
+      return () => document.removeEventListener("mousedown", onClickOutside);
+    }, []);
+    const initials = isGuest ? "?" : (email || "").slice(0, 2).toUpperCase();
+    return /* @__PURE__ */ import_react4.default.createElement("div", { className: "relative", ref }, /* @__PURE__ */ import_react4.default.createElement("button", { onClick: () => setOpen((o) => !o), className: "flex items-center gap-2 text-sm" }, /* @__PURE__ */ import_react4.default.createElement(
+      "div",
+      {
+        className: "w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold text-white shrink-0",
+        style: { background: NAVY }
+      },
+      initials
+    ), /* @__PURE__ */ import_react4.default.createElement("div", { className: "leading-tight text-left" }, /* @__PURE__ */ import_react4.default.createElement("div", { className: "font-medium text-gray-800 max-w-[140px] truncate" }, isGuest ? "Mode d\xE9monstration" : email), /* @__PURE__ */ import_react4.default.createElement("div", { className: "text-[11px] text-gray-500" }, roleLabel)), /* @__PURE__ */ import_react4.default.createElement(ChevronDown, { size: 14, className: `text-gray-400 transition-transform ${open ? "rotate-180" : ""}` })), open && /* @__PURE__ */ import_react4.default.createElement("div", { className: "absolute right-0 mt-2 w-52 bg-white rounded-xl shadow-lg border border-gray-100 py-1.5 z-50" }, isAdmin && /* @__PURE__ */ import_react4.default.createElement(
+      "button",
+      {
+        onClick: () => {
+          setOpen(false);
+          onOpenAdmin();
+        },
+        className: "w-full flex items-center gap-2 px-3 py-2 text-xs text-left hover:bg-gray-50",
+        style: { color: NAVY }
+      },
+      /* @__PURE__ */ import_react4.default.createElement(ShieldCheck, { size: 14 }),
+      " Panneau d'administration"
+    ), isGuest ? /* @__PURE__ */ import_react4.default.createElement("button", { onClick: onLogout, className: "w-full flex items-center gap-2 px-3 py-2 text-xs text-left hover:bg-gray-50", style: { color: NAVY } }, /* @__PURE__ */ import_react4.default.createElement(Sparkles, { size: 14 }), " Cr\xE9er un compte") : /* @__PURE__ */ import_react4.default.createElement("button", { onClick: onLogout, className: "w-full flex items-center gap-2 px-3 py-2 text-xs text-left text-red-500 hover:bg-gray-50" }, /* @__PURE__ */ import_react4.default.createElement(LogOut, { size: 14 }), " Se d\xE9connecter")));
+  }
 
   // node_modules/recharts/es6/container/Surface.js
-  var React = __toESM(require_react());
-  var import_react6 = __toESM(require_react());
+  var React2 = __toESM(require_react());
+  var import_react7 = __toESM(require_react());
 
   // node_modules/clsx/dist/clsx.mjs
   function r(e) {
@@ -23616,7 +23638,7 @@
   }
 
   // node_modules/recharts/es6/util/svgPropertiesAndEvents.js
-  var import_react5 = __toESM(require_react());
+  var import_react6 = __toESM(require_react());
 
   // node_modules/recharts/es6/util/excludeEventProps.js
   var EventKeys = ["dangerouslySetInnerHTML", "onCopy", "onCopyCapture", "onCut", "onCutCapture", "onPaste", "onPasteCapture", "onCompositionEnd", "onCompositionEndCapture", "onCompositionStart", "onCompositionStartCapture", "onCompositionUpdate", "onCompositionUpdateCapture", "onFocus", "onFocusCapture", "onBlur", "onBlurCapture", "onChange", "onChangeCapture", "onBeforeInput", "onBeforeInputCapture", "onInput", "onInputCapture", "onReset", "onResetCapture", "onSubmit", "onSubmitCapture", "onInvalid", "onInvalidCapture", "onLoad", "onLoadCapture", "onError", "onErrorCapture", "onKeyDown", "onKeyDownCapture", "onKeyPress", "onKeyPressCapture", "onKeyUp", "onKeyUpCapture", "onAbort", "onAbortCapture", "onCanPlay", "onCanPlayCapture", "onCanPlayThrough", "onCanPlayThroughCapture", "onDurationChange", "onDurationChangeCapture", "onEmptied", "onEmptiedCapture", "onEncrypted", "onEncryptedCapture", "onEnded", "onEndedCapture", "onLoadedData", "onLoadedDataCapture", "onLoadedMetadata", "onLoadedMetadataCapture", "onLoadStart", "onLoadStartCapture", "onPause", "onPauseCapture", "onPlay", "onPlayCapture", "onPlaying", "onPlayingCapture", "onProgress", "onProgressCapture", "onRateChange", "onRateChangeCapture", "onSeeked", "onSeekedCapture", "onSeeking", "onSeekingCapture", "onStalled", "onStalledCapture", "onSuspend", "onSuspendCapture", "onTimeUpdate", "onTimeUpdateCapture", "onVolumeChange", "onVolumeChangeCapture", "onWaiting", "onWaitingCapture", "onAuxClick", "onAuxClickCapture", "onClick", "onClickCapture", "onContextMenu", "onContextMenuCapture", "onDoubleClick", "onDoubleClickCapture", "onDrag", "onDragCapture", "onDragEnd", "onDragEndCapture", "onDragEnter", "onDragEnterCapture", "onDragExit", "onDragExitCapture", "onDragLeave", "onDragLeaveCapture", "onDragOver", "onDragOverCapture", "onDragStart", "onDragStartCapture", "onDrop", "onDropCapture", "onMouseDown", "onMouseDownCapture", "onMouseEnter", "onMouseLeave", "onMouseMove", "onMouseMoveCapture", "onMouseOut", "onMouseOutCapture", "onMouseOver", "onMouseOverCapture", "onMouseUp", "onMouseUpCapture", "onSelect", "onSelectCapture", "onTouchCancel", "onTouchCancelCapture", "onTouchEnd", "onTouchEndCapture", "onTouchMove", "onTouchMoveCapture", "onTouchStart", "onTouchStartCapture", "onPointerDown", "onPointerDownCapture", "onPointerMove", "onPointerMoveCapture", "onPointerUp", "onPointerUpCapture", "onPointerCancel", "onPointerCancelCapture", "onPointerEnter", "onPointerEnterCapture", "onPointerLeave", "onPointerLeaveCapture", "onPointerOver", "onPointerOverCapture", "onPointerOut", "onPointerOutCapture", "onGotPointerCapture", "onGotPointerCaptureCapture", "onLostPointerCapture", "onLostPointerCaptureCapture", "onScroll", "onScrollCapture", "onWheel", "onWheelCapture", "onAnimationStart", "onAnimationStartCapture", "onAnimationEnd", "onAnimationEndCapture", "onAnimationIteration", "onAnimationIterationCapture", "onTransitionEnd", "onTransitionEndCapture"];
@@ -23629,7 +23651,7 @@
   }
 
   // node_modules/recharts/es6/util/svgPropertiesNoEvents.js
-  var import_react4 = __toESM(require_react());
+  var import_react5 = __toESM(require_react());
   var SVGElementPropKeys = [
     "aria-activedescendant",
     "aria-atomic",
@@ -23968,7 +23990,7 @@
     if (input == null) {
       return null;
     }
-    if (/* @__PURE__ */ (0, import_react4.isValidElement)(input) && typeof input.props === "object" && input.props !== null) {
+    if (/* @__PURE__ */ (0, import_react5.isValidElement)(input) && typeof input.props === "object" && input.props !== null) {
       var p = input.props;
       return svgPropertiesNoEvents(p);
     }
@@ -23994,7 +24016,7 @@
     if (input == null) {
       return null;
     }
-    if (/* @__PURE__ */ (0, import_react5.isValidElement)(input)) {
+    if (/* @__PURE__ */ (0, import_react6.isValidElement)(input)) {
       return svgPropertiesAndEvents(input.props);
     }
     if (typeof input === "object" && !Array.isArray(input)) {
@@ -24032,7 +24054,7 @@
     }
     return t;
   }
-  var Surface = /* @__PURE__ */ (0, import_react6.forwardRef)((props, ref) => {
+  var Surface = /* @__PURE__ */ (0, import_react7.forwardRef)((props, ref) => {
     var children = props.children, width = props.width, height = props.height, viewBox = props.viewBox, className = props.className, style = props.style, title = props.title, desc = props.desc, others = _objectWithoutProperties(props, _excluded);
     var svgView = viewBox || {
       width,
@@ -24041,18 +24063,18 @@
       y: 0
     };
     var layerClass = clsx("recharts-surface", className);
-    return /* @__PURE__ */ React.createElement("svg", _extends({}, svgPropertiesAndEvents(others), {
+    return /* @__PURE__ */ React2.createElement("svg", _extends({}, svgPropertiesAndEvents(others), {
       className: layerClass,
       width,
       height,
       style,
       viewBox: "".concat(svgView.x, " ").concat(svgView.y, " ").concat(svgView.width, " ").concat(svgView.height),
       ref
-    }), /* @__PURE__ */ React.createElement("title", null, title), /* @__PURE__ */ React.createElement("desc", null, desc), children);
+    }), /* @__PURE__ */ React2.createElement("title", null, title), /* @__PURE__ */ React2.createElement("desc", null, desc), children);
   });
 
   // node_modules/recharts/es6/container/Layer.js
-  var React2 = __toESM(require_react());
+  var React3 = __toESM(require_react());
   var _excluded2 = ["children", "className"];
   function _extends2() {
     return _extends2 = Object.assign ? Object.assign.bind() : function(n) {
@@ -24081,10 +24103,10 @@
     }
     return t;
   }
-  var Layer = /* @__PURE__ */ React2.forwardRef((props, ref) => {
+  var Layer = /* @__PURE__ */ React3.forwardRef((props, ref) => {
     var children = props.children, className = props.className, others = _objectWithoutProperties2(props, _excluded2);
     var layerClass = clsx("recharts-layer", className);
-    return /* @__PURE__ */ React2.createElement("g", _extends2({
+    return /* @__PURE__ */ React3.createElement("g", _extends2({
       className: layerClass
     }, svgPropertiesAndEvents(others), {
       ref
@@ -24092,8 +24114,8 @@
   });
 
   // node_modules/recharts/es6/component/Legend.js
-  var React8 = __toESM(require_react());
-  var import_react15 = __toESM(require_react());
+  var React9 = __toESM(require_react());
+  var import_react16 = __toESM(require_react());
   var import_react_dom = __toESM(require_react_dom());
 
   // node_modules/es-toolkit/dist/_internal/isUnsafeProperty.mjs
@@ -24581,15 +24603,15 @@
   }
 
   // node_modules/recharts/es6/context/legendPortalContext.js
-  var import_react7 = __toESM(require_react());
-  var LegendPortalContext = /* @__PURE__ */ (0, import_react7.createContext)(null);
-  var useLegendPortal = () => (0, import_react7.useContext)(LegendPortalContext);
+  var import_react8 = __toESM(require_react());
+  var LegendPortalContext = /* @__PURE__ */ (0, import_react8.createContext)(null);
+  var useLegendPortal = () => (0, import_react8.useContext)(LegendPortalContext);
 
   // node_modules/recharts/es6/component/DefaultLegendContent.js
-  var React4 = __toESM(require_react());
+  var React5 = __toESM(require_react());
 
   // node_modules/recharts/es6/shape/Symbols.js
-  var React3 = __toESM(require_react());
+  var React4 = __toESM(require_react());
 
   // node_modules/d3-shape/src/constant.js
   function constant_default(x2) {
@@ -25690,7 +25712,7 @@
     var className = props.className, cx = props.cx, cy = props.cy;
     var filteredProps = svgPropertiesAndEvents(props);
     if (isNumber(cx) && isNumber(cy) && isNumber(size)) {
-      return /* @__PURE__ */ React3.createElement("path", _extends3({}, filteredProps, {
+      return /* @__PURE__ */ React4.createElement("path", _extends3({}, filteredProps, {
         className: clsx("recharts-symbols", className),
         transform: "translate(".concat(cx, ", ").concat(cy, ")"),
         d: getPath3()
@@ -25701,7 +25723,7 @@
   Symbols.registerSymbol = registerSymbol;
 
   // node_modules/recharts/es6/util/types.js
-  var import_react8 = __toESM(require_react());
+  var import_react9 = __toESM(require_react());
   var isPolarCoordinate = (c2) => {
     return "radius" in c2 && "startAngle" in c2 && "endAngle" in c2;
   };
@@ -25710,7 +25732,7 @@
       return null;
     }
     var inputProps = props;
-    if (/* @__PURE__ */ (0, import_react8.isValidElement)(props)) {
+    if (/* @__PURE__ */ (0, import_react9.isValidElement)(props)) {
       inputProps = props.props;
     }
     if (typeof inputProps !== "object" && typeof inputProps !== "function") {
@@ -25872,7 +25894,7 @@
       return null;
     }
     if (preferredIcon === "plainline") {
-      return /* @__PURE__ */ React4.createElement("line", {
+      return /* @__PURE__ */ React5.createElement("line", {
         strokeWidth: 4,
         fill: "none",
         stroke: color2,
@@ -25885,7 +25907,7 @@
       });
     }
     if (preferredIcon === "line") {
-      return /* @__PURE__ */ React4.createElement("path", {
+      return /* @__PURE__ */ React5.createElement("path", {
         strokeWidth: 4,
         fill: "none",
         stroke: color2,
@@ -25894,19 +25916,19 @@
       });
     }
     if (preferredIcon === "rect") {
-      return /* @__PURE__ */ React4.createElement("path", {
+      return /* @__PURE__ */ React5.createElement("path", {
         stroke: "none",
         fill: color2,
         d: "M0,".concat(SIZE / 8, "h").concat(SIZE, "v").concat(SIZE * 3 / 4, "h").concat(-SIZE, "z"),
         className: "recharts-legend-icon"
       });
     }
-    if (/* @__PURE__ */ React4.isValidElement(data.legendIcon)) {
+    if (/* @__PURE__ */ React5.isValidElement(data.legendIcon)) {
       var iconProps = _objectSpread4({}, data);
       delete iconProps.legendIcon;
-      return /* @__PURE__ */ React4.cloneElement(data.legendIcon, iconProps);
+      return /* @__PURE__ */ React5.cloneElement(data.legendIcon, iconProps);
     }
-    return /* @__PURE__ */ React4.createElement(Symbols, {
+    return /* @__PURE__ */ React5.createElement(Symbols, {
       fill: color2,
       cx: halfSize,
       cy: halfSize,
@@ -25949,21 +25971,21 @@
       (_finalLabelStyle$whit = finalLabelStyle.whiteSpace) !== null && _finalLabelStyle$whit !== void 0 ? _finalLabelStyle$whit : finalLabelStyle.whiteSpace = "normal";
       (_finalLabelStyle$over = finalLabelStyle.overflowWrap) !== null && _finalLabelStyle$over !== void 0 ? _finalLabelStyle$over : finalLabelStyle.overflowWrap = "break-word";
       var finalValue = finalFormatter ? finalFormatter(entry.value, entry, i) : entry.value;
-      return /* @__PURE__ */ React4.createElement("li", _extends4({
+      return /* @__PURE__ */ React5.createElement("li", _extends4({
         className,
         style: itemStyle,
         key: "legend-item-".concat(i)
-      }, adaptEventsOfChild(props, entry, i)), /* @__PURE__ */ React4.createElement(Surface, {
+      }, adaptEventsOfChild(props, entry, i)), /* @__PURE__ */ React5.createElement(Surface, {
         width: iconSize,
         height: iconSize,
         viewBox,
         style: svgStyle,
         "aria-label": entry.value == null ? "legend icon" : "".concat(entry.value, " legend icon")
-      }, /* @__PURE__ */ React4.createElement(Icon2, {
+      }, /* @__PURE__ */ React5.createElement(Icon2, {
         data: entry,
         iconType,
         inactiveColor
-      })), /* @__PURE__ */ React4.createElement("span", {
+      })), /* @__PURE__ */ React5.createElement("span", {
         className: "recharts-legend-item-text",
         style: finalLabelStyle
       }, finalValue));
@@ -25980,10 +26002,10 @@
       margin: 0,
       textAlign: layout === "horizontal" ? align : "left"
     };
-    return /* @__PURE__ */ React4.createElement("ul", {
+    return /* @__PURE__ */ React5.createElement("ul", {
       className: "recharts-default-legend",
       style: finalStyle
-    }, /* @__PURE__ */ React4.createElement(Items, _extends4({}, props, {
+    }, /* @__PURE__ */ React5.createElement(Items, _extends4({}, props, {
       payload
     })));
   };
@@ -26472,16 +26494,16 @@
 
   // node_modules/recharts/es6/state/hooks.js
   var import_with_selector = __toESM(require_with_selector());
-  var import_react10 = __toESM(require_react());
+  var import_react11 = __toESM(require_react());
 
   // node_modules/recharts/es6/state/RechartsReduxContext.js
-  var import_react9 = __toESM(require_react());
-  var RechartsReduxContext = /* @__PURE__ */ (0, import_react9.createContext)(null);
+  var import_react10 = __toESM(require_react());
+  var RechartsReduxContext = /* @__PURE__ */ (0, import_react10.createContext)(null);
 
   // node_modules/recharts/es6/state/hooks.js
   var noopDispatch = (a2) => a2;
   var useAppDispatch = () => {
-    var context = (0, import_react10.useContext)(RechartsReduxContext);
+    var context = (0, import_react11.useContext)(RechartsReduxContext);
     if (context) {
       return context.store.dispatch;
     }
@@ -26492,8 +26514,8 @@
   var addNestedSubNoop = () => noop2;
   var refEquality = (a2, b) => a2 === b;
   function useAppSelector(selector) {
-    var context = (0, import_react10.useContext)(RechartsReduxContext);
-    var outOfContextSelector = (0, import_react10.useMemo)(() => {
+    var context = (0, import_react11.useContext)(RechartsReduxContext);
+    var outOfContextSelector = (0, import_react11.useMemo)(() => {
       if (!context) {
         return noop2;
       }
@@ -26922,7 +26944,7 @@
   }
 
   // node_modules/recharts/es6/util/useElementOffset.js
-  var import_react11 = __toESM(require_react());
+  var import_react12 = __toESM(require_react());
   function _slicedToArray(r2, e) {
     return _arrayWithHoles(r2) || _iterableToArrayLimit(r2, e) || _unsupportedIterableToArray(r2, e) || _nonIterableRest();
   }
@@ -26980,16 +27002,16 @@
   }
   function useElementOffset() {
     var extraDependencies = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : [];
-    var _useState = (0, import_react11.useState)({
+    var _useState = (0, import_react12.useState)({
       height: 0,
       left: 0,
       top: 0,
       width: 0
     }), _useState2 = _slicedToArray(_useState, 2), lastBoundingBox = _useState2[0], setLastBoundingBox = _useState2[1];
-    var observerRef = (0, import_react11.useRef)(null);
-    var lastBoundingBoxRef = (0, import_react11.useRef)(lastBoundingBox);
+    var observerRef = (0, import_react12.useRef)(null);
+    var lastBoundingBoxRef = (0, import_react12.useRef)(lastBoundingBox);
     lastBoundingBoxRef.current = lastBoundingBox;
-    var updateBoundingBox = (0, import_react11.useCallback)(
+    var updateBoundingBox = (0, import_react12.useCallback)(
       (node) => {
         if (observerRef.current != null) {
           observerRef.current.disconnect();
@@ -27015,7 +27037,7 @@
       // eslint-disable-next-line react-hooks/exhaustive-deps
       [...extraDependencies]
     );
-    (0, import_react11.useEffect)(() => {
+    (0, import_react12.useEffect)(() => {
       return () => {
         var _observerRef$current;
         (_observerRef$current = observerRef.current) === null || _observerRef$current === void 0 || _observerRef$current.disconnect();
@@ -27025,7 +27047,7 @@
   }
 
   // node_modules/recharts/es6/context/chartLayoutContext.js
-  var import_react14 = __toESM(require_react());
+  var import_react15 = __toESM(require_react());
 
   // node_modules/redux/dist/redux.mjs
   var $$observable = /* @__PURE__ */ (() => typeof Symbol === "function" && Symbol.observable || "@@observable")();
@@ -30422,10 +30444,10 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   }));
 
   // node_modules/recharts/es6/context/PanoramaContext.js
-  var React5 = __toESM(require_react());
-  var import_react12 = __toESM(require_react());
-  var PanoramaContext = /* @__PURE__ */ (0, import_react12.createContext)(null);
-  var useIsPanorama = () => (0, import_react12.useContext)(PanoramaContext) != null;
+  var React6 = __toESM(require_react());
+  var import_react13 = __toESM(require_react());
+  var PanoramaContext = /* @__PURE__ */ (0, import_react13.createContext)(null);
+  var useIsPanorama = () => (0, import_react13.useContext)(PanoramaContext) != null;
 
   // node_modules/recharts/es6/state/selectors/brushSelectors.js
   var selectBrushSettings = (state) => state.brush;
@@ -30437,8 +30459,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   }));
 
   // node_modules/recharts/es6/component/ResponsiveContainer.js
-  var React6 = __toESM(require_react());
-  var import_react13 = __toESM(require_react());
+  var React7 = __toESM(require_react());
+  var import_react14 = __toESM(require_react());
 
   // node_modules/es-toolkit/dist/function/debounce.mjs
   function debounce(func, debounceMs, { signal, edges } = {}) {
@@ -30747,35 +30769,35 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     }
     return t;
   }
-  var ResponsiveContainerContext = /* @__PURE__ */ (0, import_react13.createContext)(defaultResponsiveContainerProps.initialDimension);
+  var ResponsiveContainerContext = /* @__PURE__ */ (0, import_react14.createContext)(defaultResponsiveContainerProps.initialDimension);
   function isAcceptableSize(size) {
     return isPositiveNumber(size.width) && isPositiveNumber(size.height);
   }
   function ResponsiveContainerContextProvider(_ref2) {
     var children = _ref2.children, width = _ref2.width, height = _ref2.height;
-    var size = (0, import_react13.useMemo)(() => ({
+    var size = (0, import_react14.useMemo)(() => ({
       width,
       height
     }), [width, height]);
     if (!isAcceptableSize(size)) {
       return null;
     }
-    return /* @__PURE__ */ React6.createElement(ResponsiveContainerContext.Provider, {
+    return /* @__PURE__ */ React7.createElement(ResponsiveContainerContext.Provider, {
       value: size
     }, children);
   }
-  var useResponsiveContainerContext = () => (0, import_react13.useContext)(ResponsiveContainerContext);
-  var SizeDetectorContainer = /* @__PURE__ */ (0, import_react13.forwardRef)((_ref2, ref) => {
+  var useResponsiveContainerContext = () => (0, import_react14.useContext)(ResponsiveContainerContext);
+  var SizeDetectorContainer = /* @__PURE__ */ (0, import_react14.forwardRef)((_ref2, ref) => {
     var aspect = _ref2.aspect, _ref2$initialDimensio = _ref2.initialDimension, initialDimension = _ref2$initialDimensio === void 0 ? defaultResponsiveContainerProps.initialDimension : _ref2$initialDimensio, width = _ref2.width, height = _ref2.height, _ref2$minWidth = _ref2.minWidth, minWidth = _ref2$minWidth === void 0 ? defaultResponsiveContainerProps.minWidth : _ref2$minWidth, minHeight = _ref2.minHeight, maxHeight = _ref2.maxHeight, children = _ref2.children, _ref2$debounce = _ref2.debounce, debounce3 = _ref2$debounce === void 0 ? defaultResponsiveContainerProps.debounce : _ref2$debounce, id = _ref2.id, className = _ref2.className, onResize = _ref2.onResize, _ref2$style = _ref2.style, style = _ref2$style === void 0 ? {} : _ref2$style, others = _objectWithoutProperties4(_ref2, _excluded4);
-    var containerRef = (0, import_react13.useRef)(null);
-    var onResizeRef = (0, import_react13.useRef)();
+    var containerRef = (0, import_react14.useRef)(null);
+    var onResizeRef = (0, import_react14.useRef)();
     onResizeRef.current = onResize;
-    (0, import_react13.useImperativeHandle)(ref, () => containerRef.current);
-    var _useState = (0, import_react13.useState)({
+    (0, import_react14.useImperativeHandle)(ref, () => containerRef.current);
+    var _useState = (0, import_react14.useState)({
       containerWidth: initialDimension.width,
       containerHeight: initialDimension.height
     }), _useState2 = _slicedToArray2(_useState, 2), sizes = _useState2[0], setSizes = _useState2[1];
-    var setContainerSize = (0, import_react13.useCallback)((newWidth, newHeight) => {
+    var setContainerSize = (0, import_react14.useCallback)((newWidth, newHeight) => {
       setSizes((prevState) => {
         var roundedWidth = Math.round(newWidth);
         var roundedHeight = Math.round(newHeight);
@@ -30788,7 +30810,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         };
       });
     }, []);
-    (0, import_react13.useEffect)(() => {
+    (0, import_react14.useEffect)(() => {
       if (containerRef.current == null || typeof ResizeObserver === "undefined") {
         return noop;
       }
@@ -30825,7 +30847,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       maxHeight
     }), calculatedWidth = _calculateChartDimens.calculatedWidth, calculatedHeight = _calculateChartDimens.calculatedHeight;
     warn(containerWidth < 0 || containerHeight < 0 || calculatedWidth != null && calculatedWidth > 0 || calculatedHeight != null && calculatedHeight > 0, "The width(%s) and height(%s) of chart should be greater than 0,\n       please check the style of container, or the props width(%s) and height(%s),\n       or add a minWidth(%s) or minHeight(%s) or use aspect(%s) to control the\n       height and width.", calculatedWidth, calculatedHeight, width, height, minWidth, minHeight, aspect);
-    return /* @__PURE__ */ React6.createElement("div", _extends5({
+    return /* @__PURE__ */ React7.createElement("div", _extends5({
       id: id ? "".concat(id) : void 0,
       className: clsx("recharts-responsive-container", className),
       style: _objectSpread7(_objectSpread7({}, style), {}, {
@@ -30836,17 +30858,17 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         maxHeight
       }),
       ref: containerRef
-    }, others), /* @__PURE__ */ React6.createElement("div", {
+    }, others), /* @__PURE__ */ React7.createElement("div", {
       style: getInnerDivStyle({
         width,
         height
       })
-    }, /* @__PURE__ */ React6.createElement(ResponsiveContainerContextProvider, {
+    }, /* @__PURE__ */ React7.createElement(ResponsiveContainerContextProvider, {
       width: calculatedWidth,
       height: calculatedHeight
     }, children)));
   });
-  var ResponsiveContainer = /* @__PURE__ */ (0, import_react13.forwardRef)((props, ref) => {
+  var ResponsiveContainer = /* @__PURE__ */ (0, import_react14.forwardRef)((props, ref) => {
     var responsiveContainerContext = useResponsiveContainerContext();
     if (isPositiveNumber(responsiveContainerContext.width) && isPositiveNumber(responsiveContainerContext.height)) {
       return props.children;
@@ -30863,12 +30885,12 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       maxHeight: props.maxHeight
     }), calculatedWidth = _calculateChartDimens2.calculatedWidth, calculatedHeight = _calculateChartDimens2.calculatedHeight;
     if (isNumber(calculatedWidth) && isNumber(calculatedHeight)) {
-      return /* @__PURE__ */ React6.createElement(ResponsiveContainerContextProvider, {
+      return /* @__PURE__ */ React7.createElement(ResponsiveContainerContextProvider, {
         width: calculatedWidth,
         height: calculatedHeight
       }, props.children);
     }
-    return /* @__PURE__ */ React6.createElement(SizeDetectorContainer, _extends5({}, props, {
+    return /* @__PURE__ */ React7.createElement(SizeDetectorContainer, _extends5({}, props, {
       width,
       height,
       ref
@@ -30948,7 +30970,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       width = responsiveContainerCalculations.width > 0 ? responsiveContainerCalculations.width : widthFromProps;
       height = responsiveContainerCalculations.height > 0 ? responsiveContainerCalculations.height : heightFromProps;
     }
-    (0, import_react14.useEffect)(() => {
+    (0, import_react15.useEffect)(() => {
       if (!isPanorama && isPositiveNumber(width) && isPositiveNumber(height)) {
         dispatch(setChartSize({
           width,
@@ -31027,7 +31049,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   var legendReducer = legendSlice.reducer;
 
   // node_modules/react-redux/dist/react-redux.mjs
-  var React7 = __toESM(require_react(), 1);
+  var React8 = __toESM(require_react(), 1);
   var import_with_selector2 = __toESM(require_with_selector2(), 1);
   var REACT_FORWARD_REF_TYPE = /* @__PURE__ */ Symbol.for("react.forward_ref");
   var REACT_MEMO_TYPE = /* @__PURE__ */ Symbol.for("react.memo");
@@ -31167,7 +31189,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   var isDOM = /* @__PURE__ */ canUseDOM();
   var isRunningInReactNative = () => typeof navigator !== "undefined" && navigator.product === "ReactNative";
   var isReactNative = /* @__PURE__ */ isRunningInReactNative();
-  var getUseIsomorphicLayoutEffect = () => isDOM || isReactNative ? React7.useLayoutEffect : React7.useEffect;
+  var getUseIsomorphicLayoutEffect = () => isDOM || isReactNative ? React8.useLayoutEffect : React8.useEffect;
   var useIsomorphicLayoutEffect = /* @__PURE__ */ getUseIsomorphicLayoutEffect();
   function is2(x2, y2) {
     if (x2 === y2) {
@@ -31217,24 +31239,24 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     {}
   );
   function getContext() {
-    if (!React7.createContext) return {};
+    if (!React8.createContext) return {};
     const contextMap = gT[ContextKey] ??= /* @__PURE__ */ new Map();
-    let realContext = contextMap.get(React7.createContext);
+    let realContext = contextMap.get(React8.createContext);
     if (!realContext) {
-      realContext = React7.createContext(
+      realContext = React8.createContext(
         null
       );
       if (true) {
         realContext.displayName = "ReactRedux";
       }
-      contextMap.set(React7.createContext, realContext);
+      contextMap.set(React8.createContext, realContext);
     }
     return realContext;
   }
   var ReactReduxContext = /* @__PURE__ */ getContext();
   function Provider(providerProps) {
     const { children, context, serverState, store } = providerProps;
-    const contextValue = React7.useMemo(() => {
+    const contextValue = React8.useMemo(() => {
       const subscription = createSubscription(store);
       const baseContextValue = {
         store,
@@ -31251,7 +31273,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         });
       }
     }, [store, serverState]);
-    const previousState = React7.useMemo(() => store.getState(), [store]);
+    const previousState = React8.useMemo(() => store.getState(), [store]);
     useIsomorphicLayoutEffect(() => {
       const { subscription } = contextValue;
       subscription.onStateChange = subscription.notifyNestedSubs;
@@ -31265,7 +31287,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       };
     }, [contextValue, previousState]);
     const Context = context || ReactReduxContext;
-    return /* @__PURE__ */ React7.createElement(Context.Provider, { value: contextValue }, children);
+    return /* @__PURE__ */ React8.createElement(Context.Provider, { value: contextValue }, children);
   }
   var Provider_default = Provider;
 
@@ -31469,13 +31491,13 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     var contentProps = _objectSpread8(_objectSpread8({}, otherProps), {}, {
       payload: finalPayload
     });
-    if (/* @__PURE__ */ React8.isValidElement(props.content)) {
-      return /* @__PURE__ */ React8.cloneElement(props.content, contentProps);
+    if (/* @__PURE__ */ React9.isValidElement(props.content)) {
+      return /* @__PURE__ */ React9.cloneElement(props.content, contentProps);
     }
     if (typeof props.content === "function") {
-      return /* @__PURE__ */ React8.createElement(props.content, contentProps);
+      return /* @__PURE__ */ React9.createElement(props.content, contentProps);
     }
-    return /* @__PURE__ */ React8.createElement(DefaultLegendContent, contentProps);
+    return /* @__PURE__ */ React9.createElement(DefaultLegendContent, contentProps);
   }
   function getLayoutForPosition(position) {
     if (position === "left" || position === "right" || position === "insideLeft" || position === "insideRight") {
@@ -31546,7 +31568,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   function LegendSettingsDispatcher(_ref2) {
     var align = _ref2.align, layout = _ref2.layout, verticalAlign = _ref2.verticalAlign, itemSorter = _ref2.itemSorter, position = _ref2.position, offset = _ref2.offset;
     var dispatch = useAppDispatch();
-    (0, import_react15.useLayoutEffect)(() => {
+    (0, import_react16.useLayoutEffect)(() => {
       dispatch(setLegendSettings({
         align,
         layout,
@@ -31561,13 +31583,13 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   function LegendSizeDispatcher(_ref2) {
     var width = _ref2.width, height = _ref2.height;
     var dispatch = useAppDispatch();
-    (0, import_react15.useLayoutEffect)(() => {
+    (0, import_react16.useLayoutEffect)(() => {
       dispatch(setLegendSize({
         width,
         height
       }));
     }, [dispatch, width, height]);
-    (0, import_react15.useLayoutEffect)(() => {
+    (0, import_react16.useLayoutEffect)(() => {
       return () => {
         dispatch(setLegendSize({
           width: 0,
@@ -31655,18 +31677,18 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     if (legendPortal == null || contextPayload == null) {
       return null;
     }
-    var legendElement = /* @__PURE__ */ React8.createElement("div", {
+    var legendElement = /* @__PURE__ */ React9.createElement("div", {
       className: "recharts-legend-wrapper",
       style: outerStyle,
       ref: updateBoundingBox
-    }, /* @__PURE__ */ React8.createElement(LegendSettingsDispatcher, {
+    }, /* @__PURE__ */ React9.createElement(LegendSettingsDispatcher, {
       layout,
       align: props.align,
       verticalAlign: props.verticalAlign,
       itemSorter: props.itemSorter,
       position: props.position,
       offset: props.offset
-    }), shouldReportDimensions && /* @__PURE__ */ React8.createElement(LegendSizeDispatcher, lastBoundingBox), /* @__PURE__ */ React8.createElement(LegendContent, _extends6({}, props, {
+    }), shouldReportDimensions && /* @__PURE__ */ React9.createElement(LegendSizeDispatcher, lastBoundingBox), /* @__PURE__ */ React9.createElement(LegendContent, _extends6({}, props, {
       layout
     }, widthOrHeight, {
       margin,
@@ -31676,16 +31698,16 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     })));
     return /* @__PURE__ */ (0, import_react_dom.createPortal)(legendElement, legendPortal);
   }
-  var Legend = /* @__PURE__ */ React8.memo(LegendImpl, propsAreEqual);
+  var Legend = /* @__PURE__ */ React9.memo(LegendImpl, propsAreEqual);
   Legend.displayName = "Legend";
 
   // node_modules/recharts/es6/component/Tooltip.js
-  var React16 = __toESM(require_react());
-  var import_react25 = __toESM(require_react());
+  var React17 = __toESM(require_react());
+  var import_react26 = __toESM(require_react());
   var import_react_dom3 = __toESM(require_react_dom());
 
   // node_modules/recharts/es6/component/DefaultTooltipContent.js
-  var React9 = __toESM(require_react());
+  var React10 = __toESM(require_react());
   function _extends7() {
     return _extends7 = Object.assign ? Object.assign.bind() : function(n) {
       for (var e = 1; e < arguments.length; e++) {
@@ -31834,21 +31856,21 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           var finalItemStyle = _objectSpread9(_objectSpread9({}, defaultDefaultTooltipContentProps.itemStyle), {}, {
             color: entry.color || defaultDefaultTooltipContentProps.itemStyle.color
           }, itemStyle);
-          return /* @__PURE__ */ React9.createElement("li", {
+          return /* @__PURE__ */ React10.createElement("li", {
             className: "recharts-tooltip-item",
             key: "tooltip-item-".concat(i),
             style: finalItemStyle
-          }, isNumOrStr(finalName) ? /* @__PURE__ */ React9.createElement("span", {
+          }, isNumOrStr(finalName) ? /* @__PURE__ */ React10.createElement("span", {
             className: "recharts-tooltip-item-name"
-          }, finalName) : null, isNumOrStr(finalName) ? /* @__PURE__ */ React9.createElement("span", {
+          }, finalName) : null, isNumOrStr(finalName) ? /* @__PURE__ */ React10.createElement("span", {
             className: "recharts-tooltip-item-separator"
-          }, separator) : null, /* @__PURE__ */ React9.createElement("span", {
+          }, separator) : null, /* @__PURE__ */ React10.createElement("span", {
             className: "recharts-tooltip-item-value"
-          }, finalValue), /* @__PURE__ */ React9.createElement("span", {
+          }, finalValue), /* @__PURE__ */ React10.createElement("span", {
             className: "recharts-tooltip-item-unit"
           }, entry.unit || ""));
         });
-        return /* @__PURE__ */ React9.createElement("ul", {
+        return /* @__PURE__ */ React10.createElement("ul", {
           className: "recharts-tooltip-item-list",
           style: listStyle
         }, items);
@@ -31870,17 +31892,17 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       role: "status",
       "aria-live": "assertive"
     } : {};
-    return /* @__PURE__ */ React9.createElement("div", _extends7({
+    return /* @__PURE__ */ React10.createElement("div", _extends7({
       className: wrapperCN,
       style: finalStyle
-    }, accessibilityAttributes), /* @__PURE__ */ React9.createElement("p", {
+    }, accessibilityAttributes), /* @__PURE__ */ React10.createElement("p", {
       className: labelCN,
       style: finalLabelStyle
-    }, /* @__PURE__ */ React9.isValidElement(finalLabel) ? finalLabel : "".concat(finalLabel)), renderContent2());
+    }, /* @__PURE__ */ React10.isValidElement(finalLabel) ? finalLabel : "".concat(finalLabel)), renderContent2());
   };
 
   // node_modules/recharts/es6/component/TooltipBoundingBox.js
-  var React10 = __toESM(require_react());
+  var React11 = __toESM(require_react());
 
   // node_modules/recharts/es6/util/tooltip/translate.js
   var CSS_CLASS_PREFIX = "recharts-tooltip-wrapper";
@@ -31979,7 +32001,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   }
 
   // node_modules/recharts/es6/util/usePrefersReducedMotion.js
-  var import_react16 = __toESM(require_react());
+  var import_react17 = __toESM(require_react());
 
   // node_modules/recharts/es6/util/Global.js
   var parseIsSsrByDefault = () => !(typeof window !== "undefined" && window.document && Boolean(window.document.createElement) && window.setTimeout);
@@ -32032,7 +32054,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     if (Array.isArray(r2)) return r2;
   }
   function usePrefersReducedMotion() {
-    var _useState = (0, import_react16.useState)(() => {
+    var _useState = (0, import_react17.useState)(() => {
       if (Global.isSsr) {
         return false;
       }
@@ -32041,7 +32063,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       }
       return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     }), _useState2 = _slicedToArray5(_useState, 2), prefersReducedMotion = _useState2[0], setPrefersReducedMotion = _useState2[1];
-    (0, import_react16.useEffect)(() => {
+    (0, import_react17.useEffect)(() => {
       if (!window.matchMedia) {
         return;
       }
@@ -32151,14 +32173,14 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   function TooltipBoundingBoxImpl(props) {
     var _props$coordinate3, _props$coordinate4, _props$coordinate$x2, _props$coordinate5, _props$coordinate$y2, _props$coordinate6;
     var prefersReducedMotion = usePrefersReducedMotion();
-    var _React$useState = React10.useState(() => ({
+    var _React$useState = React11.useState(() => ({
       dismissed: false,
       dismissedAtCoordinate: {
         x: 0,
         y: 0
       }
     })), _React$useState2 = _slicedToArray6(_React$useState, 2), state = _React$useState2[0], setState = _React$useState2[1];
-    React10.useEffect(() => {
+    React11.useEffect(() => {
       var handleKeyDown = (event) => {
         if (event.key === "Escape") {
           var _props$coordinate$x, _props$coordinate, _props$coordinate$y, _props$coordinate2;
@@ -32209,7 +32231,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     var outerStyle = _objectSpread10(_objectSpread10({}, positionStyle), {}, {
       visibility: !state.dismissed && props.active && props.hasPayload ? "visible" : "hidden"
     }, props.wrapperStyle);
-    return /* @__PURE__ */ React10.createElement("div", {
+    return /* @__PURE__ */ React11.createElement("div", {
       // @ts-expect-error TypeScript library does not recognize xmlns attribute, but it's required for an HTML chunk inside SVG.
       xmlns: "http://www.w3.org/1999/xhtml",
       tabIndex: -1,
@@ -32218,7 +32240,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       ref: props.innerRef
     }, props.children);
   }
-  var TooltipBoundingBox = /* @__PURE__ */ React10.memo(TooltipBoundingBoxImpl);
+  var TooltipBoundingBox = /* @__PURE__ */ React11.memo(TooltipBoundingBoxImpl);
 
   // node_modules/recharts/es6/context/accessibilityContext.js
   var useAccessibilityLayer = () => {
@@ -32227,11 +32249,11 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   };
 
   // node_modules/recharts/es6/component/Cursor.js
-  var React15 = __toESM(require_react());
-  var import_react22 = __toESM(require_react());
+  var React16 = __toESM(require_react());
+  var import_react23 = __toESM(require_react());
 
   // node_modules/recharts/es6/shape/Curve.js
-  var React11 = __toESM(require_react());
+  var React12 = __toESM(require_react());
   function _extends8() {
     return _extends8 = Object.assign ? Object.assign.bind() : function(n) {
       for (var e = 1; e < arguments.length; e++) {
@@ -32358,7 +32380,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       connectNulls: props.connectNulls
     };
     var realPath = points && points.length ? getPath(getPathInput) : path2;
-    return /* @__PURE__ */ React11.createElement("path", _extends8({}, svgPropertiesNoEvents(props), adaptEventHandlers(props), {
+    return /* @__PURE__ */ React12.createElement("path", _extends8({}, svgPropertiesNoEvents(props), adaptEventHandlers(props), {
       className: clsx("recharts-curve", className),
       d: realPath === null ? void 0 : realPath,
       ref: pathRef
@@ -32366,7 +32388,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   };
 
   // node_modules/recharts/es6/shape/Cross.js
-  var React12 = __toESM(require_react());
+  var React13 = __toESM(require_react());
   var _excluded6 = ["x", "y", "top", "left", "width", "height", "className"];
   function _extends9() {
     return _extends9 = Object.assign ? Object.assign.bind() : function(n) {
@@ -32449,7 +32471,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     if (!isNumber(x2) || !isNumber(y2) || !isNumber(width) || !isNumber(height) || !isNumber(top) || !isNumber(left)) {
       return null;
     }
-    return /* @__PURE__ */ React12.createElement("path", _extends9({}, svgPropertiesAndEvents(props), {
+    return /* @__PURE__ */ React13.createElement("path", _extends9({}, svgPropertiesAndEvents(props), {
       className: clsx("recharts-cross", className),
       d: getPath2(x2, y2, width, height, top, left)
     }));
@@ -32469,11 +32491,11 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   }
 
   // node_modules/recharts/es6/shape/Rectangle.js
-  var React13 = __toESM(require_react());
-  var import_react20 = __toESM(require_react());
+  var React14 = __toESM(require_react());
+  var import_react21 = __toESM(require_react());
 
   // node_modules/recharts/es6/animation/JavascriptAnimate.js
-  var import_react18 = __toESM(require_react());
+  var import_react19 = __toESM(require_react());
 
   // node_modules/recharts/es6/animation/easing.js
   var ACCURACY = 1e-4;
@@ -32618,7 +32640,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   };
 
   // node_modules/recharts/es6/animation/useAnimationController.js
-  var import_react17 = __toESM(require_react());
+  var import_react18 = __toESM(require_react());
 
   // node_modules/recharts/es6/animation/AnimationControllerImpl.js
   var animationControllerImpl = (timeoutController, animationHandle, listener2) => {
@@ -32645,11 +32667,11 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   };
 
   // node_modules/recharts/es6/animation/useAnimationController.js
-  var AnimationControllerContext = /* @__PURE__ */ (0, import_react17.createContext)(animationControllerImpl);
+  var AnimationControllerContext = /* @__PURE__ */ (0, import_react18.createContext)(animationControllerImpl);
   var AnimationControllerProvider = AnimationControllerContext.Provider;
   function useAnimationController(animationControllerFromProps) {
-    var animationControllerFromContext = (0, import_react17.useContext)(AnimationControllerContext);
-    return (0, import_react17.useMemo)(() => animationControllerFromProps !== null && animationControllerFromProps !== void 0 ? animationControllerFromProps : animationControllerFromContext, [animationControllerFromProps, animationControllerFromContext]);
+    var animationControllerFromContext = (0, import_react18.useContext)(AnimationControllerContext);
+    return (0, import_react18.useMemo)(() => animationControllerFromProps !== null && animationControllerFromProps !== void 0 ? animationControllerFromProps : animationControllerFromContext, [animationControllerFromProps, animationControllerFromContext]);
   }
 
   // node_modules/recharts/es6/animation/AnimationHandle.js
@@ -32952,13 +32974,13 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     var prefersReducedMotion = usePrefersReducedMotion();
     var isActive = isActiveProp === "auto" ? !Global.isSsr && !prefersReducedMotion : isActiveProp;
     var animationController = useAnimationController(props.animationController);
-    var _useState = (0, import_react18.useState)(isActive ? from : to), _useState2 = _slicedToArray7(_useState, 2), style = _useState2[0], setStyle = _useState2[1];
-    (0, import_react18.useEffect)(() => {
+    var _useState = (0, import_react19.useState)(isActive ? from : to), _useState2 = _slicedToArray7(_useState, 2), style = _useState2[0], setStyle = _useState2[1];
+    (0, import_react19.useEffect)(() => {
       if (!isActive) {
         setStyle(to);
       }
     }, [isActive]);
-    (0, import_react18.useEffect)(() => {
+    (0, import_react19.useEffect)(() => {
       var easingFunction = createEasingFunction(easing);
       if (!isActive || !canBegin || easingFunction == null) {
         return noop;
@@ -32980,11 +33002,11 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   }
 
   // node_modules/recharts/es6/util/useAnimationId.js
-  var import_react19 = __toESM(require_react());
+  var import_react20 = __toESM(require_react());
   function useAnimationId(input) {
     var prefix2 = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : "animation-";
-    var animationId = (0, import_react19.useRef)(uniqueId(prefix2));
-    var prevProps = (0, import_react19.useRef)(input);
+    var animationId = (0, import_react20.useRef)(uniqueId(prefix2));
+    var prevProps = (0, import_react20.useRef)(input);
     if (prevProps.current !== input) {
       animationId.current = uniqueId(prefix2);
       prevProps.current = input;
@@ -33173,9 +33195,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   };
   var Rectangle = (rectangleProps) => {
     var props = resolveDefaultProps(rectangleProps, defaultRectangleProps);
-    var pathRef = (0, import_react20.useRef)(null);
-    var _useState = (0, import_react20.useState)(-1), _useState2 = _slicedToArray8(_useState, 2), totalLength = _useState2[0], setTotalLength = _useState2[1];
-    (0, import_react20.useEffect)(() => {
+    var pathRef = (0, import_react21.useRef)(null);
+    var _useState = (0, import_react21.useState)(-1), _useState2 = _slicedToArray8(_useState, 2), totalLength = _useState2[0], setTotalLength = _useState2[1];
+    (0, import_react21.useEffect)(() => {
       if (pathRef.current && pathRef.current.getTotalLength) {
         try {
           var pathTotalLength = pathRef.current.getTotalLength();
@@ -33188,11 +33210,11 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     }, []);
     var x2 = props.x, y2 = props.y, width = props.width, height = props.height, radius = props.radius, className = props.className;
     var animationEasing = props.animationEasing, animationDuration = props.animationDuration, animationBegin = props.animationBegin, isAnimationActive = props.isAnimationActive, isUpdateAnimationActive = props.isUpdateAnimationActive;
-    var prevWidthRef = (0, import_react20.useRef)(width);
-    var prevHeightRef = (0, import_react20.useRef)(height);
-    var prevXRef = (0, import_react20.useRef)(x2);
-    var prevYRef = (0, import_react20.useRef)(y2);
-    var animationIdInput = (0, import_react20.useMemo)(() => ({
+    var prevWidthRef = (0, import_react21.useRef)(width);
+    var prevHeightRef = (0, import_react21.useRef)(height);
+    var prevXRef = (0, import_react21.useRef)(x2);
+    var prevYRef = (0, import_react21.useRef)(y2);
+    var animationIdInput = (0, import_react21.useMemo)(() => ({
       x: x2,
       y: y2,
       width,
@@ -33206,7 +33228,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     var layerClass = clsx("recharts-rectangle", className);
     if (!isUpdateAnimationActive) {
       var _svgPropertiesAndEven = svgPropertiesAndEvents(props), _ = _svgPropertiesAndEven.radius, otherPathProps = _objectWithoutProperties7(_svgPropertiesAndEven, _excluded7);
-      return /* @__PURE__ */ React13.createElement("path", _extends10({}, otherPathProps, {
+      return /* @__PURE__ */ React14.createElement("path", _extends10({}, otherPathProps, {
         x: round(x2),
         y: round(y2),
         width: round(width),
@@ -33223,7 +33245,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     var from2 = "0px ".concat(totalLength === -1 ? 1 : totalLength, "px");
     var to2 = "".concat(totalLength, "px ").concat(totalLength, "px");
     var transition = getTransitionVal(["strokeDasharray"], animationDuration, typeof animationEasing === "string" ? animationEasing : defaultRectangleProps.animationEasing);
-    return /* @__PURE__ */ React13.createElement(JavascriptAnimate, {
+    return /* @__PURE__ */ React14.createElement(JavascriptAnimate, {
       animationId,
       key: animationId,
       canBegin: totalLength > 0,
@@ -33258,7 +33280,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         };
       }
       var _svgPropertiesAndEven2 = svgPropertiesAndEvents(props), _2 = _svgPropertiesAndEven2.radius, otherPathProps2 = _objectWithoutProperties7(_svgPropertiesAndEven2, _excluded22);
-      return /* @__PURE__ */ React13.createElement("path", _extends10({}, otherPathProps2, {
+      return /* @__PURE__ */ React14.createElement("path", _extends10({}, otherPathProps2, {
         radius: typeof radius === "number" ? radius : void 0,
         className: layerClass,
         d: getRectanglePath(currX, currY, currWidth, currHeight, radius),
@@ -33432,7 +33454,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   }
 
   // node_modules/recharts/es6/shape/Sector.js
-  var React14 = __toESM(require_react());
+  var React15 = __toESM(require_react());
   var _templateObject10;
   var _templateObject22;
   var _templateObject32;
@@ -33599,7 +33621,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         endAngle
       });
     }
-    return /* @__PURE__ */ React14.createElement("path", _extends11({}, svgPropertiesAndEvents(props), {
+    return /* @__PURE__ */ React15.createElement("path", _extends11({}, svgPropertiesAndEvents(props), {
       className: layerClass,
       d: path2
     }));
@@ -39816,7 +39838,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   };
 
   // node_modules/recharts/es6/zIndex/ZIndexLayer.js
-  var import_react21 = __toESM(require_react());
+  var import_react22 = __toESM(require_react());
   var import_react_dom2 = __toESM(require_react_dom());
 
   // node_modules/recharts/es6/zIndex/zIndexSelectors.js
@@ -39974,11 +39996,11 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     var isInChartContext = useIsInChartContext();
     var shouldRenderInPortal = isInChartContext && zIndex !== void 0 && zIndex !== 0;
     var isPanorama = useIsPanorama();
-    var lastPortalElementRef = (0, import_react21.useRef)(void 0);
-    var registeredZIndexesRef = (0, import_react21.useRef)(/* @__PURE__ */ new Set());
+    var lastPortalElementRef = (0, import_react22.useRef)(void 0);
+    var registeredZIndexesRef = (0, import_react22.useRef)(/* @__PURE__ */ new Set());
     var dispatch = useAppDispatch();
     var portalElement = useAppSelector((state) => selectZIndexPortalElement(state, zIndex, isPanorama));
-    (0, import_react21.useLayoutEffect)(() => {
+    (0, import_react22.useLayoutEffect)(() => {
       if (!shouldRenderInPortal) {
         var registered = registeredZIndexesRef.current;
         registered.forEach((z) => {
@@ -40009,7 +40031,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         });
       }
     }, [dispatch, zIndex, shouldRenderInPortal, portalElement]);
-    (0, import_react21.useLayoutEffect)(() => {
+    (0, import_react22.useLayoutEffect)(() => {
       var registered = registeredZIndexesRef.current;
       return () => {
         registered.forEach((z) => {
@@ -40080,10 +40102,10 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   }
   function RenderCursor(_ref2) {
     var cursor = _ref2.cursor, cursorComp = _ref2.cursorComp, cursorProps = _ref2.cursorProps;
-    if (/* @__PURE__ */ (0, import_react22.isValidElement)(cursor)) {
-      return /* @__PURE__ */ (0, import_react22.cloneElement)(cursor, cursorProps);
+    if (/* @__PURE__ */ (0, import_react23.isValidElement)(cursor)) {
+      return /* @__PURE__ */ (0, import_react23.cloneElement)(cursor, cursorProps);
     }
-    return /* @__PURE__ */ (0, import_react22.createElement)(cursorComp, cursorProps);
+    return /* @__PURE__ */ (0, import_react23.createElement)(cursorComp, cursorProps);
   }
   function CursorInternal(props) {
     var _props$zIndex;
@@ -40131,9 +40153,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       payloadIndex: activeTooltipIndex,
       className: clsx("recharts-tooltip-cursor", extraClassName)
     });
-    return /* @__PURE__ */ React15.createElement(ZIndexLayer, {
+    return /* @__PURE__ */ React16.createElement(ZIndexLayer, {
       zIndex: (_props$zIndex = props.zIndex) !== null && _props$zIndex !== void 0 ? _props$zIndex : preferredZIndex
-    }, /* @__PURE__ */ React15.createElement(RenderCursor, {
+    }, /* @__PURE__ */ React16.createElement(RenderCursor, {
       cursor,
       cursorComp,
       cursorProps
@@ -40147,7 +40169,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     if (tooltipAxisBandSize == null || offset == null || layout == null || chartName == null) {
       return null;
     }
-    return /* @__PURE__ */ React15.createElement(CursorInternal, _extends12({}, props, {
+    return /* @__PURE__ */ React16.createElement(CursorInternal, _extends12({}, props, {
       offset,
       layout,
       tooltipAxisBandSize,
@@ -40156,12 +40178,12 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   }
 
   // node_modules/recharts/es6/context/tooltipPortalContext.js
-  var import_react23 = __toESM(require_react());
-  var TooltipPortalContext = /* @__PURE__ */ (0, import_react23.createContext)(null);
-  var useTooltipPortal = () => (0, import_react23.useContext)(TooltipPortalContext);
+  var import_react24 = __toESM(require_react());
+  var TooltipPortalContext = /* @__PURE__ */ (0, import_react24.createContext)(null);
+  var useTooltipPortal = () => (0, import_react24.useContext)(TooltipPortalContext);
 
   // node_modules/recharts/es6/synchronisation/useChartSynchronisation.js
-  var import_react24 = __toESM(require_react());
+  var import_react25 = __toESM(require_react());
 
   // node_modules/eventemitter3/index.mjs
   var import_index = __toESM(require_eventemitter3(), 1);
@@ -40316,7 +40338,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     var layout = useChartLayout();
     var viewBox = useViewBox();
     var className = useAppSelector((state) => state.rootProps.className);
-    (0, import_react24.useEffect)(() => {
+    (0, import_react25.useEffect)(() => {
       if (mySyncId == null) {
         return noop;
       }
@@ -40429,7 +40451,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     var mySyncId = useAppSelector(selectSyncId);
     var myEventEmitter = useAppSelector(selectEventEmitter);
     var dispatch = useAppDispatch();
-    (0, import_react24.useEffect)(() => {
+    (0, import_react25.useEffect)(() => {
       if (mySyncId == null) {
         return noop;
       }
@@ -40449,7 +40471,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   }
   function useSynchronisedEventsFromOtherCharts() {
     var dispatch = useAppDispatch();
-    (0, import_react24.useEffect)(() => {
+    (0, import_react25.useEffect)(() => {
       dispatch(createEventEmitter());
     }, [dispatch]);
     useTooltipSyncEventsListener();
@@ -40464,7 +40486,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     var tooltipState = useAppSelector(selectSynchronisedTooltipState);
     var isReceivingSynchronisation = (tooltipState === null || tooltipState === void 0 ? void 0 : tooltipState.sourceViewBox) != null;
     var viewBox = useViewBox();
-    (0, import_react24.useEffect)(() => {
+    (0, import_react25.useEffect)(() => {
       if (isReceivingSynchronisation) {
         return;
       }
@@ -40572,13 +40594,13 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     return entry.dataKey;
   }
   function renderContent(content, props) {
-    if (/* @__PURE__ */ React16.isValidElement(content)) {
-      return /* @__PURE__ */ React16.cloneElement(content, props);
+    if (/* @__PURE__ */ React17.isValidElement(content)) {
+      return /* @__PURE__ */ React17.cloneElement(content, props);
     }
     if (typeof content === "function") {
-      return /* @__PURE__ */ React16.createElement(content, props);
+      return /* @__PURE__ */ React17.createElement(content, props);
     }
-    return /* @__PURE__ */ React16.createElement(DefaultTooltipContent, props);
+    return /* @__PURE__ */ React17.createElement(DefaultTooltipContent, props);
   }
   var emptyPayload = [];
   var defaultTooltipProps = {
@@ -40613,7 +40635,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     var activeFromProps = props.active, allowEscapeViewBox = props.allowEscapeViewBox, animationDuration = props.animationDuration, animationEasing = props.animationEasing, content = props.content, filterNull = props.filterNull, isAnimationActive = props.isAnimationActive, offset = props.offset, payloadUniqBy = props.payloadUniqBy, position = props.position, reverseDirection = props.reverseDirection, useTranslate3d = props.useTranslate3d, wrapperStyle = props.wrapperStyle, cursor = props.cursor, shared = props.shared, trigger = props.trigger, defaultIndex = props.defaultIndex, portalFromProps = props.portal, axisId = props.axisId;
     var dispatch = useAppDispatch();
     var defaultIndexAsString = typeof defaultIndex === "number" ? String(defaultIndex) : defaultIndex;
-    (0, import_react25.useEffect)(() => {
+    (0, import_react26.useEffect)(() => {
       dispatch(setTooltipSettingsState({
         shared,
         trigger,
@@ -40655,7 +40677,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       coordinate,
       accessibilityLayer
     });
-    var tooltipElement = /* @__PURE__ */ React16.createElement(TooltipBoundingBox, {
+    var tooltipElement = /* @__PURE__ */ React17.createElement(TooltipBoundingBox, {
       allowEscapeViewBox,
       animationDuration,
       animationEasing,
@@ -40673,7 +40695,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       innerRef: updateBoundingBox,
       hasPortalFromProps: Boolean(portalFromProps)
     }, renderContent(content, tooltipContentProps));
-    return /* @__PURE__ */ React16.createElement(React16.Fragment, null, /* @__PURE__ */ (0, import_react_dom3.createPortal)(tooltipElement, tooltipPortal), finalIsActive && /* @__PURE__ */ React16.createElement(Cursor, {
+    return /* @__PURE__ */ React17.createElement(React17.Fragment, null, /* @__PURE__ */ (0, import_react_dom3.createPortal)(tooltipElement, tooltipPortal), finalIsActive && /* @__PURE__ */ React17.createElement(Cursor, {
       cursor,
       tooltipEventType,
       coordinate,
@@ -40687,8 +40709,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   Cell.displayName = "Cell";
 
   // node_modules/recharts/es6/component/Text.js
-  var React17 = __toESM(require_react());
-  var import_react26 = __toESM(require_react());
+  var React18 = __toESM(require_react());
+  var import_react27 = __toESM(require_react());
 
   // node_modules/recharts/es6/util/LRUCache.js
   function _defineProperty26(e, r2, t) {
@@ -41265,9 +41287,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     x: 0,
     y: 0
   };
-  var Text = /* @__PURE__ */ (0, import_react26.forwardRef)((outsideProps, ref) => {
+  var Text = /* @__PURE__ */ (0, import_react27.forwardRef)((outsideProps, ref) => {
     var _resolveDefaultProps = resolveDefaultProps(outsideProps, textDefaultProps), propsX = _resolveDefaultProps.x, propsY = _resolveDefaultProps.y, lineHeight = _resolveDefaultProps.lineHeight, capHeight = _resolveDefaultProps.capHeight, fill = _resolveDefaultProps.fill, scaleToFit = _resolveDefaultProps.scaleToFit, textAnchor = _resolveDefaultProps.textAnchor, verticalAnchor = _resolveDefaultProps.verticalAnchor, props = _objectWithoutProperties9(_resolveDefaultProps, _excluded9);
-    var wordsByLines = (0, import_react26.useMemo)(() => {
+    var wordsByLines = (0, import_react27.useMemo)(() => {
       return getWordsByLines({
         breakAll: props.breakAll,
         children: props.children,
@@ -41311,7 +41333,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     if (transforms.length) {
       textProps.transform = transforms.join(" ");
     }
-    return /* @__PURE__ */ React17.createElement("text", _extends13({}, svgPropertiesAndEvents(textProps), {
+    return /* @__PURE__ */ React18.createElement("text", _extends13({}, svgPropertiesAndEvents(textProps), {
       ref,
       x: x2,
       y: y2,
@@ -41322,7 +41344,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       var words = line.words.join(breakAll ? "" : " ");
       return (
         // duplicate words will cause duplicate keys which is why we add the array index here
-        /* @__PURE__ */ React17.createElement("tspan", {
+        /* @__PURE__ */ React18.createElement("tspan", {
           x: x2,
           dy: index === 0 ? startDy : lineHeight,
           key: "".concat(words, "-").concat(index)
@@ -41333,8 +41355,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   Text.displayName = "Text";
 
   // node_modules/recharts/es6/component/Label.js
-  var React18 = __toESM(require_react());
-  var import_react27 = __toESM(require_react());
+  var React19 = __toESM(require_react());
+  var import_react28 = __toESM(require_react());
   var _excluded10 = ["labelRef"];
   var _excluded24 = ["content"];
   function _objectWithoutProperties10(e, t) {
@@ -41402,10 +41424,10 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       return n;
     }, _extends14.apply(null, arguments);
   }
-  var CartesianLabelContext = /* @__PURE__ */ (0, import_react27.createContext)(null);
+  var CartesianLabelContext = /* @__PURE__ */ (0, import_react28.createContext)(null);
   var CartesianLabelContextProvider = (_ref2) => {
     var x2 = _ref2.x, y2 = _ref2.y, upperWidth = _ref2.upperWidth, lowerWidth = _ref2.lowerWidth, width = _ref2.width, height = _ref2.height, children = _ref2.children;
-    var viewBox = (0, import_react27.useMemo)(() => ({
+    var viewBox = (0, import_react28.useMemo)(() => ({
       x: x2,
       y: y2,
       upperWidth,
@@ -41413,19 +41435,19 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       width,
       height
     }), [x2, y2, upperWidth, lowerWidth, width, height]);
-    return /* @__PURE__ */ React18.createElement(CartesianLabelContext.Provider, {
+    return /* @__PURE__ */ React19.createElement(CartesianLabelContext.Provider, {
       value: viewBox
     }, children);
   };
   var useCartesianLabelContext = () => {
-    var labelChildContext = (0, import_react27.useContext)(CartesianLabelContext);
+    var labelChildContext = (0, import_react28.useContext)(CartesianLabelContext);
     var chartContext = useViewBox();
     return labelChildContext || (chartContext ? cartesianViewBoxToTrapezoid(chartContext) : void 0);
   };
-  var PolarLabelContext = /* @__PURE__ */ (0, import_react27.createContext)(null);
+  var PolarLabelContext = /* @__PURE__ */ (0, import_react28.createContext)(null);
   var PolarLabelContextProvider = (_ref2) => {
     var cx = _ref2.cx, cy = _ref2.cy, innerRadius = _ref2.innerRadius, outerRadius = _ref2.outerRadius, startAngle = _ref2.startAngle, endAngle = _ref2.endAngle, clockWise = _ref2.clockWise, children = _ref2.children;
-    var viewBox = (0, import_react27.useMemo)(() => ({
+    var viewBox = (0, import_react28.useMemo)(() => ({
       cx,
       cy,
       innerRadius,
@@ -41434,12 +41456,12 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       endAngle,
       clockWise
     }), [cx, cy, innerRadius, outerRadius, startAngle, endAngle, clockWise]);
-    return /* @__PURE__ */ React18.createElement(PolarLabelContext.Provider, {
+    return /* @__PURE__ */ React19.createElement(PolarLabelContext.Provider, {
       value: viewBox
     }, children);
   };
   var usePolarLabelContext = () => {
-    var labelChildContext = (0, import_react27.useContext)(PolarLabelContext);
+    var labelChildContext = (0, import_react28.useContext)(PolarLabelContext);
     var chartContext = useAppSelector(selectPolarViewBox);
     return labelChildContext || chartContext;
   };
@@ -41487,13 +41509,13 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     var endPoint = polarToCartesian(cx, cy, radius, labelAngle + (direction ? 1 : -1) * 359);
     var path2 = "M".concat(startPoint.x, ",").concat(startPoint.y, "\n    A").concat(radius, ",").concat(radius, ",0,1,").concat(direction ? 0 : 1, ",\n    ").concat(endPoint.x, ",").concat(endPoint.y);
     var id = isNullish(labelProps.id) ? uniqueId("recharts-radial-line-") : labelProps.id;
-    return /* @__PURE__ */ React18.createElement("text", _extends14({}, attrs, {
+    return /* @__PURE__ */ React19.createElement("text", _extends14({}, attrs, {
       dominantBaseline: "central",
       className: clsx("recharts-radial-bar-label", className)
-    }), /* @__PURE__ */ React18.createElement("defs", null, /* @__PURE__ */ React18.createElement("path", {
+    }), /* @__PURE__ */ React19.createElement("defs", null, /* @__PURE__ */ React19.createElement("path", {
       id,
       d: path2
-    })), /* @__PURE__ */ React18.createElement("textPath", {
+    })), /* @__PURE__ */ React19.createElement("textPath", {
       xlinkHref: "#".concat(id)
     }, label));
   };
@@ -41581,7 +41603,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       viewBox = cartesianViewBoxToTrapezoid(viewBoxFromProps);
     }
     var cartesianBox = polarViewBoxToTrapezoid(viewBox);
-    if (!viewBox || isNullish(value) && isNullish(children) && !/* @__PURE__ */ (0, import_react27.isValidElement)(content) && typeof content !== "function") {
+    if (!viewBox || isNullish(value) && isNullish(children) && !/* @__PURE__ */ (0, import_react28.isValidElement)(content) && typeof content !== "function") {
       return null;
     }
     var isRadialPolarLabel = isPolar(viewBox) && (position === "insideStart" || position === "insideEnd" || position === "end");
@@ -41615,14 +41637,14 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     } : {}), props), {}, {
       viewBox
     });
-    if (/* @__PURE__ */ (0, import_react27.isValidElement)(content)) {
+    if (/* @__PURE__ */ (0, import_react28.isValidElement)(content)) {
       var _ = propsWithViewBox.labelRef, propsWithoutLabelRef = _objectWithoutProperties10(propsWithViewBox, _excluded10);
-      return /* @__PURE__ */ (0, import_react27.cloneElement)(content, propsWithoutLabelRef);
+      return /* @__PURE__ */ (0, import_react28.cloneElement)(content, propsWithoutLabelRef);
     }
     if (typeof content === "function") {
       var _2 = propsWithViewBox.content, propsForContent = _objectWithoutProperties10(propsWithViewBox, _excluded24);
-      label = /* @__PURE__ */ (0, import_react27.createElement)(content, propsForContent);
-      if (/* @__PURE__ */ (0, import_react27.isValidElement)(label)) {
+      label = /* @__PURE__ */ (0, import_react28.createElement)(content, propsForContent);
+      if (/* @__PURE__ */ (0, import_react28.isValidElement)(label)) {
         return label;
       }
     } else {
@@ -41635,9 +41657,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     if (positionAttrs == null) {
       return null;
     }
-    return /* @__PURE__ */ React18.createElement(ZIndexLayer, {
+    return /* @__PURE__ */ React19.createElement(ZIndexLayer, {
       zIndex: props.zIndex
-    }, /* @__PURE__ */ React18.createElement(Text, _extends14({
+    }, /* @__PURE__ */ React19.createElement(Text, _extends14({
       ref: labelRef,
       className: clsx("recharts-label", className)
     }, attrs, positionAttrs, {
@@ -41659,35 +41681,35 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       labelRef
     };
     if (label === true) {
-      return /* @__PURE__ */ React18.createElement(Label, _extends14({
+      return /* @__PURE__ */ React19.createElement(Label, _extends14({
         key: "label-implicit"
       }, commonProps));
     }
     if (isNumOrStr(label)) {
-      return /* @__PURE__ */ React18.createElement(Label, _extends14({
+      return /* @__PURE__ */ React19.createElement(Label, _extends14({
         key: "label-implicit",
         value: label
       }, commonProps));
     }
-    if (/* @__PURE__ */ (0, import_react27.isValidElement)(label)) {
+    if (/* @__PURE__ */ (0, import_react28.isValidElement)(label)) {
       if (label.type === Label) {
-        return /* @__PURE__ */ (0, import_react27.cloneElement)(label, _objectSpread26({
+        return /* @__PURE__ */ (0, import_react28.cloneElement)(label, _objectSpread26({
           key: "label-implicit"
         }, commonProps));
       }
-      return /* @__PURE__ */ React18.createElement(Label, _extends14({
+      return /* @__PURE__ */ React19.createElement(Label, _extends14({
         key: "label-implicit",
         content: label
       }, commonProps));
     }
     if (isLabelContentAFunction(label)) {
-      return /* @__PURE__ */ React18.createElement(Label, _extends14({
+      return /* @__PURE__ */ React19.createElement(Label, _extends14({
         key: "label-implicit",
         content: label
       }, commonProps));
     }
     if (label && typeof label === "object") {
-      return /* @__PURE__ */ React18.createElement(Label, _extends14({}, label, {
+      return /* @__PURE__ */ React19.createElement(Label, _extends14({}, label, {
         key: "label-implicit"
       }, commonProps));
     }
@@ -41700,8 +41722,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   }
 
   // node_modules/recharts/es6/component/LabelList.js
-  var React19 = __toESM(require_react());
-  var import_react28 = __toESM(require_react());
+  var React20 = __toESM(require_react());
+  var import_react29 = __toESM(require_react());
   var _excluded11 = ["valueAccessor"];
   var _excluded25 = ["dataKey", "clockWise", "id", "textBreakAll", "zIndex"];
   function _extends15() {
@@ -41738,15 +41760,15 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     }
     return void 0;
   };
-  var CartesianLabelListContext = /* @__PURE__ */ (0, import_react28.createContext)(void 0);
+  var CartesianLabelListContext = /* @__PURE__ */ (0, import_react29.createContext)(void 0);
   var CartesianLabelListContextProvider = CartesianLabelListContext.Provider;
-  var PolarLabelListContext = /* @__PURE__ */ (0, import_react28.createContext)(void 0);
+  var PolarLabelListContext = /* @__PURE__ */ (0, import_react29.createContext)(void 0);
   var PolarLabelListContextProvider = PolarLabelListContext.Provider;
   function useCartesianLabelListContext() {
-    return (0, import_react28.useContext)(CartesianLabelListContext);
+    return (0, import_react29.useContext)(CartesianLabelListContext);
   }
   function usePolarLabelListContext() {
-    return (0, import_react28.useContext)(PolarLabelListContext);
+    return (0, import_react29.useContext)(PolarLabelListContext);
   }
   function LabelList(_ref2) {
     var _ref$valueAccessor = _ref2.valueAccessor, valueAccessor = _ref$valueAccessor === void 0 ? defaultAccessor : _ref$valueAccessor, restProps = _objectWithoutProperties11(_ref2, _excluded11);
@@ -41757,9 +41779,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     if (!data || !data.length) {
       return null;
     }
-    return /* @__PURE__ */ React19.createElement(ZIndexLayer, {
+    return /* @__PURE__ */ React20.createElement(ZIndexLayer, {
       zIndex: zIndex !== null && zIndex !== void 0 ? zIndex : DefaultZIndexes.label
-    }, /* @__PURE__ */ React19.createElement(Layer, {
+    }, /* @__PURE__ */ React20.createElement(Layer, {
       className: "recharts-label-list"
     }, data.map((entry, index) => {
       var _restProps$fill;
@@ -41767,7 +41789,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       var idProps = isNullish(id) ? {} : {
         id: "".concat(id, "-").concat(index)
       };
-      return /* @__PURE__ */ React19.createElement(Label, _extends15({
+      return /* @__PURE__ */ React20.createElement(Label, _extends15({
         key: "label-".concat(index)
       }, svgPropertiesAndEvents(entry), others, idProps, {
         /*
@@ -41793,18 +41815,18 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       return null;
     }
     if (label === true) {
-      return /* @__PURE__ */ React19.createElement(LabelList, {
+      return /* @__PURE__ */ React20.createElement(LabelList, {
         key: "labelList-implicit"
       });
     }
-    if (/* @__PURE__ */ React19.isValidElement(label) || isLabelContentAFunction(label)) {
-      return /* @__PURE__ */ React19.createElement(LabelList, {
+    if (/* @__PURE__ */ React20.isValidElement(label) || isLabelContentAFunction(label)) {
+      return /* @__PURE__ */ React20.createElement(LabelList, {
         key: "labelList-implicit",
         content: label
       });
     }
     if (typeof label === "object") {
-      return /* @__PURE__ */ React19.createElement(LabelList, _extends15({
+      return /* @__PURE__ */ React20.createElement(LabelList, _extends15({
         key: "labelList-implicit"
       }, label, {
         type: String(label.type)
@@ -41814,7 +41836,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   }
 
   // node_modules/recharts/es6/shape/Dot.js
-  var React20 = __toESM(require_react());
+  var React21 = __toESM(require_react());
   function _extends16() {
     return _extends16 = Object.assign ? Object.assign.bind() : function(n) {
       for (var e = 1; e < arguments.length; e++) {
@@ -41828,7 +41850,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     var cx = props.cx, cy = props.cy, r2 = props.r, className = props.className;
     var layerClass = clsx("recharts-dot", className);
     if (isNumber(cx) && isNumber(cy) && isNumber(r2)) {
-      return /* @__PURE__ */ React20.createElement("circle", _extends16({}, svgPropertiesNoEvents(props), adaptEventHandlers(props), {
+      return /* @__PURE__ */ React21.createElement("circle", _extends16({}, svgPropertiesNoEvents(props), adaptEventHandlers(props), {
         className: layerClass,
         cx,
         cy,
@@ -41917,8 +41939,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   }
 
   // node_modules/recharts/es6/polar/Pie.js
-  var React25 = __toESM(require_react());
-  var import_react37 = __toESM(require_react());
+  var React26 = __toESM(require_react());
+  var import_react38 = __toESM(require_react());
 
   // node_modules/recharts/es6/state/selectors/pieSelectors.js
   function ownKeys27(e, r2) {
@@ -42025,7 +42047,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   });
 
   // node_modules/recharts/es6/util/ReactUtils.js
-  var import_react29 = __toESM(require_react());
+  var import_react30 = __toESM(require_react());
   var import_react_is = __toESM(require_react_is());
   var getDisplayName = (Comp) => {
     if (typeof Comp === "string") {
@@ -42043,7 +42065,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       return lastResult;
     }
     var result = [];
-    import_react29.Children.forEach(children, (child) => {
+    import_react30.Children.forEach(children, (child) => {
       if (isNullish(child)) return;
       if ((0, import_react_is.isFragment)(child)) {
         result = result.concat(toArray(child.props.children));
@@ -42079,8 +42101,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   };
 
   // node_modules/recharts/es6/util/ActiveShapeUtils.js
-  var React21 = __toESM(require_react());
-  var import_react30 = __toESM(require_react());
+  var React22 = __toESM(require_react());
+  var import_react31 = __toESM(require_react());
   function ownKeys28(e, r2) {
     var t = Object.keys(e);
     if (Object.getOwnPropertySymbols) {
@@ -42123,13 +42145,13 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     return _objectSpread28(_objectSpread28({}, props), option);
   }
   function getPropsFromShapeOption(option) {
-    if (/* @__PURE__ */ (0, import_react30.isValidElement)(option)) {
+    if (/* @__PURE__ */ (0, import_react31.isValidElement)(option)) {
       return option.props;
     }
     return option;
   }
   function renderWithShapeElement(option, props) {
-    return /* @__PURE__ */ (0, import_react30.cloneElement)(option, mergeShapeProps(getPropsFromShapeOption(option), props));
+    return /* @__PURE__ */ (0, import_react31.cloneElement)(option, mergeShapeProps(getPropsFromShapeOption(option), props));
   }
   function getShapeIndex(shapeProps) {
     if (!("index" in shapeProps)) {
@@ -42145,23 +42167,23 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     var option = _ref2.option, DefaultShape = _ref2.DefaultShape, shapeProps = _ref2.shapeProps, _ref$activeClassName = _ref2.activeClassName, activeClassName = _ref$activeClassName === void 0 ? "recharts-active-shape" : _ref$activeClassName, _ref$inActiveClassNam = _ref2.inActiveClassName, inActiveClassName = _ref$inActiveClassNam === void 0 ? "recharts-shape" : _ref$inActiveClassNam;
     var index = getShapeIndex(shapeProps);
     var shape;
-    if (/* @__PURE__ */ (0, import_react30.isValidElement)(option)) {
+    if (/* @__PURE__ */ (0, import_react31.isValidElement)(option)) {
       shape = renderWithShapeElement(option, shapeProps);
     } else if (option === DefaultShape) {
-      shape = /* @__PURE__ */ React21.createElement(DefaultShape, shapeProps);
+      shape = /* @__PURE__ */ React22.createElement(DefaultShape, shapeProps);
     } else if (typeof option === "function") {
       shape = option(shapeProps, index);
     } else if (typeof option === "object") {
-      shape = /* @__PURE__ */ React21.createElement(DefaultShape, mergeShapeProps(option, shapeProps));
+      shape = /* @__PURE__ */ React22.createElement(DefaultShape, mergeShapeProps(option, shapeProps));
     } else {
-      shape = /* @__PURE__ */ React21.createElement(DefaultShape, shapeProps);
+      shape = /* @__PURE__ */ React22.createElement(DefaultShape, shapeProps);
     }
     if (isActiveShape(shapeProps)) {
-      return /* @__PURE__ */ React21.createElement(Layer, {
+      return /* @__PURE__ */ React22.createElement(Layer, {
         className: activeClassName
       }, shape);
     }
-    return /* @__PURE__ */ React21.createElement(Layer, {
+    return /* @__PURE__ */ React22.createElement(Layer, {
       className: inActiveClassName
     }, shape);
   }
@@ -42200,13 +42222,13 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   };
 
   // node_modules/recharts/es6/state/SetTooltipEntrySettings.js
-  var import_react31 = __toESM(require_react());
+  var import_react32 = __toESM(require_react());
   function SetTooltipEntrySettings(_ref2) {
     var tooltipEntrySettings = _ref2.tooltipEntrySettings;
     var dispatch = useAppDispatch();
     var isPanorama = useIsPanorama();
-    var prevSettingsRef = (0, import_react31.useRef)(null);
-    (0, import_react31.useLayoutEffect)(() => {
+    var prevSettingsRef = (0, import_react32.useRef)(null);
+    (0, import_react32.useLayoutEffect)(() => {
       if (isPanorama) {
         return;
       }
@@ -42220,7 +42242,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       }
       prevSettingsRef.current = tooltipEntrySettings;
     }, [tooltipEntrySettings, dispatch, isPanorama]);
-    (0, import_react31.useLayoutEffect)(() => {
+    (0, import_react32.useLayoutEffect)(() => {
       return () => {
         if (prevSettingsRef.current) {
           dispatch(removeTooltipEntrySettings(prevSettingsRef.current));
@@ -42232,13 +42254,13 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   }
 
   // node_modules/recharts/es6/state/SetLegendPayload.js
-  var import_react32 = __toESM(require_react());
+  var import_react33 = __toESM(require_react());
   function SetLegendPayload(_ref2) {
     var legendPayload = _ref2.legendPayload;
     var dispatch = useAppDispatch();
     var isPanorama = useIsPanorama();
-    var prevPayloadRef = (0, import_react32.useRef)(null);
-    (0, import_react32.useLayoutEffect)(() => {
+    var prevPayloadRef = (0, import_react33.useRef)(null);
+    (0, import_react33.useLayoutEffect)(() => {
       if (isPanorama) {
         return;
       }
@@ -42252,7 +42274,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       }
       prevPayloadRef.current = legendPayload;
     }, [dispatch, isPanorama, legendPayload]);
-    (0, import_react32.useLayoutEffect)(() => {
+    (0, import_react33.useLayoutEffect)(() => {
       return () => {
         if (prevPayloadRef.current) {
           dispatch(removeLegendPayload(prevPayloadRef.current));
@@ -42266,8 +42288,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     var legendPayload = _ref2.legendPayload;
     var dispatch = useAppDispatch();
     var layout = useAppSelector(selectChartLayout);
-    var prevPayloadRef = (0, import_react32.useRef)(null);
-    (0, import_react32.useLayoutEffect)(() => {
+    var prevPayloadRef = (0, import_react33.useRef)(null);
+    (0, import_react33.useLayoutEffect)(() => {
       if (layout !== "centric" && layout !== "radial") {
         return;
       }
@@ -42281,7 +42303,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       }
       prevPayloadRef.current = legendPayload;
     }, [dispatch, layout, legendPayload]);
-    (0, import_react32.useLayoutEffect)(() => {
+    (0, import_react33.useLayoutEffect)(() => {
       return () => {
         if (prevPayloadRef.current) {
           dispatch(removeLegendPayload(prevPayloadRef.current));
@@ -42293,8 +42315,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   }
 
   // node_modules/recharts/es6/animation/AnimatedItems.js
-  var React22 = __toESM(require_react());
-  var import_react34 = __toESM(require_react());
+  var React23 = __toESM(require_react());
+  var import_react35 = __toESM(require_react());
 
   // node_modules/recharts/es6/animation/matchBy.js
   function _slicedToArray15(r2, e) {
@@ -42434,17 +42456,17 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   }
 
   // node_modules/recharts/es6/animation/useAnimationStartSnapshot.js
-  var import_react33 = __toESM(require_react());
+  var import_react34 = __toESM(require_react());
   function useAnimationStartSnapshot(animationInput, previousValueRef) {
-    var previousAnimationInputRef = (0, import_react33.useRef)(animationInput);
-    var startValueRef = (0, import_react33.useRef)(previousValueRef.current);
-    var isReadyToCommitRef = (0, import_react33.useRef)(true);
+    var previousAnimationInputRef = (0, import_react34.useRef)(animationInput);
+    var startValueRef = (0, import_react34.useRef)(previousValueRef.current);
+    var isReadyToCommitRef = (0, import_react34.useRef)(true);
     if (previousAnimationInputRef.current !== animationInput) {
       previousAnimationInputRef.current = animationInput;
       startValueRef.current = previousValueRef.current;
       isReadyToCommitRef.current = false;
     }
-    var syncStepValue = (0, import_react33.useCallback)(function(stepValue, animationElapsedTime) {
+    var syncStepValue = (0, import_react34.useCallback)(function(stepValue, animationElapsedTime) {
       var canCommit = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : true;
       if (animationElapsedTime === 0) {
         isReadyToCommitRef.current = true;
@@ -42507,14 +42529,14 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     if (Array.isArray(r2)) return r2;
   }
   function useAnimationCallbacks(onAnimationStart, onAnimationEnd) {
-    var _useState = (0, import_react34.useState)(false), _useState2 = _slicedToArray16(_useState, 2), isAnimating = _useState2[0], setIsAnimating = _useState2[1];
-    var handleAnimationStart = (0, import_react34.useCallback)(() => {
+    var _useState = (0, import_react35.useState)(false), _useState2 = _slicedToArray16(_useState, 2), isAnimating = _useState2[0], setIsAnimating = _useState2[1];
+    var handleAnimationStart = (0, import_react35.useCallback)(() => {
       if (typeof onAnimationStart === "function") {
         onAnimationStart();
       }
       setIsAnimating(true);
     }, [onAnimationStart]);
-    var handleAnimationEnd = (0, import_react34.useCallback)(() => {
+    var handleAnimationEnd = (0, import_react35.useCallback)(() => {
       if (typeof onAnimationEnd === "function") {
         onAnimationEnd();
       }
@@ -42533,7 +42555,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     var animationStartItems = useAnimationStartSnapshot(animationId, previousItemsRef);
     var rawPrevItems = (_animationStartItems$ = animationStartItems.startValue) !== null && _animationStartItems$ !== void 0 ? _animationStartItems$ : null;
     var animationItems = matchAnimationItems(rawPrevItems, items, animationMatchBy !== null && animationMatchBy !== void 0 ? animationMatchBy : matchByIndex);
-    return /* @__PURE__ */ React22.createElement(JavascriptAnimate, {
+    return /* @__PURE__ */ React23.createElement(JavascriptAnimate, {
       animationId,
       begin: animationBegin,
       duration: animationDuration,
@@ -42555,11 +42577,11 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   }
 
   // node_modules/recharts/es6/context/RegisterGraphicalItemId.js
-  var React24 = __toESM(require_react());
-  var import_react35 = __toESM(require_react());
+  var React25 = __toESM(require_react());
+  var import_react36 = __toESM(require_react());
 
   // node_modules/recharts/es6/util/useId.js
-  var React23 = __toESM(require_react());
+  var React24 = __toESM(require_react());
   var _ref;
   function _slicedToArray17(r2, e) {
     return _arrayWithHoles17(r2) || _iterableToArrayLimit17(r2, e) || _unsupportedIterableToArray17(r2, e) || _nonIterableRest17();
@@ -42604,10 +42626,10 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     if (Array.isArray(r2)) return r2;
   }
   var useIdFallback = () => {
-    var _React$useState = React23.useState(() => uniqueId("uid-")), _React$useState2 = _slicedToArray17(_React$useState, 1), id = _React$useState2[0];
+    var _React$useState = React24.useState(() => uniqueId("uid-")), _React$useState2 = _slicedToArray17(_React$useState, 1), id = _React$useState2[0];
     return id;
   };
-  var useId = (_ref = React23["useId".toString()]) !== null && _ref !== void 0 ? _ref : useIdFallback;
+  var useId = (_ref = React24["useId".toString()]) !== null && _ref !== void 0 ? _ref : useIdFallback;
 
   // node_modules/recharts/es6/util/useUniqueId.js
   function useUniqueId(prefix2, customId) {
@@ -42619,20 +42641,20 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   }
 
   // node_modules/recharts/es6/context/RegisterGraphicalItemId.js
-  var GraphicalItemIdContext = /* @__PURE__ */ (0, import_react35.createContext)(void 0);
+  var GraphicalItemIdContext = /* @__PURE__ */ (0, import_react36.createContext)(void 0);
   var RegisterGraphicalItemId = (_ref2) => {
     var id = _ref2.id, type = _ref2.type, children = _ref2.children;
     var resolvedId = useUniqueId("recharts-".concat(type), id);
-    return /* @__PURE__ */ React24.createElement(GraphicalItemIdContext.Provider, {
+    return /* @__PURE__ */ React25.createElement(GraphicalItemIdContext.Provider, {
       value: resolvedId
     }, children(resolvedId));
   };
   function useGraphicalItemId() {
-    return (0, import_react35.useContext)(GraphicalItemIdContext);
+    return (0, import_react36.useContext)(GraphicalItemIdContext);
   }
 
   // node_modules/recharts/es6/state/SetGraphicalItem.js
-  var import_react36 = __toESM(require_react());
+  var import_react37 = __toESM(require_react());
 
   // node_modules/recharts/es6/state/graphicalItemsSlice.js
   var initialState7 = {
@@ -42707,8 +42729,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   // node_modules/recharts/es6/state/SetGraphicalItem.js
   var SetCartesianGraphicalItemImpl = (props) => {
     var dispatch = useAppDispatch();
-    var prevPropsRef = (0, import_react36.useRef)(null);
-    (0, import_react36.useLayoutEffect)(() => {
+    var prevPropsRef = (0, import_react37.useRef)(null);
+    (0, import_react37.useLayoutEffect)(() => {
       if (prevPropsRef.current === null) {
         dispatch(addCartesianGraphicalItem(props));
       } else if (prevPropsRef.current !== props) {
@@ -42719,7 +42741,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       }
       prevPropsRef.current = props;
     }, [dispatch, props]);
-    (0, import_react36.useLayoutEffect)(() => {
+    (0, import_react37.useLayoutEffect)(() => {
       return () => {
         if (prevPropsRef.current) {
           dispatch(removeCartesianGraphicalItem(prevPropsRef.current));
@@ -42729,11 +42751,11 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     }, [dispatch]);
     return null;
   };
-  var SetCartesianGraphicalItem = /* @__PURE__ */ (0, import_react36.memo)(SetCartesianGraphicalItemImpl);
+  var SetCartesianGraphicalItem = /* @__PURE__ */ (0, import_react37.memo)(SetCartesianGraphicalItemImpl);
   var SetPolarGraphicalItemImpl = (props) => {
     var dispatch = useAppDispatch();
-    var prevPropsRef = (0, import_react36.useRef)(null);
-    (0, import_react36.useLayoutEffect)(() => {
+    var prevPropsRef = (0, import_react37.useRef)(null);
+    (0, import_react37.useLayoutEffect)(() => {
       if (prevPropsRef.current === null) {
         dispatch(addPolarGraphicalItem(props));
       } else if (prevPropsRef.current !== props) {
@@ -42744,7 +42766,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       }
       prevPropsRef.current = props;
     }, [dispatch, props]);
-    (0, import_react36.useLayoutEffect)(() => {
+    (0, import_react37.useLayoutEffect)(() => {
       return () => {
         if (prevPropsRef.current) {
           dispatch(removePolarGraphicalItem(prevPropsRef.current));
@@ -42754,7 +42776,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     }, [dispatch]);
     return null;
   };
-  var SetPolarGraphicalItem = /* @__PURE__ */ (0, import_react36.memo)(SetPolarGraphicalItemImpl);
+  var SetPolarGraphicalItem = /* @__PURE__ */ (0, import_react37.memo)(SetPolarGraphicalItemImpl);
 
   // node_modules/recharts/es6/polar/Pie.js
   var _excluded12 = ["key"];
@@ -42828,12 +42850,12 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   }
   var defaultPieSectorShape = Sector;
   function SetPiePayloadLegend(props) {
-    var cells = (0, import_react37.useMemo)(() => findAllByType(props.children, Cell), [props.children]);
+    var cells = (0, import_react38.useMemo)(() => findAllByType(props.children, Cell), [props.children]);
     var legendPayload = useAppSelector((state) => selectPieLegend(state, props.id, cells));
     if (legendPayload == null) {
       return null;
     }
-    return /* @__PURE__ */ React25.createElement(SetPolarLegendPayload, {
+    return /* @__PURE__ */ React26.createElement(SetPolarLegendPayload, {
       legendPayload
     });
   }
@@ -42841,7 +42863,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     if (activeShape == null || typeof activeShape === "boolean" || typeof activeShape === "function") {
       return void 0;
     }
-    if (/* @__PURE__ */ React25.isValidElement(activeShape)) {
+    if (/* @__PURE__ */ React26.isValidElement(activeShape)) {
       var _activeShape$props;
       var _fill = (_activeShape$props = activeShape.props) === null || _activeShape$props === void 0 ? void 0 : _activeShape$props.fill;
       return typeof _fill === "string" ? _fill : void 0;
@@ -42849,7 +42871,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     var fill = activeShape.fill;
     return typeof fill === "string" ? fill : void 0;
   }
-  var SetPieTooltipEntrySettings = /* @__PURE__ */ React25.memo((_ref2) => {
+  var SetPieTooltipEntrySettings = /* @__PURE__ */ React26.memo((_ref2) => {
     var dataKey = _ref2.dataKey, nameKey = _ref2.nameKey, sectors = _ref2.sectors, stroke = _ref2.stroke, strokeWidth = _ref2.strokeWidth, fill = _ref2.fill, name = _ref2.name, hide = _ref2.hide, tooltipType = _ref2.tooltipType, formatter = _ref2.formatter, id = _ref2.id, activeShape = _ref2.activeShape;
     var activeShapeFill = getActiveShapeFill(activeShape);
     var tooltipDataDefinedOnItem = sectors.map((sector) => {
@@ -42884,7 +42906,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         graphicalItemId: id
       }
     };
-    return /* @__PURE__ */ React25.createElement(SetTooltipEntrySettings, {
+    return /* @__PURE__ */ React26.createElement(SetTooltipEntrySettings, {
       tooltipEntrySettings
     });
   });
@@ -42925,32 +42947,32 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     return sign2 * deltaAngle;
   };
   var renderLabelLineItem = (option, props) => {
-    if (/* @__PURE__ */ React25.isValidElement(option)) {
-      return /* @__PURE__ */ React25.cloneElement(option, props);
+    if (/* @__PURE__ */ React26.isValidElement(option)) {
+      return /* @__PURE__ */ React26.cloneElement(option, props);
     }
     if (typeof option === "function") {
       return option(props);
     }
     var className = clsx("recharts-pie-label-line", typeof option !== "boolean" ? option.className : "");
     var key = props.key, otherProps = _objectWithoutProperties12(props, _excluded12);
-    return /* @__PURE__ */ React25.createElement(Curve, _extends17({}, otherProps, {
+    return /* @__PURE__ */ React26.createElement(Curve, _extends17({}, otherProps, {
       type: "linear",
       className
     }));
   };
   var renderLabelItem = (option, props, value) => {
-    if (/* @__PURE__ */ React25.isValidElement(option)) {
-      return /* @__PURE__ */ React25.cloneElement(option, props);
+    if (/* @__PURE__ */ React26.isValidElement(option)) {
+      return /* @__PURE__ */ React26.cloneElement(option, props);
     }
     var label = value;
     if (typeof option === "function") {
       label = option(props);
-      if (/* @__PURE__ */ React25.isValidElement(label)) {
+      if (/* @__PURE__ */ React26.isValidElement(label)) {
         return label;
       }
     }
     var className = clsx("recharts-pie-label-text", getClassNameFromUnknown(option));
-    return /* @__PURE__ */ React25.createElement(Text, _extends17({}, props, {
+    return /* @__PURE__ */ React26.createElement(Text, _extends17({}, props, {
       alignmentBaseline: "middle",
       className
     }), label);
@@ -42985,12 +43007,12 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         points: [polarToCartesian(entry.cx, entry.cy, entry.outerRadius, midAngle), endPoint],
         key: "line"
       });
-      return /* @__PURE__ */ React25.createElement(ZIndexLayer, {
+      return /* @__PURE__ */ React26.createElement(ZIndexLayer, {
         zIndex: DefaultZIndexes.label,
         key: "label-".concat(entry.startAngle, "-").concat(entry.endAngle, "-").concat(entry.midAngle, "-").concat(i)
-      }, /* @__PURE__ */ React25.createElement(Layer, null, labelLine && renderLabelLineItem(labelLine, lineProps), renderLabelItem(label, labelProps, getValueByDataKey(entry, dataKey))));
+      }, /* @__PURE__ */ React26.createElement(Layer, null, labelLine && renderLabelLineItem(labelLine, lineProps), renderLabelItem(label, labelProps, getValueByDataKey(entry, dataKey))));
     });
-    return /* @__PURE__ */ React25.createElement(Layer, {
+    return /* @__PURE__ */ React26.createElement(Layer, {
       className: "recharts-pie-labels"
     }, labels);
   }
@@ -42998,11 +43020,11 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     var sectors = _ref3.sectors, props = _ref3.props, showLabels = _ref3.showLabels;
     var label = props.label;
     if (typeof label === "object" && label != null && "position" in label) {
-      return /* @__PURE__ */ React25.createElement(LabelListFromLabelProp, {
+      return /* @__PURE__ */ React26.createElement(LabelListFromLabelProp, {
         label
       });
     }
-    return /* @__PURE__ */ React25.createElement(PieLabels, {
+    return /* @__PURE__ */ React26.createElement(PieLabels, {
       sectors,
       props,
       showLabels
@@ -43020,7 +43042,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     if (sectors == null || sectors.length === 0) {
       return null;
     }
-    return /* @__PURE__ */ React25.createElement(React25.Fragment, null, sectors.map((entry, i) => {
+    return /* @__PURE__ */ React26.createElement(React26.Fragment, null, sectors.map((entry, i) => {
       if ((entry === null || entry === void 0 ? void 0 : entry.startAngle) === 0 && (entry === null || entry === void 0 ? void 0 : entry.endAngle) === 0 && sectors.length !== 1) return null;
       var graphicalItemMatches = activeGraphicalItemId == null || activeGraphicalItemId === id;
       var isActive = String(i) === activeIndex && (activeDataKey == null || allOtherPieProps.dataKey === activeDataKey) && graphicalItemMatches;
@@ -43037,7 +43059,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         [DATA_ITEM_INDEX_ATTRIBUTE_NAME]: i,
         [DATA_ITEM_GRAPHICAL_ITEM_ID_ATTRIBUTE_NAME]: id
       });
-      return /* @__PURE__ */ React25.createElement(Layer, _extends17({
+      return /* @__PURE__ */ React26.createElement(Layer, _extends17({
         key: "sector-".concat(entry === null || entry === void 0 ? void 0 : entry.startAngle, "-").concat(entry === null || entry === void 0 ? void 0 : entry.endAngle, "-").concat(entry.midAngle, "-").concat(i),
         tabIndex: -1,
         className: "recharts-pie-sector"
@@ -43045,7 +43067,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         onMouseEnter: onMouseEnterFromContext(entry, i),
         onMouseLeave: onMouseLeaveFromContext(entry, i),
         onClick: onClickFromContext(entry, i)
-      }), /* @__PURE__ */ React25.createElement(Shape, {
+      }), /* @__PURE__ */ React26.createElement(Shape, {
         option: sectorOptions !== null && sectorOptions !== void 0 ? sectorOptions : shape,
         DefaultShape: defaultPieSectorShape,
         shapeProps: sectorProps
@@ -43126,7 +43148,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   }
   function PieLabelListProvider(_ref5) {
     var showLabels = _ref5.showLabels, sectors = _ref5.sectors, children = _ref5.children;
-    var labelListEntries = (0, import_react37.useMemo)(() => {
+    var labelListEntries = (0, import_react38.useMemo)(() => {
       if (!showLabels || !sectors) {
         return [];
       }
@@ -43147,7 +43169,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         fill: entry.fill
       }));
     }, [sectors, showLabels]);
-    return /* @__PURE__ */ React25.createElement(PolarLabelListContextProvider, {
+    return /* @__PURE__ */ React26.createElement(PolarLabelListContextProvider, {
       value: showLabels ? labelListEntries : void 0
     }, children);
   }
@@ -43187,10 +43209,10 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     var layout = usePolarChartLayout();
     if (layout == null) return null;
     var firstSector = sectors[0];
-    return /* @__PURE__ */ React25.createElement(PieLabelListProvider, {
+    return /* @__PURE__ */ React26.createElement(PieLabelListProvider, {
       showLabels: !isAnimating,
       sectors
-    }, /* @__PURE__ */ React25.createElement(AnimatedItems, {
+    }, /* @__PURE__ */ React26.createElement(AnimatedItems, {
       animationInput: props,
       animationIdPrefix: "recharts-pie-",
       items: sectors,
@@ -43204,7 +43226,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       animationInterpolateFn,
       animationMatchBy: props.animationMatchBy,
       layout
-    }, (stepData, animationElapsedTime, isEntrance) => /* @__PURE__ */ React25.createElement(Layer, null, /* @__PURE__ */ React25.createElement(PieSectors, {
+    }, (stepData, animationElapsedTime, isEntrance) => /* @__PURE__ */ React26.createElement(Layer, null, /* @__PURE__ */ React26.createElement(PieSectors, {
       sectors: stepData,
       activeShape,
       inactiveShape,
@@ -43214,11 +43236,11 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       animationElapsedTime,
       isAnimating: isAnimating || animationElapsedTime < 1,
       isEntrance
-    }))), /* @__PURE__ */ React25.createElement(PieLabelList, {
+    }))), /* @__PURE__ */ React26.createElement(PieLabelList, {
       showLabels: !isAnimating,
       sectors,
       props
-    }), /* @__PURE__ */ React25.createElement(PolarLabelContextProvider, {
+    }), /* @__PURE__ */ React26.createElement(PolarLabelContextProvider, {
       cx: (_firstSector$cx = firstSector === null || firstSector === void 0 ? void 0 : firstSector.cx) !== null && _firstSector$cx !== void 0 ? _firstSector$cx : 0,
       cy: (_firstSector$cy = firstSector === null || firstSector === void 0 ? void 0 : firstSector.cy) !== null && _firstSector$cy !== void 0 ? _firstSector$cy : 0,
       innerRadius: (_firstSector$innerRad = firstSector === null || firstSector === void 0 ? void 0 : firstSector.innerRadius) !== null && _firstSector$innerRad !== void 0 ? _firstSector$innerRad : 0,
@@ -43258,20 +43280,20 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   function PieImpl(props) {
     var id = props.id, propsWithoutId = _objectWithoutProperties12(props, _excluded32);
     var hide = props.hide, className = props.className, rootTabIndex = props.rootTabIndex;
-    var cells = (0, import_react37.useMemo)(() => findAllByType(props.children, Cell), [props.children]);
+    var cells = (0, import_react38.useMemo)(() => findAllByType(props.children, Cell), [props.children]);
     var sectors = useAppSelector((state) => selectPieSectors(state, id, cells));
-    var previousSectorsRef = (0, import_react37.useRef)(null);
+    var previousSectorsRef = (0, import_react38.useRef)(null);
     var layerClass = clsx("recharts-pie", className);
     if (hide || sectors == null) {
       previousSectorsRef.current = null;
-      return /* @__PURE__ */ React25.createElement(Layer, {
+      return /* @__PURE__ */ React26.createElement(Layer, {
         tabIndex: rootTabIndex,
         className: layerClass
       });
     }
-    return /* @__PURE__ */ React25.createElement(ZIndexLayer, {
+    return /* @__PURE__ */ React26.createElement(ZIndexLayer, {
       zIndex: props.zIndex
-    }, /* @__PURE__ */ React25.createElement(SetPieTooltipEntrySettings, {
+    }, /* @__PURE__ */ React26.createElement(SetPieTooltipEntrySettings, {
       dataKey: props.dataKey,
       nameKey: props.nameKey,
       sectors,
@@ -43284,10 +43306,10 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       formatter: props.formatter,
       id,
       activeShape: props.activeShape
-    }), /* @__PURE__ */ React25.createElement(Layer, {
+    }), /* @__PURE__ */ React26.createElement(Layer, {
       tabIndex: rootTabIndex,
       className: layerClass
-    }, /* @__PURE__ */ React25.createElement(SectorsWithAnimation, {
+    }, /* @__PURE__ */ React26.createElement(SectorsWithAnimation, {
       props: _objectSpread29(_objectSpread29({}, propsWithoutId), {}, {
         sectors
       }),
@@ -43299,10 +43321,10 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     var props = resolveDefaultProps(outsideProps, defaultPieProps);
     var externalId = props.id, propsWithoutId = _objectWithoutProperties12(props, _excluded42);
     var presentationProps = svgPropertiesNoEvents(propsWithoutId);
-    return /* @__PURE__ */ React25.createElement(RegisterGraphicalItemId, {
+    return /* @__PURE__ */ React26.createElement(RegisterGraphicalItemId, {
       id: externalId,
       type: "pie"
-    }, (id) => /* @__PURE__ */ React25.createElement(React25.Fragment, null, /* @__PURE__ */ React25.createElement(SetPolarGraphicalItem, {
+    }, (id) => /* @__PURE__ */ React26.createElement(React26.Fragment, null, /* @__PURE__ */ React26.createElement(SetPolarGraphicalItem, {
       type: "pie",
       id,
       data: propsWithoutId.data,
@@ -43326,9 +43348,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       cornerRadius: propsWithoutId.cornerRadius,
       presentationProps,
       maxRadius: props.maxRadius
-    }), /* @__PURE__ */ React25.createElement(SetPiePayloadLegend, _extends17({}, propsWithoutId, {
+    }), /* @__PURE__ */ React26.createElement(SetPiePayloadLegend, _extends17({}, propsWithoutId, {
       id
-    })), /* @__PURE__ */ React25.createElement(PieImpl, _extends17({}, propsWithoutId, {
+    })), /* @__PURE__ */ React26.createElement(PieImpl, _extends17({}, propsWithoutId, {
       id
     }))));
   }
@@ -43336,8 +43358,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   Pie.displayName = "Pie";
 
   // node_modules/recharts/es6/component/Dots.js
-  var React26 = __toESM(require_react());
-  var import_react38 = __toESM(require_react());
+  var React27 = __toESM(require_react());
+  var import_react39 = __toESM(require_react());
   var _excluded13 = ["points"];
   function ownKeys30(e, r2) {
     var t = Object.keys(e);
@@ -43406,15 +43428,15 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   }
   function DotItem(_ref2) {
     var option = _ref2.option, dotProps = _ref2.dotProps, className = _ref2.className;
-    if (/* @__PURE__ */ (0, import_react38.isValidElement)(option)) {
-      return /* @__PURE__ */ (0, import_react38.cloneElement)(option, dotProps);
+    if (/* @__PURE__ */ (0, import_react39.isValidElement)(option)) {
+      return /* @__PURE__ */ (0, import_react39.cloneElement)(option, dotProps);
     }
     if (typeof option === "function") {
       return option(dotProps);
     }
     var finalClassName = clsx(className, typeof option !== "boolean" ? option.className : "");
     var _ref22 = dotProps !== null && dotProps !== void 0 ? dotProps : {}, points = _ref22.points, props = _objectWithoutProperties13(_ref22, _excluded13);
-    return /* @__PURE__ */ React26.createElement(Dot, _extends18({}, props, {
+    return /* @__PURE__ */ React27.createElement(Dot, _extends18({}, props, {
       className: finalClassName
     }));
   }
@@ -43447,7 +43469,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         payload: entry.payload,
         points
       });
-      return /* @__PURE__ */ React26.createElement(DotItem, {
+      return /* @__PURE__ */ React27.createElement(DotItem, {
         key: "dot-".concat(i),
         option: dot,
         dotProps,
@@ -43458,16 +43480,16 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     if (needClip && clipPathId != null) {
       layerProps.clipPath = "url(#clipPath-".concat(clipDot ? "" : "dots-").concat(clipPathId, ")");
     }
-    return /* @__PURE__ */ React26.createElement(ZIndexLayer, {
+    return /* @__PURE__ */ React27.createElement(ZIndexLayer, {
       zIndex
-    }, /* @__PURE__ */ React26.createElement(Layer, _extends18({
+    }, /* @__PURE__ */ React27.createElement(Layer, _extends18({
       className
     }, layerProps), dots));
   }
 
   // node_modules/recharts/es6/component/ActivePoints.js
-  var React27 = __toESM(require_react());
-  var import_react39 = __toESM(require_react());
+  var React28 = __toESM(require_react());
+  var import_react40 = __toESM(require_react());
 
   // node_modules/recharts/es6/state/cartesianAxisSlice.js
   function ownKeys31(e, r2) {
@@ -43735,14 +43757,14 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     };
     var dotProps = _objectSpread32(_objectSpread32(_objectSpread32({}, dotPropsTyped), svgPropertiesNoEventsFromUnknown(activeDot)), adaptEventHandlers(activeDot));
     var dot;
-    if (/* @__PURE__ */ (0, import_react39.isValidElement)(activeDot)) {
-      dot = /* @__PURE__ */ (0, import_react39.cloneElement)(activeDot, dotProps);
+    if (/* @__PURE__ */ (0, import_react40.isValidElement)(activeDot)) {
+      dot = /* @__PURE__ */ (0, import_react40.cloneElement)(activeDot, dotProps);
     } else if (typeof activeDot === "function") {
       dot = activeDot(dotProps);
     } else {
-      dot = /* @__PURE__ */ React27.createElement(Dot, dotProps);
+      dot = /* @__PURE__ */ React28.createElement(Dot, dotProps);
     }
-    return /* @__PURE__ */ React27.createElement(Layer, {
+    return /* @__PURE__ */ React28.createElement(Layer, {
       className: "recharts-active-dot",
       clipPath
     }, dot);
@@ -43758,9 +43780,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     if (isNullish(activePoint)) {
       return null;
     }
-    return /* @__PURE__ */ React27.createElement(ZIndexLayer, {
+    return /* @__PURE__ */ React28.createElement(ZIndexLayer, {
       zIndex
-    }, /* @__PURE__ */ React27.createElement(ActivePoint, {
+    }, /* @__PURE__ */ React28.createElement(ActivePoint, {
       point: activePoint,
       childIndex: Number(activeTooltipIndex),
       mainColor,
@@ -44013,12 +44035,12 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   }
 
   // node_modules/recharts/es6/context/chartDataContext.js
-  var import_react40 = __toESM(require_react());
+  var import_react41 = __toESM(require_react());
   var ChartDataContextProvider = (props) => {
     var chartData = props.chartData;
     var dispatch = useAppDispatch();
     var isPanorama = useIsPanorama();
-    (0, import_react40.useEffect)(() => {
+    (0, import_react41.useEffect)(() => {
       if (isPanorama) {
         return () => {
         };
@@ -44122,8 +44144,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   var referenceElementsReducer = referenceElementsSlice.reducer;
 
   // node_modules/recharts/es6/container/ClipPathProvider.js
-  var React28 = __toESM(require_react());
-  var import_react41 = __toESM(require_react());
+  var React29 = __toESM(require_react());
+  var import_react42 = __toESM(require_react());
   function _slicedToArray19(r2, e) {
     return _arrayWithHoles19(r2) || _iterableToArrayLimit19(r2, e) || _unsupportedIterableToArray19(r2, e) || _nonIterableRest19();
   }
@@ -44166,20 +44188,20 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   function _arrayWithHoles19(r2) {
     if (Array.isArray(r2)) return r2;
   }
-  var ClipPathIdContext = /* @__PURE__ */ (0, import_react41.createContext)(void 0);
+  var ClipPathIdContext = /* @__PURE__ */ (0, import_react42.createContext)(void 0);
   var ClipPathProvider = (_ref2) => {
     var children = _ref2.children;
-    var _useState = (0, import_react41.useState)("".concat(uniqueId("recharts"), "-clip")), _useState2 = _slicedToArray19(_useState, 1), clipPathId = _useState2[0];
+    var _useState = (0, import_react42.useState)("".concat(uniqueId("recharts"), "-clip")), _useState2 = _slicedToArray19(_useState, 1), clipPathId = _useState2[0];
     var plotArea = usePlotArea();
     if (plotArea == null) {
       return null;
     }
     var x2 = plotArea.x, y2 = plotArea.y, width = plotArea.width, height = plotArea.height;
-    return /* @__PURE__ */ React28.createElement(ClipPathIdContext.Provider, {
+    return /* @__PURE__ */ React29.createElement(ClipPathIdContext.Provider, {
       value: clipPathId
-    }, /* @__PURE__ */ React28.createElement("defs", null, /* @__PURE__ */ React28.createElement("clipPath", {
+    }, /* @__PURE__ */ React29.createElement("defs", null, /* @__PURE__ */ React29.createElement("clipPath", {
       id: clipPathId
-    }, /* @__PURE__ */ React28.createElement("rect", {
+    }, /* @__PURE__ */ React29.createElement("rect", {
       x: x2,
       y: y2,
       height,
@@ -44188,8 +44210,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   };
 
   // node_modules/recharts/es6/cartesian/CartesianAxis.js
-  var React29 = __toESM(require_react());
-  var import_react42 = __toESM(require_react());
+  var React30 = __toESM(require_react());
+  var import_react43 = __toESM(require_react());
 
   // node_modules/es-toolkit/dist/function/noop.mjs
   function noop4() {
@@ -44886,7 +44908,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         y2: y2 + height
       });
     }
-    return /* @__PURE__ */ React29.createElement("line", _extends19({}, props, {
+    return /* @__PURE__ */ React30.createElement("line", _extends19({}, props, {
       className: clsx("recharts-cartesian-axis-line", get(axisLine, "className"))
     }));
   }
@@ -44963,8 +44985,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     var option = props.option, tickProps = props.tickProps, value = props.value;
     var tickItem;
     var combinedClassName = clsx(tickProps.className, "recharts-cartesian-axis-tick-value");
-    if (/* @__PURE__ */ React29.isValidElement(option)) {
-      tickItem = /* @__PURE__ */ React29.cloneElement(option, _objectSpread35(_objectSpread35({}, tickProps), {}, {
+    if (/* @__PURE__ */ React30.isValidElement(option)) {
+      tickItem = /* @__PURE__ */ React30.cloneElement(option, _objectSpread35(_objectSpread35({}, tickProps), {}, {
         className: combinedClassName
       }));
     } else if (typeof option === "function") {
@@ -44976,7 +44998,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       if (typeof option !== "boolean") {
         className = clsx(className, getClassNameFromUnknown(option));
       }
-      tickItem = /* @__PURE__ */ React29.createElement(Text, _extends19({}, tickProps, {
+      tickItem = /* @__PURE__ */ React30.createElement(Text, _extends19({}, tickProps, {
         className
       }), value);
     }
@@ -44985,8 +45007,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   function RenderedTicksReporter(_ref2) {
     var ticks2 = _ref2.ticks, axisType = _ref2.axisType, axisId = _ref2.axisId;
     var dispatch = useAppDispatch();
-    var lastDispatchedTicksRef = (0, import_react42.useRef)(null);
-    (0, import_react42.useEffect)(() => {
+    var lastDispatchedTicksRef = (0, import_react43.useRef)(null);
+    (0, import_react43.useEffect)(() => {
       if (axisId == null || axisType == null) {
         return;
       }
@@ -45011,7 +45033,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         axisType
       }));
     }, [dispatch, ticks2, axisId, axisType]);
-    (0, import_react42.useEffect)(() => {
+    (0, import_react43.useEffect)(() => {
       if (axisId == null || axisType == null) {
         return noop;
       }
@@ -45024,7 +45046,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     }, [dispatch, axisId, axisType]);
     return null;
   }
-  var Ticks = /* @__PURE__ */ (0, import_react42.forwardRef)((props, ref) => {
+  var Ticks = /* @__PURE__ */ (0, import_react43.forwardRef)((props, ref) => {
     var _props$ticks = props.ticks, ticks2 = _props$ticks === void 0 ? [] : _props$ticks, tick = props.tick, tickLine = props.tickLine, stroke = props.stroke, tickFormatter = props.tickFormatter, unit2 = props.unit, padding = props.padding, tickTextProps = props.tickTextProps, orientation = props.orientation, mirror = props.mirror, x2 = props.x, y2 = props.y, width = props.width, height = props.height, tickSize = props.tickSize, tickMargin = props.tickMargin, fontSize = props.fontSize, letterSpacing = props.letterSpacing, getTicksConfig = props.getTicksConfig, events = props.events, axisType = props.axisType, axisId = props.axisId;
     var finalTicks = getTicks(_objectSpread35(_objectSpread35({}, getTicksConfig), {}, {
       ticks: ticks2
@@ -45045,10 +45067,10 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     }, getTickLineCoord(entry, x2, y2, width, height, orientation, tickSize, mirror, tickMargin)));
     var tickLines = tickLineCoords.map((_ref2) => {
       var entry = _ref2.entry, lineCoord = _ref2.line;
-      return /* @__PURE__ */ React29.createElement(Layer, {
+      return /* @__PURE__ */ React30.createElement(Layer, {
         className: "recharts-cartesian-axis-tick",
         key: "tick-".concat(entry.value, "-").concat(entry.coordinate, "-").concat(entry.tickCoord)
-      }, tickLine && /* @__PURE__ */ React29.createElement("line", _extends19({}, tickLineProps, lineCoord, {
+      }, tickLine && /* @__PURE__ */ React30.createElement("line", _extends19({}, tickLineProps, lineCoord, {
         className: clsx("recharts-cartesian-axis-tick-line", get(tickLine, "className"))
       })));
     });
@@ -45071,36 +45093,36 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         angle: (_ref4 = (_tickTextProps$angle = tickTextProps === null || tickTextProps === void 0 ? void 0 : tickTextProps.angle) !== null && _tickTextProps$angle !== void 0 ? _tickTextProps$angle : axisProps.angle) !== null && _ref4 !== void 0 ? _ref4 : 0
       });
       var finalTickProps = _objectSpread35(_objectSpread35({}, tickProps), customTickProps);
-      return /* @__PURE__ */ React29.createElement(Layer, _extends19({
+      return /* @__PURE__ */ React30.createElement(Layer, _extends19({
         className: "recharts-cartesian-axis-tick-label",
         key: "tick-label-".concat(entry.value, "-").concat(entry.coordinate, "-").concat(entry.tickCoord)
-      }, adaptEventsOfChild(events, entry, i)), tick && /* @__PURE__ */ React29.createElement(TickItem, {
+      }, adaptEventsOfChild(events, entry, i)), tick && /* @__PURE__ */ React30.createElement(TickItem, {
         option: tick,
         tickProps: finalTickProps,
         value: "".concat(typeof tickFormatter === "function" ? tickFormatter(entry.value, i) : entry.value).concat(unit2 || "")
       }));
     });
-    return /* @__PURE__ */ React29.createElement("g", {
+    return /* @__PURE__ */ React30.createElement("g", {
       className: "recharts-cartesian-axis-ticks recharts-".concat(axisType, "-ticks")
-    }, /* @__PURE__ */ React29.createElement(RenderedTicksReporter, {
+    }, /* @__PURE__ */ React30.createElement(RenderedTicksReporter, {
       ticks: finalTicks,
       axisId,
       axisType
-    }), tickLabels.length > 0 && /* @__PURE__ */ React29.createElement(ZIndexLayer, {
+    }), tickLabels.length > 0 && /* @__PURE__ */ React30.createElement(ZIndexLayer, {
       zIndex: DefaultZIndexes.label
-    }, /* @__PURE__ */ React29.createElement("g", {
+    }, /* @__PURE__ */ React30.createElement("g", {
       className: "recharts-cartesian-axis-tick-labels recharts-".concat(axisType, "-tick-labels"),
       ref
-    }, tickLabels)), tickLines.length > 0 && /* @__PURE__ */ React29.createElement("g", {
+    }, tickLabels)), tickLines.length > 0 && /* @__PURE__ */ React30.createElement("g", {
       className: "recharts-cartesian-axis-tick-lines recharts-".concat(axisType, "-tick-lines")
     }, tickLines));
   });
-  var CartesianAxisComponent = /* @__PURE__ */ (0, import_react42.forwardRef)((props, ref) => {
+  var CartesianAxisComponent = /* @__PURE__ */ (0, import_react43.forwardRef)((props, ref) => {
     var axisLine = props.axisLine, width = props.width, height = props.height, className = props.className, hide = props.hide, ticks2 = props.ticks, axisType = props.axisType, axisId = props.axisId, rest = _objectWithoutProperties14(props, _excluded14);
-    var _useState = (0, import_react42.useState)(""), _useState2 = _slicedToArray20(_useState, 2), fontSize = _useState2[0], setFontSize = _useState2[1];
-    var _useState3 = (0, import_react42.useState)(""), _useState4 = _slicedToArray20(_useState3, 2), letterSpacing = _useState4[0], setLetterSpacing = _useState4[1];
-    var tickRefs = (0, import_react42.useRef)(null);
-    (0, import_react42.useImperativeHandle)(ref, () => ({
+    var _useState = (0, import_react43.useState)(""), _useState2 = _slicedToArray20(_useState, 2), fontSize = _useState2[0], setFontSize = _useState2[1];
+    var _useState3 = (0, import_react43.useState)(""), _useState4 = _slicedToArray20(_useState3, 2), letterSpacing = _useState4[0], setLetterSpacing = _useState4[1];
+    var tickRefs = (0, import_react43.useRef)(null);
+    (0, import_react43.useImperativeHandle)(ref, () => ({
       getCalculatedWidth: () => {
         var _props$labelRef;
         return getCalculatedYAxisWidth({
@@ -45122,7 +45144,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         });
       }
     }));
-    var layerRef = (0, import_react42.useCallback)((el) => {
+    var layerRef = (0, import_react43.useCallback)((el) => {
       if (el) {
         var tickNodes = el.getElementsByClassName("recharts-cartesian-axis-tick-value");
         tickRefs.current = tickNodes;
@@ -45144,11 +45166,11 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     if (width != null && width <= 0 || height != null && height <= 0) {
       return null;
     }
-    return /* @__PURE__ */ React29.createElement(ZIndexLayer, {
+    return /* @__PURE__ */ React30.createElement(ZIndexLayer, {
       zIndex: props.zIndex
-    }, /* @__PURE__ */ React29.createElement(Layer, {
+    }, /* @__PURE__ */ React30.createElement(Layer, {
       className: clsx("recharts-cartesian-axis", className)
-    }, /* @__PURE__ */ React29.createElement(AxisLine, {
+    }, /* @__PURE__ */ React30.createElement(AxisLine, {
       x: props.x,
       y: props.y,
       width,
@@ -45157,7 +45179,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       mirror: props.mirror,
       axisLine,
       otherSvgProps: svgPropertiesNoEvents(props)
-    }), /* @__PURE__ */ React29.createElement(Ticks, {
+    }), /* @__PURE__ */ React30.createElement(Ticks, {
       ref: layerRef,
       axisType,
       events: rest,
@@ -45181,31 +45203,31 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       x: props.x,
       y: props.y,
       axisId
-    }), /* @__PURE__ */ React29.createElement(CartesianLabelContextProvider, {
+    }), /* @__PURE__ */ React30.createElement(CartesianLabelContextProvider, {
       x: props.x,
       y: props.y,
       width: props.width,
       height: props.height,
       lowerWidth: props.width,
       upperWidth: props.width
-    }, /* @__PURE__ */ React29.createElement(CartesianLabelFromLabelProp, {
+    }, /* @__PURE__ */ React30.createElement(CartesianLabelFromLabelProp, {
       label: props.label,
       labelRef: props.labelRef
     }), props.children)));
   });
-  var CartesianAxis = /* @__PURE__ */ React29.forwardRef((outsideProps, ref) => {
+  var CartesianAxis = /* @__PURE__ */ React30.forwardRef((outsideProps, ref) => {
     var props = resolveDefaultProps(outsideProps, defaultCartesianAxisProps);
-    return /* @__PURE__ */ React29.createElement(CartesianAxisComponent, _extends19({}, props, {
+    return /* @__PURE__ */ React30.createElement(CartesianAxisComponent, _extends19({}, props, {
       ref
     }));
   });
   CartesianAxis.displayName = "CartesianAxis";
 
   // node_modules/recharts/es6/cartesian/CartesianGrid.js
-  var React30 = __toESM(require_react());
+  var React31 = __toESM(require_react());
 
   // node_modules/recharts/es6/theme/RechartsThemeContext.js
-  var import_react43 = __toESM(require_react());
+  var import_react44 = __toESM(require_react());
 
   // node_modules/recharts/es6/theme/legacyTheme.js
   var legacyTheme = {
@@ -45216,9 +45238,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   };
 
   // node_modules/recharts/es6/theme/RechartsThemeContext.js
-  var RechartsThemeContext = /* @__PURE__ */ (0, import_react43.createContext)(legacyTheme);
+  var RechartsThemeContext = /* @__PURE__ */ (0, import_react44.createContext)(legacyTheme);
   var RechartsThemeProvider = RechartsThemeContext.Provider;
-  var useRechartsTheme = () => (0, import_react43.useContext)(RechartsThemeContext);
+  var useRechartsTheme = () => (0, import_react44.useContext)(RechartsThemeContext);
 
   // node_modules/recharts/es6/cartesian/CartesianGrid.js
   var _excluded15 = ["x1", "y1", "x2", "y2", "key"];
@@ -45296,7 +45318,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       return null;
     }
     var fillOpacity = props.fillOpacity, x2 = props.x, y2 = props.y, width = props.width, height = props.height, ry = props.ry;
-    return /* @__PURE__ */ React30.createElement("rect", {
+    return /* @__PURE__ */ React31.createElement("rect", {
       x: x2,
       y: y2,
       ry,
@@ -45311,8 +45333,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   function LineItem(_ref2) {
     var option = _ref2.option, lineItemProps = _ref2.lineItemProps;
     var lineItem;
-    if (/* @__PURE__ */ React30.isValidElement(option)) {
-      lineItem = /* @__PURE__ */ React30.cloneElement(option, lineItemProps);
+    if (/* @__PURE__ */ React31.isValidElement(option)) {
+      lineItem = /* @__PURE__ */ React31.cloneElement(option, lineItemProps);
     } else if (typeof option === "function") {
       lineItem = option(lineItemProps);
     } else {
@@ -45320,7 +45342,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       var x1 = lineItemProps.x1, y1 = lineItemProps.y1, x2 = lineItemProps.x2, y2 = lineItemProps.y2, key = lineItemProps.key, others = _objectWithoutProperties15(lineItemProps, _excluded15);
       var _ref22 = (_svgPropertiesNoEvent = svgPropertiesNoEvents(others)) !== null && _svgPropertiesNoEvent !== void 0 ? _svgPropertiesNoEvent : {}, __ = _ref22.offset, restOfFilteredProps = _objectWithoutProperties15(_ref22, _excluded27);
       var strokeDasharray = Array.isArray(restOfFilteredProps.strokeDasharray) ? restOfFilteredProps.strokeDasharray.join(",") : restOfFilteredProps.strokeDasharray;
-      lineItem = /* @__PURE__ */ React30.createElement("line", _extends20({}, restOfFilteredProps, {
+      lineItem = /* @__PURE__ */ React31.createElement("line", _extends20({}, restOfFilteredProps, {
         strokeDasharray,
         x1,
         y1,
@@ -45347,13 +45369,13 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         key: "line-".concat(i),
         index: i
       });
-      return /* @__PURE__ */ React30.createElement(LineItem, {
+      return /* @__PURE__ */ React31.createElement(LineItem, {
         key: "line-".concat(i),
         option: horizontal,
         lineItemProps
       });
     });
-    return /* @__PURE__ */ React30.createElement("g", {
+    return /* @__PURE__ */ React31.createElement("g", {
       className: "recharts-cartesian-grid-horizontal"
     }, items);
   }
@@ -45372,13 +45394,13 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         key: "line-".concat(i),
         index: i
       });
-      return /* @__PURE__ */ React30.createElement(LineItem, {
+      return /* @__PURE__ */ React31.createElement(LineItem, {
         option: vertical,
         lineItemProps,
         key: "line-".concat(i)
       });
     });
-    return /* @__PURE__ */ React30.createElement("g", {
+    return /* @__PURE__ */ React31.createElement("g", {
       className: "recharts-cartesian-grid-vertical"
     }, items);
   }
@@ -45399,7 +45421,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         return null;
       }
       var colorIndex = i % horizontalFill.length;
-      return /* @__PURE__ */ React30.createElement("rect", {
+      return /* @__PURE__ */ React31.createElement("rect", {
         key: "react-".concat(i),
         y: entry,
         x: x2,
@@ -45411,7 +45433,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         className: "recharts-cartesian-grid-bg"
       });
     });
-    return /* @__PURE__ */ React30.createElement("g", {
+    return /* @__PURE__ */ React31.createElement("g", {
       className: "recharts-cartesian-gridstripes-horizontal"
     }, items);
   }
@@ -45432,7 +45454,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         return null;
       }
       var colorIndex = i % verticalFill.length;
-      return /* @__PURE__ */ React30.createElement("rect", {
+      return /* @__PURE__ */ React31.createElement("rect", {
         key: "react-".concat(i),
         x: entry,
         y: y2,
@@ -45444,7 +45466,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         className: "recharts-cartesian-grid-bg"
       });
     });
-    return /* @__PURE__ */ React30.createElement("g", {
+    return /* @__PURE__ */ React31.createElement("g", {
       className: "recharts-cartesian-gridstripes-vertical"
     }, items);
   }
@@ -45545,11 +45567,11 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         verticalPoints = _generatorResult;
       }
     }
-    return /* @__PURE__ */ React30.createElement(ZIndexLayer, {
+    return /* @__PURE__ */ React31.createElement(ZIndexLayer, {
       zIndex: propsIncludingDefaults.zIndex
-    }, /* @__PURE__ */ React30.createElement("g", {
+    }, /* @__PURE__ */ React31.createElement("g", {
       className: "recharts-cartesian-grid"
-    }, /* @__PURE__ */ React30.createElement(Background, {
+    }, /* @__PURE__ */ React31.createElement(Background, {
       fill: (_propsIncludingDefaul5 = propsIncludingDefaults.fill) !== null && _propsIncludingDefaul5 !== void 0 ? _propsIncludingDefaul5 : theme.grid.fill,
       fillOpacity: (_propsIncludingDefaul6 = propsIncludingDefaults.fillOpacity) !== null && _propsIncludingDefaul6 !== void 0 ? _propsIncludingDefaul6 : theme.grid.fillOpacity,
       x: propsIncludingDefaults.x,
@@ -45557,16 +45579,16 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       width: propsIncludingDefaults.width,
       height: propsIncludingDefaults.height,
       ry: propsIncludingDefaults.ry
-    }), /* @__PURE__ */ React30.createElement(HorizontalStripes, _extends20({}, propsIncludingDefaults, {
+    }), /* @__PURE__ */ React31.createElement(HorizontalStripes, _extends20({}, propsIncludingDefaults, {
       horizontalPoints
-    })), /* @__PURE__ */ React30.createElement(VerticalStripes, _extends20({}, propsIncludingDefaults, {
+    })), /* @__PURE__ */ React31.createElement(VerticalStripes, _extends20({}, propsIncludingDefaults, {
       verticalPoints
-    })), /* @__PURE__ */ React30.createElement(HorizontalGridLines, _extends20({}, propsIncludingDefaults, themeProps, {
+    })), /* @__PURE__ */ React31.createElement(HorizontalGridLines, _extends20({}, propsIncludingDefaults, themeProps, {
       offset,
       horizontalPoints,
       xAxis,
       yAxis
-    })), /* @__PURE__ */ React30.createElement(VerticalGridLines, _extends20({}, propsIncludingDefaults, themeProps, {
+    })), /* @__PURE__ */ React31.createElement(VerticalGridLines, _extends20({}, propsIncludingDefaults, themeProps, {
       offset,
       verticalPoints,
       xAxis,
@@ -45576,11 +45598,11 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   CartesianGrid.displayName = "CartesianGrid";
 
   // node_modules/recharts/es6/cartesian/Line.js
-  var React34 = __toESM(require_react());
-  var import_react46 = __toESM(require_react());
+  var React35 = __toESM(require_react());
+  var import_react47 = __toESM(require_react());
 
   // node_modules/recharts/es6/cartesian/LineDrawShape.js
-  var React31 = __toESM(require_react());
+  var React32 = __toESM(require_react());
   var _excluded16 = ["animationElapsedTime", "isAnimating", "isEntrance", "visibleLength", "strokeDasharray", "connectNulls"];
   function _extends21() {
     return _extends21 = Object.assign ? Object.assign.bind() : function(n) {
@@ -45668,24 +45690,24 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     } else if (userStrokeDasharray != null) {
       strokeDasharray = String(userStrokeDasharray);
     }
-    return /* @__PURE__ */ React31.createElement(Curve, _extends21({}, curveProps, {
+    return /* @__PURE__ */ React32.createElement(Curve, _extends21({}, curveProps, {
       connectNulls: finalConnectNulls,
       strokeDasharray
     }));
   }
 
   // node_modules/recharts/es6/cartesian/useAnimatedLineLength.js
-  var import_react44 = __toESM(require_react());
+  var import_react45 = __toESM(require_react());
   function useAnimatedLineLength(points) {
-    var startingLengthRef = (0, import_react44.useRef)(0);
-    var maxAnimatedLengthRef = (0, import_react44.useRef)(0);
-    var reachedFullRef = (0, import_react44.useRef)(false);
-    var prevPointsRef = (0, import_react44.useRef)(points);
+    var startingLengthRef = (0, import_react45.useRef)(0);
+    var maxAnimatedLengthRef = (0, import_react45.useRef)(0);
+    var reachedFullRef = (0, import_react45.useRef)(false);
+    var prevPointsRef = (0, import_react45.useRef)(points);
     if (prevPointsRef.current !== points) {
       startingLengthRef.current = maxAnimatedLengthRef.current;
       prevPointsRef.current = points;
     }
-    return (0, import_react44.useCallback)((animationElapsedTime, totalLength) => {
+    return (0, import_react45.useCallback)((animationElapsedTime, totalLength) => {
       if (reachedFullRef.current) {
         return null;
       }
@@ -45702,8 +45724,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   }
 
   // node_modules/recharts/es6/context/ErrorBarContext.js
-  var React32 = __toESM(require_react());
-  var import_react45 = __toESM(require_react());
+  var React33 = __toESM(require_react());
+  var import_react46 = __toESM(require_react());
 
   // node_modules/recharts/es6/state/errorBarSlice.js
   var initialState12 = {};
@@ -45769,19 +45791,19 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     }),
     errorBarOffset: 0
   };
-  var ErrorBarContext = /* @__PURE__ */ (0, import_react45.createContext)(initialContextState);
+  var ErrorBarContext = /* @__PURE__ */ (0, import_react46.createContext)(initialContextState);
   function SetErrorBarContext(props) {
     var children = props.children, rest = _objectWithoutProperties17(props, _excluded17);
-    return /* @__PURE__ */ React32.createElement(ErrorBarContext.Provider, {
+    return /* @__PURE__ */ React33.createElement(ErrorBarContext.Provider, {
       value: rest
     }, children);
   }
-  var useErrorBarContext = () => (0, import_react45.useContext)(ErrorBarContext);
+  var useErrorBarContext = () => (0, import_react46.useContext)(ErrorBarContext);
   function ReportErrorBarSettings(props) {
     var dispatch = useAppDispatch();
     var graphicalItemId = useGraphicalItemId();
-    var prevPropsRef = (0, import_react45.useRef)(null);
-    (0, import_react45.useEffect)(() => {
+    var prevPropsRef = (0, import_react46.useRef)(null);
+    (0, import_react46.useEffect)(() => {
       if (graphicalItemId == null) {
         return;
       }
@@ -45799,7 +45821,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       }
       prevPropsRef.current = props;
     }, [dispatch, graphicalItemId, props]);
-    (0, import_react45.useEffect)(() => {
+    (0, import_react46.useEffect)(() => {
       return () => {
         if (prevPropsRef.current != null && graphicalItemId != null) {
           dispatch(removeErrorBar({
@@ -45814,7 +45836,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   }
 
   // node_modules/recharts/es6/cartesian/GraphicalItemClipPath.js
-  var React33 = __toESM(require_react());
+  var React34 = __toESM(require_react());
   function useNeedsClip(xAxisId, yAxisId) {
     var _xAxis$allowDataOverf, _yAxis$allowDataOverf;
     var xAxis = useAppSelector((state) => selectXAxisSettings(state, xAxisId));
@@ -45842,9 +45864,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     var clipY = needClipY && yAxisRange ? Math.min(yAxisRange[0], yAxisRange[1]) : y2 - height / 2;
     var clipWidth = needClipX && xAxisRange ? Math.abs(xAxisRange[1] - xAxisRange[0]) : width * 2;
     var clipHeight = needClipY && yAxisRange ? Math.abs(yAxisRange[1] - yAxisRange[0]) : height * 2;
-    return /* @__PURE__ */ React33.createElement("clipPath", {
+    return /* @__PURE__ */ React34.createElement("clipPath", {
       id: "clipPath-".concat(clipPathId)
-    }, /* @__PURE__ */ React33.createElement("rect", {
+    }, /* @__PURE__ */ React34.createElement("rect", {
       x: clipX,
       y: clipY,
       width: clipWidth,
@@ -46077,7 +46099,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       payload: props
     }];
   };
-  var SetLineTooltipEntrySettings = /* @__PURE__ */ React34.memo((_ref2) => {
+  var SetLineTooltipEntrySettings = /* @__PURE__ */ React35.memo((_ref2) => {
     var dataKey = _ref2.dataKey, data = _ref2.data, stroke = _ref2.stroke, strokeWidth = _ref2.strokeWidth, fill = _ref2.fill, name = _ref2.name, hide = _ref2.hide, unit2 = _ref2.unit, formatter = _ref2.formatter, tooltipType = _ref2.tooltipType, id = _ref2.id;
     var tooltipEntrySettings = {
       dataDefinedOnItem: data,
@@ -46097,7 +46119,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         graphicalItemId: id
       }
     };
-    return /* @__PURE__ */ React34.createElement(SetTooltipEntrySettings, {
+    return /* @__PURE__ */ React35.createElement(SetTooltipEntrySettings, {
       tooltipEntrySettings
     });
   });
@@ -46106,7 +46128,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     var dot = props.dot, dataKey = props.dataKey, needClip = props.needClip;
     var id = props.id, propsWithoutId = _objectWithoutProperties18(props, _excluded18);
     var lineProps = svgPropertiesNoEvents(propsWithoutId);
-    return /* @__PURE__ */ React34.createElement(Dots, {
+    return /* @__PURE__ */ React35.createElement(Dots, {
       points,
       dot,
       className: "recharts-line-dots",
@@ -46119,7 +46141,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   }
   function LineLabelListProvider(_ref3) {
     var showLabels = _ref3.showLabels, children = _ref3.children, points = _ref3.points;
-    var labelListEntries = (0, import_react46.useMemo)(() => {
+    var labelListEntries = (0, import_react47.useMemo)(() => {
       return points === null || points === void 0 ? void 0 : points.map((point4) => {
         var _point$x, _point$y;
         var viewBox = {
@@ -46143,7 +46165,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         });
       });
     }, [points]);
-    return /* @__PURE__ */ React34.createElement(CartesianLabelListContextProvider, {
+    return /* @__PURE__ */ React35.createElement(CartesianLabelListContextProvider, {
       value: showLabels ? labelListEntries : void 0
     }, children);
   }
@@ -46165,11 +46187,11 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       isEntrance: props.animateNewValues ? isEntrance : false,
       visibleLength
     });
-    return /* @__PURE__ */ React34.createElement(React34.Fragment, null, (points === null || points === void 0 ? void 0 : points.length) > 1 && /* @__PURE__ */ React34.createElement(Shape, {
+    return /* @__PURE__ */ React35.createElement(React35.Fragment, null, (points === null || points === void 0 ? void 0 : points.length) > 1 && /* @__PURE__ */ React35.createElement(Shape, {
       option: shape,
       DefaultShape: defaultLineProps.shape,
       shapeProps: curveProps
-    }), /* @__PURE__ */ React34.createElement(LineDotsWrapper, {
+    }), /* @__PURE__ */ React35.createElement(LineDotsWrapper, {
       points,
       clipPathId,
       props
@@ -46182,11 +46204,11 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     var _useAnimationCallback = useAnimationCallbacks(props.onAnimationStart, props.onAnimationEnd), isAnimating = _useAnimationCallback.isAnimating, handleAnimationStart = _useAnimationCallback.handleAnimationStart, handleAnimationEnd = _useAnimationCallback.handleAnimationEnd;
     var showLabels = !isAnimating;
     var getVisibleLength = useAnimatedLineLength(points);
-    var shouldUpdatePreviousRef = (0, import_react46.useCallback)((animationElapsedTime) => animationElapsedTime > 0 && totalLength > 0, [totalLength]);
-    return /* @__PURE__ */ React34.createElement(LineLabelListProvider, {
+    var shouldUpdatePreviousRef = (0, import_react47.useCallback)((animationElapsedTime) => animationElapsedTime > 0 && totalLength > 0, [totalLength]);
+    return /* @__PURE__ */ React35.createElement(LineLabelListProvider, {
       points,
       showLabels
-    }, props.children, /* @__PURE__ */ React34.createElement(AnimatedItems, {
+    }, props.children, /* @__PURE__ */ React35.createElement(AnimatedItems, {
       animationInput: points,
       animationIdPrefix: "recharts-line-",
       items: points,
@@ -46204,7 +46226,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     }, (stepData, animationElapsedTime, isEntrance) => {
       var animationActive = isAnimating || animationElapsedTime < 1;
       var visibleLength = animationActive ? getVisibleLength(animationElapsedTime, totalLength) : null;
-      return /* @__PURE__ */ React34.createElement(StaticCurve, {
+      return /* @__PURE__ */ React35.createElement(StaticCurve, {
         props,
         points: stepData,
         clipPathId,
@@ -46214,15 +46236,15 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         isEntrance,
         visibleLength
       });
-    }), /* @__PURE__ */ React34.createElement(LabelListFromLabelProp, {
+    }), /* @__PURE__ */ React35.createElement(LabelListFromLabelProp, {
       label: props.label
     }));
   }
   function RenderCurve(_ref6) {
     var clipPathId = _ref6.clipPathId, props = _ref6.props;
-    var previousPointsRef = (0, import_react46.useRef)(null);
-    var pathRef = (0, import_react46.useRef)(null);
-    return /* @__PURE__ */ React34.createElement(CurveWithAnimation, {
+    var previousPointsRef = (0, import_react47.useRef)(null);
+    var pathRef = (0, import_react47.useRef)(null);
+    return /* @__PURE__ */ React35.createElement(CurveWithAnimation, {
       props,
       clipPathId,
       previousPointsRef,
@@ -46239,7 +46261,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       errorVal: getValueByDataKey(dataPoint.payload, dataKey)
     };
   };
-  var LineWithState = class extends import_react46.Component {
+  var LineWithState = class extends import_react47.Component {
     render() {
       var _this$props = this.props, hide = _this$props.hide, dot = _this$props.dot, points = _this$props.points, className = _this$props.className, xAxisId = _this$props.xAxisId, yAxisId = _this$props.yAxisId, top = _this$props.top, left = _this$props.left, width = _this$props.width, height = _this$props.height, id = _this$props.id, needClip = _this$props.needClip, zIndex = _this$props.zIndex;
       if (hide) {
@@ -46251,31 +46273,31 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       var clipDot = isClipDot(dot);
       var dotSize = r2 * 2 + strokeWidth;
       var activePointsClipPath = needClip ? "url(#clipPath-".concat(clipDot ? "" : "dots-").concat(clipPathId, ")") : void 0;
-      return /* @__PURE__ */ React34.createElement(ZIndexLayer, {
+      return /* @__PURE__ */ React35.createElement(ZIndexLayer, {
         zIndex
-      }, /* @__PURE__ */ React34.createElement(Layer, {
+      }, /* @__PURE__ */ React35.createElement(Layer, {
         className: layerClass
-      }, needClip && /* @__PURE__ */ React34.createElement("defs", null, /* @__PURE__ */ React34.createElement(GraphicalItemClipPath, {
+      }, needClip && /* @__PURE__ */ React35.createElement("defs", null, /* @__PURE__ */ React35.createElement(GraphicalItemClipPath, {
         clipPathId,
         xAxisId,
         yAxisId
-      }), !clipDot && /* @__PURE__ */ React34.createElement("clipPath", {
+      }), !clipDot && /* @__PURE__ */ React35.createElement("clipPath", {
         id: "clipPath-dots-".concat(clipPathId)
-      }, /* @__PURE__ */ React34.createElement("rect", {
+      }, /* @__PURE__ */ React35.createElement("rect", {
         x: left - dotSize / 2,
         y: top - dotSize / 2,
         width: width + dotSize,
         height: height + dotSize
-      }))), /* @__PURE__ */ React34.createElement(SetErrorBarContext, {
+      }))), /* @__PURE__ */ React35.createElement(SetErrorBarContext, {
         xAxisId,
         yAxisId,
         data: points,
         dataPointFormatter: errorBarDataPointFormatter,
         errorBarOffset: 0
-      }, /* @__PURE__ */ React34.createElement(RenderCurve, {
+      }, /* @__PURE__ */ React35.createElement(RenderCurve, {
         props: this.props,
         clipPathId
-      }))), /* @__PURE__ */ React34.createElement(ActivePoints, {
+      }))), /* @__PURE__ */ React35.createElement(ActivePoints, {
         activeDot: this.props.activeDot,
         points,
         mainColor: this.props.stroke,
@@ -46295,7 +46317,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       return null;
     }
     var height = plotArea.height, width = plotArea.width, left = plotArea.x, top = plotArea.y;
-    return /* @__PURE__ */ React34.createElement(LineWithState, _extends22({}, everythingElse, {
+    return /* @__PURE__ */ React35.createElement(LineWithState, _extends22({}, everythingElse, {
       id,
       connectNulls,
       dot,
@@ -46361,12 +46383,12 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   function LineFn(outsideProps) {
     var props = resolveDefaultProps(outsideProps, defaultLineProps);
     var isPanorama = useIsPanorama();
-    return /* @__PURE__ */ React34.createElement(RegisterGraphicalItemId, {
+    return /* @__PURE__ */ React35.createElement(RegisterGraphicalItemId, {
       id: props.id,
       type: "line"
-    }, (id) => /* @__PURE__ */ React34.createElement(React34.Fragment, null, /* @__PURE__ */ React34.createElement(SetLegendPayload, {
+    }, (id) => /* @__PURE__ */ React35.createElement(React35.Fragment, null, /* @__PURE__ */ React35.createElement(SetLegendPayload, {
       legendPayload: computeLegendPayloadFromAreaData(props)
-    }), /* @__PURE__ */ React34.createElement(SetLineTooltipEntrySettings, {
+    }), /* @__PURE__ */ React35.createElement(SetLineTooltipEntrySettings, {
       dataKey: props.dataKey,
       data: props.data,
       stroke: props.stroke,
@@ -46378,7 +46400,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       formatter: props.formatter,
       tooltipType: props.tooltipType,
       id
-    }), /* @__PURE__ */ React34.createElement(SetCartesianGraphicalItem, {
+    }), /* @__PURE__ */ React35.createElement(SetCartesianGraphicalItem, {
       type: "line",
       id,
       data: props.data,
@@ -46388,11 +46410,11 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       dataKey: props.dataKey,
       hide: props.hide,
       isPanorama
-    }), /* @__PURE__ */ React34.createElement(LineImpl, _extends22({}, props, {
+    }), /* @__PURE__ */ React35.createElement(LineImpl, _extends22({}, props, {
       id
     }))));
   }
-  var Line = /* @__PURE__ */ React34.memo(LineFn, propsAreEqual);
+  var Line = /* @__PURE__ */ React35.memo(LineFn, propsAreEqual);
   Line.displayName = "Line";
 
   // node_modules/recharts/es6/state/selectors/graphicalItemSelectors.js
@@ -46406,11 +46428,11 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   }
 
   // node_modules/recharts/es6/cartesian/Bar.js
-  var React37 = __toESM(require_react());
-  var import_react48 = __toESM(require_react());
+  var React38 = __toESM(require_react());
+  var import_react49 = __toESM(require_react());
 
   // node_modules/recharts/es6/util/BarUtils.js
-  var React35 = __toESM(require_react());
+  var React36 = __toESM(require_react());
 
   // node_modules/tiny-invariant/dist/esm/tiny-invariant.js
   var isProduction = false;
@@ -46450,7 +46472,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   var defaultBarShape = Rectangle;
   function BarRectangle(_ref2) {
     var option = _ref2.option, shapeProps = _objectWithoutProperties19(_ref2, _excluded19);
-    return /* @__PURE__ */ React35.createElement(Shape, {
+    return /* @__PURE__ */ React36.createElement(Shape, {
       option,
       DefaultShape: defaultBarShape,
       shapeProps,
@@ -46615,8 +46637,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   });
 
   // node_modules/recharts/es6/cartesian/BarStack.js
-  var React36 = __toESM(require_react());
-  var import_react47 = __toESM(require_react());
+  var React37 = __toESM(require_react());
+  var import_react48 = __toESM(require_react());
   var _excluded20 = ["index"];
   function _extends23() {
     return _extends23 = Object.assign ? Object.assign.bind() : function(n) {
@@ -46645,9 +46667,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     }
     return t;
   }
-  var BarStackContext = /* @__PURE__ */ (0, import_react47.createContext)(void 0);
+  var BarStackContext = /* @__PURE__ */ (0, import_react48.createContext)(void 0);
   var useStackId = (childStackId) => {
-    var stackSettings = (0, import_react47.useContext)(BarStackContext);
+    var stackSettings = (0, import_react48.useContext)(BarStackContext);
     if (stackSettings != null) {
       return stackSettings.stackId;
     }
@@ -46660,7 +46682,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     return "recharts-bar-stack-clip-path-".concat(stackId, "-").concat(index);
   };
   var useBarStackClipPathUrl = (index) => {
-    var barStackContext = (0, import_react47.useContext)(BarStackContext);
+    var barStackContext = (0, import_react48.useContext)(BarStackContext);
     if (barStackContext == null) {
       return void 0;
     }
@@ -46670,7 +46692,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   var BarStackClipLayer = (_ref2) => {
     var index = _ref2.index, rest = _objectWithoutProperties20(_ref2, _excluded20);
     var clipPathUrl = useBarStackClipPathUrl(index);
-    return /* @__PURE__ */ React36.createElement(Layer, _extends23({
+    return /* @__PURE__ */ React37.createElement(Layer, _extends23({
       className: "recharts-bar-stack-layer",
       clipPath: clipPathUrl
     }, rest));
@@ -46799,7 +46821,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       payload: props
     }];
   };
-  var SetBarTooltipEntrySettings = /* @__PURE__ */ React37.memo((_ref2) => {
+  var SetBarTooltipEntrySettings = /* @__PURE__ */ React38.memo((_ref2) => {
     var dataKey = _ref2.dataKey, stroke = _ref2.stroke, strokeWidth = _ref2.strokeWidth, fill = _ref2.fill, name = _ref2.name, hide = _ref2.hide, unit2 = _ref2.unit, formatter = _ref2.formatter, tooltipType = _ref2.tooltipType, id = _ref2.id;
     var tooltipEntrySettings = {
       dataDefinedOnItem: void 0,
@@ -46819,7 +46841,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         graphicalItemId: id
       }
     };
-    return /* @__PURE__ */ React37.createElement(SetTooltipEntrySettings, {
+    return /* @__PURE__ */ React38.createElement(SetTooltipEntrySettings, {
       tooltipEntrySettings
     });
   });
@@ -46834,7 +46856,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       return null;
     }
     var backgroundProps = svgPropertiesNoEventsFromUnknown(backgroundFromProps);
-    return /* @__PURE__ */ React37.createElement(ZIndexLayer, {
+    return /* @__PURE__ */ React38.createElement(ZIndexLayer, {
       zIndex: getZIndexFromUnknown(backgroundFromProps, DefaultZIndexes.barBackground)
     }, data.map((entry, i) => {
       var value = entry.value, backgroundFromDataEntry = entry.background, tooltipPosition = entry.tooltipPosition, rest = _objectWithoutProperties21(entry, _excluded29);
@@ -46858,7 +46880,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         index: i,
         className: "recharts-bar-background-rectangle"
       });
-      return /* @__PURE__ */ React37.createElement(BarRectangle, _extends24({
+      return /* @__PURE__ */ React38.createElement(BarRectangle, _extends24({
         key: "background-bar-".concat(i)
       }, barRectangleProps));
     }));
@@ -46882,7 +46904,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         fill: entry.fill
       });
     });
-    return /* @__PURE__ */ React37.createElement(CartesianLabelListContextProvider, {
+    return /* @__PURE__ */ React38.createElement(CartesianLabelListContextProvider, {
       value: showLabels ? labelListEntries : void 0
     }, children);
   }
@@ -46892,9 +46914,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     var activeDataKey = useAppSelector(selectActiveTooltipDataKey);
     var isActive = activeBar && String(entry.originalDataIndex) === activeIndex && (activeDataKey == null || dataKey === activeDataKey);
     var isAnotherBarActive = activeIndex != null && (String(entry.originalDataIndex) !== activeIndex || activeDataKey != null && dataKey !== activeDataKey);
-    var _useState = (0, import_react48.useState)(false), _useState2 = _slicedToArray21(_useState, 2), stayInLayer = _useState2[0], setStayInLayer = _useState2[1];
-    var _useState3 = (0, import_react48.useState)(false), _useState4 = _slicedToArray21(_useState3, 2), hasMountedActive = _useState4[0], setHasMountedActive = _useState4[1];
-    (0, import_react48.useEffect)(() => {
+    var _useState = (0, import_react49.useState)(false), _useState2 = _slicedToArray21(_useState, 2), stayInLayer = _useState2[0], setStayInLayer = _useState2[1];
+    var _useState3 = (0, import_react49.useState)(false), _useState4 = _slicedToArray21(_useState3, 2), hasMountedActive = _useState4[0], setHasMountedActive = _useState4[1];
+    (0, import_react49.useEffect)(() => {
       var rafId4;
       if (isActive) {
         setStayInLayer(true);
@@ -46911,7 +46933,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         cancelAnimationFrame(rafId4);
       };
     }, [isActive, isAnotherBarActive]);
-    var handleTransitionEnd = (0, import_react48.useCallback)(() => {
+    var handleTransitionEnd = (0, import_react49.useCallback)(() => {
       if (!isActive) {
         setStayInLayer(false);
       }
@@ -46928,7 +46950,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     } else {
       option = shape;
     }
-    var content = /* @__PURE__ */ React37.createElement(BarRectangle, _extends24({}, baseProps, {
+    var content = /* @__PURE__ */ React38.createElement(BarRectangle, _extends24({}, baseProps, {
       name: String(baseProps.name)
     }, entry, {
       isActive: isVisuallyActive,
@@ -46941,9 +46963,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       onTransitionEnd: handleTransitionEnd
     }));
     if (shouldRenderInLayer) {
-      return /* @__PURE__ */ React37.createElement(ZIndexLayer, {
+      return /* @__PURE__ */ React38.createElement(ZIndexLayer, {
         zIndex: DefaultZIndexes.activeBar
-      }, /* @__PURE__ */ React37.createElement(BarStackClipLayer, {
+      }, /* @__PURE__ */ React38.createElement(BarStackClipLayer, {
         index: entry.originalDataIndex
       }, content));
     }
@@ -46951,7 +46973,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   }
   function BarRectangleNeverActive(props) {
     var shape = props.shape, baseProps = props.baseProps, entry = props.entry, index = props.index, dataKey = props.dataKey;
-    return /* @__PURE__ */ React37.createElement(BarRectangle, _extends24({}, baseProps, {
+    return /* @__PURE__ */ React38.createElement(BarRectangle, _extends24({}, baseProps, {
       name: String(baseProps.name)
     }, entry, {
       isActive: false,
@@ -46975,8 +46997,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     if (!data) {
       return null;
     }
-    return /* @__PURE__ */ React37.createElement(React37.Fragment, null, data.map((entry, i) => {
-      return /* @__PURE__ */ React37.createElement(BarStackClipLayer, _extends24({
+    return /* @__PURE__ */ React38.createElement(React38.Fragment, null, data.map((entry, i) => {
+      return /* @__PURE__ */ React38.createElement(BarStackClipLayer, _extends24({
         index: entry.originalDataIndex,
         key: "rectangle-".concat(entry === null || entry === void 0 ? void 0 : entry.x, "-").concat(entry === null || entry === void 0 ? void 0 : entry.y, "-").concat(entry === null || entry === void 0 ? void 0 : entry.value, "-").concat(i),
         className: "recharts-bar-rectangle"
@@ -46984,7 +47006,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         onMouseEnter: onMouseEnterFromContext(entry, entry.originalDataIndex),
         onMouseLeave: onMouseLeaveFromContext(entry, entry.originalDataIndex),
         onClick: onClickFromContext(entry, entry.originalDataIndex)
-      }), activeBar ? /* @__PURE__ */ React37.createElement(BarRectangleWithActiveState, {
+      }), activeBar ? /* @__PURE__ */ React38.createElement(BarRectangleWithActiveState, {
         shape,
         activeBar,
         baseProps,
@@ -47004,7 +47026,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
          * and can skip the tree reconciliation for its children too.
          * Because we can't call hooks conditionally, we need to have a separate component for that.
          */
-        /* @__PURE__ */ React37.createElement(BarRectangleNeverActive, {
+        /* @__PURE__ */ React38.createElement(BarRectangleNeverActive, {
           shape,
           baseProps,
           entry,
@@ -47059,10 +47081,10 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     var props = _ref5.props, previousRectanglesRef = _ref5.previousRectanglesRef;
     var data = props.data, isAnimationActive = props.isAnimationActive, animationBegin = props.animationBegin, animationDuration = props.animationDuration, animationEasing = props.animationEasing, animationInterpolateFn = props.animationInterpolateFn, layout = props.layout;
     var _useAnimationCallback = useAnimationCallbacks(props.onAnimationStart, props.onAnimationEnd), isAnimating = _useAnimationCallback.isAnimating, handleAnimationStart = _useAnimationCallback.handleAnimationStart, handleAnimationEnd = _useAnimationCallback.handleAnimationEnd;
-    return /* @__PURE__ */ React37.createElement(BarLabelListProvider, {
+    return /* @__PURE__ */ React38.createElement(BarLabelListProvider, {
       showLabels: !isAnimating,
       rects: data
-    }, /* @__PURE__ */ React37.createElement(AnimatedItems, {
+    }, /* @__PURE__ */ React38.createElement(AnimatedItems, {
       animationInput: data,
       animationIdPrefix: "recharts-bar-",
       items: data,
@@ -47076,19 +47098,19 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       animationInterpolateFn,
       animationMatchBy: props.animationMatchBy,
       layout
-    }, (stepData, animationElapsedTime, isEntrance) => /* @__PURE__ */ React37.createElement(Layer, null, /* @__PURE__ */ React37.createElement(BarRectangles, {
+    }, (stepData, animationElapsedTime, isEntrance) => /* @__PURE__ */ React38.createElement(Layer, null, /* @__PURE__ */ React38.createElement(BarRectangles, {
       props,
       data: stepData,
       animationElapsedTime,
       isAnimating: isAnimating || animationElapsedTime < 1,
       isEntrance
-    }))), /* @__PURE__ */ React37.createElement(LabelListFromLabelProp, {
+    }))), /* @__PURE__ */ React38.createElement(LabelListFromLabelProp, {
       label: props.label
     }), props.children);
   }
   function RenderRectangles(props) {
-    var previousRectanglesRef = (0, import_react48.useRef)(null);
-    return /* @__PURE__ */ React37.createElement(RectanglesWithAnimation, {
+    var previousRectanglesRef = (0, import_react49.useRef)(null);
+    return /* @__PURE__ */ React38.createElement(RectanglesWithAnimation, {
       previousRectanglesRef,
       props
     });
@@ -47104,7 +47126,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       errorVal: getValueByDataKey(dataPoint, dataKey)
     };
   };
-  var BarWithState = class extends import_react48.PureComponent {
+  var BarWithState = class extends import_react49.PureComponent {
     render() {
       var _this$props = this.props, hide = _this$props.hide, data = _this$props.data, dataKey = _this$props.dataKey, className = _this$props.className, xAxisId = _this$props.xAxisId, yAxisId = _this$props.yAxisId, needClip = _this$props.needClip, background = _this$props.background, id = _this$props.id;
       if (hide || data == null) {
@@ -47112,22 +47134,22 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       }
       var layerClass = clsx("recharts-bar", className);
       var clipPathId = id;
-      return /* @__PURE__ */ React37.createElement(Layer, {
+      return /* @__PURE__ */ React38.createElement(Layer, {
         className: layerClass,
         id
-      }, needClip && /* @__PURE__ */ React37.createElement("defs", null, /* @__PURE__ */ React37.createElement(GraphicalItemClipPath, {
+      }, needClip && /* @__PURE__ */ React38.createElement("defs", null, /* @__PURE__ */ React38.createElement(GraphicalItemClipPath, {
         clipPathId,
         xAxisId,
         yAxisId
-      })), /* @__PURE__ */ React37.createElement(Layer, {
+      })), /* @__PURE__ */ React38.createElement(Layer, {
         className: "recharts-bar-rectangles",
         clipPath: needClip ? "url(#clipPath-".concat(clipPathId, ")") : void 0
-      }, /* @__PURE__ */ React37.createElement(BarBackground, {
+      }, /* @__PURE__ */ React38.createElement(BarBackground, {
         data,
         dataKey,
         background,
         allOtherBarProps: this.props
-      }), /* @__PURE__ */ React37.createElement(RenderRectangles, this.props)));
+      }), /* @__PURE__ */ React38.createElement(RenderRectangles, this.props)));
     }
   };
   var defaultBarProps = {
@@ -47165,13 +47187,13 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     } else {
       errorBarOffset = layout === "vertical" ? firstDataPoint.height / 2 : firstDataPoint.width / 2;
     }
-    return /* @__PURE__ */ React37.createElement(SetErrorBarContext, {
+    return /* @__PURE__ */ React38.createElement(SetErrorBarContext, {
       xAxisId,
       yAxisId,
       data: rects,
       dataPointFormatter: errorBarDataPointFormatter2,
       errorBarOffset
-    }, /* @__PURE__ */ React37.createElement(BarWithState, _extends24({}, props, {
+    }, /* @__PURE__ */ React38.createElement(BarWithState, _extends24({}, props, {
       layout,
       needClip,
       data: rects,
@@ -47294,12 +47316,12 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     var props = resolveDefaultProps(outsideProps, defaultBarProps);
     var stackId = useStackId(props.stackId);
     var isPanorama = useIsPanorama();
-    return /* @__PURE__ */ React37.createElement(RegisterGraphicalItemId, {
+    return /* @__PURE__ */ React38.createElement(RegisterGraphicalItemId, {
       id: props.id,
       type: "bar"
-    }, (id) => /* @__PURE__ */ React37.createElement(React37.Fragment, null, /* @__PURE__ */ React37.createElement(SetLegendPayload, {
+    }, (id) => /* @__PURE__ */ React38.createElement(React38.Fragment, null, /* @__PURE__ */ React38.createElement(SetLegendPayload, {
       legendPayload: computeLegendPayloadFromBarData(props)
-    }), /* @__PURE__ */ React37.createElement(SetBarTooltipEntrySettings, {
+    }), /* @__PURE__ */ React38.createElement(SetBarTooltipEntrySettings, {
       dataKey: props.dataKey,
       stroke: props.stroke,
       strokeWidth: props.strokeWidth,
@@ -47310,7 +47332,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       formatter: props.formatter,
       tooltipType: props.tooltipType,
       id
-    }), /* @__PURE__ */ React37.createElement(SetCartesianGraphicalItem, {
+    }), /* @__PURE__ */ React38.createElement(SetCartesianGraphicalItem, {
       type: "bar",
       id,
       data: void 0,
@@ -47325,21 +47347,21 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       maxBarSize: props.maxBarSize,
       isPanorama,
       hasCustomShape: props.shape != null && props.shape !== defaultBarShape
-    }), /* @__PURE__ */ React37.createElement(ZIndexLayer, {
+    }), /* @__PURE__ */ React38.createElement(ZIndexLayer, {
       zIndex: props.zIndex
-    }, /* @__PURE__ */ React37.createElement(BarImpl, _extends24({}, props, {
+    }, /* @__PURE__ */ React38.createElement(BarImpl, _extends24({}, props, {
       id
     })))));
   }
-  var Bar = /* @__PURE__ */ React37.memo(BarFn, propsAreEqual);
+  var Bar = /* @__PURE__ */ React38.memo(BarFn, propsAreEqual);
   Bar.displayName = "Bar";
 
   // node_modules/recharts/es6/cartesian/Scatter.js
-  var React39 = __toESM(require_react());
-  var import_react49 = __toESM(require_react());
+  var React40 = __toESM(require_react());
+  var import_react50 = __toESM(require_react());
 
   // node_modules/recharts/es6/util/ScatterUtils.js
-  var React38 = __toESM(require_react());
+  var React39 = __toESM(require_react());
   var _excluded30 = ["option"];
   function _extends25() {
     return _extends25 = Object.assign ? Object.assign.bind() : function(n) {
@@ -47369,20 +47391,20 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     return t;
   }
   function renderSymbols(props) {
-    return /* @__PURE__ */ React38.createElement(Symbols, props);
+    return /* @__PURE__ */ React39.createElement(Symbols, props);
   }
   function ScatterSymbol(_ref2) {
     var option = _ref2.option, props = _objectWithoutProperties22(_ref2, _excluded30);
     if (typeof option === "string") {
-      return /* @__PURE__ */ React38.createElement(Shape, {
-        option: /* @__PURE__ */ React38.createElement(Symbols, _extends25({
+      return /* @__PURE__ */ React39.createElement(Shape, {
+        option: /* @__PURE__ */ React39.createElement(Symbols, _extends25({
           type: option
         }, props)),
         DefaultShape: renderSymbols,
         shapeProps: props
       });
     }
-    return /* @__PURE__ */ React38.createElement(Shape, {
+    return /* @__PURE__ */ React39.createElement(Shape, {
       option,
       DefaultShape: renderSymbols,
       shapeProps: props
@@ -47507,7 +47529,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       payload: props
     }];
   };
-  var SetScatterTooltipEntrySettings = /* @__PURE__ */ React39.memo((_ref2) => {
+  var SetScatterTooltipEntrySettings = /* @__PURE__ */ React40.memo((_ref2) => {
     var dataKey = _ref2.dataKey, points = _ref2.points, stroke = _ref2.stroke, strokeWidth = _ref2.strokeWidth, fill = _ref2.fill, name = _ref2.name, hide = _ref2.hide, formatter = _ref2.formatter, tooltipType = _ref2.tooltipType, id = _ref2.id;
     var tooltipEntrySettings = {
       dataDefinedOnItem: points === null || points === void 0 ? void 0 : points.map((p) => p.tooltipPayload),
@@ -47531,7 +47553,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         graphicalItemId: id
       }
     };
-    return /* @__PURE__ */ React39.createElement(SetTooltipEntrySettings, {
+    return /* @__PURE__ */ React40.createElement(SetTooltipEntrySettings, {
       tooltipEntrySettings
     });
   });
@@ -47572,16 +47594,16 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       // @ts-expect-error linePoints is used before it is assigned (???)
       points: linePoints
     });
-    if (/* @__PURE__ */ React39.isValidElement(line)) {
-      lineItem = /* @__PURE__ */ React39.cloneElement(line, lineProps);
+    if (/* @__PURE__ */ React40.isValidElement(line)) {
+      lineItem = /* @__PURE__ */ React40.cloneElement(line, lineProps);
     } else if (typeof line === "function") {
       lineItem = line(lineProps);
     } else {
-      lineItem = /* @__PURE__ */ React39.createElement(Curve, _extends26({}, lineProps, {
+      lineItem = /* @__PURE__ */ React40.createElement(Curve, _extends26({}, lineProps, {
         type: lineJointType
       }));
     }
-    return /* @__PURE__ */ React39.createElement(Layer, {
+    return /* @__PURE__ */ React40.createElement(Layer, {
       className: "recharts-scatter-line",
       key: "recharts-scatter-line"
     }, lineItem);
@@ -47589,7 +47611,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   function ScatterLabelListProvider(_ref3) {
     var showLabels = _ref3.showLabels, points = _ref3.points, children = _ref3.children;
     var chartViewBox = useViewBox();
-    var labelListEntries = (0, import_react49.useMemo)(() => {
+    var labelListEntries = (0, import_react50.useMemo)(() => {
       return points === null || points === void 0 ? void 0 : points.map((point4) => {
         var _point$x, _point$y;
         var viewBox = {
@@ -47622,7 +47644,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         });
       });
     }, [chartViewBox, points]);
-    return /* @__PURE__ */ React39.createElement(CartesianLabelListContextProvider, {
+    return /* @__PURE__ */ React40.createElement(CartesianLabelListContextProvider, {
       value: showLabels ? labelListEntries : void 0
     }, children);
   }
@@ -47630,7 +47652,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     var _useAppSelector;
     var entry = _ref4.entry, index = _ref4.index, shape = _ref4.shape, activeShape = _ref4.activeShape, baseProps = _ref4.baseProps, id = _ref4.id, restOfAllOtherProps = _ref4.restOfAllOtherProps, animationElapsedTime = _ref4.animationElapsedTime, isAnimating = _ref4.isAnimating, isEntrance = _ref4.isEntrance, onMouseEnterFromContext = _ref4.onMouseEnterFromContext, onMouseLeaveFromContext = _ref4.onMouseLeaveFromContext, onClickFromContext = _ref4.onClickFromContext;
     var hasActiveShape = activeShape != null && activeShape !== false;
-    var selectIsActive = (0, import_react49.useMemo)(() => {
+    var selectIsActive = (0, import_react50.useMemo)(() => {
       var strIndex = String(index);
       return (state) => hasActiveShape && selectActiveTooltipIndex(state) === strIndex;
     }, [hasActiveShape, index]);
@@ -47644,18 +47666,18 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       isEntrance,
       [DATA_ITEM_GRAPHICAL_ITEM_ID_ATTRIBUTE_NAME]: String(id)
     });
-    return /* @__PURE__ */ React39.createElement(
+    return /* @__PURE__ */ React40.createElement(
       ZIndexLayer,
       {
         zIndex: isActive ? DefaultZIndexes.activeDot : void 0
       },
-      /* @__PURE__ */ React39.createElement(Layer, _extends26({
+      /* @__PURE__ */ React40.createElement(Layer, _extends26({
         className: "recharts-scatter-symbol"
       }, adaptEventsOfChild(restOfAllOtherProps, entry, index), {
         onMouseEnter: onMouseEnterFromContext(entry, index),
         onMouseLeave: onMouseLeaveFromContext(entry, index),
         onClick: onClickFromContext(entry, index)
-      }), /* @__PURE__ */ React39.createElement(ScatterSymbol, _extends26({
+      }), /* @__PURE__ */ React40.createElement(ScatterSymbol, _extends26({
         option
       }, symbolProps)))
     );
@@ -47672,10 +47694,10 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       return null;
     }
     var baseProps = svgPropertiesNoEvents(allOtherPropsWithoutId);
-    return /* @__PURE__ */ React39.createElement(React39.Fragment, null, /* @__PURE__ */ React39.createElement(ScatterLine, {
+    return /* @__PURE__ */ React40.createElement(React40.Fragment, null, /* @__PURE__ */ React40.createElement(ScatterLine, {
       points,
       props: allOtherPropsWithoutId
-    }), points.map((entry, i) => /* @__PURE__ */ React39.createElement(ScatterPoint, {
+    }), points.map((entry, i) => /* @__PURE__ */ React40.createElement(ScatterPoint, {
       key: "symbol-".concat(entry === null || entry === void 0 ? void 0 : entry.cx, "-").concat(entry === null || entry === void 0 ? void 0 : entry.cy, "-").concat(entry === null || entry === void 0 ? void 0 : entry.size, "-").concat(i),
       entry,
       index: i,
@@ -47717,10 +47739,10 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     var _useAnimationCallback = useAnimationCallbacks(), isAnimating = _useAnimationCallback.isAnimating, handleAnimationStart = _useAnimationCallback.handleAnimationStart, handleAnimationEnd = _useAnimationCallback.handleAnimationEnd;
     var layout = useCartesianChartLayout();
     if (layout == null) return null;
-    return /* @__PURE__ */ React39.createElement(ScatterLabelListProvider, {
+    return /* @__PURE__ */ React40.createElement(ScatterLabelListProvider, {
       showLabels: !isAnimating,
       points
-    }, /* @__PURE__ */ React39.createElement(AnimatedItems, {
+    }, /* @__PURE__ */ React40.createElement(AnimatedItems, {
       animationInput: props,
       animationIdPrefix: "recharts-scatter-",
       items: points,
@@ -47734,14 +47756,14 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       animationInterpolateFn,
       animationMatchBy: props.animationMatchBy,
       layout
-    }, (stepData, animationElapsedTime, isEntrance) => /* @__PURE__ */ React39.createElement(Layer, null, /* @__PURE__ */ React39.createElement(ScatterSymbols, {
+    }, (stepData, animationElapsedTime, isEntrance) => /* @__PURE__ */ React40.createElement(Layer, null, /* @__PURE__ */ React40.createElement(ScatterSymbols, {
       points: stepData,
       allOtherScatterProps: props,
       showLabels: !isAnimating,
       animationElapsedTime,
       isAnimating: isAnimating || animationElapsedTime < 1,
       isEntrance
-    }))), props.children, /* @__PURE__ */ React39.createElement(LabelListFromLabelProp, {
+    }))), props.children, /* @__PURE__ */ React40.createElement(LabelListFromLabelProp, {
       label: props.label
     }));
   }
@@ -47841,31 +47863,31 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   };
   function ScatterWithId(props) {
     var hide = props.hide, points = props.points, className = props.className, needClip = props.needClip, xAxisId = props.xAxisId, yAxisId = props.yAxisId, id = props.id;
-    var previousPointsRef = (0, import_react49.useRef)(null);
+    var previousPointsRef = (0, import_react50.useRef)(null);
     if (hide) {
       return null;
     }
     var layerClass = clsx("recharts-scatter", className);
     var clipPathId = id;
-    return /* @__PURE__ */ React39.createElement(ZIndexLayer, {
+    return /* @__PURE__ */ React40.createElement(ZIndexLayer, {
       zIndex: props.zIndex
-    }, /* @__PURE__ */ React39.createElement(Layer, {
+    }, /* @__PURE__ */ React40.createElement(Layer, {
       className: layerClass,
       clipPath: needClip ? "url(#clipPath-".concat(clipPathId, ")") : void 0,
       id
-    }, needClip && /* @__PURE__ */ React39.createElement("defs", null, /* @__PURE__ */ React39.createElement(GraphicalItemClipPath, {
+    }, needClip && /* @__PURE__ */ React40.createElement("defs", null, /* @__PURE__ */ React40.createElement(GraphicalItemClipPath, {
       clipPathId,
       xAxisId,
       yAxisId
-    })), /* @__PURE__ */ React39.createElement(SetErrorBarContext, {
+    })), /* @__PURE__ */ React40.createElement(SetErrorBarContext, {
       xAxisId,
       yAxisId,
       data: points,
       dataPointFormatter: errorBarDataPointFormatter3,
       errorBarOffset: 0
-    }, /* @__PURE__ */ React39.createElement(Layer, {
+    }, /* @__PURE__ */ React40.createElement(Layer, {
       key: "recharts-scatter-symbols"
-    }, /* @__PURE__ */ React39.createElement(SymbolsWithAnimation, {
+    }, /* @__PURE__ */ React40.createElement(SymbolsWithAnimation, {
       props,
       previousPointsRef
     })))));
@@ -47892,7 +47914,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   function ScatterImpl(props) {
     var _resolveDefaultProps = resolveDefaultProps(props, defaultScatterProps), animationBegin = _resolveDefaultProps.animationBegin, animationDuration = _resolveDefaultProps.animationDuration, animationEasing = _resolveDefaultProps.animationEasing, hide = _resolveDefaultProps.hide, isAnimationActive = _resolveDefaultProps.isAnimationActive, legendType = _resolveDefaultProps.legendType, lineJointType = _resolveDefaultProps.lineJointType, lineType = _resolveDefaultProps.lineType, shape = _resolveDefaultProps.shape, xAxisId = _resolveDefaultProps.xAxisId, yAxisId = _resolveDefaultProps.yAxisId, zAxisId = _resolveDefaultProps.zAxisId, everythingElse = _objectWithoutProperties23(_resolveDefaultProps, _excluded36);
     var _useNeedsClip = useNeedsClip(xAxisId, yAxisId), needClip = _useNeedsClip.needClip;
-    var cells = (0, import_react49.useMemo)(() => findAllByType(props.children, Cell), [props.children]);
+    var cells = (0, import_react50.useMemo)(() => findAllByType(props.children, Cell), [props.children]);
     var isPanorama = useIsPanorama();
     var points = useAppSelector((state) => {
       return selectScatterPoints(state, xAxisId, yAxisId, zAxisId, props.id, cells, isPanorama);
@@ -47903,7 +47925,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     if (points == null) {
       return null;
     }
-    return /* @__PURE__ */ React39.createElement(React39.Fragment, null, /* @__PURE__ */ React39.createElement(SetScatterTooltipEntrySettings, {
+    return /* @__PURE__ */ React40.createElement(React40.Fragment, null, /* @__PURE__ */ React40.createElement(SetScatterTooltipEntrySettings, {
       dataKey: props.dataKey,
       points,
       stroke: props.stroke,
@@ -47914,7 +47936,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       formatter: props.formatter,
       tooltipType: props.tooltipType,
       id: props.id
-    }), /* @__PURE__ */ React39.createElement(ScatterWithId, _extends26({}, everythingElse, {
+    }), /* @__PURE__ */ React40.createElement(ScatterWithId, _extends26({}, everythingElse, {
       xAxisId,
       yAxisId,
       zAxisId,
@@ -47934,12 +47956,12 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   function ScatterFn(outsideProps) {
     var props = resolveDefaultProps(outsideProps, defaultScatterProps);
     var isPanorama = useIsPanorama();
-    return /* @__PURE__ */ React39.createElement(RegisterGraphicalItemId, {
+    return /* @__PURE__ */ React40.createElement(RegisterGraphicalItemId, {
       id: props.id,
       type: "scatter"
-    }, (id) => /* @__PURE__ */ React39.createElement(React39.Fragment, null, /* @__PURE__ */ React39.createElement(SetLegendPayload, {
+    }, (id) => /* @__PURE__ */ React40.createElement(React40.Fragment, null, /* @__PURE__ */ React40.createElement(SetLegendPayload, {
       legendPayload: computeLegendPayloadFromScatterProps(props)
-    }), /* @__PURE__ */ React39.createElement(SetCartesianGraphicalItem, {
+    }), /* @__PURE__ */ React40.createElement(SetCartesianGraphicalItem, {
       type: "scatter",
       id,
       data: props.data,
@@ -47951,16 +47973,16 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       name: props.name,
       tooltipType: props.tooltipType,
       isPanorama
-    }), /* @__PURE__ */ React39.createElement(ScatterImpl, _extends26({}, props, {
+    }), /* @__PURE__ */ React40.createElement(ScatterImpl, _extends26({}, props, {
       id
     }))));
   }
-  var Scatter = /* @__PURE__ */ React39.memo(ScatterFn, propsAreEqual);
+  var Scatter = /* @__PURE__ */ React40.memo(ScatterFn, propsAreEqual);
   Scatter.displayName = "Scatter";
 
   // node_modules/recharts/es6/cartesian/XAxis.js
-  var React40 = __toESM(require_react());
-  var import_react50 = __toESM(require_react());
+  var React41 = __toESM(require_react());
+  var import_react51 = __toESM(require_react());
 
   // node_modules/recharts/es6/util/axisPropsAreEqual.js
   var _excluded37 = ["domain", "range"];
@@ -48078,11 +48100,11 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   }
   function SetXAxisSettings(props) {
     var dispatch = useAppDispatch();
-    var prevSettingsRef = (0, import_react50.useRef)(null);
+    var prevSettingsRef = (0, import_react51.useRef)(null);
     var layout = useCartesianChartLayout();
     var typeFromProps = props.type, restProps = _objectWithoutProperties25(props, _excluded38);
     var evaluatedType = getAxisTypeBasedOnLayout(layout, "xAxis", typeFromProps);
-    var settings = (0, import_react50.useMemo)(() => {
+    var settings = (0, import_react51.useMemo)(() => {
       if (evaluatedType == null) {
         return void 0;
       }
@@ -48090,7 +48112,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         type: evaluatedType
       });
     }, [restProps, evaluatedType]);
-    (0, import_react50.useLayoutEffect)(() => {
+    (0, import_react51.useLayoutEffect)(() => {
       if (settings == null) {
         return;
       }
@@ -48104,7 +48126,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       }
       prevSettingsRef.current = settings;
     }, [settings, dispatch]);
-    (0, import_react50.useLayoutEffect)(() => {
+    (0, import_react51.useLayoutEffect)(() => {
       return () => {
         if (prevSettingsRef.current) {
           dispatch(removeXAxis(prevSettingsRef.current));
@@ -48116,8 +48138,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   }
   var XAxisImpl = (props) => {
     var xAxisId = props.xAxisId, className = props.className, height = props.height, label = props.label;
-    var cartesianAxisRef = (0, import_react50.useRef)(null);
-    var labelRef = (0, import_react50.useRef)(null);
+    var cartesianAxisRef = (0, import_react51.useRef)(null);
+    var labelRef = (0, import_react51.useRef)(null);
     var viewBox = useAppSelector(selectAxisViewBox);
     var isPanorama = useIsPanorama();
     var dispatch = useAppDispatch();
@@ -48126,8 +48148,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     var axisSize = useAppSelector((state) => selectXAxisSize(state, xAxisId));
     var position = useAppSelector((state) => selectXAxisPosition(state, xAxisId));
     var synchronizedSettings = useAppSelector((state) => selectXAxisSettingsNoDefaults(state, xAxisId));
-    (0, import_react50.useLayoutEffect)(() => {
-      if (height !== "auto" || !axisSize || isLabelContentAFunction(label) || /* @__PURE__ */ (0, import_react50.isValidElement)(label) || synchronizedSettings == null) {
+    (0, import_react51.useLayoutEffect)(() => {
+      if (height !== "auto" || !axisSize || isLabelContentAFunction(label) || /* @__PURE__ */ (0, import_react51.isValidElement)(label) || synchronizedSettings == null) {
         return;
       }
       var axisComponent = cartesianAxisRef.current;
@@ -48158,7 +48180,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     }
     var dangerouslySetInnerHTML = props.dangerouslySetInnerHTML, ticks2 = props.ticks, del = props.scale, allOtherProps = _objectWithoutProperties25(props, _excluded212);
     var id = synchronizedSettings.id, del2 = synchronizedSettings.scale, restSynchronizedSettings = _objectWithoutProperties25(synchronizedSettings, _excluded39);
-    return /* @__PURE__ */ React40.createElement(CartesianAxis, _extends27({}, allOtherProps, restSynchronizedSettings, {
+    return /* @__PURE__ */ React41.createElement(CartesianAxis, _extends27({}, allOtherProps, restSynchronizedSettings, {
       ref: cartesianAxisRef,
       labelRef,
       x: position.x,
@@ -48199,7 +48221,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   };
   var XAxisSettingsDispatcher = (outsideProps) => {
     var props = resolveDefaultProps(outsideProps, xAxisDefaultProps);
-    return /* @__PURE__ */ React40.createElement(React40.Fragment, null, /* @__PURE__ */ React40.createElement(SetXAxisSettings, {
+    return /* @__PURE__ */ React41.createElement(React41.Fragment, null, /* @__PURE__ */ React41.createElement(SetXAxisSettings, {
       allowDataOverflow: props.allowDataOverflow,
       allowDecimals: props.allowDecimals,
       allowDuplicatedCategory: props.allowDuplicatedCategory,
@@ -48225,14 +48247,14 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       type: props.type,
       unit: props.unit,
       niceTicks: props.niceTicks
-    }), /* @__PURE__ */ React40.createElement(XAxisImpl, props));
+    }), /* @__PURE__ */ React41.createElement(XAxisImpl, props));
   };
-  var XAxis = /* @__PURE__ */ React40.memo(XAxisSettingsDispatcher, axisPropsAreEqual);
+  var XAxis = /* @__PURE__ */ React41.memo(XAxisSettingsDispatcher, axisPropsAreEqual);
   XAxis.displayName = "XAxis";
 
   // node_modules/recharts/es6/cartesian/YAxis.js
-  var React41 = __toESM(require_react());
-  var import_react51 = __toESM(require_react());
+  var React42 = __toESM(require_react());
+  var import_react52 = __toESM(require_react());
   var _excluded40 = ["type"];
   var _excluded213 = ["dangerouslySetInnerHTML", "ticks", "scale"];
   var _excluded310 = ["id", "scale"];
@@ -48303,11 +48325,11 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   }
   function SetYAxisSettings(props) {
     var dispatch = useAppDispatch();
-    var prevSettingsRef = (0, import_react51.useRef)(null);
+    var prevSettingsRef = (0, import_react52.useRef)(null);
     var layout = useCartesianChartLayout();
     var typeFromProps = props.type, restProps = _objectWithoutProperties26(props, _excluded40);
     var evaluatedType = getAxisTypeBasedOnLayout(layout, "yAxis", typeFromProps);
-    var settings = (0, import_react51.useMemo)(() => {
+    var settings = (0, import_react52.useMemo)(() => {
       if (evaluatedType == null) {
         return void 0;
       }
@@ -48315,7 +48337,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         type: evaluatedType
       });
     }, [evaluatedType, restProps]);
-    (0, import_react51.useLayoutEffect)(() => {
+    (0, import_react52.useLayoutEffect)(() => {
       if (settings == null) {
         return;
       }
@@ -48329,7 +48351,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       }
       prevSettingsRef.current = settings;
     }, [settings, dispatch]);
-    (0, import_react51.useLayoutEffect)(() => {
+    (0, import_react52.useLayoutEffect)(() => {
       return () => {
         if (prevSettingsRef.current) {
           dispatch(removeYAxis(prevSettingsRef.current));
@@ -48341,8 +48363,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   }
   function YAxisImpl(props) {
     var yAxisId = props.yAxisId, className = props.className, width = props.width, label = props.label;
-    var cartesianAxisRef = (0, import_react51.useRef)(null);
-    var labelRef = (0, import_react51.useRef)(null);
+    var cartesianAxisRef = (0, import_react52.useRef)(null);
+    var labelRef = (0, import_react52.useRef)(null);
     var viewBox = useAppSelector(selectAxisViewBox);
     var isPanorama = useIsPanorama();
     var dispatch = useAppDispatch();
@@ -48351,8 +48373,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     var position = useAppSelector((state) => selectYAxisPosition(state, yAxisId));
     var cartesianTickItems = useAppSelector((state) => selectTicksOfAxis(state, axisType, yAxisId, isPanorama));
     var synchronizedSettings = useAppSelector((state) => selectYAxisSettingsNoDefaults(state, yAxisId));
-    (0, import_react51.useLayoutEffect)(() => {
-      if (width !== "auto" || !axisSize || isLabelContentAFunction(label) || /* @__PURE__ */ (0, import_react51.isValidElement)(label) || synchronizedSettings == null) {
+    (0, import_react52.useLayoutEffect)(() => {
+      if (width !== "auto" || !axisSize || isLabelContentAFunction(label) || /* @__PURE__ */ (0, import_react52.isValidElement)(label) || synchronizedSettings == null) {
         return;
       }
       var axisComponent = cartesianAxisRef.current;
@@ -48383,7 +48405,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     }
     var dangerouslySetInnerHTML = props.dangerouslySetInnerHTML, ticks2 = props.ticks, del = props.scale, allOtherProps = _objectWithoutProperties26(props, _excluded213);
     var id = synchronizedSettings.id, del2 = synchronizedSettings.scale, restSynchronizedSettings = _objectWithoutProperties26(synchronizedSettings, _excluded310);
-    return /* @__PURE__ */ React41.createElement(CartesianAxis, _extends28({}, allOtherProps, restSynchronizedSettings, {
+    return /* @__PURE__ */ React42.createElement(CartesianAxis, _extends28({}, allOtherProps, restSynchronizedSettings, {
       ref: cartesianAxisRef,
       labelRef,
       x: position.x,
@@ -48429,7 +48451,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   };
   var YAxisSettingsDispatcher = (outsideProps) => {
     var props = resolveDefaultProps(outsideProps, yAxisDefaultProps);
-    return /* @__PURE__ */ React41.createElement(React41.Fragment, null, /* @__PURE__ */ React41.createElement(SetYAxisSettings, {
+    return /* @__PURE__ */ React42.createElement(React42.Fragment, null, /* @__PURE__ */ React42.createElement(SetYAxisSettings, {
       interval: props.interval,
       id: props.yAxisId,
       scale: props.scale,
@@ -48455,16 +48477,16 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       tick: props.tick,
       tickFormatter: props.tickFormatter,
       niceTicks: props.niceTicks
-    }), /* @__PURE__ */ React41.createElement(YAxisImpl, props));
+    }), /* @__PURE__ */ React42.createElement(YAxisImpl, props));
   };
-  var YAxis = /* @__PURE__ */ React41.memo(YAxisSettingsDispatcher, axisPropsAreEqual);
+  var YAxis = /* @__PURE__ */ React42.memo(YAxisSettingsDispatcher, axisPropsAreEqual);
   YAxis.displayName = "YAxis";
 
   // node_modules/recharts/es6/cartesian/ErrorBar.js
-  var React42 = __toESM(require_react());
+  var React43 = __toESM(require_react());
 
   // node_modules/recharts/es6/animation/CSSTransitionAnimate.js
-  var import_react52 = __toESM(require_react());
+  var import_react53 = __toESM(require_react());
   function _slicedToArray22(r2, e) {
     return _arrayWithHoles22(r2) || _iterableToArrayLimit22(r2, e) || _unsupportedIterableToArray22(r2, e) || _nonIterableRest22();
   }
@@ -48530,18 +48552,18 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     var prefersReducedMotion = usePrefersReducedMotion();
     var isActive = isActiveProp === "auto" ? !Global.isSsr && !prefersReducedMotion : isActiveProp;
     var animationController = useAnimationController(props.animationController);
-    var _useState = (0, import_react52.useState)(() => {
+    var _useState = (0, import_react53.useState)(() => {
       if (!isActive) {
         return to2;
       }
       return from2;
     }), _useState2 = _slicedToArray22(_useState, 2), style = _useState2[0], setStyle = _useState2[1];
-    var initialized = (0, import_react52.useRef)(false);
-    var onAnimationStart = (0, import_react52.useCallback)(() => {
+    var initialized = (0, import_react53.useRef)(false);
+    var onAnimationStart = (0, import_react53.useCallback)(() => {
       setStyle(from2);
       onAnimationStartFromProps();
     }, [from2, onAnimationStartFromProps]);
-    (0, import_react52.useEffect)(() => {
+    (0, import_react53.useEffect)(() => {
       if (!isActive || !canBegin) {
         return noop;
       }
@@ -48776,14 +48798,14 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       }
       var scaleDirection = direction === "x" ? "scaleX" : "scaleY";
       var transformOrigin = "".concat(x2 + offset, "px ").concat(y2 + offset, "px");
-      return /* @__PURE__ */ React42.createElement(Layer, _extends29({
+      return /* @__PURE__ */ React43.createElement(Layer, _extends29({
         className: "recharts-errorBar",
         key: "bar-".concat(x2, "-").concat(y2, "-").concat(value, "-").concat(dataIndex)
       }, svgProps), lineCoordinates.map((c2, lineIndex) => {
         var lineStyle = isAnimationActive ? {
           transformOrigin
         } : void 0;
-        return /* @__PURE__ */ React42.createElement(CSSTransitionAnimate, {
+        return /* @__PURE__ */ React43.createElement(CSSTransitionAnimate, {
           animationId: "error-bar-".concat(direction, "_").concat(c2.x1, "-").concat(c2.x2, "-").concat(c2.y1, "-").concat(c2.y2),
           from: "".concat(scaleDirection, "(0)"),
           to: "".concat(scaleDirection, "(1)"),
@@ -48793,12 +48815,12 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           isActive: isAnimationActive,
           duration: animationDuration,
           key: "errorbar-".concat(dataIndex, "-").concat(c2.x1, "-").concat(c2.y1, "-").concat(c2.x2, "-").concat(c2.y2, "-").concat(lineIndex)
-        }, (style) => /* @__PURE__ */ React42.createElement("line", _extends29({}, c2, {
+        }, (style) => /* @__PURE__ */ React43.createElement("line", _extends29({}, c2, {
           style: _objectSpread42(_objectSpread42({}, lineStyle), style)
         })));
       }));
     });
-    return /* @__PURE__ */ React42.createElement(Layer, {
+    return /* @__PURE__ */ React43.createElement(Layer, {
       className: "recharts-errorBars"
     }, errorBars);
   }
@@ -48827,12 +48849,12 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     var realDirection = useErrorBarDirection(outsideProps.direction);
     var props = resolveDefaultProps(outsideProps, errorBarDefaultProps);
     var width = props.width, isAnimationActive = props.isAnimationActive, animationBegin = props.animationBegin, animationDuration = props.animationDuration, animationEasing = props.animationEasing, zIndex = props.zIndex;
-    return /* @__PURE__ */ React42.createElement(React42.Fragment, null, /* @__PURE__ */ React42.createElement(ReportErrorBarSettings, {
+    return /* @__PURE__ */ React43.createElement(React43.Fragment, null, /* @__PURE__ */ React43.createElement(ReportErrorBarSettings, {
       dataKey: props.dataKey,
       direction: realDirection
-    }), /* @__PURE__ */ React42.createElement(ZIndexLayer, {
+    }), /* @__PURE__ */ React43.createElement(ZIndexLayer, {
       zIndex
-    }, /* @__PURE__ */ React42.createElement(ErrorBarImpl, _extends29({}, props, {
+    }, /* @__PURE__ */ React43.createElement(ErrorBarImpl, _extends29({}, props, {
       direction: realDirection,
       width,
       isAnimationActive,
@@ -48844,16 +48866,16 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   ErrorBar.displayName = "ErrorBar";
 
   // node_modules/recharts/es6/chart/LineChart.js
+  var React50 = __toESM(require_react());
+  var import_react64 = __toESM(require_react());
+
+  // node_modules/recharts/es6/chart/CartesianChart.js
   var React49 = __toESM(require_react());
   var import_react63 = __toESM(require_react());
 
-  // node_modules/recharts/es6/chart/CartesianChart.js
-  var React48 = __toESM(require_react());
-  var import_react62 = __toESM(require_react());
-
   // node_modules/recharts/es6/state/RechartsStoreProvider.js
-  var React43 = __toESM(require_react());
-  var import_react53 = __toESM(require_react());
+  var React44 = __toESM(require_react());
+  var import_react54 = __toESM(require_react());
 
   // node_modules/recharts/es6/state/selectors/selectActivePropsFromChartPointer.js
   var pickChartPointer = (_state, chartPointer) => chartPointer;
@@ -49518,7 +49540,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   function RechartsStoreProvider(_ref2) {
     var preloadedState = _ref2.preloadedState, children = _ref2.children, reduxStoreName = _ref2.reduxStoreName;
     var isPanorama = useIsPanorama();
-    var storeRef = (0, import_react53.useRef)(null);
+    var storeRef = (0, import_react54.useRef)(null);
     if (isPanorama) {
       return children;
     }
@@ -49526,19 +49548,19 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       storeRef.current = createRechartsStore(preloadedState, reduxStoreName);
     }
     var nonNullContext = RechartsReduxContext;
-    return /* @__PURE__ */ React43.createElement(Provider_default, {
+    return /* @__PURE__ */ React44.createElement(Provider_default, {
       context: nonNullContext,
       store: storeRef.current
     }, children);
   }
 
   // node_modules/recharts/es6/state/ReportMainChartProps.js
-  var import_react54 = __toESM(require_react());
+  var import_react55 = __toESM(require_react());
   function ReportMainChartPropsImpl(_ref2) {
     var layout = _ref2.layout, margin = _ref2.margin;
     var dispatch = useAppDispatch();
     var isPanorama = useIsPanorama();
-    (0, import_react54.useEffect)(() => {
+    (0, import_react55.useEffect)(() => {
       if (!isPanorama) {
         dispatch(setLayout(layout));
         dispatch(setMargin(margin));
@@ -49546,45 +49568,45 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     }, [dispatch, isPanorama, layout, margin]);
     return null;
   }
-  var ReportMainChartProps = /* @__PURE__ */ (0, import_react54.memo)(ReportMainChartPropsImpl, propsAreEqual);
+  var ReportMainChartProps = /* @__PURE__ */ (0, import_react55.memo)(ReportMainChartPropsImpl, propsAreEqual);
 
   // node_modules/recharts/es6/state/ReportChartProps.js
-  var import_react55 = __toESM(require_react());
+  var import_react56 = __toESM(require_react());
   function ReportChartProps(props) {
     var dispatch = useAppDispatch();
-    (0, import_react55.useEffect)(() => {
+    (0, import_react56.useEffect)(() => {
       dispatch(updateOptions(props));
     }, [dispatch, props]);
     return null;
   }
 
   // node_modules/recharts/es6/state/ReportEventSettings.js
-  var import_react56 = __toESM(require_react());
+  var import_react57 = __toESM(require_react());
   var ReportEventSettingsImpl = (props) => {
     var dispatch = useAppDispatch();
-    (0, import_react56.useEffect)(() => {
+    (0, import_react57.useEffect)(() => {
       dispatch(setEventSettings(props));
     }, [dispatch, props]);
     return null;
   };
-  var ReportEventSettings = /* @__PURE__ */ (0, import_react56.memo)(ReportEventSettingsImpl, propsAreEqual);
+  var ReportEventSettings = /* @__PURE__ */ (0, import_react57.memo)(ReportEventSettingsImpl, propsAreEqual);
 
   // node_modules/recharts/es6/chart/CategoricalChart.js
-  var React47 = __toESM(require_react());
-  var import_react61 = __toESM(require_react());
+  var React48 = __toESM(require_react());
+  var import_react62 = __toESM(require_react());
 
   // node_modules/recharts/es6/container/RootSurface.js
-  var React45 = __toESM(require_react());
-  var import_react58 = __toESM(require_react());
+  var React46 = __toESM(require_react());
+  var import_react59 = __toESM(require_react());
 
   // node_modules/recharts/es6/zIndex/ZIndexPortal.js
-  var React44 = __toESM(require_react());
-  var import_react57 = __toESM(require_react());
+  var React45 = __toESM(require_react());
+  var import_react58 = __toESM(require_react());
   function ZIndexSvgPortal(_ref2) {
     var zIndex = _ref2.zIndex, isPanorama = _ref2.isPanorama;
-    var ref = (0, import_react57.useRef)(null);
+    var ref = (0, import_react58.useRef)(null);
     var dispatch = useAppDispatch();
-    (0, import_react57.useLayoutEffect)(() => {
+    (0, import_react58.useLayoutEffect)(() => {
       if (ref.current) {
         dispatch(registerZIndexPortalElement({
           zIndex,
@@ -49599,7 +49621,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         }));
       };
     }, [dispatch, zIndex, isPanorama]);
-    return /* @__PURE__ */ React44.createElement("g", {
+    return /* @__PURE__ */ React45.createElement("g", {
       tabIndex: -1,
       ref,
       className: "recharts-zIndex-layer_".concat(zIndex)
@@ -49613,11 +49635,11 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     }
     var allNegativeZIndexes = allRegisteredZIndexes.filter((zIndex) => zIndex < 0);
     var allPositiveZIndexes = allRegisteredZIndexes.filter((zIndex) => zIndex > 0);
-    return /* @__PURE__ */ React44.createElement(React44.Fragment, null, allNegativeZIndexes.map((zIndex) => /* @__PURE__ */ React44.createElement(ZIndexSvgPortal, {
+    return /* @__PURE__ */ React45.createElement(React45.Fragment, null, allNegativeZIndexes.map((zIndex) => /* @__PURE__ */ React45.createElement(ZIndexSvgPortal, {
       key: zIndex,
       zIndex,
       isPanorama
-    })), children, allPositiveZIndexes.map((zIndex) => /* @__PURE__ */ React44.createElement(ZIndexSvgPortal, {
+    })), children, allPositiveZIndexes.map((zIndex) => /* @__PURE__ */ React45.createElement(ZIndexSvgPortal, {
       key: zIndex,
       zIndex,
       isPanorama
@@ -49667,7 +49689,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
      */
     display: "block"
   };
-  var MainChartSurface = /* @__PURE__ */ (0, import_react58.forwardRef)((props, ref) => {
+  var MainChartSurface = /* @__PURE__ */ (0, import_react59.forwardRef)((props, ref) => {
     var width = useChartWidth();
     var height = useChartHeight();
     var hasAccessibilityLayer = useAccessibilityLayer();
@@ -49688,7 +49710,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         role = hasAccessibilityLayer ? "application" : void 0;
       }
     }
-    return /* @__PURE__ */ React45.createElement(Surface, _extends30({}, otherAttributes, {
+    return /* @__PURE__ */ React46.createElement(Surface, _extends30({}, otherAttributes, {
       title,
       desc,
       role,
@@ -49706,34 +49728,34 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       return null;
     }
     var width = brushDimensions.width, height = brushDimensions.height, y2 = brushDimensions.y, x2 = brushDimensions.x;
-    return /* @__PURE__ */ React45.createElement(Surface, {
+    return /* @__PURE__ */ React46.createElement(Surface, {
       width,
       height,
       x: x2,
       y: y2
     }, children);
   };
-  var RootSurface = /* @__PURE__ */ (0, import_react58.forwardRef)((_ref2, ref) => {
+  var RootSurface = /* @__PURE__ */ (0, import_react59.forwardRef)((_ref2, ref) => {
     var children = _ref2.children, rest = _objectWithoutProperties28(_ref2, _excluded45);
     var isPanorama = useIsPanorama();
     if (isPanorama) {
-      return /* @__PURE__ */ React45.createElement(BrushPanoramaSurface, null, /* @__PURE__ */ React45.createElement(AllZIndexPortals, {
+      return /* @__PURE__ */ React46.createElement(BrushPanoramaSurface, null, /* @__PURE__ */ React46.createElement(AllZIndexPortals, {
         isPanorama: true
       }, children));
     }
-    return /* @__PURE__ */ React45.createElement(MainChartSurface, _extends30({
+    return /* @__PURE__ */ React46.createElement(MainChartSurface, _extends30({
       ref
-    }, rest), /* @__PURE__ */ React45.createElement(AllZIndexPortals, {
+    }, rest), /* @__PURE__ */ React46.createElement(AllZIndexPortals, {
       isPanorama: false
     }, children));
   });
 
   // node_modules/recharts/es6/chart/RechartsWrapper.js
-  var React46 = __toESM(require_react());
-  var import_react60 = __toESM(require_react());
+  var React47 = __toESM(require_react());
+  var import_react61 = __toESM(require_react());
 
   // node_modules/recharts/es6/util/useReportScale.js
-  var import_react59 = __toESM(require_react());
+  var import_react60 = __toESM(require_react());
   function _slicedToArray24(r2, e) {
     return _arrayWithHoles24(r2) || _iterableToArrayLimit24(r2, e) || _unsupportedIterableToArray24(r2, e) || _nonIterableRest24();
   }
@@ -49778,9 +49800,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   }
   function useReportScale() {
     var dispatch = useAppDispatch();
-    var _useState = (0, import_react59.useState)(null), _useState2 = _slicedToArray24(_useState, 2), ref = _useState2[0], setRef = _useState2[1];
+    var _useState = (0, import_react60.useState)(null), _useState2 = _slicedToArray24(_useState, 2), ref = _useState2[0], setRef = _useState2[1];
     var scale = useAppSelector(selectContainerScale);
-    (0, import_react59.useEffect)(() => {
+    (0, import_react60.useEffect)(() => {
       if (ref == null) {
         return;
       }
@@ -49899,14 +49921,14 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     }
     return 0;
   }
-  var ResponsiveDiv = /* @__PURE__ */ (0, import_react60.forwardRef)((props, ref) => {
+  var ResponsiveDiv = /* @__PURE__ */ (0, import_react61.forwardRef)((props, ref) => {
     var _props$style, _props$style2;
-    var observerRef = (0, import_react60.useRef)(null);
-    var _useState = (0, import_react60.useState)({
+    var observerRef = (0, import_react61.useRef)(null);
+    var _useState = (0, import_react61.useState)({
       containerWidth: getNumberOrZero((_props$style = props.style) === null || _props$style === void 0 ? void 0 : _props$style.width),
       containerHeight: getNumberOrZero((_props$style2 = props.style) === null || _props$style2 === void 0 ? void 0 : _props$style2.height)
     }), _useState2 = _slicedToArray25(_useState, 2), sizes = _useState2[0], setSizes = _useState2[1];
-    var setContainerSize = (0, import_react60.useCallback)((newWidth, newHeight) => {
+    var setContainerSize = (0, import_react61.useCallback)((newWidth, newHeight) => {
       setSizes((prevState) => {
         var roundedWidth = Math.round(newWidth);
         var roundedHeight = Math.round(newHeight);
@@ -49919,7 +49941,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         };
       });
     }, []);
-    var innerRef = (0, import_react60.useCallback)((node) => {
+    var innerRef = (0, import_react61.useCallback)((node) => {
       if (typeof ref === "function") {
         ref(node);
       }
@@ -49943,7 +49965,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         observerRef.current = observer;
       }
     }, [ref, setContainerSize]);
-    (0, import_react60.useEffect)(() => {
+    (0, import_react61.useEffect)(() => {
       return () => {
         var observer = observerRef.current;
         if (observer != null) {
@@ -49951,20 +49973,20 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         }
       };
     }, [setContainerSize]);
-    return /* @__PURE__ */ React46.createElement(React46.Fragment, null, /* @__PURE__ */ React46.createElement(ReportChartSize, {
+    return /* @__PURE__ */ React47.createElement(React47.Fragment, null, /* @__PURE__ */ React47.createElement(ReportChartSize, {
       width: sizes.containerWidth,
       height: sizes.containerHeight
-    }), /* @__PURE__ */ React46.createElement("div", _extends31({
+    }), /* @__PURE__ */ React47.createElement("div", _extends31({
       ref: innerRef
     }, props)));
   });
-  var ReadSizeOnceDiv = /* @__PURE__ */ (0, import_react60.forwardRef)((props, ref) => {
+  var ReadSizeOnceDiv = /* @__PURE__ */ (0, import_react61.forwardRef)((props, ref) => {
     var width = props.width, height = props.height;
-    var _useState3 = (0, import_react60.useState)({
+    var _useState3 = (0, import_react61.useState)({
       containerWidth: getNumberOrZero(width),
       containerHeight: getNumberOrZero(height)
     }), _useState4 = _slicedToArray25(_useState3, 2), sizes = _useState4[0], setSizes = _useState4[1];
-    var setContainerSize = (0, import_react60.useCallback)((newWidth, newHeight) => {
+    var setContainerSize = (0, import_react61.useCallback)((newWidth, newHeight) => {
       setSizes((prevState) => {
         var roundedWidth = Math.round(newWidth);
         var roundedHeight = Math.round(newHeight);
@@ -49977,7 +49999,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         };
       });
     }, []);
-    var innerRef = (0, import_react60.useCallback)((node) => {
+    var innerRef = (0, import_react61.useCallback)((node) => {
       if (typeof ref === "function") {
         ref(node);
       }
@@ -49986,57 +50008,57 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         setContainerSize(containerWidth, containerHeight);
       }
     }, [ref, setContainerSize]);
-    return /* @__PURE__ */ React46.createElement(React46.Fragment, null, /* @__PURE__ */ React46.createElement(ReportChartSize, {
+    return /* @__PURE__ */ React47.createElement(React47.Fragment, null, /* @__PURE__ */ React47.createElement(ReportChartSize, {
       width: sizes.containerWidth,
       height: sizes.containerHeight
-    }), /* @__PURE__ */ React46.createElement("div", _extends31({
+    }), /* @__PURE__ */ React47.createElement("div", _extends31({
       ref: innerRef
     }, props)));
   });
-  var StaticDiv = /* @__PURE__ */ (0, import_react60.forwardRef)((props, ref) => {
+  var StaticDiv = /* @__PURE__ */ (0, import_react61.forwardRef)((props, ref) => {
     var width = props.width, height = props.height;
-    return /* @__PURE__ */ React46.createElement(React46.Fragment, null, /* @__PURE__ */ React46.createElement(ReportChartSize, {
+    return /* @__PURE__ */ React47.createElement(React47.Fragment, null, /* @__PURE__ */ React47.createElement(ReportChartSize, {
       width,
       height
-    }), /* @__PURE__ */ React46.createElement("div", _extends31({
+    }), /* @__PURE__ */ React47.createElement("div", _extends31({
       ref
     }, props)));
   });
-  var NonResponsiveDiv = /* @__PURE__ */ (0, import_react60.forwardRef)((props, ref) => {
+  var NonResponsiveDiv = /* @__PURE__ */ (0, import_react61.forwardRef)((props, ref) => {
     var width = props.width, height = props.height;
     if (typeof width === "string" || typeof height === "string") {
-      return /* @__PURE__ */ React46.createElement(ReadSizeOnceDiv, _extends31({}, props, {
+      return /* @__PURE__ */ React47.createElement(ReadSizeOnceDiv, _extends31({}, props, {
         ref
       }));
     }
     if (typeof width === "number" && typeof height === "number") {
-      return /* @__PURE__ */ React46.createElement(StaticDiv, _extends31({}, props, {
+      return /* @__PURE__ */ React47.createElement(StaticDiv, _extends31({}, props, {
         width,
         height,
         ref
       }));
     }
-    return /* @__PURE__ */ React46.createElement(React46.Fragment, null, /* @__PURE__ */ React46.createElement(ReportChartSize, {
+    return /* @__PURE__ */ React47.createElement(React47.Fragment, null, /* @__PURE__ */ React47.createElement(ReportChartSize, {
       width,
       height
-    }), /* @__PURE__ */ React46.createElement("div", _extends31({
+    }), /* @__PURE__ */ React47.createElement("div", _extends31({
       ref
     }, props)));
   });
   function getWrapperDivComponent(responsive) {
     return responsive ? ResponsiveDiv : NonResponsiveDiv;
   }
-  var RechartsWrapper = /* @__PURE__ */ (0, import_react60.forwardRef)((props, ref) => {
+  var RechartsWrapper = /* @__PURE__ */ (0, import_react61.forwardRef)((props, ref) => {
     var children = props.children, className = props.className, heightFromProps = props.height, onClick = props.onClick, onContextMenu = props.onContextMenu, onDoubleClick = props.onDoubleClick, onMouseDown = props.onMouseDown, onMouseEnter = props.onMouseEnter, onMouseLeave = props.onMouseLeave, onMouseMove = props.onMouseMove, onMouseUp = props.onMouseUp, onTouchEnd = props.onTouchEnd, onTouchMove = props.onTouchMove, onTouchStart = props.onTouchStart, style = props.style, widthFromProps = props.width, responsive = props.responsive, _props$dispatchTouchE = props.dispatchTouchEvents, dispatchTouchEvents = _props$dispatchTouchE === void 0 ? true : _props$dispatchTouchE;
-    var containerRef = (0, import_react60.useRef)(null);
+    var containerRef = (0, import_react61.useRef)(null);
     var dispatch = useAppDispatch();
-    var _useState5 = (0, import_react60.useState)(null), _useState6 = _slicedToArray25(_useState5, 2), tooltipPortal = _useState6[0], setTooltipPortal = _useState6[1];
-    var _useState7 = (0, import_react60.useState)(null), _useState8 = _slicedToArray25(_useState7, 2), legendPortal = _useState8[0], setLegendPortal = _useState8[1];
+    var _useState5 = (0, import_react61.useState)(null), _useState6 = _slicedToArray25(_useState5, 2), tooltipPortal = _useState6[0], setTooltipPortal = _useState6[1];
+    var _useState7 = (0, import_react61.useState)(null), _useState8 = _slicedToArray25(_useState7, 2), legendPortal = _useState8[0], setLegendPortal = _useState8[1];
     var setScaleRef = useReportScale();
     var responsiveContainerCalculations = useResponsiveContainerContext();
     var width = (responsiveContainerCalculations === null || responsiveContainerCalculations === void 0 ? void 0 : responsiveContainerCalculations.width) > 0 ? responsiveContainerCalculations.width : widthFromProps;
     var height = (responsiveContainerCalculations === null || responsiveContainerCalculations === void 0 ? void 0 : responsiveContainerCalculations.height) > 0 ? responsiveContainerCalculations.height : heightFromProps;
-    var innerRef = (0, import_react60.useCallback)((node) => {
+    var innerRef = (0, import_react61.useCallback)((node) => {
       setScaleRef(node);
       if (typeof ref === "function") {
         ref(node);
@@ -50047,74 +50069,74 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         containerRef.current = node;
       }
     }, [setScaleRef, ref, setTooltipPortal, setLegendPortal]);
-    var myOnClick = (0, import_react60.useCallback)((e) => {
+    var myOnClick = (0, import_react61.useCallback)((e) => {
       dispatch(mouseClickAction(e));
       dispatch(externalEventAction({
         handler: onClick,
         reactEvent: e
       }));
     }, [dispatch, onClick]);
-    var myOnMouseEnter = (0, import_react60.useCallback)((e) => {
+    var myOnMouseEnter = (0, import_react61.useCallback)((e) => {
       dispatch(mouseMoveAction(e));
       dispatch(externalEventAction({
         handler: onMouseEnter,
         reactEvent: e
       }));
     }, [dispatch, onMouseEnter]);
-    var myOnMouseLeave = (0, import_react60.useCallback)((e) => {
+    var myOnMouseLeave = (0, import_react61.useCallback)((e) => {
       dispatch(mouseLeaveChart());
       dispatch(externalEventAction({
         handler: onMouseLeave,
         reactEvent: e
       }));
     }, [dispatch, onMouseLeave]);
-    var myOnMouseMove = (0, import_react60.useCallback)((e) => {
+    var myOnMouseMove = (0, import_react61.useCallback)((e) => {
       dispatch(mouseMoveAction(e));
       dispatch(externalEventAction({
         handler: onMouseMove,
         reactEvent: e
       }));
     }, [dispatch, onMouseMove]);
-    var onFocus = (0, import_react60.useCallback)(() => {
+    var onFocus = (0, import_react61.useCallback)(() => {
       dispatch(focusAction());
     }, [dispatch]);
-    var onBlur = (0, import_react60.useCallback)(() => {
+    var onBlur = (0, import_react61.useCallback)(() => {
       dispatch(blurAction());
     }, [dispatch]);
-    var onKeyDown = (0, import_react60.useCallback)((e) => {
+    var onKeyDown = (0, import_react61.useCallback)((e) => {
       dispatch(keyDownAction(e.key));
     }, [dispatch]);
-    var myOnContextMenu = (0, import_react60.useCallback)((e) => {
+    var myOnContextMenu = (0, import_react61.useCallback)((e) => {
       dispatch(externalEventAction({
         handler: onContextMenu,
         reactEvent: e
       }));
     }, [dispatch, onContextMenu]);
-    var myOnDoubleClick = (0, import_react60.useCallback)((e) => {
+    var myOnDoubleClick = (0, import_react61.useCallback)((e) => {
       dispatch(externalEventAction({
         handler: onDoubleClick,
         reactEvent: e
       }));
     }, [dispatch, onDoubleClick]);
-    var myOnMouseDown = (0, import_react60.useCallback)((e) => {
+    var myOnMouseDown = (0, import_react61.useCallback)((e) => {
       dispatch(externalEventAction({
         handler: onMouseDown,
         reactEvent: e
       }));
     }, [dispatch, onMouseDown]);
-    var myOnMouseUp = (0, import_react60.useCallback)((e) => {
+    var myOnMouseUp = (0, import_react61.useCallback)((e) => {
       dispatch(externalEventAction({
         handler: onMouseUp,
         reactEvent: e
       }));
     }, [dispatch, onMouseUp]);
-    var myOnTouchStart = (0, import_react60.useCallback)((e) => {
+    var myOnTouchStart = (0, import_react61.useCallback)((e) => {
       dispatch(externalEventAction({
         handler: onTouchStart,
         reactEvent: e
       }));
     }, [dispatch, onTouchStart]);
-    var myOnTouchMove = (0, import_react60.useCallback)((e) => {
+    var myOnTouchMove = (0, import_react61.useCallback)((e) => {
       if (dispatchTouchEvents) {
         dispatch(touchEventAction(e));
       }
@@ -50123,18 +50145,18 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         reactEvent: e
       }));
     }, [dispatch, dispatchTouchEvents, onTouchMove]);
-    var myOnTouchEnd = (0, import_react60.useCallback)((e) => {
+    var myOnTouchEnd = (0, import_react61.useCallback)((e) => {
       dispatch(externalEventAction({
         handler: onTouchEnd,
         reactEvent: e
       }));
     }, [dispatch, onTouchEnd]);
     var WrapperDiv = getWrapperDivComponent(responsive);
-    return /* @__PURE__ */ React46.createElement(TooltipPortalContext.Provider, {
+    return /* @__PURE__ */ React47.createElement(TooltipPortalContext.Provider, {
       value: tooltipPortal
-    }, /* @__PURE__ */ React46.createElement(LegendPortalContext.Provider, {
+    }, /* @__PURE__ */ React47.createElement(LegendPortalContext.Provider, {
       value: legendPortal
-    }, /* @__PURE__ */ React46.createElement(WrapperDiv, {
+    }, /* @__PURE__ */ React47.createElement(WrapperDiv, {
       width: width !== null && width !== void 0 ? width : style === null || style === void 0 ? void 0 : style.width,
       height: height !== null && height !== void 0 ? height : style === null || style === void 0 ? void 0 : style.height,
       className: clsx("recharts-wrapper", className),
@@ -50159,7 +50181,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       onTouchMove: myOnTouchMove,
       onTouchStart: myOnTouchStart,
       ref: innerRef
-    }, /* @__PURE__ */ React46.createElement(EventSynchronizer, null), children)));
+    }, /* @__PURE__ */ React47.createElement(EventSynchronizer, null), children)));
   });
 
   // node_modules/recharts/es6/chart/CategoricalChart.js
@@ -50182,20 +50204,20 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     }
     return t;
   }
-  var CategoricalChart = /* @__PURE__ */ (0, import_react61.forwardRef)((props, ref) => {
+  var CategoricalChart = /* @__PURE__ */ (0, import_react62.forwardRef)((props, ref) => {
     var width = props.width, height = props.height, responsive = props.responsive, children = props.children, className = props.className, style = props.style, compact = props.compact, title = props.title, desc = props.desc, others = _objectWithoutProperties29(props, _excluded46);
     var attrs = svgPropertiesNoEvents(others);
     if (compact) {
-      return /* @__PURE__ */ React47.createElement(React47.Fragment, null, /* @__PURE__ */ React47.createElement(ReportChartSize, {
+      return /* @__PURE__ */ React48.createElement(React48.Fragment, null, /* @__PURE__ */ React48.createElement(ReportChartSize, {
         width,
         height
-      }), /* @__PURE__ */ React47.createElement(RootSurface, {
+      }), /* @__PURE__ */ React48.createElement(RootSurface, {
         otherAttributes: attrs,
         title,
         desc
       }, children));
     }
-    return /* @__PURE__ */ React47.createElement(RechartsWrapper, {
+    return /* @__PURE__ */ React48.createElement(RechartsWrapper, {
       className,
       style,
       width,
@@ -50212,12 +50234,12 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       onTouchStart: props.onTouchStart,
       onTouchMove: props.onTouchMove,
       onTouchEnd: props.onTouchEnd
-    }, /* @__PURE__ */ React47.createElement(RootSurface, {
+    }, /* @__PURE__ */ React48.createElement(RootSurface, {
       otherAttributes: attrs,
       title,
       desc,
       ref
-    }, /* @__PURE__ */ React47.createElement(ClipPathProvider, null, children)));
+    }, /* @__PURE__ */ React48.createElement(ClipPathProvider, null, children)));
   });
 
   // node_modules/recharts/es6/chart/CartesianChart.js
@@ -50285,7 +50307,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     stackOffset: "none",
     syncMethod: "index"
   }, initialEventSettingsState);
-  var CartesianChart = /* @__PURE__ */ (0, import_react62.forwardRef)(function CartesianChart2(props, ref) {
+  var CartesianChart = /* @__PURE__ */ (0, import_react63.forwardRef)(function CartesianChart2(props, ref) {
     var _categoricalChartProp;
     var rootChartProps = resolveDefaultProps(props.categoricalChartProps, defaultCartesianChartProps);
     var chartName = props.chartName, defaultTooltipEventType = props.defaultTooltipEventType, validateTooltipEventTypes = props.validateTooltipEventTypes, tooltipPayloadSearcher = props.tooltipPayloadSearcher, categoricalChartProps = props.categoricalChartProps;
@@ -50296,20 +50318,20 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       tooltipPayloadSearcher,
       eventEmitter: void 0
     };
-    return /* @__PURE__ */ React48.createElement(RechartsStoreProvider, {
+    return /* @__PURE__ */ React49.createElement(RechartsStoreProvider, {
       preloadedState: {
         options
       },
       reduxStoreName: (_categoricalChartProp = categoricalChartProps.id) !== null && _categoricalChartProp !== void 0 ? _categoricalChartProp : chartName
-    }, /* @__PURE__ */ React48.createElement(ChartDataContextProvider, {
+    }, /* @__PURE__ */ React49.createElement(ChartDataContextProvider, {
       chartData: categoricalChartProps.data
-    }), /* @__PURE__ */ React48.createElement(ReportMainChartProps, {
+    }), /* @__PURE__ */ React49.createElement(ReportMainChartProps, {
       layout: rootChartProps.layout,
       margin: rootChartProps.margin
-    }), /* @__PURE__ */ React48.createElement(ReportEventSettings, {
+    }), /* @__PURE__ */ React49.createElement(ReportEventSettings, {
       throttleDelay: rootChartProps.throttleDelay,
       throttledEvents: rootChartProps.throttledEvents
-    }), /* @__PURE__ */ React48.createElement(ReportChartProps, {
+    }), /* @__PURE__ */ React49.createElement(ReportChartProps, {
       baseValue: rootChartProps.baseValue,
       accessibilityLayer: rootChartProps.accessibilityLayer,
       barCategoryGap: rootChartProps.barCategoryGap,
@@ -50321,15 +50343,15 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       syncMethod: rootChartProps.syncMethod,
       className: rootChartProps.className,
       reverseStackOrder: rootChartProps.reverseStackOrder
-    }), /* @__PURE__ */ React48.createElement(CategoricalChart, _extends32({}, rootChartProps, {
+    }), /* @__PURE__ */ React49.createElement(CategoricalChart, _extends32({}, rootChartProps, {
       ref
     })));
   });
 
   // node_modules/recharts/es6/chart/LineChart.js
   var allowedTooltipTypes = ["axis"];
-  var LineChart = /* @__PURE__ */ (0, import_react63.forwardRef)((props, ref) => {
-    return /* @__PURE__ */ React49.createElement(CartesianChart, {
+  var LineChart = /* @__PURE__ */ (0, import_react64.forwardRef)((props, ref) => {
+    return /* @__PURE__ */ React50.createElement(CartesianChart, {
       chartName: "LineChart",
       defaultTooltipEventType: "axis",
       validateTooltipEventTypes: allowedTooltipTypes,
@@ -50340,11 +50362,11 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   });
 
   // node_modules/recharts/es6/chart/BarChart.js
-  var React50 = __toESM(require_react());
-  var import_react64 = __toESM(require_react());
+  var React51 = __toESM(require_react());
+  var import_react65 = __toESM(require_react());
   var allowedTooltipTypes2 = ["axis", "item"];
-  var BarChart = /* @__PURE__ */ (0, import_react64.forwardRef)((props, ref) => {
-    return /* @__PURE__ */ React50.createElement(CartesianChart, {
+  var BarChart = /* @__PURE__ */ (0, import_react65.forwardRef)((props, ref) => {
+    return /* @__PURE__ */ React51.createElement(CartesianChart, {
       chartName: "BarChart",
       defaultTooltipEventType: "axis",
       validateTooltipEventTypes: allowedTooltipTypes2,
@@ -50355,18 +50377,18 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   });
 
   // node_modules/recharts/es6/chart/PieChart.js
-  var React52 = __toESM(require_react());
-  var import_react67 = __toESM(require_react());
+  var React53 = __toESM(require_react());
+  var import_react68 = __toESM(require_react());
 
   // node_modules/recharts/es6/chart/PolarChart.js
-  var import_react66 = __toESM(require_react());
-  var React51 = __toESM(require_react());
+  var import_react67 = __toESM(require_react());
+  var React52 = __toESM(require_react());
 
   // node_modules/recharts/es6/state/ReportPolarOptions.js
-  var import_react65 = __toESM(require_react());
+  var import_react66 = __toESM(require_react());
   function ReportPolarOptions(props) {
     var dispatch = useAppDispatch();
-    (0, import_react65.useEffect)(() => {
+    (0, import_react66.useEffect)(() => {
       dispatch(updatePolarOptions(props));
     }, [dispatch, props]);
     return null;
@@ -50460,7 +50482,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     innerRadius: 0,
     outerRadius: "80%"
   }, initialEventSettingsState);
-  var PolarChart = /* @__PURE__ */ (0, import_react66.forwardRef)(function PolarChart2(props, ref) {
+  var PolarChart = /* @__PURE__ */ (0, import_react67.forwardRef)(function PolarChart2(props, ref) {
     var _polarChartProps$id;
     var polarChartProps = resolveDefaultProps(props.categoricalChartProps, defaultPolarChartProps);
     var layout = polarChartProps.layout, otherCategoricalProps = _objectWithoutProperties30(polarChartProps, _excluded47);
@@ -50472,20 +50494,20 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       tooltipPayloadSearcher,
       eventEmitter: void 0
     };
-    return /* @__PURE__ */ React51.createElement(RechartsStoreProvider, {
+    return /* @__PURE__ */ React52.createElement(RechartsStoreProvider, {
       preloadedState: {
         options
       },
       reduxStoreName: (_polarChartProps$id = polarChartProps.id) !== null && _polarChartProps$id !== void 0 ? _polarChartProps$id : chartName
-    }, /* @__PURE__ */ React51.createElement(ChartDataContextProvider, {
+    }, /* @__PURE__ */ React52.createElement(ChartDataContextProvider, {
       chartData: polarChartProps.data
-    }), /* @__PURE__ */ React51.createElement(ReportMainChartProps, {
+    }), /* @__PURE__ */ React52.createElement(ReportMainChartProps, {
       layout,
       margin: polarChartProps.margin
-    }), /* @__PURE__ */ React51.createElement(ReportEventSettings, {
+    }), /* @__PURE__ */ React52.createElement(ReportEventSettings, {
       throttleDelay: polarChartProps.throttleDelay,
       throttledEvents: polarChartProps.throttledEvents
-    }), /* @__PURE__ */ React51.createElement(ReportChartProps, {
+    }), /* @__PURE__ */ React52.createElement(ReportChartProps, {
       baseValue: void 0,
       accessibilityLayer: polarChartProps.accessibilityLayer,
       barCategoryGap: polarChartProps.barCategoryGap,
@@ -50497,14 +50519,14 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       syncMethod: polarChartProps.syncMethod,
       className: polarChartProps.className,
       reverseStackOrder: polarChartProps.reverseStackOrder
-    }), /* @__PURE__ */ React51.createElement(ReportPolarOptions, {
+    }), /* @__PURE__ */ React52.createElement(ReportPolarOptions, {
       cx: polarChartProps.cx,
       cy: polarChartProps.cy,
       startAngle: polarChartProps.startAngle,
       endAngle: polarChartProps.endAngle,
       innerRadius: polarChartProps.innerRadius,
       outerRadius: polarChartProps.outerRadius
-    }), /* @__PURE__ */ React51.createElement(CategoricalChart, _extends33({}, otherCategoricalProps, {
+    }), /* @__PURE__ */ React52.createElement(CategoricalChart, _extends33({}, otherCategoricalProps, {
       ref
     })));
   });
@@ -50554,9 +50576,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     startAngle: 0,
     endAngle: 360
   });
-  var PieChart = /* @__PURE__ */ (0, import_react67.forwardRef)((props, ref) => {
+  var PieChart = /* @__PURE__ */ (0, import_react68.forwardRef)((props, ref) => {
     var propsWithDefaults = resolveDefaultProps(props, defaultPieChartProps);
-    return /* @__PURE__ */ React52.createElement(PolarChart, {
+    return /* @__PURE__ */ React53.createElement(PolarChart, {
       chartName: "PieChart",
       defaultTooltipEventType: "item",
       validateTooltipEventTypes: allowedTooltipTypes3,
@@ -50567,11 +50589,11 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   });
 
   // node_modules/recharts/es6/chart/ScatterChart.js
-  var React53 = __toESM(require_react());
-  var import_react68 = __toESM(require_react());
+  var React54 = __toESM(require_react());
+  var import_react69 = __toESM(require_react());
   var allowedTooltipTypes4 = ["item"];
-  var ScatterChart = /* @__PURE__ */ (0, import_react68.forwardRef)((props, ref) => {
-    return /* @__PURE__ */ React53.createElement(CartesianChart, {
+  var ScatterChart = /* @__PURE__ */ (0, import_react69.forwardRef)((props, ref) => {
+    return /* @__PURE__ */ React54.createElement(CartesianChart, {
       chartName: "ScatterChart",
       defaultTooltipEventType: "item",
       validateTooltipEventTypes: allowedTooltipTypes4,
@@ -50628,41 +50650,34 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     { id: "results", label: "R\xE9sultats & rapport", icon: FileText },
     { id: "map", label: "Cartographie", icon: MapPin }
   ];
-  var NAVY = "#1F3864";
+  var NAVY2 = "#1F3864";
   var GOLD = "#C99A2E";
   function Watermark() {
-    return /* @__PURE__ */ import_react69.default.createElement("div", { className: "fixed inset-0 overflow-hidden pointer-events-none z-0 flex items-center justify-center" }, /* @__PURE__ */ import_react69.default.createElement(
+    return /* @__PURE__ */ import_react70.default.createElement("div", { className: "fixed inset-0 overflow-hidden pointer-events-none z-0 flex items-center justify-center" }, /* @__PURE__ */ import_react70.default.createElement(
       "span",
       {
         className: "font-serif font-black whitespace-nowrap select-none",
-        style: { color: NAVY, opacity: 0.06, fontSize: "13vw", letterSpacing: "-0.02em" }
+        style: { color: NAVY2, opacity: 0.06, fontSize: "13vw", letterSpacing: "-0.02em" }
       },
       "AgriHakStat"
-    ), /* @__PURE__ */ import_react69.default.createElement(
+    ), /* @__PURE__ */ import_react70.default.createElement(
       "span",
       {
         className: "absolute bottom-4 right-6 text-xs font-medium select-none",
-        style: { color: NAVY, opacity: 0.35 }
+        style: { color: NAVY2, opacity: 0.35 }
       },
       "Con\xE7u par Hakibou MOUSSA"
     ));
   }
-  function Dashboard({ active, onNavigate }) {
-    return /* @__PURE__ */ import_react69.default.createElement("div", { className: "min-h-screen relative bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans" }, /* @__PURE__ */ import_react69.default.createElement(Watermark, null), /* @__PURE__ */ import_react69.default.createElement("div", { className: "relative z-10 flex" }, /* @__PURE__ */ import_react69.default.createElement(
+  function Dashboard({ active, onNavigate, userEmail, roleLabel, isAdmin, isGuest, onLogout, onOpenAdmin }) {
+    return /* @__PURE__ */ import_react70.default.createElement("div", { className: "min-h-screen relative bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans" }, /* @__PURE__ */ import_react70.default.createElement(Watermark, null), /* @__PURE__ */ import_react70.default.createElement("div", { className: "relative z-10 flex" }, /* @__PURE__ */ import_react70.default.createElement(
       "aside",
       {
         className: "w-60 min-h-screen shrink-0 py-6 px-4 text-[#C7D2E8]",
-        style: { background: `linear-gradient(180deg, ${NAVY} 0%, #16294B 100%)` }
+        style: { background: `linear-gradient(180deg, ${NAVY2} 0%, #16294B 100%)` }
       },
-      /* @__PURE__ */ import_react69.default.createElement("div", { className: "flex items-center gap-2 px-2 mb-8" }, /* @__PURE__ */ import_react69.default.createElement(
-        "div",
-        {
-          className: "w-10 h-10 rounded-xl flex items-center justify-center shadow-lg",
-          style: { background: GOLD }
-        },
-        /* @__PURE__ */ import_react69.default.createElement(Sprout, { size: 19, className: "text-white" })
-      ), /* @__PURE__ */ import_react69.default.createElement("div", null, /* @__PURE__ */ import_react69.default.createElement("div", { className: "font-serif font-bold text-white text-[16px] leading-none" }, "AgriHakStat"), /* @__PURE__ */ import_react69.default.createElement("div", { className: "text-[10px] opacity-60 mt-1" }, "DDAEP-Borgou"))),
-      /* @__PURE__ */ import_react69.default.createElement("nav", { className: "space-y-1.5" }, nav.map((item) => /* @__PURE__ */ import_react69.default.createElement(
+      /* @__PURE__ */ import_react70.default.createElement("div", { className: "flex flex-col items-start gap-1 px-2 mb-8" }, /* @__PURE__ */ import_react70.default.createElement("img", { src: "./logo-compact.png", alt: "AgriHakStat", className: "h-16 w-auto -ml-1" }), /* @__PURE__ */ import_react70.default.createElement("div", { className: "text-[10px] opacity-60" }, "DDAEP-Borgou")),
+      /* @__PURE__ */ import_react70.default.createElement("nav", { className: "space-y-1.5" }, nav.map((item) => /* @__PURE__ */ import_react70.default.createElement(
         "div",
         {
           key: item.id,
@@ -50670,60 +50685,63 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           className: `flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer text-sm transition-colors ${item.id === active ? "bg-[#16294B] text-white font-medium shadow-inner border-l-4" : "hover:bg-white/5"}`,
           style: item.id === active ? { borderColor: GOLD } : {}
         },
-        /* @__PURE__ */ import_react69.default.createElement(item.icon, { size: 17 }),
+        /* @__PURE__ */ import_react70.default.createElement(item.icon, { size: 17 }),
         item.label
       ))),
-      /* @__PURE__ */ import_react69.default.createElement("div", { className: "mt-10 mx-2 p-4 rounded-xl bg-white/5 border border-white/10" }, /* @__PURE__ */ import_react69.default.createElement("div", { className: "flex items-center gap-2 mb-2" }, /* @__PURE__ */ import_react69.default.createElement(Sun, { size: 15, style: { color: GOLD } }), /* @__PURE__ */ import_react69.default.createElement("span", { className: "text-xs font-medium text-white" }, "Saison des pluies")), /* @__PURE__ */ import_react69.default.createElement("p", { className: "text-[11px] leading-relaxed opacity-70" }, "Pic pluviom\xE9trique attendu semaine du 10 ao\xFBt sur Tchaourou et P\xE9r\xE8r\xE8."))
-    ), /* @__PURE__ */ import_react69.default.createElement("div", { className: "flex-1 min-h-screen" }, /* @__PURE__ */ import_react69.default.createElement(
+      /* @__PURE__ */ import_react70.default.createElement("div", { className: "mt-10 mx-2 p-4 rounded-xl bg-white/5 border border-white/10" }, /* @__PURE__ */ import_react70.default.createElement("div", { className: "flex items-center gap-2 mb-2" }, /* @__PURE__ */ import_react70.default.createElement(Sun, { size: 15, style: { color: GOLD } }), /* @__PURE__ */ import_react70.default.createElement("span", { className: "text-xs font-medium text-white" }, "Saison des pluies")), /* @__PURE__ */ import_react70.default.createElement("p", { className: "text-[11px] leading-relaxed opacity-70" }, "Pic pluviom\xE9trique attendu semaine du 10 ao\xFBt sur Tchaourou et P\xE9r\xE8r\xE8."))
+    ), /* @__PURE__ */ import_react70.default.createElement("div", { className: "flex-1 min-h-screen" }, /* @__PURE__ */ import_react70.default.createElement(
       "header",
       {
         className: "bg-white/70 backdrop-blur px-8 py-4 flex items-center justify-between",
         style: { borderBottom: `2px solid ${GOLD}` }
       },
-      /* @__PURE__ */ import_react69.default.createElement("div", null, /* @__PURE__ */ import_react69.default.createElement("h1", { className: "font-serif text-xl font-bold", style: { color: NAVY } }, "Tableau de bord"), /* @__PURE__ */ import_react69.default.createElement("p", { className: "text-xs text-gray-500 mt-0.5" }, "Campagne agricole 2026\u20132027 \xB7 P\xF4le de D\xE9veloppement Agricole n\xB04")),
-      /* @__PURE__ */ import_react69.default.createElement("div", { className: "flex items-center gap-4" }, /* @__PURE__ */ import_react69.default.createElement(Bell, { size: 18, className: "text-gray-400" }), /* @__PURE__ */ import_react69.default.createElement("div", { className: "flex items-center gap-2 text-sm" }, /* @__PURE__ */ import_react69.default.createElement(
-        "div",
+      /* @__PURE__ */ import_react70.default.createElement("div", null, /* @__PURE__ */ import_react70.default.createElement("h1", { className: "font-serif text-xl font-bold", style: { color: NAVY2 } }, "Tableau de bord"), /* @__PURE__ */ import_react70.default.createElement("p", { className: "text-xs text-gray-500 mt-0.5" }, "Campagne agricole 2026\u20132027 \xB7 P\xF4le de D\xE9veloppement Agricole n\xB04")),
+      /* @__PURE__ */ import_react70.default.createElement("div", { className: "flex items-center gap-4" }, /* @__PURE__ */ import_react70.default.createElement(Bell, { size: 18, className: "text-gray-400" }), /* @__PURE__ */ import_react70.default.createElement(
+        UserMenu,
         {
-          className: "w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold text-white",
-          style: { background: NAVY }
-        },
-        "HM"
-      ), /* @__PURE__ */ import_react69.default.createElement("div", { className: "leading-tight" }, /* @__PURE__ */ import_react69.default.createElement("div", { className: "font-medium text-gray-800" }, "H. Moussa"), /* @__PURE__ */ import_react69.default.createElement("div", { className: "text-[11px] text-gray-500" }, "C/SESSEC")), /* @__PURE__ */ import_react69.default.createElement(ChevronDown, { size: 14, className: "text-gray-400" })))
-    ), /* @__PURE__ */ import_react69.default.createElement("main", { className: "p-8" }, /* @__PURE__ */ import_react69.default.createElement("div", { className: "flex gap-3 mb-6" }, /* @__PURE__ */ import_react69.default.createElement(
+          email: userEmail,
+          roleLabel,
+          isAdmin,
+          isGuest,
+          onLogout,
+          onOpenAdmin
+        }
+      ))
+    ), /* @__PURE__ */ import_react70.default.createElement("main", { className: "p-8" }, /* @__PURE__ */ import_react70.default.createElement("div", { className: "flex gap-3 mb-6" }, /* @__PURE__ */ import_react70.default.createElement(
       "button",
       {
         onClick: () => onNavigate("import"),
         className: "px-4 py-2.5 rounded-xl text-sm font-medium flex items-center gap-2 text-white shadow-md hover:shadow-lg transition-shadow",
-        style: { background: `linear-gradient(135deg, ${NAVY}, #2A4A82)` }
+        style: { background: `linear-gradient(135deg, ${NAVY2}, #2A4A82)` }
       },
-      /* @__PURE__ */ import_react69.default.createElement(Plus, { size: 15 }),
+      /* @__PURE__ */ import_react70.default.createElement(Plus, { size: 15 }),
       " Nouvelle enqu\xEAte"
-    ), /* @__PURE__ */ import_react69.default.createElement(
+    ), /* @__PURE__ */ import_react70.default.createElement(
       "button",
       {
         onClick: () => onNavigate("import"),
         className: "px-4 py-2.5 rounded-xl text-sm font-medium flex items-center gap-2 shadow-sm hover:shadow-md transition-shadow bg-white",
         style: { border: `1.5px solid ${GOLD}`, color: "#8A5A00" }
       },
-      /* @__PURE__ */ import_react69.default.createElement(Upload, { size: 15 }),
+      /* @__PURE__ */ import_react70.default.createElement(Upload, { size: 15 }),
       " Importer questionnaire + base"
-    )), /* @__PURE__ */ import_react69.default.createElement("div", { className: "grid grid-cols-4 gap-4 mb-6" }, kpis.map((kpi) => /* @__PURE__ */ import_react69.default.createElement(
+    )), /* @__PURE__ */ import_react70.default.createElement("div", { className: "grid grid-cols-4 gap-4 mb-6" }, kpis.map((kpi) => /* @__PURE__ */ import_react70.default.createElement(
       "div",
       {
         key: kpi.label,
         className: "relative rounded-2xl p-4 overflow-hidden shadow-sm border border-black/5",
         style: { background: kpi.tint }
       },
-      /* @__PURE__ */ import_react69.default.createElement(kpi.icon, { size: 64, style: { color: kpi.fg, opacity: 0.08 }, className: "absolute -right-3 -bottom-3" }),
-      /* @__PURE__ */ import_react69.default.createElement("div", { className: "relative flex items-center justify-between mb-3" }, /* @__PURE__ */ import_react69.default.createElement("span", { className: "text-xs font-medium", style: { color: kpi.fg, opacity: 0.85 } }, kpi.label), /* @__PURE__ */ import_react69.default.createElement(kpi.icon, { size: 16, style: { color: kpi.fg } })),
-      /* @__PURE__ */ import_react69.default.createElement("div", { className: "relative font-serif text-2xl font-bold", style: { color: kpi.fg } }, kpi.value),
-      /* @__PURE__ */ import_react69.default.createElement("div", { className: "relative text-[11px] mt-1", style: { color: kpi.fg, opacity: 0.65 } }, kpi.note)
-    ))), /* @__PURE__ */ import_react69.default.createElement("div", { className: "grid grid-cols-3 gap-4" }, /* @__PURE__ */ import_react69.default.createElement("div", { className: "col-span-2 bg-white rounded-2xl p-5 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react69.default.createElement("div", { className: "flex items-center justify-between mb-1" }, /* @__PURE__ */ import_react69.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY } }, "Progression des semis par fili\xE8re"), /* @__PURE__ */ import_react69.default.createElement(Ellipsis, { size: 16, className: "text-gray-400" })), /* @__PURE__ */ import_react69.default.createElement("p", { className: "text-xs text-gray-400 mb-4" }, "Taux de r\xE9alisation cumul\xE9 (%) par d\xE9cade \u2014 toutes communes"), /* @__PURE__ */ import_react69.default.createElement(ResponsiveContainer, { width: "100%", height: 230 }, /* @__PURE__ */ import_react69.default.createElement(LineChart, { data: growthData }, /* @__PURE__ */ import_react69.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react69.default.createElement(XAxis, { dataKey: "decade", tick: { fontSize: 11 }, stroke: "#999" }), /* @__PURE__ */ import_react69.default.createElement(YAxis, { tick: { fontSize: 11 }, stroke: "#999", unit: "%" }), /* @__PURE__ */ import_react69.default.createElement(Tooltip, null), /* @__PURE__ */ import_react69.default.createElement(Legend, { wrapperStyle: { fontSize: 11 } }), Object.entries(FILIERES).map(([key, val]) => /* @__PURE__ */ import_react69.default.createElement(Line, { key, type: "monotone", dataKey: key, stroke: val.color, strokeWidth: 2.5, dot: { r: 3 } })))), /* @__PURE__ */ import_react69.default.createElement("div", { className: "h-1 w-16 rounded-full mt-2", style: { background: GOLD } })), /* @__PURE__ */ import_react69.default.createElement("div", { className: "bg-white rounded-2xl p-5 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react69.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY } }, "R\xE9partition des enqu\xEAtes"), /* @__PURE__ */ import_react69.default.createElement("p", { className: "text-xs text-gray-400 mb-2" }, "Par fili\xE8re \u2014 campagne en cours"), /* @__PURE__ */ import_react69.default.createElement(ResponsiveContainer, { width: "100%", height: 160 }, /* @__PURE__ */ import_react69.default.createElement(PieChart, null, /* @__PURE__ */ import_react69.default.createElement(Pie, { data: repartition, dataKey: "value", nameKey: "name", innerRadius: 38, outerRadius: 62, paddingAngle: 3 }, repartition.map((entry) => /* @__PURE__ */ import_react69.default.createElement(Cell, { key: entry.name, fill: FILIERES[entry.name].color }))), /* @__PURE__ */ import_react69.default.createElement(Tooltip, null))), /* @__PURE__ */ import_react69.default.createElement("div", { className: "grid grid-cols-2 gap-x-3 gap-y-1.5 mt-2" }, repartition.map((entry) => /* @__PURE__ */ import_react69.default.createElement("div", { key: entry.name, className: "flex items-center gap-1.5 text-[11px] text-gray-600" }, /* @__PURE__ */ import_react69.default.createElement("span", { className: "w-2.5 h-2.5 rounded-full", style: { background: FILIERES[entry.name].color } }), entry.name, " \xB7 ", entry.value, "%"))))), /* @__PURE__ */ import_react69.default.createElement("div", { className: "grid grid-cols-3 gap-4 mt-4" }, /* @__PURE__ */ import_react69.default.createElement("div", { className: "rounded-2xl p-4 shadow-sm border-l-4 bg-white flex items-start gap-3", style: { borderColor: "#F0AC1B" } }, /* @__PURE__ */ import_react69.default.createElement(TriangleAlert, { size: 18, style: { color: "#F0AC1B" }, className: "mt-0.5" }), /* @__PURE__ */ import_react69.default.createElement("div", null, /* @__PURE__ */ import_react69.default.createElement("div", { className: "text-sm font-medium text-gray-800" }, "Coton \u2014 P\xE9r\xE8r\xE8"), /* @__PURE__ */ import_react69.default.createElement("div", { className: "text-xs text-gray-500 mt-0.5" }, "Taux de r\xE9alisation 62 %, sous le seuil d\xE9cadaire (75 %)"))), /* @__PURE__ */ import_react69.default.createElement("div", { className: "rounded-2xl p-4 shadow-sm border-l-4 bg-white flex items-start gap-3", style: { borderColor: "#D9534F" } }, /* @__PURE__ */ import_react69.default.createElement(Droplets, { size: 18, style: { color: "#D9534F" }, className: "mt-0.5" }), /* @__PURE__ */ import_react69.default.createElement("div", null, /* @__PURE__ */ import_react69.default.createElement("div", { className: "text-sm font-medium text-gray-800" }, "Riz \u2014 Bemb\xE9r\xE9k\xE9"), /* @__PURE__ */ import_react69.default.createElement("div", { className: "text-xs text-gray-500 mt-0.5" }, "Anomalie de saisie d\xE9tect\xE9e sur 4 fiches"))), /* @__PURE__ */ import_react69.default.createElement("div", { className: "rounded-2xl p-4 shadow-sm border-l-4 bg-white flex items-start gap-3", style: { borderColor: "#3E9C6B" } }, /* @__PURE__ */ import_react69.default.createElement(CircleCheck, { size: 18, style: { color: "#3E9C6B" }, className: "mt-0.5" }), /* @__PURE__ */ import_react69.default.createElement("div", null, /* @__PURE__ */ import_react69.default.createElement("div", { className: "text-sm font-medium text-gray-800" }, "Ma\xEFs \u2014 N'Dali"), /* @__PURE__ */ import_react69.default.createElement("div", { className: "text-xs text-gray-500 mt-0.5" }, "Objectif d\xE9cadaire atteint")))), /* @__PURE__ */ import_react69.default.createElement("div", { className: "bg-white rounded-2xl mt-4 overflow-hidden shadow-sm border border-black/5" }, /* @__PURE__ */ import_react69.default.createElement("div", { className: "px-5 py-4 flex items-center justify-between" }, /* @__PURE__ */ import_react69.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY } }, "Enqu\xEAtes r\xE9centes"), /* @__PURE__ */ import_react69.default.createElement(Clock, { size: 15, className: "text-gray-400" })), /* @__PURE__ */ import_react69.default.createElement("table", { className: "w-full text-sm" }, /* @__PURE__ */ import_react69.default.createElement("thead", null, /* @__PURE__ */ import_react69.default.createElement("tr", { className: "text-left text-[11px] text-gray-400 uppercase border-t border-b border-gray-100" }, /* @__PURE__ */ import_react69.default.createElement("th", { className: "px-5 py-2 font-medium" }, "Enqu\xEAte"), /* @__PURE__ */ import_react69.default.createElement("th", { className: "px-5 py-2 font-medium" }, "Fili\xE8re"), /* @__PURE__ */ import_react69.default.createElement("th", { className: "px-5 py-2 font-medium" }, "Commune"), /* @__PURE__ */ import_react69.default.createElement("th", { className: "px-5 py-2 font-medium" }, "Statut"), /* @__PURE__ */ import_react69.default.createElement("th", { className: "px-5 py-2 font-medium" }, "Date"))), /* @__PURE__ */ import_react69.default.createElement("tbody", null, surveys.map((s2) => /* @__PURE__ */ import_react69.default.createElement("tr", { key: s2.name, className: "border-b border-gray-50 last:border-0" }, /* @__PURE__ */ import_react69.default.createElement("td", { className: "px-5 py-3 text-gray-800" }, s2.name), /* @__PURE__ */ import_react69.default.createElement("td", { className: "px-5 py-3" }, /* @__PURE__ */ import_react69.default.createElement("span", { className: "inline-flex items-center gap-1.5 text-gray-600" }, /* @__PURE__ */ import_react69.default.createElement("span", { className: "w-2 h-2 rounded-full", style: { background: FILIERES[s2.filiere].color } }), s2.filiere)), /* @__PURE__ */ import_react69.default.createElement("td", { className: "px-5 py-3 text-gray-500" }, s2.commune), /* @__PURE__ */ import_react69.default.createElement("td", { className: "px-5 py-3" }, /* @__PURE__ */ import_react69.default.createElement("span", { className: `px-2 py-1 rounded-full text-[11px] font-medium ${statusColors[s2.status]}` }, s2.status)), /* @__PURE__ */ import_react69.default.createElement("td", { className: "px-5 py-3 text-gray-400" }, s2.date))))))))));
+      /* @__PURE__ */ import_react70.default.createElement(kpi.icon, { size: 64, style: { color: kpi.fg, opacity: 0.08 }, className: "absolute -right-3 -bottom-3" }),
+      /* @__PURE__ */ import_react70.default.createElement("div", { className: "relative flex items-center justify-between mb-3" }, /* @__PURE__ */ import_react70.default.createElement("span", { className: "text-xs font-medium", style: { color: kpi.fg, opacity: 0.85 } }, kpi.label), /* @__PURE__ */ import_react70.default.createElement(kpi.icon, { size: 16, style: { color: kpi.fg } })),
+      /* @__PURE__ */ import_react70.default.createElement("div", { className: "relative font-serif text-2xl font-bold", style: { color: kpi.fg } }, kpi.value),
+      /* @__PURE__ */ import_react70.default.createElement("div", { className: "relative text-[11px] mt-1", style: { color: kpi.fg, opacity: 0.65 } }, kpi.note)
+    ))), /* @__PURE__ */ import_react70.default.createElement("div", { className: "grid grid-cols-3 gap-4" }, /* @__PURE__ */ import_react70.default.createElement("div", { className: "col-span-2 bg-white rounded-2xl p-5 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react70.default.createElement("div", { className: "flex items-center justify-between mb-1" }, /* @__PURE__ */ import_react70.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY2 } }, "Progression des semis par fili\xE8re"), /* @__PURE__ */ import_react70.default.createElement(Ellipsis, { size: 16, className: "text-gray-400" })), /* @__PURE__ */ import_react70.default.createElement("p", { className: "text-xs text-gray-400 mb-4" }, "Taux de r\xE9alisation cumul\xE9 (%) par d\xE9cade \u2014 toutes communes"), /* @__PURE__ */ import_react70.default.createElement(ResponsiveContainer, { width: "100%", height: 230 }, /* @__PURE__ */ import_react70.default.createElement(LineChart, { data: growthData }, /* @__PURE__ */ import_react70.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react70.default.createElement(XAxis, { dataKey: "decade", tick: { fontSize: 11 }, stroke: "#999" }), /* @__PURE__ */ import_react70.default.createElement(YAxis, { tick: { fontSize: 11 }, stroke: "#999", unit: "%" }), /* @__PURE__ */ import_react70.default.createElement(Tooltip, null), /* @__PURE__ */ import_react70.default.createElement(Legend, { wrapperStyle: { fontSize: 11 } }), Object.entries(FILIERES).map(([key, val]) => /* @__PURE__ */ import_react70.default.createElement(Line, { key, type: "monotone", dataKey: key, stroke: val.color, strokeWidth: 2.5, dot: { r: 3 } })))), /* @__PURE__ */ import_react70.default.createElement("div", { className: "h-1 w-16 rounded-full mt-2", style: { background: GOLD } })), /* @__PURE__ */ import_react70.default.createElement("div", { className: "bg-white rounded-2xl p-5 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react70.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY2 } }, "R\xE9partition des enqu\xEAtes"), /* @__PURE__ */ import_react70.default.createElement("p", { className: "text-xs text-gray-400 mb-2" }, "Par fili\xE8re \u2014 campagne en cours"), /* @__PURE__ */ import_react70.default.createElement(ResponsiveContainer, { width: "100%", height: 160 }, /* @__PURE__ */ import_react70.default.createElement(PieChart, null, /* @__PURE__ */ import_react70.default.createElement(Pie, { data: repartition, dataKey: "value", nameKey: "name", innerRadius: 38, outerRadius: 62, paddingAngle: 3 }, repartition.map((entry) => /* @__PURE__ */ import_react70.default.createElement(Cell, { key: entry.name, fill: FILIERES[entry.name].color }))), /* @__PURE__ */ import_react70.default.createElement(Tooltip, null))), /* @__PURE__ */ import_react70.default.createElement("div", { className: "grid grid-cols-2 gap-x-3 gap-y-1.5 mt-2" }, repartition.map((entry) => /* @__PURE__ */ import_react70.default.createElement("div", { key: entry.name, className: "flex items-center gap-1.5 text-[11px] text-gray-600" }, /* @__PURE__ */ import_react70.default.createElement("span", { className: "w-2.5 h-2.5 rounded-full", style: { background: FILIERES[entry.name].color } }), entry.name, " \xB7 ", entry.value, "%"))))), /* @__PURE__ */ import_react70.default.createElement("div", { className: "grid grid-cols-3 gap-4 mt-4" }, /* @__PURE__ */ import_react70.default.createElement("div", { className: "rounded-2xl p-4 shadow-sm border-l-4 bg-white flex items-start gap-3", style: { borderColor: "#F0AC1B" } }, /* @__PURE__ */ import_react70.default.createElement(TriangleAlert, { size: 18, style: { color: "#F0AC1B" }, className: "mt-0.5" }), /* @__PURE__ */ import_react70.default.createElement("div", null, /* @__PURE__ */ import_react70.default.createElement("div", { className: "text-sm font-medium text-gray-800" }, "Coton \u2014 P\xE9r\xE8r\xE8"), /* @__PURE__ */ import_react70.default.createElement("div", { className: "text-xs text-gray-500 mt-0.5" }, "Taux de r\xE9alisation 62 %, sous le seuil d\xE9cadaire (75 %)"))), /* @__PURE__ */ import_react70.default.createElement("div", { className: "rounded-2xl p-4 shadow-sm border-l-4 bg-white flex items-start gap-3", style: { borderColor: "#D9534F" } }, /* @__PURE__ */ import_react70.default.createElement(Droplets, { size: 18, style: { color: "#D9534F" }, className: "mt-0.5" }), /* @__PURE__ */ import_react70.default.createElement("div", null, /* @__PURE__ */ import_react70.default.createElement("div", { className: "text-sm font-medium text-gray-800" }, "Riz \u2014 Bemb\xE9r\xE9k\xE9"), /* @__PURE__ */ import_react70.default.createElement("div", { className: "text-xs text-gray-500 mt-0.5" }, "Anomalie de saisie d\xE9tect\xE9e sur 4 fiches"))), /* @__PURE__ */ import_react70.default.createElement("div", { className: "rounded-2xl p-4 shadow-sm border-l-4 bg-white flex items-start gap-3", style: { borderColor: "#3E9C6B" } }, /* @__PURE__ */ import_react70.default.createElement(CircleCheck, { size: 18, style: { color: "#3E9C6B" }, className: "mt-0.5" }), /* @__PURE__ */ import_react70.default.createElement("div", null, /* @__PURE__ */ import_react70.default.createElement("div", { className: "text-sm font-medium text-gray-800" }, "Ma\xEFs \u2014 N'Dali"), /* @__PURE__ */ import_react70.default.createElement("div", { className: "text-xs text-gray-500 mt-0.5" }, "Objectif d\xE9cadaire atteint")))), /* @__PURE__ */ import_react70.default.createElement("div", { className: "bg-white rounded-2xl mt-4 overflow-hidden shadow-sm border border-black/5" }, /* @__PURE__ */ import_react70.default.createElement("div", { className: "px-5 py-4 flex items-center justify-between" }, /* @__PURE__ */ import_react70.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY2 } }, "Enqu\xEAtes r\xE9centes"), /* @__PURE__ */ import_react70.default.createElement(Clock, { size: 15, className: "text-gray-400" })), /* @__PURE__ */ import_react70.default.createElement("table", { className: "w-full text-sm" }, /* @__PURE__ */ import_react70.default.createElement("thead", null, /* @__PURE__ */ import_react70.default.createElement("tr", { className: "text-left text-[11px] text-gray-400 uppercase border-t border-b border-gray-100" }, /* @__PURE__ */ import_react70.default.createElement("th", { className: "px-5 py-2 font-medium" }, "Enqu\xEAte"), /* @__PURE__ */ import_react70.default.createElement("th", { className: "px-5 py-2 font-medium" }, "Fili\xE8re"), /* @__PURE__ */ import_react70.default.createElement("th", { className: "px-5 py-2 font-medium" }, "Commune"), /* @__PURE__ */ import_react70.default.createElement("th", { className: "px-5 py-2 font-medium" }, "Statut"), /* @__PURE__ */ import_react70.default.createElement("th", { className: "px-5 py-2 font-medium" }, "Date"))), /* @__PURE__ */ import_react70.default.createElement("tbody", null, surveys.map((s2) => /* @__PURE__ */ import_react70.default.createElement("tr", { key: s2.name, className: "border-b border-gray-50 last:border-0" }, /* @__PURE__ */ import_react70.default.createElement("td", { className: "px-5 py-3 text-gray-800" }, s2.name), /* @__PURE__ */ import_react70.default.createElement("td", { className: "px-5 py-3" }, /* @__PURE__ */ import_react70.default.createElement("span", { className: "inline-flex items-center gap-1.5 text-gray-600" }, /* @__PURE__ */ import_react70.default.createElement("span", { className: "w-2 h-2 rounded-full", style: { background: FILIERES[s2.filiere].color } }), s2.filiere)), /* @__PURE__ */ import_react70.default.createElement("td", { className: "px-5 py-3 text-gray-500" }, s2.commune), /* @__PURE__ */ import_react70.default.createElement("td", { className: "px-5 py-3" }, /* @__PURE__ */ import_react70.default.createElement("span", { className: `px-2 py-1 rounded-full text-[11px] font-medium ${statusColors[s2.status]}` }, s2.status)), /* @__PURE__ */ import_react70.default.createElement("td", { className: "px-5 py-3 text-gray-400" }, s2.date))))))))));
   }
 
   // src/ImportWizard.jsx
-  var import_react70 = __toESM(require_react());
-  var NAVY2 = "#1F3864";
+  var import_react71 = __toESM(require_react());
+  var NAVY3 = "#1F3864";
   var GOLD2 = "#C99A2E";
   var FILIERES2 = {
     Soja: "#3E9C6B",
@@ -50748,82 +50766,82 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     { id: 5, label: "Cartographie des variables" }
   ];
   function Watermark2() {
-    return /* @__PURE__ */ import_react70.default.createElement("div", { className: "fixed inset-0 overflow-hidden pointer-events-none z-0 flex items-center justify-center" }, /* @__PURE__ */ import_react70.default.createElement(
+    return /* @__PURE__ */ import_react71.default.createElement("div", { className: "fixed inset-0 overflow-hidden pointer-events-none z-0 flex items-center justify-center" }, /* @__PURE__ */ import_react71.default.createElement(
       "span",
       {
         className: "font-serif font-black whitespace-nowrap select-none",
-        style: { color: NAVY2, opacity: 0.06, fontSize: "13vw", letterSpacing: "-0.02em" }
+        style: { color: NAVY3, opacity: 0.06, fontSize: "13vw", letterSpacing: "-0.02em" }
       },
       "AgriHakStat"
-    ), /* @__PURE__ */ import_react70.default.createElement(
+    ), /* @__PURE__ */ import_react71.default.createElement(
       "span",
       {
         className: "absolute bottom-4 right-6 text-xs font-medium select-none",
-        style: { color: NAVY2, opacity: 0.35 }
+        style: { color: NAVY3, opacity: 0.35 }
       },
       "Con\xE7u par Hakibou MOUSSA"
     ));
   }
   function Stepper({ current: current2, setCurrent }) {
-    return /* @__PURE__ */ import_react70.default.createElement("div", { className: "flex items-center mb-8" }, STEPS.map((s2, i) => /* @__PURE__ */ import_react70.default.createElement(import_react70.default.Fragment, { key: s2.id }, /* @__PURE__ */ import_react70.default.createElement("button", { onClick: () => setCurrent(s2.id), className: "flex items-center gap-2 group" }, /* @__PURE__ */ import_react70.default.createElement(
+    return /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex items-center mb-8" }, STEPS.map((s2, i) => /* @__PURE__ */ import_react71.default.createElement(import_react71.default.Fragment, { key: s2.id }, /* @__PURE__ */ import_react71.default.createElement("button", { onClick: () => setCurrent(s2.id), className: "flex items-center gap-2 group" }, /* @__PURE__ */ import_react71.default.createElement(
       "div",
       {
         className: "w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold transition-colors shrink-0",
-        style: s2.id < current2 ? { background: "#3E9C6B", color: "white" } : s2.id === current2 ? { background: NAVY2, color: "white" } : { background: "#EDEEF3", color: "#8A93A8" }
+        style: s2.id < current2 ? { background: "#3E9C6B", color: "white" } : s2.id === current2 ? { background: NAVY3, color: "white" } : { background: "#EDEEF3", color: "#8A93A8" }
       },
-      s2.id < current2 ? /* @__PURE__ */ import_react70.default.createElement(Check, { size: 14 }) : s2.id
-    ), /* @__PURE__ */ import_react70.default.createElement(
+      s2.id < current2 ? /* @__PURE__ */ import_react71.default.createElement(Check, { size: 14 }) : s2.id
+    ), /* @__PURE__ */ import_react71.default.createElement(
       "span",
       {
         className: "text-xs font-medium hidden md:block",
-        style: { color: s2.id === current2 ? NAVY2 : "#8A93A8" }
+        style: { color: s2.id === current2 ? NAVY3 : "#8A93A8" }
       },
       s2.label
-    )), i < STEPS.length - 1 && /* @__PURE__ */ import_react70.default.createElement("div", { className: "flex-1 h-[2px] mx-3", style: { background: s2.id < current2 ? "#3E9C6B" : "#E4E6ED" } }))));
+    )), i < STEPS.length - 1 && /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex-1 h-[2px] mx-3", style: { background: s2.id < current2 ? "#3E9C6B" : "#E4E6ED" } }))));
   }
   function Card({ children, className = "" }) {
-    return /* @__PURE__ */ import_react70.default.createElement("div", { className: `bg-white rounded-2xl p-6 shadow-sm border border-black/5 ${className}` }, children);
+    return /* @__PURE__ */ import_react71.default.createElement("div", { className: `bg-white rounded-2xl p-6 shadow-sm border border-black/5 ${className}` }, children);
   }
   function Dropzone({ label, hint, formats }) {
-    return /* @__PURE__ */ import_react70.default.createElement(
+    return /* @__PURE__ */ import_react71.default.createElement(
       "div",
       {
         className: "border-2 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center text-center gap-2 cursor-pointer transition-colors hover:bg-[#FAFBFE]",
         style: { borderColor: "#C7D2E8" }
       },
-      /* @__PURE__ */ import_react70.default.createElement("div", { className: "w-12 h-12 rounded-xl flex items-center justify-center mb-1", style: { background: "#EBEEF7" } }, /* @__PURE__ */ import_react70.default.createElement(Upload, { size: 20, style: { color: NAVY2 } })),
-      /* @__PURE__ */ import_react70.default.createElement("div", { className: "font-medium text-sm", style: { color: NAVY2 } }, label),
-      /* @__PURE__ */ import_react70.default.createElement("div", { className: "text-xs text-gray-400" }, hint),
-      /* @__PURE__ */ import_react70.default.createElement("div", { className: "flex flex-wrap gap-1.5 justify-center mt-2" }, formats.map((f) => /* @__PURE__ */ import_react70.default.createElement("span", { key: f, className: "text-[10px] px-2 py-1 rounded-full bg-[#F6E9DD] text-[#8A4A1D] font-medium" }, f)))
+      /* @__PURE__ */ import_react71.default.createElement("div", { className: "w-12 h-12 rounded-xl flex items-center justify-center mb-1", style: { background: "#EBEEF7" } }, /* @__PURE__ */ import_react71.default.createElement(Upload, { size: 20, style: { color: NAVY3 } })),
+      /* @__PURE__ */ import_react71.default.createElement("div", { className: "font-medium text-sm", style: { color: NAVY3 } }, label),
+      /* @__PURE__ */ import_react71.default.createElement("div", { className: "text-xs text-gray-400" }, hint),
+      /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex flex-wrap gap-1.5 justify-center mt-2" }, formats.map((f) => /* @__PURE__ */ import_react71.default.createElement("span", { key: f, className: "text-[10px] px-2 py-1 rounded-full bg-[#F6E9DD] text-[#8A4A1D] font-medium" }, f)))
     );
   }
   function UploadedFile({ icon: Icon3, name, meta, tint, fg }) {
-    return /* @__PURE__ */ import_react70.default.createElement("div", { className: "flex items-center gap-3 rounded-xl p-3 border border-black/5", style: { background: tint } }, /* @__PURE__ */ import_react70.default.createElement("div", { className: "w-10 h-10 rounded-lg flex items-center justify-center shrink-0", style: { background: "white" } }, /* @__PURE__ */ import_react70.default.createElement(Icon3, { size: 18, style: { color: fg } })), /* @__PURE__ */ import_react70.default.createElement("div", { className: "flex-1 min-w-0" }, /* @__PURE__ */ import_react70.default.createElement("div", { className: "text-sm font-medium truncate", style: { color: fg } }, name), /* @__PURE__ */ import_react70.default.createElement("div", { className: "text-[11px] opacity-70", style: { color: fg } }, meta)), /* @__PURE__ */ import_react70.default.createElement("button", { className: "text-gray-400 hover:text-gray-600" }, /* @__PURE__ */ import_react70.default.createElement(X, { size: 16 })));
+    return /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex items-center gap-3 rounded-xl p-3 border border-black/5", style: { background: tint } }, /* @__PURE__ */ import_react71.default.createElement("div", { className: "w-10 h-10 rounded-lg flex items-center justify-center shrink-0", style: { background: "white" } }, /* @__PURE__ */ import_react71.default.createElement(Icon3, { size: 18, style: { color: fg } })), /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex-1 min-w-0" }, /* @__PURE__ */ import_react71.default.createElement("div", { className: "text-sm font-medium truncate", style: { color: fg } }, name), /* @__PURE__ */ import_react71.default.createElement("div", { className: "text-[11px] opacity-70", style: { color: fg } }, meta)), /* @__PURE__ */ import_react71.default.createElement("button", { className: "text-gray-400 hover:text-gray-600" }, /* @__PURE__ */ import_react71.default.createElement(X, { size: 16 })));
   }
   function Chip({ label, active, onClick, color: color2 }) {
-    return /* @__PURE__ */ import_react70.default.createElement(
+    return /* @__PURE__ */ import_react71.default.createElement(
       "button",
       {
         onClick,
         className: "px-3 py-1.5 rounded-full text-xs font-medium border transition-colors",
-        style: active ? { background: color2 || NAVY2, borderColor: color2 || NAVY2, color: "white" } : { background: "white", borderColor: "#D8DEE9", color: "#5A6478" }
+        style: active ? { background: color2 || NAVY3, borderColor: color2 || NAVY3, color: "white" } : { background: "white", borderColor: "#D8DEE9", color: "#5A6478" }
       },
       label
     );
   }
-  function ImportWizard({ active, onNavigate }) {
-    const [step, setStep] = (0, import_react70.useState)(1);
-    const [communes, setCommunes] = (0, import_react70.useState)(["Tchaourou", "P\xE9r\xE8r\xE8"]);
-    const [filieres, setFilieres] = (0, import_react70.useState)(["Coton"]);
+  function ImportWizard({ active, onNavigate, userEmail, roleLabel, isAdmin, isGuest, onLogout, onOpenAdmin }) {
+    const [step, setStep] = (0, import_react71.useState)(1);
+    const [communes, setCommunes] = (0, import_react71.useState)(["Tchaourou", "P\xE9r\xE8r\xE8"]);
+    const [filieres, setFilieres] = (0, import_react71.useState)(["Coton"]);
     const toggle = (list, setList, item) => setList(list.includes(item) ? list.filter((x2) => x2 !== item) : [...list, item]);
-    return /* @__PURE__ */ import_react70.default.createElement("div", { className: "min-h-screen relative bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans" }, /* @__PURE__ */ import_react70.default.createElement(Watermark2, null), /* @__PURE__ */ import_react70.default.createElement("div", { className: "relative z-10 flex" }, /* @__PURE__ */ import_react70.default.createElement(
+    return /* @__PURE__ */ import_react71.default.createElement("div", { className: "min-h-screen relative bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans" }, /* @__PURE__ */ import_react71.default.createElement(Watermark2, null), /* @__PURE__ */ import_react71.default.createElement("div", { className: "relative z-10 flex" }, /* @__PURE__ */ import_react71.default.createElement(
       "aside",
       {
         className: "w-60 min-h-screen shrink-0 py-6 px-4 text-[#C7D2E8]",
-        style: { background: `linear-gradient(180deg, ${NAVY2} 0%, #16294B 100%)` }
+        style: { background: `linear-gradient(180deg, ${NAVY3} 0%, #16294B 100%)` }
       },
-      /* @__PURE__ */ import_react70.default.createElement("div", { className: "flex items-center gap-2 px-2 mb-8" }, /* @__PURE__ */ import_react70.default.createElement("div", { className: "w-10 h-10 rounded-xl flex items-center justify-center shadow-lg", style: { background: GOLD2 } }, /* @__PURE__ */ import_react70.default.createElement(Sprout, { size: 19, className: "text-white" })), /* @__PURE__ */ import_react70.default.createElement("div", null, /* @__PURE__ */ import_react70.default.createElement("div", { className: "font-serif font-bold text-white text-[16px] leading-none" }, "AgriHakStat"), /* @__PURE__ */ import_react70.default.createElement("div", { className: "text-[10px] opacity-60 mt-1" }, "DDAEP-Borgou"))),
-      /* @__PURE__ */ import_react70.default.createElement("nav", { className: "space-y-1.5" }, nav2.map((item) => /* @__PURE__ */ import_react70.default.createElement(
+      /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex flex-col items-start gap-1 px-2 mb-8" }, /* @__PURE__ */ import_react71.default.createElement("img", { src: "./logo-compact.png", alt: "AgriHakStat", className: "h-16 w-auto -ml-1" }), /* @__PURE__ */ import_react71.default.createElement("div", { className: "text-[10px] opacity-60" }, "DDAEP-Borgou")),
+      /* @__PURE__ */ import_react71.default.createElement("nav", { className: "space-y-1.5" }, nav2.map((item) => /* @__PURE__ */ import_react71.default.createElement(
         "div",
         {
           key: item.id,
@@ -50831,18 +50849,28 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           className: `flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer text-sm transition-colors ${item.id === active ? "bg-[#16294B] text-white font-medium border-l-4" : "hover:bg-white/5"}`,
           style: item.id === active ? { borderColor: GOLD2 } : {}
         },
-        /* @__PURE__ */ import_react70.default.createElement(item.icon, { size: 17 }),
+        /* @__PURE__ */ import_react71.default.createElement(item.icon, { size: 17 }),
         item.label
       )))
-    ), /* @__PURE__ */ import_react70.default.createElement("div", { className: "flex-1 min-h-screen" }, /* @__PURE__ */ import_react70.default.createElement(
+    ), /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex-1 min-h-screen" }, /* @__PURE__ */ import_react71.default.createElement(
       "header",
       {
         className: "bg-white/70 backdrop-blur px-8 py-4 flex items-center justify-between",
         style: { borderBottom: `2px solid ${GOLD2}` }
       },
-      /* @__PURE__ */ import_react70.default.createElement("div", null, /* @__PURE__ */ import_react70.default.createElement("h1", { className: "font-serif text-xl font-bold", style: { color: NAVY2 } }, "Nouvelle enqu\xEAte"), /* @__PURE__ */ import_react70.default.createElement("p", { className: "text-xs text-gray-500 mt-0.5" }, "Assistant d'import \u2014 questionnaire, base et contexte d'\xE9tude")),
-      /* @__PURE__ */ import_react70.default.createElement("div", { className: "flex items-center gap-4" }, /* @__PURE__ */ import_react70.default.createElement(Bell, { size: 18, className: "text-gray-400" }), /* @__PURE__ */ import_react70.default.createElement("div", { className: "flex items-center gap-2 text-sm" }, /* @__PURE__ */ import_react70.default.createElement("div", { className: "w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold text-white", style: { background: NAVY2 } }, "HM"), /* @__PURE__ */ import_react70.default.createElement("div", { className: "leading-tight" }, /* @__PURE__ */ import_react70.default.createElement("div", { className: "font-medium text-gray-800" }, "H. Moussa"), /* @__PURE__ */ import_react70.default.createElement("div", { className: "text-[11px] text-gray-500" }, "C/SESSEC")), /* @__PURE__ */ import_react70.default.createElement(ChevronDown, { size: 14, className: "text-gray-400" })))
-    ), /* @__PURE__ */ import_react70.default.createElement("main", { className: "p-8 max-w-4xl" }, /* @__PURE__ */ import_react70.default.createElement(Stepper, { current: step, setCurrent: setStep }), step === 1 && /* @__PURE__ */ import_react70.default.createElement(Card, null, /* @__PURE__ */ import_react70.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY2 } }, "Importer le questionnaire"), /* @__PURE__ */ import_react70.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, "Formats reconnus automatiquement : XLSForm/KoboToolbox, Akvo Flow, ODK, ou fichier Excel de structure libre."), /* @__PURE__ */ import_react70.default.createElement("div", { className: "grid grid-cols-2 gap-4" }, /* @__PURE__ */ import_react70.default.createElement(Dropzone, { label: "Glisser-d\xE9poser un fichier", hint: "ou cliquer pour parcourir", formats: ["XLSForm", "ODK", ".xlsx"] }), /* @__PURE__ */ import_react70.default.createElement("div", { className: "border-2 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center text-center gap-2 cursor-pointer hover:bg-[#FAFBFE]", style: { borderColor: "#C7D2E8" } }, /* @__PURE__ */ import_react70.default.createElement("div", { className: "w-12 h-12 rounded-xl flex items-center justify-center mb-1", style: { background: "#E4F5EC" } }, /* @__PURE__ */ import_react70.default.createElement(Link2, { size: 20, style: { color: "#256B45" } })), /* @__PURE__ */ import_react70.default.createElement("div", { className: "font-medium text-sm", style: { color: NAVY2 } }, "Connecter Akvo Flow / KoboToolbox"), /* @__PURE__ */ import_react70.default.createElement("div", { className: "text-xs text-gray-400" }, "Import direct via API"))), /* @__PURE__ */ import_react70.default.createElement("div", { className: "mt-5" }, /* @__PURE__ */ import_react70.default.createElement(UploadedFile, { icon: FileSpreadsheet, name: "Questionnaire_Suivi_Semis_2026-2027.xlsx", meta: "24 questions d\xE9tect\xE9es \xB7 import\xE9 il y a 2 min", tint: "#EBEEF7", fg: NAVY2 }))), step === 2 && /* @__PURE__ */ import_react70.default.createElement(Card, null, /* @__PURE__ */ import_react70.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY2 } }, "Importer la base de donn\xE9es"), /* @__PURE__ */ import_react70.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, "Fichier CSV/Excel, ou connexion directe \xE0 la source de collecte."), /* @__PURE__ */ import_react70.default.createElement("div", { className: "grid grid-cols-2 gap-4" }, /* @__PURE__ */ import_react70.default.createElement(Dropzone, { label: "Glisser-d\xE9poser un fichier", hint: "ou cliquer pour parcourir", formats: ["CSV", ".xlsx"] }), /* @__PURE__ */ import_react70.default.createElement("div", { className: "border-2 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center text-center gap-2 cursor-pointer hover:bg-[#FAFBFE]", style: { borderColor: "#C7D2E8" } }, /* @__PURE__ */ import_react70.default.createElement("div", { className: "w-12 h-12 rounded-xl flex items-center justify-center mb-1", style: { background: "#E4F5EC" } }, /* @__PURE__ */ import_react70.default.createElement(Link2, { size: 20, style: { color: "#256B45" } })), /* @__PURE__ */ import_react70.default.createElement("div", { className: "font-medium text-sm", style: { color: NAVY2 } }, "Connecter Akvo Flow / KoboToolbox"), /* @__PURE__ */ import_react70.default.createElement("div", { className: "text-xs text-gray-400" }, "Synchronisation automatique"))), /* @__PURE__ */ import_react70.default.createElement("div", { className: "mt-5 space-y-3" }, /* @__PURE__ */ import_react70.default.createElement(UploadedFile, { icon: FileCheckCorner, name: "Base_Semis_Decade3_Juillet2026.csv", meta: "2 479 enregistrements \xB7 31 colonnes", tint: "#E4F5EC", fg: "#256B45" }), /* @__PURE__ */ import_react70.default.createElement("div", { className: "flex items-start gap-2 rounded-xl p-3 border border-black/5", style: { background: "#FDF1DA" } }, /* @__PURE__ */ import_react70.default.createElement(MapPin, { size: 16, style: { color: "#8A5A00" }, className: "mt-0.5" }), /* @__PURE__ */ import_react70.default.createElement("div", { className: "text-xs", style: { color: "#8A5A00" } }, /* @__PURE__ */ import_react70.default.createElement("span", { className: "font-medium" }, "5 colonnes de g\xE9olocalisation d\xE9tect\xE9es"), " (latitude, longitude) \u2014 la cartographie automatique (Module 8) sera disponible pour cette enqu\xEAte.")))), step === 3 && /* @__PURE__ */ import_react70.default.createElement(Card, null, /* @__PURE__ */ import_react70.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY2 } }, "Contexte de l'\xE9tude"), /* @__PURE__ */ import_react70.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, "Ces informations cadrent l'interpr\xE9tation narrative du rapport final."), /* @__PURE__ */ import_react70.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Objectif de l'\xE9tude"), /* @__PURE__ */ import_react70.default.createElement(
+      /* @__PURE__ */ import_react71.default.createElement("div", null, /* @__PURE__ */ import_react71.default.createElement("h1", { className: "font-serif text-xl font-bold", style: { color: NAVY3 } }, "Nouvelle enqu\xEAte"), /* @__PURE__ */ import_react71.default.createElement("p", { className: "text-xs text-gray-500 mt-0.5" }, "Assistant d'import \u2014 questionnaire, base et contexte d'\xE9tude")),
+      /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex items-center gap-4" }, /* @__PURE__ */ import_react71.default.createElement(Bell, { size: 18, className: "text-gray-400" }), /* @__PURE__ */ import_react71.default.createElement(
+        UserMenu,
+        {
+          email: userEmail,
+          roleLabel,
+          isAdmin,
+          isGuest,
+          onLogout,
+          onOpenAdmin
+        }
+      ))
+    ), /* @__PURE__ */ import_react71.default.createElement("main", { className: "p-8 max-w-4xl" }, /* @__PURE__ */ import_react71.default.createElement(Stepper, { current: step, setCurrent: setStep }), step === 1 && /* @__PURE__ */ import_react71.default.createElement(Card, null, /* @__PURE__ */ import_react71.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY3 } }, "Importer le questionnaire"), /* @__PURE__ */ import_react71.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, "Formats reconnus automatiquement : XLSForm/KoboToolbox, Akvo Flow, ODK, ou fichier Excel de structure libre."), /* @__PURE__ */ import_react71.default.createElement("div", { className: "grid grid-cols-2 gap-4" }, /* @__PURE__ */ import_react71.default.createElement(Dropzone, { label: "Glisser-d\xE9poser un fichier", hint: "ou cliquer pour parcourir", formats: ["XLSForm", "ODK", ".xlsx"] }), /* @__PURE__ */ import_react71.default.createElement("div", { className: "border-2 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center text-center gap-2 cursor-pointer hover:bg-[#FAFBFE]", style: { borderColor: "#C7D2E8" } }, /* @__PURE__ */ import_react71.default.createElement("div", { className: "w-12 h-12 rounded-xl flex items-center justify-center mb-1", style: { background: "#E4F5EC" } }, /* @__PURE__ */ import_react71.default.createElement(Link2, { size: 20, style: { color: "#256B45" } })), /* @__PURE__ */ import_react71.default.createElement("div", { className: "font-medium text-sm", style: { color: NAVY3 } }, "Connecter Akvo Flow / KoboToolbox"), /* @__PURE__ */ import_react71.default.createElement("div", { className: "text-xs text-gray-400" }, "Import direct via API"))), /* @__PURE__ */ import_react71.default.createElement("div", { className: "mt-5" }, /* @__PURE__ */ import_react71.default.createElement(UploadedFile, { icon: FileSpreadsheet, name: "Questionnaire_Suivi_Semis_2026-2027.xlsx", meta: "24 questions d\xE9tect\xE9es \xB7 import\xE9 il y a 2 min", tint: "#EBEEF7", fg: NAVY3 }))), step === 2 && /* @__PURE__ */ import_react71.default.createElement(Card, null, /* @__PURE__ */ import_react71.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY3 } }, "Importer la base de donn\xE9es"), /* @__PURE__ */ import_react71.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, "Fichier CSV/Excel, ou connexion directe \xE0 la source de collecte."), /* @__PURE__ */ import_react71.default.createElement("div", { className: "grid grid-cols-2 gap-4" }, /* @__PURE__ */ import_react71.default.createElement(Dropzone, { label: "Glisser-d\xE9poser un fichier", hint: "ou cliquer pour parcourir", formats: ["CSV", ".xlsx"] }), /* @__PURE__ */ import_react71.default.createElement("div", { className: "border-2 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center text-center gap-2 cursor-pointer hover:bg-[#FAFBFE]", style: { borderColor: "#C7D2E8" } }, /* @__PURE__ */ import_react71.default.createElement("div", { className: "w-12 h-12 rounded-xl flex items-center justify-center mb-1", style: { background: "#E4F5EC" } }, /* @__PURE__ */ import_react71.default.createElement(Link2, { size: 20, style: { color: "#256B45" } })), /* @__PURE__ */ import_react71.default.createElement("div", { className: "font-medium text-sm", style: { color: NAVY3 } }, "Connecter Akvo Flow / KoboToolbox"), /* @__PURE__ */ import_react71.default.createElement("div", { className: "text-xs text-gray-400" }, "Synchronisation automatique"))), /* @__PURE__ */ import_react71.default.createElement("div", { className: "mt-5 space-y-3" }, /* @__PURE__ */ import_react71.default.createElement(UploadedFile, { icon: FileCheckCorner, name: "Base_Semis_Decade3_Juillet2026.csv", meta: "2 479 enregistrements \xB7 31 colonnes", tint: "#E4F5EC", fg: "#256B45" }), /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex items-start gap-2 rounded-xl p-3 border border-black/5", style: { background: "#FDF1DA" } }, /* @__PURE__ */ import_react71.default.createElement(MapPin, { size: 16, style: { color: "#8A5A00" }, className: "mt-0.5" }), /* @__PURE__ */ import_react71.default.createElement("div", { className: "text-xs", style: { color: "#8A5A00" } }, /* @__PURE__ */ import_react71.default.createElement("span", { className: "font-medium" }, "5 colonnes de g\xE9olocalisation d\xE9tect\xE9es"), " (latitude, longitude) \u2014 la cartographie automatique (Module 8) sera disponible pour cette enqu\xEAte.")))), step === 3 && /* @__PURE__ */ import_react71.default.createElement(Card, null, /* @__PURE__ */ import_react71.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY3 } }, "Contexte de l'\xE9tude"), /* @__PURE__ */ import_react71.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, "Ces informations cadrent l'interpr\xE9tation narrative du rapport final."), /* @__PURE__ */ import_react71.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Objectif de l'\xE9tude"), /* @__PURE__ */ import_react71.default.createElement(
       "textarea",
       {
         className: "w-full text-sm rounded-xl border border-gray-200 p-3 mb-5 resize-none focus:outline-none focus:ring-2",
@@ -50850,47 +50878,47 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         rows: 2,
         defaultValue: "Suivre la progression d\xE9cadaire des semis de coton sur les communes \xE0 risque pluviom\xE9trique du Borgou."
       }
-    ), /* @__PURE__ */ import_react70.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Zone g\xE9ographique (communes)"), /* @__PURE__ */ import_react70.default.createElement("div", { className: "flex flex-wrap gap-2 mb-5" }, COMMUNES.map((c2) => /* @__PURE__ */ import_react70.default.createElement(Chip, { key: c2, label: c2, active: communes.includes(c2), onClick: () => toggle(communes, setCommunes, c2) }))), /* @__PURE__ */ import_react70.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Fili\xE8re(s) concern\xE9e(s)"), /* @__PURE__ */ import_react70.default.createElement("div", { className: "flex flex-wrap gap-2 mb-5" }, Object.entries(FILIERES2).map(([f, c2]) => /* @__PURE__ */ import_react70.default.createElement(Chip, { key: f, label: f, active: filieres.includes(f), onClick: () => toggle(filieres, setFilieres, f), color: c2 }))), /* @__PURE__ */ import_react70.default.createElement("div", { className: "grid grid-cols-2 gap-4" }, /* @__PURE__ */ import_react70.default.createElement("div", null, /* @__PURE__ */ import_react70.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "P\xE9riode de r\xE9f\xE9rence"), /* @__PURE__ */ import_react70.default.createElement("div", { className: "flex items-center gap-2" }, /* @__PURE__ */ import_react70.default.createElement("input", { type: "text", defaultValue: "10/06/2026", className: "w-full text-sm rounded-xl border border-gray-200 p-2.5 focus:outline-none focus:ring-2", style: { "--tw-ring-color": GOLD2 } }), /* @__PURE__ */ import_react70.default.createElement("span", { className: "text-gray-400 text-xs" }, "\u2192"), /* @__PURE__ */ import_react70.default.createElement("input", { type: "text", defaultValue: "20/07/2026", className: "w-full text-sm rounded-xl border border-gray-200 p-2.5 focus:outline-none focus:ring-2", style: { "--tw-ring-color": GOLD2 } }))), /* @__PURE__ */ import_react70.default.createElement("div", null, /* @__PURE__ */ import_react70.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Unit\xE9 d'analyse"), /* @__PURE__ */ import_react70.default.createElement("select", { className: "w-full text-sm rounded-xl border border-gray-200 p-2.5 focus:outline-none focus:ring-2", style: { "--tw-ring-color": GOLD2 } }, /* @__PURE__ */ import_react70.default.createElement("option", null, "Exploitation agricole"), /* @__PURE__ */ import_react70.default.createElement("option", null, "M\xE9nage"), /* @__PURE__ */ import_react70.default.createElement("option", null, "Parcelle"), /* @__PURE__ */ import_react70.default.createElement("option", null, "Commune"))))), step === 4 && /* @__PURE__ */ import_react70.default.createElement(Card, null, /* @__PURE__ */ import_react70.default.createElement("div", { className: "flex items-center justify-between mb-1" }, /* @__PURE__ */ import_react70.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY2 } }, "Indicateurs de performance"), /* @__PURE__ */ import_react70.default.createElement("button", { className: "text-xs font-medium flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-white", style: { background: NAVY2 } }, /* @__PURE__ */ import_react70.default.createElement(Plus, { size: 14 }), " Ajouter un indicateur")), /* @__PURE__ */ import_react70.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, "Ces indicateurs seront mis en regard des analyses bivari\xE9es et de l'enrichissement climatique (Module 7)."), /* @__PURE__ */ import_react70.default.createElement("div", { className: "space-y-3" }, [
+    ), /* @__PURE__ */ import_react71.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Zone g\xE9ographique (communes)"), /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex flex-wrap gap-2 mb-5" }, COMMUNES.map((c2) => /* @__PURE__ */ import_react71.default.createElement(Chip, { key: c2, label: c2, active: communes.includes(c2), onClick: () => toggle(communes, setCommunes, c2) }))), /* @__PURE__ */ import_react71.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Fili\xE8re(s) concern\xE9e(s)"), /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex flex-wrap gap-2 mb-5" }, Object.entries(FILIERES2).map(([f, c2]) => /* @__PURE__ */ import_react71.default.createElement(Chip, { key: f, label: f, active: filieres.includes(f), onClick: () => toggle(filieres, setFilieres, f), color: c2 }))), /* @__PURE__ */ import_react71.default.createElement("div", { className: "grid grid-cols-2 gap-4" }, /* @__PURE__ */ import_react71.default.createElement("div", null, /* @__PURE__ */ import_react71.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "P\xE9riode de r\xE9f\xE9rence"), /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex items-center gap-2" }, /* @__PURE__ */ import_react71.default.createElement("input", { type: "text", defaultValue: "10/06/2026", className: "w-full text-sm rounded-xl border border-gray-200 p-2.5 focus:outline-none focus:ring-2", style: { "--tw-ring-color": GOLD2 } }), /* @__PURE__ */ import_react71.default.createElement("span", { className: "text-gray-400 text-xs" }, "\u2192"), /* @__PURE__ */ import_react71.default.createElement("input", { type: "text", defaultValue: "20/07/2026", className: "w-full text-sm rounded-xl border border-gray-200 p-2.5 focus:outline-none focus:ring-2", style: { "--tw-ring-color": GOLD2 } }))), /* @__PURE__ */ import_react71.default.createElement("div", null, /* @__PURE__ */ import_react71.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Unit\xE9 d'analyse"), /* @__PURE__ */ import_react71.default.createElement("select", { className: "w-full text-sm rounded-xl border border-gray-200 p-2.5 focus:outline-none focus:ring-2", style: { "--tw-ring-color": GOLD2 } }, /* @__PURE__ */ import_react71.default.createElement("option", null, "Exploitation agricole"), /* @__PURE__ */ import_react71.default.createElement("option", null, "M\xE9nage"), /* @__PURE__ */ import_react71.default.createElement("option", null, "Parcelle"), /* @__PURE__ */ import_react71.default.createElement("option", null, "Commune"))))), step === 4 && /* @__PURE__ */ import_react71.default.createElement(Card, null, /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex items-center justify-between mb-1" }, /* @__PURE__ */ import_react71.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY3 } }, "Indicateurs de performance"), /* @__PURE__ */ import_react71.default.createElement("button", { className: "text-xs font-medium flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-white", style: { background: NAVY3 } }, /* @__PURE__ */ import_react71.default.createElement(Plus, { size: 14 }), " Ajouter un indicateur")), /* @__PURE__ */ import_react71.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, "Ces indicateurs seront mis en regard des analyses bivari\xE9es et de l'enrichissement climatique (Module 7)."), /* @__PURE__ */ import_react71.default.createElement("div", { className: "space-y-3" }, [
       { name: "Taux de r\xE9alisation des semis", formule: "Superficie r\xE9alis\xE9e / Superficie pr\xE9vue \xD7 100", seuil: "75 %" },
       { name: "Rendement moyen estim\xE9", formule: "Production estim\xE9e / Superficie r\xE9alis\xE9e", seuil: "ND \u2014 \xE0 renseigner" }
-    ].map((kpi) => /* @__PURE__ */ import_react70.default.createElement("div", { key: kpi.name, className: "flex items-center gap-3 rounded-xl border border-gray-100 p-3" }, /* @__PURE__ */ import_react70.default.createElement("div", { className: "w-8 h-8 rounded-lg flex items-center justify-center shrink-0", style: { background: "#EBEEF7" } }, /* @__PURE__ */ import_react70.default.createElement(ChartColumn, { size: 15, style: { color: NAVY2 } })), /* @__PURE__ */ import_react70.default.createElement("div", { className: "flex-1" }, /* @__PURE__ */ import_react70.default.createElement("div", { className: "text-sm font-medium text-gray-800" }, kpi.name), /* @__PURE__ */ import_react70.default.createElement("div", { className: "text-[11px] text-gray-400" }, kpi.formule)), /* @__PURE__ */ import_react70.default.createElement("span", { className: "text-[11px] font-medium px-2 py-1 rounded-full", style: { background: "#FDF1DA", color: "#8A5A00" } }, "Seuil : ", kpi.seuil), /* @__PURE__ */ import_react70.default.createElement("button", { className: "text-gray-300 hover:text-red-400" }, /* @__PURE__ */ import_react70.default.createElement(Trash2, { size: 15 })))))), step === 5 && /* @__PURE__ */ import_react70.default.createElement(Card, null, /* @__PURE__ */ import_react70.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY2 } }, "Cartographie automatique des variables"), /* @__PURE__ */ import_react70.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, "Appariement propos\xE9 entre les items du questionnaire et les colonnes de la base \u2014 \xE0 valider avant lancement des analyses."), /* @__PURE__ */ import_react70.default.createElement("div", { className: "rounded-xl overflow-hidden border border-gray-100" }, /* @__PURE__ */ import_react70.default.createElement("table", { className: "w-full text-sm" }, /* @__PURE__ */ import_react70.default.createElement("thead", null, /* @__PURE__ */ import_react70.default.createElement("tr", { className: "text-left text-[11px] text-gray-400 uppercase bg-gray-50" }, /* @__PURE__ */ import_react70.default.createElement("th", { className: "px-4 py-2.5 font-medium" }, "Item du questionnaire"), /* @__PURE__ */ import_react70.default.createElement("th", { className: "px-4 py-2.5 font-medium" }, "Colonne base"), /* @__PURE__ */ import_react70.default.createElement("th", { className: "px-4 py-2.5 font-medium" }, "Type d\xE9tect\xE9"), /* @__PURE__ */ import_react70.default.createElement("th", { className: "px-4 py-2.5 font-medium" }, "Statut"))), /* @__PURE__ */ import_react70.default.createElement("tbody", null, [
+    ].map((kpi) => /* @__PURE__ */ import_react71.default.createElement("div", { key: kpi.name, className: "flex items-center gap-3 rounded-xl border border-gray-100 p-3" }, /* @__PURE__ */ import_react71.default.createElement("div", { className: "w-8 h-8 rounded-lg flex items-center justify-center shrink-0", style: { background: "#EBEEF7" } }, /* @__PURE__ */ import_react71.default.createElement(ChartColumn, { size: 15, style: { color: NAVY3 } })), /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex-1" }, /* @__PURE__ */ import_react71.default.createElement("div", { className: "text-sm font-medium text-gray-800" }, kpi.name), /* @__PURE__ */ import_react71.default.createElement("div", { className: "text-[11px] text-gray-400" }, kpi.formule)), /* @__PURE__ */ import_react71.default.createElement("span", { className: "text-[11px] font-medium px-2 py-1 rounded-full", style: { background: "#FDF1DA", color: "#8A5A00" } }, "Seuil : ", kpi.seuil), /* @__PURE__ */ import_react71.default.createElement("button", { className: "text-gray-300 hover:text-red-400" }, /* @__PURE__ */ import_react71.default.createElement(Trash2, { size: 15 })))))), step === 5 && /* @__PURE__ */ import_react71.default.createElement(Card, null, /* @__PURE__ */ import_react71.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY3 } }, "Cartographie automatique des variables"), /* @__PURE__ */ import_react71.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, "Appariement propos\xE9 entre les items du questionnaire et les colonnes de la base \u2014 \xE0 valider avant lancement des analyses."), /* @__PURE__ */ import_react71.default.createElement("div", { className: "rounded-xl overflow-hidden border border-gray-100" }, /* @__PURE__ */ import_react71.default.createElement("table", { className: "w-full text-sm" }, /* @__PURE__ */ import_react71.default.createElement("thead", null, /* @__PURE__ */ import_react71.default.createElement("tr", { className: "text-left text-[11px] text-gray-400 uppercase bg-gray-50" }, /* @__PURE__ */ import_react71.default.createElement("th", { className: "px-4 py-2.5 font-medium" }, "Item du questionnaire"), /* @__PURE__ */ import_react71.default.createElement("th", { className: "px-4 py-2.5 font-medium" }, "Colonne base"), /* @__PURE__ */ import_react71.default.createElement("th", { className: "px-4 py-2.5 font-medium" }, "Type d\xE9tect\xE9"), /* @__PURE__ */ import_react71.default.createElement("th", { className: "px-4 py-2.5 font-medium" }, "Statut"))), /* @__PURE__ */ import_react71.default.createElement("tbody", null, [
       { q: "Superficie sem\xE9e (ha)", col: "sup_semee_ha", type: "Quantitative continue", status: "ok" },
       { q: "Fili\xE8re suivie", col: "filiere", type: "Nominale", status: "ok" },
       { q: "Commune d'enqu\xEAte", col: "commune", type: "Nominale", status: "ok" },
       { q: "Latitude / Longitude", col: "geo_lat / geo_lon", type: "G\xE9olocalisation", status: "geo" },
       { q: "Niveau de satisfaction intrants", col: "satisf_intrants", type: "Ordinale", status: "warn" }
-    ].map((r2) => /* @__PURE__ */ import_react70.default.createElement("tr", { key: r2.q, className: "border-t border-gray-50" }, /* @__PURE__ */ import_react70.default.createElement("td", { className: "px-4 py-3 text-gray-800" }, r2.q), /* @__PURE__ */ import_react70.default.createElement("td", { className: "px-4 py-3 text-gray-500 font-mono text-xs" }, r2.col), /* @__PURE__ */ import_react70.default.createElement("td", { className: "px-4 py-3 text-gray-500" }, r2.type), /* @__PURE__ */ import_react70.default.createElement("td", { className: "px-4 py-3" }, r2.status === "ok" && /* @__PURE__ */ import_react70.default.createElement("span", { className: "inline-flex items-center gap-1 text-[11px] font-medium px-2 py-1 rounded-full", style: { background: "#E4F5EC", color: "#256B45" } }, /* @__PURE__ */ import_react70.default.createElement(Check, { size: 11 }), " Confirm\xE9"), r2.status === "geo" && /* @__PURE__ */ import_react70.default.createElement("span", { className: "inline-flex items-center gap-1 text-[11px] font-medium px-2 py-1 rounded-full", style: { background: "#EBEEF7", color: NAVY2 } }, /* @__PURE__ */ import_react70.default.createElement(MapPin, { size: 11 }), " G\xE9o d\xE9tect\xE9e"), r2.status === "warn" && /* @__PURE__ */ import_react70.default.createElement("span", { className: "inline-flex items-center gap-1 text-[11px] font-medium px-2 py-1 rounded-full", style: { background: "#FDF1DA", color: "#8A5A00" } }, /* @__PURE__ */ import_react70.default.createElement(CircleAlert, { size: 11 }), " \xC0 v\xE9rifier")))))))), /* @__PURE__ */ import_react70.default.createElement("div", { className: "flex items-center justify-between mt-6" }, /* @__PURE__ */ import_react70.default.createElement(
+    ].map((r2) => /* @__PURE__ */ import_react71.default.createElement("tr", { key: r2.q, className: "border-t border-gray-50" }, /* @__PURE__ */ import_react71.default.createElement("td", { className: "px-4 py-3 text-gray-800" }, r2.q), /* @__PURE__ */ import_react71.default.createElement("td", { className: "px-4 py-3 text-gray-500 font-mono text-xs" }, r2.col), /* @__PURE__ */ import_react71.default.createElement("td", { className: "px-4 py-3 text-gray-500" }, r2.type), /* @__PURE__ */ import_react71.default.createElement("td", { className: "px-4 py-3" }, r2.status === "ok" && /* @__PURE__ */ import_react71.default.createElement("span", { className: "inline-flex items-center gap-1 text-[11px] font-medium px-2 py-1 rounded-full", style: { background: "#E4F5EC", color: "#256B45" } }, /* @__PURE__ */ import_react71.default.createElement(Check, { size: 11 }), " Confirm\xE9"), r2.status === "geo" && /* @__PURE__ */ import_react71.default.createElement("span", { className: "inline-flex items-center gap-1 text-[11px] font-medium px-2 py-1 rounded-full", style: { background: "#EBEEF7", color: NAVY3 } }, /* @__PURE__ */ import_react71.default.createElement(MapPin, { size: 11 }), " G\xE9o d\xE9tect\xE9e"), r2.status === "warn" && /* @__PURE__ */ import_react71.default.createElement("span", { className: "inline-flex items-center gap-1 text-[11px] font-medium px-2 py-1 rounded-full", style: { background: "#FDF1DA", color: "#8A5A00" } }, /* @__PURE__ */ import_react71.default.createElement(CircleAlert, { size: 11 }), " \xC0 v\xE9rifier")))))))), /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex items-center justify-between mt-6" }, /* @__PURE__ */ import_react71.default.createElement(
       "button",
       {
         onClick: () => setStep(Math.max(1, step - 1)),
         disabled: step === 1,
         className: "px-4 py-2.5 rounded-xl text-sm font-medium flex items-center gap-1.5 disabled:opacity-0 bg-white border border-gray-200 text-gray-600"
       },
-      /* @__PURE__ */ import_react70.default.createElement(ChevronLeft, { size: 15 }),
+      /* @__PURE__ */ import_react71.default.createElement(ChevronLeft, { size: 15 }),
       " Pr\xE9c\xE9dent"
-    ), step < 5 ? /* @__PURE__ */ import_react70.default.createElement(
+    ), step < 5 ? /* @__PURE__ */ import_react71.default.createElement(
       "button",
       {
         onClick: () => setStep(step + 1),
         className: "px-5 py-2.5 rounded-xl text-sm font-medium flex items-center gap-1.5 text-white shadow-md",
-        style: { background: `linear-gradient(135deg, ${NAVY2}, #2A4A82)` }
+        style: { background: `linear-gradient(135deg, ${NAVY3}, #2A4A82)` }
       },
       "Suivant ",
-      /* @__PURE__ */ import_react70.default.createElement(ChevronRight, { size: 15 })
-    ) : /* @__PURE__ */ import_react70.default.createElement(
+      /* @__PURE__ */ import_react71.default.createElement(ChevronRight, { size: 15 })
+    ) : /* @__PURE__ */ import_react71.default.createElement(
       "button",
       {
         className: "px-5 py-2.5 rounded-xl text-sm font-medium flex items-center gap-1.5 text-white shadow-md",
         style: { background: `linear-gradient(135deg, #3E9C6B, #256B45)` }
       },
-      /* @__PURE__ */ import_react70.default.createElement(Check, { size: 15 }),
+      /* @__PURE__ */ import_react71.default.createElement(Check, { size: 15 }),
       " Lancer les analyses"
     ))))));
   }
 
   // src/AnalysisConfig.jsx
-  var import_react71 = __toESM(require_react());
-  var NAVY3 = "#1F3864";
+  var import_react72 = __toESM(require_react());
+  var NAVY4 = "#1F3864";
   var GOLD3 = "#C99A2E";
   var GREEN = "#256B45";
   var GREEN_TINT = "#E4F5EC";
@@ -50988,33 +51016,33 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     fail: { icon: CircleX, color: "#B3413A", bg: "#FBE7E5", text: "Non conforme" }
   };
   function Watermark3() {
-    return /* @__PURE__ */ import_react71.default.createElement("div", { className: "fixed inset-0 overflow-hidden pointer-events-none z-0 flex items-center justify-center" }, /* @__PURE__ */ import_react71.default.createElement(
+    return /* @__PURE__ */ import_react72.default.createElement("div", { className: "fixed inset-0 overflow-hidden pointer-events-none z-0 flex items-center justify-center" }, /* @__PURE__ */ import_react72.default.createElement(
       "span",
       {
         className: "font-serif font-black whitespace-nowrap select-none",
-        style: { color: NAVY3, opacity: 0.06, fontSize: "13vw", letterSpacing: "-0.02em" }
+        style: { color: NAVY4, opacity: 0.06, fontSize: "13vw", letterSpacing: "-0.02em" }
       },
       "AgriHakStat"
-    ), /* @__PURE__ */ import_react71.default.createElement("span", { className: "absolute bottom-4 right-6 text-xs font-medium select-none", style: { color: NAVY3, opacity: 0.35 } }, "Con\xE7u par Hakibou MOUSSA"));
+    ), /* @__PURE__ */ import_react72.default.createElement("span", { className: "absolute bottom-4 right-6 text-xs font-medium select-none", style: { color: NAVY4, opacity: 0.35 } }, "Con\xE7u par Hakibou MOUSSA"));
   }
   function Card2({ children, className = "" }) {
-    return /* @__PURE__ */ import_react71.default.createElement("div", { className: `bg-white rounded-2xl p-6 shadow-sm border border-black/5 ${className}` }, children);
+    return /* @__PURE__ */ import_react72.default.createElement("div", { className: `bg-white rounded-2xl p-6 shadow-sm border border-black/5 ${className}` }, children);
   }
   function TabButton({ label, icon: Icon3, active, onClick }) {
-    return /* @__PURE__ */ import_react71.default.createElement(
+    return /* @__PURE__ */ import_react72.default.createElement(
       "button",
       {
         onClick,
         className: "flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-colors",
-        style: active ? { background: NAVY3, color: "white" } : { background: "white", color: "#5A6478", border: "1px solid #E4E6ED" }
+        style: active ? { background: NAVY4, color: "white" } : { background: "white", color: "#5A6478", border: "1px solid #E4E6ED" }
       },
-      /* @__PURE__ */ import_react71.default.createElement(Icon3, { size: 15 }),
+      /* @__PURE__ */ import_react72.default.createElement(Icon3, { size: 15 }),
       " ",
       label
     );
   }
   function Select({ value, onChange, options, placeholder }) {
-    return /* @__PURE__ */ import_react71.default.createElement(
+    return /* @__PURE__ */ import_react72.default.createElement(
       "select",
       {
         value: value || "",
@@ -51022,18 +51050,18 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         className: "w-full text-sm rounded-xl border border-gray-200 p-2.5 focus:outline-none focus:ring-2 bg-white",
         style: { "--tw-ring-color": GOLD3 }
       },
-      /* @__PURE__ */ import_react71.default.createElement("option", { value: "", disabled: true }, placeholder),
-      options.map((v) => /* @__PURE__ */ import_react71.default.createElement("option", { key: v.id, value: v.id }, v.label))
+      /* @__PURE__ */ import_react72.default.createElement("option", { value: "", disabled: true }, placeholder),
+      options.map((v) => /* @__PURE__ */ import_react72.default.createElement("option", { key: v.id, value: v.id }, v.label))
     );
   }
-  function AnalysisConfig({ active, onNavigate }) {
-    const [tab, setTab] = (0, import_react71.useState)("bivariee");
-    const [included, setIncluded] = (0, import_react71.useState)(["sup_semee", "rendement", "filiere", "commune", "pluvio_decade", "acces_credit"]);
-    const [x2, setX] = (0, import_react71.useState)("sup_semee");
-    const [y2, setY] = (0, import_react71.useState)("pluvio_decade");
-    const [override, setOverride] = (0, import_react71.useState)(null);
-    const [confirmed, setConfirmed] = (0, import_react71.useState)({});
-    const [queue, setQueue] = (0, import_react71.useState)([
+  function AnalysisConfig({ active, onNavigate, userEmail, roleLabel, isAdmin, isGuest, onLogout, onOpenAdmin }) {
+    const [tab, setTab] = (0, import_react72.useState)("bivariee");
+    const [included, setIncluded] = (0, import_react72.useState)(["sup_semee", "rendement", "filiere", "commune", "pluvio_decade", "acces_credit"]);
+    const [x2, setX] = (0, import_react72.useState)("sup_semee");
+    const [y2, setY] = (0, import_react72.useState)("pluvio_decade");
+    const [override, setOverride] = (0, import_react72.useState)(null);
+    const [confirmed, setConfirmed] = (0, import_react72.useState)({});
+    const [queue, setQueue] = (0, import_react72.useState)([
       { label: "Fili\xE8re suivie \xD7 Rendement estim\xE9", test: "ANOVA \xE0 un facteur", status: "auto", conditions: 3 }
     ]);
     const availableVars = VARIABLES.filter((v) => included.includes(v.id));
@@ -51044,7 +51072,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     const yVar = VARIABLES.find((v) => v.id === y2);
     const conditions = activeTest ? getConditions(activeTest) : [];
     const allConfirmed = conditions.length > 0 && conditions.every((_, i) => confirmed[i]);
-    (0, import_react71.useEffect)(() => {
+    (0, import_react72.useEffect)(() => {
       setConfirmed({});
     }, [activeTest, x2, y2]);
     const addToQueue = () => {
@@ -51061,14 +51089,14 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       setOverride(null);
       setConfirmed({});
     };
-    return /* @__PURE__ */ import_react71.default.createElement("div", { className: "min-h-screen relative bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans" }, /* @__PURE__ */ import_react71.default.createElement(Watermark3, null), /* @__PURE__ */ import_react71.default.createElement("div", { className: "relative z-10 flex" }, /* @__PURE__ */ import_react71.default.createElement(
+    return /* @__PURE__ */ import_react72.default.createElement("div", { className: "min-h-screen relative bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans" }, /* @__PURE__ */ import_react72.default.createElement(Watermark3, null), /* @__PURE__ */ import_react72.default.createElement("div", { className: "relative z-10 flex" }, /* @__PURE__ */ import_react72.default.createElement(
       "aside",
       {
         className: "w-60 min-h-screen shrink-0 py-6 px-4 text-[#C7D2E8]",
-        style: { background: `linear-gradient(180deg, ${NAVY3} 0%, #16294B 100%)` }
+        style: { background: `linear-gradient(180deg, ${NAVY4} 0%, #16294B 100%)` }
       },
-      /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex items-center gap-2 px-2 mb-8" }, /* @__PURE__ */ import_react71.default.createElement("div", { className: "w-10 h-10 rounded-xl flex items-center justify-center shadow-lg", style: { background: GOLD3 } }, /* @__PURE__ */ import_react71.default.createElement(Sprout, { size: 19, className: "text-white" })), /* @__PURE__ */ import_react71.default.createElement("div", null, /* @__PURE__ */ import_react71.default.createElement("div", { className: "font-serif font-bold text-white text-[16px] leading-none" }, "AgriHakStat"), /* @__PURE__ */ import_react71.default.createElement("div", { className: "text-[10px] opacity-60 mt-1" }, "DDAEP-Borgou"))),
-      /* @__PURE__ */ import_react71.default.createElement("nav", { className: "space-y-1.5" }, nav3.map((item) => /* @__PURE__ */ import_react71.default.createElement(
+      /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex flex-col items-start gap-1 px-2 mb-8" }, /* @__PURE__ */ import_react72.default.createElement("img", { src: "./logo-compact.png", alt: "AgriHakStat", className: "h-16 w-auto -ml-1" }), /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-[10px] opacity-60" }, "DDAEP-Borgou")),
+      /* @__PURE__ */ import_react72.default.createElement("nav", { className: "space-y-1.5" }, nav3.map((item) => /* @__PURE__ */ import_react72.default.createElement(
         "div",
         {
           key: item.id,
@@ -51076,52 +51104,62 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           className: `flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer text-sm transition-colors ${item.id === active ? "bg-[#16294B] text-white font-medium border-l-4" : "hover:bg-white/5"}`,
           style: item.id === active ? { borderColor: GOLD3 } : {}
         },
-        /* @__PURE__ */ import_react71.default.createElement(item.icon, { size: 17 }),
+        /* @__PURE__ */ import_react72.default.createElement(item.icon, { size: 17 }),
         item.label
       )))
-    ), /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex-1 min-h-screen" }, /* @__PURE__ */ import_react71.default.createElement(
+    ), /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex-1 min-h-screen" }, /* @__PURE__ */ import_react72.default.createElement(
       "header",
       {
         className: "bg-white/70 backdrop-blur px-8 py-4 flex items-center justify-between",
         style: { borderBottom: `2px solid ${GOLD3}` }
       },
-      /* @__PURE__ */ import_react71.default.createElement("div", null, /* @__PURE__ */ import_react71.default.createElement("h1", { className: "font-serif text-xl font-bold", style: { color: NAVY3 } }, "Configuration des analyses"), /* @__PURE__ */ import_react71.default.createElement("p", { className: "text-xs text-gray-500 mt-0.5" }, "Suivi semis 2026-2027 \xB7 D\xE9cade 3 \u2014 Coton, Tchaourou & P\xE9r\xE8r\xE8")),
-      /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex items-center gap-4" }, /* @__PURE__ */ import_react71.default.createElement(Bell, { size: 18, className: "text-gray-400" }), /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex items-center gap-2 text-sm" }, /* @__PURE__ */ import_react71.default.createElement("div", { className: "w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold text-white", style: { background: NAVY3 } }, "HM"), /* @__PURE__ */ import_react71.default.createElement("div", { className: "leading-tight" }, /* @__PURE__ */ import_react71.default.createElement("div", { className: "font-medium text-gray-800" }, "H. Moussa"), /* @__PURE__ */ import_react71.default.createElement("div", { className: "text-[11px] text-gray-500" }, "C/SESSEC")), /* @__PURE__ */ import_react71.default.createElement(ChevronDown, { size: 14, className: "text-gray-400" })))
-    ), /* @__PURE__ */ import_react71.default.createElement("main", { className: "p-8 grid grid-cols-3 gap-6" }, /* @__PURE__ */ import_react71.default.createElement("div", { className: "col-span-2" }, /* @__PURE__ */ import_react71.default.createElement(Card2, { className: "mb-5" }, /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex items-center gap-2 mb-1" }, /* @__PURE__ */ import_react71.default.createElement(ShieldCheck, { size: 16, style: { color: NAVY3 } }), /* @__PURE__ */ import_react71.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY3 } }, "Variables retenues pour cette session")), /* @__PURE__ */ import_react71.default.createElement("p", { className: "text-xs text-gray-400 mb-3" }, "Seules les variables coch\xE9es seront propos\xE9es dans les analyses ci-dessous."), /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex flex-wrap gap-2" }, VARIABLES.map((v) => /* @__PURE__ */ import_react71.default.createElement(
+      /* @__PURE__ */ import_react72.default.createElement("div", null, /* @__PURE__ */ import_react72.default.createElement("h1", { className: "font-serif text-xl font-bold", style: { color: NAVY4 } }, "Configuration des analyses"), /* @__PURE__ */ import_react72.default.createElement("p", { className: "text-xs text-gray-500 mt-0.5" }, "Suivi semis 2026-2027 \xB7 D\xE9cade 3 \u2014 Coton, Tchaourou & P\xE9r\xE8r\xE8")),
+      /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex items-center gap-4" }, /* @__PURE__ */ import_react72.default.createElement(Bell, { size: 18, className: "text-gray-400" }), /* @__PURE__ */ import_react72.default.createElement(
+        UserMenu,
+        {
+          email: userEmail,
+          roleLabel,
+          isAdmin,
+          isGuest,
+          onLogout,
+          onOpenAdmin
+        }
+      ))
+    ), /* @__PURE__ */ import_react72.default.createElement("main", { className: "p-8 grid grid-cols-3 gap-6" }, /* @__PURE__ */ import_react72.default.createElement("div", { className: "col-span-2" }, /* @__PURE__ */ import_react72.default.createElement(Card2, { className: "mb-5" }, /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex items-center gap-2 mb-1" }, /* @__PURE__ */ import_react72.default.createElement(ShieldCheck, { size: 16, style: { color: NAVY4 } }), /* @__PURE__ */ import_react72.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY4 } }, "Variables retenues pour cette session")), /* @__PURE__ */ import_react72.default.createElement("p", { className: "text-xs text-gray-400 mb-3" }, "Seules les variables coch\xE9es seront propos\xE9es dans les analyses ci-dessous."), /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex flex-wrap gap-2" }, VARIABLES.map((v) => /* @__PURE__ */ import_react72.default.createElement(
       "button",
       {
         key: v.id,
         onClick: () => toggleIncluded(v.id),
         className: "px-3 py-1.5 rounded-full text-xs font-medium border transition-colors",
-        style: included.includes(v.id) ? { background: NAVY_TINT, borderColor: NAVY3, color: NAVY3 } : { background: "white", borderColor: "#D8DEE9", color: "#B0B7C6" }
+        style: included.includes(v.id) ? { background: NAVY_TINT, borderColor: NAVY4, color: NAVY4 } : { background: "white", borderColor: "#D8DEE9", color: "#B0B7C6" }
       },
-      included.includes(v.id) ? /* @__PURE__ */ import_react71.default.createElement(Check, { size: 11, className: "inline mr-1 -mt-0.5" }) : null,
+      included.includes(v.id) ? /* @__PURE__ */ import_react72.default.createElement(Check, { size: 11, className: "inline mr-1 -mt-0.5" }) : null,
       v.label
-    )))), /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex gap-2 mb-5" }, /* @__PURE__ */ import_react71.default.createElement(TabButton, { label: "Univari\xE9e", icon: Sigma, active: tab === "univariee", onClick: () => setTab("univariee") }), /* @__PURE__ */ import_react71.default.createElement(TabButton, { label: "Bivari\xE9e", icon: TrendingUp, active: tab === "bivariee", onClick: () => setTab("bivariee") }), /* @__PURE__ */ import_react71.default.createElement(TabButton, { label: "Multivari\xE9e", icon: Layers, active: tab === "multivariee", onClick: () => setTab("multivariee") })), tab === "bivariee" && /* @__PURE__ */ import_react71.default.createElement(Card2, null, /* @__PURE__ */ import_react71.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY3 } }, "Analyse bivari\xE9e"), /* @__PURE__ */ import_react71.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, "S\xE9lectionnez deux variables : le test statistique adapt\xE9 est propos\xE9 automatiquement."), /* @__PURE__ */ import_react71.default.createElement("div", { className: "grid grid-cols-2 gap-4 mb-5" }, /* @__PURE__ */ import_react71.default.createElement("div", null, /* @__PURE__ */ import_react71.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Variable X"), /* @__PURE__ */ import_react71.default.createElement(Select, { value: x2, onChange: (v) => {
+    )))), /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex gap-2 mb-5" }, /* @__PURE__ */ import_react72.default.createElement(TabButton, { label: "Univari\xE9e", icon: Sigma, active: tab === "univariee", onClick: () => setTab("univariee") }), /* @__PURE__ */ import_react72.default.createElement(TabButton, { label: "Bivari\xE9e", icon: TrendingUp, active: tab === "bivariee", onClick: () => setTab("bivariee") }), /* @__PURE__ */ import_react72.default.createElement(TabButton, { label: "Multivari\xE9e", icon: Layers, active: tab === "multivariee", onClick: () => setTab("multivariee") })), tab === "bivariee" && /* @__PURE__ */ import_react72.default.createElement(Card2, null, /* @__PURE__ */ import_react72.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY4 } }, "Analyse bivari\xE9e"), /* @__PURE__ */ import_react72.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, "S\xE9lectionnez deux variables : le test statistique adapt\xE9 est propos\xE9 automatiquement."), /* @__PURE__ */ import_react72.default.createElement("div", { className: "grid grid-cols-2 gap-4 mb-5" }, /* @__PURE__ */ import_react72.default.createElement("div", null, /* @__PURE__ */ import_react72.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Variable X"), /* @__PURE__ */ import_react72.default.createElement(Select, { value: x2, onChange: (v) => {
       setX(v);
       setOverride(null);
-    }, options: availableVars, placeholder: "Choisir une variable" }), xVar && /* @__PURE__ */ import_react71.default.createElement("div", { className: "text-[11px] text-gray-400 mt-1" }, xVar.type)), /* @__PURE__ */ import_react71.default.createElement("div", null, /* @__PURE__ */ import_react71.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Variable Y"), /* @__PURE__ */ import_react71.default.createElement(Select, { value: y2, onChange: (v) => {
+    }, options: availableVars, placeholder: "Choisir une variable" }), xVar && /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-[11px] text-gray-400 mt-1" }, xVar.type)), /* @__PURE__ */ import_react72.default.createElement("div", null, /* @__PURE__ */ import_react72.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Variable Y"), /* @__PURE__ */ import_react72.default.createElement(Select, { value: y2, onChange: (v) => {
       setY(v);
       setOverride(null);
-    }, options: availableVars, placeholder: "Choisir une variable" }), yVar && /* @__PURE__ */ import_react71.default.createElement("div", { className: "text-[11px] text-gray-400 mt-1" }, yVar.type))), proposal && /* @__PURE__ */ import_react71.default.createElement(import_react71.default.Fragment, null, /* @__PURE__ */ import_react71.default.createElement("div", { className: "rounded-2xl p-4 border mb-4", style: { background: override ? AMBER_TINT : NAVY_TINT, borderColor: "transparent" } }, /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex items-center justify-between mb-2" }, /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex items-center gap-2" }, /* @__PURE__ */ import_react71.default.createElement(WandSparkles, { size: 15, style: { color: override ? AMBER : NAVY3 } }), /* @__PURE__ */ import_react71.default.createElement("span", { className: "text-sm font-semibold", style: { color: override ? AMBER : NAVY3 } }, activeTest)), /* @__PURE__ */ import_react71.default.createElement(
+    }, options: availableVars, placeholder: "Choisir une variable" }), yVar && /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-[11px] text-gray-400 mt-1" }, yVar.type))), proposal && /* @__PURE__ */ import_react72.default.createElement(import_react72.default.Fragment, null, /* @__PURE__ */ import_react72.default.createElement("div", { className: "rounded-2xl p-4 border mb-4", style: { background: override ? AMBER_TINT : NAVY_TINT, borderColor: "transparent" } }, /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex items-center justify-between mb-2" }, /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex items-center gap-2" }, /* @__PURE__ */ import_react72.default.createElement(WandSparkles, { size: 15, style: { color: override ? AMBER : NAVY4 } }), /* @__PURE__ */ import_react72.default.createElement("span", { className: "text-sm font-semibold", style: { color: override ? AMBER : NAVY4 } }, activeTest)), /* @__PURE__ */ import_react72.default.createElement(
       "span",
       {
         className: "text-[11px] font-medium px-2 py-1 rounded-full",
-        style: { background: "white", color: override ? AMBER : NAVY3 }
+        style: { background: "white", color: override ? AMBER : NAVY4 }
       },
       override ? "Ajust\xE9 par l'analyste" : "Propos\xE9 automatiquement"
-    )), /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex items-start gap-1.5 text-xs mb-3", style: { color: override ? AMBER : "#3A5488" } }, /* @__PURE__ */ import_react71.default.createElement(Info, { size: 13, className: "mt-0.5 shrink-0" }), /* @__PURE__ */ import_react71.default.createElement("span", null, proposal.justification)), /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex items-center gap-2" }, /* @__PURE__ */ import_react71.default.createElement(Pencil, { size: 13, className: "text-gray-400" }), /* @__PURE__ */ import_react71.default.createElement(
+    )), /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex items-start gap-1.5 text-xs mb-3", style: { color: override ? AMBER : "#3A5488" } }, /* @__PURE__ */ import_react72.default.createElement(Info, { size: 13, className: "mt-0.5 shrink-0" }), /* @__PURE__ */ import_react72.default.createElement("span", null, proposal.justification)), /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex items-center gap-2" }, /* @__PURE__ */ import_react72.default.createElement(Pencil, { size: 13, className: "text-gray-400" }), /* @__PURE__ */ import_react72.default.createElement(
       "select",
       {
         value: activeTest,
         onChange: (e) => setOverride(e.target.value === proposal.test ? null : e.target.value),
         className: "text-xs rounded-lg border border-gray-200 p-1.5 bg-white focus:outline-none"
       },
-      proposal.alternatives.map((a2) => /* @__PURE__ */ import_react71.default.createElement("option", { key: a2, value: a2 }, a2))
-    ), /* @__PURE__ */ import_react71.default.createElement("span", { className: "text-[11px] text-gray-400" }, "Ajuster le test si n\xE9cessaire"))), /* @__PURE__ */ import_react71.default.createElement("div", { className: "rounded-2xl p-4 border border-gray-100" }, /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex items-center gap-2 mb-3" }, /* @__PURE__ */ import_react71.default.createElement(ShieldCheck, { size: 15, style: { color: NAVY3 } }), /* @__PURE__ */ import_react71.default.createElement("span", { className: "text-sm font-semibold", style: { color: NAVY3 } }, "Conditions de validation du test")), /* @__PURE__ */ import_react71.default.createElement("div", { className: "space-y-2" }, conditions.map((c2, i) => {
+      proposal.alternatives.map((a2) => /* @__PURE__ */ import_react72.default.createElement("option", { key: a2, value: a2 }, a2))
+    ), /* @__PURE__ */ import_react72.default.createElement("span", { className: "text-[11px] text-gray-400" }, "Ajuster le test si n\xE9cessaire"))), /* @__PURE__ */ import_react72.default.createElement("div", { className: "rounded-2xl p-4 border border-gray-100" }, /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex items-center gap-2 mb-3" }, /* @__PURE__ */ import_react72.default.createElement(ShieldCheck, { size: 15, style: { color: NAVY4 } }), /* @__PURE__ */ import_react72.default.createElement("span", { className: "text-sm font-semibold", style: { color: NAVY4 } }, "Conditions de validation du test")), /* @__PURE__ */ import_react72.default.createElement("div", { className: "space-y-2" }, conditions.map((c2, i) => {
       const s2 = STATUS_STYLE[c2.status];
       const Icon3 = s2.icon;
-      return /* @__PURE__ */ import_react71.default.createElement("label", { key: i, className: "flex items-start gap-3 rounded-xl p-2.5 cursor-pointer", style: { background: s2.bg } }, /* @__PURE__ */ import_react71.default.createElement(
+      return /* @__PURE__ */ import_react72.default.createElement("label", { key: i, className: "flex items-start gap-3 rounded-xl p-2.5 cursor-pointer", style: { background: s2.bg } }, /* @__PURE__ */ import_react72.default.createElement(
         "input",
         {
           type: "checkbox",
@@ -51130,43 +51168,43 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           className: "w-4 h-4 rounded mt-0.5",
           style: { accentColor: s2.color }
         }
-      ), /* @__PURE__ */ import_react71.default.createElement(Icon3, { size: 15, style: { color: s2.color }, className: "mt-0.5 shrink-0" }), /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex-1" }, /* @__PURE__ */ import_react71.default.createElement("div", { className: "text-xs font-medium", style: { color: s2.color } }, c2.label), c2.detail && /* @__PURE__ */ import_react71.default.createElement("div", { className: "text-[11px] text-gray-500 mt-0.5" }, c2.detail)), /* @__PURE__ */ import_react71.default.createElement("span", { className: "text-[10px] font-semibold shrink-0", style: { color: s2.color } }, s2.text));
-    })), /* @__PURE__ */ import_react71.default.createElement("p", { className: "text-[11px] text-gray-400 mt-3" }, "Chaque condition \u2014 y compris celles jug\xE9es conformes \u2014 requiert une confirmation explicite avant l'ex\xE9cution de l'analyse."))), /* @__PURE__ */ import_react71.default.createElement(
+      ), /* @__PURE__ */ import_react72.default.createElement(Icon3, { size: 15, style: { color: s2.color }, className: "mt-0.5 shrink-0" }), /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex-1" }, /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-xs font-medium", style: { color: s2.color } }, c2.label), c2.detail && /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-[11px] text-gray-500 mt-0.5" }, c2.detail)), /* @__PURE__ */ import_react72.default.createElement("span", { className: "text-[10px] font-semibold shrink-0", style: { color: s2.color } }, s2.text));
+    })), /* @__PURE__ */ import_react72.default.createElement("p", { className: "text-[11px] text-gray-400 mt-3" }, "Chaque condition \u2014 y compris celles jug\xE9es conformes \u2014 requiert une confirmation explicite avant l'ex\xE9cution de l'analyse."))), /* @__PURE__ */ import_react72.default.createElement(
       "button",
       {
         onClick: addToQueue,
         disabled: !allConfirmed,
         className: "mt-5 px-4 py-2.5 rounded-xl text-sm font-medium flex items-center gap-1.5 text-white shadow-md disabled:opacity-40 disabled:cursor-not-allowed",
-        style: { background: allConfirmed ? `linear-gradient(135deg, ${NAVY3}, #2A4A82)` : "#B0B7C6" }
+        style: { background: allConfirmed ? `linear-gradient(135deg, ${NAVY4}, #2A4A82)` : "#B0B7C6" }
       },
-      /* @__PURE__ */ import_react71.default.createElement(Plus, { size: 15 }),
+      /* @__PURE__ */ import_react72.default.createElement(Plus, { size: 15 }),
       " ",
       allConfirmed ? "Ajouter \xE0 la file d'analyses" : `Confirmer les ${conditions.length} conditions pour continuer`
-    )), tab === "univariee" && /* @__PURE__ */ import_react71.default.createElement(Card2, null, /* @__PURE__ */ import_react71.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY3 } }, "Analyse univari\xE9e"), /* @__PURE__ */ import_react71.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, "Cochez les variables \xE0 d\xE9crire : les statistiques calcul\xE9es s'adaptent au type d\xE9tect\xE9."), /* @__PURE__ */ import_react71.default.createElement("div", { className: "space-y-2" }, availableVars.map((v) => /* @__PURE__ */ import_react71.default.createElement("label", { key: v.id, className: "flex items-center justify-between rounded-xl border border-gray-100 p-3 cursor-pointer hover:bg-gray-50" }, /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex items-center gap-3" }, /* @__PURE__ */ import_react71.default.createElement("input", { type: "checkbox", defaultChecked: ["sup_semee", "filiere"].includes(v.id), className: "w-4 h-4 rounded", style: { accentColor: NAVY3 } }), /* @__PURE__ */ import_react71.default.createElement("span", { className: "text-sm text-gray-800" }, v.label)), /* @__PURE__ */ import_react71.default.createElement("span", { className: "text-[11px] text-gray-400" }, v.type.startsWith("Quantitative") ? "Moyenne, m\xE9diane, \xE9cart-type" : "Fr\xE9quences, mode"))))), tab === "multivariee" && /* @__PURE__ */ import_react71.default.createElement(Card2, null, /* @__PURE__ */ import_react71.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY3 } }, "Analyse multivari\xE9e"), /* @__PURE__ */ import_react71.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, "Choisissez la m\xE9thode, puis les variables \xE0 inclure."), /* @__PURE__ */ import_react71.default.createElement("div", { className: "grid grid-cols-2 gap-3 mb-5" }, ["ACP", "AFC", "Classification (CAH)", "R\xE9gression multiple"].map((m, i) => /* @__PURE__ */ import_react71.default.createElement(
+    )), tab === "univariee" && /* @__PURE__ */ import_react72.default.createElement(Card2, null, /* @__PURE__ */ import_react72.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY4 } }, "Analyse univari\xE9e"), /* @__PURE__ */ import_react72.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, "Cochez les variables \xE0 d\xE9crire : les statistiques calcul\xE9es s'adaptent au type d\xE9tect\xE9."), /* @__PURE__ */ import_react72.default.createElement("div", { className: "space-y-2" }, availableVars.map((v) => /* @__PURE__ */ import_react72.default.createElement("label", { key: v.id, className: "flex items-center justify-between rounded-xl border border-gray-100 p-3 cursor-pointer hover:bg-gray-50" }, /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex items-center gap-3" }, /* @__PURE__ */ import_react72.default.createElement("input", { type: "checkbox", defaultChecked: ["sup_semee", "filiere"].includes(v.id), className: "w-4 h-4 rounded", style: { accentColor: NAVY4 } }), /* @__PURE__ */ import_react72.default.createElement("span", { className: "text-sm text-gray-800" }, v.label)), /* @__PURE__ */ import_react72.default.createElement("span", { className: "text-[11px] text-gray-400" }, v.type.startsWith("Quantitative") ? "Moyenne, m\xE9diane, \xE9cart-type" : "Fr\xE9quences, mode"))))), tab === "multivariee" && /* @__PURE__ */ import_react72.default.createElement(Card2, null, /* @__PURE__ */ import_react72.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY4 } }, "Analyse multivari\xE9e"), /* @__PURE__ */ import_react72.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, "Choisissez la m\xE9thode, puis les variables \xE0 inclure."), /* @__PURE__ */ import_react72.default.createElement("div", { className: "grid grid-cols-2 gap-3 mb-5" }, ["ACP", "AFC", "Classification (CAH)", "R\xE9gression multiple"].map((m, i) => /* @__PURE__ */ import_react72.default.createElement(
       "label",
       {
         key: m,
         className: `flex items-center gap-2 rounded-xl border p-3 cursor-pointer text-sm ${i === 3 ? "border-2" : "border-gray-100"}`,
         style: i === 3 ? { borderColor: GOLD3, background: "#FDF9F0" } : {}
       },
-      /* @__PURE__ */ import_react71.default.createElement("input", { type: "radio", name: "method", defaultChecked: i === 3, style: { accentColor: NAVY3 } }),
+      /* @__PURE__ */ import_react72.default.createElement("input", { type: "radio", name: "method", defaultChecked: i === 3, style: { accentColor: NAVY4 } }),
       m
-    ))), /* @__PURE__ */ import_react71.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Variable d\xE9pendante"), /* @__PURE__ */ import_react71.default.createElement(Select, { value: "rendement", onChange: () => {
-    }, options: availableVars, placeholder: "Choisir" }), /* @__PURE__ */ import_react71.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5 mt-4" }, "Variables explicatives"), /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex flex-wrap gap-2 mb-4" }, ["Superficie sem\xE9e", "Pluviom\xE9trie d\xE9cadaire", "Acc\xE8s au cr\xE9dit", "Satisfaction intrants"].map((v) => /* @__PURE__ */ import_react71.default.createElement("span", { key: v, className: "text-xs px-3 py-1.5 rounded-full font-medium", style: { background: NAVY_TINT, color: NAVY3 } }, v))), /* @__PURE__ */ import_react71.default.createElement("div", { className: "rounded-2xl p-4 border border-gray-100" }, /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex items-center gap-2 mb-2" }, /* @__PURE__ */ import_react71.default.createElement(ShieldCheck, { size: 15, style: { color: NAVY3 } }), /* @__PURE__ */ import_react71.default.createElement("span", { className: "text-sm font-semibold", style: { color: NAVY3 } }, "Conditions de validation du mod\xE8le")), /* @__PURE__ */ import_react71.default.createElement("div", { className: "space-y-2" }, [
+    ))), /* @__PURE__ */ import_react72.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Variable d\xE9pendante"), /* @__PURE__ */ import_react72.default.createElement(Select, { value: "rendement", onChange: () => {
+    }, options: availableVars, placeholder: "Choisir" }), /* @__PURE__ */ import_react72.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5 mt-4" }, "Variables explicatives"), /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex flex-wrap gap-2 mb-4" }, ["Superficie sem\xE9e", "Pluviom\xE9trie d\xE9cadaire", "Acc\xE8s au cr\xE9dit", "Satisfaction intrants"].map((v) => /* @__PURE__ */ import_react72.default.createElement("span", { key: v, className: "text-xs px-3 py-1.5 rounded-full font-medium", style: { background: NAVY_TINT, color: NAVY4 } }, v))), /* @__PURE__ */ import_react72.default.createElement("div", { className: "rounded-2xl p-4 border border-gray-100" }, /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex items-center gap-2 mb-2" }, /* @__PURE__ */ import_react72.default.createElement(ShieldCheck, { size: 15, style: { color: NAVY4 } }), /* @__PURE__ */ import_react72.default.createElement("span", { className: "text-sm font-semibold", style: { color: NAVY4 } }, "Conditions de validation du mod\xE8le")), /* @__PURE__ */ import_react72.default.createElement("div", { className: "space-y-2" }, [
       { label: "Absence de multicolin\xE9arit\xE9 (VIF < 5 pour chaque variable explicative)", status: "ok", detail: "VIF max = 2,1" },
       { label: "Normalit\xE9 des r\xE9sidus (Shapiro-Wilk)", status: "ok", detail: "p = 0,22" },
       { label: "Homosc\xE9dasticit\xE9 des r\xE9sidus", status: "warn", detail: "Tendance l\xE9g\xE8re \xE0 examiner" }
     ].map((c2, i) => {
       const s2 = STATUS_STYLE[c2.status];
       const Icon3 = s2.icon;
-      return /* @__PURE__ */ import_react71.default.createElement("label", { key: i, className: "flex items-start gap-3 rounded-xl p-2.5 cursor-pointer", style: { background: s2.bg } }, /* @__PURE__ */ import_react71.default.createElement("input", { type: "checkbox", className: "w-4 h-4 rounded mt-0.5", style: { accentColor: s2.color } }), /* @__PURE__ */ import_react71.default.createElement(Icon3, { size: 15, style: { color: s2.color }, className: "mt-0.5 shrink-0" }), /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex-1" }, /* @__PURE__ */ import_react71.default.createElement("div", { className: "text-xs font-medium", style: { color: s2.color } }, c2.label), /* @__PURE__ */ import_react71.default.createElement("div", { className: "text-[11px] text-gray-500 mt-0.5" }, c2.detail)), /* @__PURE__ */ import_react71.default.createElement("span", { className: "text-[10px] font-semibold shrink-0", style: { color: s2.color } }, s2.text));
-    }))))), /* @__PURE__ */ import_react71.default.createElement("div", null, /* @__PURE__ */ import_react71.default.createElement(Card2, null, /* @__PURE__ */ import_react71.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY3 } }, "File d'analyses configur\xE9es"), /* @__PURE__ */ import_react71.default.createElement("p", { className: "text-xs text-gray-400 mb-4" }, queue.length, " analyse", queue.length > 1 ? "s" : "", " pr\xEAte", queue.length > 1 ? "s" : "", " \xE0 ex\xE9cuter"), /* @__PURE__ */ import_react71.default.createElement("div", { className: "space-y-2 mb-5" }, queue.map((item, i) => /* @__PURE__ */ import_react71.default.createElement("div", { key: i, className: "flex items-start gap-2 rounded-xl border border-gray-100 p-3" }, /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex-1" }, /* @__PURE__ */ import_react71.default.createElement("div", { className: "text-xs font-medium text-gray-800" }, item.label), /* @__PURE__ */ import_react71.default.createElement("div", { className: "text-[11px] text-gray-500 mt-0.5" }, item.test), /* @__PURE__ */ import_react71.default.createElement(
+      return /* @__PURE__ */ import_react72.default.createElement("label", { key: i, className: "flex items-start gap-3 rounded-xl p-2.5 cursor-pointer", style: { background: s2.bg } }, /* @__PURE__ */ import_react72.default.createElement("input", { type: "checkbox", className: "w-4 h-4 rounded mt-0.5", style: { accentColor: s2.color } }), /* @__PURE__ */ import_react72.default.createElement(Icon3, { size: 15, style: { color: s2.color }, className: "mt-0.5 shrink-0" }), /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex-1" }, /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-xs font-medium", style: { color: s2.color } }, c2.label), /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-[11px] text-gray-500 mt-0.5" }, c2.detail)), /* @__PURE__ */ import_react72.default.createElement("span", { className: "text-[10px] font-semibold shrink-0", style: { color: s2.color } }, s2.text));
+    }))))), /* @__PURE__ */ import_react72.default.createElement("div", null, /* @__PURE__ */ import_react72.default.createElement(Card2, null, /* @__PURE__ */ import_react72.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY4 } }, "File d'analyses configur\xE9es"), /* @__PURE__ */ import_react72.default.createElement("p", { className: "text-xs text-gray-400 mb-4" }, queue.length, " analyse", queue.length > 1 ? "s" : "", " pr\xEAte", queue.length > 1 ? "s" : "", " \xE0 ex\xE9cuter"), /* @__PURE__ */ import_react72.default.createElement("div", { className: "space-y-2 mb-5" }, queue.map((item, i) => /* @__PURE__ */ import_react72.default.createElement("div", { key: i, className: "flex items-start gap-2 rounded-xl border border-gray-100 p-3" }, /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex-1" }, /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-xs font-medium text-gray-800" }, item.label), /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-[11px] text-gray-500 mt-0.5" }, item.test), /* @__PURE__ */ import_react72.default.createElement(
       "span",
       {
         className: "inline-flex items-center gap-1 text-[10px] font-medium px-1.5 py-0.5 rounded-full mt-1",
         style: item.status === "adjusted" ? { background: AMBER_TINT, color: AMBER } : { background: GREEN_TINT, color: GREEN }
       },
-      item.status === "adjusted" ? /* @__PURE__ */ import_react71.default.createElement(Pencil, { size: 9 }) : /* @__PURE__ */ import_react71.default.createElement(Check, { size: 9 }),
+      item.status === "adjusted" ? /* @__PURE__ */ import_react72.default.createElement(Pencil, { size: 9 }) : /* @__PURE__ */ import_react72.default.createElement(Check, { size: 9 }),
       item.status === "adjusted" ? "Ajust\xE9" : "Auto",
       " \xB7 ",
       item.conditions,
@@ -51174,20 +51212,20 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       item.conditions > 1 ? "s" : "",
       " valid\xE9e",
       item.conditions > 1 ? "s" : ""
-    )), /* @__PURE__ */ import_react71.default.createElement("button", { onClick: () => setQueue(queue.filter((_, idx) => idx !== i)), className: "text-gray-300 hover:text-red-400" }, /* @__PURE__ */ import_react71.default.createElement(X, { size: 14 })))), queue.length === 0 && /* @__PURE__ */ import_react71.default.createElement("div", { className: "text-xs text-gray-400 italic" }, "Aucune analyse ajout\xE9e pour l'instant.")), /* @__PURE__ */ import_react71.default.createElement(
+    )), /* @__PURE__ */ import_react72.default.createElement("button", { onClick: () => setQueue(queue.filter((_, idx) => idx !== i)), className: "text-gray-300 hover:text-red-400" }, /* @__PURE__ */ import_react72.default.createElement(X, { size: 14 })))), queue.length === 0 && /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-xs text-gray-400 italic" }, "Aucune analyse ajout\xE9e pour l'instant.")), /* @__PURE__ */ import_react72.default.createElement(
       "button",
       {
         className: "w-full px-4 py-2.5 rounded-xl text-sm font-medium flex items-center justify-center gap-1.5 text-white shadow-md",
         style: { background: `linear-gradient(135deg, #3E9C6B, ${GREEN})` }
       },
-      /* @__PURE__ */ import_react71.default.createElement(Play, { size: 14 }),
+      /* @__PURE__ */ import_react72.default.createElement(Play, { size: 14 }),
       " Lancer les analyses"
     )))))));
   }
 
   // src/ResultsReport.jsx
-  var import_react72 = __toESM(require_react());
-  var NAVY4 = "#1F3864";
+  var import_react73 = __toESM(require_react());
+  var NAVY5 = "#1F3864";
   var GOLD4 = "#C99A2E";
   var GREEN2 = "#256B45";
   var GREEN_TINT2 = "#E4F5EC";
@@ -51258,56 +51296,56 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     "8. Conclusion"
   ];
   function Watermark4() {
-    return /* @__PURE__ */ import_react72.default.createElement("div", { className: "fixed inset-0 overflow-hidden pointer-events-none z-0 flex items-center justify-center" }, /* @__PURE__ */ import_react72.default.createElement(
+    return /* @__PURE__ */ import_react73.default.createElement("div", { className: "fixed inset-0 overflow-hidden pointer-events-none z-0 flex items-center justify-center" }, /* @__PURE__ */ import_react73.default.createElement(
       "span",
       {
         className: "font-serif font-black whitespace-nowrap select-none",
-        style: { color: NAVY4, opacity: 0.06, fontSize: "13vw", letterSpacing: "-0.02em" }
+        style: { color: NAVY5, opacity: 0.06, fontSize: "13vw", letterSpacing: "-0.02em" }
       },
       "AgriHakStat"
-    ), /* @__PURE__ */ import_react72.default.createElement("span", { className: "absolute bottom-4 right-6 text-xs font-medium select-none", style: { color: NAVY4, opacity: 0.35 } }, "Con\xE7u par Hakibou MOUSSA"));
+    ), /* @__PURE__ */ import_react73.default.createElement("span", { className: "absolute bottom-4 right-6 text-xs font-medium select-none", style: { color: NAVY5, opacity: 0.35 } }, "Con\xE7u par Hakibou MOUSSA"));
   }
   function Card3({ children, className = "" }) {
-    return /* @__PURE__ */ import_react72.default.createElement("div", { className: `bg-white rounded-2xl p-6 shadow-sm border border-black/5 ${className}` }, children);
+    return /* @__PURE__ */ import_react73.default.createElement("div", { className: `bg-white rounded-2xl p-6 shadow-sm border border-black/5 ${className}` }, children);
   }
   function StatusBadge({ status }) {
     const adjusted = status === "adjusted";
-    return /* @__PURE__ */ import_react72.default.createElement(
+    return /* @__PURE__ */ import_react73.default.createElement(
       "span",
       {
         className: "inline-flex items-center gap-1 text-[10px] font-medium px-2 py-1 rounded-full",
         style: adjusted ? { background: AMBER_TINT2, color: AMBER2 } : { background: GREEN_TINT2, color: GREEN2 }
       },
-      adjusted ? /* @__PURE__ */ import_react72.default.createElement(Pencil, { size: 9 }) : /* @__PURE__ */ import_react72.default.createElement(Check, { size: 9 }),
+      adjusted ? /* @__PURE__ */ import_react73.default.createElement(Pencil, { size: 9 }) : /* @__PURE__ */ import_react73.default.createElement(Check, { size: 9 }),
       adjusted ? "Ajust\xE9 par l'analyste" : "Propos\xE9 automatiquement"
     );
   }
   function ResultHeader({ title, subtitle, status }) {
-    return /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex items-start justify-between mb-3" }, /* @__PURE__ */ import_react72.default.createElement("div", null, /* @__PURE__ */ import_react72.default.createElement("h3", { className: "font-serif font-semibold text-sm", style: { color: NAVY4 } }, title), /* @__PURE__ */ import_react72.default.createElement("p", { className: "text-[11px] text-gray-400 mt-0.5" }, subtitle)), /* @__PURE__ */ import_react72.default.createElement(StatusBadge, { status }));
+    return /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-start justify-between mb-3" }, /* @__PURE__ */ import_react73.default.createElement("div", null, /* @__PURE__ */ import_react73.default.createElement("h3", { className: "font-serif font-semibold text-sm", style: { color: NAVY5 } }, title), /* @__PURE__ */ import_react73.default.createElement("p", { className: "text-[11px] text-gray-400 mt-0.5" }, subtitle)), /* @__PURE__ */ import_react73.default.createElement(StatusBadge, { status }));
   }
   function ObjectiveGroup({ number: number4, title, indicator, children }) {
-    return /* @__PURE__ */ import_react72.default.createElement("div", { className: "rounded-2xl border-2 border-dashed p-1", style: { borderColor: "#D8C48A" } }, /* @__PURE__ */ import_react72.default.createElement("div", { className: "px-4 py-3 flex items-center gap-3" }, /* @__PURE__ */ import_react72.default.createElement("div", { className: "w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold text-white shrink-0", style: { background: GOLD4 } }, number4), /* @__PURE__ */ import_react72.default.createElement("div", null, /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-sm font-serif font-semibold", style: { color: NAVY4 } }, title), /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-[11px] text-gray-500" }, "Indicateur suivi : ", indicator))), /* @__PURE__ */ import_react72.default.createElement("div", { className: "space-y-3 px-1 pb-1" }, children));
+    return /* @__PURE__ */ import_react73.default.createElement("div", { className: "rounded-2xl border-2 border-dashed p-1", style: { borderColor: "#D8C48A" } }, /* @__PURE__ */ import_react73.default.createElement("div", { className: "px-4 py-3 flex items-center gap-3" }, /* @__PURE__ */ import_react73.default.createElement("div", { className: "w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold text-white shrink-0", style: { background: GOLD4 } }, number4), /* @__PURE__ */ import_react73.default.createElement("div", null, /* @__PURE__ */ import_react73.default.createElement("div", { className: "text-sm font-serif font-semibold", style: { color: NAVY5 } }, title), /* @__PURE__ */ import_react73.default.createElement("div", { className: "text-[11px] text-gray-500" }, "Indicateur suivi : ", indicator))), /* @__PURE__ */ import_react73.default.createElement("div", { className: "space-y-3 px-1 pb-1" }, children));
   }
   function ClimateMap() {
-    return /* @__PURE__ */ import_react72.default.createElement("div", { className: "grid grid-cols-3 gap-4" }, /* @__PURE__ */ import_react72.default.createElement("div", { className: "col-span-2 relative rounded-xl bg-[#F7F9FC] border border-gray-100", style: { height: 210 } }, /* @__PURE__ */ import_react72.default.createElement("svg", { viewBox: "0 0 100 100", className: "w-full h-full" }, CLIMAT_COMMUNES.map((c2) => /* @__PURE__ */ import_react72.default.createElement("g", { key: c2.name }, /* @__PURE__ */ import_react72.default.createElement("circle", { cx: c2.x, cy: c2.y, r: 7.5, fill: rainColor(c2.mm), opacity: 0.88 }), /* @__PURE__ */ import_react72.default.createElement("circle", { cx: c2.x, cy: c2.y, r: 7.5, fill: "none", stroke: "white", strokeWidth: 0.6 }), /* @__PURE__ */ import_react72.default.createElement("text", { x: c2.x, y: c2.y - 10, fontSize: "3.4", textAnchor: "middle", fill: "#4A5568", fontWeight: "600" }, c2.name), /* @__PURE__ */ import_react72.default.createElement("text", { x: c2.x, y: c2.y + 1.2, fontSize: "3", textAnchor: "middle", fill: "white", fontWeight: "700" }, c2.mm)))), /* @__PURE__ */ import_react72.default.createElement("span", { className: "absolute bottom-2 right-3 text-[9px] text-gray-400 italic" }, "Interpolation IDW \u2014 illustrative")), /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex flex-col justify-center gap-2" }, /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-[10px] font-medium text-gray-500 mb-1" }, "Cumul pluviom\xE9trique d\xE9cadaire (mm)"), [
+    return /* @__PURE__ */ import_react73.default.createElement("div", { className: "grid grid-cols-3 gap-4" }, /* @__PURE__ */ import_react73.default.createElement("div", { className: "col-span-2 relative rounded-xl bg-[#F7F9FC] border border-gray-100", style: { height: 210 } }, /* @__PURE__ */ import_react73.default.createElement("svg", { viewBox: "0 0 100 100", className: "w-full h-full" }, CLIMAT_COMMUNES.map((c2) => /* @__PURE__ */ import_react73.default.createElement("g", { key: c2.name }, /* @__PURE__ */ import_react73.default.createElement("circle", { cx: c2.x, cy: c2.y, r: 7.5, fill: rainColor(c2.mm), opacity: 0.88 }), /* @__PURE__ */ import_react73.default.createElement("circle", { cx: c2.x, cy: c2.y, r: 7.5, fill: "none", stroke: "white", strokeWidth: 0.6 }), /* @__PURE__ */ import_react73.default.createElement("text", { x: c2.x, y: c2.y - 10, fontSize: "3.4", textAnchor: "middle", fill: "#4A5568", fontWeight: "600" }, c2.name), /* @__PURE__ */ import_react73.default.createElement("text", { x: c2.x, y: c2.y + 1.2, fontSize: "3", textAnchor: "middle", fill: "white", fontWeight: "700" }, c2.mm)))), /* @__PURE__ */ import_react73.default.createElement("span", { className: "absolute bottom-2 right-3 text-[9px] text-gray-400 italic" }, "Interpolation IDW \u2014 illustrative")), /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex flex-col justify-center gap-2" }, /* @__PURE__ */ import_react73.default.createElement("div", { className: "text-[10px] font-medium text-gray-500 mb-1" }, "Cumul pluviom\xE9trique d\xE9cadaire (mm)"), [
       ["#C99A2E", "< 65 mm \u2014 d\xE9ficitaire"],
       ["#8FAECB", "65 \u2013 80 mm"],
       ["#4A7AB5", "80 \u2013 95 mm"],
       ["#1F3864", "\u2265 95 mm"]
-    ].map(([color2, label]) => /* @__PURE__ */ import_react72.default.createElement("div", { key: label, className: "flex items-center gap-2" }, /* @__PURE__ */ import_react72.default.createElement("span", { className: "w-3 h-3 rounded-full shrink-0", style: { background: color2 } }), /* @__PURE__ */ import_react72.default.createElement("span", { className: "text-[10px] text-gray-500" }, label)))));
+    ].map(([color2, label]) => /* @__PURE__ */ import_react73.default.createElement("div", { key: label, className: "flex items-center gap-2" }, /* @__PURE__ */ import_react73.default.createElement("span", { className: "w-3 h-3 rounded-full shrink-0", style: { background: color2 } }), /* @__PURE__ */ import_react73.default.createElement("span", { className: "text-[10px] text-gray-500" }, label)))));
   }
-  function ResultsReport({ active, onNavigate }) {
-    const [sections, setSections] = (0, import_react72.useState)(reportSections);
-    const [format2, setFormat] = (0, import_react72.useState)("docx");
+  function ResultsReport({ active, onNavigate, userEmail, roleLabel, isAdmin, isGuest, onLogout, onOpenAdmin }) {
+    const [sections, setSections] = (0, import_react73.useState)(reportSections);
+    const [format2, setFormat] = (0, import_react73.useState)("docx");
     const toggleSection = (s2) => setSections((prev) => prev.includes(s2) ? prev.filter((i) => i !== s2) : [...prev, s2]);
-    return /* @__PURE__ */ import_react72.default.createElement("div", { className: "min-h-screen relative bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans" }, /* @__PURE__ */ import_react72.default.createElement(Watermark4, null), /* @__PURE__ */ import_react72.default.createElement("div", { className: "relative z-10 flex" }, /* @__PURE__ */ import_react72.default.createElement(
+    return /* @__PURE__ */ import_react73.default.createElement("div", { className: "min-h-screen relative bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans" }, /* @__PURE__ */ import_react73.default.createElement(Watermark4, null), /* @__PURE__ */ import_react73.default.createElement("div", { className: "relative z-10 flex" }, /* @__PURE__ */ import_react73.default.createElement(
       "aside",
       {
         className: "w-60 min-h-screen shrink-0 py-6 px-4 text-[#C7D2E8]",
-        style: { background: `linear-gradient(180deg, ${NAVY4} 0%, #16294B 100%)` }
+        style: { background: `linear-gradient(180deg, ${NAVY5} 0%, #16294B 100%)` }
       },
-      /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex items-center gap-2 px-2 mb-8" }, /* @__PURE__ */ import_react72.default.createElement("div", { className: "w-10 h-10 rounded-xl flex items-center justify-center shadow-lg", style: { background: GOLD4 } }, /* @__PURE__ */ import_react72.default.createElement(Sprout, { size: 19, className: "text-white" })), /* @__PURE__ */ import_react72.default.createElement("div", null, /* @__PURE__ */ import_react72.default.createElement("div", { className: "font-serif font-bold text-white text-[16px] leading-none" }, "AgriHakStat"), /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-[10px] opacity-60 mt-1" }, "DDAEP-Borgou"))),
-      /* @__PURE__ */ import_react72.default.createElement("nav", { className: "space-y-1.5" }, nav4.map((item) => /* @__PURE__ */ import_react72.default.createElement(
+      /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex flex-col items-start gap-1 px-2 mb-8" }, /* @__PURE__ */ import_react73.default.createElement("img", { src: "./logo-compact.png", alt: "AgriHakStat", className: "h-16 w-auto -ml-1" }), /* @__PURE__ */ import_react73.default.createElement("div", { className: "text-[10px] opacity-60" }, "DDAEP-Borgou")),
+      /* @__PURE__ */ import_react73.default.createElement("nav", { className: "space-y-1.5" }, nav4.map((item) => /* @__PURE__ */ import_react73.default.createElement(
         "div",
         {
           key: item.id,
@@ -51315,35 +51353,45 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           className: `flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer text-sm transition-colors ${item.id === active ? "bg-[#16294B] text-white font-medium border-l-4" : "hover:bg-white/5"}`,
           style: item.id === active ? { borderColor: GOLD4 } : {}
         },
-        /* @__PURE__ */ import_react72.default.createElement(item.icon, { size: 17 }),
+        /* @__PURE__ */ import_react73.default.createElement(item.icon, { size: 17 }),
         item.label
       )))
-    ), /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex-1 min-h-screen" }, /* @__PURE__ */ import_react72.default.createElement(
+    ), /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex-1 min-h-screen" }, /* @__PURE__ */ import_react73.default.createElement(
       "header",
       {
         className: "bg-white/70 backdrop-blur px-8 py-4 flex items-center justify-between",
         style: { borderBottom: `2px solid ${GOLD4}` }
       },
-      /* @__PURE__ */ import_react72.default.createElement("div", null, /* @__PURE__ */ import_react72.default.createElement("h1", { className: "font-serif text-xl font-bold", style: { color: NAVY4 } }, "R\xE9sultats & rapport final"), /* @__PURE__ */ import_react72.default.createElement("p", { className: "text-xs text-gray-500 mt-0.5" }, "Suivi semis 2026-2027 \xB7 D\xE9cade 3 \u2014 4 analyses ex\xE9cut\xE9es")),
-      /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex items-center gap-4" }, /* @__PURE__ */ import_react72.default.createElement(Bell, { size: 18, className: "text-gray-400" }), /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex items-center gap-2 text-sm" }, /* @__PURE__ */ import_react72.default.createElement("div", { className: "w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold text-white", style: { background: NAVY4 } }, "HM"), /* @__PURE__ */ import_react72.default.createElement("div", { className: "leading-tight" }, /* @__PURE__ */ import_react72.default.createElement("div", { className: "font-medium text-gray-800" }, "H. Moussa"), /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-[11px] text-gray-500" }, "C/SESSEC")), /* @__PURE__ */ import_react72.default.createElement(ChevronDown, { size: 14, className: "text-gray-400" })))
-    ), /* @__PURE__ */ import_react72.default.createElement("main", { className: "p-8 grid grid-cols-3 gap-6" }, /* @__PURE__ */ import_react72.default.createElement("div", { className: "col-span-2 space-y-5" }, /* @__PURE__ */ import_react72.default.createElement(Card3, null, /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex items-center gap-2 mb-1" }, /* @__PURE__ */ import_react72.default.createElement(CloudRain, { size: 16, style: { color: NAVY4 } }), /* @__PURE__ */ import_react72.default.createElement("h3", { className: "font-serif font-semibold text-sm", style: { color: NAVY4 } }, "Contexte climatique de la zone d'\xE9tude")), /* @__PURE__ */ import_react72.default.createElement("p", { className: "text-[11px] text-gray-400 mb-3" }, "Source : NASA POWER (Module 7) \xB7 D\xE9cade 3, juillet 2026 \xB7 Restitution cartographique (Module 8)"), /* @__PURE__ */ import_react72.default.createElement(ClimateMap, null), /* @__PURE__ */ import_react72.default.createElement("div", { className: "grid grid-cols-3 gap-3 mt-4" }, /* @__PURE__ */ import_react72.default.createElement("div", { className: "rounded-xl p-2.5 text-center", style: { background: NAVY_TINT2 } }, /* @__PURE__ */ import_react72.default.createElement(CloudRain, { size: 14, className: "mx-auto mb-1", style: { color: NAVY4 } }), /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-[10px] text-gray-500" }, "Cumul moyen zone"), /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-sm font-bold", style: { color: NAVY4 } }, "83 mm")), /* @__PURE__ */ import_react72.default.createElement("div", { className: "rounded-xl p-2.5 text-center", style: { background: NAVY_TINT2 } }, /* @__PURE__ */ import_react72.default.createElement(MapPin, { size: 14, className: "mx-auto mb-1", style: { color: NAVY4 } }), /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-[10px] text-gray-500" }, "Jours de pluie"), /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-sm font-bold", style: { color: NAVY4 } }, "6 j")), /* @__PURE__ */ import_react72.default.createElement("div", { className: "rounded-xl p-2.5 text-center", style: { background: NAVY_TINT2 } }, /* @__PURE__ */ import_react72.default.createElement(Thermometer, { size: 14, className: "mx-auto mb-1", style: { color: NAVY4 } }), /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-[10px] text-gray-500" }, "Temp\xE9rature moy."), /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-sm font-bold", style: { color: NAVY4 } }, "27,4 \xB0C")))), /* @__PURE__ */ import_react72.default.createElement(
+      /* @__PURE__ */ import_react73.default.createElement("div", null, /* @__PURE__ */ import_react73.default.createElement("h1", { className: "font-serif text-xl font-bold", style: { color: NAVY5 } }, "R\xE9sultats & rapport final"), /* @__PURE__ */ import_react73.default.createElement("p", { className: "text-xs text-gray-500 mt-0.5" }, "Suivi semis 2026-2027 \xB7 D\xE9cade 3 \u2014 4 analyses ex\xE9cut\xE9es")),
+      /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center gap-4" }, /* @__PURE__ */ import_react73.default.createElement(Bell, { size: 18, className: "text-gray-400" }), /* @__PURE__ */ import_react73.default.createElement(
+        UserMenu,
+        {
+          email: userEmail,
+          roleLabel,
+          isAdmin,
+          isGuest,
+          onLogout,
+          onOpenAdmin
+        }
+      ))
+    ), /* @__PURE__ */ import_react73.default.createElement("main", { className: "p-8 grid grid-cols-3 gap-6" }, /* @__PURE__ */ import_react73.default.createElement("div", { className: "col-span-2 space-y-5" }, /* @__PURE__ */ import_react73.default.createElement(Card3, null, /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center gap-2 mb-1" }, /* @__PURE__ */ import_react73.default.createElement(CloudRain, { size: 16, style: { color: NAVY5 } }), /* @__PURE__ */ import_react73.default.createElement("h3", { className: "font-serif font-semibold text-sm", style: { color: NAVY5 } }, "Contexte climatique de la zone d'\xE9tude")), /* @__PURE__ */ import_react73.default.createElement("p", { className: "text-[11px] text-gray-400 mb-3" }, "Source : NASA POWER (Module 7) \xB7 D\xE9cade 3, juillet 2026 \xB7 Restitution cartographique (Module 8)"), /* @__PURE__ */ import_react73.default.createElement(ClimateMap, null), /* @__PURE__ */ import_react73.default.createElement("div", { className: "grid grid-cols-3 gap-3 mt-4" }, /* @__PURE__ */ import_react73.default.createElement("div", { className: "rounded-xl p-2.5 text-center", style: { background: NAVY_TINT2 } }, /* @__PURE__ */ import_react73.default.createElement(CloudRain, { size: 14, className: "mx-auto mb-1", style: { color: NAVY5 } }), /* @__PURE__ */ import_react73.default.createElement("div", { className: "text-[10px] text-gray-500" }, "Cumul moyen zone"), /* @__PURE__ */ import_react73.default.createElement("div", { className: "text-sm font-bold", style: { color: NAVY5 } }, "83 mm")), /* @__PURE__ */ import_react73.default.createElement("div", { className: "rounded-xl p-2.5 text-center", style: { background: NAVY_TINT2 } }, /* @__PURE__ */ import_react73.default.createElement(MapPin, { size: 14, className: "mx-auto mb-1", style: { color: NAVY5 } }), /* @__PURE__ */ import_react73.default.createElement("div", { className: "text-[10px] text-gray-500" }, "Jours de pluie"), /* @__PURE__ */ import_react73.default.createElement("div", { className: "text-sm font-bold", style: { color: NAVY5 } }, "6 j")), /* @__PURE__ */ import_react73.default.createElement("div", { className: "rounded-xl p-2.5 text-center", style: { background: NAVY_TINT2 } }, /* @__PURE__ */ import_react73.default.createElement(Thermometer, { size: 14, className: "mx-auto mb-1", style: { color: NAVY5 } }), /* @__PURE__ */ import_react73.default.createElement("div", { className: "text-[10px] text-gray-500" }, "Temp\xE9rature moy."), /* @__PURE__ */ import_react73.default.createElement("div", { className: "text-sm font-bold", style: { color: NAVY5 } }, "27,4 \xB0C")))), /* @__PURE__ */ import_react73.default.createElement(
       ObjectiveGroup,
       {
         number: "1",
         title: "\xC9valuer la progression des semis de coton sur la p\xE9riode de suivi",
         indicator: "Taux de r\xE9alisation des semis / Superficie sem\xE9e (ha)"
       },
-      /* @__PURE__ */ import_react72.default.createElement(Card3, null, /* @__PURE__ */ import_react72.default.createElement(ResultHeader, { title: "Superficie sem\xE9e (ha) \u2014 statistiques descriptives", subtitle: "Analyse univari\xE9e \xB7 Coton, Tchaourou & P\xE9r\xE8r\xE8", status: "auto" }), /* @__PURE__ */ import_react72.default.createElement("div", { className: "grid grid-cols-4 gap-3 text-center" }, [["Moyenne", "3,42 ha"], ["M\xE9diane", "3,10 ha"], ["\xC9cart-type", "1,08 ha"], ["CV", "31,6 %"]].map(([l, v]) => /* @__PURE__ */ import_react72.default.createElement("div", { key: l, className: "rounded-xl p-2.5", style: { background: NAVY_TINT2 } }, /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-[10px] text-gray-500" }, l), /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-sm font-bold", style: { color: NAVY4 } }, v))))),
-      /* @__PURE__ */ import_react72.default.createElement(Card3, null, /* @__PURE__ */ import_react72.default.createElement(ResultHeader, { title: "Superficie sem\xE9e \xD7 Pluviom\xE9trie d\xE9cadaire", subtitle: "Analyse bivari\xE9e inf\xE9rentielle \xB7 Corr\xE9lation de Spearman \xB7 \u03C1 = 0,62, p = 0,003", status: "auto" }), /* @__PURE__ */ import_react72.default.createElement(ResponsiveContainer, { width: "100%", height: 170 }, /* @__PURE__ */ import_react72.default.createElement(ScatterChart, null, /* @__PURE__ */ import_react72.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react72.default.createElement(XAxis, { dataKey: "x", tick: { fontSize: 11 }, stroke: "#999", name: "Pluviom\xE9trie", unit: " mm" }), /* @__PURE__ */ import_react72.default.createElement(YAxis, { dataKey: "y", tick: { fontSize: 11 }, stroke: "#999", name: "Superficie", unit: " a", width: 50 }), /* @__PURE__ */ import_react72.default.createElement(Tooltip, { cursor: { strokeDasharray: "3 3" } }), /* @__PURE__ */ import_react72.default.createElement(Scatter, { data: scatterData, fill: NAVY4 }))), /* @__PURE__ */ import_react72.default.createElement("p", { className: "text-xs text-gray-500 mt-2 leading-relaxed" }, "Une association positive mod\xE9r\xE9e est observ\xE9e : les d\xE9cades les plus arros\xE9es co\xEFncident avec une progression plus rapide des superficies sem\xE9es."))
-    ), /* @__PURE__ */ import_react72.default.createElement(
+      /* @__PURE__ */ import_react73.default.createElement(Card3, null, /* @__PURE__ */ import_react73.default.createElement(ResultHeader, { title: "Superficie sem\xE9e (ha) \u2014 statistiques descriptives", subtitle: "Analyse univari\xE9e \xB7 Coton, Tchaourou & P\xE9r\xE8r\xE8", status: "auto" }), /* @__PURE__ */ import_react73.default.createElement("div", { className: "grid grid-cols-4 gap-3 text-center" }, [["Moyenne", "3,42 ha"], ["M\xE9diane", "3,10 ha"], ["\xC9cart-type", "1,08 ha"], ["CV", "31,6 %"]].map(([l, v]) => /* @__PURE__ */ import_react73.default.createElement("div", { key: l, className: "rounded-xl p-2.5", style: { background: NAVY_TINT2 } }, /* @__PURE__ */ import_react73.default.createElement("div", { className: "text-[10px] text-gray-500" }, l), /* @__PURE__ */ import_react73.default.createElement("div", { className: "text-sm font-bold", style: { color: NAVY5 } }, v))))),
+      /* @__PURE__ */ import_react73.default.createElement(Card3, null, /* @__PURE__ */ import_react73.default.createElement(ResultHeader, { title: "Superficie sem\xE9e \xD7 Pluviom\xE9trie d\xE9cadaire", subtitle: "Analyse bivari\xE9e inf\xE9rentielle \xB7 Corr\xE9lation de Spearman \xB7 \u03C1 = 0,62, p = 0,003", status: "auto" }), /* @__PURE__ */ import_react73.default.createElement(ResponsiveContainer, { width: "100%", height: 170 }, /* @__PURE__ */ import_react73.default.createElement(ScatterChart, null, /* @__PURE__ */ import_react73.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react73.default.createElement(XAxis, { dataKey: "x", tick: { fontSize: 11 }, stroke: "#999", name: "Pluviom\xE9trie", unit: " mm" }), /* @__PURE__ */ import_react73.default.createElement(YAxis, { dataKey: "y", tick: { fontSize: 11 }, stroke: "#999", name: "Superficie", unit: " a", width: 50 }), /* @__PURE__ */ import_react73.default.createElement(Tooltip, { cursor: { strokeDasharray: "3 3" } }), /* @__PURE__ */ import_react73.default.createElement(Scatter, { data: scatterData, fill: NAVY5 }))), /* @__PURE__ */ import_react73.default.createElement("p", { className: "text-xs text-gray-500 mt-2 leading-relaxed" }, "Une association positive mod\xE9r\xE9e est observ\xE9e : les d\xE9cades les plus arros\xE9es co\xEFncident avec une progression plus rapide des superficies sem\xE9es."))
+    ), /* @__PURE__ */ import_react73.default.createElement(
       ObjectiveGroup,
       {
         number: "2",
         title: "Comparer la performance de rendement entre fili\xE8res et en identifier les d\xE9terminants",
         indicator: "Rendement estim\xE9 (kg/ha)"
       },
-      /* @__PURE__ */ import_react72.default.createElement(Card3, null, /* @__PURE__ */ import_react72.default.createElement(ResultHeader, { title: "Fili\xE8re suivie \xD7 Rendement estim\xE9", subtitle: "Analyse bivari\xE9e inf\xE9rentielle \xB7 ANOVA \xE0 un facteur \xB7 F = 4,82, p = 0,007, \u03B7\xB2 = 0,31", status: "adjusted" }), /* @__PURE__ */ import_react72.default.createElement(ResponsiveContainer, { width: "100%", height: 180 }, /* @__PURE__ */ import_react72.default.createElement(BarChart, { data: rendementParFiliere }, /* @__PURE__ */ import_react72.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react72.default.createElement(XAxis, { dataKey: "filiere", tick: { fontSize: 11 }, stroke: "#999" }), /* @__PURE__ */ import_react72.default.createElement(YAxis, { tick: { fontSize: 11 }, stroke: "#999", unit: " kg/ha", width: 70 }), /* @__PURE__ */ import_react72.default.createElement(Tooltip, null), /* @__PURE__ */ import_react72.default.createElement(Bar, { dataKey: "moyenne", radius: [6, 6, 0, 0] }, rendementParFiliere.map((d) => /* @__PURE__ */ import_react72.default.createElement(Cell, { key: d.filiere, fill: FILIERES3[d.filiere] })), /* @__PURE__ */ import_react72.default.createElement(ErrorBar, { dataKey: "ecart", width: 4, strokeWidth: 1.5, stroke: "#7A7A7A" })))), /* @__PURE__ */ import_react72.default.createElement("p", { className: "text-xs text-gray-500 mt-2 leading-relaxed" }, "Le rendement moyen diff\xE8re significativement selon la fili\xE8re suivie (p < 0,01). Le Manioc pr\xE9sente le rendement brut le plus \xE9lev\xE9, en coh\xE9rence avec les r\xE9f\xE9rentiels agronomiques de la zone.")),
-      /* @__PURE__ */ import_react72.default.createElement(Card3, null, /* @__PURE__ */ import_react72.default.createElement(ResultHeader, { title: "Mod\xE8le explicatif du rendement", subtitle: "Analyse multivari\xE9e \xB7 R\xE9gression lin\xE9aire multiple \xB7 R\xB2 = 0,58, R\xB2 ajust\xE9 = 0,54", status: "auto" }), /* @__PURE__ */ import_react72.default.createElement("table", { className: "w-full text-xs" }, /* @__PURE__ */ import_react72.default.createElement("thead", null, /* @__PURE__ */ import_react72.default.createElement("tr", { className: "text-left text-[10px] text-gray-400 uppercase border-b border-gray-100" }, /* @__PURE__ */ import_react72.default.createElement("th", { className: "py-2 font-medium" }, "Variable explicative"), /* @__PURE__ */ import_react72.default.createElement("th", { className: "py-2 font-medium" }, "Coefficient"), /* @__PURE__ */ import_react72.default.createElement("th", { className: "py-2 font-medium" }, "p-valeur"), /* @__PURE__ */ import_react72.default.createElement("th", { className: "py-2 font-medium" }, "Significativit\xE9"))), /* @__PURE__ */ import_react72.default.createElement("tbody", null, coefficients.map((c2) => /* @__PURE__ */ import_react72.default.createElement("tr", { key: c2.variable, className: "border-b border-gray-50 last:border-0" }, /* @__PURE__ */ import_react72.default.createElement("td", { className: "py-2 text-gray-800" }, c2.variable), /* @__PURE__ */ import_react72.default.createElement("td", { className: "py-2 text-gray-600" }, c2.coef), /* @__PURE__ */ import_react72.default.createElement("td", { className: "py-2 text-gray-600" }, c2.p), /* @__PURE__ */ import_react72.default.createElement("td", { className: "py-2" }, /* @__PURE__ */ import_react72.default.createElement(
+      /* @__PURE__ */ import_react73.default.createElement(Card3, null, /* @__PURE__ */ import_react73.default.createElement(ResultHeader, { title: "Fili\xE8re suivie \xD7 Rendement estim\xE9", subtitle: "Analyse bivari\xE9e inf\xE9rentielle \xB7 ANOVA \xE0 un facteur \xB7 F = 4,82, p = 0,007, \u03B7\xB2 = 0,31", status: "adjusted" }), /* @__PURE__ */ import_react73.default.createElement(ResponsiveContainer, { width: "100%", height: 180 }, /* @__PURE__ */ import_react73.default.createElement(BarChart, { data: rendementParFiliere }, /* @__PURE__ */ import_react73.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react73.default.createElement(XAxis, { dataKey: "filiere", tick: { fontSize: 11 }, stroke: "#999" }), /* @__PURE__ */ import_react73.default.createElement(YAxis, { tick: { fontSize: 11 }, stroke: "#999", unit: " kg/ha", width: 70 }), /* @__PURE__ */ import_react73.default.createElement(Tooltip, null), /* @__PURE__ */ import_react73.default.createElement(Bar, { dataKey: "moyenne", radius: [6, 6, 0, 0] }, rendementParFiliere.map((d) => /* @__PURE__ */ import_react73.default.createElement(Cell, { key: d.filiere, fill: FILIERES3[d.filiere] })), /* @__PURE__ */ import_react73.default.createElement(ErrorBar, { dataKey: "ecart", width: 4, strokeWidth: 1.5, stroke: "#7A7A7A" })))), /* @__PURE__ */ import_react73.default.createElement("p", { className: "text-xs text-gray-500 mt-2 leading-relaxed" }, "Le rendement moyen diff\xE8re significativement selon la fili\xE8re suivie (p < 0,01). Le Manioc pr\xE9sente le rendement brut le plus \xE9lev\xE9, en coh\xE9rence avec les r\xE9f\xE9rentiels agronomiques de la zone.")),
+      /* @__PURE__ */ import_react73.default.createElement(Card3, null, /* @__PURE__ */ import_react73.default.createElement(ResultHeader, { title: "Mod\xE8le explicatif du rendement", subtitle: "Analyse multivari\xE9e \xB7 R\xE9gression lin\xE9aire multiple \xB7 R\xB2 = 0,58, R\xB2 ajust\xE9 = 0,54", status: "auto" }), /* @__PURE__ */ import_react73.default.createElement("table", { className: "w-full text-xs" }, /* @__PURE__ */ import_react73.default.createElement("thead", null, /* @__PURE__ */ import_react73.default.createElement("tr", { className: "text-left text-[10px] text-gray-400 uppercase border-b border-gray-100" }, /* @__PURE__ */ import_react73.default.createElement("th", { className: "py-2 font-medium" }, "Variable explicative"), /* @__PURE__ */ import_react73.default.createElement("th", { className: "py-2 font-medium" }, "Coefficient"), /* @__PURE__ */ import_react73.default.createElement("th", { className: "py-2 font-medium" }, "p-valeur"), /* @__PURE__ */ import_react73.default.createElement("th", { className: "py-2 font-medium" }, "Significativit\xE9"))), /* @__PURE__ */ import_react73.default.createElement("tbody", null, coefficients.map((c2) => /* @__PURE__ */ import_react73.default.createElement("tr", { key: c2.variable, className: "border-b border-gray-50 last:border-0" }, /* @__PURE__ */ import_react73.default.createElement("td", { className: "py-2 text-gray-800" }, c2.variable), /* @__PURE__ */ import_react73.default.createElement("td", { className: "py-2 text-gray-600" }, c2.coef), /* @__PURE__ */ import_react73.default.createElement("td", { className: "py-2 text-gray-600" }, c2.p), /* @__PURE__ */ import_react73.default.createElement("td", { className: "py-2" }, /* @__PURE__ */ import_react73.default.createElement(
         "span",
         {
           className: "px-2 py-0.5 rounded-full text-[10px] font-medium",
@@ -51351,47 +51399,47 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         },
         c2.sig ? "Significatif" : "Non significatif"
       )))))))
-    ), /* @__PURE__ */ import_react72.default.createElement(Card3, { className: "border-2", style: { borderColor: GOLD4 } }, /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex items-center gap-2 mb-2" }, /* @__PURE__ */ import_react72.default.createElement(Sparkles, { size: 16, style: { color: GOLD4 } }), /* @__PURE__ */ import_react72.default.createElement("h3", { className: "font-serif font-semibold text-sm", style: { color: NAVY4 } }, "6. Analyse \u2014 lecture crois\xE9e des r\xE9sultats")), /* @__PURE__ */ import_react72.default.createElement("p", { className: "text-xs text-gray-600 leading-relaxed mb-2" }, "La carte pluviom\xE9trique confirme un d\xE9ficit localis\xE9 sur Tchaourou et P\xE9r\xE8r\xE8 (58 et 61 mm cumul\xE9s, contre 83 mm en moyenne sur la zone), ce qui explique en grande partie le retard de semis constat\xE9 \xE0 l'Objectif 1 : ces deux communes affichent \xE0 la fois le cumul d\xE9cadaire le plus faible et la progression des superficies sem\xE9es la plus lente."), /* @__PURE__ */ import_react72.default.createElement("p", { className: "text-xs text-gray-600 leading-relaxed mb-2" }, "Ce d\xE9ficit pluviom\xE9trique se r\xE9percute directement sur l'\xE9cart de rendement inter-fili\xE8res mis en \xE9vidence par l'ANOVA (Objectif 2) : le coton, fili\xE8re la plus sensible au calendrier pluviom\xE9trique d\xE9cadaire et majoritairement cultiv\xE9 sur ces deux communes d\xE9ficitaires, affiche le rendement le plus faible de l'\xE9chantillon \u2014 la lecture crois\xE9e cartographie/statistiques permet ainsi de distinguer un effet climatique d'un effet propre \xE0 la fili\xE8re."), /* @__PURE__ */ import_react72.default.createElement("p", { className: "text-xs text-gray-600 leading-relaxed" }, "Ce constat rejoint la litt\xE9rature agro-climatique r\xE9gionale sur la sensibilit\xE9 des cultures pluviales aux r\xE9gimes d\xE9cadaires en zone soudano-guin\xE9enne ", /* @__PURE__ */ import_react72.default.createElement("em", null, "(r\xE9f\xE9rence institutionnelle ou acad\xE9mique \xE0 documenter lors de la r\xE9daction finale, conform\xE9ment au standard APA 7 retenu)"), ", et sugg\xE8re que l'acc\xE8s au cr\xE9dit agricole \u2014 variable significative du mod\xE8le de r\xE9gression \u2014 constitue un levier d'att\xE9nuation partiel du risque climatique.")), /* @__PURE__ */ import_react72.default.createElement(Card3, { className: "border-2", style: { borderColor: "#3E9C6B" } }, /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex items-center gap-2 mb-2" }, /* @__PURE__ */ import_react72.default.createElement(ShieldCheck, { size: 16, style: { color: GREEN2 } }), /* @__PURE__ */ import_react72.default.createElement("h3", { className: "font-serif font-semibold text-sm", style: { color: NAVY4 } }, "7. Recommandations")), /* @__PURE__ */ import_react72.default.createElement("ul", { className: "text-xs text-gray-600 leading-relaxed space-y-1.5 list-disc pl-4" }, /* @__PURE__ */ import_react72.default.createElement("li", null, "Prioriser l'appui-conseil et la distribution d'intrants coton sur les communes de Tchaourou et P\xE9r\xE8r\xE8 avant la d\xE9cade 4, en r\xE9ponse au retard de semis constat\xE9."), /* @__PURE__ */ import_react72.default.createElement("li", null, "Renforcer l'acc\xE8s au cr\xE9dit agricole en zone cotonni\xE8re, ce facteur ayant montr\xE9 un effet significatif sur le rendement dans le mod\xE8le explicatif."), /* @__PURE__ */ import_react72.default.createElement("li", null, "Int\xE9grer un suivi pluviom\xE9trique d\xE9cadaire syst\xE9matique (Module 7) dans les prochains cycles de collecte, afin d'anticiper les \xE9carts de calendrier cultural.")))), /* @__PURE__ */ import_react72.default.createElement("div", { className: "space-y-4" }, /* @__PURE__ */ import_react72.default.createElement(Card3, null, /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex items-center gap-2 mb-3" }, /* @__PURE__ */ import_react72.default.createElement(ListChecks, { size: 16, style: { color: NAVY4 } }), /* @__PURE__ */ import_react72.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY4 } }, "Sommaire du rapport")), /* @__PURE__ */ import_react72.default.createElement("div", { className: "space-y-1.5" }, reportSections.map((s2) => /* @__PURE__ */ import_react72.default.createElement("label", { key: s2, className: "flex items-center gap-2 text-xs text-gray-700 cursor-pointer" }, /* @__PURE__ */ import_react72.default.createElement(
+    ), /* @__PURE__ */ import_react73.default.createElement(Card3, { className: "border-2", style: { borderColor: GOLD4 } }, /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center gap-2 mb-2" }, /* @__PURE__ */ import_react73.default.createElement(Sparkles, { size: 16, style: { color: GOLD4 } }), /* @__PURE__ */ import_react73.default.createElement("h3", { className: "font-serif font-semibold text-sm", style: { color: NAVY5 } }, "6. Analyse \u2014 lecture crois\xE9e des r\xE9sultats")), /* @__PURE__ */ import_react73.default.createElement("p", { className: "text-xs text-gray-600 leading-relaxed mb-2" }, "La carte pluviom\xE9trique confirme un d\xE9ficit localis\xE9 sur Tchaourou et P\xE9r\xE8r\xE8 (58 et 61 mm cumul\xE9s, contre 83 mm en moyenne sur la zone), ce qui explique en grande partie le retard de semis constat\xE9 \xE0 l'Objectif 1 : ces deux communes affichent \xE0 la fois le cumul d\xE9cadaire le plus faible et la progression des superficies sem\xE9es la plus lente."), /* @__PURE__ */ import_react73.default.createElement("p", { className: "text-xs text-gray-600 leading-relaxed mb-2" }, "Ce d\xE9ficit pluviom\xE9trique se r\xE9percute directement sur l'\xE9cart de rendement inter-fili\xE8res mis en \xE9vidence par l'ANOVA (Objectif 2) : le coton, fili\xE8re la plus sensible au calendrier pluviom\xE9trique d\xE9cadaire et majoritairement cultiv\xE9 sur ces deux communes d\xE9ficitaires, affiche le rendement le plus faible de l'\xE9chantillon \u2014 la lecture crois\xE9e cartographie/statistiques permet ainsi de distinguer un effet climatique d'un effet propre \xE0 la fili\xE8re."), /* @__PURE__ */ import_react73.default.createElement("p", { className: "text-xs text-gray-600 leading-relaxed" }, "Ce constat rejoint la litt\xE9rature agro-climatique r\xE9gionale sur la sensibilit\xE9 des cultures pluviales aux r\xE9gimes d\xE9cadaires en zone soudano-guin\xE9enne ", /* @__PURE__ */ import_react73.default.createElement("em", null, "(r\xE9f\xE9rence institutionnelle ou acad\xE9mique \xE0 documenter lors de la r\xE9daction finale, conform\xE9ment au standard APA 7 retenu)"), ", et sugg\xE8re que l'acc\xE8s au cr\xE9dit agricole \u2014 variable significative du mod\xE8le de r\xE9gression \u2014 constitue un levier d'att\xE9nuation partiel du risque climatique.")), /* @__PURE__ */ import_react73.default.createElement(Card3, { className: "border-2", style: { borderColor: "#3E9C6B" } }, /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center gap-2 mb-2" }, /* @__PURE__ */ import_react73.default.createElement(ShieldCheck, { size: 16, style: { color: GREEN2 } }), /* @__PURE__ */ import_react73.default.createElement("h3", { className: "font-serif font-semibold text-sm", style: { color: NAVY5 } }, "7. Recommandations")), /* @__PURE__ */ import_react73.default.createElement("ul", { className: "text-xs text-gray-600 leading-relaxed space-y-1.5 list-disc pl-4" }, /* @__PURE__ */ import_react73.default.createElement("li", null, "Prioriser l'appui-conseil et la distribution d'intrants coton sur les communes de Tchaourou et P\xE9r\xE8r\xE8 avant la d\xE9cade 4, en r\xE9ponse au retard de semis constat\xE9."), /* @__PURE__ */ import_react73.default.createElement("li", null, "Renforcer l'acc\xE8s au cr\xE9dit agricole en zone cotonni\xE8re, ce facteur ayant montr\xE9 un effet significatif sur le rendement dans le mod\xE8le explicatif."), /* @__PURE__ */ import_react73.default.createElement("li", null, "Int\xE9grer un suivi pluviom\xE9trique d\xE9cadaire syst\xE9matique (Module 7) dans les prochains cycles de collecte, afin d'anticiper les \xE9carts de calendrier cultural.")))), /* @__PURE__ */ import_react73.default.createElement("div", { className: "space-y-4" }, /* @__PURE__ */ import_react73.default.createElement(Card3, null, /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center gap-2 mb-3" }, /* @__PURE__ */ import_react73.default.createElement(ListChecks, { size: 16, style: { color: NAVY5 } }), /* @__PURE__ */ import_react73.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY5 } }, "Sommaire du rapport")), /* @__PURE__ */ import_react73.default.createElement("div", { className: "space-y-1.5" }, reportSections.map((s2) => /* @__PURE__ */ import_react73.default.createElement("label", { key: s2, className: "flex items-center gap-2 text-xs text-gray-700 cursor-pointer" }, /* @__PURE__ */ import_react73.default.createElement(
       "input",
       {
         type: "checkbox",
         checked: sections.includes(s2),
         onChange: () => toggleSection(s2),
         className: "w-3.5 h-3.5 rounded",
-        style: { accentColor: NAVY4 }
+        style: { accentColor: NAVY5 }
       }
-    ), s2)))), /* @__PURE__ */ import_react72.default.createElement(Card3, null, /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex items-center gap-2 mb-3" }, /* @__PURE__ */ import_react72.default.createElement(Paperclip, { size: 16, style: { color: NAVY4 } }), /* @__PURE__ */ import_react72.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY4 } }, "Annexe automatique")), /* @__PURE__ */ import_react72.default.createElement("p", { className: "text-[11px] text-gray-400 mb-3" }, "Tableaux consolid\xE9s automatiquement, horodat\xE9s (Module 6)."), /* @__PURE__ */ import_react72.default.createElement("div", { className: "space-y-2" }, annexTables.map((t) => /* @__PURE__ */ import_react72.default.createElement("div", { key: t.id, className: "rounded-xl border border-gray-100 p-2.5" }, /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex items-center justify-between" }, /* @__PURE__ */ import_react72.default.createElement("span", { className: "text-[11px] font-semibold", style: { color: NAVY4 } }, "Tableau ", t.id), /* @__PURE__ */ import_react72.default.createElement("span", { className: "text-[10px] text-gray-400" }, t.time)), /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-[11px] text-gray-600 mt-0.5" }, t.title), /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex items-center gap-1.5 mt-1.5" }, /* @__PURE__ */ import_react72.default.createElement("span", { className: "text-[10px] px-1.5 py-0.5 rounded-full", style: { background: NAVY_TINT2, color: NAVY4 } }, t.type), /* @__PURE__ */ import_react72.default.createElement(StatusBadge, { status: t.status })))))), /* @__PURE__ */ import_react72.default.createElement(Card3, null, /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex items-center gap-2 mb-3" }, /* @__PURE__ */ import_react72.default.createElement(Sparkles, { size: 16, style: { color: GOLD4 } }), /* @__PURE__ */ import_react72.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY4 } }, "G\xE9n\xE9ration")), /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex items-center gap-2 mb-3 text-xs" }, /* @__PURE__ */ import_react72.default.createElement(ShieldCheck, { size: 13, style: { color: GREEN2 } }), /* @__PURE__ */ import_react72.default.createElement("span", { className: "text-gray-500" }, "Th\xE8me : ", /* @__PURE__ */ import_react72.default.createElement("span", { className: "font-medium", style: { color: NAVY4 } }, "Ocean Depths / Terre & Moisson"))), /* @__PURE__ */ import_react72.default.createElement("div", { className: "grid grid-cols-2 gap-2 mb-4" }, /* @__PURE__ */ import_react72.default.createElement(
+    ), s2)))), /* @__PURE__ */ import_react73.default.createElement(Card3, null, /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center gap-2 mb-3" }, /* @__PURE__ */ import_react73.default.createElement(Paperclip, { size: 16, style: { color: NAVY5 } }), /* @__PURE__ */ import_react73.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY5 } }, "Annexe automatique")), /* @__PURE__ */ import_react73.default.createElement("p", { className: "text-[11px] text-gray-400 mb-3" }, "Tableaux consolid\xE9s automatiquement, horodat\xE9s (Module 6)."), /* @__PURE__ */ import_react73.default.createElement("div", { className: "space-y-2" }, annexTables.map((t) => /* @__PURE__ */ import_react73.default.createElement("div", { key: t.id, className: "rounded-xl border border-gray-100 p-2.5" }, /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center justify-between" }, /* @__PURE__ */ import_react73.default.createElement("span", { className: "text-[11px] font-semibold", style: { color: NAVY5 } }, "Tableau ", t.id), /* @__PURE__ */ import_react73.default.createElement("span", { className: "text-[10px] text-gray-400" }, t.time)), /* @__PURE__ */ import_react73.default.createElement("div", { className: "text-[11px] text-gray-600 mt-0.5" }, t.title), /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center gap-1.5 mt-1.5" }, /* @__PURE__ */ import_react73.default.createElement("span", { className: "text-[10px] px-1.5 py-0.5 rounded-full", style: { background: NAVY_TINT2, color: NAVY5 } }, t.type), /* @__PURE__ */ import_react73.default.createElement(StatusBadge, { status: t.status })))))), /* @__PURE__ */ import_react73.default.createElement(Card3, null, /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center gap-2 mb-3" }, /* @__PURE__ */ import_react73.default.createElement(Sparkles, { size: 16, style: { color: GOLD4 } }), /* @__PURE__ */ import_react73.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY5 } }, "G\xE9n\xE9ration")), /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center gap-2 mb-3 text-xs" }, /* @__PURE__ */ import_react73.default.createElement(ShieldCheck, { size: 13, style: { color: GREEN2 } }), /* @__PURE__ */ import_react73.default.createElement("span", { className: "text-gray-500" }, "Th\xE8me : ", /* @__PURE__ */ import_react73.default.createElement("span", { className: "font-medium", style: { color: NAVY5 } }, "Ocean Depths / Terre & Moisson"))), /* @__PURE__ */ import_react73.default.createElement("div", { className: "grid grid-cols-2 gap-2 mb-4" }, /* @__PURE__ */ import_react73.default.createElement(
       "button",
       {
         onClick: () => setFormat("docx"),
         className: "flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-medium border",
-        style: format2 === "docx" ? { background: NAVY4, color: "white", borderColor: NAVY4 } : { borderColor: "#D8DEE9", color: "#5A6478" }
+        style: format2 === "docx" ? { background: NAVY5, color: "white", borderColor: NAVY5 } : { borderColor: "#D8DEE9", color: "#5A6478" }
       },
-      /* @__PURE__ */ import_react72.default.createElement(FileTypeCorner, { size: 13 }),
+      /* @__PURE__ */ import_react73.default.createElement(FileTypeCorner, { size: 13 }),
       " Word (.docx)"
-    ), /* @__PURE__ */ import_react72.default.createElement(
+    ), /* @__PURE__ */ import_react73.default.createElement(
       "button",
       {
         onClick: () => setFormat("pdf"),
         className: "flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-medium border",
-        style: format2 === "pdf" ? { background: NAVY4, color: "white", borderColor: NAVY4 } : { borderColor: "#D8DEE9", color: "#5A6478" }
+        style: format2 === "pdf" ? { background: NAVY5, color: "white", borderColor: NAVY5 } : { borderColor: "#D8DEE9", color: "#5A6478" }
       },
-      /* @__PURE__ */ import_react72.default.createElement(FileDown, { size: 13 }),
+      /* @__PURE__ */ import_react73.default.createElement(FileDown, { size: 13 }),
       " PDF"
-    )), /* @__PURE__ */ import_react72.default.createElement(
+    )), /* @__PURE__ */ import_react73.default.createElement(
       "button",
       {
         className: "w-full px-4 py-2.5 rounded-xl text-sm font-medium flex items-center justify-center gap-1.5 text-white shadow-md",
         style: { background: `linear-gradient(135deg, #3E9C6B, ${GREEN2})` }
       },
-      /* @__PURE__ */ import_react72.default.createElement(Layers, { size: 14 }),
+      /* @__PURE__ */ import_react73.default.createElement(Layers, { size: 14 }),
       " G\xE9n\xE9rer le rapport final"
     )))))));
   }
 
   // src/Cartographie.jsx
-  var import_react73 = __toESM(require_react());
-  var NAVY5 = "#1F3864";
+  var import_react74 = __toESM(require_react());
+  var NAVY6 = "#1F3864";
   var GOLD5 = "#C99A2E";
   var FILIERES4 = {
     Soja: "#3E9C6B",
@@ -51440,58 +51488,58 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     return "#3E9C6B";
   }
   function Watermark5() {
-    return /* @__PURE__ */ import_react73.default.createElement("div", { className: "fixed inset-0 overflow-hidden pointer-events-none z-0 flex items-center justify-center" }, /* @__PURE__ */ import_react73.default.createElement(
+    return /* @__PURE__ */ import_react74.default.createElement("div", { className: "fixed inset-0 overflow-hidden pointer-events-none z-0 flex items-center justify-center" }, /* @__PURE__ */ import_react74.default.createElement(
       "span",
       {
         className: "font-serif font-black whitespace-nowrap select-none",
-        style: { color: NAVY5, opacity: 0.06, fontSize: "13vw", letterSpacing: "-0.02em" }
+        style: { color: NAVY6, opacity: 0.06, fontSize: "13vw", letterSpacing: "-0.02em" }
       },
       "AgriHakStat"
-    ), /* @__PURE__ */ import_react73.default.createElement("span", { className: "absolute bottom-4 right-6 text-xs font-medium select-none", style: { color: NAVY5, opacity: 0.35 } }, "Con\xE7u par Hakibou MOUSSA"));
+    ), /* @__PURE__ */ import_react74.default.createElement("span", { className: "absolute bottom-4 right-6 text-xs font-medium select-none", style: { color: NAVY6, opacity: 0.35 } }, "Con\xE7u par Hakibou MOUSSA"));
   }
   function Card4({ children, className = "" }) {
-    return /* @__PURE__ */ import_react73.default.createElement("div", { className: `bg-white rounded-2xl p-6 shadow-sm border border-black/5 ${className}` }, children);
+    return /* @__PURE__ */ import_react74.default.createElement("div", { className: `bg-white rounded-2xl p-6 shadow-sm border border-black/5 ${className}` }, children);
   }
   function LayerButton({ label, icon: Icon3, active, onClick }) {
-    return /* @__PURE__ */ import_react73.default.createElement(
+    return /* @__PURE__ */ import_react74.default.createElement(
       "button",
       {
         onClick,
         className: "flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-colors",
-        style: active ? { background: NAVY5, color: "white" } : { background: "white", color: "#5A6478", border: "1px solid #E4E6ED" }
+        style: active ? { background: NAVY6, color: "white" } : { background: "white", color: "#5A6478", border: "1px solid #E4E6ED" }
       },
-      /* @__PURE__ */ import_react73.default.createElement(Icon3, { size: 15 }),
+      /* @__PURE__ */ import_react74.default.createElement(Icon3, { size: 15 }),
       " ",
       label
     );
   }
   function Chip2({ label, active, onClick, color: color2 }) {
-    return /* @__PURE__ */ import_react73.default.createElement(
+    return /* @__PURE__ */ import_react74.default.createElement(
       "button",
       {
         onClick,
         className: "px-3 py-1.5 rounded-full text-xs font-medium border transition-colors",
-        style: active ? { background: color2 || NAVY5, borderColor: color2 || NAVY5, color: "white" } : { background: "white", borderColor: "#D8DEE9", color: "#5A6478" }
+        style: active ? { background: color2 || NAVY6, borderColor: color2 || NAVY6, color: "white" } : { background: "white", borderColor: "#D8DEE9", color: "#5A6478" }
       },
       label
     );
   }
-  function Cartographie({ active, onNavigate }) {
-    const [layer, setLayer] = (0, import_react73.useState)("points");
-    const [indicateur, setIndicateur] = (0, import_react73.useState)("taux");
-    const [filieres, setFilieres] = (0, import_react73.useState)(Object.keys(FILIERES4));
+  function Cartographie({ active, onNavigate, userEmail, roleLabel, isAdmin, isGuest, onLogout, onOpenAdmin }) {
+    const [layer, setLayer] = (0, import_react74.useState)("points");
+    const [indicateur, setIndicateur] = (0, import_react74.useState)("taux");
+    const [filieres, setFilieres] = (0, import_react74.useState)(Object.keys(FILIERES4));
     const toggleFiliere = (f) => setFilieres((prev) => prev.includes(f) ? prev.filter((x2) => x2 !== f) : [...prev, f]);
     const indicateurLabel = { taux: "Taux de r\xE9alisation (%)", rendement: "Rendement moyen (kg/ha)", anomalies: "Anomalies d\xE9tect\xE9es" }[indicateur];
     const indicateurValue = (c2) => indicateur === "taux" ? `${c2.taux}%` : indicateur === "rendement" ? `${c2.rendement}` : c2.anomalies;
     const indicateurColor = (c2) => indicateur === "anomalies" ? c2.anomalies > 1 ? "#C1573F" : c2.anomalies === 1 ? "#E3A23B" : "#3E9C6B" : indicateur === "taux" ? tauxColor(c2.taux) : tauxColor(c2.rendement / 2e3 * 100);
-    return /* @__PURE__ */ import_react73.default.createElement("div", { className: "min-h-screen relative bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans" }, /* @__PURE__ */ import_react73.default.createElement(Watermark5, null), /* @__PURE__ */ import_react73.default.createElement("div", { className: "relative z-10 flex" }, /* @__PURE__ */ import_react73.default.createElement(
+    return /* @__PURE__ */ import_react74.default.createElement("div", { className: "min-h-screen relative bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans" }, /* @__PURE__ */ import_react74.default.createElement(Watermark5, null), /* @__PURE__ */ import_react74.default.createElement("div", { className: "relative z-10 flex" }, /* @__PURE__ */ import_react74.default.createElement(
       "aside",
       {
         className: "w-60 min-h-screen shrink-0 py-6 px-4 text-[#C7D2E8]",
-        style: { background: `linear-gradient(180deg, ${NAVY5} 0%, #16294B 100%)` }
+        style: { background: `linear-gradient(180deg, ${NAVY6} 0%, #16294B 100%)` }
       },
-      /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center gap-2 px-2 mb-8" }, /* @__PURE__ */ import_react73.default.createElement("div", { className: "w-10 h-10 rounded-xl flex items-center justify-center shadow-lg", style: { background: GOLD5 } }, /* @__PURE__ */ import_react73.default.createElement(Sprout, { size: 19, className: "text-white" })), /* @__PURE__ */ import_react73.default.createElement("div", null, /* @__PURE__ */ import_react73.default.createElement("div", { className: "font-serif font-bold text-white text-[16px] leading-none" }, "AgriHakStat"), /* @__PURE__ */ import_react73.default.createElement("div", { className: "text-[10px] opacity-60 mt-1" }, "DDAEP-Borgou"))),
-      /* @__PURE__ */ import_react73.default.createElement("nav", { className: "space-y-1.5" }, nav5.map((item) => /* @__PURE__ */ import_react73.default.createElement(
+      /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex flex-col items-start gap-1 px-2 mb-8" }, /* @__PURE__ */ import_react74.default.createElement("img", { src: "./logo-compact.png", alt: "AgriHakStat", className: "h-16 w-auto -ml-1" }), /* @__PURE__ */ import_react74.default.createElement("div", { className: "text-[10px] opacity-60" }, "DDAEP-Borgou")),
+      /* @__PURE__ */ import_react74.default.createElement("nav", { className: "space-y-1.5" }, nav5.map((item) => /* @__PURE__ */ import_react74.default.createElement(
         "div",
         {
           key: item.id,
@@ -51499,85 +51547,95 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           className: `flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer text-sm transition-colors ${item.id === active ? "bg-[#16294B] text-white font-medium border-l-4" : "hover:bg-white/5"}`,
           style: item.id === active ? { borderColor: GOLD5 } : {}
         },
-        /* @__PURE__ */ import_react73.default.createElement(item.icon, { size: 17 }),
+        /* @__PURE__ */ import_react74.default.createElement(item.icon, { size: 17 }),
         item.label
       )))
-    ), /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex-1 min-h-screen" }, /* @__PURE__ */ import_react73.default.createElement(
+    ), /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex-1 min-h-screen" }, /* @__PURE__ */ import_react74.default.createElement(
       "header",
       {
         className: "bg-white/70 backdrop-blur px-8 py-4 flex items-center justify-between",
         style: { borderBottom: `2px solid ${GOLD5}` }
       },
-      /* @__PURE__ */ import_react73.default.createElement("div", null, /* @__PURE__ */ import_react73.default.createElement("h1", { className: "font-serif text-xl font-bold", style: { color: NAVY5 } }, "Cartographie"), /* @__PURE__ */ import_react73.default.createElement("p", { className: "text-xs text-gray-500 mt-0.5" }, "Module 8 \xB7 Suivi semis 2026-2027 \u2014 D\xE9cade 3, Borgou")),
-      /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center gap-4" }, /* @__PURE__ */ import_react73.default.createElement(Bell, { size: 18, className: "text-gray-400" }), /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center gap-2 text-sm" }, /* @__PURE__ */ import_react73.default.createElement("div", { className: "w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold text-white", style: { background: NAVY5 } }, "HM"), /* @__PURE__ */ import_react73.default.createElement("div", { className: "leading-tight" }, /* @__PURE__ */ import_react73.default.createElement("div", { className: "font-medium text-gray-800" }, "H. Moussa"), /* @__PURE__ */ import_react73.default.createElement("div", { className: "text-[11px] text-gray-500" }, "C/SESSEC")), /* @__PURE__ */ import_react73.default.createElement(ChevronDown, { size: 14, className: "text-gray-400" })))
-    ), /* @__PURE__ */ import_react73.default.createElement("main", { className: "p-8 grid grid-cols-3 gap-6" }, /* @__PURE__ */ import_react73.default.createElement("div", { className: "col-span-2" }, /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex gap-2 mb-4" }, /* @__PURE__ */ import_react73.default.createElement(LayerButton, { label: "Points d'enqu\xEAte", icon: MapPin, active: layer === "points", onClick: () => setLayer("points") }), /* @__PURE__ */ import_react73.default.createElement(LayerButton, { label: "Choropl\xE8the indicateurs", icon: Layers, active: layer === "choropleth", onClick: () => setLayer("choropleth") }), /* @__PURE__ */ import_react73.default.createElement(LayerButton, { label: "Isohy\xE8tes pluviom\xE9triques", icon: Droplets, active: layer === "isohyet", onClick: () => setLayer("isohyet") })), /* @__PURE__ */ import_react73.default.createElement(Card4, null, layer === "choropleth" && /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center gap-2 mb-4" }, /* @__PURE__ */ import_react73.default.createElement(Funnel, { size: 13, className: "text-gray-400" }), /* @__PURE__ */ import_react73.default.createElement("span", { className: "text-xs text-gray-500" }, "Indicateur :"), /* @__PURE__ */ import_react73.default.createElement(
+      /* @__PURE__ */ import_react74.default.createElement("div", null, /* @__PURE__ */ import_react74.default.createElement("h1", { className: "font-serif text-xl font-bold", style: { color: NAVY6 } }, "Cartographie"), /* @__PURE__ */ import_react74.default.createElement("p", { className: "text-xs text-gray-500 mt-0.5" }, "Module 8 \xB7 Suivi semis 2026-2027 \u2014 D\xE9cade 3, Borgou")),
+      /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex items-center gap-4" }, /* @__PURE__ */ import_react74.default.createElement(Bell, { size: 18, className: "text-gray-400" }), /* @__PURE__ */ import_react74.default.createElement(
+        UserMenu,
+        {
+          email: userEmail,
+          roleLabel,
+          isAdmin,
+          isGuest,
+          onLogout,
+          onOpenAdmin
+        }
+      ))
+    ), /* @__PURE__ */ import_react74.default.createElement("main", { className: "p-8 grid grid-cols-3 gap-6" }, /* @__PURE__ */ import_react74.default.createElement("div", { className: "col-span-2" }, /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex gap-2 mb-4" }, /* @__PURE__ */ import_react74.default.createElement(LayerButton, { label: "Points d'enqu\xEAte", icon: MapPin, active: layer === "points", onClick: () => setLayer("points") }), /* @__PURE__ */ import_react74.default.createElement(LayerButton, { label: "Choropl\xE8the indicateurs", icon: Layers, active: layer === "choropleth", onClick: () => setLayer("choropleth") }), /* @__PURE__ */ import_react74.default.createElement(LayerButton, { label: "Isohy\xE8tes pluviom\xE9triques", icon: Droplets, active: layer === "isohyet", onClick: () => setLayer("isohyet") })), /* @__PURE__ */ import_react74.default.createElement(Card4, null, layer === "choropleth" && /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex items-center gap-2 mb-4" }, /* @__PURE__ */ import_react74.default.createElement(Funnel, { size: 13, className: "text-gray-400" }), /* @__PURE__ */ import_react74.default.createElement("span", { className: "text-xs text-gray-500" }, "Indicateur :"), /* @__PURE__ */ import_react74.default.createElement(
       "select",
       {
         value: indicateur,
         onChange: (e) => setIndicateur(e.target.value),
         className: "text-xs rounded-lg border border-gray-200 p-1.5 bg-white focus:outline-none"
       },
-      /* @__PURE__ */ import_react73.default.createElement("option", { value: "taux" }, "Taux de r\xE9alisation (%)"),
-      /* @__PURE__ */ import_react73.default.createElement("option", { value: "rendement" }, "Rendement moyen (kg/ha)"),
-      /* @__PURE__ */ import_react73.default.createElement("option", { value: "anomalies" }, "Anomalies d\xE9tect\xE9es")
-    )), /* @__PURE__ */ import_react73.default.createElement("div", { className: "relative rounded-xl bg-[#F7F9FC] border border-gray-100", style: { height: 460 } }, /* @__PURE__ */ import_react73.default.createElement("svg", { viewBox: "0 0 100 100", className: "w-full h-full" }, layer === "points" && SURVEY_POINTS.filter((pt) => filieres.includes(pt.filiere)).map((pt) => /* @__PURE__ */ import_react73.default.createElement("circle", { key: pt.id, cx: pt.x, cy: pt.y, r: 1.6, fill: FILIERES4[pt.filiere], opacity: 0.85, stroke: "white", strokeWidth: 0.3 })), layer === "choropleth" && COMMUNES2.map((c2) => /* @__PURE__ */ import_react73.default.createElement("g", { key: c2.name }, /* @__PURE__ */ import_react73.default.createElement("circle", { cx: c2.x, cy: c2.y, r: 9, fill: indicateurColor(c2), opacity: 0.88 }), /* @__PURE__ */ import_react73.default.createElement("circle", { cx: c2.x, cy: c2.y, r: 9, fill: "none", stroke: "white", strokeWidth: 0.6 }), /* @__PURE__ */ import_react73.default.createElement("text", { x: c2.x, y: c2.y - 12, fontSize: "3.4", textAnchor: "middle", fill: "#4A5568", fontWeight: "600" }, c2.name), /* @__PURE__ */ import_react73.default.createElement("text", { x: c2.x, y: c2.y + 1.2, fontSize: "3", textAnchor: "middle", fill: "white", fontWeight: "700" }, indicateurValue(c2)))), layer === "isohyet" && COMMUNES2.map((c2) => /* @__PURE__ */ import_react73.default.createElement("g", { key: c2.name }, /* @__PURE__ */ import_react73.default.createElement("circle", { cx: c2.x, cy: c2.y, r: 11, fill: rainColor2(c2.mm), opacity: 0.25 }), /* @__PURE__ */ import_react73.default.createElement("circle", { cx: c2.x, cy: c2.y, r: 7, fill: rainColor2(c2.mm), opacity: 0.9 }), /* @__PURE__ */ import_react73.default.createElement("circle", { cx: c2.x, cy: c2.y, r: 7, fill: "none", stroke: "white", strokeWidth: 0.6 }), /* @__PURE__ */ import_react73.default.createElement("text", { x: c2.x, y: c2.y - 13, fontSize: "3.4", textAnchor: "middle", fill: "#4A5568", fontWeight: "600" }, c2.name), /* @__PURE__ */ import_react73.default.createElement("text", { x: c2.x, y: c2.y + 1.2, fontSize: "3", textAnchor: "middle", fill: "white", fontWeight: "700" }, c2.mm)))), /* @__PURE__ */ import_react73.default.createElement("span", { className: "absolute bottom-2 right-3 text-[9px] text-gray-400 italic" }, layer === "isohyet" ? "Interpolation IDW \u2014 illustrative" : "Position illustrative \u2014 non g\xE9or\xE9f\xE9renc\xE9e \xE0 l'\xE9chelle")), layer === "points" && /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex flex-wrap gap-3 mt-4" }, Object.entries(FILIERES4).map(([f, c2]) => /* @__PURE__ */ import_react73.default.createElement("div", { key: f, className: "flex items-center gap-1.5 text-[11px] text-gray-600" }, /* @__PURE__ */ import_react73.default.createElement("span", { className: "w-2.5 h-2.5 rounded-full", style: { background: c2 } }), " ", f))), layer === "choropleth" && /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center gap-4 mt-4" }, /* @__PURE__ */ import_react73.default.createElement("span", { className: "text-[11px] text-gray-500" }, indicateurLabel, " :"), /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center gap-1.5 text-[11px] text-gray-600" }, /* @__PURE__ */ import_react73.default.createElement("span", { className: "w-2.5 h-2.5 rounded-full", style: { background: "#C1573F" } }), " Faible"), /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center gap-1.5 text-[11px] text-gray-600" }, /* @__PURE__ */ import_react73.default.createElement("span", { className: "w-2.5 h-2.5 rounded-full", style: { background: "#E3A23B" } }), " Interm\xE9diaire"), /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center gap-1.5 text-[11px] text-gray-600" }, /* @__PURE__ */ import_react73.default.createElement("span", { className: "w-2.5 h-2.5 rounded-full", style: { background: "#3E9C6B" } }), " Satisfaisant")), layer === "isohyet" && /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center gap-4 mt-4 flex-wrap" }, /* @__PURE__ */ import_react73.default.createElement("span", { className: "text-[11px] text-gray-500" }, "Cumul d\xE9cadaire (mm) :"), [["#C99A2E", "< 65"], ["#8FAECB", "65\u201380"], ["#4A7AB5", "80\u201395"], ["#1F3864", "\u2265 95"]].map(([c2, l]) => /* @__PURE__ */ import_react73.default.createElement("div", { key: l, className: "flex items-center gap-1.5 text-[11px] text-gray-600" }, /* @__PURE__ */ import_react73.default.createElement("span", { className: "w-2.5 h-2.5 rounded-full", style: { background: c2 } }), " ", l))))), /* @__PURE__ */ import_react73.default.createElement("div", { className: "space-y-4" }, /* @__PURE__ */ import_react73.default.createElement(Card4, null, /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center gap-2 mb-3" }, /* @__PURE__ */ import_react73.default.createElement(Funnel, { size: 16, style: { color: NAVY5 } }), /* @__PURE__ */ import_react73.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY5 } }, "Filtres")), /* @__PURE__ */ import_react73.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Fili\xE8re"), /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex flex-wrap gap-2 mb-4" }, Object.entries(FILIERES4).map(([f, c2]) => /* @__PURE__ */ import_react73.default.createElement(Chip2, { key: f, label: f, active: filieres.includes(f), onClick: () => toggleFiliere(f), color: c2 }))), /* @__PURE__ */ import_react73.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "P\xE9riode"), /* @__PURE__ */ import_react73.default.createElement("select", { className: "w-full text-sm rounded-xl border border-gray-200 p-2.5 focus:outline-none focus:ring-2", style: { "--tw-ring-color": GOLD5 } }, /* @__PURE__ */ import_react73.default.createElement("option", null, "D\xE9cade 3 \u2014 Juillet 2026"), /* @__PURE__ */ import_react73.default.createElement("option", null, "D\xE9cade 2 \u2014 Juillet 2026"), /* @__PURE__ */ import_react73.default.createElement("option", null, "D\xE9cade 1 \u2014 Juillet 2026"))), /* @__PURE__ */ import_react73.default.createElement(Card4, null, /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center gap-2 mb-1" }, /* @__PURE__ */ import_react73.default.createElement(MapPin, { size: 16, style: { color: NAVY5 } }), /* @__PURE__ */ import_react73.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY5 } }, "Communes en alerte")), /* @__PURE__ */ import_react73.default.createElement("p", { className: "text-[11px] text-gray-400 mb-3" }, "Selon l'indicateur actuellement affich\xE9"), /* @__PURE__ */ import_react73.default.createElement("div", { className: "space-y-2" }, COMMUNES2.filter((c2) => c2.taux < 70 || c2.anomalies > 1).map((c2) => /* @__PURE__ */ import_react73.default.createElement("div", { key: c2.name, className: "flex items-center justify-between rounded-xl border border-gray-100 p-2.5" }, /* @__PURE__ */ import_react73.default.createElement("span", { className: "text-xs font-medium text-gray-700" }, c2.name), /* @__PURE__ */ import_react73.default.createElement("span", { className: "text-[11px] font-semibold px-2 py-0.5 rounded-full", style: { background: "#FBE7E5", color: "#B3413A" } }, c2.taux, "% r\xE9alis\xE9"))))), /* @__PURE__ */ import_react73.default.createElement(Card4, null, /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center gap-2 mb-3" }, /* @__PURE__ */ import_react73.default.createElement(FileOutput, { size: 16, style: { color: GOLD5 } }), /* @__PURE__ */ import_react73.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY5 } }, "Export")), /* @__PURE__ */ import_react73.default.createElement(
+      /* @__PURE__ */ import_react74.default.createElement("option", { value: "taux" }, "Taux de r\xE9alisation (%)"),
+      /* @__PURE__ */ import_react74.default.createElement("option", { value: "rendement" }, "Rendement moyen (kg/ha)"),
+      /* @__PURE__ */ import_react74.default.createElement("option", { value: "anomalies" }, "Anomalies d\xE9tect\xE9es")
+    )), /* @__PURE__ */ import_react74.default.createElement("div", { className: "relative rounded-xl bg-[#F7F9FC] border border-gray-100", style: { height: 460 } }, /* @__PURE__ */ import_react74.default.createElement("svg", { viewBox: "0 0 100 100", className: "w-full h-full" }, layer === "points" && SURVEY_POINTS.filter((pt) => filieres.includes(pt.filiere)).map((pt) => /* @__PURE__ */ import_react74.default.createElement("circle", { key: pt.id, cx: pt.x, cy: pt.y, r: 1.6, fill: FILIERES4[pt.filiere], opacity: 0.85, stroke: "white", strokeWidth: 0.3 })), layer === "choropleth" && COMMUNES2.map((c2) => /* @__PURE__ */ import_react74.default.createElement("g", { key: c2.name }, /* @__PURE__ */ import_react74.default.createElement("circle", { cx: c2.x, cy: c2.y, r: 9, fill: indicateurColor(c2), opacity: 0.88 }), /* @__PURE__ */ import_react74.default.createElement("circle", { cx: c2.x, cy: c2.y, r: 9, fill: "none", stroke: "white", strokeWidth: 0.6 }), /* @__PURE__ */ import_react74.default.createElement("text", { x: c2.x, y: c2.y - 12, fontSize: "3.4", textAnchor: "middle", fill: "#4A5568", fontWeight: "600" }, c2.name), /* @__PURE__ */ import_react74.default.createElement("text", { x: c2.x, y: c2.y + 1.2, fontSize: "3", textAnchor: "middle", fill: "white", fontWeight: "700" }, indicateurValue(c2)))), layer === "isohyet" && COMMUNES2.map((c2) => /* @__PURE__ */ import_react74.default.createElement("g", { key: c2.name }, /* @__PURE__ */ import_react74.default.createElement("circle", { cx: c2.x, cy: c2.y, r: 11, fill: rainColor2(c2.mm), opacity: 0.25 }), /* @__PURE__ */ import_react74.default.createElement("circle", { cx: c2.x, cy: c2.y, r: 7, fill: rainColor2(c2.mm), opacity: 0.9 }), /* @__PURE__ */ import_react74.default.createElement("circle", { cx: c2.x, cy: c2.y, r: 7, fill: "none", stroke: "white", strokeWidth: 0.6 }), /* @__PURE__ */ import_react74.default.createElement("text", { x: c2.x, y: c2.y - 13, fontSize: "3.4", textAnchor: "middle", fill: "#4A5568", fontWeight: "600" }, c2.name), /* @__PURE__ */ import_react74.default.createElement("text", { x: c2.x, y: c2.y + 1.2, fontSize: "3", textAnchor: "middle", fill: "white", fontWeight: "700" }, c2.mm)))), /* @__PURE__ */ import_react74.default.createElement("span", { className: "absolute bottom-2 right-3 text-[9px] text-gray-400 italic" }, layer === "isohyet" ? "Interpolation IDW \u2014 illustrative" : "Position illustrative \u2014 non g\xE9or\xE9f\xE9renc\xE9e \xE0 l'\xE9chelle")), layer === "points" && /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex flex-wrap gap-3 mt-4" }, Object.entries(FILIERES4).map(([f, c2]) => /* @__PURE__ */ import_react74.default.createElement("div", { key: f, className: "flex items-center gap-1.5 text-[11px] text-gray-600" }, /* @__PURE__ */ import_react74.default.createElement("span", { className: "w-2.5 h-2.5 rounded-full", style: { background: c2 } }), " ", f))), layer === "choropleth" && /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex items-center gap-4 mt-4" }, /* @__PURE__ */ import_react74.default.createElement("span", { className: "text-[11px] text-gray-500" }, indicateurLabel, " :"), /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex items-center gap-1.5 text-[11px] text-gray-600" }, /* @__PURE__ */ import_react74.default.createElement("span", { className: "w-2.5 h-2.5 rounded-full", style: { background: "#C1573F" } }), " Faible"), /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex items-center gap-1.5 text-[11px] text-gray-600" }, /* @__PURE__ */ import_react74.default.createElement("span", { className: "w-2.5 h-2.5 rounded-full", style: { background: "#E3A23B" } }), " Interm\xE9diaire"), /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex items-center gap-1.5 text-[11px] text-gray-600" }, /* @__PURE__ */ import_react74.default.createElement("span", { className: "w-2.5 h-2.5 rounded-full", style: { background: "#3E9C6B" } }), " Satisfaisant")), layer === "isohyet" && /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex items-center gap-4 mt-4 flex-wrap" }, /* @__PURE__ */ import_react74.default.createElement("span", { className: "text-[11px] text-gray-500" }, "Cumul d\xE9cadaire (mm) :"), [["#C99A2E", "< 65"], ["#8FAECB", "65\u201380"], ["#4A7AB5", "80\u201395"], ["#1F3864", "\u2265 95"]].map(([c2, l]) => /* @__PURE__ */ import_react74.default.createElement("div", { key: l, className: "flex items-center gap-1.5 text-[11px] text-gray-600" }, /* @__PURE__ */ import_react74.default.createElement("span", { className: "w-2.5 h-2.5 rounded-full", style: { background: c2 } }), " ", l))))), /* @__PURE__ */ import_react74.default.createElement("div", { className: "space-y-4" }, /* @__PURE__ */ import_react74.default.createElement(Card4, null, /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex items-center gap-2 mb-3" }, /* @__PURE__ */ import_react74.default.createElement(Funnel, { size: 16, style: { color: NAVY6 } }), /* @__PURE__ */ import_react74.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY6 } }, "Filtres")), /* @__PURE__ */ import_react74.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Fili\xE8re"), /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex flex-wrap gap-2 mb-4" }, Object.entries(FILIERES4).map(([f, c2]) => /* @__PURE__ */ import_react74.default.createElement(Chip2, { key: f, label: f, active: filieres.includes(f), onClick: () => toggleFiliere(f), color: c2 }))), /* @__PURE__ */ import_react74.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "P\xE9riode"), /* @__PURE__ */ import_react74.default.createElement("select", { className: "w-full text-sm rounded-xl border border-gray-200 p-2.5 focus:outline-none focus:ring-2", style: { "--tw-ring-color": GOLD5 } }, /* @__PURE__ */ import_react74.default.createElement("option", null, "D\xE9cade 3 \u2014 Juillet 2026"), /* @__PURE__ */ import_react74.default.createElement("option", null, "D\xE9cade 2 \u2014 Juillet 2026"), /* @__PURE__ */ import_react74.default.createElement("option", null, "D\xE9cade 1 \u2014 Juillet 2026"))), /* @__PURE__ */ import_react74.default.createElement(Card4, null, /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex items-center gap-2 mb-1" }, /* @__PURE__ */ import_react74.default.createElement(MapPin, { size: 16, style: { color: NAVY6 } }), /* @__PURE__ */ import_react74.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY6 } }, "Communes en alerte")), /* @__PURE__ */ import_react74.default.createElement("p", { className: "text-[11px] text-gray-400 mb-3" }, "Selon l'indicateur actuellement affich\xE9"), /* @__PURE__ */ import_react74.default.createElement("div", { className: "space-y-2" }, COMMUNES2.filter((c2) => c2.taux < 70 || c2.anomalies > 1).map((c2) => /* @__PURE__ */ import_react74.default.createElement("div", { key: c2.name, className: "flex items-center justify-between rounded-xl border border-gray-100 p-2.5" }, /* @__PURE__ */ import_react74.default.createElement("span", { className: "text-xs font-medium text-gray-700" }, c2.name), /* @__PURE__ */ import_react74.default.createElement("span", { className: "text-[11px] font-semibold px-2 py-0.5 rounded-full", style: { background: "#FBE7E5", color: "#B3413A" } }, c2.taux, "% r\xE9alis\xE9"))))), /* @__PURE__ */ import_react74.default.createElement(Card4, null, /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex items-center gap-2 mb-3" }, /* @__PURE__ */ import_react74.default.createElement(FileOutput, { size: 16, style: { color: GOLD5 } }), /* @__PURE__ */ import_react74.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY6 } }, "Export")), /* @__PURE__ */ import_react74.default.createElement(
       "button",
       {
         className: "w-full mb-2 px-4 py-2.5 rounded-xl text-sm font-medium flex items-center justify-center gap-1.5 bg-white border",
-        style: { borderColor: NAVY5, color: NAVY5 }
+        style: { borderColor: NAVY6, color: NAVY6 }
       },
-      /* @__PURE__ */ import_react73.default.createElement(Download, { size: 14 }),
+      /* @__PURE__ */ import_react74.default.createElement(Download, { size: 14 }),
       " Exporter la carte (PNG)"
-    ), /* @__PURE__ */ import_react73.default.createElement(
+    ), /* @__PURE__ */ import_react74.default.createElement(
       "button",
       {
         className: "w-full px-4 py-2.5 rounded-xl text-sm font-medium flex items-center justify-center gap-1.5 text-white shadow-md",
-        style: { background: `linear-gradient(135deg, ${NAVY5}, #2A4A82)` }
+        style: { background: `linear-gradient(135deg, ${NAVY6}, #2A4A82)` }
       },
-      /* @__PURE__ */ import_react73.default.createElement(Layers, { size: 14 }),
+      /* @__PURE__ */ import_react74.default.createElement(Layers, { size: 14 }),
       " Int\xE9grer au rapport (R\xE9sultats)"
     )))))));
   }
 
   // src/auth/Landing.jsx
-  var import_react74 = __toESM(require_react());
-  var NAVY6 = "#1F3864";
+  var import_react75 = __toESM(require_react());
+  var NAVY7 = "#1F3864";
   var GOLD6 = "#C99A2E";
   function Landing({ onGoLogin, onGoSignup, onGoDemo }) {
-    return /* @__PURE__ */ import_react74.default.createElement("div", { className: "min-h-screen bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans" }, /* @__PURE__ */ import_react74.default.createElement("header", { className: "flex items-center justify-between px-8 py-5" }, /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex items-center gap-2" }, /* @__PURE__ */ import_react74.default.createElement("div", { className: "w-10 h-10 rounded-xl flex items-center justify-center shadow-md", style: { background: GOLD6 } }, /* @__PURE__ */ import_react74.default.createElement(Sprout, { size: 19, className: "text-white" })), /* @__PURE__ */ import_react74.default.createElement("span", { className: "font-serif font-bold text-lg", style: { color: NAVY6 } }, "AgriHakStat")), /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex items-center gap-3" }, /* @__PURE__ */ import_react74.default.createElement("button", { onClick: onGoLogin, className: "px-4 py-2 rounded-xl text-sm font-medium", style: { color: NAVY6 } }, "Se connecter"), /* @__PURE__ */ import_react74.default.createElement(
+    return /* @__PURE__ */ import_react75.default.createElement("div", { className: "min-h-screen bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans" }, /* @__PURE__ */ import_react75.default.createElement("header", { className: "flex items-center justify-between px-8 py-5" }, /* @__PURE__ */ import_react75.default.createElement("div", { className: "flex items-center gap-2" }, /* @__PURE__ */ import_react75.default.createElement("img", { src: "./logo-compact.png", alt: "AgriHakStat", className: "h-10 w-auto" })), /* @__PURE__ */ import_react75.default.createElement("div", { className: "flex items-center gap-3" }, /* @__PURE__ */ import_react75.default.createElement("button", { onClick: onGoLogin, className: "px-4 py-2 rounded-xl text-sm font-medium", style: { color: NAVY7 } }, "Se connecter"), /* @__PURE__ */ import_react75.default.createElement(
       "button",
       {
         onClick: onGoSignup,
         className: "px-4 py-2 rounded-xl text-sm font-medium text-white shadow-md",
-        style: { background: `linear-gradient(135deg, ${NAVY6}, #2A4A82)` }
+        style: { background: `linear-gradient(135deg, ${NAVY7}, #2A4A82)` }
       },
       "Cr\xE9er un compte"
-    ))), /* @__PURE__ */ import_react74.default.createElement("main", { className: "max-w-4xl mx-auto px-8 pt-16 pb-24 text-center" }, /* @__PURE__ */ import_react74.default.createElement("h1", { className: "font-serif text-4xl font-bold leading-tight", style: { color: NAVY6 } }, "L'analyse statistique de vos enqu\xEAtes agricoles,", /* @__PURE__ */ import_react74.default.createElement("br", null), "automatis\xE9e et rigoureuse"), /* @__PURE__ */ import_react74.default.createElement("p", { className: "text-gray-500 mt-5 text-lg max-w-2xl mx-auto" }, "Importez votre questionnaire et votre base de donn\xE9es, laissez AgriHakStat proposer les tests statistiques adapt\xE9s, et g\xE9n\xE9rez un rapport structur\xE9, cartographi\xE9 et pr\xEAt \xE0 diffuser."), /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex items-center justify-center gap-3 mt-8" }, /* @__PURE__ */ import_react74.default.createElement(
+    ))), /* @__PURE__ */ import_react75.default.createElement("main", { className: "max-w-4xl mx-auto px-8 pt-16 pb-24 text-center" }, /* @__PURE__ */ import_react75.default.createElement("h1", { className: "font-serif text-4xl font-bold leading-tight", style: { color: NAVY7 } }, "L'analyse statistique de vos enqu\xEAtes agricoles,", /* @__PURE__ */ import_react75.default.createElement("br", null), "automatis\xE9e et rigoureuse"), /* @__PURE__ */ import_react75.default.createElement("p", { className: "text-gray-500 mt-5 text-lg max-w-2xl mx-auto" }, "Importez votre questionnaire et votre base de donn\xE9es, laissez AgriHakStat proposer les tests statistiques adapt\xE9s, et g\xE9n\xE9rez un rapport structur\xE9, cartographi\xE9 et pr\xEAt \xE0 diffuser."), /* @__PURE__ */ import_react75.default.createElement("div", { className: "flex items-center justify-center gap-3 mt-8" }, /* @__PURE__ */ import_react75.default.createElement(
       "button",
       {
         onClick: onGoSignup,
         className: "px-6 py-3 rounded-xl text-sm font-semibold text-white shadow-md flex items-center gap-2",
-        style: { background: `linear-gradient(135deg, ${NAVY6}, #2A4A82)` }
+        style: { background: `linear-gradient(135deg, ${NAVY7}, #2A4A82)` }
       },
       "Cr\xE9er un compte gratuitement ",
-      /* @__PURE__ */ import_react74.default.createElement(ArrowRight, { size: 16 })
-    ), /* @__PURE__ */ import_react74.default.createElement(
+      /* @__PURE__ */ import_react75.default.createElement(ArrowRight, { size: 16 })
+    ), /* @__PURE__ */ import_react75.default.createElement(
       "button",
       {
         onClick: onGoLogin,
         className: "px-6 py-3 rounded-xl text-sm font-semibold border",
-        style: { borderColor: NAVY6, color: NAVY6 }
+        style: { borderColor: NAVY7, color: NAVY7 }
       },
       "J'ai d\xE9j\xE0 un compte"
-    )), /* @__PURE__ */ import_react74.default.createElement("button", { onClick: onGoDemo, className: "text-sm underline mt-4 inline-block", style: { color: "#8A93A8" } }, "Voir la d\xE9monstration sans cr\xE9er de compte"), /* @__PURE__ */ import_react74.default.createElement("div", { className: "grid grid-cols-3 gap-6 mt-20 text-left" }, [
+    )), /* @__PURE__ */ import_react75.default.createElement("button", { onClick: onGoDemo, className: "text-sm underline mt-4 inline-block", style: { color: "#8A93A8" } }, "Voir la d\xE9monstration sans cr\xE9er de compte"), /* @__PURE__ */ import_react75.default.createElement("div", { className: "grid grid-cols-3 gap-6 mt-20 text-left" }, [
       { icon: ChartColumn, title: "Tests statistiques guid\xE9s", text: "S\xE9lection automatique des tests univari\xE9s, bivari\xE9s et multivari\xE9s, valid\xE9e par vos soins avant ex\xE9cution." },
       { icon: MapPin, title: "Cartographie int\xE9gr\xE9e", text: "Localisation des enqu\xEAtes, choropl\xE8thes par commune et couches climatiques NASA POWER." },
       { icon: FileText, title: "Rapport structur\xE9", text: "Un document en huit sections, annexes statistiques consolid\xE9es automatiquement." }
-    ].map((f) => /* @__PURE__ */ import_react74.default.createElement("div", { key: f.title, className: "bg-white rounded-2xl p-6 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react74.default.createElement(f.icon, { size: 22, style: { color: GOLD6 } }), /* @__PURE__ */ import_react74.default.createElement("h3", { className: "font-serif font-semibold mt-3 mb-1", style: { color: NAVY6 } }, f.title), /* @__PURE__ */ import_react74.default.createElement("p", { className: "text-sm text-gray-500" }, f.text))))), /* @__PURE__ */ import_react74.default.createElement("footer", { className: "text-center text-xs text-gray-400 pb-8" }, "AgriHakStat \u2014 Con\xE7u par Hakibou Moussa"));
+    ].map((f) => /* @__PURE__ */ import_react75.default.createElement("div", { key: f.title, className: "bg-white rounded-2xl p-6 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react75.default.createElement(f.icon, { size: 22, style: { color: GOLD6 } }), /* @__PURE__ */ import_react75.default.createElement("h3", { className: "font-serif font-semibold mt-3 mb-1", style: { color: NAVY7 } }, f.title), /* @__PURE__ */ import_react75.default.createElement("p", { className: "text-sm text-gray-500" }, f.text))))), /* @__PURE__ */ import_react75.default.createElement("footer", { className: "text-center text-xs text-gray-400 pb-8" }, "AgriHakStat \u2014 Con\xE7u par Hakibou Moussa"));
   }
 
   // src/auth/Login.jsx
-  var import_react75 = __toESM(require_react());
+  var import_react76 = __toESM(require_react());
 
   // node_modules/@supabase/supabase-js/dist/tracingRegistry.mjs
   var EXTRACTOR_KEY = /* @__PURE__ */ Symbol.for("@supabase/supabase-js.traceContextExtractor");
@@ -71842,13 +71900,13 @@ ${suffix2}`;
   var supabase = isSupabaseConfigured ? createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
 
   // src/auth/Login.jsx
-  var NAVY7 = "#1F3864";
+  var NAVY8 = "#1F3864";
   var GOLD7 = "#C99A2E";
   function Login({ onGoSignup, onGoLanding }) {
-    const [email, setEmail] = (0, import_react75.useState)("");
-    const [password, setPassword] = (0, import_react75.useState)("");
-    const [loading, setLoading] = (0, import_react75.useState)(false);
-    const [error, setError] = (0, import_react75.useState)("");
+    const [email, setEmail] = (0, import_react76.useState)("");
+    const [password, setPassword] = (0, import_react76.useState)("");
+    const [loading, setLoading] = (0, import_react76.useState)(false);
+    const [error, setError] = (0, import_react76.useState)("");
     const handleSubmit = async (e) => {
       e.preventDefault();
       setError("");
@@ -71861,7 +71919,7 @@ ${suffix2}`;
       setLoading(false);
       if (error2) setError(error2.message);
     };
-    return /* @__PURE__ */ import_react75.default.createElement("div", { className: "min-h-screen flex items-center justify-center bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans px-4" }, /* @__PURE__ */ import_react75.default.createElement("div", { className: "w-full max-w-sm bg-white rounded-2xl shadow-sm border border-black/5 p-8" }, /* @__PURE__ */ import_react75.default.createElement("div", { className: "flex flex-col items-center mb-6" }, /* @__PURE__ */ import_react75.default.createElement("div", { className: "w-11 h-11 rounded-xl flex items-center justify-center shadow-md mb-3", style: { background: GOLD7 } }, /* @__PURE__ */ import_react75.default.createElement(Sprout, { size: 20, className: "text-white" })), /* @__PURE__ */ import_react75.default.createElement("h1", { className: "font-serif text-xl font-bold", style: { color: NAVY7 } }, "Se connecter")), error && /* @__PURE__ */ import_react75.default.createElement("div", { className: "flex items-start gap-2 rounded-xl p-3 mb-4 text-xs", style: { background: "#FBE7E5", color: "#B3413A" } }, /* @__PURE__ */ import_react75.default.createElement(CircleAlert, { size: 14, className: "mt-0.5 shrink-0" }), " ", error), /* @__PURE__ */ import_react75.default.createElement("form", { onSubmit: handleSubmit, className: "space-y-3" }, /* @__PURE__ */ import_react75.default.createElement("div", null, /* @__PURE__ */ import_react75.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Adresse e-mail"), /* @__PURE__ */ import_react75.default.createElement(
+    return /* @__PURE__ */ import_react76.default.createElement("div", { className: "min-h-screen flex items-center justify-center bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans px-4" }, /* @__PURE__ */ import_react76.default.createElement("div", { className: "w-full max-w-sm bg-white rounded-2xl shadow-sm border border-black/5 p-8" }, /* @__PURE__ */ import_react76.default.createElement("div", { className: "flex flex-col items-center mb-6" }, /* @__PURE__ */ import_react76.default.createElement("img", { src: "./logo-compact.png", alt: "AgriHakStat", className: "h-14 w-auto mb-2" }), /* @__PURE__ */ import_react76.default.createElement("h1", { className: "font-serif text-xl font-bold", style: { color: NAVY8 } }, "Se connecter")), error && /* @__PURE__ */ import_react76.default.createElement("div", { className: "flex items-start gap-2 rounded-xl p-3 mb-4 text-xs", style: { background: "#FBE7E5", color: "#B3413A" } }, /* @__PURE__ */ import_react76.default.createElement(CircleAlert, { size: 14, className: "mt-0.5 shrink-0" }), " ", error), /* @__PURE__ */ import_react76.default.createElement("form", { onSubmit: handleSubmit, className: "space-y-3" }, /* @__PURE__ */ import_react76.default.createElement("div", null, /* @__PURE__ */ import_react76.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Adresse e-mail"), /* @__PURE__ */ import_react76.default.createElement(
       "input",
       {
         type: "email",
@@ -71872,7 +71930,7 @@ ${suffix2}`;
         style: { "--tw-ring-color": GOLD7 },
         placeholder: "vous@exemple.com"
       }
-    )), /* @__PURE__ */ import_react75.default.createElement("div", null, /* @__PURE__ */ import_react75.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Mot de passe"), /* @__PURE__ */ import_react75.default.createElement(
+    )), /* @__PURE__ */ import_react76.default.createElement("div", null, /* @__PURE__ */ import_react76.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Mot de passe"), /* @__PURE__ */ import_react76.default.createElement(
       "input",
       {
         type: "password",
@@ -71883,29 +71941,29 @@ ${suffix2}`;
         style: { "--tw-ring-color": GOLD7 },
         placeholder: "\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022"
       }
-    )), /* @__PURE__ */ import_react75.default.createElement(
+    )), /* @__PURE__ */ import_react76.default.createElement(
       "button",
       {
         type: "submit",
         disabled: loading,
         className: "w-full mt-2 px-4 py-2.5 rounded-xl text-sm font-medium flex items-center justify-center gap-2 text-white shadow-md",
-        style: { background: `linear-gradient(135deg, ${NAVY7}, #2A4A82)` }
+        style: { background: `linear-gradient(135deg, ${NAVY8}, #2A4A82)` }
       },
-      loading && /* @__PURE__ */ import_react75.default.createElement(LoaderCircle, { size: 15, className: "animate-spin" }),
+      loading && /* @__PURE__ */ import_react76.default.createElement(LoaderCircle, { size: 15, className: "animate-spin" }),
       " Se connecter"
-    )), /* @__PURE__ */ import_react75.default.createElement("p", { className: "text-center text-xs text-gray-400 mt-5" }, "Pas encore de compte ?", " ", /* @__PURE__ */ import_react75.default.createElement("button", { onClick: onGoSignup, className: "font-medium", style: { color: NAVY7 } }, "Cr\xE9er un compte")), /* @__PURE__ */ import_react75.default.createElement("p", { className: "text-center text-xs text-gray-300 mt-2" }, /* @__PURE__ */ import_react75.default.createElement("button", { onClick: onGoLanding }, "\u2190 Retour \xE0 l'accueil"))));
+    )), /* @__PURE__ */ import_react76.default.createElement("p", { className: "text-center text-xs text-gray-400 mt-5" }, "Pas encore de compte ?", " ", /* @__PURE__ */ import_react76.default.createElement("button", { onClick: onGoSignup, className: "font-medium", style: { color: NAVY8 } }, "Cr\xE9er un compte")), /* @__PURE__ */ import_react76.default.createElement("p", { className: "text-center text-xs text-gray-300 mt-2" }, /* @__PURE__ */ import_react76.default.createElement("button", { onClick: onGoLanding }, "\u2190 Retour \xE0 l'accueil"))));
   }
 
   // src/auth/Signup.jsx
-  var import_react76 = __toESM(require_react());
-  var NAVY8 = "#1F3864";
+  var import_react77 = __toESM(require_react());
+  var NAVY9 = "#1F3864";
   var GOLD8 = "#C99A2E";
   function Signup({ onGoLogin, onGoLanding }) {
-    const [email, setEmail] = (0, import_react76.useState)("");
-    const [password, setPassword] = (0, import_react76.useState)("");
-    const [loading, setLoading] = (0, import_react76.useState)(false);
-    const [error, setError] = (0, import_react76.useState)("");
-    const [done, setDone] = (0, import_react76.useState)(false);
+    const [email, setEmail] = (0, import_react77.useState)("");
+    const [password, setPassword] = (0, import_react77.useState)("");
+    const [loading, setLoading] = (0, import_react77.useState)(false);
+    const [error, setError] = (0, import_react77.useState)("");
+    const [done, setDone] = (0, import_react77.useState)(false);
     const handleSubmit = async (e) => {
       e.preventDefault();
       setError("");
@@ -71920,17 +71978,17 @@ ${suffix2}`;
       else setDone(true);
     };
     if (done) {
-      return /* @__PURE__ */ import_react76.default.createElement("div", { className: "min-h-screen flex items-center justify-center bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] px-4" }, /* @__PURE__ */ import_react76.default.createElement("div", { className: "w-full max-w-sm bg-white rounded-2xl shadow-sm border border-black/5 p-8 text-center" }, /* @__PURE__ */ import_react76.default.createElement(CircleCheck, { size: 32, className: "mx-auto mb-3", style: { color: "#3E9C6B" } }), /* @__PURE__ */ import_react76.default.createElement("h1", { className: "font-serif text-lg font-bold mb-2", style: { color: NAVY8 } }, "Compte cr\xE9\xE9"), /* @__PURE__ */ import_react76.default.createElement("p", { className: "text-sm text-gray-500 mb-5" }, "V\xE9rifiez votre bo\xEEte e-mail pour confirmer votre adresse, puis connectez-vous."), /* @__PURE__ */ import_react76.default.createElement(
+      return /* @__PURE__ */ import_react77.default.createElement("div", { className: "min-h-screen flex items-center justify-center bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] px-4" }, /* @__PURE__ */ import_react77.default.createElement("div", { className: "w-full max-w-sm bg-white rounded-2xl shadow-sm border border-black/5 p-8 text-center" }, /* @__PURE__ */ import_react77.default.createElement(CircleCheck, { size: 32, className: "mx-auto mb-3", style: { color: "#3E9C6B" } }), /* @__PURE__ */ import_react77.default.createElement("h1", { className: "font-serif text-lg font-bold mb-2", style: { color: NAVY9 } }, "Compte cr\xE9\xE9"), /* @__PURE__ */ import_react77.default.createElement("p", { className: "text-sm text-gray-500 mb-5" }, "V\xE9rifiez votre bo\xEEte e-mail pour confirmer votre adresse, puis connectez-vous."), /* @__PURE__ */ import_react77.default.createElement(
         "button",
         {
           onClick: onGoLogin,
           className: "px-4 py-2.5 rounded-xl text-sm font-medium text-white shadow-md",
-          style: { background: `linear-gradient(135deg, ${NAVY8}, #2A4A82)` }
+          style: { background: `linear-gradient(135deg, ${NAVY9}, #2A4A82)` }
         },
         "Aller \xE0 la connexion"
       )));
     }
-    return /* @__PURE__ */ import_react76.default.createElement("div", { className: "min-h-screen flex items-center justify-center bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans px-4" }, /* @__PURE__ */ import_react76.default.createElement("div", { className: "w-full max-w-sm bg-white rounded-2xl shadow-sm border border-black/5 p-8" }, /* @__PURE__ */ import_react76.default.createElement("div", { className: "flex flex-col items-center mb-6" }, /* @__PURE__ */ import_react76.default.createElement("div", { className: "w-11 h-11 rounded-xl flex items-center justify-center shadow-md mb-3", style: { background: GOLD8 } }, /* @__PURE__ */ import_react76.default.createElement(Sprout, { size: 20, className: "text-white" })), /* @__PURE__ */ import_react76.default.createElement("h1", { className: "font-serif text-xl font-bold", style: { color: NAVY8 } }, "Cr\xE9er un compte")), error && /* @__PURE__ */ import_react76.default.createElement("div", { className: "flex items-start gap-2 rounded-xl p-3 mb-4 text-xs", style: { background: "#FBE7E5", color: "#B3413A" } }, /* @__PURE__ */ import_react76.default.createElement(CircleAlert, { size: 14, className: "mt-0.5 shrink-0" }), " ", error), /* @__PURE__ */ import_react76.default.createElement("form", { onSubmit: handleSubmit, className: "space-y-3" }, /* @__PURE__ */ import_react76.default.createElement("div", null, /* @__PURE__ */ import_react76.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Adresse e-mail"), /* @__PURE__ */ import_react76.default.createElement(
+    return /* @__PURE__ */ import_react77.default.createElement("div", { className: "min-h-screen flex items-center justify-center bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans px-4" }, /* @__PURE__ */ import_react77.default.createElement("div", { className: "w-full max-w-sm bg-white rounded-2xl shadow-sm border border-black/5 p-8" }, /* @__PURE__ */ import_react77.default.createElement("div", { className: "flex flex-col items-center mb-6" }, /* @__PURE__ */ import_react77.default.createElement("img", { src: "./logo-compact.png", alt: "AgriHakStat", className: "h-14 w-auto mb-2" }), /* @__PURE__ */ import_react77.default.createElement("h1", { className: "font-serif text-xl font-bold", style: { color: NAVY9 } }, "Cr\xE9er un compte")), error && /* @__PURE__ */ import_react77.default.createElement("div", { className: "flex items-start gap-2 rounded-xl p-3 mb-4 text-xs", style: { background: "#FBE7E5", color: "#B3413A" } }, /* @__PURE__ */ import_react77.default.createElement(CircleAlert, { size: 14, className: "mt-0.5 shrink-0" }), " ", error), /* @__PURE__ */ import_react77.default.createElement("form", { onSubmit: handleSubmit, className: "space-y-3" }, /* @__PURE__ */ import_react77.default.createElement("div", null, /* @__PURE__ */ import_react77.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Adresse e-mail"), /* @__PURE__ */ import_react77.default.createElement(
       "input",
       {
         type: "email",
@@ -71941,7 +71999,7 @@ ${suffix2}`;
         style: { "--tw-ring-color": GOLD8 },
         placeholder: "vous@exemple.com"
       }
-    )), /* @__PURE__ */ import_react76.default.createElement("div", null, /* @__PURE__ */ import_react76.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Mot de passe"), /* @__PURE__ */ import_react76.default.createElement(
+    )), /* @__PURE__ */ import_react77.default.createElement("div", null, /* @__PURE__ */ import_react77.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Mot de passe"), /* @__PURE__ */ import_react77.default.createElement(
       "input",
       {
         type: "password",
@@ -71953,22 +72011,22 @@ ${suffix2}`;
         style: { "--tw-ring-color": GOLD8 },
         placeholder: "6 caract\xE8res minimum"
       }
-    )), /* @__PURE__ */ import_react76.default.createElement(
+    )), /* @__PURE__ */ import_react77.default.createElement(
       "button",
       {
         type: "submit",
         disabled: loading,
         className: "w-full mt-2 px-4 py-2.5 rounded-xl text-sm font-medium flex items-center justify-center gap-2 text-white shadow-md",
-        style: { background: `linear-gradient(135deg, ${NAVY8}, #2A4A82)` }
+        style: { background: `linear-gradient(135deg, ${NAVY9}, #2A4A82)` }
       },
-      loading && /* @__PURE__ */ import_react76.default.createElement(LoaderCircle, { size: 15, className: "animate-spin" }),
+      loading && /* @__PURE__ */ import_react77.default.createElement(LoaderCircle, { size: 15, className: "animate-spin" }),
       " Cr\xE9er mon compte"
-    )), /* @__PURE__ */ import_react76.default.createElement("p", { className: "text-center text-xs text-gray-400 mt-5" }, "D\xE9j\xE0 un compte ?", " ", /* @__PURE__ */ import_react76.default.createElement("button", { onClick: onGoLogin, className: "font-medium", style: { color: NAVY8 } }, "Se connecter")), /* @__PURE__ */ import_react76.default.createElement("p", { className: "text-center text-xs text-gray-300 mt-2" }, /* @__PURE__ */ import_react76.default.createElement("button", { onClick: onGoLanding }, "\u2190 Retour \xE0 l'accueil"))));
+    )), /* @__PURE__ */ import_react77.default.createElement("p", { className: "text-center text-xs text-gray-400 mt-5" }, "D\xE9j\xE0 un compte ?", " ", /* @__PURE__ */ import_react77.default.createElement("button", { onClick: onGoLogin, className: "font-medium", style: { color: NAVY9 } }, "Se connecter")), /* @__PURE__ */ import_react77.default.createElement("p", { className: "text-center text-xs text-gray-300 mt-2" }, /* @__PURE__ */ import_react77.default.createElement("button", { onClick: onGoLanding }, "\u2190 Retour \xE0 l'accueil"))));
   }
 
   // src/admin/AdminDashboard.jsx
-  var import_react77 = __toESM(require_react());
-  var NAVY9 = "#1F3864";
+  var import_react78 = __toESM(require_react());
+  var NAVY10 = "#1F3864";
   var GOLD9 = "#C99A2E";
   var SCREEN_LABELS = {
     dashboard: "Tableau de bord",
@@ -71978,11 +72036,11 @@ ${suffix2}`;
     map: "Cartographie"
   };
   function AdminDashboard({ onBack }) {
-    const [users, setUsers] = (0, import_react77.useState)([]);
-    const [activity, setActivity] = (0, import_react77.useState)([]);
-    const [loading, setLoading] = (0, import_react77.useState)(true);
-    const [error, setError] = (0, import_react77.useState)("");
-    (0, import_react77.useEffect)(() => {
+    const [users, setUsers] = (0, import_react78.useState)([]);
+    const [activity, setActivity] = (0, import_react78.useState)([]);
+    const [loading, setLoading] = (0, import_react78.useState)(true);
+    const [error, setError] = (0, import_react78.useState)("");
+    (0, import_react78.useEffect)(() => {
       async function load() {
         const { data: profiles, error: e1 } = await supabase.from("profiles").select("email, role, created_at").order("created_at", { ascending: false });
         const { data: logs, error: e22 } = await supabase.from("activity_log").select("screen");
@@ -71998,7 +72056,7 @@ ${suffix2}`;
       counts[a2.screen] = (counts[a2.screen] || 0) + 1;
     });
     const chartData = Object.entries(SCREEN_LABELS).map(([id, label]) => ({ label, visites: counts[id] || 0 }));
-    return /* @__PURE__ */ import_react77.default.createElement("div", { className: "min-h-screen bg-[#F4F6FB] font-sans p-8" }, /* @__PURE__ */ import_react77.default.createElement("button", { onClick: onBack, className: "flex items-center gap-2 text-sm mb-6", style: { color: NAVY9 } }, /* @__PURE__ */ import_react77.default.createElement(ArrowLeft, { size: 15 }), " Retour \xE0 l'application"), /* @__PURE__ */ import_react77.default.createElement("h1", { className: "font-serif text-2xl font-bold mb-1", style: { color: NAVY9 } }, "Panneau d'administration"), /* @__PURE__ */ import_react77.default.createElement("p", { className: "text-sm text-gray-500 mb-6" }, "Utilisateurs inscrits et fr\xE9quentation des \xE9crans"), error && /* @__PURE__ */ import_react77.default.createElement("div", { className: "rounded-xl p-4 mb-6 text-sm", style: { background: "#FBE7E5", color: "#B3413A" } }, error, ". V\xE9rifiez que le script supabase_setup.sql a bien \xE9t\xE9 ex\xE9cut\xE9 et que votre compte a le r\xF4le \xAB admin \xBB."), loading ? /* @__PURE__ */ import_react77.default.createElement("p", { className: "text-sm text-gray-400" }, "Chargement\u2026") : /* @__PURE__ */ import_react77.default.createElement(import_react77.default.Fragment, null, /* @__PURE__ */ import_react77.default.createElement("div", { className: "grid grid-cols-3 gap-4 mb-6" }, /* @__PURE__ */ import_react77.default.createElement("div", { className: "bg-white rounded-2xl p-5 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react77.default.createElement(Users, { size: 18, style: { color: GOLD9 } }), /* @__PURE__ */ import_react77.default.createElement("div", { className: "font-serif text-2xl font-bold mt-2", style: { color: NAVY9 } }, users.length), /* @__PURE__ */ import_react77.default.createElement("div", { className: "text-xs text-gray-400" }, "Utilisateurs inscrits")), /* @__PURE__ */ import_react77.default.createElement("div", { className: "bg-white rounded-2xl p-5 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react77.default.createElement(Activity, { size: 18, style: { color: GOLD9 } }), /* @__PURE__ */ import_react77.default.createElement("div", { className: "font-serif text-2xl font-bold mt-2", style: { color: NAVY9 } }, activity.length), /* @__PURE__ */ import_react77.default.createElement("div", { className: "text-xs text-gray-400" }, "Visites d'\xE9cran enregistr\xE9es")), /* @__PURE__ */ import_react77.default.createElement("div", { className: "bg-white rounded-2xl p-5 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react77.default.createElement(Clock, { size: 18, style: { color: GOLD9 } }), /* @__PURE__ */ import_react77.default.createElement("div", { className: "font-serif text-2xl font-bold mt-2", style: { color: NAVY9 } }, users[0] ? new Date(users[0].created_at).toLocaleDateString("fr-FR") : "\u2014"), /* @__PURE__ */ import_react77.default.createElement("div", { className: "text-xs text-gray-400" }, "Derni\xE8re inscription"))), /* @__PURE__ */ import_react77.default.createElement("div", { className: "grid grid-cols-3 gap-4" }, /* @__PURE__ */ import_react77.default.createElement("div", { className: "col-span-2 bg-white rounded-2xl p-5 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react77.default.createElement("h2", { className: "font-serif font-semibold mb-3", style: { color: NAVY9 } }, "Th\xE9matiques d\xE9velopp\xE9es \u2014 fr\xE9quentation par \xE9cran"), /* @__PURE__ */ import_react77.default.createElement(ResponsiveContainer, { width: "100%", height: 240 }, /* @__PURE__ */ import_react77.default.createElement(BarChart, { data: chartData, layout: "vertical", margin: { left: 40 } }, /* @__PURE__ */ import_react77.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react77.default.createElement(XAxis, { type: "number", tick: { fontSize: 11 }, allowDecimals: false }), /* @__PURE__ */ import_react77.default.createElement(YAxis, { type: "category", dataKey: "label", tick: { fontSize: 11 }, width: 160 }), /* @__PURE__ */ import_react77.default.createElement(Tooltip, null), /* @__PURE__ */ import_react77.default.createElement(Bar, { dataKey: "visites", fill: NAVY9, radius: [0, 6, 6, 0] })))), /* @__PURE__ */ import_react77.default.createElement("div", { className: "bg-white rounded-2xl p-5 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react77.default.createElement("h2", { className: "font-serif font-semibold mb-3", style: { color: NAVY9 } }, "Derniers inscrits"), /* @__PURE__ */ import_react77.default.createElement("div", { className: "space-y-2 max-h-60 overflow-y-auto" }, users.slice(0, 8).map((u, i) => /* @__PURE__ */ import_react77.default.createElement("div", { key: i, className: "text-xs border-b border-gray-50 pb-2" }, /* @__PURE__ */ import_react77.default.createElement("div", { className: "font-medium text-gray-700" }, u.email), /* @__PURE__ */ import_react77.default.createElement("div", { className: "text-gray-400" }, new Date(u.created_at).toLocaleDateString("fr-FR"), " \xB7 ", u.role))), users.length === 0 && /* @__PURE__ */ import_react77.default.createElement("p", { className: "text-xs text-gray-400" }, "Aucun utilisateur pour l'instant."))))));
+    return /* @__PURE__ */ import_react78.default.createElement("div", { className: "min-h-screen bg-[#F4F6FB] font-sans p-8" }, /* @__PURE__ */ import_react78.default.createElement("button", { onClick: onBack, className: "flex items-center gap-2 text-sm mb-6", style: { color: NAVY10 } }, /* @__PURE__ */ import_react78.default.createElement(ArrowLeft, { size: 15 }), " Retour \xE0 l'application"), /* @__PURE__ */ import_react78.default.createElement("h1", { className: "font-serif text-2xl font-bold mb-1", style: { color: NAVY10 } }, "Panneau d'administration"), /* @__PURE__ */ import_react78.default.createElement("p", { className: "text-sm text-gray-500 mb-6" }, "Utilisateurs inscrits et fr\xE9quentation des \xE9crans"), error && /* @__PURE__ */ import_react78.default.createElement("div", { className: "rounded-xl p-4 mb-6 text-sm", style: { background: "#FBE7E5", color: "#B3413A" } }, error, ". V\xE9rifiez que le script supabase_setup.sql a bien \xE9t\xE9 ex\xE9cut\xE9 et que votre compte a le r\xF4le \xAB admin \xBB."), loading ? /* @__PURE__ */ import_react78.default.createElement("p", { className: "text-sm text-gray-400" }, "Chargement\u2026") : /* @__PURE__ */ import_react78.default.createElement(import_react78.default.Fragment, null, /* @__PURE__ */ import_react78.default.createElement("div", { className: "grid grid-cols-3 gap-4 mb-6" }, /* @__PURE__ */ import_react78.default.createElement("div", { className: "bg-white rounded-2xl p-5 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react78.default.createElement(Users, { size: 18, style: { color: GOLD9 } }), /* @__PURE__ */ import_react78.default.createElement("div", { className: "font-serif text-2xl font-bold mt-2", style: { color: NAVY10 } }, users.length), /* @__PURE__ */ import_react78.default.createElement("div", { className: "text-xs text-gray-400" }, "Utilisateurs inscrits")), /* @__PURE__ */ import_react78.default.createElement("div", { className: "bg-white rounded-2xl p-5 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react78.default.createElement(Activity, { size: 18, style: { color: GOLD9 } }), /* @__PURE__ */ import_react78.default.createElement("div", { className: "font-serif text-2xl font-bold mt-2", style: { color: NAVY10 } }, activity.length), /* @__PURE__ */ import_react78.default.createElement("div", { className: "text-xs text-gray-400" }, "Visites d'\xE9cran enregistr\xE9es")), /* @__PURE__ */ import_react78.default.createElement("div", { className: "bg-white rounded-2xl p-5 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react78.default.createElement(Clock, { size: 18, style: { color: GOLD9 } }), /* @__PURE__ */ import_react78.default.createElement("div", { className: "font-serif text-2xl font-bold mt-2", style: { color: NAVY10 } }, users[0] ? new Date(users[0].created_at).toLocaleDateString("fr-FR") : "\u2014"), /* @__PURE__ */ import_react78.default.createElement("div", { className: "text-xs text-gray-400" }, "Derni\xE8re inscription"))), /* @__PURE__ */ import_react78.default.createElement("div", { className: "grid grid-cols-3 gap-4" }, /* @__PURE__ */ import_react78.default.createElement("div", { className: "col-span-2 bg-white rounded-2xl p-5 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react78.default.createElement("h2", { className: "font-serif font-semibold mb-3", style: { color: NAVY10 } }, "Th\xE9matiques d\xE9velopp\xE9es \u2014 fr\xE9quentation par \xE9cran"), /* @__PURE__ */ import_react78.default.createElement(ResponsiveContainer, { width: "100%", height: 240 }, /* @__PURE__ */ import_react78.default.createElement(BarChart, { data: chartData, layout: "vertical", margin: { left: 40 } }, /* @__PURE__ */ import_react78.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react78.default.createElement(XAxis, { type: "number", tick: { fontSize: 11 }, allowDecimals: false }), /* @__PURE__ */ import_react78.default.createElement(YAxis, { type: "category", dataKey: "label", tick: { fontSize: 11 }, width: 160 }), /* @__PURE__ */ import_react78.default.createElement(Tooltip, null), /* @__PURE__ */ import_react78.default.createElement(Bar, { dataKey: "visites", fill: NAVY10, radius: [0, 6, 6, 0] })))), /* @__PURE__ */ import_react78.default.createElement("div", { className: "bg-white rounded-2xl p-5 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react78.default.createElement("h2", { className: "font-serif font-semibold mb-3", style: { color: NAVY10 } }, "Derniers inscrits"), /* @__PURE__ */ import_react78.default.createElement("div", { className: "space-y-2 max-h-60 overflow-y-auto" }, users.slice(0, 8).map((u, i) => /* @__PURE__ */ import_react78.default.createElement("div", { key: i, className: "text-xs border-b border-gray-50 pb-2" }, /* @__PURE__ */ import_react78.default.createElement("div", { className: "font-medium text-gray-700" }, u.email), /* @__PURE__ */ import_react78.default.createElement("div", { className: "text-gray-400" }, new Date(u.created_at).toLocaleDateString("fr-FR"), " \xB7 ", u.role))), users.length === 0 && /* @__PURE__ */ import_react78.default.createElement("p", { className: "text-xs text-gray-400" }, "Aucun utilisateur pour l'instant."))))));
   }
 
   // src/App.jsx
@@ -72010,13 +72068,13 @@ ${suffix2}`;
     map: Cartographie
   };
   function App() {
-    const [authView, setAuthView] = (0, import_react78.useState)("landing");
-    const [session, setSession] = (0, import_react78.useState)(void 0);
-    const [profile, setProfile] = (0, import_react78.useState)(null);
-    const [active, setActive] = (0, import_react78.useState)("dashboard");
-    const [showAdmin, setShowAdmin] = (0, import_react78.useState)(false);
-    const [guestMode, setGuestMode] = (0, import_react78.useState)(false);
-    (0, import_react78.useEffect)(() => {
+    const [authView, setAuthView] = (0, import_react79.useState)("landing");
+    const [session, setSession] = (0, import_react79.useState)(void 0);
+    const [profile, setProfile] = (0, import_react79.useState)(null);
+    const [active, setActive] = (0, import_react79.useState)("dashboard");
+    const [showAdmin, setShowAdmin] = (0, import_react79.useState)(false);
+    const [guestMode, setGuestMode] = (0, import_react79.useState)(false);
+    (0, import_react79.useEffect)(() => {
       if (!isSupabaseConfigured) {
         setSession(null);
         return;
@@ -72025,7 +72083,7 @@ ${suffix2}`;
       const { data: sub } = supabase.auth.onAuthStateChange((_event, s2) => setSession(s2));
       return () => sub.subscription.unsubscribe();
     }, []);
-    (0, import_react78.useEffect)(() => {
+    (0, import_react79.useEffect)(() => {
       if (!session || !isSupabaseConfigured) {
         setProfile(null);
         return;
@@ -72046,41 +72104,40 @@ ${suffix2}`;
     };
     if (!session && !guestMode) {
       if (authView === "login") {
-        return /* @__PURE__ */ import_react78.default.createElement(Login, { onGoSignup: () => setAuthView("signup"), onGoLanding: () => setAuthView("landing") });
+        return /* @__PURE__ */ import_react79.default.createElement(Login, { onGoSignup: () => setAuthView("signup"), onGoLanding: () => setAuthView("landing") });
       }
       if (authView === "signup") {
-        return /* @__PURE__ */ import_react78.default.createElement(Signup, { onGoLogin: () => setAuthView("login"), onGoLanding: () => setAuthView("landing") });
+        return /* @__PURE__ */ import_react79.default.createElement(Signup, { onGoLogin: () => setAuthView("login"), onGoLanding: () => setAuthView("landing") });
       }
-      return /* @__PURE__ */ import_react78.default.createElement(Landing, { onGoLogin: () => setAuthView("login"), onGoSignup: () => setAuthView("signup"), onGoDemo: () => setGuestMode(true) });
+      return /* @__PURE__ */ import_react79.default.createElement(Landing, { onGoLogin: () => setAuthView("login"), onGoSignup: () => setAuthView("signup"), onGoDemo: () => setGuestMode(true) });
     }
     const Active = SCREENS[active];
     const isAdmin = profile?.role === "admin";
-    return /* @__PURE__ */ import_react78.default.createElement("div", { className: "relative" }, guestMode && !session && /* @__PURE__ */ import_react78.default.createElement("div", { className: "fixed top-0 left-0 right-0 z-[70] bg-[#C99A2E] text-[#1F3864] text-xs font-medium text-center py-1.5" }, "Mode d\xE9monstration \u2014 aucune donn\xE9e n'est enregistr\xE9e.", " ", /* @__PURE__ */ import_react78.default.createElement("button", { onClick: () => {
+    const isGuest = guestMode && !session;
+    const userEmail = session?.user?.email || "";
+    const roleLabel = isGuest ? "D\xE9monstration" : isAdmin ? "Administrateur" : "Utilisateur";
+    const handleTopRightLogout = isGuest ? () => setGuestMode(false) : handleLogout;
+    return /* @__PURE__ */ import_react79.default.createElement("div", { className: "relative" }, isGuest && /* @__PURE__ */ import_react79.default.createElement("div", { className: "sticky top-0 z-[70] bg-[#C99A2E] text-[#1F3864] text-xs font-medium text-center py-1.5" }, "Mode d\xE9monstration \u2014 aucune donn\xE9e n'est enregistr\xE9e.", " ", /* @__PURE__ */ import_react79.default.createElement("button", { onClick: () => {
       setGuestMode(false);
       setAuthView("signup");
-    }, className: "underline font-semibold" }, "Cr\xE9er un compte")), /* @__PURE__ */ import_react78.default.createElement("div", { className: `fixed ${guestMode && !session ? "top-9" : "top-3"} right-4 z-[60] flex items-center gap-2` }, isAdmin && /* @__PURE__ */ import_react78.default.createElement(
-      "button",
+    }, className: "underline font-semibold" }, "Cr\xE9er un compte")), showAdmin ? /* @__PURE__ */ import_react79.default.createElement(AdminDashboard, { onBack: () => setShowAdmin(false) }) : /* @__PURE__ */ import_react79.default.createElement(
+      Active,
       {
-        onClick: () => setShowAdmin(true),
-        className: "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-[#1F3864] text-white shadow-md"
-      },
-      /* @__PURE__ */ import_react78.default.createElement(ShieldCheck, { size: 13 }),
-      " Admin"
-    ), /* @__PURE__ */ import_react78.default.createElement(
-      "button",
-      {
-        onClick: guestMode && !session ? () => setGuestMode(false) : handleLogout,
-        className: "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-white shadow-md border border-gray-200 text-gray-600"
-      },
-      /* @__PURE__ */ import_react78.default.createElement(LogOut, { size: 13 }),
-      " ",
-      guestMode && !session ? "Quitter la d\xE9mo" : "D\xE9connexion"
-    )), showAdmin ? /* @__PURE__ */ import_react78.default.createElement(AdminDashboard, { onBack: () => setShowAdmin(false) }) : /* @__PURE__ */ import_react78.default.createElement(Active, { active, onNavigate: handleNavigate }));
+        active,
+        onNavigate: handleNavigate,
+        userEmail,
+        roleLabel,
+        isAdmin,
+        isGuest,
+        onLogout: handleTopRightLogout,
+        onOpenAdmin: () => setShowAdmin(true)
+      }
+    ));
   }
 
   // src/entry.jsx
   var root = (0, import_client.createRoot)(document.getElementById("root"));
-  root.render(/* @__PURE__ */ import_react79.default.createElement(App, null));
+  root.render(/* @__PURE__ */ import_react80.default.createElement(App, null));
 })();
 /*! Bundled license information:
 
@@ -72224,7 +72281,6 @@ lucide-react/dist/esm/icons/plus.mjs:
 lucide-react/dist/esm/icons/shield-check.mjs:
 lucide-react/dist/esm/icons/sigma.mjs:
 lucide-react/dist/esm/icons/sparkles.mjs:
-lucide-react/dist/esm/icons/sprout.mjs:
 lucide-react/dist/esm/icons/sun.mjs:
 lucide-react/dist/esm/icons/thermometer.mjs:
 lucide-react/dist/esm/icons/trash-2.mjs:

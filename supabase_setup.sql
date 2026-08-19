@@ -36,19 +36,23 @@ alter table public.profiles enable row level security;
 alter table public.activity_log enable row level security;
 
 -- Chacun peut lire son propre profil ; les administrateurs lisent tous les profils
+drop policy if exists "Lecture de son propre profil" on public.profiles;
 create policy "Lecture de son propre profil" on public.profiles
   for select using (auth.uid() = id);
 
+drop policy if exists "Les administrateurs lisent tous les profils" on public.profiles;
 create policy "Les administrateurs lisent tous les profils" on public.profiles
   for select using (
     exists (select 1 from public.profiles where id = auth.uid() and role = 'admin')
   );
 
 -- Chacun peut enregistrer ses propres visites d'écran
+drop policy if exists "Enregistrer sa propre activité" on public.activity_log;
 create policy "Enregistrer sa propre activité" on public.activity_log
   for insert with check (auth.uid() = user_id);
 
 -- Les administrateurs lisent l'ensemble du journal d'activité
+drop policy if exists "Les administrateurs lisent toute l'activité" on public.activity_log;
 create policy "Les administrateurs lisent toute l'activité" on public.activity_log
   for select using (
     exists (select 1 from public.profiles where id = auth.uid() and role = 'admin')
@@ -56,4 +60,4 @@ create policy "Les administrateurs lisent toute l'activité" on public.activity_
 
 -- 5. Pour vous désigner vous-même comme administrateur, exécutez ensuite
 --    (après votre première inscription depuis le site) :
--- update public.profiles set role = 'admin' where email = 'hakiboumoussa@gmail.com';
+-- update public.profiles set role = 'admin' where email = 'votre-email@exemple.com';
