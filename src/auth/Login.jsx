@@ -25,10 +25,13 @@ export default function Login({ onGoSignup, onGoLanding }) {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans px-4">
-      <div className="w-full max-w-sm bg-white rounded-2xl shadow-sm border border-black/5 p-8">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans px-4 relative overflow-hidden">
+      <img src="./logo-full.png" alt=""
+        className="pointer-events-none select-none fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-[0.07] z-0"
+        style={{ width: "min(1400px, 160vw)" }} />
+      <div className="w-full max-w-lg bg-white rounded-2xl shadow-sm border border-black/5 p-8 relative z-10">
         <div className="flex flex-col items-center mb-6">
-          <img src="./logo-compact.png" alt="AgriHakStat" className="h-28 w-auto mb-2" />
+          <img src="./logo-compact.png" alt="AgriHakStat" className="w-auto mb-2" style={{ height: "280px" }} />
           <h1 className="font-serif text-xl font-bold" style={{ color: NAVY }}>Se connecter</h1>
         </div>
 

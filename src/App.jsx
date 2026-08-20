@@ -34,7 +34,10 @@ export default function App() {
   useEffect(() => {
     if (!session || !isSupabaseConfigured) { setProfile(null); return; }
     supabase.from("profiles").select("role, email").eq("id", session.user.id).single()
-      .then(({ data }) => setProfile(data));
+      .then(({ data, error }) => {
+        if (error) console.error("Erreur de récupération du profil (rôle) :", error.message, error);
+        setProfile(data);
+      });
   }, [session]);
 
   const handleNavigate = (id) => {
@@ -87,6 +90,7 @@ export default function App() {
           active={active}
           onNavigate={handleNavigate}
           userEmail={userEmail}
+          userId={session?.user?.id}
           roleLabel={roleLabel}
           isAdmin={isAdmin}
           isGuest={isGuest}

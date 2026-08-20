@@ -61,3 +61,29 @@ create policy "Les administrateurs lisent toute l'activité" on public.activity_
 -- 5. Pour vous désigner vous-même comme administrateur, exécutez ensuite
 --    (après votre première inscription depuis le site) :
 -- update public.profiles set role = 'admin' where email = 'votre-email@exemple.com';
+
+-- 6. Table des projets/enquêtes soumis par les utilisateurs, classés par thématique
+create table if not exists public.projets (
+  id bigint generated always as identity primary key,
+  user_id uuid references auth.users on delete set null,
+  user_email text,
+  titre text,
+  thematiques text[] default '{}',
+  communes text[] default '{}',
+  statut text default 'soumis',
+  created_at timestamptz default now()
+);
+
+alter table public.projets enable row level security;
+
+drop policy if exists "Soumettre son propre projet" on public.projets;
+create policy "Soumettre son propre projet" on public.projets
+  for insert with check (auth.uid() = user_id);
+
+drop policy if exists "Lire ses propres projets" on public.projets;
+create policy "Lire ses propres projets" on public.projets
+  for select using (auth.uid() = user_id);
+
+drop policy if exists "Les administrateurs lisent tous les projets" on public.projets;
+create policy "Les administrateurs lisent tous les projets" on public.projets
+  for select using (public.is_admin());

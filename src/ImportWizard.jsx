@@ -5,6 +5,7 @@ import {
   Plus, Check, ChevronRight, ChevronLeft, X, AlertCircle, Trash2,
 } from "lucide-react";
 import UserMenu from "./UserMenu.jsx";
+import { supabase, isSupabaseConfigured } from "./supabaseClient.js";
 
 const NAVY = "#1F3864";
 const GOLD = "#C99A2E";
@@ -141,10 +142,16 @@ function Chip({ label, active, onClick, color }) {
   );
 }
 
-export default function ImportWizard({ active, onNavigate, userEmail, roleLabel, isAdmin, isGuest, onLogout, onOpenAdmin }) {
+export default function ImportWizard({ active, onNavigate, userEmail, userId, roleLabel, isAdmin, isGuest, onLogout, onOpenAdmin }) {
   const [step, setStep] = useState(1);
   const [communes, setCommunes] = useState(["Tchaourou", "Pérèrè"]);
   const [filieres, setFilieres] = useState(["Coton"]);
+  const [objectif, setObjectif] = useState(
+    "Suivre la progression décadaire des semis de coton sur les communes à risque pluviométrique du Borgou."
+  );
+  const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState("");
 
   const toggle = (list, setList, item) =>
     setList(list.includes(item) ? list.filter((x) => x !== item) : [...list, item]);
@@ -251,7 +258,8 @@ export default function ImportWizard({ active, onNavigate, userEmail, roleLabel,
                   className="w-full text-sm rounded-xl border border-gray-200 p-3 mb-5 resize-none focus:outline-none focus:ring-2"
                   style={{ "--tw-ring-color": GOLD }}
                   rows={2}
-                  defaultValue="Suivre la progression décadaire des semis de coton sur les communes à risque pluviométrique du Borgou."
+                  value={objectif}
+                  onChange={(e) => setObjectif(e.target.value)}
                 />
 
                 <label className="text-xs font-medium text-gray-600 block mb-1.5">Zone géographique (communes)</label>
@@ -394,15 +402,42 @@ export default function ImportWizard({ active, onNavigate, userEmail, roleLabel,
                 >
                   Suivant <ChevronRight size={15} />
                 </button>
+              ) : submitted ? (
+                <div className="flex items-center gap-2 text-sm font-medium" style={{ color: "#256B45" }}>
+                  <Check size={16} /> Projet soumis — visible dans le tableau de bord administrateur
+                </div>
               ) : (
                 <button
-                  className="px-5 py-2.5 rounded-xl text-sm font-medium flex items-center gap-1.5 text-white shadow-md"
+                  onClick={async () => {
+                    if (isGuest || !isSupabaseConfigured) {
+                      setSubmitError("Créez un compte pour soumettre un projet réel (mode démonstration : rien n'est enregistré).");
+                      return;
+                    }
+                    setSubmitting(true);
+                    setSubmitError("");
+                    const { error } = await supabase.from("projets").insert({
+                      user_id: userId,
+                      user_email: userEmail,
+                      titre: objectif,
+                      thematiques: filieres,
+                      communes: communes,
+                      statut: "soumis",
+                    });
+                    setSubmitting(false);
+                    if (error) setSubmitError(error.message);
+                    else setSubmitted(true);
+                  }}
+                  disabled={submitting}
+                  className="px-5 py-2.5 rounded-xl text-sm font-medium flex items-center gap-1.5 text-white shadow-md disabled:opacity-60"
                   style={{ background: `linear-gradient(135deg, #3E9C6B, #256B45)` }}
                 >
-                  <Check size={15} /> Lancer les analyses
+                  <Check size={15} /> {submitting ? "Envoi en cours…" : "Lancer les analyses"}
                 </button>
               )}
             </div>
+            {submitError && (
+              <p className="text-xs mt-3 text-right" style={{ color: "#B3413A" }}>{submitError}</p>
+            )}
           </main>
         </div>
       </div>

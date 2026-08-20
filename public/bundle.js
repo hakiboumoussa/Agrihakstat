@@ -23055,34 +23055,22 @@
     return Component2;
   };
 
-  // node_modules/lucide-react/dist/esm/icons/activity.mjs
-  var __iconNode = [
-    [
-      "path",
-      {
-        d: "M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2",
-        key: "169zse"
-      }
-    ]
-  ];
-  var Activity = createLucideIcon("activity", __iconNode);
-
   // node_modules/lucide-react/dist/esm/icons/arrow-left.mjs
-  var __iconNode2 = [
+  var __iconNode = [
     ["path", { d: "m12 19-7-7 7-7", key: "1l729n" }],
     ["path", { d: "M19 12H5", key: "x3x0zl" }]
   ];
-  var ArrowLeft = createLucideIcon("arrow-left", __iconNode2);
+  var ArrowLeft = createLucideIcon("arrow-left", __iconNode);
 
   // node_modules/lucide-react/dist/esm/icons/arrow-right.mjs
-  var __iconNode3 = [
+  var __iconNode2 = [
     ["path", { d: "M5 12h14", key: "1ays0h" }],
     ["path", { d: "m12 5 7 7-7 7", key: "xquz4c" }]
   ];
-  var ArrowRight = createLucideIcon("arrow-right", __iconNode3);
+  var ArrowRight = createLucideIcon("arrow-right", __iconNode2);
 
   // node_modules/lucide-react/dist/esm/icons/bell.mjs
-  var __iconNode4 = [
+  var __iconNode3 = [
     ["path", { d: "M10.268 21a2 2 0 0 0 3.464 0", key: "vwvbt9" }],
     [
       "path",
@@ -23092,58 +23080,58 @@
       }
     ]
   ];
-  var Bell = createLucideIcon("bell", __iconNode4);
+  var Bell = createLucideIcon("bell", __iconNode3);
 
   // node_modules/lucide-react/dist/esm/icons/chart-column.mjs
-  var __iconNode5 = [
+  var __iconNode4 = [
     ["path", { d: "M3 3v16a2 2 0 0 0 2 2h16", key: "c24i48" }],
     ["path", { d: "M18 17V9", key: "2bz60n" }],
     ["path", { d: "M13 17V5", key: "1frdt8" }],
     ["path", { d: "M8 17v-3", key: "17ska0" }]
   ];
-  var ChartColumn = createLucideIcon("chart-column", __iconNode5);
+  var ChartColumn = createLucideIcon("chart-column", __iconNode4);
 
   // node_modules/lucide-react/dist/esm/icons/check.mjs
-  var __iconNode6 = [["path", { d: "M20 6 9 17l-5-5", key: "1gmf2c" }]];
-  var Check = createLucideIcon("check", __iconNode6);
+  var __iconNode5 = [["path", { d: "M20 6 9 17l-5-5", key: "1gmf2c" }]];
+  var Check = createLucideIcon("check", __iconNode5);
 
   // node_modules/lucide-react/dist/esm/icons/chevron-down.mjs
-  var __iconNode7 = [["path", { d: "m6 9 6 6 6-6", key: "qrunsl" }]];
-  var ChevronDown = createLucideIcon("chevron-down", __iconNode7);
+  var __iconNode6 = [["path", { d: "m6 9 6 6 6-6", key: "qrunsl" }]];
+  var ChevronDown = createLucideIcon("chevron-down", __iconNode6);
 
   // node_modules/lucide-react/dist/esm/icons/chevron-left.mjs
-  var __iconNode8 = [["path", { d: "m15 18-6-6 6-6", key: "1wnfg3" }]];
-  var ChevronLeft = createLucideIcon("chevron-left", __iconNode8);
+  var __iconNode7 = [["path", { d: "m15 18-6-6 6-6", key: "1wnfg3" }]];
+  var ChevronLeft = createLucideIcon("chevron-left", __iconNode7);
 
   // node_modules/lucide-react/dist/esm/icons/chevron-right.mjs
-  var __iconNode9 = [["path", { d: "m9 18 6-6-6-6", key: "mthhwq" }]];
-  var ChevronRight = createLucideIcon("chevron-right", __iconNode9);
+  var __iconNode8 = [["path", { d: "m9 18 6-6-6-6", key: "mthhwq" }]];
+  var ChevronRight = createLucideIcon("chevron-right", __iconNode8);
 
   // node_modules/lucide-react/dist/esm/icons/circle-alert.mjs
-  var __iconNode10 = [
+  var __iconNode9 = [
     ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
     ["line", { x1: "12", x2: "12", y1: "8", y2: "12", key: "1pkeuh" }],
     ["line", { x1: "12", x2: "12.01", y1: "16", y2: "16", key: "4dfq90" }]
   ];
-  var CircleAlert = createLucideIcon("circle-alert", __iconNode10);
+  var CircleAlert = createLucideIcon("circle-alert", __iconNode9);
 
   // node_modules/lucide-react/dist/esm/icons/circle-check.mjs
-  var __iconNode11 = [
+  var __iconNode10 = [
     ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
     ["path", { d: "m9 12 2 2 4-4", key: "dzmm74" }]
   ];
-  var CircleCheck = createLucideIcon("circle-check", __iconNode11);
+  var CircleCheck = createLucideIcon("circle-check", __iconNode10);
 
   // node_modules/lucide-react/dist/esm/icons/circle-x.mjs
-  var __iconNode12 = [
+  var __iconNode11 = [
     ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
     ["path", { d: "m15 9-6 6", key: "1uzhvr" }],
     ["path", { d: "m9 9 6 6", key: "z0biqf" }]
   ];
-  var CircleX = createLucideIcon("circle-x", __iconNode12);
+  var CircleX = createLucideIcon("circle-x", __iconNode11);
 
   // node_modules/lucide-react/dist/esm/icons/clipboard-list.mjs
-  var __iconNode13 = [
+  var __iconNode12 = [
     ["rect", { width: "8", height: "4", x: "8", y: "2", rx: "1", ry: "1", key: "tgr4d6" }],
     [
       "path",
@@ -23157,34 +23145,34 @@
     ["path", { d: "M8 11h.01", key: "1dfujw" }],
     ["path", { d: "M8 16h.01", key: "18s6g9" }]
   ];
-  var ClipboardList = createLucideIcon("clipboard-list", __iconNode13);
+  var ClipboardList = createLucideIcon("clipboard-list", __iconNode12);
 
   // node_modules/lucide-react/dist/esm/icons/clock.mjs
-  var __iconNode14 = [
+  var __iconNode13 = [
     ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
     ["path", { d: "M12 6v6l4 2", key: "mmk7yg" }]
   ];
-  var Clock = createLucideIcon("clock", __iconNode14);
+  var Clock = createLucideIcon("clock", __iconNode13);
 
   // node_modules/lucide-react/dist/esm/icons/cloud-rain.mjs
-  var __iconNode15 = [
+  var __iconNode14 = [
     ["path", { d: "M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242", key: "1pljnt" }],
     ["path", { d: "M16 14v6", key: "1j4efv" }],
     ["path", { d: "M8 14v6", key: "17c4r9" }],
     ["path", { d: "M12 16v6", key: "c8a4gj" }]
   ];
-  var CloudRain = createLucideIcon("cloud-rain", __iconNode15);
+  var CloudRain = createLucideIcon("cloud-rain", __iconNode14);
 
   // node_modules/lucide-react/dist/esm/icons/download.mjs
-  var __iconNode16 = [
+  var __iconNode15 = [
     ["path", { d: "M12 15V3", key: "m9g1x1" }],
     ["path", { d: "M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4", key: "ih7n3h" }],
     ["path", { d: "m7 10 5 5 5-5", key: "brsn70" }]
   ];
-  var Download = createLucideIcon("download", __iconNode16);
+  var Download = createLucideIcon("download", __iconNode15);
 
   // node_modules/lucide-react/dist/esm/icons/droplets.mjs
-  var __iconNode17 = [
+  var __iconNode16 = [
     [
       "path",
       {
@@ -23200,18 +23188,18 @@
       }
     ]
   ];
-  var Droplets = createLucideIcon("droplets", __iconNode17);
+  var Droplets = createLucideIcon("droplets", __iconNode16);
 
   // node_modules/lucide-react/dist/esm/icons/ellipsis.mjs
-  var __iconNode18 = [
+  var __iconNode17 = [
     ["circle", { cx: "12", cy: "12", r: "1", key: "41hilf" }],
     ["circle", { cx: "19", cy: "12", r: "1", key: "1wjl8i" }],
     ["circle", { cx: "5", cy: "12", r: "1", key: "1pcz8c" }]
   ];
-  var Ellipsis = createLucideIcon("ellipsis", __iconNode18);
+  var Ellipsis = createLucideIcon("ellipsis", __iconNode17);
 
   // node_modules/lucide-react/dist/esm/icons/file-check-corner.mjs
-  var __iconNode19 = [
+  var __iconNode18 = [
     [
       "path",
       {
@@ -23222,10 +23210,10 @@
     ["path", { d: "M14 2v5a1 1 0 0 0 1 1h5", key: "wfsgrz" }],
     ["path", { d: "m14 20 2 2 4-4", key: "15kota" }]
   ];
-  var FileCheckCorner = createLucideIcon("file-check-corner", __iconNode19);
+  var FileCheckCorner = createLucideIcon("file-check-corner", __iconNode18);
 
   // node_modules/lucide-react/dist/esm/icons/file-down.mjs
-  var __iconNode20 = [
+  var __iconNode19 = [
     [
       "path",
       {
@@ -23237,10 +23225,10 @@
     ["path", { d: "M12 18v-6", key: "17g6i2" }],
     ["path", { d: "m9 15 3 3 3-3", key: "1npd3o" }]
   ];
-  var FileDown = createLucideIcon("file-down", __iconNode20);
+  var FileDown = createLucideIcon("file-down", __iconNode19);
 
   // node_modules/lucide-react/dist/esm/icons/file-output.mjs
-  var __iconNode21 = [
+  var __iconNode20 = [
     [
       "path",
       {
@@ -23252,10 +23240,10 @@
     ["path", { d: "m5 11-3 3", key: "1dgrs4" }],
     ["path", { d: "m5 17-3-3h10", key: "1mvvaf" }]
   ];
-  var FileOutput = createLucideIcon("file-output", __iconNode21);
+  var FileOutput = createLucideIcon("file-output", __iconNode20);
 
   // node_modules/lucide-react/dist/esm/icons/file-spreadsheet.mjs
-  var __iconNode22 = [
+  var __iconNode21 = [
     [
       "path",
       {
@@ -23269,10 +23257,10 @@
     ["path", { d: "M8 17h2", key: "2yhykz" }],
     ["path", { d: "M14 17h2", key: "10kma7" }]
   ];
-  var FileSpreadsheet = createLucideIcon("file-spreadsheet", __iconNode22);
+  var FileSpreadsheet = createLucideIcon("file-spreadsheet", __iconNode21);
 
   // node_modules/lucide-react/dist/esm/icons/file-text.mjs
-  var __iconNode23 = [
+  var __iconNode22 = [
     [
       "path",
       {
@@ -23285,10 +23273,10 @@
     ["path", { d: "M16 13H8", key: "t4e002" }],
     ["path", { d: "M16 17H8", key: "z1uh3a" }]
   ];
-  var FileText = createLucideIcon("file-text", __iconNode23);
+  var FileText = createLucideIcon("file-text", __iconNode22);
 
   // node_modules/lucide-react/dist/esm/icons/file-type-corner.mjs
-  var __iconNode24 = [
+  var __iconNode23 = [
     [
       "path",
       {
@@ -23301,7 +23289,22 @@
     ["path", { d: "M6 22h2", key: "194x9m" }],
     ["path", { d: "M7 14v8", key: "11ixej" }]
   ];
-  var FileTypeCorner = createLucideIcon("file-type-corner", __iconNode24);
+  var FileTypeCorner = createLucideIcon("file-type-corner", __iconNode23);
+
+  // node_modules/lucide-react/dist/esm/icons/folder-kanban.mjs
+  var __iconNode24 = [
+    [
+      "path",
+      {
+        d: "M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z",
+        key: "1fr9dc"
+      }
+    ],
+    ["path", { d: "M8 10v4", key: "tgpxqk" }],
+    ["path", { d: "M12 10v2", key: "hh53o1" }],
+    ["path", { d: "M16 10v6", key: "1d6xys" }]
+  ];
+  var FolderKanban = createLucideIcon("folder-kanban", __iconNode24);
 
   // node_modules/lucide-react/dist/esm/icons/funnel.mjs
   var __iconNode25 = [
@@ -50741,901 +50744,6 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
 
   // src/ImportWizard.jsx
   var import_react71 = __toESM(require_react());
-  var NAVY3 = "#1F3864";
-  var GOLD2 = "#C99A2E";
-  var FILIERES2 = {
-    Soja: "#3E9C6B",
-    Ma\u00EFs: "#F0AC1B",
-    Riz: "#3592C4",
-    Manioc: "#B5651D",
-    Coton: "#6C7DAE"
-  };
-  var COMMUNES = ["Bemb\xE9r\xE9k\xE9", "Kalal\xE9", "Nikki", "N'Dali", "Parakou", "P\xE9r\xE8r\xE8", "Sinend\xE9", "Tchaourou"];
-  var nav2 = [
-    { id: "dashboard", label: "Tableau de bord", icon: LayoutDashboard },
-    { id: "import", label: "Assistant d'import", icon: ClipboardList },
-    { id: "config", label: "Configuration des analyses", icon: ChartColumn },
-    { id: "results", label: "R\xE9sultats & rapport", icon: FileText },
-    { id: "map", label: "Cartographie", icon: MapPin }
-  ];
-  var STEPS = [
-    { id: 1, label: "Questionnaire" },
-    { id: 2, label: "Base de donn\xE9es" },
-    { id: 3, label: "Contexte de l'\xE9tude" },
-    { id: 4, label: "Indicateurs" },
-    { id: 5, label: "Cartographie des variables" }
-  ];
-  function Watermark2() {
-    return /* @__PURE__ */ import_react71.default.createElement("div", { className: "fixed inset-0 overflow-hidden pointer-events-none z-0 flex items-center justify-center" }, /* @__PURE__ */ import_react71.default.createElement(
-      "span",
-      {
-        className: "font-serif font-black whitespace-nowrap select-none",
-        style: { color: NAVY3, opacity: 0.06, fontSize: "13vw", letterSpacing: "-0.02em" }
-      },
-      "AgriHakStat"
-    ), /* @__PURE__ */ import_react71.default.createElement(
-      "span",
-      {
-        className: "absolute bottom-4 right-6 text-xs font-medium select-none",
-        style: { color: NAVY3, opacity: 0.35 }
-      },
-      "Con\xE7u par Hakibou MOUSSA"
-    ));
-  }
-  function Stepper({ current: current2, setCurrent }) {
-    return /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex items-center mb-8" }, STEPS.map((s2, i) => /* @__PURE__ */ import_react71.default.createElement(import_react71.default.Fragment, { key: s2.id }, /* @__PURE__ */ import_react71.default.createElement("button", { onClick: () => setCurrent(s2.id), className: "flex items-center gap-2 group" }, /* @__PURE__ */ import_react71.default.createElement(
-      "div",
-      {
-        className: "w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold transition-colors shrink-0",
-        style: s2.id < current2 ? { background: "#3E9C6B", color: "white" } : s2.id === current2 ? { background: NAVY3, color: "white" } : { background: "#EDEEF3", color: "#8A93A8" }
-      },
-      s2.id < current2 ? /* @__PURE__ */ import_react71.default.createElement(Check, { size: 14 }) : s2.id
-    ), /* @__PURE__ */ import_react71.default.createElement(
-      "span",
-      {
-        className: "text-xs font-medium hidden md:block",
-        style: { color: s2.id === current2 ? NAVY3 : "#8A93A8" }
-      },
-      s2.label
-    )), i < STEPS.length - 1 && /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex-1 h-[2px] mx-3", style: { background: s2.id < current2 ? "#3E9C6B" : "#E4E6ED" } }))));
-  }
-  function Card({ children, className = "" }) {
-    return /* @__PURE__ */ import_react71.default.createElement("div", { className: `bg-white rounded-2xl p-6 shadow-sm border border-black/5 ${className}` }, children);
-  }
-  function Dropzone({ label, hint, formats }) {
-    return /* @__PURE__ */ import_react71.default.createElement(
-      "div",
-      {
-        className: "border-2 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center text-center gap-2 cursor-pointer transition-colors hover:bg-[#FAFBFE]",
-        style: { borderColor: "#C7D2E8" }
-      },
-      /* @__PURE__ */ import_react71.default.createElement("div", { className: "w-12 h-12 rounded-xl flex items-center justify-center mb-1", style: { background: "#EBEEF7" } }, /* @__PURE__ */ import_react71.default.createElement(Upload, { size: 20, style: { color: NAVY3 } })),
-      /* @__PURE__ */ import_react71.default.createElement("div", { className: "font-medium text-sm", style: { color: NAVY3 } }, label),
-      /* @__PURE__ */ import_react71.default.createElement("div", { className: "text-xs text-gray-400" }, hint),
-      /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex flex-wrap gap-1.5 justify-center mt-2" }, formats.map((f) => /* @__PURE__ */ import_react71.default.createElement("span", { key: f, className: "text-[10px] px-2 py-1 rounded-full bg-[#F6E9DD] text-[#8A4A1D] font-medium" }, f)))
-    );
-  }
-  function UploadedFile({ icon: Icon3, name, meta, tint, fg }) {
-    return /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex items-center gap-3 rounded-xl p-3 border border-black/5", style: { background: tint } }, /* @__PURE__ */ import_react71.default.createElement("div", { className: "w-10 h-10 rounded-lg flex items-center justify-center shrink-0", style: { background: "white" } }, /* @__PURE__ */ import_react71.default.createElement(Icon3, { size: 18, style: { color: fg } })), /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex-1 min-w-0" }, /* @__PURE__ */ import_react71.default.createElement("div", { className: "text-sm font-medium truncate", style: { color: fg } }, name), /* @__PURE__ */ import_react71.default.createElement("div", { className: "text-[11px] opacity-70", style: { color: fg } }, meta)), /* @__PURE__ */ import_react71.default.createElement("button", { className: "text-gray-400 hover:text-gray-600" }, /* @__PURE__ */ import_react71.default.createElement(X, { size: 16 })));
-  }
-  function Chip({ label, active, onClick, color: color2 }) {
-    return /* @__PURE__ */ import_react71.default.createElement(
-      "button",
-      {
-        onClick,
-        className: "px-3 py-1.5 rounded-full text-xs font-medium border transition-colors",
-        style: active ? { background: color2 || NAVY3, borderColor: color2 || NAVY3, color: "white" } : { background: "white", borderColor: "#D8DEE9", color: "#5A6478" }
-      },
-      label
-    );
-  }
-  function ImportWizard({ active, onNavigate, userEmail, roleLabel, isAdmin, isGuest, onLogout, onOpenAdmin }) {
-    const [step, setStep] = (0, import_react71.useState)(1);
-    const [communes, setCommunes] = (0, import_react71.useState)(["Tchaourou", "P\xE9r\xE8r\xE8"]);
-    const [filieres, setFilieres] = (0, import_react71.useState)(["Coton"]);
-    const toggle = (list, setList, item) => setList(list.includes(item) ? list.filter((x2) => x2 !== item) : [...list, item]);
-    return /* @__PURE__ */ import_react71.default.createElement("div", { className: "min-h-screen relative bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans" }, /* @__PURE__ */ import_react71.default.createElement(Watermark2, null), /* @__PURE__ */ import_react71.default.createElement("div", { className: "relative z-10 flex" }, /* @__PURE__ */ import_react71.default.createElement(
-      "aside",
-      {
-        className: "w-60 min-h-screen shrink-0 py-6 px-4 text-[#C7D2E8]",
-        style: { background: `linear-gradient(180deg, ${NAVY3} 0%, #16294B 100%)` }
-      },
-      /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex flex-col items-start gap-1 px-2 mb-8" }, /* @__PURE__ */ import_react71.default.createElement("img", { src: "./logo-compact.png", alt: "AgriHakStat", className: "h-32 w-auto -ml-1" }), /* @__PURE__ */ import_react71.default.createElement("div", { className: "text-[10px] opacity-60" }, "DDAEP-Borgou")),
-      /* @__PURE__ */ import_react71.default.createElement("nav", { className: "space-y-1.5" }, nav2.map((item) => /* @__PURE__ */ import_react71.default.createElement(
-        "div",
-        {
-          key: item.id,
-          onClick: () => onNavigate(item.id),
-          className: `flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer text-sm transition-colors ${item.id === active ? "bg-[#16294B] text-white font-medium border-l-4" : "hover:bg-white/5"}`,
-          style: item.id === active ? { borderColor: GOLD2 } : {}
-        },
-        /* @__PURE__ */ import_react71.default.createElement(item.icon, { size: 17 }),
-        item.label
-      )))
-    ), /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex-1 min-h-screen" }, /* @__PURE__ */ import_react71.default.createElement(
-      "header",
-      {
-        className: "bg-white/70 backdrop-blur px-8 py-4 flex items-center justify-between",
-        style: { borderBottom: `2px solid ${GOLD2}` }
-      },
-      /* @__PURE__ */ import_react71.default.createElement("div", null, /* @__PURE__ */ import_react71.default.createElement("h1", { className: "font-serif text-xl font-bold", style: { color: NAVY3 } }, "Nouvelle enqu\xEAte"), /* @__PURE__ */ import_react71.default.createElement("p", { className: "text-xs text-gray-500 mt-0.5" }, "Assistant d'import \u2014 questionnaire, base et contexte d'\xE9tude")),
-      /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex items-center gap-4" }, /* @__PURE__ */ import_react71.default.createElement(Bell, { size: 18, className: "text-gray-400" }), /* @__PURE__ */ import_react71.default.createElement(
-        UserMenu,
-        {
-          email: userEmail,
-          roleLabel,
-          isAdmin,
-          isGuest,
-          onLogout,
-          onOpenAdmin
-        }
-      ))
-    ), /* @__PURE__ */ import_react71.default.createElement("main", { className: "p-8 max-w-4xl" }, /* @__PURE__ */ import_react71.default.createElement(Stepper, { current: step, setCurrent: setStep }), step === 1 && /* @__PURE__ */ import_react71.default.createElement(Card, null, /* @__PURE__ */ import_react71.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY3 } }, "Importer le questionnaire"), /* @__PURE__ */ import_react71.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, "Formats reconnus automatiquement : XLSForm/KoboToolbox, Akvo Flow, ODK, ou fichier Excel de structure libre."), /* @__PURE__ */ import_react71.default.createElement("div", { className: "grid grid-cols-2 gap-4" }, /* @__PURE__ */ import_react71.default.createElement(Dropzone, { label: "Glisser-d\xE9poser un fichier", hint: "ou cliquer pour parcourir", formats: ["XLSForm", "ODK", ".xlsx"] }), /* @__PURE__ */ import_react71.default.createElement("div", { className: "border-2 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center text-center gap-2 cursor-pointer hover:bg-[#FAFBFE]", style: { borderColor: "#C7D2E8" } }, /* @__PURE__ */ import_react71.default.createElement("div", { className: "w-12 h-12 rounded-xl flex items-center justify-center mb-1", style: { background: "#E4F5EC" } }, /* @__PURE__ */ import_react71.default.createElement(Link2, { size: 20, style: { color: "#256B45" } })), /* @__PURE__ */ import_react71.default.createElement("div", { className: "font-medium text-sm", style: { color: NAVY3 } }, "Connecter Akvo Flow / KoboToolbox"), /* @__PURE__ */ import_react71.default.createElement("div", { className: "text-xs text-gray-400" }, "Import direct via API"))), /* @__PURE__ */ import_react71.default.createElement("div", { className: "mt-5" }, /* @__PURE__ */ import_react71.default.createElement(UploadedFile, { icon: FileSpreadsheet, name: "Questionnaire_Suivi_Semis_2026-2027.xlsx", meta: "24 questions d\xE9tect\xE9es \xB7 import\xE9 il y a 2 min", tint: "#EBEEF7", fg: NAVY3 }))), step === 2 && /* @__PURE__ */ import_react71.default.createElement(Card, null, /* @__PURE__ */ import_react71.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY3 } }, "Importer la base de donn\xE9es"), /* @__PURE__ */ import_react71.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, "Fichier CSV/Excel, ou connexion directe \xE0 la source de collecte."), /* @__PURE__ */ import_react71.default.createElement("div", { className: "grid grid-cols-2 gap-4" }, /* @__PURE__ */ import_react71.default.createElement(Dropzone, { label: "Glisser-d\xE9poser un fichier", hint: "ou cliquer pour parcourir", formats: ["CSV", ".xlsx"] }), /* @__PURE__ */ import_react71.default.createElement("div", { className: "border-2 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center text-center gap-2 cursor-pointer hover:bg-[#FAFBFE]", style: { borderColor: "#C7D2E8" } }, /* @__PURE__ */ import_react71.default.createElement("div", { className: "w-12 h-12 rounded-xl flex items-center justify-center mb-1", style: { background: "#E4F5EC" } }, /* @__PURE__ */ import_react71.default.createElement(Link2, { size: 20, style: { color: "#256B45" } })), /* @__PURE__ */ import_react71.default.createElement("div", { className: "font-medium text-sm", style: { color: NAVY3 } }, "Connecter Akvo Flow / KoboToolbox"), /* @__PURE__ */ import_react71.default.createElement("div", { className: "text-xs text-gray-400" }, "Synchronisation automatique"))), /* @__PURE__ */ import_react71.default.createElement("div", { className: "mt-5 space-y-3" }, /* @__PURE__ */ import_react71.default.createElement(UploadedFile, { icon: FileCheckCorner, name: "Base_Semis_Decade3_Juillet2026.csv", meta: "2 479 enregistrements \xB7 31 colonnes", tint: "#E4F5EC", fg: "#256B45" }), /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex items-start gap-2 rounded-xl p-3 border border-black/5", style: { background: "#FDF1DA" } }, /* @__PURE__ */ import_react71.default.createElement(MapPin, { size: 16, style: { color: "#8A5A00" }, className: "mt-0.5" }), /* @__PURE__ */ import_react71.default.createElement("div", { className: "text-xs", style: { color: "#8A5A00" } }, /* @__PURE__ */ import_react71.default.createElement("span", { className: "font-medium" }, "5 colonnes de g\xE9olocalisation d\xE9tect\xE9es"), " (latitude, longitude) \u2014 la cartographie automatique (Module 8) sera disponible pour cette enqu\xEAte.")))), step === 3 && /* @__PURE__ */ import_react71.default.createElement(Card, null, /* @__PURE__ */ import_react71.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY3 } }, "Contexte de l'\xE9tude"), /* @__PURE__ */ import_react71.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, "Ces informations cadrent l'interpr\xE9tation narrative du rapport final."), /* @__PURE__ */ import_react71.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Objectif de l'\xE9tude"), /* @__PURE__ */ import_react71.default.createElement(
-      "textarea",
-      {
-        className: "w-full text-sm rounded-xl border border-gray-200 p-3 mb-5 resize-none focus:outline-none focus:ring-2",
-        style: { "--tw-ring-color": GOLD2 },
-        rows: 2,
-        defaultValue: "Suivre la progression d\xE9cadaire des semis de coton sur les communes \xE0 risque pluviom\xE9trique du Borgou."
-      }
-    ), /* @__PURE__ */ import_react71.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Zone g\xE9ographique (communes)"), /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex flex-wrap gap-2 mb-5" }, COMMUNES.map((c2) => /* @__PURE__ */ import_react71.default.createElement(Chip, { key: c2, label: c2, active: communes.includes(c2), onClick: () => toggle(communes, setCommunes, c2) }))), /* @__PURE__ */ import_react71.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Fili\xE8re(s) concern\xE9e(s)"), /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex flex-wrap gap-2 mb-5" }, Object.entries(FILIERES2).map(([f, c2]) => /* @__PURE__ */ import_react71.default.createElement(Chip, { key: f, label: f, active: filieres.includes(f), onClick: () => toggle(filieres, setFilieres, f), color: c2 }))), /* @__PURE__ */ import_react71.default.createElement("div", { className: "grid grid-cols-2 gap-4" }, /* @__PURE__ */ import_react71.default.createElement("div", null, /* @__PURE__ */ import_react71.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "P\xE9riode de r\xE9f\xE9rence"), /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex items-center gap-2" }, /* @__PURE__ */ import_react71.default.createElement("input", { type: "text", defaultValue: "10/06/2026", className: "w-full text-sm rounded-xl border border-gray-200 p-2.5 focus:outline-none focus:ring-2", style: { "--tw-ring-color": GOLD2 } }), /* @__PURE__ */ import_react71.default.createElement("span", { className: "text-gray-400 text-xs" }, "\u2192"), /* @__PURE__ */ import_react71.default.createElement("input", { type: "text", defaultValue: "20/07/2026", className: "w-full text-sm rounded-xl border border-gray-200 p-2.5 focus:outline-none focus:ring-2", style: { "--tw-ring-color": GOLD2 } }))), /* @__PURE__ */ import_react71.default.createElement("div", null, /* @__PURE__ */ import_react71.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Unit\xE9 d'analyse"), /* @__PURE__ */ import_react71.default.createElement("select", { className: "w-full text-sm rounded-xl border border-gray-200 p-2.5 focus:outline-none focus:ring-2", style: { "--tw-ring-color": GOLD2 } }, /* @__PURE__ */ import_react71.default.createElement("option", null, "Exploitation agricole"), /* @__PURE__ */ import_react71.default.createElement("option", null, "M\xE9nage"), /* @__PURE__ */ import_react71.default.createElement("option", null, "Parcelle"), /* @__PURE__ */ import_react71.default.createElement("option", null, "Commune"))))), step === 4 && /* @__PURE__ */ import_react71.default.createElement(Card, null, /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex items-center justify-between mb-1" }, /* @__PURE__ */ import_react71.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY3 } }, "Indicateurs de performance"), /* @__PURE__ */ import_react71.default.createElement("button", { className: "text-xs font-medium flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-white", style: { background: NAVY3 } }, /* @__PURE__ */ import_react71.default.createElement(Plus, { size: 14 }), " Ajouter un indicateur")), /* @__PURE__ */ import_react71.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, "Ces indicateurs seront mis en regard des analyses bivari\xE9es et de l'enrichissement climatique (Module 7)."), /* @__PURE__ */ import_react71.default.createElement("div", { className: "space-y-3" }, [
-      { name: "Taux de r\xE9alisation des semis", formule: "Superficie r\xE9alis\xE9e / Superficie pr\xE9vue \xD7 100", seuil: "75 %" },
-      { name: "Rendement moyen estim\xE9", formule: "Production estim\xE9e / Superficie r\xE9alis\xE9e", seuil: "ND \u2014 \xE0 renseigner" }
-    ].map((kpi) => /* @__PURE__ */ import_react71.default.createElement("div", { key: kpi.name, className: "flex items-center gap-3 rounded-xl border border-gray-100 p-3" }, /* @__PURE__ */ import_react71.default.createElement("div", { className: "w-8 h-8 rounded-lg flex items-center justify-center shrink-0", style: { background: "#EBEEF7" } }, /* @__PURE__ */ import_react71.default.createElement(ChartColumn, { size: 15, style: { color: NAVY3 } })), /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex-1" }, /* @__PURE__ */ import_react71.default.createElement("div", { className: "text-sm font-medium text-gray-800" }, kpi.name), /* @__PURE__ */ import_react71.default.createElement("div", { className: "text-[11px] text-gray-400" }, kpi.formule)), /* @__PURE__ */ import_react71.default.createElement("span", { className: "text-[11px] font-medium px-2 py-1 rounded-full", style: { background: "#FDF1DA", color: "#8A5A00" } }, "Seuil : ", kpi.seuil), /* @__PURE__ */ import_react71.default.createElement("button", { className: "text-gray-300 hover:text-red-400" }, /* @__PURE__ */ import_react71.default.createElement(Trash2, { size: 15 })))))), step === 5 && /* @__PURE__ */ import_react71.default.createElement(Card, null, /* @__PURE__ */ import_react71.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY3 } }, "Cartographie automatique des variables"), /* @__PURE__ */ import_react71.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, "Appariement propos\xE9 entre les items du questionnaire et les colonnes de la base \u2014 \xE0 valider avant lancement des analyses."), /* @__PURE__ */ import_react71.default.createElement("div", { className: "rounded-xl overflow-hidden border border-gray-100" }, /* @__PURE__ */ import_react71.default.createElement("table", { className: "w-full text-sm" }, /* @__PURE__ */ import_react71.default.createElement("thead", null, /* @__PURE__ */ import_react71.default.createElement("tr", { className: "text-left text-[11px] text-gray-400 uppercase bg-gray-50" }, /* @__PURE__ */ import_react71.default.createElement("th", { className: "px-4 py-2.5 font-medium" }, "Item du questionnaire"), /* @__PURE__ */ import_react71.default.createElement("th", { className: "px-4 py-2.5 font-medium" }, "Colonne base"), /* @__PURE__ */ import_react71.default.createElement("th", { className: "px-4 py-2.5 font-medium" }, "Type d\xE9tect\xE9"), /* @__PURE__ */ import_react71.default.createElement("th", { className: "px-4 py-2.5 font-medium" }, "Statut"))), /* @__PURE__ */ import_react71.default.createElement("tbody", null, [
-      { q: "Superficie sem\xE9e (ha)", col: "sup_semee_ha", type: "Quantitative continue", status: "ok" },
-      { q: "Fili\xE8re suivie", col: "filiere", type: "Nominale", status: "ok" },
-      { q: "Commune d'enqu\xEAte", col: "commune", type: "Nominale", status: "ok" },
-      { q: "Latitude / Longitude", col: "geo_lat / geo_lon", type: "G\xE9olocalisation", status: "geo" },
-      { q: "Niveau de satisfaction intrants", col: "satisf_intrants", type: "Ordinale", status: "warn" }
-    ].map((r2) => /* @__PURE__ */ import_react71.default.createElement("tr", { key: r2.q, className: "border-t border-gray-50" }, /* @__PURE__ */ import_react71.default.createElement("td", { className: "px-4 py-3 text-gray-800" }, r2.q), /* @__PURE__ */ import_react71.default.createElement("td", { className: "px-4 py-3 text-gray-500 font-mono text-xs" }, r2.col), /* @__PURE__ */ import_react71.default.createElement("td", { className: "px-4 py-3 text-gray-500" }, r2.type), /* @__PURE__ */ import_react71.default.createElement("td", { className: "px-4 py-3" }, r2.status === "ok" && /* @__PURE__ */ import_react71.default.createElement("span", { className: "inline-flex items-center gap-1 text-[11px] font-medium px-2 py-1 rounded-full", style: { background: "#E4F5EC", color: "#256B45" } }, /* @__PURE__ */ import_react71.default.createElement(Check, { size: 11 }), " Confirm\xE9"), r2.status === "geo" && /* @__PURE__ */ import_react71.default.createElement("span", { className: "inline-flex items-center gap-1 text-[11px] font-medium px-2 py-1 rounded-full", style: { background: "#EBEEF7", color: NAVY3 } }, /* @__PURE__ */ import_react71.default.createElement(MapPin, { size: 11 }), " G\xE9o d\xE9tect\xE9e"), r2.status === "warn" && /* @__PURE__ */ import_react71.default.createElement("span", { className: "inline-flex items-center gap-1 text-[11px] font-medium px-2 py-1 rounded-full", style: { background: "#FDF1DA", color: "#8A5A00" } }, /* @__PURE__ */ import_react71.default.createElement(CircleAlert, { size: 11 }), " \xC0 v\xE9rifier")))))))), /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex items-center justify-between mt-6" }, /* @__PURE__ */ import_react71.default.createElement(
-      "button",
-      {
-        onClick: () => setStep(Math.max(1, step - 1)),
-        disabled: step === 1,
-        className: "px-4 py-2.5 rounded-xl text-sm font-medium flex items-center gap-1.5 disabled:opacity-0 bg-white border border-gray-200 text-gray-600"
-      },
-      /* @__PURE__ */ import_react71.default.createElement(ChevronLeft, { size: 15 }),
-      " Pr\xE9c\xE9dent"
-    ), step < 5 ? /* @__PURE__ */ import_react71.default.createElement(
-      "button",
-      {
-        onClick: () => setStep(step + 1),
-        className: "px-5 py-2.5 rounded-xl text-sm font-medium flex items-center gap-1.5 text-white shadow-md",
-        style: { background: `linear-gradient(135deg, ${NAVY3}, #2A4A82)` }
-      },
-      "Suivant ",
-      /* @__PURE__ */ import_react71.default.createElement(ChevronRight, { size: 15 })
-    ) : /* @__PURE__ */ import_react71.default.createElement(
-      "button",
-      {
-        className: "px-5 py-2.5 rounded-xl text-sm font-medium flex items-center gap-1.5 text-white shadow-md",
-        style: { background: `linear-gradient(135deg, #3E9C6B, #256B45)` }
-      },
-      /* @__PURE__ */ import_react71.default.createElement(Check, { size: 15 }),
-      " Lancer les analyses"
-    ))))));
-  }
-
-  // src/AnalysisConfig.jsx
-  var import_react72 = __toESM(require_react());
-  var NAVY4 = "#1F3864";
-  var GOLD3 = "#C99A2E";
-  var GREEN = "#256B45";
-  var GREEN_TINT = "#E4F5EC";
-  var AMBER = "#8A5A00";
-  var AMBER_TINT = "#FDF1DA";
-  var NAVY_TINT = "#EBEEF7";
-  var nav3 = [
-    { id: "dashboard", label: "Tableau de bord", icon: LayoutDashboard },
-    { id: "import", label: "Assistant d'import", icon: ClipboardList },
-    { id: "config", label: "Configuration des analyses", icon: ChartColumn },
-    { id: "results", label: "R\xE9sultats & rapport", icon: FileText },
-    { id: "map", label: "Cartographie", icon: MapPin }
-  ];
-  var VARIABLES = [
-    { id: "sup_semee", label: "Superficie sem\xE9e (ha)", type: "Quantitative continue", normal: false },
-    { id: "rendement", label: "Rendement estim\xE9 (kg/ha)", type: "Quantitative continue", normal: true },
-    { id: "filiere", label: "Fili\xE8re suivie", type: "Nominale (5 modalit\xE9s)" },
-    { id: "commune", label: "Commune d'enqu\xEAte", type: "Nominale (8 modalit\xE9s)" },
-    { id: "satisf_intrants", label: "Satisfaction intrants", type: "Ordinale (4 niveaux)" },
-    { id: "acces_credit", label: "Acc\xE8s au cr\xE9dit agricole", type: "Nominale (2 modalit\xE9s)" },
-    { id: "pluvio_decade", label: "Pluviom\xE9trie d\xE9cadaire (mm)", type: "Quantitative continue", normal: true }
-  ];
-  function proposeTest(xId, yId) {
-    const x2 = VARIABLES.find((v) => v.id === xId);
-    const y2 = VARIABLES.find((v) => v.id === yId);
-    if (!x2 || !y2) return null;
-    const isQuantX = x2.type.startsWith("Quantitative");
-    const isQuantY = y2.type.startsWith("Quantitative");
-    if (isQuantX && isQuantY) {
-      const normal = x2.normal && y2.normal;
-      return {
-        test: normal ? "Corr\xE9lation de Pearson" : "Corr\xE9lation de Spearman",
-        justification: normal ? "Les deux variables suivent une distribution normale (test de Shapiro-Wilk, p > 0,05) : le coefficient de corr\xE9lation de Pearson est adapt\xE9." : "Au moins une variable s'\xE9carte de la normalit\xE9 (Shapiro-Wilk, p < 0,05) : le coefficient de corr\xE9lation de Spearman, non param\xE9trique, est privil\xE9gi\xE9.",
-        alternatives: ["Corr\xE9lation de Pearson", "Corr\xE9lation de Spearman"]
-      };
-    }
-    if (isQuantX !== isQuantY) {
-      const quant = isQuantX ? x2 : y2;
-      const qual = isQuantX ? y2 : x2;
-      const modalites = qual.type.includes("2 modalit\xE9s");
-      return {
-        test: modalites ? quant.normal ? "Test de Student" : "Test de Mann-Whitney" : quant.normal ? "ANOVA \xE0 un facteur" : "Test de Kruskal-Wallis",
-        justification: `Variable qualitative \xE0 ${modalites ? "deux" : "plusieurs"} modalit\xE9s crois\xE9e avec une variable quantitative ${quant.normal ? "normalement distribu\xE9e" : "ne suivant pas une loi normale (Shapiro-Wilk, p < 0,05)"}.`,
-        alternatives: modalites ? ["Test de Student", "Test de Mann-Whitney"] : ["ANOVA \xE0 un facteur", "Test de Kruskal-Wallis"]
-      };
-    }
-    return {
-      test: "Test du Khi\xB2 d'ind\xE9pendance",
-      justification: "Deux variables qualitatives : le test du Khi\xB2 \xE9value l'ind\xE9pendance, compl\xE9t\xE9 par le V de Cram\xE9r pour la force de l'association.",
-      alternatives: ["Test du Khi\xB2 d'ind\xE9pendance", "V de Cram\xE9r (mesure d'association)"]
-    };
-  }
-  function getConditions(test) {
-    const table = {
-      "Corr\xE9lation de Pearson": [
-        { label: "Lin\xE9arit\xE9 de la relation entre les deux variables", status: "ok", detail: "V\xE9rifi\xE9e par inspection du nuage de points" },
-        { label: "Normalit\xE9 bivari\xE9e (Shapiro-Wilk conjoint)", status: "ok", detail: "p = 0,184 \u2014 non significatif" },
-        { label: "Absence de valeurs aberrantes influentes", status: "warn", detail: "2 valeurs atypiques d\xE9tect\xE9es, \xE0 examiner" }
-      ],
-      "Corr\xE9lation de Spearman": [
-        { label: "Relation monotone entre les deux variables", status: "ok", detail: "Confirm\xE9e graphiquement" },
-        { label: "Absence d'ex-aequo excessifs", status: "ok" }
-      ],
-      "Test de Student": [
-        { label: "Normalit\xE9 par groupe (Shapiro-Wilk)", status: "ok", detail: "p = 0,21 et p = 0,17" },
-        { label: "Homog\xE9n\xE9it\xE9 des variances (test de Levene)", status: "ok", detail: "p = 0,312" },
-        { label: "Taille d'\xE9chantillon suffisante par groupe (n \u2265 30)", status: "ok", detail: "n = 42 / n = 38" }
-      ],
-      "Test de Mann-Whitney": [
-        { label: "Ind\xE9pendance des observations", status: "ok" },
-        { label: "Distributions de forme comparable entre les deux groupes", status: "warn", detail: "Asym\xE9trie mod\xE9r\xE9e du groupe 2" }
-      ],
-      "ANOVA \xE0 un facteur": [
-        { label: "Normalit\xE9 des r\xE9sidus (Shapiro-Wilk)", status: "warn", detail: "p = 0,041 \u2014 \xE9cart \xE0 la normalit\xE9" },
-        { label: "Homog\xE9n\xE9it\xE9 des variances (test de Levene)", status: "ok", detail: "p = 0,312" },
-        { label: "Taille d'\xE9chantillon suffisante par groupe (n \u2265 30)", status: "ok", detail: "n = 42" }
-      ],
-      "Test de Kruskal-Wallis": [
-        { label: "Ind\xE9pendance des observations", status: "ok" },
-        { label: "Distributions de forme comparable entre les groupes", status: "ok" }
-      ],
-      "Test du Khi\xB2 d'ind\xE9pendance": [
-        { label: "Effectifs th\xE9oriques \u2265 5 dans au moins 80 % des cellules", status: "ok", detail: "92 % des cellules conformes" },
-        { label: "Ind\xE9pendance des observations", status: "ok" }
-      ],
-      "V de Cram\xE9r (mesure d'association)": [
-        { label: "Effectifs th\xE9oriques suffisants", status: "ok" }
-      ]
-    };
-    return table[test] || [{ label: "Ind\xE9pendance des observations", status: "ok" }];
-  }
-  var STATUS_STYLE = {
-    ok: { icon: CircleCheck, color: GREEN, bg: GREEN_TINT, text: "Conforme" },
-    warn: { icon: TriangleAlert, color: AMBER, bg: AMBER_TINT, text: "\xC0 examiner" },
-    fail: { icon: CircleX, color: "#B3413A", bg: "#FBE7E5", text: "Non conforme" }
-  };
-  function Watermark3() {
-    return /* @__PURE__ */ import_react72.default.createElement("div", { className: "fixed inset-0 overflow-hidden pointer-events-none z-0 flex items-center justify-center" }, /* @__PURE__ */ import_react72.default.createElement(
-      "span",
-      {
-        className: "font-serif font-black whitespace-nowrap select-none",
-        style: { color: NAVY4, opacity: 0.06, fontSize: "13vw", letterSpacing: "-0.02em" }
-      },
-      "AgriHakStat"
-    ), /* @__PURE__ */ import_react72.default.createElement("span", { className: "absolute bottom-4 right-6 text-xs font-medium select-none", style: { color: NAVY4, opacity: 0.35 } }, "Con\xE7u par Hakibou MOUSSA"));
-  }
-  function Card2({ children, className = "" }) {
-    return /* @__PURE__ */ import_react72.default.createElement("div", { className: `bg-white rounded-2xl p-6 shadow-sm border border-black/5 ${className}` }, children);
-  }
-  function TabButton({ label, icon: Icon3, active, onClick }) {
-    return /* @__PURE__ */ import_react72.default.createElement(
-      "button",
-      {
-        onClick,
-        className: "flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-colors",
-        style: active ? { background: NAVY4, color: "white" } : { background: "white", color: "#5A6478", border: "1px solid #E4E6ED" }
-      },
-      /* @__PURE__ */ import_react72.default.createElement(Icon3, { size: 15 }),
-      " ",
-      label
-    );
-  }
-  function Select({ value, onChange, options, placeholder }) {
-    return /* @__PURE__ */ import_react72.default.createElement(
-      "select",
-      {
-        value: value || "",
-        onChange: (e) => onChange(e.target.value),
-        className: "w-full text-sm rounded-xl border border-gray-200 p-2.5 focus:outline-none focus:ring-2 bg-white",
-        style: { "--tw-ring-color": GOLD3 }
-      },
-      /* @__PURE__ */ import_react72.default.createElement("option", { value: "", disabled: true }, placeholder),
-      options.map((v) => /* @__PURE__ */ import_react72.default.createElement("option", { key: v.id, value: v.id }, v.label))
-    );
-  }
-  function AnalysisConfig({ active, onNavigate, userEmail, roleLabel, isAdmin, isGuest, onLogout, onOpenAdmin }) {
-    const [tab, setTab] = (0, import_react72.useState)("bivariee");
-    const [included, setIncluded] = (0, import_react72.useState)(["sup_semee", "rendement", "filiere", "commune", "pluvio_decade", "acces_credit"]);
-    const [x2, setX] = (0, import_react72.useState)("sup_semee");
-    const [y2, setY] = (0, import_react72.useState)("pluvio_decade");
-    const [override, setOverride] = (0, import_react72.useState)(null);
-    const [confirmed, setConfirmed] = (0, import_react72.useState)({});
-    const [queue, setQueue] = (0, import_react72.useState)([
-      { label: "Fili\xE8re suivie \xD7 Rendement estim\xE9", test: "ANOVA \xE0 un facteur", status: "auto", conditions: 3 }
-    ]);
-    const availableVars = VARIABLES.filter((v) => included.includes(v.id));
-    const toggleIncluded = (id) => setIncluded((prev) => prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]);
-    const proposal = proposeTest(x2, y2);
-    const activeTest = override || proposal?.test;
-    const xVar = VARIABLES.find((v) => v.id === x2);
-    const yVar = VARIABLES.find((v) => v.id === y2);
-    const conditions = activeTest ? getConditions(activeTest) : [];
-    const allConfirmed = conditions.length > 0 && conditions.every((_, i) => confirmed[i]);
-    (0, import_react72.useEffect)(() => {
-      setConfirmed({});
-    }, [activeTest, x2, y2]);
-    const addToQueue = () => {
-      if (!proposal || !allConfirmed) return;
-      setQueue([
-        ...queue,
-        {
-          label: `${xVar.label} \xD7 ${yVar.label}`,
-          test: activeTest,
-          status: override ? "adjusted" : "auto",
-          conditions: conditions.length
-        }
-      ]);
-      setOverride(null);
-      setConfirmed({});
-    };
-    return /* @__PURE__ */ import_react72.default.createElement("div", { className: "min-h-screen relative bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans" }, /* @__PURE__ */ import_react72.default.createElement(Watermark3, null), /* @__PURE__ */ import_react72.default.createElement("div", { className: "relative z-10 flex" }, /* @__PURE__ */ import_react72.default.createElement(
-      "aside",
-      {
-        className: "w-60 min-h-screen shrink-0 py-6 px-4 text-[#C7D2E8]",
-        style: { background: `linear-gradient(180deg, ${NAVY4} 0%, #16294B 100%)` }
-      },
-      /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex flex-col items-start gap-1 px-2 mb-8" }, /* @__PURE__ */ import_react72.default.createElement("img", { src: "./logo-compact.png", alt: "AgriHakStat", className: "h-32 w-auto -ml-1" }), /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-[10px] opacity-60" }, "DDAEP-Borgou")),
-      /* @__PURE__ */ import_react72.default.createElement("nav", { className: "space-y-1.5" }, nav3.map((item) => /* @__PURE__ */ import_react72.default.createElement(
-        "div",
-        {
-          key: item.id,
-          onClick: () => onNavigate(item.id),
-          className: `flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer text-sm transition-colors ${item.id === active ? "bg-[#16294B] text-white font-medium border-l-4" : "hover:bg-white/5"}`,
-          style: item.id === active ? { borderColor: GOLD3 } : {}
-        },
-        /* @__PURE__ */ import_react72.default.createElement(item.icon, { size: 17 }),
-        item.label
-      )))
-    ), /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex-1 min-h-screen" }, /* @__PURE__ */ import_react72.default.createElement(
-      "header",
-      {
-        className: "bg-white/70 backdrop-blur px-8 py-4 flex items-center justify-between",
-        style: { borderBottom: `2px solid ${GOLD3}` }
-      },
-      /* @__PURE__ */ import_react72.default.createElement("div", null, /* @__PURE__ */ import_react72.default.createElement("h1", { className: "font-serif text-xl font-bold", style: { color: NAVY4 } }, "Configuration des analyses"), /* @__PURE__ */ import_react72.default.createElement("p", { className: "text-xs text-gray-500 mt-0.5" }, "Suivi semis 2026-2027 \xB7 D\xE9cade 3 \u2014 Coton, Tchaourou & P\xE9r\xE8r\xE8")),
-      /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex items-center gap-4" }, /* @__PURE__ */ import_react72.default.createElement(Bell, { size: 18, className: "text-gray-400" }), /* @__PURE__ */ import_react72.default.createElement(
-        UserMenu,
-        {
-          email: userEmail,
-          roleLabel,
-          isAdmin,
-          isGuest,
-          onLogout,
-          onOpenAdmin
-        }
-      ))
-    ), /* @__PURE__ */ import_react72.default.createElement("main", { className: "p-8 grid grid-cols-3 gap-6" }, /* @__PURE__ */ import_react72.default.createElement("div", { className: "col-span-2" }, /* @__PURE__ */ import_react72.default.createElement(Card2, { className: "mb-5" }, /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex items-center gap-2 mb-1" }, /* @__PURE__ */ import_react72.default.createElement(ShieldCheck, { size: 16, style: { color: NAVY4 } }), /* @__PURE__ */ import_react72.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY4 } }, "Variables retenues pour cette session")), /* @__PURE__ */ import_react72.default.createElement("p", { className: "text-xs text-gray-400 mb-3" }, "Seules les variables coch\xE9es seront propos\xE9es dans les analyses ci-dessous."), /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex flex-wrap gap-2" }, VARIABLES.map((v) => /* @__PURE__ */ import_react72.default.createElement(
-      "button",
-      {
-        key: v.id,
-        onClick: () => toggleIncluded(v.id),
-        className: "px-3 py-1.5 rounded-full text-xs font-medium border transition-colors",
-        style: included.includes(v.id) ? { background: NAVY_TINT, borderColor: NAVY4, color: NAVY4 } : { background: "white", borderColor: "#D8DEE9", color: "#B0B7C6" }
-      },
-      included.includes(v.id) ? /* @__PURE__ */ import_react72.default.createElement(Check, { size: 11, className: "inline mr-1 -mt-0.5" }) : null,
-      v.label
-    )))), /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex gap-2 mb-5" }, /* @__PURE__ */ import_react72.default.createElement(TabButton, { label: "Univari\xE9e", icon: Sigma, active: tab === "univariee", onClick: () => setTab("univariee") }), /* @__PURE__ */ import_react72.default.createElement(TabButton, { label: "Bivari\xE9e", icon: TrendingUp, active: tab === "bivariee", onClick: () => setTab("bivariee") }), /* @__PURE__ */ import_react72.default.createElement(TabButton, { label: "Multivari\xE9e", icon: Layers, active: tab === "multivariee", onClick: () => setTab("multivariee") })), tab === "bivariee" && /* @__PURE__ */ import_react72.default.createElement(Card2, null, /* @__PURE__ */ import_react72.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY4 } }, "Analyse bivari\xE9e"), /* @__PURE__ */ import_react72.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, "S\xE9lectionnez deux variables : le test statistique adapt\xE9 est propos\xE9 automatiquement."), /* @__PURE__ */ import_react72.default.createElement("div", { className: "grid grid-cols-2 gap-4 mb-5" }, /* @__PURE__ */ import_react72.default.createElement("div", null, /* @__PURE__ */ import_react72.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Variable X"), /* @__PURE__ */ import_react72.default.createElement(Select, { value: x2, onChange: (v) => {
-      setX(v);
-      setOverride(null);
-    }, options: availableVars, placeholder: "Choisir une variable" }), xVar && /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-[11px] text-gray-400 mt-1" }, xVar.type)), /* @__PURE__ */ import_react72.default.createElement("div", null, /* @__PURE__ */ import_react72.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Variable Y"), /* @__PURE__ */ import_react72.default.createElement(Select, { value: y2, onChange: (v) => {
-      setY(v);
-      setOverride(null);
-    }, options: availableVars, placeholder: "Choisir une variable" }), yVar && /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-[11px] text-gray-400 mt-1" }, yVar.type))), proposal && /* @__PURE__ */ import_react72.default.createElement(import_react72.default.Fragment, null, /* @__PURE__ */ import_react72.default.createElement("div", { className: "rounded-2xl p-4 border mb-4", style: { background: override ? AMBER_TINT : NAVY_TINT, borderColor: "transparent" } }, /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex items-center justify-between mb-2" }, /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex items-center gap-2" }, /* @__PURE__ */ import_react72.default.createElement(WandSparkles, { size: 15, style: { color: override ? AMBER : NAVY4 } }), /* @__PURE__ */ import_react72.default.createElement("span", { className: "text-sm font-semibold", style: { color: override ? AMBER : NAVY4 } }, activeTest)), /* @__PURE__ */ import_react72.default.createElement(
-      "span",
-      {
-        className: "text-[11px] font-medium px-2 py-1 rounded-full",
-        style: { background: "white", color: override ? AMBER : NAVY4 }
-      },
-      override ? "Ajust\xE9 par l'analyste" : "Propos\xE9 automatiquement"
-    )), /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex items-start gap-1.5 text-xs mb-3", style: { color: override ? AMBER : "#3A5488" } }, /* @__PURE__ */ import_react72.default.createElement(Info, { size: 13, className: "mt-0.5 shrink-0" }), /* @__PURE__ */ import_react72.default.createElement("span", null, proposal.justification)), /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex items-center gap-2" }, /* @__PURE__ */ import_react72.default.createElement(Pencil, { size: 13, className: "text-gray-400" }), /* @__PURE__ */ import_react72.default.createElement(
-      "select",
-      {
-        value: activeTest,
-        onChange: (e) => setOverride(e.target.value === proposal.test ? null : e.target.value),
-        className: "text-xs rounded-lg border border-gray-200 p-1.5 bg-white focus:outline-none"
-      },
-      proposal.alternatives.map((a2) => /* @__PURE__ */ import_react72.default.createElement("option", { key: a2, value: a2 }, a2))
-    ), /* @__PURE__ */ import_react72.default.createElement("span", { className: "text-[11px] text-gray-400" }, "Ajuster le test si n\xE9cessaire"))), /* @__PURE__ */ import_react72.default.createElement("div", { className: "rounded-2xl p-4 border border-gray-100" }, /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex items-center gap-2 mb-3" }, /* @__PURE__ */ import_react72.default.createElement(ShieldCheck, { size: 15, style: { color: NAVY4 } }), /* @__PURE__ */ import_react72.default.createElement("span", { className: "text-sm font-semibold", style: { color: NAVY4 } }, "Conditions de validation du test")), /* @__PURE__ */ import_react72.default.createElement("div", { className: "space-y-2" }, conditions.map((c2, i) => {
-      const s2 = STATUS_STYLE[c2.status];
-      const Icon3 = s2.icon;
-      return /* @__PURE__ */ import_react72.default.createElement("label", { key: i, className: "flex items-start gap-3 rounded-xl p-2.5 cursor-pointer", style: { background: s2.bg } }, /* @__PURE__ */ import_react72.default.createElement(
-        "input",
-        {
-          type: "checkbox",
-          checked: !!confirmed[i],
-          onChange: (e) => setConfirmed({ ...confirmed, [i]: e.target.checked }),
-          className: "w-4 h-4 rounded mt-0.5",
-          style: { accentColor: s2.color }
-        }
-      ), /* @__PURE__ */ import_react72.default.createElement(Icon3, { size: 15, style: { color: s2.color }, className: "mt-0.5 shrink-0" }), /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex-1" }, /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-xs font-medium", style: { color: s2.color } }, c2.label), c2.detail && /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-[11px] text-gray-500 mt-0.5" }, c2.detail)), /* @__PURE__ */ import_react72.default.createElement("span", { className: "text-[10px] font-semibold shrink-0", style: { color: s2.color } }, s2.text));
-    })), /* @__PURE__ */ import_react72.default.createElement("p", { className: "text-[11px] text-gray-400 mt-3" }, "Chaque condition \u2014 y compris celles jug\xE9es conformes \u2014 requiert une confirmation explicite avant l'ex\xE9cution de l'analyse."))), /* @__PURE__ */ import_react72.default.createElement(
-      "button",
-      {
-        onClick: addToQueue,
-        disabled: !allConfirmed,
-        className: "mt-5 px-4 py-2.5 rounded-xl text-sm font-medium flex items-center gap-1.5 text-white shadow-md disabled:opacity-40 disabled:cursor-not-allowed",
-        style: { background: allConfirmed ? `linear-gradient(135deg, ${NAVY4}, #2A4A82)` : "#B0B7C6" }
-      },
-      /* @__PURE__ */ import_react72.default.createElement(Plus, { size: 15 }),
-      " ",
-      allConfirmed ? "Ajouter \xE0 la file d'analyses" : `Confirmer les ${conditions.length} conditions pour continuer`
-    )), tab === "univariee" && /* @__PURE__ */ import_react72.default.createElement(Card2, null, /* @__PURE__ */ import_react72.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY4 } }, "Analyse univari\xE9e"), /* @__PURE__ */ import_react72.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, "Cochez les variables \xE0 d\xE9crire : les statistiques calcul\xE9es s'adaptent au type d\xE9tect\xE9."), /* @__PURE__ */ import_react72.default.createElement("div", { className: "space-y-2" }, availableVars.map((v) => /* @__PURE__ */ import_react72.default.createElement("label", { key: v.id, className: "flex items-center justify-between rounded-xl border border-gray-100 p-3 cursor-pointer hover:bg-gray-50" }, /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex items-center gap-3" }, /* @__PURE__ */ import_react72.default.createElement("input", { type: "checkbox", defaultChecked: ["sup_semee", "filiere"].includes(v.id), className: "w-4 h-4 rounded", style: { accentColor: NAVY4 } }), /* @__PURE__ */ import_react72.default.createElement("span", { className: "text-sm text-gray-800" }, v.label)), /* @__PURE__ */ import_react72.default.createElement("span", { className: "text-[11px] text-gray-400" }, v.type.startsWith("Quantitative") ? "Moyenne, m\xE9diane, \xE9cart-type" : "Fr\xE9quences, mode"))))), tab === "multivariee" && /* @__PURE__ */ import_react72.default.createElement(Card2, null, /* @__PURE__ */ import_react72.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY4 } }, "Analyse multivari\xE9e"), /* @__PURE__ */ import_react72.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, "Choisissez la m\xE9thode, puis les variables \xE0 inclure."), /* @__PURE__ */ import_react72.default.createElement("div", { className: "grid grid-cols-2 gap-3 mb-5" }, ["ACP", "AFC", "Classification (CAH)", "R\xE9gression multiple"].map((m, i) => /* @__PURE__ */ import_react72.default.createElement(
-      "label",
-      {
-        key: m,
-        className: `flex items-center gap-2 rounded-xl border p-3 cursor-pointer text-sm ${i === 3 ? "border-2" : "border-gray-100"}`,
-        style: i === 3 ? { borderColor: GOLD3, background: "#FDF9F0" } : {}
-      },
-      /* @__PURE__ */ import_react72.default.createElement("input", { type: "radio", name: "method", defaultChecked: i === 3, style: { accentColor: NAVY4 } }),
-      m
-    ))), /* @__PURE__ */ import_react72.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Variable d\xE9pendante"), /* @__PURE__ */ import_react72.default.createElement(Select, { value: "rendement", onChange: () => {
-    }, options: availableVars, placeholder: "Choisir" }), /* @__PURE__ */ import_react72.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5 mt-4" }, "Variables explicatives"), /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex flex-wrap gap-2 mb-4" }, ["Superficie sem\xE9e", "Pluviom\xE9trie d\xE9cadaire", "Acc\xE8s au cr\xE9dit", "Satisfaction intrants"].map((v) => /* @__PURE__ */ import_react72.default.createElement("span", { key: v, className: "text-xs px-3 py-1.5 rounded-full font-medium", style: { background: NAVY_TINT, color: NAVY4 } }, v))), /* @__PURE__ */ import_react72.default.createElement("div", { className: "rounded-2xl p-4 border border-gray-100" }, /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex items-center gap-2 mb-2" }, /* @__PURE__ */ import_react72.default.createElement(ShieldCheck, { size: 15, style: { color: NAVY4 } }), /* @__PURE__ */ import_react72.default.createElement("span", { className: "text-sm font-semibold", style: { color: NAVY4 } }, "Conditions de validation du mod\xE8le")), /* @__PURE__ */ import_react72.default.createElement("div", { className: "space-y-2" }, [
-      { label: "Absence de multicolin\xE9arit\xE9 (VIF < 5 pour chaque variable explicative)", status: "ok", detail: "VIF max = 2,1" },
-      { label: "Normalit\xE9 des r\xE9sidus (Shapiro-Wilk)", status: "ok", detail: "p = 0,22" },
-      { label: "Homosc\xE9dasticit\xE9 des r\xE9sidus", status: "warn", detail: "Tendance l\xE9g\xE8re \xE0 examiner" }
-    ].map((c2, i) => {
-      const s2 = STATUS_STYLE[c2.status];
-      const Icon3 = s2.icon;
-      return /* @__PURE__ */ import_react72.default.createElement("label", { key: i, className: "flex items-start gap-3 rounded-xl p-2.5 cursor-pointer", style: { background: s2.bg } }, /* @__PURE__ */ import_react72.default.createElement("input", { type: "checkbox", className: "w-4 h-4 rounded mt-0.5", style: { accentColor: s2.color } }), /* @__PURE__ */ import_react72.default.createElement(Icon3, { size: 15, style: { color: s2.color }, className: "mt-0.5 shrink-0" }), /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex-1" }, /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-xs font-medium", style: { color: s2.color } }, c2.label), /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-[11px] text-gray-500 mt-0.5" }, c2.detail)), /* @__PURE__ */ import_react72.default.createElement("span", { className: "text-[10px] font-semibold shrink-0", style: { color: s2.color } }, s2.text));
-    }))))), /* @__PURE__ */ import_react72.default.createElement("div", null, /* @__PURE__ */ import_react72.default.createElement(Card2, null, /* @__PURE__ */ import_react72.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY4 } }, "File d'analyses configur\xE9es"), /* @__PURE__ */ import_react72.default.createElement("p", { className: "text-xs text-gray-400 mb-4" }, queue.length, " analyse", queue.length > 1 ? "s" : "", " pr\xEAte", queue.length > 1 ? "s" : "", " \xE0 ex\xE9cuter"), /* @__PURE__ */ import_react72.default.createElement("div", { className: "space-y-2 mb-5" }, queue.map((item, i) => /* @__PURE__ */ import_react72.default.createElement("div", { key: i, className: "flex items-start gap-2 rounded-xl border border-gray-100 p-3" }, /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex-1" }, /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-xs font-medium text-gray-800" }, item.label), /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-[11px] text-gray-500 mt-0.5" }, item.test), /* @__PURE__ */ import_react72.default.createElement(
-      "span",
-      {
-        className: "inline-flex items-center gap-1 text-[10px] font-medium px-1.5 py-0.5 rounded-full mt-1",
-        style: item.status === "adjusted" ? { background: AMBER_TINT, color: AMBER } : { background: GREEN_TINT, color: GREEN }
-      },
-      item.status === "adjusted" ? /* @__PURE__ */ import_react72.default.createElement(Pencil, { size: 9 }) : /* @__PURE__ */ import_react72.default.createElement(Check, { size: 9 }),
-      item.status === "adjusted" ? "Ajust\xE9" : "Auto",
-      " \xB7 ",
-      item.conditions,
-      " condition",
-      item.conditions > 1 ? "s" : "",
-      " valid\xE9e",
-      item.conditions > 1 ? "s" : ""
-    )), /* @__PURE__ */ import_react72.default.createElement("button", { onClick: () => setQueue(queue.filter((_, idx) => idx !== i)), className: "text-gray-300 hover:text-red-400" }, /* @__PURE__ */ import_react72.default.createElement(X, { size: 14 })))), queue.length === 0 && /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-xs text-gray-400 italic" }, "Aucune analyse ajout\xE9e pour l'instant.")), /* @__PURE__ */ import_react72.default.createElement(
-      "button",
-      {
-        className: "w-full px-4 py-2.5 rounded-xl text-sm font-medium flex items-center justify-center gap-1.5 text-white shadow-md",
-        style: { background: `linear-gradient(135deg, #3E9C6B, ${GREEN})` }
-      },
-      /* @__PURE__ */ import_react72.default.createElement(Play, { size: 14 }),
-      " Lancer les analyses"
-    )))))));
-  }
-
-  // src/ResultsReport.jsx
-  var import_react73 = __toESM(require_react());
-  var NAVY5 = "#1F3864";
-  var GOLD4 = "#C99A2E";
-  var GREEN2 = "#256B45";
-  var GREEN_TINT2 = "#E4F5EC";
-  var AMBER2 = "#8A5A00";
-  var AMBER_TINT2 = "#FDF1DA";
-  var NAVY_TINT2 = "#EBEEF7";
-  var FILIERES3 = {
-    Soja: "#3E9C6B",
-    Ma\u00EFs: "#F0AC1B",
-    Riz: "#3592C4",
-    Manioc: "#B5651D",
-    Coton: "#6C7DAE"
-  };
-  var nav4 = [
-    { id: "dashboard", label: "Tableau de bord", icon: LayoutDashboard },
-    { id: "import", label: "Assistant d'import", icon: ClipboardList },
-    { id: "config", label: "Configuration des analyses", icon: ChartColumn },
-    { id: "results", label: "R\xE9sultats & rapport", icon: FileText },
-    { id: "map", label: "Cartographie", icon: MapPin }
-  ];
-  var rendementParFiliere = [
-    { filiere: "Coton", moyenne: 1120, ecart: [90, 90] },
-    { filiere: "Ma\xEFs", moyenne: 1840, ecart: [140, 140] },
-    { filiere: "Riz", moyenne: 2210, ecart: [180, 180] },
-    { filiere: "Soja", moyenne: 1360, ecart: [110, 110] },
-    { filiere: "Manioc", moyenne: 9800, ecart: [620, 620] }
-  ];
-  var CLIMAT_COMMUNES = [
-    { name: "Sinend\xE9", x: 30, y: 10, mm: 108 },
-    { name: "Kalal\xE9", x: 68, y: 14, mm: 101 },
-    { name: "Bemb\xE9r\xE9k\xE9", x: 42, y: 30, mm: 95 },
-    { name: "N'Dali", x: 18, y: 48, mm: 84 },
-    { name: "P\xE9r\xE8r\xE8", x: 66, y: 42, mm: 61 },
-    { name: "Parakou", x: 40, y: 55, mm: 76 },
-    { name: "Nikki", x: 70, y: 62, mm: 89 },
-    { name: "Tchaourou", x: 34, y: 82, mm: 58 }
-  ];
-  function rainColor(mm) {
-    if (mm < 65) return "#C99A2E";
-    if (mm < 80) return "#8FAECB";
-    if (mm < 95) return "#4A7AB5";
-    return "#1F3864";
-  }
-  var scatterData = Array.from({ length: 24 }).map((_, i) => ({
-    x: 40 + i * 3 + i % 3 * 6,
-    y: 30 + i * 2.4 + i * 7 % 15
-  }));
-  var coefficients = [
-    { variable: "Superficie sem\xE9e (ha)", coef: "+18,4", p: "0,002", sig: true },
-    { variable: "Pluviom\xE9trie d\xE9cadaire (mm)", coef: "+6,1", p: "0,011", sig: true },
-    { variable: "Acc\xE8s au cr\xE9dit agricole", coef: "+142,7", p: "0,048", sig: true },
-    { variable: "Satisfaction intrants", coef: "+22,3", p: "0,192", sig: false }
-  ];
-  var annexTables = [
-    { id: "A1", title: "Statistiques descriptives \u2014 Superficie sem\xE9e (ha)", type: "Univari\xE9e", status: "auto", time: "10:42" },
-    { id: "A2", title: "ANOVA \u2014 Fili\xE8re suivie \xD7 Rendement estim\xE9", type: "Bivari\xE9e", status: "adjusted", time: "10:47" },
-    { id: "A3", title: "Corr\xE9lation de Spearman \u2014 Superficie sem\xE9e \xD7 Pluviom\xE9trie", type: "Bivari\xE9e", status: "auto", time: "10:51" },
-    { id: "A4", title: "R\xE9gression multiple \u2014 Mod\xE8le explicatif du rendement", type: "Multivari\xE9e", status: "auto", time: "10:58" }
-  ];
-  var reportSections = [
-    "1. Contexte de l'\xE9tude",
-    "2. Objectifs",
-    "3. Indicateurs de performance mesur\xE9s",
-    "4. M\xE9thodologie",
-    "5. R\xE9sultats",
-    "6. Analyse",
-    "7. Recommandations",
-    "8. Conclusion"
-  ];
-  function Watermark4() {
-    return /* @__PURE__ */ import_react73.default.createElement("div", { className: "fixed inset-0 overflow-hidden pointer-events-none z-0 flex items-center justify-center" }, /* @__PURE__ */ import_react73.default.createElement(
-      "span",
-      {
-        className: "font-serif font-black whitespace-nowrap select-none",
-        style: { color: NAVY5, opacity: 0.06, fontSize: "13vw", letterSpacing: "-0.02em" }
-      },
-      "AgriHakStat"
-    ), /* @__PURE__ */ import_react73.default.createElement("span", { className: "absolute bottom-4 right-6 text-xs font-medium select-none", style: { color: NAVY5, opacity: 0.35 } }, "Con\xE7u par Hakibou MOUSSA"));
-  }
-  function Card3({ children, className = "" }) {
-    return /* @__PURE__ */ import_react73.default.createElement("div", { className: `bg-white rounded-2xl p-6 shadow-sm border border-black/5 ${className}` }, children);
-  }
-  function StatusBadge({ status }) {
-    const adjusted = status === "adjusted";
-    return /* @__PURE__ */ import_react73.default.createElement(
-      "span",
-      {
-        className: "inline-flex items-center gap-1 text-[10px] font-medium px-2 py-1 rounded-full",
-        style: adjusted ? { background: AMBER_TINT2, color: AMBER2 } : { background: GREEN_TINT2, color: GREEN2 }
-      },
-      adjusted ? /* @__PURE__ */ import_react73.default.createElement(Pencil, { size: 9 }) : /* @__PURE__ */ import_react73.default.createElement(Check, { size: 9 }),
-      adjusted ? "Ajust\xE9 par l'analyste" : "Propos\xE9 automatiquement"
-    );
-  }
-  function ResultHeader({ title, subtitle, status }) {
-    return /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-start justify-between mb-3" }, /* @__PURE__ */ import_react73.default.createElement("div", null, /* @__PURE__ */ import_react73.default.createElement("h3", { className: "font-serif font-semibold text-sm", style: { color: NAVY5 } }, title), /* @__PURE__ */ import_react73.default.createElement("p", { className: "text-[11px] text-gray-400 mt-0.5" }, subtitle)), /* @__PURE__ */ import_react73.default.createElement(StatusBadge, { status }));
-  }
-  function ObjectiveGroup({ number: number4, title, indicator, children }) {
-    return /* @__PURE__ */ import_react73.default.createElement("div", { className: "rounded-2xl border-2 border-dashed p-1", style: { borderColor: "#D8C48A" } }, /* @__PURE__ */ import_react73.default.createElement("div", { className: "px-4 py-3 flex items-center gap-3" }, /* @__PURE__ */ import_react73.default.createElement("div", { className: "w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold text-white shrink-0", style: { background: GOLD4 } }, number4), /* @__PURE__ */ import_react73.default.createElement("div", null, /* @__PURE__ */ import_react73.default.createElement("div", { className: "text-sm font-serif font-semibold", style: { color: NAVY5 } }, title), /* @__PURE__ */ import_react73.default.createElement("div", { className: "text-[11px] text-gray-500" }, "Indicateur suivi : ", indicator))), /* @__PURE__ */ import_react73.default.createElement("div", { className: "space-y-3 px-1 pb-1" }, children));
-  }
-  function ClimateMap() {
-    return /* @__PURE__ */ import_react73.default.createElement("div", { className: "grid grid-cols-3 gap-4" }, /* @__PURE__ */ import_react73.default.createElement("div", { className: "col-span-2 relative rounded-xl bg-[#F7F9FC] border border-gray-100", style: { height: 210 } }, /* @__PURE__ */ import_react73.default.createElement("svg", { viewBox: "0 0 100 100", className: "w-full h-full" }, CLIMAT_COMMUNES.map((c2) => /* @__PURE__ */ import_react73.default.createElement("g", { key: c2.name }, /* @__PURE__ */ import_react73.default.createElement("circle", { cx: c2.x, cy: c2.y, r: 7.5, fill: rainColor(c2.mm), opacity: 0.88 }), /* @__PURE__ */ import_react73.default.createElement("circle", { cx: c2.x, cy: c2.y, r: 7.5, fill: "none", stroke: "white", strokeWidth: 0.6 }), /* @__PURE__ */ import_react73.default.createElement("text", { x: c2.x, y: c2.y - 10, fontSize: "3.4", textAnchor: "middle", fill: "#4A5568", fontWeight: "600" }, c2.name), /* @__PURE__ */ import_react73.default.createElement("text", { x: c2.x, y: c2.y + 1.2, fontSize: "3", textAnchor: "middle", fill: "white", fontWeight: "700" }, c2.mm)))), /* @__PURE__ */ import_react73.default.createElement("span", { className: "absolute bottom-2 right-3 text-[9px] text-gray-400 italic" }, "Interpolation IDW \u2014 illustrative")), /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex flex-col justify-center gap-2" }, /* @__PURE__ */ import_react73.default.createElement("div", { className: "text-[10px] font-medium text-gray-500 mb-1" }, "Cumul pluviom\xE9trique d\xE9cadaire (mm)"), [
-      ["#C99A2E", "< 65 mm \u2014 d\xE9ficitaire"],
-      ["#8FAECB", "65 \u2013 80 mm"],
-      ["#4A7AB5", "80 \u2013 95 mm"],
-      ["#1F3864", "\u2265 95 mm"]
-    ].map(([color2, label]) => /* @__PURE__ */ import_react73.default.createElement("div", { key: label, className: "flex items-center gap-2" }, /* @__PURE__ */ import_react73.default.createElement("span", { className: "w-3 h-3 rounded-full shrink-0", style: { background: color2 } }), /* @__PURE__ */ import_react73.default.createElement("span", { className: "text-[10px] text-gray-500" }, label)))));
-  }
-  function ResultsReport({ active, onNavigate, userEmail, roleLabel, isAdmin, isGuest, onLogout, onOpenAdmin }) {
-    const [sections, setSections] = (0, import_react73.useState)(reportSections);
-    const [format2, setFormat] = (0, import_react73.useState)("docx");
-    const toggleSection = (s2) => setSections((prev) => prev.includes(s2) ? prev.filter((i) => i !== s2) : [...prev, s2]);
-    return /* @__PURE__ */ import_react73.default.createElement("div", { className: "min-h-screen relative bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans" }, /* @__PURE__ */ import_react73.default.createElement(Watermark4, null), /* @__PURE__ */ import_react73.default.createElement("div", { className: "relative z-10 flex" }, /* @__PURE__ */ import_react73.default.createElement(
-      "aside",
-      {
-        className: "w-60 min-h-screen shrink-0 py-6 px-4 text-[#C7D2E8]",
-        style: { background: `linear-gradient(180deg, ${NAVY5} 0%, #16294B 100%)` }
-      },
-      /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex flex-col items-start gap-1 px-2 mb-8" }, /* @__PURE__ */ import_react73.default.createElement("img", { src: "./logo-compact.png", alt: "AgriHakStat", className: "h-32 w-auto -ml-1" }), /* @__PURE__ */ import_react73.default.createElement("div", { className: "text-[10px] opacity-60" }, "DDAEP-Borgou")),
-      /* @__PURE__ */ import_react73.default.createElement("nav", { className: "space-y-1.5" }, nav4.map((item) => /* @__PURE__ */ import_react73.default.createElement(
-        "div",
-        {
-          key: item.id,
-          onClick: () => onNavigate(item.id),
-          className: `flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer text-sm transition-colors ${item.id === active ? "bg-[#16294B] text-white font-medium border-l-4" : "hover:bg-white/5"}`,
-          style: item.id === active ? { borderColor: GOLD4 } : {}
-        },
-        /* @__PURE__ */ import_react73.default.createElement(item.icon, { size: 17 }),
-        item.label
-      )))
-    ), /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex-1 min-h-screen" }, /* @__PURE__ */ import_react73.default.createElement(
-      "header",
-      {
-        className: "bg-white/70 backdrop-blur px-8 py-4 flex items-center justify-between",
-        style: { borderBottom: `2px solid ${GOLD4}` }
-      },
-      /* @__PURE__ */ import_react73.default.createElement("div", null, /* @__PURE__ */ import_react73.default.createElement("h1", { className: "font-serif text-xl font-bold", style: { color: NAVY5 } }, "R\xE9sultats & rapport final"), /* @__PURE__ */ import_react73.default.createElement("p", { className: "text-xs text-gray-500 mt-0.5" }, "Suivi semis 2026-2027 \xB7 D\xE9cade 3 \u2014 4 analyses ex\xE9cut\xE9es")),
-      /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center gap-4" }, /* @__PURE__ */ import_react73.default.createElement(Bell, { size: 18, className: "text-gray-400" }), /* @__PURE__ */ import_react73.default.createElement(
-        UserMenu,
-        {
-          email: userEmail,
-          roleLabel,
-          isAdmin,
-          isGuest,
-          onLogout,
-          onOpenAdmin
-        }
-      ))
-    ), /* @__PURE__ */ import_react73.default.createElement("main", { className: "p-8 grid grid-cols-3 gap-6" }, /* @__PURE__ */ import_react73.default.createElement("div", { className: "col-span-2 space-y-5" }, /* @__PURE__ */ import_react73.default.createElement(Card3, null, /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center gap-2 mb-1" }, /* @__PURE__ */ import_react73.default.createElement(CloudRain, { size: 16, style: { color: NAVY5 } }), /* @__PURE__ */ import_react73.default.createElement("h3", { className: "font-serif font-semibold text-sm", style: { color: NAVY5 } }, "Contexte climatique de la zone d'\xE9tude")), /* @__PURE__ */ import_react73.default.createElement("p", { className: "text-[11px] text-gray-400 mb-3" }, "Source : NASA POWER (Module 7) \xB7 D\xE9cade 3, juillet 2026 \xB7 Restitution cartographique (Module 8)"), /* @__PURE__ */ import_react73.default.createElement(ClimateMap, null), /* @__PURE__ */ import_react73.default.createElement("div", { className: "grid grid-cols-3 gap-3 mt-4" }, /* @__PURE__ */ import_react73.default.createElement("div", { className: "rounded-xl p-2.5 text-center", style: { background: NAVY_TINT2 } }, /* @__PURE__ */ import_react73.default.createElement(CloudRain, { size: 14, className: "mx-auto mb-1", style: { color: NAVY5 } }), /* @__PURE__ */ import_react73.default.createElement("div", { className: "text-[10px] text-gray-500" }, "Cumul moyen zone"), /* @__PURE__ */ import_react73.default.createElement("div", { className: "text-sm font-bold", style: { color: NAVY5 } }, "83 mm")), /* @__PURE__ */ import_react73.default.createElement("div", { className: "rounded-xl p-2.5 text-center", style: { background: NAVY_TINT2 } }, /* @__PURE__ */ import_react73.default.createElement(MapPin, { size: 14, className: "mx-auto mb-1", style: { color: NAVY5 } }), /* @__PURE__ */ import_react73.default.createElement("div", { className: "text-[10px] text-gray-500" }, "Jours de pluie"), /* @__PURE__ */ import_react73.default.createElement("div", { className: "text-sm font-bold", style: { color: NAVY5 } }, "6 j")), /* @__PURE__ */ import_react73.default.createElement("div", { className: "rounded-xl p-2.5 text-center", style: { background: NAVY_TINT2 } }, /* @__PURE__ */ import_react73.default.createElement(Thermometer, { size: 14, className: "mx-auto mb-1", style: { color: NAVY5 } }), /* @__PURE__ */ import_react73.default.createElement("div", { className: "text-[10px] text-gray-500" }, "Temp\xE9rature moy."), /* @__PURE__ */ import_react73.default.createElement("div", { className: "text-sm font-bold", style: { color: NAVY5 } }, "27,4 \xB0C")))), /* @__PURE__ */ import_react73.default.createElement(
-      ObjectiveGroup,
-      {
-        number: "1",
-        title: "\xC9valuer la progression des semis de coton sur la p\xE9riode de suivi",
-        indicator: "Taux de r\xE9alisation des semis / Superficie sem\xE9e (ha)"
-      },
-      /* @__PURE__ */ import_react73.default.createElement(Card3, null, /* @__PURE__ */ import_react73.default.createElement(ResultHeader, { title: "Superficie sem\xE9e (ha) \u2014 statistiques descriptives", subtitle: "Analyse univari\xE9e \xB7 Coton, Tchaourou & P\xE9r\xE8r\xE8", status: "auto" }), /* @__PURE__ */ import_react73.default.createElement("div", { className: "grid grid-cols-4 gap-3 text-center" }, [["Moyenne", "3,42 ha"], ["M\xE9diane", "3,10 ha"], ["\xC9cart-type", "1,08 ha"], ["CV", "31,6 %"]].map(([l, v]) => /* @__PURE__ */ import_react73.default.createElement("div", { key: l, className: "rounded-xl p-2.5", style: { background: NAVY_TINT2 } }, /* @__PURE__ */ import_react73.default.createElement("div", { className: "text-[10px] text-gray-500" }, l), /* @__PURE__ */ import_react73.default.createElement("div", { className: "text-sm font-bold", style: { color: NAVY5 } }, v))))),
-      /* @__PURE__ */ import_react73.default.createElement(Card3, null, /* @__PURE__ */ import_react73.default.createElement(ResultHeader, { title: "Superficie sem\xE9e \xD7 Pluviom\xE9trie d\xE9cadaire", subtitle: "Analyse bivari\xE9e inf\xE9rentielle \xB7 Corr\xE9lation de Spearman \xB7 \u03C1 = 0,62, p = 0,003", status: "auto" }), /* @__PURE__ */ import_react73.default.createElement(ResponsiveContainer, { width: "100%", height: 170 }, /* @__PURE__ */ import_react73.default.createElement(ScatterChart, null, /* @__PURE__ */ import_react73.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react73.default.createElement(XAxis, { dataKey: "x", tick: { fontSize: 11 }, stroke: "#999", name: "Pluviom\xE9trie", unit: " mm" }), /* @__PURE__ */ import_react73.default.createElement(YAxis, { dataKey: "y", tick: { fontSize: 11 }, stroke: "#999", name: "Superficie", unit: " a", width: 50 }), /* @__PURE__ */ import_react73.default.createElement(Tooltip, { cursor: { strokeDasharray: "3 3" } }), /* @__PURE__ */ import_react73.default.createElement(Scatter, { data: scatterData, fill: NAVY5 }))), /* @__PURE__ */ import_react73.default.createElement("p", { className: "text-xs text-gray-500 mt-2 leading-relaxed" }, "Une association positive mod\xE9r\xE9e est observ\xE9e : les d\xE9cades les plus arros\xE9es co\xEFncident avec une progression plus rapide des superficies sem\xE9es."))
-    ), /* @__PURE__ */ import_react73.default.createElement(
-      ObjectiveGroup,
-      {
-        number: "2",
-        title: "Comparer la performance de rendement entre fili\xE8res et en identifier les d\xE9terminants",
-        indicator: "Rendement estim\xE9 (kg/ha)"
-      },
-      /* @__PURE__ */ import_react73.default.createElement(Card3, null, /* @__PURE__ */ import_react73.default.createElement(ResultHeader, { title: "Fili\xE8re suivie \xD7 Rendement estim\xE9", subtitle: "Analyse bivari\xE9e inf\xE9rentielle \xB7 ANOVA \xE0 un facteur \xB7 F = 4,82, p = 0,007, \u03B7\xB2 = 0,31", status: "adjusted" }), /* @__PURE__ */ import_react73.default.createElement(ResponsiveContainer, { width: "100%", height: 180 }, /* @__PURE__ */ import_react73.default.createElement(BarChart, { data: rendementParFiliere }, /* @__PURE__ */ import_react73.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react73.default.createElement(XAxis, { dataKey: "filiere", tick: { fontSize: 11 }, stroke: "#999" }), /* @__PURE__ */ import_react73.default.createElement(YAxis, { tick: { fontSize: 11 }, stroke: "#999", unit: " kg/ha", width: 70 }), /* @__PURE__ */ import_react73.default.createElement(Tooltip, null), /* @__PURE__ */ import_react73.default.createElement(Bar, { dataKey: "moyenne", radius: [6, 6, 0, 0] }, rendementParFiliere.map((d) => /* @__PURE__ */ import_react73.default.createElement(Cell, { key: d.filiere, fill: FILIERES3[d.filiere] })), /* @__PURE__ */ import_react73.default.createElement(ErrorBar, { dataKey: "ecart", width: 4, strokeWidth: 1.5, stroke: "#7A7A7A" })))), /* @__PURE__ */ import_react73.default.createElement("p", { className: "text-xs text-gray-500 mt-2 leading-relaxed" }, "Le rendement moyen diff\xE8re significativement selon la fili\xE8re suivie (p < 0,01). Le Manioc pr\xE9sente le rendement brut le plus \xE9lev\xE9, en coh\xE9rence avec les r\xE9f\xE9rentiels agronomiques de la zone.")),
-      /* @__PURE__ */ import_react73.default.createElement(Card3, null, /* @__PURE__ */ import_react73.default.createElement(ResultHeader, { title: "Mod\xE8le explicatif du rendement", subtitle: "Analyse multivari\xE9e \xB7 R\xE9gression lin\xE9aire multiple \xB7 R\xB2 = 0,58, R\xB2 ajust\xE9 = 0,54", status: "auto" }), /* @__PURE__ */ import_react73.default.createElement("table", { className: "w-full text-xs" }, /* @__PURE__ */ import_react73.default.createElement("thead", null, /* @__PURE__ */ import_react73.default.createElement("tr", { className: "text-left text-[10px] text-gray-400 uppercase border-b border-gray-100" }, /* @__PURE__ */ import_react73.default.createElement("th", { className: "py-2 font-medium" }, "Variable explicative"), /* @__PURE__ */ import_react73.default.createElement("th", { className: "py-2 font-medium" }, "Coefficient"), /* @__PURE__ */ import_react73.default.createElement("th", { className: "py-2 font-medium" }, "p-valeur"), /* @__PURE__ */ import_react73.default.createElement("th", { className: "py-2 font-medium" }, "Significativit\xE9"))), /* @__PURE__ */ import_react73.default.createElement("tbody", null, coefficients.map((c2) => /* @__PURE__ */ import_react73.default.createElement("tr", { key: c2.variable, className: "border-b border-gray-50 last:border-0" }, /* @__PURE__ */ import_react73.default.createElement("td", { className: "py-2 text-gray-800" }, c2.variable), /* @__PURE__ */ import_react73.default.createElement("td", { className: "py-2 text-gray-600" }, c2.coef), /* @__PURE__ */ import_react73.default.createElement("td", { className: "py-2 text-gray-600" }, c2.p), /* @__PURE__ */ import_react73.default.createElement("td", { className: "py-2" }, /* @__PURE__ */ import_react73.default.createElement(
-        "span",
-        {
-          className: "px-2 py-0.5 rounded-full text-[10px] font-medium",
-          style: c2.sig ? { background: GREEN_TINT2, color: GREEN2 } : { background: "#EDEEF3", color: "#6B7280" }
-        },
-        c2.sig ? "Significatif" : "Non significatif"
-      )))))))
-    ), /* @__PURE__ */ import_react73.default.createElement(Card3, { className: "border-2", style: { borderColor: GOLD4 } }, /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center gap-2 mb-2" }, /* @__PURE__ */ import_react73.default.createElement(Sparkles, { size: 16, style: { color: GOLD4 } }), /* @__PURE__ */ import_react73.default.createElement("h3", { className: "font-serif font-semibold text-sm", style: { color: NAVY5 } }, "6. Analyse \u2014 lecture crois\xE9e des r\xE9sultats")), /* @__PURE__ */ import_react73.default.createElement("p", { className: "text-xs text-gray-600 leading-relaxed mb-2" }, "La carte pluviom\xE9trique confirme un d\xE9ficit localis\xE9 sur Tchaourou et P\xE9r\xE8r\xE8 (58 et 61 mm cumul\xE9s, contre 83 mm en moyenne sur la zone), ce qui explique en grande partie le retard de semis constat\xE9 \xE0 l'Objectif 1 : ces deux communes affichent \xE0 la fois le cumul d\xE9cadaire le plus faible et la progression des superficies sem\xE9es la plus lente."), /* @__PURE__ */ import_react73.default.createElement("p", { className: "text-xs text-gray-600 leading-relaxed mb-2" }, "Ce d\xE9ficit pluviom\xE9trique se r\xE9percute directement sur l'\xE9cart de rendement inter-fili\xE8res mis en \xE9vidence par l'ANOVA (Objectif 2) : le coton, fili\xE8re la plus sensible au calendrier pluviom\xE9trique d\xE9cadaire et majoritairement cultiv\xE9 sur ces deux communes d\xE9ficitaires, affiche le rendement le plus faible de l'\xE9chantillon \u2014 la lecture crois\xE9e cartographie/statistiques permet ainsi de distinguer un effet climatique d'un effet propre \xE0 la fili\xE8re."), /* @__PURE__ */ import_react73.default.createElement("p", { className: "text-xs text-gray-600 leading-relaxed" }, "Ce constat rejoint la litt\xE9rature agro-climatique r\xE9gionale sur la sensibilit\xE9 des cultures pluviales aux r\xE9gimes d\xE9cadaires en zone soudano-guin\xE9enne ", /* @__PURE__ */ import_react73.default.createElement("em", null, "(r\xE9f\xE9rence institutionnelle ou acad\xE9mique \xE0 documenter lors de la r\xE9daction finale, conform\xE9ment au standard APA 7 retenu)"), ", et sugg\xE8re que l'acc\xE8s au cr\xE9dit agricole \u2014 variable significative du mod\xE8le de r\xE9gression \u2014 constitue un levier d'att\xE9nuation partiel du risque climatique.")), /* @__PURE__ */ import_react73.default.createElement(Card3, { className: "border-2", style: { borderColor: "#3E9C6B" } }, /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center gap-2 mb-2" }, /* @__PURE__ */ import_react73.default.createElement(ShieldCheck, { size: 16, style: { color: GREEN2 } }), /* @__PURE__ */ import_react73.default.createElement("h3", { className: "font-serif font-semibold text-sm", style: { color: NAVY5 } }, "7. Recommandations")), /* @__PURE__ */ import_react73.default.createElement("ul", { className: "text-xs text-gray-600 leading-relaxed space-y-1.5 list-disc pl-4" }, /* @__PURE__ */ import_react73.default.createElement("li", null, "Prioriser l'appui-conseil et la distribution d'intrants coton sur les communes de Tchaourou et P\xE9r\xE8r\xE8 avant la d\xE9cade 4, en r\xE9ponse au retard de semis constat\xE9."), /* @__PURE__ */ import_react73.default.createElement("li", null, "Renforcer l'acc\xE8s au cr\xE9dit agricole en zone cotonni\xE8re, ce facteur ayant montr\xE9 un effet significatif sur le rendement dans le mod\xE8le explicatif."), /* @__PURE__ */ import_react73.default.createElement("li", null, "Int\xE9grer un suivi pluviom\xE9trique d\xE9cadaire syst\xE9matique (Module 7) dans les prochains cycles de collecte, afin d'anticiper les \xE9carts de calendrier cultural.")))), /* @__PURE__ */ import_react73.default.createElement("div", { className: "space-y-4" }, /* @__PURE__ */ import_react73.default.createElement(Card3, null, /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center gap-2 mb-3" }, /* @__PURE__ */ import_react73.default.createElement(ListChecks, { size: 16, style: { color: NAVY5 } }), /* @__PURE__ */ import_react73.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY5 } }, "Sommaire du rapport")), /* @__PURE__ */ import_react73.default.createElement("div", { className: "space-y-1.5" }, reportSections.map((s2) => /* @__PURE__ */ import_react73.default.createElement("label", { key: s2, className: "flex items-center gap-2 text-xs text-gray-700 cursor-pointer" }, /* @__PURE__ */ import_react73.default.createElement(
-      "input",
-      {
-        type: "checkbox",
-        checked: sections.includes(s2),
-        onChange: () => toggleSection(s2),
-        className: "w-3.5 h-3.5 rounded",
-        style: { accentColor: NAVY5 }
-      }
-    ), s2)))), /* @__PURE__ */ import_react73.default.createElement(Card3, null, /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center gap-2 mb-3" }, /* @__PURE__ */ import_react73.default.createElement(Paperclip, { size: 16, style: { color: NAVY5 } }), /* @__PURE__ */ import_react73.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY5 } }, "Annexe automatique")), /* @__PURE__ */ import_react73.default.createElement("p", { className: "text-[11px] text-gray-400 mb-3" }, "Tableaux consolid\xE9s automatiquement, horodat\xE9s (Module 6)."), /* @__PURE__ */ import_react73.default.createElement("div", { className: "space-y-2" }, annexTables.map((t) => /* @__PURE__ */ import_react73.default.createElement("div", { key: t.id, className: "rounded-xl border border-gray-100 p-2.5" }, /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center justify-between" }, /* @__PURE__ */ import_react73.default.createElement("span", { className: "text-[11px] font-semibold", style: { color: NAVY5 } }, "Tableau ", t.id), /* @__PURE__ */ import_react73.default.createElement("span", { className: "text-[10px] text-gray-400" }, t.time)), /* @__PURE__ */ import_react73.default.createElement("div", { className: "text-[11px] text-gray-600 mt-0.5" }, t.title), /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center gap-1.5 mt-1.5" }, /* @__PURE__ */ import_react73.default.createElement("span", { className: "text-[10px] px-1.5 py-0.5 rounded-full", style: { background: NAVY_TINT2, color: NAVY5 } }, t.type), /* @__PURE__ */ import_react73.default.createElement(StatusBadge, { status: t.status })))))), /* @__PURE__ */ import_react73.default.createElement(Card3, null, /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center gap-2 mb-3" }, /* @__PURE__ */ import_react73.default.createElement(Sparkles, { size: 16, style: { color: GOLD4 } }), /* @__PURE__ */ import_react73.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY5 } }, "G\xE9n\xE9ration")), /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center gap-2 mb-3 text-xs" }, /* @__PURE__ */ import_react73.default.createElement(ShieldCheck, { size: 13, style: { color: GREEN2 } }), /* @__PURE__ */ import_react73.default.createElement("span", { className: "text-gray-500" }, "Th\xE8me : ", /* @__PURE__ */ import_react73.default.createElement("span", { className: "font-medium", style: { color: NAVY5 } }, "Ocean Depths / Terre & Moisson"))), /* @__PURE__ */ import_react73.default.createElement("div", { className: "grid grid-cols-2 gap-2 mb-4" }, /* @__PURE__ */ import_react73.default.createElement(
-      "button",
-      {
-        onClick: () => setFormat("docx"),
-        className: "flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-medium border",
-        style: format2 === "docx" ? { background: NAVY5, color: "white", borderColor: NAVY5 } : { borderColor: "#D8DEE9", color: "#5A6478" }
-      },
-      /* @__PURE__ */ import_react73.default.createElement(FileTypeCorner, { size: 13 }),
-      " Word (.docx)"
-    ), /* @__PURE__ */ import_react73.default.createElement(
-      "button",
-      {
-        onClick: () => setFormat("pdf"),
-        className: "flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-medium border",
-        style: format2 === "pdf" ? { background: NAVY5, color: "white", borderColor: NAVY5 } : { borderColor: "#D8DEE9", color: "#5A6478" }
-      },
-      /* @__PURE__ */ import_react73.default.createElement(FileDown, { size: 13 }),
-      " PDF"
-    )), /* @__PURE__ */ import_react73.default.createElement(
-      "button",
-      {
-        className: "w-full px-4 py-2.5 rounded-xl text-sm font-medium flex items-center justify-center gap-1.5 text-white shadow-md",
-        style: { background: `linear-gradient(135deg, #3E9C6B, ${GREEN2})` }
-      },
-      /* @__PURE__ */ import_react73.default.createElement(Layers, { size: 14 }),
-      " G\xE9n\xE9rer le rapport final"
-    )))))));
-  }
-
-  // src/Cartographie.jsx
-  var import_react74 = __toESM(require_react());
-  var NAVY6 = "#1F3864";
-  var GOLD5 = "#C99A2E";
-  var FILIERES4 = {
-    Soja: "#3E9C6B",
-    Ma\u00EFs: "#F0AC1B",
-    Riz: "#3592C4",
-    Manioc: "#B5651D",
-    Coton: "#6C7DAE"
-  };
-  var nav5 = [
-    { id: "dashboard", label: "Tableau de bord", icon: LayoutDashboard },
-    { id: "import", label: "Assistant d'import", icon: ClipboardList },
-    { id: "config", label: "Configuration des analyses", icon: ChartColumn },
-    { id: "results", label: "R\xE9sultats & rapport", icon: FileText },
-    { id: "map", label: "Cartographie", icon: MapPin }
-  ];
-  var COMMUNES2 = [
-    { name: "Sinend\xE9", x: 30, y: 8, mm: 108, taux: 84, rendement: 1720, anomalies: 0 },
-    { name: "Kalal\xE9", x: 68, y: 13, mm: 101, taux: 79, rendement: 1650, anomalies: 1 },
-    { name: "Bemb\xE9r\xE9k\xE9", x: 42, y: 29, mm: 95, taux: 88, rendement: 1810, anomalies: 0 },
-    { name: "N'Dali", x: 16, y: 47, mm: 84, taux: 91, rendement: 1900, anomalies: 0 },
-    { name: "P\xE9r\xE8r\xE8", x: 66, y: 41, mm: 61, taux: 62, rendement: 1120, anomalies: 2 },
-    { name: "Parakou", x: 40, y: 54, mm: 76, taux: 86, rendement: 1780, anomalies: 0 },
-    { name: "Nikki", x: 70, y: 61, mm: 89, taux: 83, rendement: 1690, anomalies: 1 },
-    { name: "Tchaourou", x: 32, y: 81, mm: 58, taux: 58, rendement: 1080, anomalies: 4 }
-  ];
-  var SURVEY_POINTS = COMMUNES2.flatMap(
-    (c2, ci) => Array.from({ length: 4 }).map((_, i) => {
-      const filieres = Object.keys(FILIERES4);
-      return {
-        id: `${c2.name}-${i}`,
-        x: c2.x + ((ci + i) % 5 - 2) * 3.2,
-        y: c2.y + ((ci * 3 + i) % 5 - 2) * 3.2,
-        filiere: filieres[(ci + i) % filieres.length]
-      };
-    })
-  );
-  function rainColor2(mm) {
-    if (mm < 65) return "#C99A2E";
-    if (mm < 80) return "#8FAECB";
-    if (mm < 95) return "#4A7AB5";
-    return "#1F3864";
-  }
-  function tauxColor(taux) {
-    if (taux < 65) return "#C1573F";
-    if (taux < 80) return "#E3A23B";
-    return "#3E9C6B";
-  }
-  function Watermark5() {
-    return /* @__PURE__ */ import_react74.default.createElement("div", { className: "fixed inset-0 overflow-hidden pointer-events-none z-0 flex items-center justify-center" }, /* @__PURE__ */ import_react74.default.createElement(
-      "span",
-      {
-        className: "font-serif font-black whitespace-nowrap select-none",
-        style: { color: NAVY6, opacity: 0.06, fontSize: "13vw", letterSpacing: "-0.02em" }
-      },
-      "AgriHakStat"
-    ), /* @__PURE__ */ import_react74.default.createElement("span", { className: "absolute bottom-4 right-6 text-xs font-medium select-none", style: { color: NAVY6, opacity: 0.35 } }, "Con\xE7u par Hakibou MOUSSA"));
-  }
-  function Card4({ children, className = "" }) {
-    return /* @__PURE__ */ import_react74.default.createElement("div", { className: `bg-white rounded-2xl p-6 shadow-sm border border-black/5 ${className}` }, children);
-  }
-  function LayerButton({ label, icon: Icon3, active, onClick }) {
-    return /* @__PURE__ */ import_react74.default.createElement(
-      "button",
-      {
-        onClick,
-        className: "flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-colors",
-        style: active ? { background: NAVY6, color: "white" } : { background: "white", color: "#5A6478", border: "1px solid #E4E6ED" }
-      },
-      /* @__PURE__ */ import_react74.default.createElement(Icon3, { size: 15 }),
-      " ",
-      label
-    );
-  }
-  function Chip2({ label, active, onClick, color: color2 }) {
-    return /* @__PURE__ */ import_react74.default.createElement(
-      "button",
-      {
-        onClick,
-        className: "px-3 py-1.5 rounded-full text-xs font-medium border transition-colors",
-        style: active ? { background: color2 || NAVY6, borderColor: color2 || NAVY6, color: "white" } : { background: "white", borderColor: "#D8DEE9", color: "#5A6478" }
-      },
-      label
-    );
-  }
-  function Cartographie({ active, onNavigate, userEmail, roleLabel, isAdmin, isGuest, onLogout, onOpenAdmin }) {
-    const [layer, setLayer] = (0, import_react74.useState)("points");
-    const [indicateur, setIndicateur] = (0, import_react74.useState)("taux");
-    const [filieres, setFilieres] = (0, import_react74.useState)(Object.keys(FILIERES4));
-    const toggleFiliere = (f) => setFilieres((prev) => prev.includes(f) ? prev.filter((x2) => x2 !== f) : [...prev, f]);
-    const indicateurLabel = { taux: "Taux de r\xE9alisation (%)", rendement: "Rendement moyen (kg/ha)", anomalies: "Anomalies d\xE9tect\xE9es" }[indicateur];
-    const indicateurValue = (c2) => indicateur === "taux" ? `${c2.taux}%` : indicateur === "rendement" ? `${c2.rendement}` : c2.anomalies;
-    const indicateurColor = (c2) => indicateur === "anomalies" ? c2.anomalies > 1 ? "#C1573F" : c2.anomalies === 1 ? "#E3A23B" : "#3E9C6B" : indicateur === "taux" ? tauxColor(c2.taux) : tauxColor(c2.rendement / 2e3 * 100);
-    return /* @__PURE__ */ import_react74.default.createElement("div", { className: "min-h-screen relative bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans" }, /* @__PURE__ */ import_react74.default.createElement(Watermark5, null), /* @__PURE__ */ import_react74.default.createElement("div", { className: "relative z-10 flex" }, /* @__PURE__ */ import_react74.default.createElement(
-      "aside",
-      {
-        className: "w-60 min-h-screen shrink-0 py-6 px-4 text-[#C7D2E8]",
-        style: { background: `linear-gradient(180deg, ${NAVY6} 0%, #16294B 100%)` }
-      },
-      /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex flex-col items-start gap-1 px-2 mb-8" }, /* @__PURE__ */ import_react74.default.createElement("img", { src: "./logo-compact.png", alt: "AgriHakStat", className: "h-32 w-auto -ml-1" }), /* @__PURE__ */ import_react74.default.createElement("div", { className: "text-[10px] opacity-60" }, "DDAEP-Borgou")),
-      /* @__PURE__ */ import_react74.default.createElement("nav", { className: "space-y-1.5" }, nav5.map((item) => /* @__PURE__ */ import_react74.default.createElement(
-        "div",
-        {
-          key: item.id,
-          onClick: () => onNavigate(item.id),
-          className: `flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer text-sm transition-colors ${item.id === active ? "bg-[#16294B] text-white font-medium border-l-4" : "hover:bg-white/5"}`,
-          style: item.id === active ? { borderColor: GOLD5 } : {}
-        },
-        /* @__PURE__ */ import_react74.default.createElement(item.icon, { size: 17 }),
-        item.label
-      )))
-    ), /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex-1 min-h-screen" }, /* @__PURE__ */ import_react74.default.createElement(
-      "header",
-      {
-        className: "bg-white/70 backdrop-blur px-8 py-4 flex items-center justify-between",
-        style: { borderBottom: `2px solid ${GOLD5}` }
-      },
-      /* @__PURE__ */ import_react74.default.createElement("div", null, /* @__PURE__ */ import_react74.default.createElement("h1", { className: "font-serif text-xl font-bold", style: { color: NAVY6 } }, "Cartographie"), /* @__PURE__ */ import_react74.default.createElement("p", { className: "text-xs text-gray-500 mt-0.5" }, "Module 8 \xB7 Suivi semis 2026-2027 \u2014 D\xE9cade 3, Borgou")),
-      /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex items-center gap-4" }, /* @__PURE__ */ import_react74.default.createElement(Bell, { size: 18, className: "text-gray-400" }), /* @__PURE__ */ import_react74.default.createElement(
-        UserMenu,
-        {
-          email: userEmail,
-          roleLabel,
-          isAdmin,
-          isGuest,
-          onLogout,
-          onOpenAdmin
-        }
-      ))
-    ), /* @__PURE__ */ import_react74.default.createElement("main", { className: "p-8 grid grid-cols-3 gap-6" }, /* @__PURE__ */ import_react74.default.createElement("div", { className: "col-span-2" }, /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex gap-2 mb-4" }, /* @__PURE__ */ import_react74.default.createElement(LayerButton, { label: "Points d'enqu\xEAte", icon: MapPin, active: layer === "points", onClick: () => setLayer("points") }), /* @__PURE__ */ import_react74.default.createElement(LayerButton, { label: "Choropl\xE8the indicateurs", icon: Layers, active: layer === "choropleth", onClick: () => setLayer("choropleth") }), /* @__PURE__ */ import_react74.default.createElement(LayerButton, { label: "Isohy\xE8tes pluviom\xE9triques", icon: Droplets, active: layer === "isohyet", onClick: () => setLayer("isohyet") })), /* @__PURE__ */ import_react74.default.createElement(Card4, null, layer === "choropleth" && /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex items-center gap-2 mb-4" }, /* @__PURE__ */ import_react74.default.createElement(Funnel, { size: 13, className: "text-gray-400" }), /* @__PURE__ */ import_react74.default.createElement("span", { className: "text-xs text-gray-500" }, "Indicateur :"), /* @__PURE__ */ import_react74.default.createElement(
-      "select",
-      {
-        value: indicateur,
-        onChange: (e) => setIndicateur(e.target.value),
-        className: "text-xs rounded-lg border border-gray-200 p-1.5 bg-white focus:outline-none"
-      },
-      /* @__PURE__ */ import_react74.default.createElement("option", { value: "taux" }, "Taux de r\xE9alisation (%)"),
-      /* @__PURE__ */ import_react74.default.createElement("option", { value: "rendement" }, "Rendement moyen (kg/ha)"),
-      /* @__PURE__ */ import_react74.default.createElement("option", { value: "anomalies" }, "Anomalies d\xE9tect\xE9es")
-    )), /* @__PURE__ */ import_react74.default.createElement("div", { className: "relative rounded-xl bg-[#F7F9FC] border border-gray-100", style: { height: 460 } }, /* @__PURE__ */ import_react74.default.createElement("svg", { viewBox: "0 0 100 100", className: "w-full h-full" }, layer === "points" && SURVEY_POINTS.filter((pt) => filieres.includes(pt.filiere)).map((pt) => /* @__PURE__ */ import_react74.default.createElement("circle", { key: pt.id, cx: pt.x, cy: pt.y, r: 1.6, fill: FILIERES4[pt.filiere], opacity: 0.85, stroke: "white", strokeWidth: 0.3 })), layer === "choropleth" && COMMUNES2.map((c2) => /* @__PURE__ */ import_react74.default.createElement("g", { key: c2.name }, /* @__PURE__ */ import_react74.default.createElement("circle", { cx: c2.x, cy: c2.y, r: 9, fill: indicateurColor(c2), opacity: 0.88 }), /* @__PURE__ */ import_react74.default.createElement("circle", { cx: c2.x, cy: c2.y, r: 9, fill: "none", stroke: "white", strokeWidth: 0.6 }), /* @__PURE__ */ import_react74.default.createElement("text", { x: c2.x, y: c2.y - 12, fontSize: "3.4", textAnchor: "middle", fill: "#4A5568", fontWeight: "600" }, c2.name), /* @__PURE__ */ import_react74.default.createElement("text", { x: c2.x, y: c2.y + 1.2, fontSize: "3", textAnchor: "middle", fill: "white", fontWeight: "700" }, indicateurValue(c2)))), layer === "isohyet" && COMMUNES2.map((c2) => /* @__PURE__ */ import_react74.default.createElement("g", { key: c2.name }, /* @__PURE__ */ import_react74.default.createElement("circle", { cx: c2.x, cy: c2.y, r: 11, fill: rainColor2(c2.mm), opacity: 0.25 }), /* @__PURE__ */ import_react74.default.createElement("circle", { cx: c2.x, cy: c2.y, r: 7, fill: rainColor2(c2.mm), opacity: 0.9 }), /* @__PURE__ */ import_react74.default.createElement("circle", { cx: c2.x, cy: c2.y, r: 7, fill: "none", stroke: "white", strokeWidth: 0.6 }), /* @__PURE__ */ import_react74.default.createElement("text", { x: c2.x, y: c2.y - 13, fontSize: "3.4", textAnchor: "middle", fill: "#4A5568", fontWeight: "600" }, c2.name), /* @__PURE__ */ import_react74.default.createElement("text", { x: c2.x, y: c2.y + 1.2, fontSize: "3", textAnchor: "middle", fill: "white", fontWeight: "700" }, c2.mm)))), /* @__PURE__ */ import_react74.default.createElement("span", { className: "absolute bottom-2 right-3 text-[9px] text-gray-400 italic" }, layer === "isohyet" ? "Interpolation IDW \u2014 illustrative" : "Position illustrative \u2014 non g\xE9or\xE9f\xE9renc\xE9e \xE0 l'\xE9chelle")), layer === "points" && /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex flex-wrap gap-3 mt-4" }, Object.entries(FILIERES4).map(([f, c2]) => /* @__PURE__ */ import_react74.default.createElement("div", { key: f, className: "flex items-center gap-1.5 text-[11px] text-gray-600" }, /* @__PURE__ */ import_react74.default.createElement("span", { className: "w-2.5 h-2.5 rounded-full", style: { background: c2 } }), " ", f))), layer === "choropleth" && /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex items-center gap-4 mt-4" }, /* @__PURE__ */ import_react74.default.createElement("span", { className: "text-[11px] text-gray-500" }, indicateurLabel, " :"), /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex items-center gap-1.5 text-[11px] text-gray-600" }, /* @__PURE__ */ import_react74.default.createElement("span", { className: "w-2.5 h-2.5 rounded-full", style: { background: "#C1573F" } }), " Faible"), /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex items-center gap-1.5 text-[11px] text-gray-600" }, /* @__PURE__ */ import_react74.default.createElement("span", { className: "w-2.5 h-2.5 rounded-full", style: { background: "#E3A23B" } }), " Interm\xE9diaire"), /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex items-center gap-1.5 text-[11px] text-gray-600" }, /* @__PURE__ */ import_react74.default.createElement("span", { className: "w-2.5 h-2.5 rounded-full", style: { background: "#3E9C6B" } }), " Satisfaisant")), layer === "isohyet" && /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex items-center gap-4 mt-4 flex-wrap" }, /* @__PURE__ */ import_react74.default.createElement("span", { className: "text-[11px] text-gray-500" }, "Cumul d\xE9cadaire (mm) :"), [["#C99A2E", "< 65"], ["#8FAECB", "65\u201380"], ["#4A7AB5", "80\u201395"], ["#1F3864", "\u2265 95"]].map(([c2, l]) => /* @__PURE__ */ import_react74.default.createElement("div", { key: l, className: "flex items-center gap-1.5 text-[11px] text-gray-600" }, /* @__PURE__ */ import_react74.default.createElement("span", { className: "w-2.5 h-2.5 rounded-full", style: { background: c2 } }), " ", l))))), /* @__PURE__ */ import_react74.default.createElement("div", { className: "space-y-4" }, /* @__PURE__ */ import_react74.default.createElement(Card4, null, /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex items-center gap-2 mb-3" }, /* @__PURE__ */ import_react74.default.createElement(Funnel, { size: 16, style: { color: NAVY6 } }), /* @__PURE__ */ import_react74.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY6 } }, "Filtres")), /* @__PURE__ */ import_react74.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Fili\xE8re"), /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex flex-wrap gap-2 mb-4" }, Object.entries(FILIERES4).map(([f, c2]) => /* @__PURE__ */ import_react74.default.createElement(Chip2, { key: f, label: f, active: filieres.includes(f), onClick: () => toggleFiliere(f), color: c2 }))), /* @__PURE__ */ import_react74.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "P\xE9riode"), /* @__PURE__ */ import_react74.default.createElement("select", { className: "w-full text-sm rounded-xl border border-gray-200 p-2.5 focus:outline-none focus:ring-2", style: { "--tw-ring-color": GOLD5 } }, /* @__PURE__ */ import_react74.default.createElement("option", null, "D\xE9cade 3 \u2014 Juillet 2026"), /* @__PURE__ */ import_react74.default.createElement("option", null, "D\xE9cade 2 \u2014 Juillet 2026"), /* @__PURE__ */ import_react74.default.createElement("option", null, "D\xE9cade 1 \u2014 Juillet 2026"))), /* @__PURE__ */ import_react74.default.createElement(Card4, null, /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex items-center gap-2 mb-1" }, /* @__PURE__ */ import_react74.default.createElement(MapPin, { size: 16, style: { color: NAVY6 } }), /* @__PURE__ */ import_react74.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY6 } }, "Communes en alerte")), /* @__PURE__ */ import_react74.default.createElement("p", { className: "text-[11px] text-gray-400 mb-3" }, "Selon l'indicateur actuellement affich\xE9"), /* @__PURE__ */ import_react74.default.createElement("div", { className: "space-y-2" }, COMMUNES2.filter((c2) => c2.taux < 70 || c2.anomalies > 1).map((c2) => /* @__PURE__ */ import_react74.default.createElement("div", { key: c2.name, className: "flex items-center justify-between rounded-xl border border-gray-100 p-2.5" }, /* @__PURE__ */ import_react74.default.createElement("span", { className: "text-xs font-medium text-gray-700" }, c2.name), /* @__PURE__ */ import_react74.default.createElement("span", { className: "text-[11px] font-semibold px-2 py-0.5 rounded-full", style: { background: "#FBE7E5", color: "#B3413A" } }, c2.taux, "% r\xE9alis\xE9"))))), /* @__PURE__ */ import_react74.default.createElement(Card4, null, /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex items-center gap-2 mb-3" }, /* @__PURE__ */ import_react74.default.createElement(FileOutput, { size: 16, style: { color: GOLD5 } }), /* @__PURE__ */ import_react74.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY6 } }, "Export")), /* @__PURE__ */ import_react74.default.createElement(
-      "button",
-      {
-        className: "w-full mb-2 px-4 py-2.5 rounded-xl text-sm font-medium flex items-center justify-center gap-1.5 bg-white border",
-        style: { borderColor: NAVY6, color: NAVY6 }
-      },
-      /* @__PURE__ */ import_react74.default.createElement(Download, { size: 14 }),
-      " Exporter la carte (PNG)"
-    ), /* @__PURE__ */ import_react74.default.createElement(
-      "button",
-      {
-        className: "w-full px-4 py-2.5 rounded-xl text-sm font-medium flex items-center justify-center gap-1.5 text-white shadow-md",
-        style: { background: `linear-gradient(135deg, ${NAVY6}, #2A4A82)` }
-      },
-      /* @__PURE__ */ import_react74.default.createElement(Layers, { size: 14 }),
-      " Int\xE9grer au rapport (R\xE9sultats)"
-    )))))));
-  }
-
-  // src/auth/Landing.jsx
-  var import_react75 = __toESM(require_react());
-  var NAVY7 = "#1F3864";
-  var GOLD6 = "#C99A2E";
-  function Landing({ onGoLogin, onGoSignup, onGoDemo }) {
-    return /* @__PURE__ */ import_react75.default.createElement("div", { className: "min-h-screen bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans" }, /* @__PURE__ */ import_react75.default.createElement("header", { className: "flex items-center justify-between px-8 py-5" }, /* @__PURE__ */ import_react75.default.createElement("div", { className: "flex items-center gap-2" }, /* @__PURE__ */ import_react75.default.createElement("img", { src: "./logo-compact.png", alt: "AgriHakStat", className: "h-20 w-auto" })), /* @__PURE__ */ import_react75.default.createElement("div", { className: "flex items-center gap-3" }, /* @__PURE__ */ import_react75.default.createElement("button", { onClick: onGoLogin, className: "px-4 py-2 rounded-xl text-sm font-medium", style: { color: NAVY7 } }, "Se connecter"), /* @__PURE__ */ import_react75.default.createElement(
-      "button",
-      {
-        onClick: onGoSignup,
-        className: "px-4 py-2 rounded-xl text-sm font-medium text-white shadow-md",
-        style: { background: `linear-gradient(135deg, ${NAVY7}, #2A4A82)` }
-      },
-      "Cr\xE9er un compte"
-    ))), /* @__PURE__ */ import_react75.default.createElement("main", { className: "max-w-4xl mx-auto px-8 pt-16 pb-24 text-center" }, /* @__PURE__ */ import_react75.default.createElement("h1", { className: "font-serif text-4xl font-bold leading-tight", style: { color: NAVY7 } }, "L'analyse statistique de vos enqu\xEAtes agricoles,", /* @__PURE__ */ import_react75.default.createElement("br", null), "automatis\xE9e et rigoureuse"), /* @__PURE__ */ import_react75.default.createElement("p", { className: "text-gray-500 mt-5 text-lg max-w-2xl mx-auto" }, "Importez votre questionnaire et votre base de donn\xE9es, laissez AgriHakStat proposer les tests statistiques adapt\xE9s, et g\xE9n\xE9rez un rapport structur\xE9, cartographi\xE9 et pr\xEAt \xE0 diffuser."), /* @__PURE__ */ import_react75.default.createElement("div", { className: "flex items-center justify-center gap-3 mt-8" }, /* @__PURE__ */ import_react75.default.createElement(
-      "button",
-      {
-        onClick: onGoSignup,
-        className: "px-6 py-3 rounded-xl text-sm font-semibold text-white shadow-md flex items-center gap-2",
-        style: { background: `linear-gradient(135deg, ${NAVY7}, #2A4A82)` }
-      },
-      "Cr\xE9er un compte gratuitement ",
-      /* @__PURE__ */ import_react75.default.createElement(ArrowRight, { size: 16 })
-    ), /* @__PURE__ */ import_react75.default.createElement(
-      "button",
-      {
-        onClick: onGoLogin,
-        className: "px-6 py-3 rounded-xl text-sm font-semibold border",
-        style: { borderColor: NAVY7, color: NAVY7 }
-      },
-      "J'ai d\xE9j\xE0 un compte"
-    )), /* @__PURE__ */ import_react75.default.createElement("button", { onClick: onGoDemo, className: "text-sm underline mt-4 inline-block", style: { color: "#8A93A8" } }, "Voir la d\xE9monstration sans cr\xE9er de compte"), /* @__PURE__ */ import_react75.default.createElement("div", { className: "grid grid-cols-3 gap-6 mt-20 text-left" }, [
-      { icon: ChartColumn, title: "Tests statistiques guid\xE9s", text: "S\xE9lection automatique des tests univari\xE9s, bivari\xE9s et multivari\xE9s, valid\xE9e par vos soins avant ex\xE9cution." },
-      { icon: MapPin, title: "Cartographie int\xE9gr\xE9e", text: "Localisation des enqu\xEAtes, choropl\xE8thes par commune et couches climatiques NASA POWER." },
-      { icon: FileText, title: "Rapport structur\xE9", text: "Un document en huit sections, annexes statistiques consolid\xE9es automatiquement." }
-    ].map((f) => /* @__PURE__ */ import_react75.default.createElement("div", { key: f.title, className: "bg-white rounded-2xl p-6 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react75.default.createElement(f.icon, { size: 22, style: { color: GOLD6 } }), /* @__PURE__ */ import_react75.default.createElement("h3", { className: "font-serif font-semibold mt-3 mb-1", style: { color: NAVY7 } }, f.title), /* @__PURE__ */ import_react75.default.createElement("p", { className: "text-sm text-gray-500" }, f.text))))), /* @__PURE__ */ import_react75.default.createElement("footer", { className: "text-center text-xs text-gray-400 pb-8" }, "AgriHakStat \u2014 Con\xE7u par Hakibou Moussa"));
-  }
-
-  // src/auth/Login.jsx
-  var import_react76 = __toESM(require_react());
 
   // node_modules/@supabase/supabase-js/dist/tracingRegistry.mjs
   var EXTRACTOR_KEY = /* @__PURE__ */ Symbol.for("@supabase/supabase-js.traceContextExtractor");
@@ -71899,7 +71007,930 @@ ${suffix2}`;
   var isSupabaseConfigured = SUPABASE_URL !== "https://VOTRE-PROJET.supabase.co" && SUPABASE_ANON_KEY !== "VOTRE_CLE_ANON_PUBLIQUE";
   var supabase = isSupabaseConfigured ? createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
 
+  // src/ImportWizard.jsx
+  var NAVY3 = "#1F3864";
+  var GOLD2 = "#C99A2E";
+  var FILIERES2 = {
+    Soja: "#3E9C6B",
+    Ma\u00EFs: "#F0AC1B",
+    Riz: "#3592C4",
+    Manioc: "#B5651D",
+    Coton: "#6C7DAE"
+  };
+  var COMMUNES = ["Bemb\xE9r\xE9k\xE9", "Kalal\xE9", "Nikki", "N'Dali", "Parakou", "P\xE9r\xE8r\xE8", "Sinend\xE9", "Tchaourou"];
+  var nav2 = [
+    { id: "dashboard", label: "Tableau de bord", icon: LayoutDashboard },
+    { id: "import", label: "Assistant d'import", icon: ClipboardList },
+    { id: "config", label: "Configuration des analyses", icon: ChartColumn },
+    { id: "results", label: "R\xE9sultats & rapport", icon: FileText },
+    { id: "map", label: "Cartographie", icon: MapPin }
+  ];
+  var STEPS = [
+    { id: 1, label: "Questionnaire" },
+    { id: 2, label: "Base de donn\xE9es" },
+    { id: 3, label: "Contexte de l'\xE9tude" },
+    { id: 4, label: "Indicateurs" },
+    { id: 5, label: "Cartographie des variables" }
+  ];
+  function Watermark2() {
+    return /* @__PURE__ */ import_react71.default.createElement("div", { className: "fixed inset-0 overflow-hidden pointer-events-none z-0 flex items-center justify-center" }, /* @__PURE__ */ import_react71.default.createElement(
+      "span",
+      {
+        className: "font-serif font-black whitespace-nowrap select-none",
+        style: { color: NAVY3, opacity: 0.06, fontSize: "13vw", letterSpacing: "-0.02em" }
+      },
+      "AgriHakStat"
+    ), /* @__PURE__ */ import_react71.default.createElement(
+      "span",
+      {
+        className: "absolute bottom-4 right-6 text-xs font-medium select-none",
+        style: { color: NAVY3, opacity: 0.35 }
+      },
+      "Con\xE7u par Hakibou MOUSSA"
+    ));
+  }
+  function Stepper({ current: current2, setCurrent }) {
+    return /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex items-center mb-8" }, STEPS.map((s2, i) => /* @__PURE__ */ import_react71.default.createElement(import_react71.default.Fragment, { key: s2.id }, /* @__PURE__ */ import_react71.default.createElement("button", { onClick: () => setCurrent(s2.id), className: "flex items-center gap-2 group" }, /* @__PURE__ */ import_react71.default.createElement(
+      "div",
+      {
+        className: "w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold transition-colors shrink-0",
+        style: s2.id < current2 ? { background: "#3E9C6B", color: "white" } : s2.id === current2 ? { background: NAVY3, color: "white" } : { background: "#EDEEF3", color: "#8A93A8" }
+      },
+      s2.id < current2 ? /* @__PURE__ */ import_react71.default.createElement(Check, { size: 14 }) : s2.id
+    ), /* @__PURE__ */ import_react71.default.createElement(
+      "span",
+      {
+        className: "text-xs font-medium hidden md:block",
+        style: { color: s2.id === current2 ? NAVY3 : "#8A93A8" }
+      },
+      s2.label
+    )), i < STEPS.length - 1 && /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex-1 h-[2px] mx-3", style: { background: s2.id < current2 ? "#3E9C6B" : "#E4E6ED" } }))));
+  }
+  function Card({ children, className = "" }) {
+    return /* @__PURE__ */ import_react71.default.createElement("div", { className: `bg-white rounded-2xl p-6 shadow-sm border border-black/5 ${className}` }, children);
+  }
+  function Dropzone({ label, hint, formats }) {
+    return /* @__PURE__ */ import_react71.default.createElement(
+      "div",
+      {
+        className: "border-2 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center text-center gap-2 cursor-pointer transition-colors hover:bg-[#FAFBFE]",
+        style: { borderColor: "#C7D2E8" }
+      },
+      /* @__PURE__ */ import_react71.default.createElement("div", { className: "w-12 h-12 rounded-xl flex items-center justify-center mb-1", style: { background: "#EBEEF7" } }, /* @__PURE__ */ import_react71.default.createElement(Upload, { size: 20, style: { color: NAVY3 } })),
+      /* @__PURE__ */ import_react71.default.createElement("div", { className: "font-medium text-sm", style: { color: NAVY3 } }, label),
+      /* @__PURE__ */ import_react71.default.createElement("div", { className: "text-xs text-gray-400" }, hint),
+      /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex flex-wrap gap-1.5 justify-center mt-2" }, formats.map((f) => /* @__PURE__ */ import_react71.default.createElement("span", { key: f, className: "text-[10px] px-2 py-1 rounded-full bg-[#F6E9DD] text-[#8A4A1D] font-medium" }, f)))
+    );
+  }
+  function UploadedFile({ icon: Icon3, name, meta, tint, fg }) {
+    return /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex items-center gap-3 rounded-xl p-3 border border-black/5", style: { background: tint } }, /* @__PURE__ */ import_react71.default.createElement("div", { className: "w-10 h-10 rounded-lg flex items-center justify-center shrink-0", style: { background: "white" } }, /* @__PURE__ */ import_react71.default.createElement(Icon3, { size: 18, style: { color: fg } })), /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex-1 min-w-0" }, /* @__PURE__ */ import_react71.default.createElement("div", { className: "text-sm font-medium truncate", style: { color: fg } }, name), /* @__PURE__ */ import_react71.default.createElement("div", { className: "text-[11px] opacity-70", style: { color: fg } }, meta)), /* @__PURE__ */ import_react71.default.createElement("button", { className: "text-gray-400 hover:text-gray-600" }, /* @__PURE__ */ import_react71.default.createElement(X, { size: 16 })));
+  }
+  function Chip({ label, active, onClick, color: color2 }) {
+    return /* @__PURE__ */ import_react71.default.createElement(
+      "button",
+      {
+        onClick,
+        className: "px-3 py-1.5 rounded-full text-xs font-medium border transition-colors",
+        style: active ? { background: color2 || NAVY3, borderColor: color2 || NAVY3, color: "white" } : { background: "white", borderColor: "#D8DEE9", color: "#5A6478" }
+      },
+      label
+    );
+  }
+  function ImportWizard({ active, onNavigate, userEmail, userId, roleLabel, isAdmin, isGuest, onLogout, onOpenAdmin }) {
+    const [step, setStep] = (0, import_react71.useState)(1);
+    const [communes, setCommunes] = (0, import_react71.useState)(["Tchaourou", "P\xE9r\xE8r\xE8"]);
+    const [filieres, setFilieres] = (0, import_react71.useState)(["Coton"]);
+    const [objectif, setObjectif] = (0, import_react71.useState)(
+      "Suivre la progression d\xE9cadaire des semis de coton sur les communes \xE0 risque pluviom\xE9trique du Borgou."
+    );
+    const [submitting, setSubmitting] = (0, import_react71.useState)(false);
+    const [submitted, setSubmitted] = (0, import_react71.useState)(false);
+    const [submitError, setSubmitError] = (0, import_react71.useState)("");
+    const toggle = (list, setList, item) => setList(list.includes(item) ? list.filter((x2) => x2 !== item) : [...list, item]);
+    return /* @__PURE__ */ import_react71.default.createElement("div", { className: "min-h-screen relative bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans" }, /* @__PURE__ */ import_react71.default.createElement(Watermark2, null), /* @__PURE__ */ import_react71.default.createElement("div", { className: "relative z-10 flex" }, /* @__PURE__ */ import_react71.default.createElement(
+      "aside",
+      {
+        className: "w-60 min-h-screen shrink-0 py-6 px-4 text-[#C7D2E8]",
+        style: { background: `linear-gradient(180deg, ${NAVY3} 0%, #16294B 100%)` }
+      },
+      /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex flex-col items-start gap-1 px-2 mb-8" }, /* @__PURE__ */ import_react71.default.createElement("img", { src: "./logo-compact.png", alt: "AgriHakStat", className: "h-32 w-auto -ml-1" }), /* @__PURE__ */ import_react71.default.createElement("div", { className: "text-[10px] opacity-60" }, "DDAEP-Borgou")),
+      /* @__PURE__ */ import_react71.default.createElement("nav", { className: "space-y-1.5" }, nav2.map((item) => /* @__PURE__ */ import_react71.default.createElement(
+        "div",
+        {
+          key: item.id,
+          onClick: () => onNavigate(item.id),
+          className: `flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer text-sm transition-colors ${item.id === active ? "bg-[#16294B] text-white font-medium border-l-4" : "hover:bg-white/5"}`,
+          style: item.id === active ? { borderColor: GOLD2 } : {}
+        },
+        /* @__PURE__ */ import_react71.default.createElement(item.icon, { size: 17 }),
+        item.label
+      )))
+    ), /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex-1 min-h-screen" }, /* @__PURE__ */ import_react71.default.createElement(
+      "header",
+      {
+        className: "bg-white/70 backdrop-blur px-8 py-4 flex items-center justify-between",
+        style: { borderBottom: `2px solid ${GOLD2}` }
+      },
+      /* @__PURE__ */ import_react71.default.createElement("div", null, /* @__PURE__ */ import_react71.default.createElement("h1", { className: "font-serif text-xl font-bold", style: { color: NAVY3 } }, "Nouvelle enqu\xEAte"), /* @__PURE__ */ import_react71.default.createElement("p", { className: "text-xs text-gray-500 mt-0.5" }, "Assistant d'import \u2014 questionnaire, base et contexte d'\xE9tude")),
+      /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex items-center gap-4" }, /* @__PURE__ */ import_react71.default.createElement(Bell, { size: 18, className: "text-gray-400" }), /* @__PURE__ */ import_react71.default.createElement(
+        UserMenu,
+        {
+          email: userEmail,
+          roleLabel,
+          isAdmin,
+          isGuest,
+          onLogout,
+          onOpenAdmin
+        }
+      ))
+    ), /* @__PURE__ */ import_react71.default.createElement("main", { className: "p-8 max-w-4xl" }, /* @__PURE__ */ import_react71.default.createElement(Stepper, { current: step, setCurrent: setStep }), step === 1 && /* @__PURE__ */ import_react71.default.createElement(Card, null, /* @__PURE__ */ import_react71.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY3 } }, "Importer le questionnaire"), /* @__PURE__ */ import_react71.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, "Formats reconnus automatiquement : XLSForm/KoboToolbox, Akvo Flow, ODK, ou fichier Excel de structure libre."), /* @__PURE__ */ import_react71.default.createElement("div", { className: "grid grid-cols-2 gap-4" }, /* @__PURE__ */ import_react71.default.createElement(Dropzone, { label: "Glisser-d\xE9poser un fichier", hint: "ou cliquer pour parcourir", formats: ["XLSForm", "ODK", ".xlsx"] }), /* @__PURE__ */ import_react71.default.createElement("div", { className: "border-2 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center text-center gap-2 cursor-pointer hover:bg-[#FAFBFE]", style: { borderColor: "#C7D2E8" } }, /* @__PURE__ */ import_react71.default.createElement("div", { className: "w-12 h-12 rounded-xl flex items-center justify-center mb-1", style: { background: "#E4F5EC" } }, /* @__PURE__ */ import_react71.default.createElement(Link2, { size: 20, style: { color: "#256B45" } })), /* @__PURE__ */ import_react71.default.createElement("div", { className: "font-medium text-sm", style: { color: NAVY3 } }, "Connecter Akvo Flow / KoboToolbox"), /* @__PURE__ */ import_react71.default.createElement("div", { className: "text-xs text-gray-400" }, "Import direct via API"))), /* @__PURE__ */ import_react71.default.createElement("div", { className: "mt-5" }, /* @__PURE__ */ import_react71.default.createElement(UploadedFile, { icon: FileSpreadsheet, name: "Questionnaire_Suivi_Semis_2026-2027.xlsx", meta: "24 questions d\xE9tect\xE9es \xB7 import\xE9 il y a 2 min", tint: "#EBEEF7", fg: NAVY3 }))), step === 2 && /* @__PURE__ */ import_react71.default.createElement(Card, null, /* @__PURE__ */ import_react71.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY3 } }, "Importer la base de donn\xE9es"), /* @__PURE__ */ import_react71.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, "Fichier CSV/Excel, ou connexion directe \xE0 la source de collecte."), /* @__PURE__ */ import_react71.default.createElement("div", { className: "grid grid-cols-2 gap-4" }, /* @__PURE__ */ import_react71.default.createElement(Dropzone, { label: "Glisser-d\xE9poser un fichier", hint: "ou cliquer pour parcourir", formats: ["CSV", ".xlsx"] }), /* @__PURE__ */ import_react71.default.createElement("div", { className: "border-2 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center text-center gap-2 cursor-pointer hover:bg-[#FAFBFE]", style: { borderColor: "#C7D2E8" } }, /* @__PURE__ */ import_react71.default.createElement("div", { className: "w-12 h-12 rounded-xl flex items-center justify-center mb-1", style: { background: "#E4F5EC" } }, /* @__PURE__ */ import_react71.default.createElement(Link2, { size: 20, style: { color: "#256B45" } })), /* @__PURE__ */ import_react71.default.createElement("div", { className: "font-medium text-sm", style: { color: NAVY3 } }, "Connecter Akvo Flow / KoboToolbox"), /* @__PURE__ */ import_react71.default.createElement("div", { className: "text-xs text-gray-400" }, "Synchronisation automatique"))), /* @__PURE__ */ import_react71.default.createElement("div", { className: "mt-5 space-y-3" }, /* @__PURE__ */ import_react71.default.createElement(UploadedFile, { icon: FileCheckCorner, name: "Base_Semis_Decade3_Juillet2026.csv", meta: "2 479 enregistrements \xB7 31 colonnes", tint: "#E4F5EC", fg: "#256B45" }), /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex items-start gap-2 rounded-xl p-3 border border-black/5", style: { background: "#FDF1DA" } }, /* @__PURE__ */ import_react71.default.createElement(MapPin, { size: 16, style: { color: "#8A5A00" }, className: "mt-0.5" }), /* @__PURE__ */ import_react71.default.createElement("div", { className: "text-xs", style: { color: "#8A5A00" } }, /* @__PURE__ */ import_react71.default.createElement("span", { className: "font-medium" }, "5 colonnes de g\xE9olocalisation d\xE9tect\xE9es"), " (latitude, longitude) \u2014 la cartographie automatique (Module 8) sera disponible pour cette enqu\xEAte.")))), step === 3 && /* @__PURE__ */ import_react71.default.createElement(Card, null, /* @__PURE__ */ import_react71.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY3 } }, "Contexte de l'\xE9tude"), /* @__PURE__ */ import_react71.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, "Ces informations cadrent l'interpr\xE9tation narrative du rapport final."), /* @__PURE__ */ import_react71.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Objectif de l'\xE9tude"), /* @__PURE__ */ import_react71.default.createElement(
+      "textarea",
+      {
+        className: "w-full text-sm rounded-xl border border-gray-200 p-3 mb-5 resize-none focus:outline-none focus:ring-2",
+        style: { "--tw-ring-color": GOLD2 },
+        rows: 2,
+        value: objectif,
+        onChange: (e) => setObjectif(e.target.value)
+      }
+    ), /* @__PURE__ */ import_react71.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Zone g\xE9ographique (communes)"), /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex flex-wrap gap-2 mb-5" }, COMMUNES.map((c2) => /* @__PURE__ */ import_react71.default.createElement(Chip, { key: c2, label: c2, active: communes.includes(c2), onClick: () => toggle(communes, setCommunes, c2) }))), /* @__PURE__ */ import_react71.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Fili\xE8re(s) concern\xE9e(s)"), /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex flex-wrap gap-2 mb-5" }, Object.entries(FILIERES2).map(([f, c2]) => /* @__PURE__ */ import_react71.default.createElement(Chip, { key: f, label: f, active: filieres.includes(f), onClick: () => toggle(filieres, setFilieres, f), color: c2 }))), /* @__PURE__ */ import_react71.default.createElement("div", { className: "grid grid-cols-2 gap-4" }, /* @__PURE__ */ import_react71.default.createElement("div", null, /* @__PURE__ */ import_react71.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "P\xE9riode de r\xE9f\xE9rence"), /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex items-center gap-2" }, /* @__PURE__ */ import_react71.default.createElement("input", { type: "text", defaultValue: "10/06/2026", className: "w-full text-sm rounded-xl border border-gray-200 p-2.5 focus:outline-none focus:ring-2", style: { "--tw-ring-color": GOLD2 } }), /* @__PURE__ */ import_react71.default.createElement("span", { className: "text-gray-400 text-xs" }, "\u2192"), /* @__PURE__ */ import_react71.default.createElement("input", { type: "text", defaultValue: "20/07/2026", className: "w-full text-sm rounded-xl border border-gray-200 p-2.5 focus:outline-none focus:ring-2", style: { "--tw-ring-color": GOLD2 } }))), /* @__PURE__ */ import_react71.default.createElement("div", null, /* @__PURE__ */ import_react71.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Unit\xE9 d'analyse"), /* @__PURE__ */ import_react71.default.createElement("select", { className: "w-full text-sm rounded-xl border border-gray-200 p-2.5 focus:outline-none focus:ring-2", style: { "--tw-ring-color": GOLD2 } }, /* @__PURE__ */ import_react71.default.createElement("option", null, "Exploitation agricole"), /* @__PURE__ */ import_react71.default.createElement("option", null, "M\xE9nage"), /* @__PURE__ */ import_react71.default.createElement("option", null, "Parcelle"), /* @__PURE__ */ import_react71.default.createElement("option", null, "Commune"))))), step === 4 && /* @__PURE__ */ import_react71.default.createElement(Card, null, /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex items-center justify-between mb-1" }, /* @__PURE__ */ import_react71.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY3 } }, "Indicateurs de performance"), /* @__PURE__ */ import_react71.default.createElement("button", { className: "text-xs font-medium flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-white", style: { background: NAVY3 } }, /* @__PURE__ */ import_react71.default.createElement(Plus, { size: 14 }), " Ajouter un indicateur")), /* @__PURE__ */ import_react71.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, "Ces indicateurs seront mis en regard des analyses bivari\xE9es et de l'enrichissement climatique (Module 7)."), /* @__PURE__ */ import_react71.default.createElement("div", { className: "space-y-3" }, [
+      { name: "Taux de r\xE9alisation des semis", formule: "Superficie r\xE9alis\xE9e / Superficie pr\xE9vue \xD7 100", seuil: "75 %" },
+      { name: "Rendement moyen estim\xE9", formule: "Production estim\xE9e / Superficie r\xE9alis\xE9e", seuil: "ND \u2014 \xE0 renseigner" }
+    ].map((kpi) => /* @__PURE__ */ import_react71.default.createElement("div", { key: kpi.name, className: "flex items-center gap-3 rounded-xl border border-gray-100 p-3" }, /* @__PURE__ */ import_react71.default.createElement("div", { className: "w-8 h-8 rounded-lg flex items-center justify-center shrink-0", style: { background: "#EBEEF7" } }, /* @__PURE__ */ import_react71.default.createElement(ChartColumn, { size: 15, style: { color: NAVY3 } })), /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex-1" }, /* @__PURE__ */ import_react71.default.createElement("div", { className: "text-sm font-medium text-gray-800" }, kpi.name), /* @__PURE__ */ import_react71.default.createElement("div", { className: "text-[11px] text-gray-400" }, kpi.formule)), /* @__PURE__ */ import_react71.default.createElement("span", { className: "text-[11px] font-medium px-2 py-1 rounded-full", style: { background: "#FDF1DA", color: "#8A5A00" } }, "Seuil : ", kpi.seuil), /* @__PURE__ */ import_react71.default.createElement("button", { className: "text-gray-300 hover:text-red-400" }, /* @__PURE__ */ import_react71.default.createElement(Trash2, { size: 15 })))))), step === 5 && /* @__PURE__ */ import_react71.default.createElement(Card, null, /* @__PURE__ */ import_react71.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY3 } }, "Cartographie automatique des variables"), /* @__PURE__ */ import_react71.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, "Appariement propos\xE9 entre les items du questionnaire et les colonnes de la base \u2014 \xE0 valider avant lancement des analyses."), /* @__PURE__ */ import_react71.default.createElement("div", { className: "rounded-xl overflow-hidden border border-gray-100" }, /* @__PURE__ */ import_react71.default.createElement("table", { className: "w-full text-sm" }, /* @__PURE__ */ import_react71.default.createElement("thead", null, /* @__PURE__ */ import_react71.default.createElement("tr", { className: "text-left text-[11px] text-gray-400 uppercase bg-gray-50" }, /* @__PURE__ */ import_react71.default.createElement("th", { className: "px-4 py-2.5 font-medium" }, "Item du questionnaire"), /* @__PURE__ */ import_react71.default.createElement("th", { className: "px-4 py-2.5 font-medium" }, "Colonne base"), /* @__PURE__ */ import_react71.default.createElement("th", { className: "px-4 py-2.5 font-medium" }, "Type d\xE9tect\xE9"), /* @__PURE__ */ import_react71.default.createElement("th", { className: "px-4 py-2.5 font-medium" }, "Statut"))), /* @__PURE__ */ import_react71.default.createElement("tbody", null, [
+      { q: "Superficie sem\xE9e (ha)", col: "sup_semee_ha", type: "Quantitative continue", status: "ok" },
+      { q: "Fili\xE8re suivie", col: "filiere", type: "Nominale", status: "ok" },
+      { q: "Commune d'enqu\xEAte", col: "commune", type: "Nominale", status: "ok" },
+      { q: "Latitude / Longitude", col: "geo_lat / geo_lon", type: "G\xE9olocalisation", status: "geo" },
+      { q: "Niveau de satisfaction intrants", col: "satisf_intrants", type: "Ordinale", status: "warn" }
+    ].map((r2) => /* @__PURE__ */ import_react71.default.createElement("tr", { key: r2.q, className: "border-t border-gray-50" }, /* @__PURE__ */ import_react71.default.createElement("td", { className: "px-4 py-3 text-gray-800" }, r2.q), /* @__PURE__ */ import_react71.default.createElement("td", { className: "px-4 py-3 text-gray-500 font-mono text-xs" }, r2.col), /* @__PURE__ */ import_react71.default.createElement("td", { className: "px-4 py-3 text-gray-500" }, r2.type), /* @__PURE__ */ import_react71.default.createElement("td", { className: "px-4 py-3" }, r2.status === "ok" && /* @__PURE__ */ import_react71.default.createElement("span", { className: "inline-flex items-center gap-1 text-[11px] font-medium px-2 py-1 rounded-full", style: { background: "#E4F5EC", color: "#256B45" } }, /* @__PURE__ */ import_react71.default.createElement(Check, { size: 11 }), " Confirm\xE9"), r2.status === "geo" && /* @__PURE__ */ import_react71.default.createElement("span", { className: "inline-flex items-center gap-1 text-[11px] font-medium px-2 py-1 rounded-full", style: { background: "#EBEEF7", color: NAVY3 } }, /* @__PURE__ */ import_react71.default.createElement(MapPin, { size: 11 }), " G\xE9o d\xE9tect\xE9e"), r2.status === "warn" && /* @__PURE__ */ import_react71.default.createElement("span", { className: "inline-flex items-center gap-1 text-[11px] font-medium px-2 py-1 rounded-full", style: { background: "#FDF1DA", color: "#8A5A00" } }, /* @__PURE__ */ import_react71.default.createElement(CircleAlert, { size: 11 }), " \xC0 v\xE9rifier")))))))), /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex items-center justify-between mt-6" }, /* @__PURE__ */ import_react71.default.createElement(
+      "button",
+      {
+        onClick: () => setStep(Math.max(1, step - 1)),
+        disabled: step === 1,
+        className: "px-4 py-2.5 rounded-xl text-sm font-medium flex items-center gap-1.5 disabled:opacity-0 bg-white border border-gray-200 text-gray-600"
+      },
+      /* @__PURE__ */ import_react71.default.createElement(ChevronLeft, { size: 15 }),
+      " Pr\xE9c\xE9dent"
+    ), step < 5 ? /* @__PURE__ */ import_react71.default.createElement(
+      "button",
+      {
+        onClick: () => setStep(step + 1),
+        className: "px-5 py-2.5 rounded-xl text-sm font-medium flex items-center gap-1.5 text-white shadow-md",
+        style: { background: `linear-gradient(135deg, ${NAVY3}, #2A4A82)` }
+      },
+      "Suivant ",
+      /* @__PURE__ */ import_react71.default.createElement(ChevronRight, { size: 15 })
+    ) : submitted ? /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex items-center gap-2 text-sm font-medium", style: { color: "#256B45" } }, /* @__PURE__ */ import_react71.default.createElement(Check, { size: 16 }), " Projet soumis \u2014 visible dans le tableau de bord administrateur") : /* @__PURE__ */ import_react71.default.createElement(
+      "button",
+      {
+        onClick: async () => {
+          if (isGuest || !isSupabaseConfigured) {
+            setSubmitError("Cr\xE9ez un compte pour soumettre un projet r\xE9el (mode d\xE9monstration : rien n'est enregistr\xE9).");
+            return;
+          }
+          setSubmitting(true);
+          setSubmitError("");
+          const { error } = await supabase.from("projets").insert({
+            user_id: userId,
+            user_email: userEmail,
+            titre: objectif,
+            thematiques: filieres,
+            communes,
+            statut: "soumis"
+          });
+          setSubmitting(false);
+          if (error) setSubmitError(error.message);
+          else setSubmitted(true);
+        },
+        disabled: submitting,
+        className: "px-5 py-2.5 rounded-xl text-sm font-medium flex items-center gap-1.5 text-white shadow-md disabled:opacity-60",
+        style: { background: `linear-gradient(135deg, #3E9C6B, #256B45)` }
+      },
+      /* @__PURE__ */ import_react71.default.createElement(Check, { size: 15 }),
+      " ",
+      submitting ? "Envoi en cours\u2026" : "Lancer les analyses"
+    )), submitError && /* @__PURE__ */ import_react71.default.createElement("p", { className: "text-xs mt-3 text-right", style: { color: "#B3413A" } }, submitError)))));
+  }
+
+  // src/AnalysisConfig.jsx
+  var import_react72 = __toESM(require_react());
+  var NAVY4 = "#1F3864";
+  var GOLD3 = "#C99A2E";
+  var GREEN = "#256B45";
+  var GREEN_TINT = "#E4F5EC";
+  var AMBER = "#8A5A00";
+  var AMBER_TINT = "#FDF1DA";
+  var NAVY_TINT = "#EBEEF7";
+  var nav3 = [
+    { id: "dashboard", label: "Tableau de bord", icon: LayoutDashboard },
+    { id: "import", label: "Assistant d'import", icon: ClipboardList },
+    { id: "config", label: "Configuration des analyses", icon: ChartColumn },
+    { id: "results", label: "R\xE9sultats & rapport", icon: FileText },
+    { id: "map", label: "Cartographie", icon: MapPin }
+  ];
+  var VARIABLES = [
+    { id: "sup_semee", label: "Superficie sem\xE9e (ha)", type: "Quantitative continue", normal: false },
+    { id: "rendement", label: "Rendement estim\xE9 (kg/ha)", type: "Quantitative continue", normal: true },
+    { id: "filiere", label: "Fili\xE8re suivie", type: "Nominale (5 modalit\xE9s)" },
+    { id: "commune", label: "Commune d'enqu\xEAte", type: "Nominale (8 modalit\xE9s)" },
+    { id: "satisf_intrants", label: "Satisfaction intrants", type: "Ordinale (4 niveaux)" },
+    { id: "acces_credit", label: "Acc\xE8s au cr\xE9dit agricole", type: "Nominale (2 modalit\xE9s)" },
+    { id: "pluvio_decade", label: "Pluviom\xE9trie d\xE9cadaire (mm)", type: "Quantitative continue", normal: true }
+  ];
+  function proposeTest(xId, yId) {
+    const x2 = VARIABLES.find((v) => v.id === xId);
+    const y2 = VARIABLES.find((v) => v.id === yId);
+    if (!x2 || !y2) return null;
+    const isQuantX = x2.type.startsWith("Quantitative");
+    const isQuantY = y2.type.startsWith("Quantitative");
+    if (isQuantX && isQuantY) {
+      const normal = x2.normal && y2.normal;
+      return {
+        test: normal ? "Corr\xE9lation de Pearson" : "Corr\xE9lation de Spearman",
+        justification: normal ? "Les deux variables suivent une distribution normale (test de Shapiro-Wilk, p > 0,05) : le coefficient de corr\xE9lation de Pearson est adapt\xE9." : "Au moins une variable s'\xE9carte de la normalit\xE9 (Shapiro-Wilk, p < 0,05) : le coefficient de corr\xE9lation de Spearman, non param\xE9trique, est privil\xE9gi\xE9.",
+        alternatives: ["Corr\xE9lation de Pearson", "Corr\xE9lation de Spearman"]
+      };
+    }
+    if (isQuantX !== isQuantY) {
+      const quant = isQuantX ? x2 : y2;
+      const qual = isQuantX ? y2 : x2;
+      const modalites = qual.type.includes("2 modalit\xE9s");
+      return {
+        test: modalites ? quant.normal ? "Test de Student" : "Test de Mann-Whitney" : quant.normal ? "ANOVA \xE0 un facteur" : "Test de Kruskal-Wallis",
+        justification: `Variable qualitative \xE0 ${modalites ? "deux" : "plusieurs"} modalit\xE9s crois\xE9e avec une variable quantitative ${quant.normal ? "normalement distribu\xE9e" : "ne suivant pas une loi normale (Shapiro-Wilk, p < 0,05)"}.`,
+        alternatives: modalites ? ["Test de Student", "Test de Mann-Whitney"] : ["ANOVA \xE0 un facteur", "Test de Kruskal-Wallis"]
+      };
+    }
+    return {
+      test: "Test du Khi\xB2 d'ind\xE9pendance",
+      justification: "Deux variables qualitatives : le test du Khi\xB2 \xE9value l'ind\xE9pendance, compl\xE9t\xE9 par le V de Cram\xE9r pour la force de l'association.",
+      alternatives: ["Test du Khi\xB2 d'ind\xE9pendance", "V de Cram\xE9r (mesure d'association)"]
+    };
+  }
+  function getConditions(test) {
+    const table = {
+      "Corr\xE9lation de Pearson": [
+        { label: "Lin\xE9arit\xE9 de la relation entre les deux variables", status: "ok", detail: "V\xE9rifi\xE9e par inspection du nuage de points" },
+        { label: "Normalit\xE9 bivari\xE9e (Shapiro-Wilk conjoint)", status: "ok", detail: "p = 0,184 \u2014 non significatif" },
+        { label: "Absence de valeurs aberrantes influentes", status: "warn", detail: "2 valeurs atypiques d\xE9tect\xE9es, \xE0 examiner" }
+      ],
+      "Corr\xE9lation de Spearman": [
+        { label: "Relation monotone entre les deux variables", status: "ok", detail: "Confirm\xE9e graphiquement" },
+        { label: "Absence d'ex-aequo excessifs", status: "ok" }
+      ],
+      "Test de Student": [
+        { label: "Normalit\xE9 par groupe (Shapiro-Wilk)", status: "ok", detail: "p = 0,21 et p = 0,17" },
+        { label: "Homog\xE9n\xE9it\xE9 des variances (test de Levene)", status: "ok", detail: "p = 0,312" },
+        { label: "Taille d'\xE9chantillon suffisante par groupe (n \u2265 30)", status: "ok", detail: "n = 42 / n = 38" }
+      ],
+      "Test de Mann-Whitney": [
+        { label: "Ind\xE9pendance des observations", status: "ok" },
+        { label: "Distributions de forme comparable entre les deux groupes", status: "warn", detail: "Asym\xE9trie mod\xE9r\xE9e du groupe 2" }
+      ],
+      "ANOVA \xE0 un facteur": [
+        { label: "Normalit\xE9 des r\xE9sidus (Shapiro-Wilk)", status: "warn", detail: "p = 0,041 \u2014 \xE9cart \xE0 la normalit\xE9" },
+        { label: "Homog\xE9n\xE9it\xE9 des variances (test de Levene)", status: "ok", detail: "p = 0,312" },
+        { label: "Taille d'\xE9chantillon suffisante par groupe (n \u2265 30)", status: "ok", detail: "n = 42" }
+      ],
+      "Test de Kruskal-Wallis": [
+        { label: "Ind\xE9pendance des observations", status: "ok" },
+        { label: "Distributions de forme comparable entre les groupes", status: "ok" }
+      ],
+      "Test du Khi\xB2 d'ind\xE9pendance": [
+        { label: "Effectifs th\xE9oriques \u2265 5 dans au moins 80 % des cellules", status: "ok", detail: "92 % des cellules conformes" },
+        { label: "Ind\xE9pendance des observations", status: "ok" }
+      ],
+      "V de Cram\xE9r (mesure d'association)": [
+        { label: "Effectifs th\xE9oriques suffisants", status: "ok" }
+      ]
+    };
+    return table[test] || [{ label: "Ind\xE9pendance des observations", status: "ok" }];
+  }
+  var STATUS_STYLE = {
+    ok: { icon: CircleCheck, color: GREEN, bg: GREEN_TINT, text: "Conforme" },
+    warn: { icon: TriangleAlert, color: AMBER, bg: AMBER_TINT, text: "\xC0 examiner" },
+    fail: { icon: CircleX, color: "#B3413A", bg: "#FBE7E5", text: "Non conforme" }
+  };
+  function Watermark3() {
+    return /* @__PURE__ */ import_react72.default.createElement("div", { className: "fixed inset-0 overflow-hidden pointer-events-none z-0 flex items-center justify-center" }, /* @__PURE__ */ import_react72.default.createElement(
+      "span",
+      {
+        className: "font-serif font-black whitespace-nowrap select-none",
+        style: { color: NAVY4, opacity: 0.06, fontSize: "13vw", letterSpacing: "-0.02em" }
+      },
+      "AgriHakStat"
+    ), /* @__PURE__ */ import_react72.default.createElement("span", { className: "absolute bottom-4 right-6 text-xs font-medium select-none", style: { color: NAVY4, opacity: 0.35 } }, "Con\xE7u par Hakibou MOUSSA"));
+  }
+  function Card2({ children, className = "" }) {
+    return /* @__PURE__ */ import_react72.default.createElement("div", { className: `bg-white rounded-2xl p-6 shadow-sm border border-black/5 ${className}` }, children);
+  }
+  function TabButton({ label, icon: Icon3, active, onClick }) {
+    return /* @__PURE__ */ import_react72.default.createElement(
+      "button",
+      {
+        onClick,
+        className: "flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-colors",
+        style: active ? { background: NAVY4, color: "white" } : { background: "white", color: "#5A6478", border: "1px solid #E4E6ED" }
+      },
+      /* @__PURE__ */ import_react72.default.createElement(Icon3, { size: 15 }),
+      " ",
+      label
+    );
+  }
+  function Select({ value, onChange, options, placeholder }) {
+    return /* @__PURE__ */ import_react72.default.createElement(
+      "select",
+      {
+        value: value || "",
+        onChange: (e) => onChange(e.target.value),
+        className: "w-full text-sm rounded-xl border border-gray-200 p-2.5 focus:outline-none focus:ring-2 bg-white",
+        style: { "--tw-ring-color": GOLD3 }
+      },
+      /* @__PURE__ */ import_react72.default.createElement("option", { value: "", disabled: true }, placeholder),
+      options.map((v) => /* @__PURE__ */ import_react72.default.createElement("option", { key: v.id, value: v.id }, v.label))
+    );
+  }
+  function AnalysisConfig({ active, onNavigate, userEmail, roleLabel, isAdmin, isGuest, onLogout, onOpenAdmin }) {
+    const [tab, setTab] = (0, import_react72.useState)("bivariee");
+    const [included, setIncluded] = (0, import_react72.useState)(["sup_semee", "rendement", "filiere", "commune", "pluvio_decade", "acces_credit"]);
+    const [x2, setX] = (0, import_react72.useState)("sup_semee");
+    const [y2, setY] = (0, import_react72.useState)("pluvio_decade");
+    const [override, setOverride] = (0, import_react72.useState)(null);
+    const [confirmed, setConfirmed] = (0, import_react72.useState)({});
+    const [queue, setQueue] = (0, import_react72.useState)([
+      { label: "Fili\xE8re suivie \xD7 Rendement estim\xE9", test: "ANOVA \xE0 un facteur", status: "auto", conditions: 3 }
+    ]);
+    const availableVars = VARIABLES.filter((v) => included.includes(v.id));
+    const toggleIncluded = (id) => setIncluded((prev) => prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]);
+    const proposal = proposeTest(x2, y2);
+    const activeTest = override || proposal?.test;
+    const xVar = VARIABLES.find((v) => v.id === x2);
+    const yVar = VARIABLES.find((v) => v.id === y2);
+    const conditions = activeTest ? getConditions(activeTest) : [];
+    const allConfirmed = conditions.length > 0 && conditions.every((_, i) => confirmed[i]);
+    (0, import_react72.useEffect)(() => {
+      setConfirmed({});
+    }, [activeTest, x2, y2]);
+    const addToQueue = () => {
+      if (!proposal || !allConfirmed) return;
+      setQueue([
+        ...queue,
+        {
+          label: `${xVar.label} \xD7 ${yVar.label}`,
+          test: activeTest,
+          status: override ? "adjusted" : "auto",
+          conditions: conditions.length
+        }
+      ]);
+      setOverride(null);
+      setConfirmed({});
+    };
+    return /* @__PURE__ */ import_react72.default.createElement("div", { className: "min-h-screen relative bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans" }, /* @__PURE__ */ import_react72.default.createElement(Watermark3, null), /* @__PURE__ */ import_react72.default.createElement("div", { className: "relative z-10 flex" }, /* @__PURE__ */ import_react72.default.createElement(
+      "aside",
+      {
+        className: "w-60 min-h-screen shrink-0 py-6 px-4 text-[#C7D2E8]",
+        style: { background: `linear-gradient(180deg, ${NAVY4} 0%, #16294B 100%)` }
+      },
+      /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex flex-col items-start gap-1 px-2 mb-8" }, /* @__PURE__ */ import_react72.default.createElement("img", { src: "./logo-compact.png", alt: "AgriHakStat", className: "h-32 w-auto -ml-1" }), /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-[10px] opacity-60" }, "DDAEP-Borgou")),
+      /* @__PURE__ */ import_react72.default.createElement("nav", { className: "space-y-1.5" }, nav3.map((item) => /* @__PURE__ */ import_react72.default.createElement(
+        "div",
+        {
+          key: item.id,
+          onClick: () => onNavigate(item.id),
+          className: `flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer text-sm transition-colors ${item.id === active ? "bg-[#16294B] text-white font-medium border-l-4" : "hover:bg-white/5"}`,
+          style: item.id === active ? { borderColor: GOLD3 } : {}
+        },
+        /* @__PURE__ */ import_react72.default.createElement(item.icon, { size: 17 }),
+        item.label
+      )))
+    ), /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex-1 min-h-screen" }, /* @__PURE__ */ import_react72.default.createElement(
+      "header",
+      {
+        className: "bg-white/70 backdrop-blur px-8 py-4 flex items-center justify-between",
+        style: { borderBottom: `2px solid ${GOLD3}` }
+      },
+      /* @__PURE__ */ import_react72.default.createElement("div", null, /* @__PURE__ */ import_react72.default.createElement("h1", { className: "font-serif text-xl font-bold", style: { color: NAVY4 } }, "Configuration des analyses"), /* @__PURE__ */ import_react72.default.createElement("p", { className: "text-xs text-gray-500 mt-0.5" }, "Suivi semis 2026-2027 \xB7 D\xE9cade 3 \u2014 Coton, Tchaourou & P\xE9r\xE8r\xE8")),
+      /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex items-center gap-4" }, /* @__PURE__ */ import_react72.default.createElement(Bell, { size: 18, className: "text-gray-400" }), /* @__PURE__ */ import_react72.default.createElement(
+        UserMenu,
+        {
+          email: userEmail,
+          roleLabel,
+          isAdmin,
+          isGuest,
+          onLogout,
+          onOpenAdmin
+        }
+      ))
+    ), /* @__PURE__ */ import_react72.default.createElement("main", { className: "p-8 grid grid-cols-3 gap-6" }, /* @__PURE__ */ import_react72.default.createElement("div", { className: "col-span-2" }, /* @__PURE__ */ import_react72.default.createElement(Card2, { className: "mb-5" }, /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex items-center gap-2 mb-1" }, /* @__PURE__ */ import_react72.default.createElement(ShieldCheck, { size: 16, style: { color: NAVY4 } }), /* @__PURE__ */ import_react72.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY4 } }, "Variables retenues pour cette session")), /* @__PURE__ */ import_react72.default.createElement("p", { className: "text-xs text-gray-400 mb-3" }, "Seules les variables coch\xE9es seront propos\xE9es dans les analyses ci-dessous."), /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex flex-wrap gap-2" }, VARIABLES.map((v) => /* @__PURE__ */ import_react72.default.createElement(
+      "button",
+      {
+        key: v.id,
+        onClick: () => toggleIncluded(v.id),
+        className: "px-3 py-1.5 rounded-full text-xs font-medium border transition-colors",
+        style: included.includes(v.id) ? { background: NAVY_TINT, borderColor: NAVY4, color: NAVY4 } : { background: "white", borderColor: "#D8DEE9", color: "#B0B7C6" }
+      },
+      included.includes(v.id) ? /* @__PURE__ */ import_react72.default.createElement(Check, { size: 11, className: "inline mr-1 -mt-0.5" }) : null,
+      v.label
+    )))), /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex gap-2 mb-5" }, /* @__PURE__ */ import_react72.default.createElement(TabButton, { label: "Univari\xE9e", icon: Sigma, active: tab === "univariee", onClick: () => setTab("univariee") }), /* @__PURE__ */ import_react72.default.createElement(TabButton, { label: "Bivari\xE9e", icon: TrendingUp, active: tab === "bivariee", onClick: () => setTab("bivariee") }), /* @__PURE__ */ import_react72.default.createElement(TabButton, { label: "Multivari\xE9e", icon: Layers, active: tab === "multivariee", onClick: () => setTab("multivariee") })), tab === "bivariee" && /* @__PURE__ */ import_react72.default.createElement(Card2, null, /* @__PURE__ */ import_react72.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY4 } }, "Analyse bivari\xE9e"), /* @__PURE__ */ import_react72.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, "S\xE9lectionnez deux variables : le test statistique adapt\xE9 est propos\xE9 automatiquement."), /* @__PURE__ */ import_react72.default.createElement("div", { className: "grid grid-cols-2 gap-4 mb-5" }, /* @__PURE__ */ import_react72.default.createElement("div", null, /* @__PURE__ */ import_react72.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Variable X"), /* @__PURE__ */ import_react72.default.createElement(Select, { value: x2, onChange: (v) => {
+      setX(v);
+      setOverride(null);
+    }, options: availableVars, placeholder: "Choisir une variable" }), xVar && /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-[11px] text-gray-400 mt-1" }, xVar.type)), /* @__PURE__ */ import_react72.default.createElement("div", null, /* @__PURE__ */ import_react72.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Variable Y"), /* @__PURE__ */ import_react72.default.createElement(Select, { value: y2, onChange: (v) => {
+      setY(v);
+      setOverride(null);
+    }, options: availableVars, placeholder: "Choisir une variable" }), yVar && /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-[11px] text-gray-400 mt-1" }, yVar.type))), proposal && /* @__PURE__ */ import_react72.default.createElement(import_react72.default.Fragment, null, /* @__PURE__ */ import_react72.default.createElement("div", { className: "rounded-2xl p-4 border mb-4", style: { background: override ? AMBER_TINT : NAVY_TINT, borderColor: "transparent" } }, /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex items-center justify-between mb-2" }, /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex items-center gap-2" }, /* @__PURE__ */ import_react72.default.createElement(WandSparkles, { size: 15, style: { color: override ? AMBER : NAVY4 } }), /* @__PURE__ */ import_react72.default.createElement("span", { className: "text-sm font-semibold", style: { color: override ? AMBER : NAVY4 } }, activeTest)), /* @__PURE__ */ import_react72.default.createElement(
+      "span",
+      {
+        className: "text-[11px] font-medium px-2 py-1 rounded-full",
+        style: { background: "white", color: override ? AMBER : NAVY4 }
+      },
+      override ? "Ajust\xE9 par l'analyste" : "Propos\xE9 automatiquement"
+    )), /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex items-start gap-1.5 text-xs mb-3", style: { color: override ? AMBER : "#3A5488" } }, /* @__PURE__ */ import_react72.default.createElement(Info, { size: 13, className: "mt-0.5 shrink-0" }), /* @__PURE__ */ import_react72.default.createElement("span", null, proposal.justification)), /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex items-center gap-2" }, /* @__PURE__ */ import_react72.default.createElement(Pencil, { size: 13, className: "text-gray-400" }), /* @__PURE__ */ import_react72.default.createElement(
+      "select",
+      {
+        value: activeTest,
+        onChange: (e) => setOverride(e.target.value === proposal.test ? null : e.target.value),
+        className: "text-xs rounded-lg border border-gray-200 p-1.5 bg-white focus:outline-none"
+      },
+      proposal.alternatives.map((a2) => /* @__PURE__ */ import_react72.default.createElement("option", { key: a2, value: a2 }, a2))
+    ), /* @__PURE__ */ import_react72.default.createElement("span", { className: "text-[11px] text-gray-400" }, "Ajuster le test si n\xE9cessaire"))), /* @__PURE__ */ import_react72.default.createElement("div", { className: "rounded-2xl p-4 border border-gray-100" }, /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex items-center gap-2 mb-3" }, /* @__PURE__ */ import_react72.default.createElement(ShieldCheck, { size: 15, style: { color: NAVY4 } }), /* @__PURE__ */ import_react72.default.createElement("span", { className: "text-sm font-semibold", style: { color: NAVY4 } }, "Conditions de validation du test")), /* @__PURE__ */ import_react72.default.createElement("div", { className: "space-y-2" }, conditions.map((c2, i) => {
+      const s2 = STATUS_STYLE[c2.status];
+      const Icon3 = s2.icon;
+      return /* @__PURE__ */ import_react72.default.createElement("label", { key: i, className: "flex items-start gap-3 rounded-xl p-2.5 cursor-pointer", style: { background: s2.bg } }, /* @__PURE__ */ import_react72.default.createElement(
+        "input",
+        {
+          type: "checkbox",
+          checked: !!confirmed[i],
+          onChange: (e) => setConfirmed({ ...confirmed, [i]: e.target.checked }),
+          className: "w-4 h-4 rounded mt-0.5",
+          style: { accentColor: s2.color }
+        }
+      ), /* @__PURE__ */ import_react72.default.createElement(Icon3, { size: 15, style: { color: s2.color }, className: "mt-0.5 shrink-0" }), /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex-1" }, /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-xs font-medium", style: { color: s2.color } }, c2.label), c2.detail && /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-[11px] text-gray-500 mt-0.5" }, c2.detail)), /* @__PURE__ */ import_react72.default.createElement("span", { className: "text-[10px] font-semibold shrink-0", style: { color: s2.color } }, s2.text));
+    })), /* @__PURE__ */ import_react72.default.createElement("p", { className: "text-[11px] text-gray-400 mt-3" }, "Chaque condition \u2014 y compris celles jug\xE9es conformes \u2014 requiert une confirmation explicite avant l'ex\xE9cution de l'analyse."))), /* @__PURE__ */ import_react72.default.createElement(
+      "button",
+      {
+        onClick: addToQueue,
+        disabled: !allConfirmed,
+        className: "mt-5 px-4 py-2.5 rounded-xl text-sm font-medium flex items-center gap-1.5 text-white shadow-md disabled:opacity-40 disabled:cursor-not-allowed",
+        style: { background: allConfirmed ? `linear-gradient(135deg, ${NAVY4}, #2A4A82)` : "#B0B7C6" }
+      },
+      /* @__PURE__ */ import_react72.default.createElement(Plus, { size: 15 }),
+      " ",
+      allConfirmed ? "Ajouter \xE0 la file d'analyses" : `Confirmer les ${conditions.length} conditions pour continuer`
+    )), tab === "univariee" && /* @__PURE__ */ import_react72.default.createElement(Card2, null, /* @__PURE__ */ import_react72.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY4 } }, "Analyse univari\xE9e"), /* @__PURE__ */ import_react72.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, "Cochez les variables \xE0 d\xE9crire : les statistiques calcul\xE9es s'adaptent au type d\xE9tect\xE9."), /* @__PURE__ */ import_react72.default.createElement("div", { className: "space-y-2" }, availableVars.map((v) => /* @__PURE__ */ import_react72.default.createElement("label", { key: v.id, className: "flex items-center justify-between rounded-xl border border-gray-100 p-3 cursor-pointer hover:bg-gray-50" }, /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex items-center gap-3" }, /* @__PURE__ */ import_react72.default.createElement("input", { type: "checkbox", defaultChecked: ["sup_semee", "filiere"].includes(v.id), className: "w-4 h-4 rounded", style: { accentColor: NAVY4 } }), /* @__PURE__ */ import_react72.default.createElement("span", { className: "text-sm text-gray-800" }, v.label)), /* @__PURE__ */ import_react72.default.createElement("span", { className: "text-[11px] text-gray-400" }, v.type.startsWith("Quantitative") ? "Moyenne, m\xE9diane, \xE9cart-type" : "Fr\xE9quences, mode"))))), tab === "multivariee" && /* @__PURE__ */ import_react72.default.createElement(Card2, null, /* @__PURE__ */ import_react72.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY4 } }, "Analyse multivari\xE9e"), /* @__PURE__ */ import_react72.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, "Choisissez la m\xE9thode, puis les variables \xE0 inclure."), /* @__PURE__ */ import_react72.default.createElement("div", { className: "grid grid-cols-2 gap-3 mb-5" }, ["ACP", "AFC", "Classification (CAH)", "R\xE9gression multiple"].map((m, i) => /* @__PURE__ */ import_react72.default.createElement(
+      "label",
+      {
+        key: m,
+        className: `flex items-center gap-2 rounded-xl border p-3 cursor-pointer text-sm ${i === 3 ? "border-2" : "border-gray-100"}`,
+        style: i === 3 ? { borderColor: GOLD3, background: "#FDF9F0" } : {}
+      },
+      /* @__PURE__ */ import_react72.default.createElement("input", { type: "radio", name: "method", defaultChecked: i === 3, style: { accentColor: NAVY4 } }),
+      m
+    ))), /* @__PURE__ */ import_react72.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Variable d\xE9pendante"), /* @__PURE__ */ import_react72.default.createElement(Select, { value: "rendement", onChange: () => {
+    }, options: availableVars, placeholder: "Choisir" }), /* @__PURE__ */ import_react72.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5 mt-4" }, "Variables explicatives"), /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex flex-wrap gap-2 mb-4" }, ["Superficie sem\xE9e", "Pluviom\xE9trie d\xE9cadaire", "Acc\xE8s au cr\xE9dit", "Satisfaction intrants"].map((v) => /* @__PURE__ */ import_react72.default.createElement("span", { key: v, className: "text-xs px-3 py-1.5 rounded-full font-medium", style: { background: NAVY_TINT, color: NAVY4 } }, v))), /* @__PURE__ */ import_react72.default.createElement("div", { className: "rounded-2xl p-4 border border-gray-100" }, /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex items-center gap-2 mb-2" }, /* @__PURE__ */ import_react72.default.createElement(ShieldCheck, { size: 15, style: { color: NAVY4 } }), /* @__PURE__ */ import_react72.default.createElement("span", { className: "text-sm font-semibold", style: { color: NAVY4 } }, "Conditions de validation du mod\xE8le")), /* @__PURE__ */ import_react72.default.createElement("div", { className: "space-y-2" }, [
+      { label: "Absence de multicolin\xE9arit\xE9 (VIF < 5 pour chaque variable explicative)", status: "ok", detail: "VIF max = 2,1" },
+      { label: "Normalit\xE9 des r\xE9sidus (Shapiro-Wilk)", status: "ok", detail: "p = 0,22" },
+      { label: "Homosc\xE9dasticit\xE9 des r\xE9sidus", status: "warn", detail: "Tendance l\xE9g\xE8re \xE0 examiner" }
+    ].map((c2, i) => {
+      const s2 = STATUS_STYLE[c2.status];
+      const Icon3 = s2.icon;
+      return /* @__PURE__ */ import_react72.default.createElement("label", { key: i, className: "flex items-start gap-3 rounded-xl p-2.5 cursor-pointer", style: { background: s2.bg } }, /* @__PURE__ */ import_react72.default.createElement("input", { type: "checkbox", className: "w-4 h-4 rounded mt-0.5", style: { accentColor: s2.color } }), /* @__PURE__ */ import_react72.default.createElement(Icon3, { size: 15, style: { color: s2.color }, className: "mt-0.5 shrink-0" }), /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex-1" }, /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-xs font-medium", style: { color: s2.color } }, c2.label), /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-[11px] text-gray-500 mt-0.5" }, c2.detail)), /* @__PURE__ */ import_react72.default.createElement("span", { className: "text-[10px] font-semibold shrink-0", style: { color: s2.color } }, s2.text));
+    }))))), /* @__PURE__ */ import_react72.default.createElement("div", null, /* @__PURE__ */ import_react72.default.createElement(Card2, null, /* @__PURE__ */ import_react72.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY4 } }, "File d'analyses configur\xE9es"), /* @__PURE__ */ import_react72.default.createElement("p", { className: "text-xs text-gray-400 mb-4" }, queue.length, " analyse", queue.length > 1 ? "s" : "", " pr\xEAte", queue.length > 1 ? "s" : "", " \xE0 ex\xE9cuter"), /* @__PURE__ */ import_react72.default.createElement("div", { className: "space-y-2 mb-5" }, queue.map((item, i) => /* @__PURE__ */ import_react72.default.createElement("div", { key: i, className: "flex items-start gap-2 rounded-xl border border-gray-100 p-3" }, /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex-1" }, /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-xs font-medium text-gray-800" }, item.label), /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-[11px] text-gray-500 mt-0.5" }, item.test), /* @__PURE__ */ import_react72.default.createElement(
+      "span",
+      {
+        className: "inline-flex items-center gap-1 text-[10px] font-medium px-1.5 py-0.5 rounded-full mt-1",
+        style: item.status === "adjusted" ? { background: AMBER_TINT, color: AMBER } : { background: GREEN_TINT, color: GREEN }
+      },
+      item.status === "adjusted" ? /* @__PURE__ */ import_react72.default.createElement(Pencil, { size: 9 }) : /* @__PURE__ */ import_react72.default.createElement(Check, { size: 9 }),
+      item.status === "adjusted" ? "Ajust\xE9" : "Auto",
+      " \xB7 ",
+      item.conditions,
+      " condition",
+      item.conditions > 1 ? "s" : "",
+      " valid\xE9e",
+      item.conditions > 1 ? "s" : ""
+    )), /* @__PURE__ */ import_react72.default.createElement("button", { onClick: () => setQueue(queue.filter((_, idx) => idx !== i)), className: "text-gray-300 hover:text-red-400" }, /* @__PURE__ */ import_react72.default.createElement(X, { size: 14 })))), queue.length === 0 && /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-xs text-gray-400 italic" }, "Aucune analyse ajout\xE9e pour l'instant.")), /* @__PURE__ */ import_react72.default.createElement(
+      "button",
+      {
+        className: "w-full px-4 py-2.5 rounded-xl text-sm font-medium flex items-center justify-center gap-1.5 text-white shadow-md",
+        style: { background: `linear-gradient(135deg, #3E9C6B, ${GREEN})` }
+      },
+      /* @__PURE__ */ import_react72.default.createElement(Play, { size: 14 }),
+      " Lancer les analyses"
+    )))))));
+  }
+
+  // src/ResultsReport.jsx
+  var import_react73 = __toESM(require_react());
+  var NAVY5 = "#1F3864";
+  var GOLD4 = "#C99A2E";
+  var GREEN2 = "#256B45";
+  var GREEN_TINT2 = "#E4F5EC";
+  var AMBER2 = "#8A5A00";
+  var AMBER_TINT2 = "#FDF1DA";
+  var NAVY_TINT2 = "#EBEEF7";
+  var FILIERES3 = {
+    Soja: "#3E9C6B",
+    Ma\u00EFs: "#F0AC1B",
+    Riz: "#3592C4",
+    Manioc: "#B5651D",
+    Coton: "#6C7DAE"
+  };
+  var nav4 = [
+    { id: "dashboard", label: "Tableau de bord", icon: LayoutDashboard },
+    { id: "import", label: "Assistant d'import", icon: ClipboardList },
+    { id: "config", label: "Configuration des analyses", icon: ChartColumn },
+    { id: "results", label: "R\xE9sultats & rapport", icon: FileText },
+    { id: "map", label: "Cartographie", icon: MapPin }
+  ];
+  var rendementParFiliere = [
+    { filiere: "Coton", moyenne: 1120, ecart: [90, 90] },
+    { filiere: "Ma\xEFs", moyenne: 1840, ecart: [140, 140] },
+    { filiere: "Riz", moyenne: 2210, ecart: [180, 180] },
+    { filiere: "Soja", moyenne: 1360, ecart: [110, 110] },
+    { filiere: "Manioc", moyenne: 9800, ecart: [620, 620] }
+  ];
+  var CLIMAT_COMMUNES = [
+    { name: "Sinend\xE9", x: 30, y: 10, mm: 108 },
+    { name: "Kalal\xE9", x: 68, y: 14, mm: 101 },
+    { name: "Bemb\xE9r\xE9k\xE9", x: 42, y: 30, mm: 95 },
+    { name: "N'Dali", x: 18, y: 48, mm: 84 },
+    { name: "P\xE9r\xE8r\xE8", x: 66, y: 42, mm: 61 },
+    { name: "Parakou", x: 40, y: 55, mm: 76 },
+    { name: "Nikki", x: 70, y: 62, mm: 89 },
+    { name: "Tchaourou", x: 34, y: 82, mm: 58 }
+  ];
+  function rainColor(mm) {
+    if (mm < 65) return "#C99A2E";
+    if (mm < 80) return "#8FAECB";
+    if (mm < 95) return "#4A7AB5";
+    return "#1F3864";
+  }
+  var scatterData = Array.from({ length: 24 }).map((_, i) => ({
+    x: 40 + i * 3 + i % 3 * 6,
+    y: 30 + i * 2.4 + i * 7 % 15
+  }));
+  var coefficients = [
+    { variable: "Superficie sem\xE9e (ha)", coef: "+18,4", p: "0,002", sig: true },
+    { variable: "Pluviom\xE9trie d\xE9cadaire (mm)", coef: "+6,1", p: "0,011", sig: true },
+    { variable: "Acc\xE8s au cr\xE9dit agricole", coef: "+142,7", p: "0,048", sig: true },
+    { variable: "Satisfaction intrants", coef: "+22,3", p: "0,192", sig: false }
+  ];
+  var annexTables = [
+    { id: "A1", title: "Statistiques descriptives \u2014 Superficie sem\xE9e (ha)", type: "Univari\xE9e", status: "auto", time: "10:42" },
+    { id: "A2", title: "ANOVA \u2014 Fili\xE8re suivie \xD7 Rendement estim\xE9", type: "Bivari\xE9e", status: "adjusted", time: "10:47" },
+    { id: "A3", title: "Corr\xE9lation de Spearman \u2014 Superficie sem\xE9e \xD7 Pluviom\xE9trie", type: "Bivari\xE9e", status: "auto", time: "10:51" },
+    { id: "A4", title: "R\xE9gression multiple \u2014 Mod\xE8le explicatif du rendement", type: "Multivari\xE9e", status: "auto", time: "10:58" }
+  ];
+  var reportSections = [
+    "1. Contexte de l'\xE9tude",
+    "2. Objectifs",
+    "3. Indicateurs de performance mesur\xE9s",
+    "4. M\xE9thodologie",
+    "5. R\xE9sultats",
+    "6. Analyse",
+    "7. Recommandations",
+    "8. Conclusion"
+  ];
+  function Watermark4() {
+    return /* @__PURE__ */ import_react73.default.createElement("div", { className: "fixed inset-0 overflow-hidden pointer-events-none z-0 flex items-center justify-center" }, /* @__PURE__ */ import_react73.default.createElement(
+      "span",
+      {
+        className: "font-serif font-black whitespace-nowrap select-none",
+        style: { color: NAVY5, opacity: 0.06, fontSize: "13vw", letterSpacing: "-0.02em" }
+      },
+      "AgriHakStat"
+    ), /* @__PURE__ */ import_react73.default.createElement("span", { className: "absolute bottom-4 right-6 text-xs font-medium select-none", style: { color: NAVY5, opacity: 0.35 } }, "Con\xE7u par Hakibou MOUSSA"));
+  }
+  function Card3({ children, className = "" }) {
+    return /* @__PURE__ */ import_react73.default.createElement("div", { className: `bg-white rounded-2xl p-6 shadow-sm border border-black/5 ${className}` }, children);
+  }
+  function StatusBadge({ status }) {
+    const adjusted = status === "adjusted";
+    return /* @__PURE__ */ import_react73.default.createElement(
+      "span",
+      {
+        className: "inline-flex items-center gap-1 text-[10px] font-medium px-2 py-1 rounded-full",
+        style: adjusted ? { background: AMBER_TINT2, color: AMBER2 } : { background: GREEN_TINT2, color: GREEN2 }
+      },
+      adjusted ? /* @__PURE__ */ import_react73.default.createElement(Pencil, { size: 9 }) : /* @__PURE__ */ import_react73.default.createElement(Check, { size: 9 }),
+      adjusted ? "Ajust\xE9 par l'analyste" : "Propos\xE9 automatiquement"
+    );
+  }
+  function ResultHeader({ title, subtitle, status }) {
+    return /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-start justify-between mb-3" }, /* @__PURE__ */ import_react73.default.createElement("div", null, /* @__PURE__ */ import_react73.default.createElement("h3", { className: "font-serif font-semibold text-sm", style: { color: NAVY5 } }, title), /* @__PURE__ */ import_react73.default.createElement("p", { className: "text-[11px] text-gray-400 mt-0.5" }, subtitle)), /* @__PURE__ */ import_react73.default.createElement(StatusBadge, { status }));
+  }
+  function ObjectiveGroup({ number: number4, title, indicator, children }) {
+    return /* @__PURE__ */ import_react73.default.createElement("div", { className: "rounded-2xl border-2 border-dashed p-1", style: { borderColor: "#D8C48A" } }, /* @__PURE__ */ import_react73.default.createElement("div", { className: "px-4 py-3 flex items-center gap-3" }, /* @__PURE__ */ import_react73.default.createElement("div", { className: "w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold text-white shrink-0", style: { background: GOLD4 } }, number4), /* @__PURE__ */ import_react73.default.createElement("div", null, /* @__PURE__ */ import_react73.default.createElement("div", { className: "text-sm font-serif font-semibold", style: { color: NAVY5 } }, title), /* @__PURE__ */ import_react73.default.createElement("div", { className: "text-[11px] text-gray-500" }, "Indicateur suivi : ", indicator))), /* @__PURE__ */ import_react73.default.createElement("div", { className: "space-y-3 px-1 pb-1" }, children));
+  }
+  function ClimateMap() {
+    return /* @__PURE__ */ import_react73.default.createElement("div", { className: "grid grid-cols-3 gap-4" }, /* @__PURE__ */ import_react73.default.createElement("div", { className: "col-span-2 relative rounded-xl bg-[#F7F9FC] border border-gray-100", style: { height: 210 } }, /* @__PURE__ */ import_react73.default.createElement("svg", { viewBox: "0 0 100 100", className: "w-full h-full" }, CLIMAT_COMMUNES.map((c2) => /* @__PURE__ */ import_react73.default.createElement("g", { key: c2.name }, /* @__PURE__ */ import_react73.default.createElement("circle", { cx: c2.x, cy: c2.y, r: 7.5, fill: rainColor(c2.mm), opacity: 0.88 }), /* @__PURE__ */ import_react73.default.createElement("circle", { cx: c2.x, cy: c2.y, r: 7.5, fill: "none", stroke: "white", strokeWidth: 0.6 }), /* @__PURE__ */ import_react73.default.createElement("text", { x: c2.x, y: c2.y - 10, fontSize: "3.4", textAnchor: "middle", fill: "#4A5568", fontWeight: "600" }, c2.name), /* @__PURE__ */ import_react73.default.createElement("text", { x: c2.x, y: c2.y + 1.2, fontSize: "3", textAnchor: "middle", fill: "white", fontWeight: "700" }, c2.mm)))), /* @__PURE__ */ import_react73.default.createElement("span", { className: "absolute bottom-2 right-3 text-[9px] text-gray-400 italic" }, "Interpolation IDW \u2014 illustrative")), /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex flex-col justify-center gap-2" }, /* @__PURE__ */ import_react73.default.createElement("div", { className: "text-[10px] font-medium text-gray-500 mb-1" }, "Cumul pluviom\xE9trique d\xE9cadaire (mm)"), [
+      ["#C99A2E", "< 65 mm \u2014 d\xE9ficitaire"],
+      ["#8FAECB", "65 \u2013 80 mm"],
+      ["#4A7AB5", "80 \u2013 95 mm"],
+      ["#1F3864", "\u2265 95 mm"]
+    ].map(([color2, label]) => /* @__PURE__ */ import_react73.default.createElement("div", { key: label, className: "flex items-center gap-2" }, /* @__PURE__ */ import_react73.default.createElement("span", { className: "w-3 h-3 rounded-full shrink-0", style: { background: color2 } }), /* @__PURE__ */ import_react73.default.createElement("span", { className: "text-[10px] text-gray-500" }, label)))));
+  }
+  function ResultsReport({ active, onNavigate, userEmail, roleLabel, isAdmin, isGuest, onLogout, onOpenAdmin }) {
+    const [sections, setSections] = (0, import_react73.useState)(reportSections);
+    const [format2, setFormat] = (0, import_react73.useState)("docx");
+    const toggleSection = (s2) => setSections((prev) => prev.includes(s2) ? prev.filter((i) => i !== s2) : [...prev, s2]);
+    return /* @__PURE__ */ import_react73.default.createElement("div", { className: "min-h-screen relative bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans" }, /* @__PURE__ */ import_react73.default.createElement(Watermark4, null), /* @__PURE__ */ import_react73.default.createElement("div", { className: "relative z-10 flex" }, /* @__PURE__ */ import_react73.default.createElement(
+      "aside",
+      {
+        className: "w-60 min-h-screen shrink-0 py-6 px-4 text-[#C7D2E8]",
+        style: { background: `linear-gradient(180deg, ${NAVY5} 0%, #16294B 100%)` }
+      },
+      /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex flex-col items-start gap-1 px-2 mb-8" }, /* @__PURE__ */ import_react73.default.createElement("img", { src: "./logo-compact.png", alt: "AgriHakStat", className: "h-32 w-auto -ml-1" }), /* @__PURE__ */ import_react73.default.createElement("div", { className: "text-[10px] opacity-60" }, "DDAEP-Borgou")),
+      /* @__PURE__ */ import_react73.default.createElement("nav", { className: "space-y-1.5" }, nav4.map((item) => /* @__PURE__ */ import_react73.default.createElement(
+        "div",
+        {
+          key: item.id,
+          onClick: () => onNavigate(item.id),
+          className: `flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer text-sm transition-colors ${item.id === active ? "bg-[#16294B] text-white font-medium border-l-4" : "hover:bg-white/5"}`,
+          style: item.id === active ? { borderColor: GOLD4 } : {}
+        },
+        /* @__PURE__ */ import_react73.default.createElement(item.icon, { size: 17 }),
+        item.label
+      )))
+    ), /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex-1 min-h-screen" }, /* @__PURE__ */ import_react73.default.createElement(
+      "header",
+      {
+        className: "bg-white/70 backdrop-blur px-8 py-4 flex items-center justify-between",
+        style: { borderBottom: `2px solid ${GOLD4}` }
+      },
+      /* @__PURE__ */ import_react73.default.createElement("div", null, /* @__PURE__ */ import_react73.default.createElement("h1", { className: "font-serif text-xl font-bold", style: { color: NAVY5 } }, "R\xE9sultats & rapport final"), /* @__PURE__ */ import_react73.default.createElement("p", { className: "text-xs text-gray-500 mt-0.5" }, "Suivi semis 2026-2027 \xB7 D\xE9cade 3 \u2014 4 analyses ex\xE9cut\xE9es")),
+      /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center gap-4" }, /* @__PURE__ */ import_react73.default.createElement(Bell, { size: 18, className: "text-gray-400" }), /* @__PURE__ */ import_react73.default.createElement(
+        UserMenu,
+        {
+          email: userEmail,
+          roleLabel,
+          isAdmin,
+          isGuest,
+          onLogout,
+          onOpenAdmin
+        }
+      ))
+    ), /* @__PURE__ */ import_react73.default.createElement("main", { className: "p-8 grid grid-cols-3 gap-6" }, /* @__PURE__ */ import_react73.default.createElement("div", { className: "col-span-2 space-y-5" }, /* @__PURE__ */ import_react73.default.createElement(Card3, null, /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center gap-2 mb-1" }, /* @__PURE__ */ import_react73.default.createElement(CloudRain, { size: 16, style: { color: NAVY5 } }), /* @__PURE__ */ import_react73.default.createElement("h3", { className: "font-serif font-semibold text-sm", style: { color: NAVY5 } }, "Contexte climatique de la zone d'\xE9tude")), /* @__PURE__ */ import_react73.default.createElement("p", { className: "text-[11px] text-gray-400 mb-3" }, "Source : NASA POWER (Module 7) \xB7 D\xE9cade 3, juillet 2026 \xB7 Restitution cartographique (Module 8)"), /* @__PURE__ */ import_react73.default.createElement(ClimateMap, null), /* @__PURE__ */ import_react73.default.createElement("div", { className: "grid grid-cols-3 gap-3 mt-4" }, /* @__PURE__ */ import_react73.default.createElement("div", { className: "rounded-xl p-2.5 text-center", style: { background: NAVY_TINT2 } }, /* @__PURE__ */ import_react73.default.createElement(CloudRain, { size: 14, className: "mx-auto mb-1", style: { color: NAVY5 } }), /* @__PURE__ */ import_react73.default.createElement("div", { className: "text-[10px] text-gray-500" }, "Cumul moyen zone"), /* @__PURE__ */ import_react73.default.createElement("div", { className: "text-sm font-bold", style: { color: NAVY5 } }, "83 mm")), /* @__PURE__ */ import_react73.default.createElement("div", { className: "rounded-xl p-2.5 text-center", style: { background: NAVY_TINT2 } }, /* @__PURE__ */ import_react73.default.createElement(MapPin, { size: 14, className: "mx-auto mb-1", style: { color: NAVY5 } }), /* @__PURE__ */ import_react73.default.createElement("div", { className: "text-[10px] text-gray-500" }, "Jours de pluie"), /* @__PURE__ */ import_react73.default.createElement("div", { className: "text-sm font-bold", style: { color: NAVY5 } }, "6 j")), /* @__PURE__ */ import_react73.default.createElement("div", { className: "rounded-xl p-2.5 text-center", style: { background: NAVY_TINT2 } }, /* @__PURE__ */ import_react73.default.createElement(Thermometer, { size: 14, className: "mx-auto mb-1", style: { color: NAVY5 } }), /* @__PURE__ */ import_react73.default.createElement("div", { className: "text-[10px] text-gray-500" }, "Temp\xE9rature moy."), /* @__PURE__ */ import_react73.default.createElement("div", { className: "text-sm font-bold", style: { color: NAVY5 } }, "27,4 \xB0C")))), /* @__PURE__ */ import_react73.default.createElement(
+      ObjectiveGroup,
+      {
+        number: "1",
+        title: "\xC9valuer la progression des semis de coton sur la p\xE9riode de suivi",
+        indicator: "Taux de r\xE9alisation des semis / Superficie sem\xE9e (ha)"
+      },
+      /* @__PURE__ */ import_react73.default.createElement(Card3, null, /* @__PURE__ */ import_react73.default.createElement(ResultHeader, { title: "Superficie sem\xE9e (ha) \u2014 statistiques descriptives", subtitle: "Analyse univari\xE9e \xB7 Coton, Tchaourou & P\xE9r\xE8r\xE8", status: "auto" }), /* @__PURE__ */ import_react73.default.createElement("div", { className: "grid grid-cols-4 gap-3 text-center" }, [["Moyenne", "3,42 ha"], ["M\xE9diane", "3,10 ha"], ["\xC9cart-type", "1,08 ha"], ["CV", "31,6 %"]].map(([l, v]) => /* @__PURE__ */ import_react73.default.createElement("div", { key: l, className: "rounded-xl p-2.5", style: { background: NAVY_TINT2 } }, /* @__PURE__ */ import_react73.default.createElement("div", { className: "text-[10px] text-gray-500" }, l), /* @__PURE__ */ import_react73.default.createElement("div", { className: "text-sm font-bold", style: { color: NAVY5 } }, v))))),
+      /* @__PURE__ */ import_react73.default.createElement(Card3, null, /* @__PURE__ */ import_react73.default.createElement(ResultHeader, { title: "Superficie sem\xE9e \xD7 Pluviom\xE9trie d\xE9cadaire", subtitle: "Analyse bivari\xE9e inf\xE9rentielle \xB7 Corr\xE9lation de Spearman \xB7 \u03C1 = 0,62, p = 0,003", status: "auto" }), /* @__PURE__ */ import_react73.default.createElement(ResponsiveContainer, { width: "100%", height: 170 }, /* @__PURE__ */ import_react73.default.createElement(ScatterChart, null, /* @__PURE__ */ import_react73.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react73.default.createElement(XAxis, { dataKey: "x", tick: { fontSize: 11 }, stroke: "#999", name: "Pluviom\xE9trie", unit: " mm" }), /* @__PURE__ */ import_react73.default.createElement(YAxis, { dataKey: "y", tick: { fontSize: 11 }, stroke: "#999", name: "Superficie", unit: " a", width: 50 }), /* @__PURE__ */ import_react73.default.createElement(Tooltip, { cursor: { strokeDasharray: "3 3" } }), /* @__PURE__ */ import_react73.default.createElement(Scatter, { data: scatterData, fill: NAVY5 }))), /* @__PURE__ */ import_react73.default.createElement("p", { className: "text-xs text-gray-500 mt-2 leading-relaxed" }, "Une association positive mod\xE9r\xE9e est observ\xE9e : les d\xE9cades les plus arros\xE9es co\xEFncident avec une progression plus rapide des superficies sem\xE9es."))
+    ), /* @__PURE__ */ import_react73.default.createElement(
+      ObjectiveGroup,
+      {
+        number: "2",
+        title: "Comparer la performance de rendement entre fili\xE8res et en identifier les d\xE9terminants",
+        indicator: "Rendement estim\xE9 (kg/ha)"
+      },
+      /* @__PURE__ */ import_react73.default.createElement(Card3, null, /* @__PURE__ */ import_react73.default.createElement(ResultHeader, { title: "Fili\xE8re suivie \xD7 Rendement estim\xE9", subtitle: "Analyse bivari\xE9e inf\xE9rentielle \xB7 ANOVA \xE0 un facteur \xB7 F = 4,82, p = 0,007, \u03B7\xB2 = 0,31", status: "adjusted" }), /* @__PURE__ */ import_react73.default.createElement(ResponsiveContainer, { width: "100%", height: 180 }, /* @__PURE__ */ import_react73.default.createElement(BarChart, { data: rendementParFiliere }, /* @__PURE__ */ import_react73.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react73.default.createElement(XAxis, { dataKey: "filiere", tick: { fontSize: 11 }, stroke: "#999" }), /* @__PURE__ */ import_react73.default.createElement(YAxis, { tick: { fontSize: 11 }, stroke: "#999", unit: " kg/ha", width: 70 }), /* @__PURE__ */ import_react73.default.createElement(Tooltip, null), /* @__PURE__ */ import_react73.default.createElement(Bar, { dataKey: "moyenne", radius: [6, 6, 0, 0] }, rendementParFiliere.map((d) => /* @__PURE__ */ import_react73.default.createElement(Cell, { key: d.filiere, fill: FILIERES3[d.filiere] })), /* @__PURE__ */ import_react73.default.createElement(ErrorBar, { dataKey: "ecart", width: 4, strokeWidth: 1.5, stroke: "#7A7A7A" })))), /* @__PURE__ */ import_react73.default.createElement("p", { className: "text-xs text-gray-500 mt-2 leading-relaxed" }, "Le rendement moyen diff\xE8re significativement selon la fili\xE8re suivie (p < 0,01). Le Manioc pr\xE9sente le rendement brut le plus \xE9lev\xE9, en coh\xE9rence avec les r\xE9f\xE9rentiels agronomiques de la zone.")),
+      /* @__PURE__ */ import_react73.default.createElement(Card3, null, /* @__PURE__ */ import_react73.default.createElement(ResultHeader, { title: "Mod\xE8le explicatif du rendement", subtitle: "Analyse multivari\xE9e \xB7 R\xE9gression lin\xE9aire multiple \xB7 R\xB2 = 0,58, R\xB2 ajust\xE9 = 0,54", status: "auto" }), /* @__PURE__ */ import_react73.default.createElement("table", { className: "w-full text-xs" }, /* @__PURE__ */ import_react73.default.createElement("thead", null, /* @__PURE__ */ import_react73.default.createElement("tr", { className: "text-left text-[10px] text-gray-400 uppercase border-b border-gray-100" }, /* @__PURE__ */ import_react73.default.createElement("th", { className: "py-2 font-medium" }, "Variable explicative"), /* @__PURE__ */ import_react73.default.createElement("th", { className: "py-2 font-medium" }, "Coefficient"), /* @__PURE__ */ import_react73.default.createElement("th", { className: "py-2 font-medium" }, "p-valeur"), /* @__PURE__ */ import_react73.default.createElement("th", { className: "py-2 font-medium" }, "Significativit\xE9"))), /* @__PURE__ */ import_react73.default.createElement("tbody", null, coefficients.map((c2) => /* @__PURE__ */ import_react73.default.createElement("tr", { key: c2.variable, className: "border-b border-gray-50 last:border-0" }, /* @__PURE__ */ import_react73.default.createElement("td", { className: "py-2 text-gray-800" }, c2.variable), /* @__PURE__ */ import_react73.default.createElement("td", { className: "py-2 text-gray-600" }, c2.coef), /* @__PURE__ */ import_react73.default.createElement("td", { className: "py-2 text-gray-600" }, c2.p), /* @__PURE__ */ import_react73.default.createElement("td", { className: "py-2" }, /* @__PURE__ */ import_react73.default.createElement(
+        "span",
+        {
+          className: "px-2 py-0.5 rounded-full text-[10px] font-medium",
+          style: c2.sig ? { background: GREEN_TINT2, color: GREEN2 } : { background: "#EDEEF3", color: "#6B7280" }
+        },
+        c2.sig ? "Significatif" : "Non significatif"
+      )))))))
+    ), /* @__PURE__ */ import_react73.default.createElement(Card3, { className: "border-2", style: { borderColor: GOLD4 } }, /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center gap-2 mb-2" }, /* @__PURE__ */ import_react73.default.createElement(Sparkles, { size: 16, style: { color: GOLD4 } }), /* @__PURE__ */ import_react73.default.createElement("h3", { className: "font-serif font-semibold text-sm", style: { color: NAVY5 } }, "6. Analyse \u2014 lecture crois\xE9e des r\xE9sultats")), /* @__PURE__ */ import_react73.default.createElement("p", { className: "text-xs text-gray-600 leading-relaxed mb-2" }, "La carte pluviom\xE9trique confirme un d\xE9ficit localis\xE9 sur Tchaourou et P\xE9r\xE8r\xE8 (58 et 61 mm cumul\xE9s, contre 83 mm en moyenne sur la zone), ce qui explique en grande partie le retard de semis constat\xE9 \xE0 l'Objectif 1 : ces deux communes affichent \xE0 la fois le cumul d\xE9cadaire le plus faible et la progression des superficies sem\xE9es la plus lente."), /* @__PURE__ */ import_react73.default.createElement("p", { className: "text-xs text-gray-600 leading-relaxed mb-2" }, "Ce d\xE9ficit pluviom\xE9trique se r\xE9percute directement sur l'\xE9cart de rendement inter-fili\xE8res mis en \xE9vidence par l'ANOVA (Objectif 2) : le coton, fili\xE8re la plus sensible au calendrier pluviom\xE9trique d\xE9cadaire et majoritairement cultiv\xE9 sur ces deux communes d\xE9ficitaires, affiche le rendement le plus faible de l'\xE9chantillon \u2014 la lecture crois\xE9e cartographie/statistiques permet ainsi de distinguer un effet climatique d'un effet propre \xE0 la fili\xE8re."), /* @__PURE__ */ import_react73.default.createElement("p", { className: "text-xs text-gray-600 leading-relaxed" }, "Ce constat rejoint la litt\xE9rature agro-climatique r\xE9gionale sur la sensibilit\xE9 des cultures pluviales aux r\xE9gimes d\xE9cadaires en zone soudano-guin\xE9enne ", /* @__PURE__ */ import_react73.default.createElement("em", null, "(r\xE9f\xE9rence institutionnelle ou acad\xE9mique \xE0 documenter lors de la r\xE9daction finale, conform\xE9ment au standard APA 7 retenu)"), ", et sugg\xE8re que l'acc\xE8s au cr\xE9dit agricole \u2014 variable significative du mod\xE8le de r\xE9gression \u2014 constitue un levier d'att\xE9nuation partiel du risque climatique.")), /* @__PURE__ */ import_react73.default.createElement(Card3, { className: "border-2", style: { borderColor: "#3E9C6B" } }, /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center gap-2 mb-2" }, /* @__PURE__ */ import_react73.default.createElement(ShieldCheck, { size: 16, style: { color: GREEN2 } }), /* @__PURE__ */ import_react73.default.createElement("h3", { className: "font-serif font-semibold text-sm", style: { color: NAVY5 } }, "7. Recommandations")), /* @__PURE__ */ import_react73.default.createElement("ul", { className: "text-xs text-gray-600 leading-relaxed space-y-1.5 list-disc pl-4" }, /* @__PURE__ */ import_react73.default.createElement("li", null, "Prioriser l'appui-conseil et la distribution d'intrants coton sur les communes de Tchaourou et P\xE9r\xE8r\xE8 avant la d\xE9cade 4, en r\xE9ponse au retard de semis constat\xE9."), /* @__PURE__ */ import_react73.default.createElement("li", null, "Renforcer l'acc\xE8s au cr\xE9dit agricole en zone cotonni\xE8re, ce facteur ayant montr\xE9 un effet significatif sur le rendement dans le mod\xE8le explicatif."), /* @__PURE__ */ import_react73.default.createElement("li", null, "Int\xE9grer un suivi pluviom\xE9trique d\xE9cadaire syst\xE9matique (Module 7) dans les prochains cycles de collecte, afin d'anticiper les \xE9carts de calendrier cultural.")))), /* @__PURE__ */ import_react73.default.createElement("div", { className: "space-y-4" }, /* @__PURE__ */ import_react73.default.createElement(Card3, null, /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center gap-2 mb-3" }, /* @__PURE__ */ import_react73.default.createElement(ListChecks, { size: 16, style: { color: NAVY5 } }), /* @__PURE__ */ import_react73.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY5 } }, "Sommaire du rapport")), /* @__PURE__ */ import_react73.default.createElement("div", { className: "space-y-1.5" }, reportSections.map((s2) => /* @__PURE__ */ import_react73.default.createElement("label", { key: s2, className: "flex items-center gap-2 text-xs text-gray-700 cursor-pointer" }, /* @__PURE__ */ import_react73.default.createElement(
+      "input",
+      {
+        type: "checkbox",
+        checked: sections.includes(s2),
+        onChange: () => toggleSection(s2),
+        className: "w-3.5 h-3.5 rounded",
+        style: { accentColor: NAVY5 }
+      }
+    ), s2)))), /* @__PURE__ */ import_react73.default.createElement(Card3, null, /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center gap-2 mb-3" }, /* @__PURE__ */ import_react73.default.createElement(Paperclip, { size: 16, style: { color: NAVY5 } }), /* @__PURE__ */ import_react73.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY5 } }, "Annexe automatique")), /* @__PURE__ */ import_react73.default.createElement("p", { className: "text-[11px] text-gray-400 mb-3" }, "Tableaux consolid\xE9s automatiquement, horodat\xE9s (Module 6)."), /* @__PURE__ */ import_react73.default.createElement("div", { className: "space-y-2" }, annexTables.map((t) => /* @__PURE__ */ import_react73.default.createElement("div", { key: t.id, className: "rounded-xl border border-gray-100 p-2.5" }, /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center justify-between" }, /* @__PURE__ */ import_react73.default.createElement("span", { className: "text-[11px] font-semibold", style: { color: NAVY5 } }, "Tableau ", t.id), /* @__PURE__ */ import_react73.default.createElement("span", { className: "text-[10px] text-gray-400" }, t.time)), /* @__PURE__ */ import_react73.default.createElement("div", { className: "text-[11px] text-gray-600 mt-0.5" }, t.title), /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center gap-1.5 mt-1.5" }, /* @__PURE__ */ import_react73.default.createElement("span", { className: "text-[10px] px-1.5 py-0.5 rounded-full", style: { background: NAVY_TINT2, color: NAVY5 } }, t.type), /* @__PURE__ */ import_react73.default.createElement(StatusBadge, { status: t.status })))))), /* @__PURE__ */ import_react73.default.createElement(Card3, null, /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center gap-2 mb-3" }, /* @__PURE__ */ import_react73.default.createElement(Sparkles, { size: 16, style: { color: GOLD4 } }), /* @__PURE__ */ import_react73.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY5 } }, "G\xE9n\xE9ration")), /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center gap-2 mb-3 text-xs" }, /* @__PURE__ */ import_react73.default.createElement(ShieldCheck, { size: 13, style: { color: GREEN2 } }), /* @__PURE__ */ import_react73.default.createElement("span", { className: "text-gray-500" }, "Th\xE8me : ", /* @__PURE__ */ import_react73.default.createElement("span", { className: "font-medium", style: { color: NAVY5 } }, "Ocean Depths / Terre & Moisson"))), /* @__PURE__ */ import_react73.default.createElement("div", { className: "grid grid-cols-2 gap-2 mb-4" }, /* @__PURE__ */ import_react73.default.createElement(
+      "button",
+      {
+        onClick: () => setFormat("docx"),
+        className: "flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-medium border",
+        style: format2 === "docx" ? { background: NAVY5, color: "white", borderColor: NAVY5 } : { borderColor: "#D8DEE9", color: "#5A6478" }
+      },
+      /* @__PURE__ */ import_react73.default.createElement(FileTypeCorner, { size: 13 }),
+      " Word (.docx)"
+    ), /* @__PURE__ */ import_react73.default.createElement(
+      "button",
+      {
+        onClick: () => setFormat("pdf"),
+        className: "flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-medium border",
+        style: format2 === "pdf" ? { background: NAVY5, color: "white", borderColor: NAVY5 } : { borderColor: "#D8DEE9", color: "#5A6478" }
+      },
+      /* @__PURE__ */ import_react73.default.createElement(FileDown, { size: 13 }),
+      " PDF"
+    )), /* @__PURE__ */ import_react73.default.createElement(
+      "button",
+      {
+        className: "w-full px-4 py-2.5 rounded-xl text-sm font-medium flex items-center justify-center gap-1.5 text-white shadow-md",
+        style: { background: `linear-gradient(135deg, #3E9C6B, ${GREEN2})` }
+      },
+      /* @__PURE__ */ import_react73.default.createElement(Layers, { size: 14 }),
+      " G\xE9n\xE9rer le rapport final"
+    )))))));
+  }
+
+  // src/Cartographie.jsx
+  var import_react74 = __toESM(require_react());
+  var NAVY6 = "#1F3864";
+  var GOLD5 = "#C99A2E";
+  var FILIERES4 = {
+    Soja: "#3E9C6B",
+    Ma\u00EFs: "#F0AC1B",
+    Riz: "#3592C4",
+    Manioc: "#B5651D",
+    Coton: "#6C7DAE"
+  };
+  var nav5 = [
+    { id: "dashboard", label: "Tableau de bord", icon: LayoutDashboard },
+    { id: "import", label: "Assistant d'import", icon: ClipboardList },
+    { id: "config", label: "Configuration des analyses", icon: ChartColumn },
+    { id: "results", label: "R\xE9sultats & rapport", icon: FileText },
+    { id: "map", label: "Cartographie", icon: MapPin }
+  ];
+  var COMMUNES2 = [
+    { name: "Sinend\xE9", x: 30, y: 8, mm: 108, taux: 84, rendement: 1720, anomalies: 0 },
+    { name: "Kalal\xE9", x: 68, y: 13, mm: 101, taux: 79, rendement: 1650, anomalies: 1 },
+    { name: "Bemb\xE9r\xE9k\xE9", x: 42, y: 29, mm: 95, taux: 88, rendement: 1810, anomalies: 0 },
+    { name: "N'Dali", x: 16, y: 47, mm: 84, taux: 91, rendement: 1900, anomalies: 0 },
+    { name: "P\xE9r\xE8r\xE8", x: 66, y: 41, mm: 61, taux: 62, rendement: 1120, anomalies: 2 },
+    { name: "Parakou", x: 40, y: 54, mm: 76, taux: 86, rendement: 1780, anomalies: 0 },
+    { name: "Nikki", x: 70, y: 61, mm: 89, taux: 83, rendement: 1690, anomalies: 1 },
+    { name: "Tchaourou", x: 32, y: 81, mm: 58, taux: 58, rendement: 1080, anomalies: 4 }
+  ];
+  var SURVEY_POINTS = COMMUNES2.flatMap(
+    (c2, ci) => Array.from({ length: 4 }).map((_, i) => {
+      const filieres = Object.keys(FILIERES4);
+      return {
+        id: `${c2.name}-${i}`,
+        x: c2.x + ((ci + i) % 5 - 2) * 3.2,
+        y: c2.y + ((ci * 3 + i) % 5 - 2) * 3.2,
+        filiere: filieres[(ci + i) % filieres.length]
+      };
+    })
+  );
+  function rainColor2(mm) {
+    if (mm < 65) return "#C99A2E";
+    if (mm < 80) return "#8FAECB";
+    if (mm < 95) return "#4A7AB5";
+    return "#1F3864";
+  }
+  function tauxColor(taux) {
+    if (taux < 65) return "#C1573F";
+    if (taux < 80) return "#E3A23B";
+    return "#3E9C6B";
+  }
+  function Watermark5() {
+    return /* @__PURE__ */ import_react74.default.createElement("div", { className: "fixed inset-0 overflow-hidden pointer-events-none z-0 flex items-center justify-center" }, /* @__PURE__ */ import_react74.default.createElement(
+      "span",
+      {
+        className: "font-serif font-black whitespace-nowrap select-none",
+        style: { color: NAVY6, opacity: 0.06, fontSize: "13vw", letterSpacing: "-0.02em" }
+      },
+      "AgriHakStat"
+    ), /* @__PURE__ */ import_react74.default.createElement("span", { className: "absolute bottom-4 right-6 text-xs font-medium select-none", style: { color: NAVY6, opacity: 0.35 } }, "Con\xE7u par Hakibou MOUSSA"));
+  }
+  function Card4({ children, className = "" }) {
+    return /* @__PURE__ */ import_react74.default.createElement("div", { className: `bg-white rounded-2xl p-6 shadow-sm border border-black/5 ${className}` }, children);
+  }
+  function LayerButton({ label, icon: Icon3, active, onClick }) {
+    return /* @__PURE__ */ import_react74.default.createElement(
+      "button",
+      {
+        onClick,
+        className: "flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-colors",
+        style: active ? { background: NAVY6, color: "white" } : { background: "white", color: "#5A6478", border: "1px solid #E4E6ED" }
+      },
+      /* @__PURE__ */ import_react74.default.createElement(Icon3, { size: 15 }),
+      " ",
+      label
+    );
+  }
+  function Chip2({ label, active, onClick, color: color2 }) {
+    return /* @__PURE__ */ import_react74.default.createElement(
+      "button",
+      {
+        onClick,
+        className: "px-3 py-1.5 rounded-full text-xs font-medium border transition-colors",
+        style: active ? { background: color2 || NAVY6, borderColor: color2 || NAVY6, color: "white" } : { background: "white", borderColor: "#D8DEE9", color: "#5A6478" }
+      },
+      label
+    );
+  }
+  function Cartographie({ active, onNavigate, userEmail, roleLabel, isAdmin, isGuest, onLogout, onOpenAdmin }) {
+    const [layer, setLayer] = (0, import_react74.useState)("points");
+    const [indicateur, setIndicateur] = (0, import_react74.useState)("taux");
+    const [filieres, setFilieres] = (0, import_react74.useState)(Object.keys(FILIERES4));
+    const toggleFiliere = (f) => setFilieres((prev) => prev.includes(f) ? prev.filter((x2) => x2 !== f) : [...prev, f]);
+    const indicateurLabel = { taux: "Taux de r\xE9alisation (%)", rendement: "Rendement moyen (kg/ha)", anomalies: "Anomalies d\xE9tect\xE9es" }[indicateur];
+    const indicateurValue = (c2) => indicateur === "taux" ? `${c2.taux}%` : indicateur === "rendement" ? `${c2.rendement}` : c2.anomalies;
+    const indicateurColor = (c2) => indicateur === "anomalies" ? c2.anomalies > 1 ? "#C1573F" : c2.anomalies === 1 ? "#E3A23B" : "#3E9C6B" : indicateur === "taux" ? tauxColor(c2.taux) : tauxColor(c2.rendement / 2e3 * 100);
+    return /* @__PURE__ */ import_react74.default.createElement("div", { className: "min-h-screen relative bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans" }, /* @__PURE__ */ import_react74.default.createElement(Watermark5, null), /* @__PURE__ */ import_react74.default.createElement("div", { className: "relative z-10 flex" }, /* @__PURE__ */ import_react74.default.createElement(
+      "aside",
+      {
+        className: "w-60 min-h-screen shrink-0 py-6 px-4 text-[#C7D2E8]",
+        style: { background: `linear-gradient(180deg, ${NAVY6} 0%, #16294B 100%)` }
+      },
+      /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex flex-col items-start gap-1 px-2 mb-8" }, /* @__PURE__ */ import_react74.default.createElement("img", { src: "./logo-compact.png", alt: "AgriHakStat", className: "h-32 w-auto -ml-1" }), /* @__PURE__ */ import_react74.default.createElement("div", { className: "text-[10px] opacity-60" }, "DDAEP-Borgou")),
+      /* @__PURE__ */ import_react74.default.createElement("nav", { className: "space-y-1.5" }, nav5.map((item) => /* @__PURE__ */ import_react74.default.createElement(
+        "div",
+        {
+          key: item.id,
+          onClick: () => onNavigate(item.id),
+          className: `flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer text-sm transition-colors ${item.id === active ? "bg-[#16294B] text-white font-medium border-l-4" : "hover:bg-white/5"}`,
+          style: item.id === active ? { borderColor: GOLD5 } : {}
+        },
+        /* @__PURE__ */ import_react74.default.createElement(item.icon, { size: 17 }),
+        item.label
+      )))
+    ), /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex-1 min-h-screen" }, /* @__PURE__ */ import_react74.default.createElement(
+      "header",
+      {
+        className: "bg-white/70 backdrop-blur px-8 py-4 flex items-center justify-between",
+        style: { borderBottom: `2px solid ${GOLD5}` }
+      },
+      /* @__PURE__ */ import_react74.default.createElement("div", null, /* @__PURE__ */ import_react74.default.createElement("h1", { className: "font-serif text-xl font-bold", style: { color: NAVY6 } }, "Cartographie"), /* @__PURE__ */ import_react74.default.createElement("p", { className: "text-xs text-gray-500 mt-0.5" }, "Module 8 \xB7 Suivi semis 2026-2027 \u2014 D\xE9cade 3, Borgou")),
+      /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex items-center gap-4" }, /* @__PURE__ */ import_react74.default.createElement(Bell, { size: 18, className: "text-gray-400" }), /* @__PURE__ */ import_react74.default.createElement(
+        UserMenu,
+        {
+          email: userEmail,
+          roleLabel,
+          isAdmin,
+          isGuest,
+          onLogout,
+          onOpenAdmin
+        }
+      ))
+    ), /* @__PURE__ */ import_react74.default.createElement("main", { className: "p-8 grid grid-cols-3 gap-6" }, /* @__PURE__ */ import_react74.default.createElement("div", { className: "col-span-2" }, /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex gap-2 mb-4" }, /* @__PURE__ */ import_react74.default.createElement(LayerButton, { label: "Points d'enqu\xEAte", icon: MapPin, active: layer === "points", onClick: () => setLayer("points") }), /* @__PURE__ */ import_react74.default.createElement(LayerButton, { label: "Choropl\xE8the indicateurs", icon: Layers, active: layer === "choropleth", onClick: () => setLayer("choropleth") }), /* @__PURE__ */ import_react74.default.createElement(LayerButton, { label: "Isohy\xE8tes pluviom\xE9triques", icon: Droplets, active: layer === "isohyet", onClick: () => setLayer("isohyet") })), /* @__PURE__ */ import_react74.default.createElement(Card4, null, layer === "choropleth" && /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex items-center gap-2 mb-4" }, /* @__PURE__ */ import_react74.default.createElement(Funnel, { size: 13, className: "text-gray-400" }), /* @__PURE__ */ import_react74.default.createElement("span", { className: "text-xs text-gray-500" }, "Indicateur :"), /* @__PURE__ */ import_react74.default.createElement(
+      "select",
+      {
+        value: indicateur,
+        onChange: (e) => setIndicateur(e.target.value),
+        className: "text-xs rounded-lg border border-gray-200 p-1.5 bg-white focus:outline-none"
+      },
+      /* @__PURE__ */ import_react74.default.createElement("option", { value: "taux" }, "Taux de r\xE9alisation (%)"),
+      /* @__PURE__ */ import_react74.default.createElement("option", { value: "rendement" }, "Rendement moyen (kg/ha)"),
+      /* @__PURE__ */ import_react74.default.createElement("option", { value: "anomalies" }, "Anomalies d\xE9tect\xE9es")
+    )), /* @__PURE__ */ import_react74.default.createElement("div", { className: "relative rounded-xl bg-[#F7F9FC] border border-gray-100", style: { height: 460 } }, /* @__PURE__ */ import_react74.default.createElement("svg", { viewBox: "0 0 100 100", className: "w-full h-full" }, layer === "points" && SURVEY_POINTS.filter((pt) => filieres.includes(pt.filiere)).map((pt) => /* @__PURE__ */ import_react74.default.createElement("circle", { key: pt.id, cx: pt.x, cy: pt.y, r: 1.6, fill: FILIERES4[pt.filiere], opacity: 0.85, stroke: "white", strokeWidth: 0.3 })), layer === "choropleth" && COMMUNES2.map((c2) => /* @__PURE__ */ import_react74.default.createElement("g", { key: c2.name }, /* @__PURE__ */ import_react74.default.createElement("circle", { cx: c2.x, cy: c2.y, r: 9, fill: indicateurColor(c2), opacity: 0.88 }), /* @__PURE__ */ import_react74.default.createElement("circle", { cx: c2.x, cy: c2.y, r: 9, fill: "none", stroke: "white", strokeWidth: 0.6 }), /* @__PURE__ */ import_react74.default.createElement("text", { x: c2.x, y: c2.y - 12, fontSize: "3.4", textAnchor: "middle", fill: "#4A5568", fontWeight: "600" }, c2.name), /* @__PURE__ */ import_react74.default.createElement("text", { x: c2.x, y: c2.y + 1.2, fontSize: "3", textAnchor: "middle", fill: "white", fontWeight: "700" }, indicateurValue(c2)))), layer === "isohyet" && COMMUNES2.map((c2) => /* @__PURE__ */ import_react74.default.createElement("g", { key: c2.name }, /* @__PURE__ */ import_react74.default.createElement("circle", { cx: c2.x, cy: c2.y, r: 11, fill: rainColor2(c2.mm), opacity: 0.25 }), /* @__PURE__ */ import_react74.default.createElement("circle", { cx: c2.x, cy: c2.y, r: 7, fill: rainColor2(c2.mm), opacity: 0.9 }), /* @__PURE__ */ import_react74.default.createElement("circle", { cx: c2.x, cy: c2.y, r: 7, fill: "none", stroke: "white", strokeWidth: 0.6 }), /* @__PURE__ */ import_react74.default.createElement("text", { x: c2.x, y: c2.y - 13, fontSize: "3.4", textAnchor: "middle", fill: "#4A5568", fontWeight: "600" }, c2.name), /* @__PURE__ */ import_react74.default.createElement("text", { x: c2.x, y: c2.y + 1.2, fontSize: "3", textAnchor: "middle", fill: "white", fontWeight: "700" }, c2.mm)))), /* @__PURE__ */ import_react74.default.createElement("span", { className: "absolute bottom-2 right-3 text-[9px] text-gray-400 italic" }, layer === "isohyet" ? "Interpolation IDW \u2014 illustrative" : "Position illustrative \u2014 non g\xE9or\xE9f\xE9renc\xE9e \xE0 l'\xE9chelle")), layer === "points" && /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex flex-wrap gap-3 mt-4" }, Object.entries(FILIERES4).map(([f, c2]) => /* @__PURE__ */ import_react74.default.createElement("div", { key: f, className: "flex items-center gap-1.5 text-[11px] text-gray-600" }, /* @__PURE__ */ import_react74.default.createElement("span", { className: "w-2.5 h-2.5 rounded-full", style: { background: c2 } }), " ", f))), layer === "choropleth" && /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex items-center gap-4 mt-4" }, /* @__PURE__ */ import_react74.default.createElement("span", { className: "text-[11px] text-gray-500" }, indicateurLabel, " :"), /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex items-center gap-1.5 text-[11px] text-gray-600" }, /* @__PURE__ */ import_react74.default.createElement("span", { className: "w-2.5 h-2.5 rounded-full", style: { background: "#C1573F" } }), " Faible"), /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex items-center gap-1.5 text-[11px] text-gray-600" }, /* @__PURE__ */ import_react74.default.createElement("span", { className: "w-2.5 h-2.5 rounded-full", style: { background: "#E3A23B" } }), " Interm\xE9diaire"), /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex items-center gap-1.5 text-[11px] text-gray-600" }, /* @__PURE__ */ import_react74.default.createElement("span", { className: "w-2.5 h-2.5 rounded-full", style: { background: "#3E9C6B" } }), " Satisfaisant")), layer === "isohyet" && /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex items-center gap-4 mt-4 flex-wrap" }, /* @__PURE__ */ import_react74.default.createElement("span", { className: "text-[11px] text-gray-500" }, "Cumul d\xE9cadaire (mm) :"), [["#C99A2E", "< 65"], ["#8FAECB", "65\u201380"], ["#4A7AB5", "80\u201395"], ["#1F3864", "\u2265 95"]].map(([c2, l]) => /* @__PURE__ */ import_react74.default.createElement("div", { key: l, className: "flex items-center gap-1.5 text-[11px] text-gray-600" }, /* @__PURE__ */ import_react74.default.createElement("span", { className: "w-2.5 h-2.5 rounded-full", style: { background: c2 } }), " ", l))))), /* @__PURE__ */ import_react74.default.createElement("div", { className: "space-y-4" }, /* @__PURE__ */ import_react74.default.createElement(Card4, null, /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex items-center gap-2 mb-3" }, /* @__PURE__ */ import_react74.default.createElement(Funnel, { size: 16, style: { color: NAVY6 } }), /* @__PURE__ */ import_react74.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY6 } }, "Filtres")), /* @__PURE__ */ import_react74.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Fili\xE8re"), /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex flex-wrap gap-2 mb-4" }, Object.entries(FILIERES4).map(([f, c2]) => /* @__PURE__ */ import_react74.default.createElement(Chip2, { key: f, label: f, active: filieres.includes(f), onClick: () => toggleFiliere(f), color: c2 }))), /* @__PURE__ */ import_react74.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "P\xE9riode"), /* @__PURE__ */ import_react74.default.createElement("select", { className: "w-full text-sm rounded-xl border border-gray-200 p-2.5 focus:outline-none focus:ring-2", style: { "--tw-ring-color": GOLD5 } }, /* @__PURE__ */ import_react74.default.createElement("option", null, "D\xE9cade 3 \u2014 Juillet 2026"), /* @__PURE__ */ import_react74.default.createElement("option", null, "D\xE9cade 2 \u2014 Juillet 2026"), /* @__PURE__ */ import_react74.default.createElement("option", null, "D\xE9cade 1 \u2014 Juillet 2026"))), /* @__PURE__ */ import_react74.default.createElement(Card4, null, /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex items-center gap-2 mb-1" }, /* @__PURE__ */ import_react74.default.createElement(MapPin, { size: 16, style: { color: NAVY6 } }), /* @__PURE__ */ import_react74.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY6 } }, "Communes en alerte")), /* @__PURE__ */ import_react74.default.createElement("p", { className: "text-[11px] text-gray-400 mb-3" }, "Selon l'indicateur actuellement affich\xE9"), /* @__PURE__ */ import_react74.default.createElement("div", { className: "space-y-2" }, COMMUNES2.filter((c2) => c2.taux < 70 || c2.anomalies > 1).map((c2) => /* @__PURE__ */ import_react74.default.createElement("div", { key: c2.name, className: "flex items-center justify-between rounded-xl border border-gray-100 p-2.5" }, /* @__PURE__ */ import_react74.default.createElement("span", { className: "text-xs font-medium text-gray-700" }, c2.name), /* @__PURE__ */ import_react74.default.createElement("span", { className: "text-[11px] font-semibold px-2 py-0.5 rounded-full", style: { background: "#FBE7E5", color: "#B3413A" } }, c2.taux, "% r\xE9alis\xE9"))))), /* @__PURE__ */ import_react74.default.createElement(Card4, null, /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex items-center gap-2 mb-3" }, /* @__PURE__ */ import_react74.default.createElement(FileOutput, { size: 16, style: { color: GOLD5 } }), /* @__PURE__ */ import_react74.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY6 } }, "Export")), /* @__PURE__ */ import_react74.default.createElement(
+      "button",
+      {
+        className: "w-full mb-2 px-4 py-2.5 rounded-xl text-sm font-medium flex items-center justify-center gap-1.5 bg-white border",
+        style: { borderColor: NAVY6, color: NAVY6 }
+      },
+      /* @__PURE__ */ import_react74.default.createElement(Download, { size: 14 }),
+      " Exporter la carte (PNG)"
+    ), /* @__PURE__ */ import_react74.default.createElement(
+      "button",
+      {
+        className: "w-full px-4 py-2.5 rounded-xl text-sm font-medium flex items-center justify-center gap-1.5 text-white shadow-md",
+        style: { background: `linear-gradient(135deg, ${NAVY6}, #2A4A82)` }
+      },
+      /* @__PURE__ */ import_react74.default.createElement(Layers, { size: 14 }),
+      " Int\xE9grer au rapport (R\xE9sultats)"
+    )))))));
+  }
+
+  // src/auth/Landing.jsx
+  var import_react75 = __toESM(require_react());
+  var NAVY7 = "#1F3864";
+  var GOLD6 = "#C99A2E";
+  function Landing({ onGoLogin, onGoSignup, onGoDemo }) {
+    return /* @__PURE__ */ import_react75.default.createElement("div", { className: "min-h-screen bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans" }, /* @__PURE__ */ import_react75.default.createElement("header", { className: "flex items-center justify-between px-8 py-5" }, /* @__PURE__ */ import_react75.default.createElement("div", { className: "flex items-center gap-2" }, /* @__PURE__ */ import_react75.default.createElement("img", { src: "./logo-compact.png", alt: "AgriHakStat", className: "h-20 w-auto" })), /* @__PURE__ */ import_react75.default.createElement("div", { className: "flex items-center gap-3" }, /* @__PURE__ */ import_react75.default.createElement("button", { onClick: onGoLogin, className: "px-4 py-2 rounded-xl text-sm font-medium", style: { color: NAVY7 } }, "Se connecter"), /* @__PURE__ */ import_react75.default.createElement(
+      "button",
+      {
+        onClick: onGoSignup,
+        className: "px-4 py-2 rounded-xl text-sm font-medium text-white shadow-md",
+        style: { background: `linear-gradient(135deg, ${NAVY7}, #2A4A82)` }
+      },
+      "Cr\xE9er un compte"
+    ))), /* @__PURE__ */ import_react75.default.createElement("main", { className: "max-w-4xl mx-auto px-8 pt-16 pb-24 text-center" }, /* @__PURE__ */ import_react75.default.createElement("h1", { className: "font-serif text-4xl font-bold leading-tight", style: { color: NAVY7 } }, "L'analyse statistique de vos enqu\xEAtes agricoles,", /* @__PURE__ */ import_react75.default.createElement("br", null), "automatis\xE9e et rigoureuse"), /* @__PURE__ */ import_react75.default.createElement("p", { className: "text-gray-500 mt-5 text-lg max-w-2xl mx-auto" }, "Importez votre questionnaire et votre base de donn\xE9es, laissez AgriHakStat proposer les tests statistiques adapt\xE9s, et g\xE9n\xE9rez un rapport structur\xE9, cartographi\xE9 et pr\xEAt \xE0 diffuser."), /* @__PURE__ */ import_react75.default.createElement("div", { className: "flex items-center justify-center gap-3 mt-8" }, /* @__PURE__ */ import_react75.default.createElement(
+      "button",
+      {
+        onClick: onGoSignup,
+        className: "px-6 py-3 rounded-xl text-sm font-semibold text-white shadow-md flex items-center gap-2",
+        style: { background: `linear-gradient(135deg, ${NAVY7}, #2A4A82)` }
+      },
+      "Cr\xE9er un compte gratuitement ",
+      /* @__PURE__ */ import_react75.default.createElement(ArrowRight, { size: 16 })
+    ), /* @__PURE__ */ import_react75.default.createElement(
+      "button",
+      {
+        onClick: onGoLogin,
+        className: "px-6 py-3 rounded-xl text-sm font-semibold border",
+        style: { borderColor: NAVY7, color: NAVY7 }
+      },
+      "J'ai d\xE9j\xE0 un compte"
+    )), /* @__PURE__ */ import_react75.default.createElement("button", { onClick: onGoDemo, className: "text-sm underline mt-4 inline-block", style: { color: "#8A93A8" } }, "Voir la d\xE9monstration sans cr\xE9er de compte"), /* @__PURE__ */ import_react75.default.createElement("div", { className: "grid grid-cols-3 gap-6 mt-20 text-left" }, [
+      { icon: ChartColumn, title: "Tests statistiques guid\xE9s", text: "S\xE9lection automatique des tests univari\xE9s, bivari\xE9s et multivari\xE9s, valid\xE9e par vos soins avant ex\xE9cution." },
+      { icon: MapPin, title: "Cartographie int\xE9gr\xE9e", text: "Localisation des enqu\xEAtes, choropl\xE8thes par commune et couches climatiques NASA POWER." },
+      { icon: FileText, title: "Rapport structur\xE9", text: "Un document en huit sections, annexes statistiques consolid\xE9es automatiquement." }
+    ].map((f) => /* @__PURE__ */ import_react75.default.createElement("div", { key: f.title, className: "bg-white rounded-2xl p-6 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react75.default.createElement(f.icon, { size: 22, style: { color: GOLD6 } }), /* @__PURE__ */ import_react75.default.createElement("h3", { className: "font-serif font-semibold mt-3 mb-1", style: { color: NAVY7 } }, f.title), /* @__PURE__ */ import_react75.default.createElement("p", { className: "text-sm text-gray-500" }, f.text))))), /* @__PURE__ */ import_react75.default.createElement("footer", { className: "text-center text-xs text-gray-400 pb-8" }, "AgriHakStat \u2014 Con\xE7u par Hakibou Moussa"));
+  }
+
   // src/auth/Login.jsx
+  var import_react76 = __toESM(require_react());
   var NAVY8 = "#1F3864";
   var GOLD7 = "#C99A2E";
   function Login({ onGoSignup, onGoLanding }) {
@@ -71919,7 +71950,15 @@ ${suffix2}`;
       setLoading(false);
       if (error2) setError(error2.message);
     };
-    return /* @__PURE__ */ import_react76.default.createElement("div", { className: "min-h-screen flex items-center justify-center bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans px-4" }, /* @__PURE__ */ import_react76.default.createElement("div", { className: "w-full max-w-sm bg-white rounded-2xl shadow-sm border border-black/5 p-8" }, /* @__PURE__ */ import_react76.default.createElement("div", { className: "flex flex-col items-center mb-6" }, /* @__PURE__ */ import_react76.default.createElement("img", { src: "./logo-compact.png", alt: "AgriHakStat", className: "h-28 w-auto mb-2" }), /* @__PURE__ */ import_react76.default.createElement("h1", { className: "font-serif text-xl font-bold", style: { color: NAVY8 } }, "Se connecter")), error && /* @__PURE__ */ import_react76.default.createElement("div", { className: "flex items-start gap-2 rounded-xl p-3 mb-4 text-xs", style: { background: "#FBE7E5", color: "#B3413A" } }, /* @__PURE__ */ import_react76.default.createElement(CircleAlert, { size: 14, className: "mt-0.5 shrink-0" }), " ", error), /* @__PURE__ */ import_react76.default.createElement("form", { onSubmit: handleSubmit, className: "space-y-3" }, /* @__PURE__ */ import_react76.default.createElement("div", null, /* @__PURE__ */ import_react76.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Adresse e-mail"), /* @__PURE__ */ import_react76.default.createElement(
+    return /* @__PURE__ */ import_react76.default.createElement("div", { className: "min-h-screen flex items-center justify-center bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans px-4 relative overflow-hidden" }, /* @__PURE__ */ import_react76.default.createElement(
+      "img",
+      {
+        src: "./logo-full.png",
+        alt: "",
+        className: "pointer-events-none select-none fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-[0.07] z-0",
+        style: { width: "min(1400px, 160vw)" }
+      }
+    ), /* @__PURE__ */ import_react76.default.createElement("div", { className: "w-full max-w-lg bg-white rounded-2xl shadow-sm border border-black/5 p-8 relative z-10" }, /* @__PURE__ */ import_react76.default.createElement("div", { className: "flex flex-col items-center mb-6" }, /* @__PURE__ */ import_react76.default.createElement("img", { src: "./logo-compact.png", alt: "AgriHakStat", className: "w-auto mb-2", style: { height: "280px" } }), /* @__PURE__ */ import_react76.default.createElement("h1", { className: "font-serif text-xl font-bold", style: { color: NAVY8 } }, "Se connecter")), error && /* @__PURE__ */ import_react76.default.createElement("div", { className: "flex items-start gap-2 rounded-xl p-3 mb-4 text-xs", style: { background: "#FBE7E5", color: "#B3413A" } }, /* @__PURE__ */ import_react76.default.createElement(CircleAlert, { size: 14, className: "mt-0.5 shrink-0" }), " ", error), /* @__PURE__ */ import_react76.default.createElement("form", { onSubmit: handleSubmit, className: "space-y-3" }, /* @__PURE__ */ import_react76.default.createElement("div", null, /* @__PURE__ */ import_react76.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Adresse e-mail"), /* @__PURE__ */ import_react76.default.createElement(
       "input",
       {
         type: "email",
@@ -71978,7 +72017,15 @@ ${suffix2}`;
       else setDone(true);
     };
     if (done) {
-      return /* @__PURE__ */ import_react77.default.createElement("div", { className: "min-h-screen flex items-center justify-center bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] px-4" }, /* @__PURE__ */ import_react77.default.createElement("div", { className: "w-full max-w-sm bg-white rounded-2xl shadow-sm border border-black/5 p-8 text-center" }, /* @__PURE__ */ import_react77.default.createElement(CircleCheck, { size: 32, className: "mx-auto mb-3", style: { color: "#3E9C6B" } }), /* @__PURE__ */ import_react77.default.createElement("h1", { className: "font-serif text-lg font-bold mb-2", style: { color: NAVY9 } }, "Compte cr\xE9\xE9"), /* @__PURE__ */ import_react77.default.createElement("p", { className: "text-sm text-gray-500 mb-5" }, "V\xE9rifiez votre bo\xEEte e-mail pour confirmer votre adresse, puis connectez-vous."), /* @__PURE__ */ import_react77.default.createElement(
+      return /* @__PURE__ */ import_react77.default.createElement("div", { className: "min-h-screen flex items-center justify-center bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] px-4 relative overflow-hidden" }, /* @__PURE__ */ import_react77.default.createElement(
+        "img",
+        {
+          src: "./logo-full.png",
+          alt: "",
+          className: "pointer-events-none select-none fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-[0.07] z-0",
+          style: { width: "min(1400px, 160vw)" }
+        }
+      ), /* @__PURE__ */ import_react77.default.createElement("div", { className: "w-full max-w-lg bg-white rounded-2xl shadow-sm border border-black/5 p-8 text-center relative z-10" }, /* @__PURE__ */ import_react77.default.createElement(CircleCheck, { size: 32, className: "mx-auto mb-3", style: { color: "#3E9C6B" } }), /* @__PURE__ */ import_react77.default.createElement("h1", { className: "font-serif text-lg font-bold mb-2", style: { color: NAVY9 } }, "Compte cr\xE9\xE9"), /* @__PURE__ */ import_react77.default.createElement("p", { className: "text-sm text-gray-500 mb-5" }, "V\xE9rifiez votre bo\xEEte e-mail pour confirmer votre adresse, puis connectez-vous."), /* @__PURE__ */ import_react77.default.createElement(
         "button",
         {
           onClick: onGoLogin,
@@ -71988,7 +72035,15 @@ ${suffix2}`;
         "Aller \xE0 la connexion"
       )));
     }
-    return /* @__PURE__ */ import_react77.default.createElement("div", { className: "min-h-screen flex items-center justify-center bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans px-4" }, /* @__PURE__ */ import_react77.default.createElement("div", { className: "w-full max-w-sm bg-white rounded-2xl shadow-sm border border-black/5 p-8" }, /* @__PURE__ */ import_react77.default.createElement("div", { className: "flex flex-col items-center mb-6" }, /* @__PURE__ */ import_react77.default.createElement("img", { src: "./logo-compact.png", alt: "AgriHakStat", className: "h-28 w-auto mb-2" }), /* @__PURE__ */ import_react77.default.createElement("h1", { className: "font-serif text-xl font-bold", style: { color: NAVY9 } }, "Cr\xE9er un compte")), error && /* @__PURE__ */ import_react77.default.createElement("div", { className: "flex items-start gap-2 rounded-xl p-3 mb-4 text-xs", style: { background: "#FBE7E5", color: "#B3413A" } }, /* @__PURE__ */ import_react77.default.createElement(CircleAlert, { size: 14, className: "mt-0.5 shrink-0" }), " ", error), /* @__PURE__ */ import_react77.default.createElement("form", { onSubmit: handleSubmit, className: "space-y-3" }, /* @__PURE__ */ import_react77.default.createElement("div", null, /* @__PURE__ */ import_react77.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Adresse e-mail"), /* @__PURE__ */ import_react77.default.createElement(
+    return /* @__PURE__ */ import_react77.default.createElement("div", { className: "min-h-screen flex items-center justify-center bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans px-4 relative overflow-hidden" }, /* @__PURE__ */ import_react77.default.createElement(
+      "img",
+      {
+        src: "./logo-full.png",
+        alt: "",
+        className: "pointer-events-none select-none fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-[0.07] z-0",
+        style: { width: "min(1400px, 160vw)" }
+      }
+    ), /* @__PURE__ */ import_react77.default.createElement("div", { className: "w-full max-w-lg bg-white rounded-2xl shadow-sm border border-black/5 p-8 relative z-10" }, /* @__PURE__ */ import_react77.default.createElement("div", { className: "flex flex-col items-center mb-6" }, /* @__PURE__ */ import_react77.default.createElement("img", { src: "./logo-compact.png", alt: "AgriHakStat", className: "w-auto mb-2", style: { height: "280px" } }), /* @__PURE__ */ import_react77.default.createElement("h1", { className: "font-serif text-xl font-bold", style: { color: NAVY9 } }, "Cr\xE9er un compte")), error && /* @__PURE__ */ import_react77.default.createElement("div", { className: "flex items-start gap-2 rounded-xl p-3 mb-4 text-xs", style: { background: "#FBE7E5", color: "#B3413A" } }, /* @__PURE__ */ import_react77.default.createElement(CircleAlert, { size: 14, className: "mt-0.5 shrink-0" }), " ", error), /* @__PURE__ */ import_react77.default.createElement("form", { onSubmit: handleSubmit, className: "space-y-3" }, /* @__PURE__ */ import_react77.default.createElement("div", null, /* @__PURE__ */ import_react77.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Adresse e-mail"), /* @__PURE__ */ import_react77.default.createElement(
       "input",
       {
         type: "email",
@@ -72028,6 +72083,9 @@ ${suffix2}`;
   var import_react78 = __toESM(require_react());
   var NAVY10 = "#1F3864";
   var GOLD9 = "#C99A2E";
+  var GREEN3 = "#256B45";
+  var GREEN_TINT3 = "#E4F5EC";
+  var AMBER_TINT3 = "#FDF1DA";
   var SCREEN_LABELS = {
     dashboard: "Tableau de bord",
     import: "Assistant d'import",
@@ -72035,18 +72093,26 @@ ${suffix2}`;
     results: "R\xE9sultats & rapport",
     map: "Cartographie"
   };
+  var THEME_COLORS = ["#1F3864", "#3E9C6B", "#C99A2E", "#3592C4", "#B5651D", "#6C7DAE", "#B3413A"];
+  function themeColor(i) {
+    return THEME_COLORS[i % THEME_COLORS.length];
+  }
   function AdminDashboard({ onBack }) {
     const [users, setUsers] = (0, import_react78.useState)([]);
     const [activity, setActivity] = (0, import_react78.useState)([]);
+    const [projets, setProjets] = (0, import_react78.useState)([]);
     const [loading, setLoading] = (0, import_react78.useState)(true);
     const [error, setError] = (0, import_react78.useState)("");
+    const [selectedTheme, setSelectedTheme] = (0, import_react78.useState)(null);
     (0, import_react78.useEffect)(() => {
       async function load() {
         const { data: profiles, error: e1 } = await supabase.from("profiles").select("email, role, created_at").order("created_at", { ascending: false });
         const { data: logs, error: e22 } = await supabase.from("activity_log").select("screen");
-        if (e1 || e22) setError((e1 || e22).message);
+        const { data: projs, error: e3 } = await supabase.from("projets").select("id, titre, thematiques, communes, statut, user_email, created_at").order("created_at", { ascending: false });
+        if (e1 || e22 || e3) setError((e1 || e22 || e3).message);
         setUsers(profiles || []);
         setActivity(logs || []);
+        setProjets(projs || []);
         setLoading(false);
       }
       load();
@@ -72056,7 +72122,38 @@ ${suffix2}`;
       counts[a2.screen] = (counts[a2.screen] || 0) + 1;
     });
     const chartData = Object.entries(SCREEN_LABELS).map(([id, label]) => ({ label, visites: counts[id] || 0 }));
-    return /* @__PURE__ */ import_react78.default.createElement("div", { className: "min-h-screen bg-[#F4F6FB] font-sans p-8" }, /* @__PURE__ */ import_react78.default.createElement("button", { onClick: onBack, className: "flex items-center gap-2 text-sm mb-6", style: { color: NAVY10 } }, /* @__PURE__ */ import_react78.default.createElement(ArrowLeft, { size: 15 }), " Retour \xE0 l'application"), /* @__PURE__ */ import_react78.default.createElement("h1", { className: "font-serif text-2xl font-bold mb-1", style: { color: NAVY10 } }, "Panneau d'administration"), /* @__PURE__ */ import_react78.default.createElement("p", { className: "text-sm text-gray-500 mb-6" }, "Utilisateurs inscrits et fr\xE9quentation des \xE9crans"), error && /* @__PURE__ */ import_react78.default.createElement("div", { className: "rounded-xl p-4 mb-6 text-sm", style: { background: "#FBE7E5", color: "#B3413A" } }, error, ". V\xE9rifiez que le script supabase_setup.sql a bien \xE9t\xE9 ex\xE9cut\xE9 et que votre compte a le r\xF4le \xAB admin \xBB."), loading ? /* @__PURE__ */ import_react78.default.createElement("p", { className: "text-sm text-gray-400" }, "Chargement\u2026") : /* @__PURE__ */ import_react78.default.createElement(import_react78.default.Fragment, null, /* @__PURE__ */ import_react78.default.createElement("div", { className: "grid grid-cols-3 gap-4 mb-6" }, /* @__PURE__ */ import_react78.default.createElement("div", { className: "bg-white rounded-2xl p-5 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react78.default.createElement(Users, { size: 18, style: { color: GOLD9 } }), /* @__PURE__ */ import_react78.default.createElement("div", { className: "font-serif text-2xl font-bold mt-2", style: { color: NAVY10 } }, users.length), /* @__PURE__ */ import_react78.default.createElement("div", { className: "text-xs text-gray-400" }, "Utilisateurs inscrits")), /* @__PURE__ */ import_react78.default.createElement("div", { className: "bg-white rounded-2xl p-5 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react78.default.createElement(Activity, { size: 18, style: { color: GOLD9 } }), /* @__PURE__ */ import_react78.default.createElement("div", { className: "font-serif text-2xl font-bold mt-2", style: { color: NAVY10 } }, activity.length), /* @__PURE__ */ import_react78.default.createElement("div", { className: "text-xs text-gray-400" }, "Visites d'\xE9cran enregistr\xE9es")), /* @__PURE__ */ import_react78.default.createElement("div", { className: "bg-white rounded-2xl p-5 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react78.default.createElement(Clock, { size: 18, style: { color: GOLD9 } }), /* @__PURE__ */ import_react78.default.createElement("div", { className: "font-serif text-2xl font-bold mt-2", style: { color: NAVY10 } }, users[0] ? new Date(users[0].created_at).toLocaleDateString("fr-FR") : "\u2014"), /* @__PURE__ */ import_react78.default.createElement("div", { className: "text-xs text-gray-400" }, "Derni\xE8re inscription"))), /* @__PURE__ */ import_react78.default.createElement("div", { className: "grid grid-cols-3 gap-4" }, /* @__PURE__ */ import_react78.default.createElement("div", { className: "col-span-2 bg-white rounded-2xl p-5 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react78.default.createElement("h2", { className: "font-serif font-semibold mb-3", style: { color: NAVY10 } }, "Th\xE9matiques d\xE9velopp\xE9es \u2014 fr\xE9quentation par \xE9cran"), /* @__PURE__ */ import_react78.default.createElement(ResponsiveContainer, { width: "100%", height: 240 }, /* @__PURE__ */ import_react78.default.createElement(BarChart, { data: chartData, layout: "vertical", margin: { left: 40 } }, /* @__PURE__ */ import_react78.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react78.default.createElement(XAxis, { type: "number", tick: { fontSize: 11 }, allowDecimals: false }), /* @__PURE__ */ import_react78.default.createElement(YAxis, { type: "category", dataKey: "label", tick: { fontSize: 11 }, width: 160 }), /* @__PURE__ */ import_react78.default.createElement(Tooltip, null), /* @__PURE__ */ import_react78.default.createElement(Bar, { dataKey: "visites", fill: NAVY10, radius: [0, 6, 6, 0] })))), /* @__PURE__ */ import_react78.default.createElement("div", { className: "bg-white rounded-2xl p-5 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react78.default.createElement("h2", { className: "font-serif font-semibold mb-3", style: { color: NAVY10 } }, "Derniers inscrits"), /* @__PURE__ */ import_react78.default.createElement("div", { className: "space-y-2 max-h-60 overflow-y-auto" }, users.slice(0, 8).map((u, i) => /* @__PURE__ */ import_react78.default.createElement("div", { key: i, className: "text-xs border-b border-gray-50 pb-2" }, /* @__PURE__ */ import_react78.default.createElement("div", { className: "font-medium text-gray-700" }, u.email), /* @__PURE__ */ import_react78.default.createElement("div", { className: "text-gray-400" }, new Date(u.created_at).toLocaleDateString("fr-FR"), " \xB7 ", u.role))), users.length === 0 && /* @__PURE__ */ import_react78.default.createElement("p", { className: "text-xs text-gray-400" }, "Aucun utilisateur pour l'instant."))))));
+    const themeMap = {};
+    projets.forEach((p) => {
+      (p.thematiques && p.thematiques.length ? p.thematiques : ["Non renseign\xE9"]).forEach((t) => {
+        if (!themeMap[t]) themeMap[t] = [];
+        themeMap[t].push(p);
+      });
+    });
+    const themes = Object.entries(themeMap).sort((a2, b) => b[1].length - a2[1].length);
+    const themeProjects = selectedTheme ? themeMap[selectedTheme] || [] : [];
+    const themeUsers = new Set(themeProjects.map((p) => p.user_email)).size;
+    const themeLastDate = themeProjects[0]?.created_at;
+    return /* @__PURE__ */ import_react78.default.createElement("div", { className: "min-h-screen bg-[#F4F6FB] font-sans p-8" }, /* @__PURE__ */ import_react78.default.createElement("button", { onClick: selectedTheme ? () => setSelectedTheme(null) : onBack, className: "flex items-center gap-2 text-sm mb-6", style: { color: NAVY10 } }, /* @__PURE__ */ import_react78.default.createElement(ArrowLeft, { size: 15 }), " ", selectedTheme ? "Retour aux th\xE9matiques" : "Retour \xE0 l'application"), error && /* @__PURE__ */ import_react78.default.createElement("div", { className: "rounded-xl p-4 mb-6 text-sm", style: { background: "#FBE7E5", color: "#B3413A" } }, error, ". V\xE9rifiez que le script supabase_setup.sql a bien \xE9t\xE9 ex\xE9cut\xE9 (y compris la table \xAB projets \xBB) et que votre compte a le r\xF4le \xAB admin \xBB."), loading ? /* @__PURE__ */ import_react78.default.createElement("p", { className: "text-sm text-gray-400" }, "Chargement\u2026") : selectedTheme ? (
+      /* ---------- VUE DÉTAIL D'UNE THÉMATIQUE ---------- */
+      /* @__PURE__ */ import_react78.default.createElement(import_react78.default.Fragment, null, /* @__PURE__ */ import_react78.default.createElement("div", { className: "flex items-center gap-2 mb-1" }, /* @__PURE__ */ import_react78.default.createElement("span", { className: "w-3 h-3 rounded-full", style: { background: themeColor(themes.findIndex(([t]) => t === selectedTheme)) } }), /* @__PURE__ */ import_react78.default.createElement("h1", { className: "font-serif text-2xl font-bold", style: { color: NAVY10 } }, "Th\xE9matique : ", selectedTheme)), /* @__PURE__ */ import_react78.default.createElement("p", { className: "text-sm text-gray-500 mb-6" }, "Point des projets soumis par les utilisateurs sur cette th\xE9matique"), /* @__PURE__ */ import_react78.default.createElement("div", { className: "grid grid-cols-3 gap-4 mb-6" }, /* @__PURE__ */ import_react78.default.createElement("div", { className: "bg-white rounded-2xl p-5 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react78.default.createElement(FolderKanban, { size: 18, style: { color: GOLD9 } }), /* @__PURE__ */ import_react78.default.createElement("div", { className: "font-serif text-2xl font-bold mt-2", style: { color: NAVY10 } }, themeProjects.length), /* @__PURE__ */ import_react78.default.createElement("div", { className: "text-xs text-gray-400" }, "Projets soumis")), /* @__PURE__ */ import_react78.default.createElement("div", { className: "bg-white rounded-2xl p-5 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react78.default.createElement(Users, { size: 18, style: { color: GOLD9 } }), /* @__PURE__ */ import_react78.default.createElement("div", { className: "font-serif text-2xl font-bold mt-2", style: { color: NAVY10 } }, themeUsers), /* @__PURE__ */ import_react78.default.createElement("div", { className: "text-xs text-gray-400" }, "Utilisateurs distincts")), /* @__PURE__ */ import_react78.default.createElement("div", { className: "bg-white rounded-2xl p-5 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react78.default.createElement(Clock, { size: 18, style: { color: GOLD9 } }), /* @__PURE__ */ import_react78.default.createElement("div", { className: "font-serif text-2xl font-bold mt-2", style: { color: NAVY10 } }, themeLastDate ? new Date(themeLastDate).toLocaleDateString("fr-FR") : "\u2014"), /* @__PURE__ */ import_react78.default.createElement("div", { className: "text-xs text-gray-400" }, "Dernier d\xE9p\xF4t"))), /* @__PURE__ */ import_react78.default.createElement("div", { className: "bg-white rounded-2xl shadow-sm border border-black/5 overflow-hidden" }, /* @__PURE__ */ import_react78.default.createElement("div", { className: "px-5 py-4" }, /* @__PURE__ */ import_react78.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY10 } }, "Projets soumis sur cette th\xE9matique")), /* @__PURE__ */ import_react78.default.createElement("table", { className: "w-full text-sm" }, /* @__PURE__ */ import_react78.default.createElement("thead", null, /* @__PURE__ */ import_react78.default.createElement("tr", { className: "text-left text-[11px] text-gray-400 uppercase border-t border-b border-gray-100" }, /* @__PURE__ */ import_react78.default.createElement("th", { className: "px-5 py-2 font-medium" }, "Objectif / Titre"), /* @__PURE__ */ import_react78.default.createElement("th", { className: "px-5 py-2 font-medium" }, "Soumis par"), /* @__PURE__ */ import_react78.default.createElement("th", { className: "px-5 py-2 font-medium" }, "Communes"), /* @__PURE__ */ import_react78.default.createElement("th", { className: "px-5 py-2 font-medium" }, "Statut"), /* @__PURE__ */ import_react78.default.createElement("th", { className: "px-5 py-2 font-medium" }, "Date"))), /* @__PURE__ */ import_react78.default.createElement("tbody", null, themeProjects.map((p) => /* @__PURE__ */ import_react78.default.createElement("tr", { key: p.id, className: "border-b border-gray-50 last:border-0" }, /* @__PURE__ */ import_react78.default.createElement("td", { className: "px-5 py-3 text-gray-800 max-w-xs" }, p.titre), /* @__PURE__ */ import_react78.default.createElement("td", { className: "px-5 py-3 text-gray-500" }, p.user_email), /* @__PURE__ */ import_react78.default.createElement("td", { className: "px-5 py-3 text-gray-500" }, (p.communes || []).join(", ") || "\u2014"), /* @__PURE__ */ import_react78.default.createElement("td", { className: "px-5 py-3" }, /* @__PURE__ */ import_react78.default.createElement("span", { className: "px-2 py-1 rounded-full text-[11px] font-medium", style: { background: GREEN_TINT3, color: GREEN3 } }, p.statut)), /* @__PURE__ */ import_react78.default.createElement("td", { className: "px-5 py-3 text-gray-400" }, new Date(p.created_at).toLocaleDateString("fr-FR")))), themeProjects.length === 0 && /* @__PURE__ */ import_react78.default.createElement("tr", null, /* @__PURE__ */ import_react78.default.createElement("td", { colSpan: 5, className: "px-5 py-6 text-center text-gray-400 text-xs" }, "Aucun projet sur cette th\xE9matique."))))))
+    ) : (
+      /* ---------- VUE D'ENSEMBLE ---------- */
+      /* @__PURE__ */ import_react78.default.createElement(import_react78.default.Fragment, null, /* @__PURE__ */ import_react78.default.createElement("h1", { className: "font-serif text-2xl font-bold mb-1", style: { color: NAVY10 } }, "Panneau d'administration"), /* @__PURE__ */ import_react78.default.createElement("p", { className: "text-sm text-gray-500 mb-6" }, "Utilisateurs inscrits, fr\xE9quentation, et projets soumis par th\xE9matique"), /* @__PURE__ */ import_react78.default.createElement("div", { className: "grid grid-cols-3 gap-4 mb-6" }, /* @__PURE__ */ import_react78.default.createElement("div", { className: "bg-white rounded-2xl p-5 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react78.default.createElement(Users, { size: 18, style: { color: GOLD9 } }), /* @__PURE__ */ import_react78.default.createElement("div", { className: "font-serif text-2xl font-bold mt-2", style: { color: NAVY10 } }, users.length), /* @__PURE__ */ import_react78.default.createElement("div", { className: "text-xs text-gray-400" }, "Utilisateurs inscrits")), /* @__PURE__ */ import_react78.default.createElement("div", { className: "bg-white rounded-2xl p-5 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react78.default.createElement(FolderKanban, { size: 18, style: { color: GOLD9 } }), /* @__PURE__ */ import_react78.default.createElement("div", { className: "font-serif text-2xl font-bold mt-2", style: { color: NAVY10 } }, projets.length), /* @__PURE__ */ import_react78.default.createElement("div", { className: "text-xs text-gray-400" }, "Projets soumis au total")), /* @__PURE__ */ import_react78.default.createElement("div", { className: "bg-white rounded-2xl p-5 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react78.default.createElement(Clock, { size: 18, style: { color: GOLD9 } }), /* @__PURE__ */ import_react78.default.createElement("div", { className: "font-serif text-2xl font-bold mt-2", style: { color: NAVY10 } }, users[0] ? new Date(users[0].created_at).toLocaleDateString("fr-FR") : "\u2014"), /* @__PURE__ */ import_react78.default.createElement("div", { className: "text-xs text-gray-400" }, "Derni\xE8re inscription"))), /* @__PURE__ */ import_react78.default.createElement("div", { className: "bg-white rounded-2xl p-5 shadow-sm border border-black/5 mb-6" }, /* @__PURE__ */ import_react78.default.createElement("div", { className: "flex items-center gap-2 mb-1" }, /* @__PURE__ */ import_react78.default.createElement(Layers, { size: 16, style: { color: NAVY10 } }), /* @__PURE__ */ import_react78.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY10 } }, "Projets soumis par th\xE9matique")), /* @__PURE__ */ import_react78.default.createElement("p", { className: "text-xs text-gray-400 mb-4" }, "Cliquez sur une th\xE9matique pour ouvrir son tableau de bord de suivi."), themes.length === 0 ? /* @__PURE__ */ import_react78.default.createElement("p", { className: "text-xs text-gray-400" }, "Aucun projet soumis pour l'instant.") : /* @__PURE__ */ import_react78.default.createElement("div", { className: "grid grid-cols-3 gap-3" }, themes.map(([theme, list], i) => {
+        const distinctUsers = new Set(list.map((p) => p.user_email)).size;
+        return /* @__PURE__ */ import_react78.default.createElement(
+          "button",
+          {
+            key: theme,
+            onClick: () => setSelectedTheme(theme),
+            className: "text-left rounded-xl border border-gray-100 p-4 hover:shadow-md transition-shadow",
+            style: { background: AMBER_TINT3 }
+          },
+          /* @__PURE__ */ import_react78.default.createElement("div", { className: "flex items-center justify-between mb-2" }, /* @__PURE__ */ import_react78.default.createElement("span", { className: "w-2.5 h-2.5 rounded-full", style: { background: themeColor(i) } }), /* @__PURE__ */ import_react78.default.createElement(ChevronRight, { size: 14, className: "text-gray-400" })),
+          /* @__PURE__ */ import_react78.default.createElement("div", { className: "font-serif font-semibold text-sm", style: { color: NAVY10 } }, theme),
+          /* @__PURE__ */ import_react78.default.createElement("div", { className: "text-[11px] text-gray-500 mt-1" }, list.length, " projet", list.length > 1 ? "s" : "", " \xB7 ", distinctUsers, " utilisateur", distinctUsers > 1 ? "s" : "")
+        );
+      }))), /* @__PURE__ */ import_react78.default.createElement("div", { className: "grid grid-cols-3 gap-4" }, /* @__PURE__ */ import_react78.default.createElement("div", { className: "col-span-2 bg-white rounded-2xl p-5 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react78.default.createElement("h2", { className: "font-serif font-semibold mb-3", style: { color: NAVY10 } }, "Fr\xE9quentation par \xE9cran"), /* @__PURE__ */ import_react78.default.createElement(ResponsiveContainer, { width: "100%", height: 220 }, /* @__PURE__ */ import_react78.default.createElement(BarChart, { data: chartData, layout: "vertical", margin: { left: 40 } }, /* @__PURE__ */ import_react78.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react78.default.createElement(XAxis, { type: "number", tick: { fontSize: 11 }, allowDecimals: false }), /* @__PURE__ */ import_react78.default.createElement(YAxis, { type: "category", dataKey: "label", tick: { fontSize: 11 }, width: 160 }), /* @__PURE__ */ import_react78.default.createElement(Tooltip, null), /* @__PURE__ */ import_react78.default.createElement(Bar, { dataKey: "visites", fill: NAVY10, radius: [0, 6, 6, 0] })))), /* @__PURE__ */ import_react78.default.createElement("div", { className: "bg-white rounded-2xl p-5 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react78.default.createElement("h2", { className: "font-serif font-semibold mb-3", style: { color: NAVY10 } }, "Derniers inscrits"), /* @__PURE__ */ import_react78.default.createElement("div", { className: "space-y-2 max-h-56 overflow-y-auto" }, users.slice(0, 8).map((u, i) => /* @__PURE__ */ import_react78.default.createElement("div", { key: i, className: "text-xs border-b border-gray-50 pb-2" }, /* @__PURE__ */ import_react78.default.createElement("div", { className: "font-medium text-gray-700" }, u.email), /* @__PURE__ */ import_react78.default.createElement("div", { className: "text-gray-400" }, new Date(u.created_at).toLocaleDateString("fr-FR"), " \xB7 ", u.role))), users.length === 0 && /* @__PURE__ */ import_react78.default.createElement("p", { className: "text-xs text-gray-400" }, "Aucun utilisateur pour l'instant.")))))
+    ));
   }
 
   // src/App.jsx
@@ -72088,7 +72185,10 @@ ${suffix2}`;
         setProfile(null);
         return;
       }
-      supabase.from("profiles").select("role, email").eq("id", session.user.id).single().then(({ data }) => setProfile(data));
+      supabase.from("profiles").select("role, email").eq("id", session.user.id).single().then(({ data, error }) => {
+        if (error) console.error("Erreur de r\xE9cup\xE9ration du profil (r\xF4le) :", error.message, error);
+        setProfile(data);
+      });
     }, [session]);
     const handleNavigate = (id) => {
       setActive(id);
@@ -72126,6 +72226,7 @@ ${suffix2}`;
         active,
         onNavigate: handleNavigate,
         userEmail,
+        userId: session?.user?.id,
         roleLabel,
         isAdmin,
         isGuest,
@@ -72241,7 +72342,6 @@ lucide-react/dist/esm/shared/src/utils/hasA11yProp.mjs:
 lucide-react/dist/esm/context.mjs:
 lucide-react/dist/esm/Icon.mjs:
 lucide-react/dist/esm/createLucideIcon.mjs:
-lucide-react/dist/esm/icons/activity.mjs:
 lucide-react/dist/esm/icons/arrow-left.mjs:
 lucide-react/dist/esm/icons/arrow-right.mjs:
 lucide-react/dist/esm/icons/bell.mjs:
@@ -72265,6 +72365,7 @@ lucide-react/dist/esm/icons/file-output.mjs:
 lucide-react/dist/esm/icons/file-spreadsheet.mjs:
 lucide-react/dist/esm/icons/file-text.mjs:
 lucide-react/dist/esm/icons/file-type-corner.mjs:
+lucide-react/dist/esm/icons/folder-kanban.mjs:
 lucide-react/dist/esm/icons/funnel.mjs:
 lucide-react/dist/esm/icons/info.mjs:
 lucide-react/dist/esm/icons/layers.mjs:
