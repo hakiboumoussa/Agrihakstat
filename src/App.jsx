@@ -23,6 +23,7 @@ export default function App() {
   const [active, setActive] = useState("dashboard");
   const [showAdmin, setShowAdmin] = useState(false);
   const [guestMode, setGuestMode] = useState(false);
+  const [dataset, setDataset] = useState(null); // { rows, columns, fileName } — données réellement importées
 
   useEffect(() => {
     if (!isSupabaseConfigured) { setSession(null); return; }
@@ -96,6 +97,8 @@ export default function App() {
           isGuest={isGuest}
           onLogout={handleTopRightLogout}
           onOpenAdmin={() => setShowAdmin(true)}
+          dataset={dataset}
+          onDatasetParsed={setDataset}
         />
       )}
     </div>

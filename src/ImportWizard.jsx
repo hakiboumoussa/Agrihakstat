@@ -6,6 +6,8 @@ import {
 } from "lucide-react";
 import UserMenu from "./UserMenu.jsx";
 import { supabase, isSupabaseConfigured } from "./supabaseClient.js";
+import Papa from "papaparse";
+import { buildColumnsMeta } from "./realStats.js";
 
 const NAVY = "#1F3864";
 const GOLD = "#C99A2E";
@@ -142,7 +144,7 @@ function Chip({ label, active, onClick, color }) {
   );
 }
 
-export default function ImportWizard({ active, onNavigate, userEmail, userId, roleLabel, isAdmin, isGuest, onLogout, onOpenAdmin }) {
+export default function ImportWizard({ active, onNavigate, userEmail, userId, roleLabel, isAdmin, isGuest, onLogout, onOpenAdmin, dataset, onDatasetParsed }) {
   const [step, setStep] = useState(1);
   const [communes, setCommunes] = useState(["Tchaourou", "Pérèrè"]);
   const [filieres, setFilieres] = useState(["Coton"]);
@@ -152,6 +154,32 @@ export default function ImportWizard({ active, onNavigate, userEmail, userId, ro
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [submitError, setSubmitError] = useState("");
+  const [parsing, setParsing] = useState(false);
+  const [fileError, setFileError] = useState("");
+
+  const handleFileUpload = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setFileError("");
+    setParsing(true);
+    Papa.parse(file, {
+      header: true,
+      skipEmptyLines: true,
+      complete: (results) => {
+        setParsing(false);
+        if (!results.data.length) {
+          setFileError("Le fichier semble vide ou n'a pas pu être lu.");
+          return;
+        }
+        const columns = buildColumnsMeta(results.data);
+        onDatasetParsed({ rows: results.data, columns, fileName: file.name });
+      },
+      error: (err) => {
+        setParsing(false);
+        setFileError("Erreur de lecture du fichier : " + err.message);
+      },
+    });
+  };
 
   const toggle = (list, setList, item) =>
     setList(list.includes(item) ? list.filter((x) => x !== item) : [...list, item]);
@@ -224,26 +252,52 @@ export default function ImportWizard({ active, onNavigate, userEmail, userId, ro
             {step === 2 && (
               <Card>
                 <h2 className="font-serif font-semibold mb-1" style={{ color: NAVY }}>Importer la base de données</h2>
-                <p className="text-xs text-gray-400 mb-5">Fichier CSV/Excel, ou connexion directe à la source de collecte.</p>
+                <p className="text-xs text-gray-400 mb-5">Fichier CSV réel — les colonnes et leur type sont détectés automatiquement.</p>
                 <div className="grid grid-cols-2 gap-4">
-                  <Dropzone label="Glisser-déposer un fichier" hint="ou cliquer pour parcourir" formats={["CSV", ".xlsx"]} />
+                  <label className="border-2 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center text-center gap-2 cursor-pointer hover:bg-[#FAFBFE]" style={{ borderColor: "#C7D2E8" }}>
+                    <input type="file" accept=".csv" className="hidden" onChange={handleFileUpload} />
+                    <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-1" style={{ background: "#EBEEF7" }}>
+                      <Upload size={20} style={{ color: NAVY }} />
+                    </div>
+                    <div className="font-medium text-sm" style={{ color: NAVY }}>{parsing ? "Analyse en cours…" : "Glisser-déposer un fichier CSV"}</div>
+                    <div className="text-xs text-gray-400">ou cliquer pour parcourir</div>
+                    <span className="text-[10px] px-2 py-1 rounded-full bg-[#F6E9DD] text-[#8A4A1D] font-medium mt-2">CSV réel, avec en-têtes</span>
+                  </label>
                   <div className="border-2 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center text-center gap-2 cursor-pointer hover:bg-[#FAFBFE]" style={{ borderColor: "#C7D2E8" }}>
                     <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-1" style={{ background: "#E4F5EC" }}>
                       <Link2 size={20} style={{ color: "#256B45" }} />
                     </div>
                     <div className="font-medium text-sm" style={{ color: NAVY }}>Connecter Akvo Flow / KoboToolbox</div>
-                    <div className="text-xs text-gray-400">Synchronisation automatique</div>
+                    <div className="text-xs text-gray-400">Synchronisation automatique (à venir)</div>
                   </div>
                 </div>
-                <div className="mt-5 space-y-3">
-                  <UploadedFile icon={FileCheck2} name="Base_Semis_Decade3_Juillet2026.csv" meta="2 479 enregistrements · 31 colonnes" tint="#E4F5EC" fg="#256B45" />
-                  <div className="flex items-start gap-2 rounded-xl p-3 border border-black/5" style={{ background: "#FDF1DA" }}>
-                    <MapPin size={16} style={{ color: "#8A5A00" }} className="mt-0.5" />
-                    <div className="text-xs" style={{ color: "#8A5A00" }}>
-                      <span className="font-medium">5 colonnes de géolocalisation détectées</span> (latitude, longitude) — la cartographie automatique (Module 8) sera disponible pour cette enquête.
-                    </div>
+
+                {fileError && (
+                  <div className="mt-4 rounded-xl p-3 text-xs" style={{ background: "#FBE7E5", color: "#B3413A" }}>{fileError}</div>
+                )}
+
+                {dataset && (
+                  <div className="mt-5 space-y-3">
+                    <UploadedFile icon={FileCheck2} name={dataset.fileName}
+                      meta={`${dataset.rows.length.toLocaleString("fr-FR")} enregistrements · ${dataset.columns.length} colonnes — analysées réellement`}
+                      tint="#E4F5EC" fg="#256B45" />
+                    {dataset.columns.some((c) => c.isGeo) ? (
+                      <div className="flex items-start gap-2 rounded-xl p-3 border border-black/5" style={{ background: "#FDF1DA" }}>
+                        <MapPin size={16} style={{ color: "#8A5A00" }} className="mt-0.5" />
+                        <div className="text-xs" style={{ color: "#8A5A00" }}>
+                          <span className="font-medium">
+                            {dataset.columns.filter((c) => c.isGeo).length} colonne(s) de géolocalisation détectée(s)
+                          </span>{" "}
+                          ({dataset.columns.filter((c) => c.isGeo).map((c) => c.name).join(", ")})
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="rounded-xl p-3 border border-black/5 bg-gray-50 text-xs text-gray-500">
+                        Aucune colonne de géolocalisation détectée dans ce fichier.
+                      </div>
+                    )}
                   </div>
-                </div>
+                )}
               </Card>
             )}
 
@@ -336,29 +390,37 @@ export default function ImportWizard({ active, onNavigate, userEmail, userId, ro
             {step === 5 && (
               <Card>
                 <h2 className="font-serif font-semibold mb-1" style={{ color: NAVY }}>Cartographie automatique des variables</h2>
-                <p className="text-xs text-gray-400 mb-5">Appariement proposé entre les items du questionnaire et les colonnes de la base — à valider avant lancement des analyses.</p>
+                <p className="text-xs text-gray-400 mb-5">
+                  {dataset
+                    ? `Types détectés réellement à partir de ${dataset.fileName} (${dataset.rows.length} lignes).`
+                    : "Aucun fichier importé à l'étape 2 — exemple illustratif ci-dessous."}
+                </p>
 
                 <div className="rounded-xl overflow-hidden border border-gray-100">
                   <table className="w-full text-sm">
                     <thead>
                       <tr className="text-left text-[11px] text-gray-400 uppercase bg-gray-50">
-                        <th className="px-4 py-2.5 font-medium">Item du questionnaire</th>
-                        <th className="px-4 py-2.5 font-medium">Colonne base</th>
+                        <th className="px-4 py-2.5 font-medium">Colonne de la base</th>
                         <th className="px-4 py-2.5 font-medium">Type détecté</th>
                         <th className="px-4 py-2.5 font-medium">Statut</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {[
-                        { q: "Superficie semée (ha)", col: "sup_semee_ha", type: "Quantitative continue", status: "ok" },
-                        { q: "Filière suivie", col: "filiere", type: "Nominale", status: "ok" },
-                        { q: "Commune d'enquête", col: "commune", type: "Nominale", status: "ok" },
-                        { q: "Latitude / Longitude", col: "geo_lat / geo_lon", type: "Géolocalisation", status: "geo" },
-                        { q: "Niveau de satisfaction intrants", col: "satisf_intrants", type: "Ordinale", status: "warn" },
-                      ].map((r) => (
+                      {(dataset
+                        ? dataset.columns.map((c) => ({
+                            q: c.name, type: c.type,
+                            status: c.isGeo ? "geo" : c.type === "Texte libre" ? "warn" : "ok",
+                          }))
+                        : [
+                            { q: "sup_semee_ha", type: "Quantitative continue", status: "ok" },
+                            { q: "filiere", type: "Nominale", status: "ok" },
+                            { q: "commune", type: "Nominale", status: "ok" },
+                            { q: "geo_lat / geo_lon", type: "Géolocalisation", status: "geo" },
+                            { q: "satisf_intrants", type: "Ordinale", status: "warn" },
+                          ]
+                      ).map((r) => (
                         <tr key={r.q} className="border-t border-gray-50">
-                          <td className="px-4 py-3 text-gray-800">{r.q}</td>
-                          <td className="px-4 py-3 text-gray-500 font-mono text-xs">{r.col}</td>
+                          <td className="px-4 py-3 text-gray-800 font-mono text-xs">{r.q}</td>
                           <td className="px-4 py-3 text-gray-500">{r.type}</td>
                           <td className="px-4 py-3">
                             {r.status === "ok" && (

@@ -22944,6 +22944,398 @@
     }
   });
 
+  // node_modules/papaparse/papaparse.min.js
+  var require_papaparse_min = __commonJS({
+    "node_modules/papaparse/papaparse.min.js"(exports, module) {
+      ((e, t) => {
+        "function" == typeof define && define.amd ? define([], t) : "object" == typeof module && "undefined" != typeof exports ? module.exports = t() : e.Papa = t();
+      })(exports, function r2() {
+        var n = "undefined" != typeof self ? self : "undefined" != typeof window ? window : void 0 !== n ? n : {};
+        var s2 = !n.document && !!n.postMessage, a2 = n.IS_PAPA_WORKER || false, o = {}, h = 0, w = {};
+        function P(e) {
+          return 65279 === e.charCodeAt(0) ? e.slice(1) : e;
+        }
+        function u(e) {
+          this._handle = null, this._finished = false, this._completed = false, this._halted = false, this._input = null, this._baseIndex = 0, this._partialLine = "", this._rowCount = 0, this._start = 0, this._nextChunk = null, this.isFirstChunk = true, this._completeResults = { data: [], errors: [], meta: {} }, function(e3) {
+            var t = b(e3);
+            t.chunkSize = parseInt(t.chunkSize), e3.step || e3.chunk || (t.chunkSize = null);
+            this._handle = new i(t), (this._handle.streamer = this)._config = t;
+          }.call(this, e), this.parseChunk = function(t, e3) {
+            var i2 = parseInt(this._config.skipFirstNLines) || 0;
+            if (this.isFirstChunk && 0 < i2) {
+              let e4 = this._config.newline;
+              e4 || (r3 = this._config.quoteChar || '"', e4 = this._handle.guessLineEndings(t, r3)), t = [...t.split(e4).slice(i2)].join(e4);
+            }
+            this.isFirstChunk && U(this._config.beforeFirstChunk) && void 0 !== (r3 = this._config.beforeFirstChunk(t)) && (t = r3), this.isFirstChunk = false, this._halted = false;
+            var i2 = this._partialLine + t, r3 = (this._partialLine = "", this._handle.parse(i2, this._baseIndex, !this._finished));
+            if (!this._handle.paused() && !this._handle.aborted()) {
+              t = r3.meta.cursor, i2 = (this._finished || (this._partialLine = i2.substring(t - this._baseIndex), this._baseIndex = t), r3 && r3.data && (this._rowCount += r3.data.length), this._finished || this._config.preview && this._rowCount >= this._config.preview);
+              if (a2) n.postMessage({ results: r3, workerId: w.WORKER_ID, finished: i2 });
+              else if (U(this._config.chunk) && !e3) {
+                if (this._config.chunk(r3, this._handle), this._handle.paused() || this._handle.aborted()) return void (this._halted = true);
+                this._completeResults = r3 = void 0;
+              }
+              return this._config.step || this._config.chunk || (this._completeResults.data = this._completeResults.data.concat(r3.data), this._completeResults.errors = this._completeResults.errors.concat(r3.errors), this._completeResults.meta = r3.meta), this._completed || !i2 || !U(this._config.complete) || r3 && r3.meta.aborted || (this._config.complete(this._completeResults, this._input), this._completed = true), i2 || r3 && r3.meta.paused || this._nextChunk(), r3;
+            }
+            this._halted = true;
+          }, this._sendError = function(e3) {
+            U(this._config.error) ? this._config.error(e3) : a2 && this._config.error && n.postMessage({ workerId: w.WORKER_ID, error: e3, finished: false });
+          };
+        }
+        function d(e) {
+          var r3;
+          (e = e || {}).chunkSize || (e.chunkSize = w.RemoteChunkSize), u.call(this, e), this._nextChunk = s2 ? function() {
+            this._readChunk(), this._chunkLoaded();
+          } : function() {
+            this._readChunk();
+          }, this.stream = function(e3) {
+            this._input = e3, this._nextChunk();
+          }, this._readChunk = function() {
+            if (this._finished) this._chunkLoaded();
+            else {
+              if (r3 = new XMLHttpRequest(), this._config.withCredentials && (r3.withCredentials = this._config.withCredentials), s2 || (r3.onload = m(this._chunkLoaded, this), r3.onerror = m(this._chunkError, this)), r3.open(this._config.downloadRequestBody ? "POST" : "GET", this._input, !s2), this._config.downloadRequestHeaders) {
+                var e3, t = this._config.downloadRequestHeaders;
+                for (e3 in t) r3.setRequestHeader(e3, t[e3]);
+              }
+              var i2;
+              this._config.chunkSize && (i2 = this._start + this._config.chunkSize - 1, r3.setRequestHeader("Range", "bytes=" + this._start + "-" + i2));
+              try {
+                r3.send(this._config.downloadRequestBody);
+              } catch (e4) {
+                this._chunkError(e4.message);
+              }
+              s2 && 0 === r3.status && this._chunkError();
+            }
+          }, this._chunkLoaded = function() {
+            4 === r3.readyState && (r3.status < 200 || 400 <= r3.status ? this._chunkError() : (this._start += this._config.chunkSize || r3.responseText.length, this._finished = !this._config.chunkSize || this._start >= ((e3) => null !== (e3 = e3.getResponseHeader("Content-Range")) ? parseInt(e3.substring(e3.lastIndexOf("/") + 1)) : -1)(r3), this.parseChunk(r3.responseText)));
+          }, this._chunkError = function(e3) {
+            e3 = r3.statusText || e3;
+            this._sendError(new Error(e3));
+          };
+        }
+        function l(e) {
+          (e = e || {}).chunkSize || (e.chunkSize = w.LocalChunkSize), u.call(this, e);
+          var i2, r3, n2 = "undefined" != typeof FileReader;
+          this.stream = function(e3) {
+            this._input = e3, r3 = e3.slice || e3.webkitSlice || e3.mozSlice, n2 ? ((i2 = new FileReader()).onload = m(this._chunkLoaded, this), i2.onerror = m(this._chunkError, this)) : i2 = new FileReaderSync(), this._nextChunk();
+          }, this._nextChunk = function() {
+            this._finished || this._config.preview && !(this._rowCount < this._config.preview) || this._readChunk();
+          }, this._readChunk = function() {
+            var e3 = this._input, t = (this._config.chunkSize && (t = Math.min(this._start + this._config.chunkSize, this._input.size), e3 = r3.call(e3, this._start, t)), i2.readAsText(e3, this._config.encoding));
+            n2 || this._chunkLoaded({ target: { result: t } });
+          }, this._chunkLoaded = function(e3) {
+            this._start += this._config.chunkSize, this._finished = !this._config.chunkSize || this._start >= this._input.size, this.parseChunk(e3.target.result);
+          }, this._chunkError = function() {
+            this._sendError(i2.error);
+          };
+        }
+        function f(e) {
+          var i2;
+          u.call(this, e = e || {}), this.stream = function(e3) {
+            return i2 = e3, this._nextChunk();
+          }, this._nextChunk = function() {
+            var e3, t;
+            if (!this._finished) return e3 = this._config.chunkSize, i2 = e3 ? (t = i2.substring(0, e3), i2.substring(e3)) : (t = i2, ""), this._finished = !i2, this.parseChunk(t);
+          };
+        }
+        function c2(e) {
+          u.call(this, e = e || {});
+          var t = [], i2 = true, r3 = false;
+          this.pause = function() {
+            u.prototype.pause.apply(this, arguments), this._input.pause();
+          }, this.resume = function() {
+            u.prototype.resume.apply(this, arguments), this._input.resume();
+          }, this.stream = function(e3) {
+            this._input = e3, this._input.on("data", this._streamData), this._input.on("end", this._streamEnd), this._input.on("error", this._streamError);
+          }, this._checkIsFinished = function() {
+            r3 && 1 === t.length && (this._finished = true);
+          }, this._nextChunk = function() {
+            this._checkIsFinished(), t.length ? this.parseChunk(t.shift()) : i2 = true;
+          }, this._streamData = m(function(e3) {
+            try {
+              t.push("string" == typeof e3 ? e3 : e3.toString(this._config.encoding)), i2 && (i2 = false, this._checkIsFinished(), this.parseChunk(t.shift()));
+            } catch (e4) {
+              this._streamError(e4);
+            }
+          }, this), this._streamError = m(function(e3) {
+            this._streamCleanUp(), this._sendError(e3);
+          }, this), this._streamEnd = m(function() {
+            this._streamCleanUp(), r3 = true, this._streamData("");
+          }, this), this._streamCleanUp = m(function() {
+            this._input.removeListener("data", this._streamData), this._input.removeListener("end", this._streamEnd), this._input.removeListener("error", this._streamError);
+          }, this);
+        }
+        function i(m2) {
+          var n2, s3, a3, t, o2 = Math.pow(2, 53), h2 = -o2, u2 = /^\s*-?(\d+\.?|\.\d+|\d+\.\d+)([eE][-+]?\d+)?\s*$/, d2 = /^((\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+([+-][0-2]\d:[0-5]\d|Z))|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d([+-][0-2]\d:[0-5]\d|Z))|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d([+-][0-2]\d:[0-5]\d|Z)))$/, i2 = this, r3 = 0, l2 = 0, f2 = false, e = false, c3 = [], p2 = { data: [], errors: [], meta: {} };
+          function y2(e3) {
+            return "greedy" === m2.skipEmptyLines ? "" === e3.join("").trim() : 1 === e3.length && 0 === e3[0].length;
+          }
+          function _2() {
+            if (p2 && a3 && (k2("Delimiter", "UndetectableDelimiter", "Unable to auto-detect delimiting character; defaulted to '" + w.DefaultDelimiter + "'"), a3 = false), m2.skipEmptyLines && (p2.data = p2.data.filter(function(e4) {
+              return !y2(e4);
+            })), g2()) {
+              let t3 = function(e4, t4) {
+                e4 = P(e4), U(m2.transformHeader) && (e4 = m2.transformHeader(e4, t4)), c3.push(e4);
+              };
+              var t2 = t3;
+              if (p2) if (Array.isArray(p2.data[0])) {
+                for (var e3 = 0; g2() && e3 < p2.data.length; e3++) p2.data[e3].forEach(t3);
+                p2.data.splice(0, 1);
+              } else p2.data.forEach(t3);
+            }
+            function i3(e4, t3) {
+              for (var i4 = m2.header ? {} : [], r5 = 0; r5 < e4.length; r5++) {
+                var n3 = r5, s4 = e4[r5], s4 = ((e6, t4) => ((e7) => (m2.dynamicTypingFunction && void 0 === m2.dynamicTyping[e7] && (m2.dynamicTyping[e7] = m2.dynamicTypingFunction(e7)), true === (m2.dynamicTyping[e7] || m2.dynamicTyping)))(e6) ? "true" === t4 || "TRUE" === t4 || "false" !== t4 && "FALSE" !== t4 && (((e7) => {
+                  if (u2.test(e7)) {
+                    e7 = parseFloat(e7);
+                    if (h2 < e7 && e7 < o2) return 1;
+                  }
+                })(t4) ? parseFloat(t4) : d2.test(t4) ? new Date(t4) : "" === t4 ? null : t4) : t4)(n3 = m2.header ? r5 >= c3.length ? "__parsed_extra" : c3[r5] : n3, s4 = m2.transform ? m2.transform(s4, n3) : s4);
+                "__parsed_extra" === n3 ? (i4[n3] = i4[n3] || [], i4[n3].push(s4)) : i4[n3] = s4;
+              }
+              return m2.header && (r5 > c3.length ? k2("FieldMismatch", "TooManyFields", "Too many fields: expected " + c3.length + " fields but parsed " + r5, l2 + t3) : r5 < c3.length && k2("FieldMismatch", "TooFewFields", "Too few fields: expected " + c3.length + " fields but parsed " + r5, l2 + t3)), i4;
+            }
+            var r4;
+            p2 && (m2.header || m2.dynamicTyping || m2.transform) && (r4 = 1, !p2.data.length || Array.isArray(p2.data[0]) ? (p2.data = p2.data.map(i3), r4 = p2.data.length) : p2.data = i3(p2.data, 0), m2.header && p2.meta && (p2.meta.fields = c3), l2 += r4);
+          }
+          function g2() {
+            return m2.header && 0 === c3.length;
+          }
+          function k2(e3, t2, i3, r4) {
+            e3 = { type: e3, code: t2, message: i3 };
+            void 0 !== r4 && (e3.row = r4), p2.errors.push(e3);
+          }
+          U(m2.step) && (t = m2.step, m2.step = function(e3) {
+            p2 = e3, g2() ? _2() : (_2(), 0 !== p2.data.length && (r3 += e3.data.length, m2.preview && r3 > m2.preview ? s3.abort() : (p2.data = p2.data[0], t(p2, i2))));
+          }), this.parse = function(e3, t2, i3) {
+            var r4 = m2.quoteChar || '"', r4 = (m2.newline || (m2.newline = this.guessLineEndings(e3, r4)), a3 = false, m2.delimiter ? U(m2.delimiter) && (m2.delimiter = m2.delimiter(e3), p2.meta.delimiter = m2.delimiter) : ((r4 = ((e4, t3, i4, r5, n3) => {
+              var s4, a4, o3, h3;
+              n3 = n3 || [",", "	", "|", ";", w.RECORD_SEP, w.UNIT_SEP];
+              for (var u3 = 0; u3 < n3.length; u3++) {
+                for (var d3, l3 = n3[u3], f3 = 0, c4 = 0, p3 = 0, _3 = (o3 = void 0, new E({ comments: r5, delimiter: l3, newline: t3, preview: 10 }).parse(e4)), g3 = 0; g3 < _3.data.length; g3++) i4 && y2(_3.data[g3]) ? p3++ : (d3 = _3.data[g3].length, c4 += d3, void 0 === o3 ? o3 = d3 : 0 < d3 && (f3 += Math.abs(d3 - o3), o3 = d3));
+                0 < _3.data.length && (c4 /= _3.data.length - p3), 1.99 < c4 && (void 0 === a4 || f3 < a4 || f3 === a4 && h3 < c4) && (a4 = f3, s4 = l3, h3 = c4);
+              }
+              return { successful: !!(m2.delimiter = s4), bestDelimiter: s4 };
+            })(e3, m2.newline, m2.skipEmptyLines, m2.comments, m2.delimitersToGuess)).successful ? m2.delimiter = r4.bestDelimiter : (a3 = true, m2.delimiter = w.DefaultDelimiter), p2.meta.delimiter = m2.delimiter), b(m2));
+            return m2.preview && m2.header && r4.preview++, n2 = e3, s3 = new E(r4), p2 = s3.parse(n2, t2, i3), _2(), f2 ? { meta: { paused: true } } : p2 || { meta: { paused: false } };
+          }, this.paused = function() {
+            return f2;
+          }, this.pause = function() {
+            f2 = true, s3.abort(), n2 = U(m2.chunk) ? "" : n2.substring(s3.getCharIndex());
+          }, this.resume = function() {
+            i2.streamer._halted ? (f2 = false, i2.streamer.parseChunk(n2, true)) : setTimeout(i2.resume, 3);
+          }, this.aborted = function() {
+            return e;
+          }, this.abort = function() {
+            e = true, s3.abort(), p2.meta.aborted = true, U(m2.complete) && m2.complete(p2), n2 = "";
+          }, this.guessLineEndings = function(e3, t2) {
+            e3 = e3.substring(0, 1048576);
+            var t2 = new RegExp(q(t2) + "([^]*?)" + q(t2), "gm"), i3 = (e3 = e3.replace(t2, "")).split("\r"), t2 = e3.split("\n"), e3 = 1 < t2.length && t2[0].length < i3[0].length;
+            if (1 === i3.length || e3) return "\n";
+            for (var r4 = 0, n3 = 0; n3 < i3.length; n3++) "\n" === i3[n3][0] && r4++;
+            return r4 >= i3.length / 2 ? "\r\n" : "\r";
+          };
+        }
+        function q(e) {
+          return e.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+        }
+        function E(C) {
+          var S = (C = C || {}).delimiter, O2 = C.newline, x2 = C.comments, I = C.step, A = C.preview, T = C.fastMode, D = null, L = false, F = null == C.quoteChar ? '"' : C.quoteChar, z = F;
+          if (void 0 !== C.escapeChar && (z = C.escapeChar), ("string" != typeof S || -1 < w.BAD_DELIMITERS.indexOf(S)) && (S = ","), x2 === S) throw new Error("Comment character same as delimiter");
+          true === x2 ? x2 = "#" : ("string" != typeof x2 || -1 < w.BAD_DELIMITERS.indexOf(x2)) && (x2 = false), "\n" !== O2 && "\r" !== O2 && "\r\n" !== O2 && (O2 = "\n");
+          var M = 0, j = false;
+          this.parse = function(i2, t, r3) {
+            if ("string" != typeof i2) throw new Error("Input must be a string");
+            var n2 = i2.length, e = S.length, s3 = O2.length, a3 = x2.length, o2 = U(I), h2 = [], u2 = [], d2 = [], l2 = M = 0;
+            if (!i2) return v();
+            if (T || false !== T && -1 === i2.indexOf(F)) {
+              for (var f2 = i2.split(O2), c3 = 0; c3 < f2.length; c3++) {
+                if (d2 = f2[c3], M += d2.length, c3 !== f2.length - 1) M += O2.length;
+                else if (r3) return v();
+                if (!x2 || d2.substring(0, a3) !== x2) {
+                  if (o2) {
+                    if (h2 = [], k2(d2.split(S)), R(), j) return v();
+                  } else k2(d2.split(S));
+                  if (A && A <= c3) return h2 = h2.slice(0, A), v(true);
+                }
+              }
+              return v();
+            }
+            for (var p2 = i2.indexOf(S, M), _2 = i2.indexOf(O2, M), g2 = new RegExp(q(z) + q(F), "g"), m2 = i2.indexOf(F, M); ; ) if (i2[M] === F) for (m2 = M, M++; ; ) {
+              if (-1 === (m2 = i2.indexOf(F, m2 + 1))) return r3 || u2.push({ type: "Quotes", code: "MissingQuotes", message: "Quoted field unterminated", row: h2.length, index: M }), E2();
+              if (m2 === n2 - 1) return E2(i2.substring(M, m2).replace(g2, F));
+              if (F === z && i2[m2 + 1] === z) m2++;
+              else if (F === z || 0 === m2 || i2[m2 - 1] !== z) {
+                -1 !== p2 && p2 < m2 + 1 && (p2 = i2.indexOf(S, m2 + 1));
+                var y2 = w2(-1 === (_2 = -1 !== _2 && _2 < m2 + 1 ? i2.indexOf(O2, m2 + 1) : _2) ? p2 : Math.min(p2, _2));
+                if (i2.substr(m2 + 1 + y2, e) === S) {
+                  d2.push(i2.substring(M, m2).replace(g2, F)), i2[M = m2 + 1 + y2 + e] !== F && (m2 = i2.indexOf(F, M)), p2 = i2.indexOf(S, M), _2 = i2.indexOf(O2, M);
+                  break;
+                }
+                y2 = w2(_2);
+                if (i2.substring(m2 + 1 + y2, m2 + 1 + y2 + s3) === O2) {
+                  if (d2.push(i2.substring(M, m2).replace(g2, F)), b2(m2 + 1 + y2 + s3), p2 = i2.indexOf(S, M), m2 = i2.indexOf(F, M), o2 && (R(), j)) return v();
+                  if (A && h2.length >= A) return v(true);
+                  break;
+                }
+                u2.push({ type: "Quotes", code: "InvalidQuotes", message: "Trailing quote on quoted field is malformed", row: h2.length, index: M }), m2++;
+              }
+            }
+            else if (x2 && 0 === d2.length && i2.substring(M, M + a3) === x2) {
+              if (-1 === _2) return v();
+              M = _2 + s3, _2 = i2.indexOf(O2, M), p2 = i2.indexOf(S, M);
+            } else if (-1 !== p2 && (p2 < _2 || -1 === _2)) d2.push(i2.substring(M, p2)), M = p2 + e, p2 = i2.indexOf(S, M);
+            else {
+              if (-1 === _2) break;
+              if (d2.push(i2.substring(M, _2)), b2(_2 + s3), o2 && (R(), j)) return v();
+              if (A && h2.length >= A) return v(true);
+            }
+            return E2();
+            function k2(e3) {
+              h2.push(e3), l2 = M;
+            }
+            function w2(e3) {
+              var t2 = 0;
+              return t2 = -1 !== e3 && (e3 = i2.substring(m2 + 1, e3)) && "" === e3.trim() ? e3.length : t2;
+            }
+            function E2(e3) {
+              return r3 || (void 0 === e3 && (e3 = i2.substring(M)), d2.push(e3), M = n2, k2(d2), o2 && R()), v();
+            }
+            function b2(e3) {
+              M = e3, k2(d2), d2 = [], _2 = i2.indexOf(O2, M);
+            }
+            function v(e3) {
+              if (C.header && !t && h2.length && !L) {
+                var s4 = h2[0], a4 = /* @__PURE__ */ Object.create(null), o3 = new Set(s4);
+                let n3 = false;
+                for (let r4 = 0; r4 < s4.length; r4++) {
+                  let i3 = P(s4[r4]);
+                  if (a4[i3 = U(C.transformHeader) ? C.transformHeader(i3, r4) : i3]) {
+                    let e4, t2 = a4[i3];
+                    for (; e4 = i3 + "_" + t2, t2++, o3.has(e4); ) ;
+                    o3.add(e4), s4[r4] = e4, a4[i3]++, n3 = true, (D = null === D ? {} : D)[e4] = i3;
+                  } else a4[i3] = 1, s4[r4] = i3;
+                  o3.add(i3);
+                }
+                n3 && console.warn("Duplicate headers found and renamed."), L = true;
+              }
+              return { data: h2, errors: u2, meta: { delimiter: S, linebreak: O2, aborted: j, truncated: !!e3, cursor: l2 + (t || 0), renamedHeaders: D } };
+            }
+            function R() {
+              I(v()), h2 = [], u2 = [];
+            }
+          }, this.abort = function() {
+            j = true;
+          }, this.getCharIndex = function() {
+            return M;
+          };
+        }
+        function p(e) {
+          var t = e.data, i2 = o[t.workerId], r3 = false;
+          if (t.error) i2.userError(t.error, t.file);
+          else if (t.results && t.results.data) {
+            var n2 = { abort: function() {
+              r3 = true, _(t.workerId, { data: [], errors: [], meta: { aborted: true } });
+            }, pause: g, resume: g };
+            if (U(i2.userStep)) {
+              for (var s3 = 0; s3 < t.results.data.length && (i2.userStep({ data: t.results.data[s3], errors: t.results.errors, meta: t.results.meta }, n2), !r3); s3++) ;
+              delete t.results;
+            } else U(i2.userChunk) && (i2.userChunk(t.results, n2, t.file), delete t.results);
+          }
+          t.finished && !r3 && _(t.workerId, t.results);
+        }
+        function _(e, t) {
+          var i2 = o[e];
+          U(i2.userComplete) && i2.userComplete(t), i2.terminate(), delete o[e];
+        }
+        function g() {
+          throw new Error("Not implemented.");
+        }
+        function b(e) {
+          if ("object" != typeof e || null === e) return e;
+          var t, i2 = Array.isArray(e) ? [] : {};
+          for (t in e) i2[t] = b(e[t]);
+          return i2;
+        }
+        function m(e, t) {
+          return function() {
+            e.apply(t, arguments);
+          };
+        }
+        function U(e) {
+          return "function" == typeof e;
+        }
+        return w.parse = function(e, t) {
+          var i2 = (t = t || {}).dynamicTyping || false;
+          U(i2) && (t.dynamicTypingFunction = i2, i2 = {});
+          if (t.dynamicTyping = i2, t.transform = !!U(t.transform) && t.transform, !t.worker || !w.WORKERS_SUPPORTED) return i2 = null, w.NODE_STREAM_INPUT, "string" == typeof e ? (e = P(e), i2 = new (t.download ? d : f)(t)) : true === e.readable && U(e.read) && U(e.on) ? i2 = new c2(t) : (n.File && e instanceof File || e instanceof Object) && (i2 = new l(t)), i2.stream(e);
+          (i2 = (() => {
+            var e3;
+            return !!w.WORKERS_SUPPORTED && (e3 = (() => {
+              var e4 = n.URL || n.webkitURL || null, t2 = r2.toString();
+              return w.BLOB_URL || (w.BLOB_URL = e4.createObjectURL(new Blob(["var global = (function() { if (typeof self !== 'undefined') { return self; } if (typeof window !== 'undefined') { return window; } if (typeof global !== 'undefined') { return global; } return {}; })(); global.IS_PAPA_WORKER=true; ", "(", t2, ")();"], { type: "text/javascript" })));
+            })(), (e3 = new n.Worker(e3)).onmessage = p, e3.id = h++, o[e3.id] = e3);
+          })()).userStep = t.step, i2.userChunk = t.chunk, i2.userComplete = t.complete, i2.userError = t.error, t.step = U(t.step), t.chunk = U(t.chunk), t.complete = U(t.complete), t.error = U(t.error), delete t.worker, i2.postMessage({ input: e, config: t, workerId: i2.id });
+        }, w.unparse = function(e, t) {
+          var s3 = false, g2 = true, m2 = ",", y2 = "\r\n", a3 = '"', o2 = a3 + a3, i2 = false, r3 = null, h2 = false, u2 = ((() => {
+            if ("object" == typeof t) {
+              if ("string" != typeof t.delimiter || w.BAD_DELIMITERS.filter(function(e3) {
+                return -1 !== t.delimiter.indexOf(e3);
+              }).length || (m2 = t.delimiter), "boolean" != typeof t.quotes && "function" != typeof t.quotes && !Array.isArray(t.quotes) || (s3 = t.quotes), "boolean" != typeof t.skipEmptyLines && "string" != typeof t.skipEmptyLines || (i2 = t.skipEmptyLines), "string" == typeof t.newline && (y2 = t.newline), "string" == typeof t.quoteChar && (a3 = t.quoteChar, o2 = a3 + a3), "boolean" == typeof t.header && (g2 = t.header), Array.isArray(t.columns)) {
+                if (0 === t.columns.length) throw new Error("Option columns is empty");
+                r3 = t.columns;
+              }
+              void 0 !== t.escapeChar && (o2 = t.escapeChar + a3), t.escapeFormulae instanceof RegExp ? h2 = t.escapeFormulae : "boolean" == typeof t.escapeFormulae && t.escapeFormulae && (h2 = /^[=+\-@\t\r].*$/);
+            }
+          })(), new RegExp(q(a3), "g"));
+          "string" == typeof e && (e = JSON.parse(e));
+          if (Array.isArray(e)) {
+            if (!e.length || Array.isArray(e[0])) return n2(null, e, i2);
+            if ("object" == typeof e[0]) return n2(r3 || Object.keys(e[0]), e, i2);
+          } else if ("object" == typeof e) return "string" == typeof e.data && (e.data = JSON.parse(e.data)), Array.isArray(e.data) && (e.fields || (e.fields = e.meta && e.meta.fields || r3), e.fields || (e.fields = Array.isArray(e.data[0]) ? e.fields : "object" == typeof e.data[0] ? Object.keys(e.data[0]) : []), Array.isArray(e.data[0]) || "object" == typeof e.data[0] || (e.data = [e.data])), n2(e.fields || [], e.data || [], i2);
+          throw new Error("Unable to serialize unrecognized input");
+          function n2(e3, t2, i3) {
+            var r4 = "", n3 = ("string" == typeof e3 && (e3 = JSON.parse(e3)), "string" == typeof t2 && (t2 = JSON.parse(t2)), Array.isArray(e3) && 0 < e3.length), s4 = !Array.isArray(t2[0]);
+            if (n3 && g2) {
+              for (var a4 = 0; a4 < e3.length; a4++) 0 < a4 && (r4 += m2), r4 += k2(e3[a4], a4);
+              0 < t2.length && (r4 += y2);
+            }
+            for (var o3 = 0; o3 < t2.length; o3++) {
+              var h3 = (n3 ? e3 : t2[o3]).length, u3 = false, d2 = n3 ? 0 === Object.keys(t2[o3]).length : 0 === t2[o3].length;
+              if (i3 && !n3 && (u3 = "greedy" === i3 ? "" === t2[o3].join("").trim() : 1 === t2[o3].length && 0 === t2[o3][0].length), "greedy" === i3 && n3) {
+                for (var l2 = [], f2 = 0; f2 < h3; f2++) {
+                  var c3 = s4 ? e3[f2] : f2;
+                  l2.push(t2[o3][c3]);
+                }
+                u3 = "" === l2.join("").trim();
+              }
+              if (!u3) {
+                for (var p2 = 0; p2 < h3; p2++) {
+                  0 < p2 && !d2 && (r4 += m2);
+                  var _2 = n3 && s4 ? e3[p2] : p2;
+                  r4 += k2(t2[o3][_2], p2);
+                }
+                o3 < t2.length - 1 && (!i3 || 0 < h3 && !d2) && (r4 += y2);
+              }
+            }
+            return r4;
+          }
+          function k2(e3, t2) {
+            var i3, r4, n3;
+            return null == e3 ? "" : e3.constructor === Date ? isNaN(e3.getTime()) ? "" : e3.toISOString() : (n3 = false, h2 && "string" == typeof e3 && h2.test(e3) && (e3 = "'" + e3, n3 = true), r4 = (i3 = e3.toString()).replace(u2, o2), (n3 = n3 || true === s3 || "function" == typeof s3 && s3(e3, t2) || Array.isArray(s3) && s3[t2] || ((e4, t3) => {
+              for (var i4 = 0; i4 < t3.length; i4++) if (-1 < e4.indexOf(t3[i4])) return true;
+              return false;
+            })(r4, w.BAD_DELIMITERS) || -1 < r4.indexOf(m2) || -1 < i3.indexOf(a3) || " " === r4.charAt(0) || " " === r4.charAt(r4.length - 1)) ? a3 + r4 + a3 : r4);
+          }
+        }, w.RECORD_SEP = String.fromCharCode(30), w.UNIT_SEP = String.fromCharCode(31), w.BYTE_ORDER_MARK = "\uFEFF", w.BAD_DELIMITERS = ["\r", "\n", '"', w.BYTE_ORDER_MARK], w.WORKERS_SUPPORTED = !s2 && !!n.Worker, w.NODE_STREAM_INPUT = 1, w.LocalChunkSize = 10485760, w.RemoteChunkSize = 5242880, w.DefaultDelimiter = ",", w.Parser = E, w.ParserHandle = i, w.NetworkStreamer = d, w.FileStreamer = l, w.StringStreamer = f, w.ReadableStreamStreamer = c2, a2 && (n.onmessage = function(e) {
+          e = e.data;
+          void 0 === w.WORKER_ID && e && (w.WORKER_ID = e.workerId);
+          "string" == typeof e.input ? n.postMessage({ workerId: w.WORKER_ID, results: w.parse(e.input, e.config), finished: true }) : (n.File && e.input instanceof File || e.input instanceof Object) && (e = w.parse(e.input, e.config)) && n.postMessage({ workerId: w.WORKER_ID, results: e, finished: true });
+        }), (d.prototype = Object.create(u.prototype)).constructor = d, (l.prototype = Object.create(u.prototype)).constructor = l, (f.prototype = Object.create(f.prototype)).constructor = f, (c2.prototype = Object.create(u.prototype)).constructor = c2, w;
+      });
+    }
+  });
+
   // src/entry.jsx
   var import_react80 = __toESM(require_react());
   var import_client = __toESM(require_client());
@@ -71008,6 +71400,386 @@ ${suffix2}`;
   var supabase = isSupabaseConfigured ? createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
 
   // src/ImportWizard.jsx
+  var import_papaparse = __toESM(require_papaparse_min());
+
+  // src/statsMath.js
+  function gammln(x2) {
+    const cof = [
+      76.18009172947146,
+      -86.50532032941678,
+      24.01409824083091,
+      -1.231739572450155,
+      0.001208650973866179,
+      -5395239384953e-18
+    ];
+    let y2 = x2, tmp = x2 + 5.5;
+    tmp -= (x2 + 0.5) * Math.log(tmp);
+    let ser = 1.000000000190015;
+    for (let j = 0; j < 6; j++) {
+      y2 += 1;
+      ser += cof[j] / y2;
+    }
+    return -tmp + Math.log(2.5066282746310007 * ser / x2);
+  }
+  function betacf(a2, b, x2) {
+    const MAXIT = 200, EPS2 = 3e-9, FPMIN = 1e-30;
+    let qab = a2 + b, qap = a2 + 1, qam = a2 - 1;
+    let c2 = 1, d = 1 - qab * x2 / qap;
+    if (Math.abs(d) < FPMIN) d = FPMIN;
+    d = 1 / d;
+    let h = d;
+    for (let m = 1; m <= MAXIT; m++) {
+      const m2 = 2 * m;
+      let aa = m * (b - m) * x2 / ((qam + m2) * (a2 + m2));
+      d = 1 + aa * d;
+      if (Math.abs(d) < FPMIN) d = FPMIN;
+      c2 = 1 + aa / c2;
+      if (Math.abs(c2) < FPMIN) c2 = FPMIN;
+      d = 1 / d;
+      h *= d * c2;
+      aa = -(a2 + m) * (qab + m) * x2 / ((a2 + m2) * (qap + m2));
+      d = 1 + aa * d;
+      if (Math.abs(d) < FPMIN) d = FPMIN;
+      c2 = 1 + aa / c2;
+      if (Math.abs(c2) < FPMIN) c2 = FPMIN;
+      d = 1 / d;
+      const del = d * c2;
+      h *= del;
+      if (Math.abs(del - 1) < EPS2) break;
+    }
+    return h;
+  }
+  function betai(a2, b, x2) {
+    if (x2 <= 0) return 0;
+    if (x2 >= 1) return 1;
+    const bt = Math.exp(gammln(a2 + b) - gammln(a2) - gammln(b) + a2 * Math.log(x2) + b * Math.log(1 - x2));
+    if (x2 < (a2 + 1) / (a2 + b + 2)) return bt * betacf(a2, b, x2) / a2;
+    return 1 - bt * betacf(b, a2, 1 - x2) / b;
+  }
+  function gammpSeries(a2, x2) {
+    const ITMAX = 200, EPS2 = 3e-9;
+    if (x2 <= 0) return 0;
+    let ap = a2, sum = 1 / a2, del = sum;
+    for (let n = 1; n <= ITMAX; n++) {
+      ap += 1;
+      del *= x2 / ap;
+      sum += del;
+      if (Math.abs(del) < Math.abs(sum) * EPS2) break;
+    }
+    return sum * Math.exp(-x2 + a2 * Math.log(x2) - gammln(a2));
+  }
+  function gammpCF(a2, x2) {
+    const ITMAX = 200, EPS2 = 3e-9, FPMIN = 1e-30;
+    let b = x2 + 1 - a2, c2 = 1 / FPMIN, d = 1 / b, h = d;
+    for (let i = 1; i <= ITMAX; i++) {
+      const an = -i * (i - a2);
+      b += 2;
+      d = an * d + b;
+      if (Math.abs(d) < FPMIN) d = FPMIN;
+      c2 = b + an / c2;
+      if (Math.abs(c2) < FPMIN) c2 = FPMIN;
+      d = 1 / d;
+      const del = d * c2;
+      h *= del;
+      if (Math.abs(del - 1) < EPS2) break;
+    }
+    return Math.exp(-x2 + a2 * Math.log(x2) - gammln(a2)) * h;
+  }
+  function gammap(a2, x2) {
+    if (x2 < a2 + 1) return gammpSeries(a2, x2);
+    return 1 - gammpCF(a2, x2);
+  }
+  function studentTCDF(t, df) {
+    const x2 = df / (df + t * t);
+    const p = betai(df / 2, 0.5, x2);
+    return t > 0 ? 1 - p / 2 : p / 2;
+  }
+  function chiSquareCDF(x2, df) {
+    return gammap(df / 2, x2 / 2);
+  }
+  function fCDF(f, df1, df2) {
+    const x2 = df1 * f / (df1 * f + df2);
+    return betai(df1 / 2, df2 / 2, x2);
+  }
+  function tTestPValue(t, df) {
+    const p = studentTCDF(Math.abs(t), df);
+    return 2 * (1 - p);
+  }
+  function chiSquarePValue(x2, df) {
+    return 1 - chiSquareCDF(x2, df);
+  }
+  function fTestPValue(f, df1, df2) {
+    return 1 - fCDF(f, df1, df2);
+  }
+
+  // src/realStats.js
+  function normalCDF(z) {
+    const t = 1 / (1 + 0.2316419 * Math.abs(z));
+    const d = 0.3989423 * Math.exp(-z * z / 2);
+    let p = d * t * (0.3193815 + t * (-0.3565638 + t * (1.781478 + t * (-1.821256 + t * 1.330274))));
+    if (z > 0) p = 1 - p;
+    return p;
+  }
+  function rank(values) {
+    const idx = values.map((v, i2) => i2).sort((a2, b) => values[a2] - values[b]);
+    const ranks = new Array(values.length);
+    let i = 0;
+    while (i < idx.length) {
+      let j = i;
+      while (j + 1 < idx.length && values[idx[j + 1]] === values[idx[i]]) j++;
+      const avgRank = (i + j) / 2 + 1;
+      for (let k2 = i; k2 <= j; k2++) ranks[idx[k2]] = avgRank;
+      i = j + 1;
+    }
+    return ranks;
+  }
+  function detectColumnType(values) {
+    const nonEmpty = values.filter((v) => v !== null && v !== void 0 && String(v).trim() !== "");
+    if (nonEmpty.length === 0) return { type: "Vide", isQuantitative: false };
+    const numeric = nonEmpty.filter((v) => v !== "" && !isNaN(Number(v)));
+    const ratioNumeric = numeric.length / nonEmpty.length;
+    if (ratioNumeric > 0.9) {
+      const uniqueVals = new Set(numeric.map(Number));
+      if (uniqueVals.size <= 8 && numeric.every((v) => Number.isInteger(Number(v)))) {
+        return { type: `Quantitative discr\xE8te (${uniqueVals.size} valeurs)`, isQuantitative: true };
+      }
+      return { type: "Quantitative continue", isQuantitative: true };
+    }
+    const unique = new Set(nonEmpty.map(String));
+    if (unique.size <= 12) {
+      return { type: `Nominale (${unique.size} modalit\xE9s)`, isQuantitative: false, modalites: [...unique] };
+    }
+    return { type: "Texte libre", isQuantitative: false };
+  }
+  function buildColumnsMeta(rows) {
+    if (!rows || rows.length === 0) return [];
+    const names = Object.keys(rows[0]);
+    return names.map((name) => {
+      const values = rows.map((r2) => r2[name]);
+      const meta = detectColumnType(values);
+      const looksGeo = /lat|lon|latitude|longitude|geo/i.test(name);
+      return { name, ...meta, isGeo: looksGeo && meta.isQuantitative };
+    });
+  }
+  function mean(arr) {
+    return arr.reduce((a2, b) => a2 + b, 0) / arr.length;
+  }
+  function median(arr) {
+    const s2 = [...arr].sort((a2, b) => a2 - b);
+    const mid = Math.floor(s2.length / 2);
+    return s2.length % 2 ? s2[mid] : (s2[mid - 1] + s2[mid]) / 2;
+  }
+  function stdev(arr) {
+    const m = mean(arr);
+    return Math.sqrt(arr.reduce((a2, b) => a2 + (b - m) ** 2, 0) / (arr.length - 1));
+  }
+  function numericValues(rows, col) {
+    return rows.map((r2) => Number(r2[col])).filter((v) => !isNaN(v));
+  }
+  function descriptiveStats(rows, col) {
+    const vals = numericValues(rows, col);
+    const m = mean(vals), sd = stdev(vals);
+    return {
+      n: vals.length,
+      moyenne: m,
+      mediane: median(vals),
+      ecartType: sd,
+      cv: sd / m * 100,
+      min: Math.min(...vals),
+      max: Math.max(...vals)
+    };
+  }
+  function frequencies(rows, col) {
+    const counts = {};
+    rows.forEach((r2) => {
+      const v = String(r2[col] ?? "").trim();
+      if (v === "") return;
+      counts[v] = (counts[v] || 0) + 1;
+    });
+    const total = Object.values(counts).reduce((a2, b) => a2 + b, 0);
+    return Object.entries(counts).map(([modalite, n]) => ({ modalite, n, pct: n / total * 100 })).sort((a2, b) => b.n - a2.n);
+  }
+  function spearmanCorrelation(rows, colX, colY) {
+    const pairs = rows.map((r2) => [Number(r2[colX]), Number(r2[colY])]).filter(([x2, y2]) => !isNaN(x2) && !isNaN(y2));
+    const xs = rank(pairs.map((p2) => p2[0]));
+    const ys = rank(pairs.map((p2) => p2[1]));
+    const n = xs.length;
+    const mx = mean(xs), my = mean(ys);
+    let num = 0, dx2 = 0, dy2 = 0;
+    for (let i = 0; i < n; i++) {
+      const dx = xs[i] - mx, dy = ys[i] - my;
+      num += dx * dy;
+      dx2 += dx * dx;
+      dy2 += dy * dy;
+    }
+    const rho = num / Math.sqrt(dx2 * dy2);
+    const df = n - 2;
+    const t = rho * Math.sqrt(df / (1 - rho * rho));
+    const p = tTestPValue(t, df);
+    return { r: rho, n, df, t, p };
+  }
+  function mannWhitneyU(rows, quantCol, qualCol) {
+    const groups = {};
+    rows.forEach((r2) => {
+      const g = String(r2[qualCol] ?? "").trim();
+      const v = Number(r2[quantCol]);
+      if (g === "" || isNaN(v)) return;
+      if (!groups[g]) groups[g] = [];
+      groups[g].push(v);
+    });
+    const [g1, g2] = Object.keys(groups);
+    const n1 = groups[g1].length, n2 = groups[g2].length;
+    const combined = [...groups[g1].map((v) => ({ v, g: 1 })), ...groups[g2].map((v) => ({ v, g: 2 }))];
+    const ranks = rank(combined.map((c2) => c2.v));
+    let R1 = 0;
+    combined.forEach((c2, i) => {
+      if (c2.g === 1) R1 += ranks[i];
+    });
+    const U1 = R1 - n1 * (n1 + 1) / 2;
+    const U2 = n1 * n2 - U1;
+    const U = Math.min(U1, U2);
+    const mU = n1 * n2 / 2;
+    const sigmaU = Math.sqrt(n1 * n2 * (n1 + n2 + 1) / 12);
+    const z = (U - mU) / sigmaU;
+    const p = 2 * (1 - normalCDF(Math.abs(z)));
+    return { U, z, p, n1, n2, groupes: [g1, g2] };
+  }
+  function kruskalWallis(rows, quantCol, qualCol) {
+    const groups = {};
+    rows.forEach((r2) => {
+      const g = String(r2[qualCol] ?? "").trim();
+      const v = Number(r2[quantCol]);
+      if (g === "" || isNaN(v)) return;
+      if (!groups[g]) groups[g] = [];
+      groups[g].push(v);
+    });
+    const groupNames = Object.keys(groups);
+    const all = groupNames.flatMap((g) => groups[g].map((v) => ({ v, g })));
+    const ranks = rank(all.map((a2) => a2.v));
+    const N = all.length, k2 = groupNames.length;
+    const rankSums = {};
+    all.forEach((a2, i) => {
+      rankSums[a2.g] = (rankSums[a2.g] || 0) + ranks[i];
+    });
+    let H = 0;
+    groupNames.forEach((g) => {
+      H += rankSums[g] ** 2 / groups[g].length;
+    });
+    H = 12 / (N * (N + 1)) * H - 3 * (N + 1);
+    const df = k2 - 1;
+    const p = chiSquarePValue(H, df);
+    return { H, df, p, N, k: k2 };
+  }
+  function pearsonCorrelation(rows, colX, colY) {
+    const pairs = rows.map((r3) => [Number(r3[colX]), Number(r3[colY])]).filter(([x2, y2]) => !isNaN(x2) && !isNaN(y2));
+    const n = pairs.length;
+    const xs = pairs.map((p2) => p2[0]), ys = pairs.map((p2) => p2[1]);
+    const mx = mean(xs), my = mean(ys);
+    let num = 0, dx2 = 0, dy2 = 0;
+    for (let i = 0; i < n; i++) {
+      const dx = xs[i] - mx, dy = ys[i] - my;
+      num += dx * dy;
+      dx2 += dx * dx;
+      dy2 += dy * dy;
+    }
+    const r2 = num / Math.sqrt(dx2 * dy2);
+    const df = n - 2;
+    const t = r2 * Math.sqrt(df / (1 - r2 * r2));
+    const p = tTestPValue(t, df);
+    return { r: r2, n, df, t, p };
+  }
+  function oneWayAnova(rows, quantCol, qualCol) {
+    const groups = {};
+    rows.forEach((r2) => {
+      const g = String(r2[qualCol] ?? "").trim();
+      const v = Number(r2[quantCol]);
+      if (g === "" || isNaN(v)) return;
+      if (!groups[g]) groups[g] = [];
+      groups[g].push(v);
+    });
+    const groupNames = Object.keys(groups);
+    const allVals = groupNames.flatMap((g) => groups[g]);
+    const grandMean = mean(allVals);
+    const k2 = groupNames.length;
+    const N = allVals.length;
+    let ssBetween = 0, ssWithin = 0;
+    const groupStats = groupNames.map((g) => {
+      const vals = groups[g];
+      const m = mean(vals);
+      ssBetween += vals.length * (m - grandMean) ** 2;
+      vals.forEach((v) => {
+        ssWithin += (v - m) ** 2;
+      });
+      return { groupe: g, n: vals.length, moyenne: m, ecartType: vals.length > 1 ? stdev(vals) : 0 };
+    });
+    const dfBetween = k2 - 1, dfWithin = N - k2;
+    const msBetween = ssBetween / dfBetween, msWithin = ssWithin / dfWithin;
+    const F = msBetween / msWithin;
+    const p = fTestPValue(F, dfBetween, dfWithin);
+    const etaSq = ssBetween / (ssBetween + ssWithin);
+    return { groupStats, F, dfBetween, dfWithin, p, etaSq, N, k: k2 };
+  }
+  function chiSquareTest(rows, colX, colY) {
+    const table = {};
+    const xCats = /* @__PURE__ */ new Set(), yCats = /* @__PURE__ */ new Set();
+    rows.forEach((r2) => {
+      const x2 = String(r2[colX] ?? "").trim(), y2 = String(r2[colY] ?? "").trim();
+      if (x2 === "" || y2 === "") return;
+      xCats.add(x2);
+      yCats.add(y2);
+      table[x2] = table[x2] || {};
+      table[x2][y2] = (table[x2][y2] || 0) + 1;
+    });
+    const xList = [...xCats], yList = [...yCats];
+    const rowTotals = {}, colTotals = {};
+    let grandTotal = 0;
+    xList.forEach((x2) => {
+      rowTotals[x2] = yList.reduce((s2, y2) => s2 + (table[x2]?.[y2] || 0), 0);
+      grandTotal += rowTotals[x2];
+    });
+    yList.forEach((y2) => {
+      colTotals[y2] = xList.reduce((s2, x2) => s2 + (table[x2]?.[y2] || 0), 0);
+    });
+    let chi2 = 0, cellsBelow5 = 0, totalCells = 0;
+    xList.forEach((x2) => {
+      yList.forEach((y2) => {
+        const observed = table[x2]?.[y2] || 0;
+        const expected = rowTotals[x2] * colTotals[y2] / grandTotal;
+        totalCells++;
+        if (expected < 5) cellsBelow5++;
+        if (expected > 0) chi2 += (observed - expected) ** 2 / expected;
+      });
+    });
+    const df = (xList.length - 1) * (yList.length - 1);
+    const p = chiSquarePValue(chi2, df);
+    const cramersV = Math.sqrt(chi2 / (grandTotal * (Math.min(xList.length, yList.length) - 1)));
+    return { chi2, df, p, cramersV, n: grandTotal, pctCellsBelow5: cellsBelow5 / totalCells * 100 };
+  }
+  function leveneTest(rows, quantCol, qualCol) {
+    const groups = {};
+    rows.forEach((r2) => {
+      const g = String(r2[qualCol] ?? "").trim();
+      const v = Number(r2[quantCol]);
+      if (g === "" || isNaN(v)) return;
+      if (!groups[g]) groups[g] = [];
+      groups[g].push(v);
+    });
+    const derivedRows = [];
+    Object.entries(groups).forEach(([g, vals]) => {
+      const med = median(vals);
+      vals.forEach((v) => derivedRows.push({ [qualCol]: g, __abs_dev: Math.abs(v - med) }));
+    });
+    return oneWayAnova(derivedRows, "__abs_dev", qualCol);
+  }
+  function normalityHint(vals) {
+    const m = mean(vals), sd = stdev(vals);
+    const n = vals.length;
+    const skew = vals.reduce((a2, b) => a2 + ((b - m) / sd) ** 3, 0) / n;
+    const looksNormal = Math.abs(skew) < 1;
+    return { skew, looksNormal };
+  }
+
+  // src/ImportWizard.jsx
   var NAVY3 = "#1F3864";
   var GOLD2 = "#C99A2E";
   var FILIERES2 = {
@@ -71096,7 +71868,7 @@ ${suffix2}`;
       label
     );
   }
-  function ImportWizard({ active, onNavigate, userEmail, userId, roleLabel, isAdmin, isGuest, onLogout, onOpenAdmin }) {
+  function ImportWizard({ active, onNavigate, userEmail, userId, roleLabel, isAdmin, isGuest, onLogout, onOpenAdmin, dataset, onDatasetParsed }) {
     const [step, setStep] = (0, import_react71.useState)(1);
     const [communes, setCommunes] = (0, import_react71.useState)(["Tchaourou", "P\xE9r\xE8r\xE8"]);
     const [filieres, setFilieres] = (0, import_react71.useState)(["Coton"]);
@@ -71106,6 +71878,31 @@ ${suffix2}`;
     const [submitting, setSubmitting] = (0, import_react71.useState)(false);
     const [submitted, setSubmitted] = (0, import_react71.useState)(false);
     const [submitError, setSubmitError] = (0, import_react71.useState)("");
+    const [parsing, setParsing] = (0, import_react71.useState)(false);
+    const [fileError, setFileError] = (0, import_react71.useState)("");
+    const handleFileUpload = (e) => {
+      const file = e.target.files?.[0];
+      if (!file) return;
+      setFileError("");
+      setParsing(true);
+      import_papaparse.default.parse(file, {
+        header: true,
+        skipEmptyLines: true,
+        complete: (results) => {
+          setParsing(false);
+          if (!results.data.length) {
+            setFileError("Le fichier semble vide ou n'a pas pu \xEAtre lu.");
+            return;
+          }
+          const columns = buildColumnsMeta(results.data);
+          onDatasetParsed({ rows: results.data, columns, fileName: file.name });
+        },
+        error: (err) => {
+          setParsing(false);
+          setFileError("Erreur de lecture du fichier : " + err.message);
+        }
+      });
+    };
     const toggle = (list, setList, item) => setList(list.includes(item) ? list.filter((x2) => x2 !== item) : [...list, item]);
     return /* @__PURE__ */ import_react71.default.createElement("div", { className: "min-h-screen relative bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans" }, /* @__PURE__ */ import_react71.default.createElement(Watermark2, null), /* @__PURE__ */ import_react71.default.createElement("div", { className: "relative z-10 flex" }, /* @__PURE__ */ import_react71.default.createElement(
       "aside",
@@ -71143,7 +71940,16 @@ ${suffix2}`;
           onOpenAdmin
         }
       ))
-    ), /* @__PURE__ */ import_react71.default.createElement("main", { className: "p-8 max-w-4xl" }, /* @__PURE__ */ import_react71.default.createElement(Stepper, { current: step, setCurrent: setStep }), step === 1 && /* @__PURE__ */ import_react71.default.createElement(Card, null, /* @__PURE__ */ import_react71.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY3 } }, "Importer le questionnaire"), /* @__PURE__ */ import_react71.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, "Formats reconnus automatiquement : XLSForm/KoboToolbox, Akvo Flow, ODK, ou fichier Excel de structure libre."), /* @__PURE__ */ import_react71.default.createElement("div", { className: "grid grid-cols-2 gap-4" }, /* @__PURE__ */ import_react71.default.createElement(Dropzone, { label: "Glisser-d\xE9poser un fichier", hint: "ou cliquer pour parcourir", formats: ["XLSForm", "ODK", ".xlsx"] }), /* @__PURE__ */ import_react71.default.createElement("div", { className: "border-2 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center text-center gap-2 cursor-pointer hover:bg-[#FAFBFE]", style: { borderColor: "#C7D2E8" } }, /* @__PURE__ */ import_react71.default.createElement("div", { className: "w-12 h-12 rounded-xl flex items-center justify-center mb-1", style: { background: "#E4F5EC" } }, /* @__PURE__ */ import_react71.default.createElement(Link2, { size: 20, style: { color: "#256B45" } })), /* @__PURE__ */ import_react71.default.createElement("div", { className: "font-medium text-sm", style: { color: NAVY3 } }, "Connecter Akvo Flow / KoboToolbox"), /* @__PURE__ */ import_react71.default.createElement("div", { className: "text-xs text-gray-400" }, "Import direct via API"))), /* @__PURE__ */ import_react71.default.createElement("div", { className: "mt-5" }, /* @__PURE__ */ import_react71.default.createElement(UploadedFile, { icon: FileSpreadsheet, name: "Questionnaire_Suivi_Semis_2026-2027.xlsx", meta: "24 questions d\xE9tect\xE9es \xB7 import\xE9 il y a 2 min", tint: "#EBEEF7", fg: NAVY3 }))), step === 2 && /* @__PURE__ */ import_react71.default.createElement(Card, null, /* @__PURE__ */ import_react71.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY3 } }, "Importer la base de donn\xE9es"), /* @__PURE__ */ import_react71.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, "Fichier CSV/Excel, ou connexion directe \xE0 la source de collecte."), /* @__PURE__ */ import_react71.default.createElement("div", { className: "grid grid-cols-2 gap-4" }, /* @__PURE__ */ import_react71.default.createElement(Dropzone, { label: "Glisser-d\xE9poser un fichier", hint: "ou cliquer pour parcourir", formats: ["CSV", ".xlsx"] }), /* @__PURE__ */ import_react71.default.createElement("div", { className: "border-2 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center text-center gap-2 cursor-pointer hover:bg-[#FAFBFE]", style: { borderColor: "#C7D2E8" } }, /* @__PURE__ */ import_react71.default.createElement("div", { className: "w-12 h-12 rounded-xl flex items-center justify-center mb-1", style: { background: "#E4F5EC" } }, /* @__PURE__ */ import_react71.default.createElement(Link2, { size: 20, style: { color: "#256B45" } })), /* @__PURE__ */ import_react71.default.createElement("div", { className: "font-medium text-sm", style: { color: NAVY3 } }, "Connecter Akvo Flow / KoboToolbox"), /* @__PURE__ */ import_react71.default.createElement("div", { className: "text-xs text-gray-400" }, "Synchronisation automatique"))), /* @__PURE__ */ import_react71.default.createElement("div", { className: "mt-5 space-y-3" }, /* @__PURE__ */ import_react71.default.createElement(UploadedFile, { icon: FileCheckCorner, name: "Base_Semis_Decade3_Juillet2026.csv", meta: "2 479 enregistrements \xB7 31 colonnes", tint: "#E4F5EC", fg: "#256B45" }), /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex items-start gap-2 rounded-xl p-3 border border-black/5", style: { background: "#FDF1DA" } }, /* @__PURE__ */ import_react71.default.createElement(MapPin, { size: 16, style: { color: "#8A5A00" }, className: "mt-0.5" }), /* @__PURE__ */ import_react71.default.createElement("div", { className: "text-xs", style: { color: "#8A5A00" } }, /* @__PURE__ */ import_react71.default.createElement("span", { className: "font-medium" }, "5 colonnes de g\xE9olocalisation d\xE9tect\xE9es"), " (latitude, longitude) \u2014 la cartographie automatique (Module 8) sera disponible pour cette enqu\xEAte.")))), step === 3 && /* @__PURE__ */ import_react71.default.createElement(Card, null, /* @__PURE__ */ import_react71.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY3 } }, "Contexte de l'\xE9tude"), /* @__PURE__ */ import_react71.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, "Ces informations cadrent l'interpr\xE9tation narrative du rapport final."), /* @__PURE__ */ import_react71.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Objectif de l'\xE9tude"), /* @__PURE__ */ import_react71.default.createElement(
+    ), /* @__PURE__ */ import_react71.default.createElement("main", { className: "p-8 max-w-4xl" }, /* @__PURE__ */ import_react71.default.createElement(Stepper, { current: step, setCurrent: setStep }), step === 1 && /* @__PURE__ */ import_react71.default.createElement(Card, null, /* @__PURE__ */ import_react71.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY3 } }, "Importer le questionnaire"), /* @__PURE__ */ import_react71.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, "Formats reconnus automatiquement : XLSForm/KoboToolbox, Akvo Flow, ODK, ou fichier Excel de structure libre."), /* @__PURE__ */ import_react71.default.createElement("div", { className: "grid grid-cols-2 gap-4" }, /* @__PURE__ */ import_react71.default.createElement(Dropzone, { label: "Glisser-d\xE9poser un fichier", hint: "ou cliquer pour parcourir", formats: ["XLSForm", "ODK", ".xlsx"] }), /* @__PURE__ */ import_react71.default.createElement("div", { className: "border-2 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center text-center gap-2 cursor-pointer hover:bg-[#FAFBFE]", style: { borderColor: "#C7D2E8" } }, /* @__PURE__ */ import_react71.default.createElement("div", { className: "w-12 h-12 rounded-xl flex items-center justify-center mb-1", style: { background: "#E4F5EC" } }, /* @__PURE__ */ import_react71.default.createElement(Link2, { size: 20, style: { color: "#256B45" } })), /* @__PURE__ */ import_react71.default.createElement("div", { className: "font-medium text-sm", style: { color: NAVY3 } }, "Connecter Akvo Flow / KoboToolbox"), /* @__PURE__ */ import_react71.default.createElement("div", { className: "text-xs text-gray-400" }, "Import direct via API"))), /* @__PURE__ */ import_react71.default.createElement("div", { className: "mt-5" }, /* @__PURE__ */ import_react71.default.createElement(UploadedFile, { icon: FileSpreadsheet, name: "Questionnaire_Suivi_Semis_2026-2027.xlsx", meta: "24 questions d\xE9tect\xE9es \xB7 import\xE9 il y a 2 min", tint: "#EBEEF7", fg: NAVY3 }))), step === 2 && /* @__PURE__ */ import_react71.default.createElement(Card, null, /* @__PURE__ */ import_react71.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY3 } }, "Importer la base de donn\xE9es"), /* @__PURE__ */ import_react71.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, "Fichier CSV r\xE9el \u2014 les colonnes et leur type sont d\xE9tect\xE9s automatiquement."), /* @__PURE__ */ import_react71.default.createElement("div", { className: "grid grid-cols-2 gap-4" }, /* @__PURE__ */ import_react71.default.createElement("label", { className: "border-2 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center text-center gap-2 cursor-pointer hover:bg-[#FAFBFE]", style: { borderColor: "#C7D2E8" } }, /* @__PURE__ */ import_react71.default.createElement("input", { type: "file", accept: ".csv", className: "hidden", onChange: handleFileUpload }), /* @__PURE__ */ import_react71.default.createElement("div", { className: "w-12 h-12 rounded-xl flex items-center justify-center mb-1", style: { background: "#EBEEF7" } }, /* @__PURE__ */ import_react71.default.createElement(Upload, { size: 20, style: { color: NAVY3 } })), /* @__PURE__ */ import_react71.default.createElement("div", { className: "font-medium text-sm", style: { color: NAVY3 } }, parsing ? "Analyse en cours\u2026" : "Glisser-d\xE9poser un fichier CSV"), /* @__PURE__ */ import_react71.default.createElement("div", { className: "text-xs text-gray-400" }, "ou cliquer pour parcourir"), /* @__PURE__ */ import_react71.default.createElement("span", { className: "text-[10px] px-2 py-1 rounded-full bg-[#F6E9DD] text-[#8A4A1D] font-medium mt-2" }, "CSV r\xE9el, avec en-t\xEAtes")), /* @__PURE__ */ import_react71.default.createElement("div", { className: "border-2 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center text-center gap-2 cursor-pointer hover:bg-[#FAFBFE]", style: { borderColor: "#C7D2E8" } }, /* @__PURE__ */ import_react71.default.createElement("div", { className: "w-12 h-12 rounded-xl flex items-center justify-center mb-1", style: { background: "#E4F5EC" } }, /* @__PURE__ */ import_react71.default.createElement(Link2, { size: 20, style: { color: "#256B45" } })), /* @__PURE__ */ import_react71.default.createElement("div", { className: "font-medium text-sm", style: { color: NAVY3 } }, "Connecter Akvo Flow / KoboToolbox"), /* @__PURE__ */ import_react71.default.createElement("div", { className: "text-xs text-gray-400" }, "Synchronisation automatique (\xE0 venir)"))), fileError && /* @__PURE__ */ import_react71.default.createElement("div", { className: "mt-4 rounded-xl p-3 text-xs", style: { background: "#FBE7E5", color: "#B3413A" } }, fileError), dataset && /* @__PURE__ */ import_react71.default.createElement("div", { className: "mt-5 space-y-3" }, /* @__PURE__ */ import_react71.default.createElement(
+      UploadedFile,
+      {
+        icon: FileCheckCorner,
+        name: dataset.fileName,
+        meta: `${dataset.rows.length.toLocaleString("fr-FR")} enregistrements \xB7 ${dataset.columns.length} colonnes \u2014 analys\xE9es r\xE9ellement`,
+        tint: "#E4F5EC",
+        fg: "#256B45"
+      }
+    ), dataset.columns.some((c2) => c2.isGeo) ? /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex items-start gap-2 rounded-xl p-3 border border-black/5", style: { background: "#FDF1DA" } }, /* @__PURE__ */ import_react71.default.createElement(MapPin, { size: 16, style: { color: "#8A5A00" }, className: "mt-0.5" }), /* @__PURE__ */ import_react71.default.createElement("div", { className: "text-xs", style: { color: "#8A5A00" } }, /* @__PURE__ */ import_react71.default.createElement("span", { className: "font-medium" }, dataset.columns.filter((c2) => c2.isGeo).length, " colonne(s) de g\xE9olocalisation d\xE9tect\xE9e(s)"), " ", "(", dataset.columns.filter((c2) => c2.isGeo).map((c2) => c2.name).join(", "), ")")) : /* @__PURE__ */ import_react71.default.createElement("div", { className: "rounded-xl p-3 border border-black/5 bg-gray-50 text-xs text-gray-500" }, "Aucune colonne de g\xE9olocalisation d\xE9tect\xE9e dans ce fichier."))), step === 3 && /* @__PURE__ */ import_react71.default.createElement(Card, null, /* @__PURE__ */ import_react71.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY3 } }, "Contexte de l'\xE9tude"), /* @__PURE__ */ import_react71.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, "Ces informations cadrent l'interpr\xE9tation narrative du rapport final."), /* @__PURE__ */ import_react71.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Objectif de l'\xE9tude"), /* @__PURE__ */ import_react71.default.createElement(
       "textarea",
       {
         className: "w-full text-sm rounded-xl border border-gray-200 p-3 mb-5 resize-none focus:outline-none focus:ring-2",
@@ -71155,13 +71961,17 @@ ${suffix2}`;
     ), /* @__PURE__ */ import_react71.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Zone g\xE9ographique (communes)"), /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex flex-wrap gap-2 mb-5" }, COMMUNES.map((c2) => /* @__PURE__ */ import_react71.default.createElement(Chip, { key: c2, label: c2, active: communes.includes(c2), onClick: () => toggle(communes, setCommunes, c2) }))), /* @__PURE__ */ import_react71.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Fili\xE8re(s) concern\xE9e(s)"), /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex flex-wrap gap-2 mb-5" }, Object.entries(FILIERES2).map(([f, c2]) => /* @__PURE__ */ import_react71.default.createElement(Chip, { key: f, label: f, active: filieres.includes(f), onClick: () => toggle(filieres, setFilieres, f), color: c2 }))), /* @__PURE__ */ import_react71.default.createElement("div", { className: "grid grid-cols-2 gap-4" }, /* @__PURE__ */ import_react71.default.createElement("div", null, /* @__PURE__ */ import_react71.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "P\xE9riode de r\xE9f\xE9rence"), /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex items-center gap-2" }, /* @__PURE__ */ import_react71.default.createElement("input", { type: "text", defaultValue: "10/06/2026", className: "w-full text-sm rounded-xl border border-gray-200 p-2.5 focus:outline-none focus:ring-2", style: { "--tw-ring-color": GOLD2 } }), /* @__PURE__ */ import_react71.default.createElement("span", { className: "text-gray-400 text-xs" }, "\u2192"), /* @__PURE__ */ import_react71.default.createElement("input", { type: "text", defaultValue: "20/07/2026", className: "w-full text-sm rounded-xl border border-gray-200 p-2.5 focus:outline-none focus:ring-2", style: { "--tw-ring-color": GOLD2 } }))), /* @__PURE__ */ import_react71.default.createElement("div", null, /* @__PURE__ */ import_react71.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Unit\xE9 d'analyse"), /* @__PURE__ */ import_react71.default.createElement("select", { className: "w-full text-sm rounded-xl border border-gray-200 p-2.5 focus:outline-none focus:ring-2", style: { "--tw-ring-color": GOLD2 } }, /* @__PURE__ */ import_react71.default.createElement("option", null, "Exploitation agricole"), /* @__PURE__ */ import_react71.default.createElement("option", null, "M\xE9nage"), /* @__PURE__ */ import_react71.default.createElement("option", null, "Parcelle"), /* @__PURE__ */ import_react71.default.createElement("option", null, "Commune"))))), step === 4 && /* @__PURE__ */ import_react71.default.createElement(Card, null, /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex items-center justify-between mb-1" }, /* @__PURE__ */ import_react71.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY3 } }, "Indicateurs de performance"), /* @__PURE__ */ import_react71.default.createElement("button", { className: "text-xs font-medium flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-white", style: { background: NAVY3 } }, /* @__PURE__ */ import_react71.default.createElement(Plus, { size: 14 }), " Ajouter un indicateur")), /* @__PURE__ */ import_react71.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, "Ces indicateurs seront mis en regard des analyses bivari\xE9es et de l'enrichissement climatique (Module 7)."), /* @__PURE__ */ import_react71.default.createElement("div", { className: "space-y-3" }, [
       { name: "Taux de r\xE9alisation des semis", formule: "Superficie r\xE9alis\xE9e / Superficie pr\xE9vue \xD7 100", seuil: "75 %" },
       { name: "Rendement moyen estim\xE9", formule: "Production estim\xE9e / Superficie r\xE9alis\xE9e", seuil: "ND \u2014 \xE0 renseigner" }
-    ].map((kpi) => /* @__PURE__ */ import_react71.default.createElement("div", { key: kpi.name, className: "flex items-center gap-3 rounded-xl border border-gray-100 p-3" }, /* @__PURE__ */ import_react71.default.createElement("div", { className: "w-8 h-8 rounded-lg flex items-center justify-center shrink-0", style: { background: "#EBEEF7" } }, /* @__PURE__ */ import_react71.default.createElement(ChartColumn, { size: 15, style: { color: NAVY3 } })), /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex-1" }, /* @__PURE__ */ import_react71.default.createElement("div", { className: "text-sm font-medium text-gray-800" }, kpi.name), /* @__PURE__ */ import_react71.default.createElement("div", { className: "text-[11px] text-gray-400" }, kpi.formule)), /* @__PURE__ */ import_react71.default.createElement("span", { className: "text-[11px] font-medium px-2 py-1 rounded-full", style: { background: "#FDF1DA", color: "#8A5A00" } }, "Seuil : ", kpi.seuil), /* @__PURE__ */ import_react71.default.createElement("button", { className: "text-gray-300 hover:text-red-400" }, /* @__PURE__ */ import_react71.default.createElement(Trash2, { size: 15 })))))), step === 5 && /* @__PURE__ */ import_react71.default.createElement(Card, null, /* @__PURE__ */ import_react71.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY3 } }, "Cartographie automatique des variables"), /* @__PURE__ */ import_react71.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, "Appariement propos\xE9 entre les items du questionnaire et les colonnes de la base \u2014 \xE0 valider avant lancement des analyses."), /* @__PURE__ */ import_react71.default.createElement("div", { className: "rounded-xl overflow-hidden border border-gray-100" }, /* @__PURE__ */ import_react71.default.createElement("table", { className: "w-full text-sm" }, /* @__PURE__ */ import_react71.default.createElement("thead", null, /* @__PURE__ */ import_react71.default.createElement("tr", { className: "text-left text-[11px] text-gray-400 uppercase bg-gray-50" }, /* @__PURE__ */ import_react71.default.createElement("th", { className: "px-4 py-2.5 font-medium" }, "Item du questionnaire"), /* @__PURE__ */ import_react71.default.createElement("th", { className: "px-4 py-2.5 font-medium" }, "Colonne base"), /* @__PURE__ */ import_react71.default.createElement("th", { className: "px-4 py-2.5 font-medium" }, "Type d\xE9tect\xE9"), /* @__PURE__ */ import_react71.default.createElement("th", { className: "px-4 py-2.5 font-medium" }, "Statut"))), /* @__PURE__ */ import_react71.default.createElement("tbody", null, [
-      { q: "Superficie sem\xE9e (ha)", col: "sup_semee_ha", type: "Quantitative continue", status: "ok" },
-      { q: "Fili\xE8re suivie", col: "filiere", type: "Nominale", status: "ok" },
-      { q: "Commune d'enqu\xEAte", col: "commune", type: "Nominale", status: "ok" },
-      { q: "Latitude / Longitude", col: "geo_lat / geo_lon", type: "G\xE9olocalisation", status: "geo" },
-      { q: "Niveau de satisfaction intrants", col: "satisf_intrants", type: "Ordinale", status: "warn" }
-    ].map((r2) => /* @__PURE__ */ import_react71.default.createElement("tr", { key: r2.q, className: "border-t border-gray-50" }, /* @__PURE__ */ import_react71.default.createElement("td", { className: "px-4 py-3 text-gray-800" }, r2.q), /* @__PURE__ */ import_react71.default.createElement("td", { className: "px-4 py-3 text-gray-500 font-mono text-xs" }, r2.col), /* @__PURE__ */ import_react71.default.createElement("td", { className: "px-4 py-3 text-gray-500" }, r2.type), /* @__PURE__ */ import_react71.default.createElement("td", { className: "px-4 py-3" }, r2.status === "ok" && /* @__PURE__ */ import_react71.default.createElement("span", { className: "inline-flex items-center gap-1 text-[11px] font-medium px-2 py-1 rounded-full", style: { background: "#E4F5EC", color: "#256B45" } }, /* @__PURE__ */ import_react71.default.createElement(Check, { size: 11 }), " Confirm\xE9"), r2.status === "geo" && /* @__PURE__ */ import_react71.default.createElement("span", { className: "inline-flex items-center gap-1 text-[11px] font-medium px-2 py-1 rounded-full", style: { background: "#EBEEF7", color: NAVY3 } }, /* @__PURE__ */ import_react71.default.createElement(MapPin, { size: 11 }), " G\xE9o d\xE9tect\xE9e"), r2.status === "warn" && /* @__PURE__ */ import_react71.default.createElement("span", { className: "inline-flex items-center gap-1 text-[11px] font-medium px-2 py-1 rounded-full", style: { background: "#FDF1DA", color: "#8A5A00" } }, /* @__PURE__ */ import_react71.default.createElement(CircleAlert, { size: 11 }), " \xC0 v\xE9rifier")))))))), /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex items-center justify-between mt-6" }, /* @__PURE__ */ import_react71.default.createElement(
+    ].map((kpi) => /* @__PURE__ */ import_react71.default.createElement("div", { key: kpi.name, className: "flex items-center gap-3 rounded-xl border border-gray-100 p-3" }, /* @__PURE__ */ import_react71.default.createElement("div", { className: "w-8 h-8 rounded-lg flex items-center justify-center shrink-0", style: { background: "#EBEEF7" } }, /* @__PURE__ */ import_react71.default.createElement(ChartColumn, { size: 15, style: { color: NAVY3 } })), /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex-1" }, /* @__PURE__ */ import_react71.default.createElement("div", { className: "text-sm font-medium text-gray-800" }, kpi.name), /* @__PURE__ */ import_react71.default.createElement("div", { className: "text-[11px] text-gray-400" }, kpi.formule)), /* @__PURE__ */ import_react71.default.createElement("span", { className: "text-[11px] font-medium px-2 py-1 rounded-full", style: { background: "#FDF1DA", color: "#8A5A00" } }, "Seuil : ", kpi.seuil), /* @__PURE__ */ import_react71.default.createElement("button", { className: "text-gray-300 hover:text-red-400" }, /* @__PURE__ */ import_react71.default.createElement(Trash2, { size: 15 })))))), step === 5 && /* @__PURE__ */ import_react71.default.createElement(Card, null, /* @__PURE__ */ import_react71.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY3 } }, "Cartographie automatique des variables"), /* @__PURE__ */ import_react71.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, dataset ? `Types d\xE9tect\xE9s r\xE9ellement \xE0 partir de ${dataset.fileName} (${dataset.rows.length} lignes).` : "Aucun fichier import\xE9 \xE0 l'\xE9tape 2 \u2014 exemple illustratif ci-dessous."), /* @__PURE__ */ import_react71.default.createElement("div", { className: "rounded-xl overflow-hidden border border-gray-100" }, /* @__PURE__ */ import_react71.default.createElement("table", { className: "w-full text-sm" }, /* @__PURE__ */ import_react71.default.createElement("thead", null, /* @__PURE__ */ import_react71.default.createElement("tr", { className: "text-left text-[11px] text-gray-400 uppercase bg-gray-50" }, /* @__PURE__ */ import_react71.default.createElement("th", { className: "px-4 py-2.5 font-medium" }, "Colonne de la base"), /* @__PURE__ */ import_react71.default.createElement("th", { className: "px-4 py-2.5 font-medium" }, "Type d\xE9tect\xE9"), /* @__PURE__ */ import_react71.default.createElement("th", { className: "px-4 py-2.5 font-medium" }, "Statut"))), /* @__PURE__ */ import_react71.default.createElement("tbody", null, (dataset ? dataset.columns.map((c2) => ({
+      q: c2.name,
+      type: c2.type,
+      status: c2.isGeo ? "geo" : c2.type === "Texte libre" ? "warn" : "ok"
+    })) : [
+      { q: "sup_semee_ha", type: "Quantitative continue", status: "ok" },
+      { q: "filiere", type: "Nominale", status: "ok" },
+      { q: "commune", type: "Nominale", status: "ok" },
+      { q: "geo_lat / geo_lon", type: "G\xE9olocalisation", status: "geo" },
+      { q: "satisf_intrants", type: "Ordinale", status: "warn" }
+    ]).map((r2) => /* @__PURE__ */ import_react71.default.createElement("tr", { key: r2.q, className: "border-t border-gray-50" }, /* @__PURE__ */ import_react71.default.createElement("td", { className: "px-4 py-3 text-gray-800 font-mono text-xs" }, r2.q), /* @__PURE__ */ import_react71.default.createElement("td", { className: "px-4 py-3 text-gray-500" }, r2.type), /* @__PURE__ */ import_react71.default.createElement("td", { className: "px-4 py-3" }, r2.status === "ok" && /* @__PURE__ */ import_react71.default.createElement("span", { className: "inline-flex items-center gap-1 text-[11px] font-medium px-2 py-1 rounded-full", style: { background: "#E4F5EC", color: "#256B45" } }, /* @__PURE__ */ import_react71.default.createElement(Check, { size: 11 }), " Confirm\xE9"), r2.status === "geo" && /* @__PURE__ */ import_react71.default.createElement("span", { className: "inline-flex items-center gap-1 text-[11px] font-medium px-2 py-1 rounded-full", style: { background: "#EBEEF7", color: NAVY3 } }, /* @__PURE__ */ import_react71.default.createElement(MapPin, { size: 11 }), " G\xE9o d\xE9tect\xE9e"), r2.status === "warn" && /* @__PURE__ */ import_react71.default.createElement("span", { className: "inline-flex items-center gap-1 text-[11px] font-medium px-2 py-1 rounded-full", style: { background: "#FDF1DA", color: "#8A5A00" } }, /* @__PURE__ */ import_react71.default.createElement(CircleAlert, { size: 11 }), " \xC0 v\xE9rifier")))))))), /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex items-center justify-between mt-6" }, /* @__PURE__ */ import_react71.default.createElement(
       "button",
       {
         onClick: () => setStep(Math.max(1, step - 1)),
@@ -71228,35 +72038,43 @@ ${suffix2}`;
     { id: "map", label: "Cartographie", icon: MapPin }
   ];
   var VARIABLES = [
-    { id: "sup_semee", label: "Superficie sem\xE9e (ha)", type: "Quantitative continue", normal: false },
-    { id: "rendement", label: "Rendement estim\xE9 (kg/ha)", type: "Quantitative continue", normal: true },
-    { id: "filiere", label: "Fili\xE8re suivie", type: "Nominale (5 modalit\xE9s)" },
-    { id: "commune", label: "Commune d'enqu\xEAte", type: "Nominale (8 modalit\xE9s)" },
-    { id: "satisf_intrants", label: "Satisfaction intrants", type: "Ordinale (4 niveaux)" },
-    { id: "acces_credit", label: "Acc\xE8s au cr\xE9dit agricole", type: "Nominale (2 modalit\xE9s)" },
-    { id: "pluvio_decade", label: "Pluviom\xE9trie d\xE9cadaire (mm)", type: "Quantitative continue", normal: true }
+    { id: "sup_semee", label: "Superficie sem\xE9e (ha)", type: "Quantitative continue", isQuantitative: true, normal: false },
+    { id: "rendement", label: "Rendement estim\xE9 (kg/ha)", type: "Quantitative continue", isQuantitative: true, normal: true },
+    { id: "filiere", label: "Fili\xE8re suivie", type: "Nominale (5 modalit\xE9s)", isQuantitative: false },
+    { id: "commune", label: "Commune d'enqu\xEAte", type: "Nominale (8 modalit\xE9s)", isQuantitative: false },
+    { id: "satisf_intrants", label: "Satisfaction intrants", type: "Ordinale (4 niveaux)", isQuantitative: false },
+    { id: "acces_credit", label: "Acc\xE8s au cr\xE9dit agricole", type: "Nominale (2 modalit\xE9s)", isQuantitative: false },
+    { id: "pluvio_decade", label: "Pluviom\xE9trie d\xE9cadaire (mm)", type: "Quantitative continue", isQuantitative: true, normal: true }
   ];
-  function proposeTest(xId, yId) {
-    const x2 = VARIABLES.find((v) => v.id === xId);
-    const y2 = VARIABLES.find((v) => v.id === yId);
+  function isNormal(variable, dataset) {
+    if (!dataset) return variable.normal;
+    const vals = numericValues(dataset.rows, variable.id);
+    if (vals.length < 5) return true;
+    return normalityHint(vals).looksNormal;
+  }
+  function proposeTest(xId, yId, variables, dataset) {
+    const x2 = variables.find((v) => v.id === xId);
+    const y2 = variables.find((v) => v.id === yId);
     if (!x2 || !y2) return null;
-    const isQuantX = x2.type.startsWith("Quantitative");
-    const isQuantY = y2.type.startsWith("Quantitative");
+    const isQuantX = x2.isQuantitative;
+    const isQuantY = y2.isQuantitative;
     if (isQuantX && isQuantY) {
-      const normal = x2.normal && y2.normal;
+      const normal = isNormal(x2, dataset) && isNormal(y2, dataset);
       return {
         test: normal ? "Corr\xE9lation de Pearson" : "Corr\xE9lation de Spearman",
-        justification: normal ? "Les deux variables suivent une distribution normale (test de Shapiro-Wilk, p > 0,05) : le coefficient de corr\xE9lation de Pearson est adapt\xE9." : "Au moins une variable s'\xE9carte de la normalit\xE9 (Shapiro-Wilk, p < 0,05) : le coefficient de corr\xE9lation de Spearman, non param\xE9trique, est privil\xE9gi\xE9.",
+        justification: normal ? "Les deux variables suivent une distribution approximativement normale (asym\xE9trie mod\xE9r\xE9e) : le coefficient de corr\xE9lation de Pearson est adapt\xE9." : "Au moins une variable s'\xE9carte de la normalit\xE9 (asym\xE9trie marqu\xE9e) : le coefficient de corr\xE9lation de Spearman, non param\xE9trique, est privil\xE9gi\xE9.",
         alternatives: ["Corr\xE9lation de Pearson", "Corr\xE9lation de Spearman"]
       };
     }
     if (isQuantX !== isQuantY) {
       const quant = isQuantX ? x2 : y2;
       const qual = isQuantX ? y2 : x2;
-      const modalites = qual.type.includes("2 modalit\xE9s");
+      const nModalites = qual.modalites ? qual.modalites.length : qual.type.includes("2 modalit\xE9s") ? 2 : 3;
+      const modalites = nModalites === 2;
+      const normal = isNormal(quant, dataset);
       return {
-        test: modalites ? quant.normal ? "Test de Student" : "Test de Mann-Whitney" : quant.normal ? "ANOVA \xE0 un facteur" : "Test de Kruskal-Wallis",
-        justification: `Variable qualitative \xE0 ${modalites ? "deux" : "plusieurs"} modalit\xE9s crois\xE9e avec une variable quantitative ${quant.normal ? "normalement distribu\xE9e" : "ne suivant pas une loi normale (Shapiro-Wilk, p < 0,05)"}.`,
+        test: modalites ? normal ? "Test de Student" : "Test de Mann-Whitney" : normal ? "ANOVA \xE0 un facteur" : "Test de Kruskal-Wallis",
+        justification: `Variable qualitative \xE0 ${modalites ? "deux" : "plusieurs"} modalit\xE9s crois\xE9e avec une variable quantitative ${normal ? "approximativement normale" : "s'\xE9cartant de la normalit\xE9 (asym\xE9trie marqu\xE9e)"}.`,
         alternatives: modalites ? ["Test de Student", "Test de Mann-Whitney"] : ["ANOVA \xE0 un facteur", "Test de Kruskal-Wallis"]
       };
     }
@@ -71266,7 +72084,100 @@ ${suffix2}`;
       alternatives: ["Test du Khi\xB2 d'ind\xE9pendance", "V de Cram\xE9r (mesure d'association)"]
     };
   }
-  function getConditions(test) {
+  function computeRealStat(testName, xId, yId, dataset) {
+    if (!dataset) return null;
+    try {
+      switch (testName) {
+        case "Corr\xE9lation de Pearson": {
+          const r2 = pearsonCorrelation(dataset.rows, xId, yId);
+          return { statLabel: "r", statValue: r2.r, p: r2.p, n: r2.n, detail: `r = ${r2.r.toFixed(3)}, n = ${r2.n}, p = ${r2.p < 1e-3 ? "< 0,001" : r2.p.toFixed(3)}` };
+        }
+        case "Corr\xE9lation de Spearman": {
+          const r2 = spearmanCorrelation(dataset.rows, xId, yId);
+          return { statLabel: "\u03C1", statValue: r2.r, p: r2.p, n: r2.n, detail: `\u03C1 = ${r2.r.toFixed(3)}, n = ${r2.n}, p = ${r2.p < 1e-3 ? "< 0,001" : r2.p.toFixed(3)}` };
+        }
+        case "ANOVA \xE0 un facteur": {
+          const isXQuant = numericValues(dataset.rows, xId).length > numericValues(dataset.rows, yId).length;
+          const [quantCol, qualCol] = isXQuant ? [xId, yId] : [yId, xId];
+          const a2 = oneWayAnova(dataset.rows, quantCol, qualCol);
+          return { statLabel: "F", statValue: a2.F, p: a2.p, n: a2.N, detail: `F(${a2.dfBetween},${a2.dfWithin}) = ${a2.F.toFixed(2)}, p = ${a2.p < 1e-3 ? "< 0,001" : a2.p.toFixed(3)}, \u03B7\xB2 = ${a2.etaSq.toFixed(2)}`, raw: a2 };
+        }
+        case "Test de Kruskal-Wallis": {
+          const isXQuant = numericValues(dataset.rows, xId).length > numericValues(dataset.rows, yId).length;
+          const [quantCol, qualCol] = isXQuant ? [xId, yId] : [yId, xId];
+          const k2 = kruskalWallis(dataset.rows, quantCol, qualCol);
+          return { statLabel: "H", statValue: k2.H, p: k2.p, n: k2.N, detail: `H(${k2.df}) = ${k2.H.toFixed(2)}, p = ${k2.p < 1e-3 ? "< 0,001" : k2.p.toFixed(3)}` };
+        }
+        case "Test de Student":
+        case "Test de Mann-Whitney": {
+          const isXQuant = numericValues(dataset.rows, xId).length > numericValues(dataset.rows, yId).length;
+          const [quantCol, qualCol] = isXQuant ? [xId, yId] : [yId, xId];
+          if (testName === "Test de Mann-Whitney") {
+            const m = mannWhitneyU(dataset.rows, quantCol, qualCol);
+            return { statLabel: "U", statValue: m.U, p: m.p, n: m.n1 + m.n2, detail: `U = ${m.U.toFixed(1)}, z = ${m.z.toFixed(2)}, p = ${m.p < 1e-3 ? "< 0,001" : m.p.toFixed(3)}` };
+          }
+          const a2 = oneWayAnova(dataset.rows, quantCol, qualCol);
+          const t = Math.sqrt(a2.F);
+          return { statLabel: "t", statValue: t, p: a2.p, n: a2.N, detail: `t \u2248 ${t.toFixed(2)}, p = ${a2.p < 1e-3 ? "< 0,001" : a2.p.toFixed(3)}` };
+        }
+        case "Test du Khi\xB2 d'ind\xE9pendance":
+        case "V de Cram\xE9r (mesure d'association)": {
+          const c2 = chiSquareTest(dataset.rows, xId, yId);
+          return { statLabel: "\u03C7\xB2", statValue: c2.chi2, p: c2.p, n: c2.n, detail: `\u03C7\xB2(${c2.df}) = ${c2.chi2.toFixed(2)}, p = ${c2.p < 1e-3 ? "< 0,001" : c2.p.toFixed(3)}, V de Cram\xE9r = ${c2.cramersV.toFixed(2)}`, raw: c2 };
+        }
+        default:
+          return null;
+      }
+    } catch (e) {
+      return { error: e.message };
+    }
+  }
+  function getConditions(test, ctx) {
+    const { dataset, xId, yId } = ctx || {};
+    if (dataset) {
+      try {
+        const isXQuant = numericValues(dataset.rows, xId).length > numericValues(dataset.rows, yId).length;
+        const [quantCol, qualCol] = isXQuant ? [xId, yId] : [yId, xId];
+        if (test === "Corr\xE9lation de Pearson" || test === "Corr\xE9lation de Spearman") {
+          const nx = normalityHint(numericValues(dataset.rows, xId));
+          const ny = normalityHint(numericValues(dataset.rows, yId));
+          return [
+            { label: "Nature quantitative des deux variables", status: "ok", detail: "Confirm\xE9e par la d\xE9tection automatique des types" },
+            { label: `Asym\xE9trie de ${xId}`, status: Math.abs(nx.skew) < 1 ? "ok" : "warn", detail: `Coefficient d'asym\xE9trie = ${nx.skew.toFixed(2)}` },
+            { label: `Asym\xE9trie de ${yId}`, status: Math.abs(ny.skew) < 1 ? "ok" : "warn", detail: `Coefficient d'asym\xE9trie = ${ny.skew.toFixed(2)}` }
+          ];
+        }
+        if (test === "ANOVA \xE0 un facteur" || test === "Test de Student") {
+          const lev = leveneTest(dataset.rows, quantCol, qualCol);
+          const groupSizes = lev.groupStats.map((g) => `${g.groupe} (n=${g.n})`).join(", ");
+          const minN = Math.min(...lev.groupStats.map((g) => g.n));
+          return [
+            { label: "Homog\xE9n\xE9it\xE9 des variances (test de Levene, calcul\xE9)", status: lev.p >= 0.05 ? "ok" : "warn", detail: `F(${lev.dfBetween},${lev.dfWithin}) = ${lev.F.toFixed(2)}, p = ${lev.p < 1e-3 ? "< 0,001" : lev.p.toFixed(3)}` },
+            { label: "Taille d'\xE9chantillon par groupe", status: minN >= 30 ? "ok" : "warn", detail: groupSizes }
+          ];
+        }
+        if (test === "Test de Kruskal-Wallis" || test === "Test de Mann-Whitney") {
+          const groups = {};
+          dataset.rows.forEach((r2) => {
+            const g = String(r2[qualCol] ?? "").trim();
+            if (g) groups[g] = (groups[g] || 0) + 1;
+          });
+          return [
+            { label: "Ind\xE9pendance des observations", status: "ok", detail: "Un enregistrement par unit\xE9 d'observation" },
+            { label: "Taille d'\xE9chantillon par groupe", status: "ok", detail: Object.entries(groups).map(([g, n]) => `${g} (n=${n})`).join(", ") }
+          ];
+        }
+        if (test === "Test du Khi\xB2 d'ind\xE9pendance" || test === "V de Cram\xE9r (mesure d'association)") {
+          const c2 = chiSquareTest(dataset.rows, xId, yId);
+          return [
+            { label: "Effectifs th\xE9oriques \u2265 5", status: c2.pctCellsBelow5 <= 20 ? "ok" : "warn", detail: `${(100 - c2.pctCellsBelow5).toFixed(0)} % des cellules conformes` },
+            { label: "Ind\xE9pendance des observations", status: "ok", detail: `n = ${c2.n}` }
+          ];
+        }
+      } catch (e) {
+        return [{ label: "Erreur de calcul des conditions", status: "warn", detail: e.message }];
+      }
+    }
     const table = {
       "Corr\xE9lation de Pearson": [
         { label: "Lin\xE9arit\xE9 de la relation entre les deux variables", status: "ok", detail: "V\xE9rifi\xE9e par inspection du nuage de points" },
@@ -71349,7 +72260,7 @@ ${suffix2}`;
       options.map((v) => /* @__PURE__ */ import_react72.default.createElement("option", { key: v.id, value: v.id }, v.label))
     );
   }
-  function AnalysisConfig({ active, onNavigate, userEmail, roleLabel, isAdmin, isGuest, onLogout, onOpenAdmin }) {
+  function AnalysisConfig({ active, onNavigate, userEmail, roleLabel, isAdmin, isGuest, onLogout, onOpenAdmin, dataset }) {
     const [tab, setTab] = (0, import_react72.useState)("bivariee");
     const [included, setIncluded] = (0, import_react72.useState)(["sup_semee", "rendement", "filiere", "commune", "pluvio_decade", "acces_credit"]);
     const [x2, setX] = (0, import_react72.useState)("sup_semee");
@@ -71359,14 +72270,32 @@ ${suffix2}`;
     const [queue, setQueue] = (0, import_react72.useState)([
       { label: "Fili\xE8re suivie \xD7 Rendement estim\xE9", test: "ANOVA \xE0 un facteur", status: "auto", conditions: 3 }
     ]);
-    const availableVars = VARIABLES.filter((v) => included.includes(v.id));
+    const variables = dataset ? dataset.columns.filter((c2) => c2.type !== "Vide" && c2.type !== "Texte libre").map((c2) => ({
+      id: c2.name,
+      label: c2.name,
+      type: c2.type,
+      isQuantitative: c2.isQuantitative,
+      modalites: c2.modalites
+    })) : VARIABLES;
+    (0, import_react72.useEffect)(() => {
+      if (dataset) {
+        const ids = variables.map((v) => v.id);
+        setIncluded(ids);
+        const quant = variables.filter((v) => v.isQuantitative);
+        const qual = variables.filter((v) => !v.isQuantitative);
+        setX((quant[0] || variables[0])?.id);
+        setY((qual[0] || variables[1] || variables[0])?.id);
+      }
+    }, [dataset]);
+    const availableVars = variables.filter((v) => included.includes(v.id));
     const toggleIncluded = (id) => setIncluded((prev) => prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]);
-    const proposal = proposeTest(x2, y2);
+    const proposal = proposeTest(x2, y2, variables, dataset);
     const activeTest = override || proposal?.test;
-    const xVar = VARIABLES.find((v) => v.id === x2);
-    const yVar = VARIABLES.find((v) => v.id === y2);
-    const conditions = activeTest ? getConditions(activeTest) : [];
+    const xVar = variables.find((v) => v.id === x2);
+    const yVar = variables.find((v) => v.id === y2);
+    const conditions = activeTest ? getConditions(activeTest, { dataset, xId: x2, yId: y2 }) : [];
     const allConfirmed = conditions.length > 0 && conditions.every((_, i) => confirmed[i]);
+    const realStat = activeTest ? computeRealStat(activeTest, x2, y2, dataset) : null;
     (0, import_react72.useEffect)(() => {
       setConfirmed({});
     }, [activeTest, x2, y2]);
@@ -71378,7 +72307,8 @@ ${suffix2}`;
           label: `${xVar.label} \xD7 ${yVar.label}`,
           test: activeTest,
           status: override ? "adjusted" : "auto",
-          conditions: conditions.length
+          conditions: conditions.length,
+          detail: realStat?.detail
         }
       ]);
       setOverride(null);
@@ -71408,7 +72338,7 @@ ${suffix2}`;
         className: "bg-white/70 backdrop-blur px-8 py-4 flex items-center justify-between",
         style: { borderBottom: `2px solid ${GOLD3}` }
       },
-      /* @__PURE__ */ import_react72.default.createElement("div", null, /* @__PURE__ */ import_react72.default.createElement("h1", { className: "font-serif text-xl font-bold", style: { color: NAVY4 } }, "Configuration des analyses"), /* @__PURE__ */ import_react72.default.createElement("p", { className: "text-xs text-gray-500 mt-0.5" }, "Suivi semis 2026-2027 \xB7 D\xE9cade 3 \u2014 Coton, Tchaourou & P\xE9r\xE8r\xE8")),
+      /* @__PURE__ */ import_react72.default.createElement("div", null, /* @__PURE__ */ import_react72.default.createElement("h1", { className: "font-serif text-xl font-bold", style: { color: NAVY4 } }, "Configuration des analyses"), /* @__PURE__ */ import_react72.default.createElement("p", { className: "text-xs text-gray-500 mt-0.5" }, dataset ? /* @__PURE__ */ import_react72.default.createElement(import_react72.default.Fragment, null, "Donn\xE9es r\xE9elles : ", /* @__PURE__ */ import_react72.default.createElement("span", { className: "font-medium", style: { color: "#256B45" } }, dataset.fileName), " (", dataset.rows.length, " lignes)") : "Aucun fichier import\xE9 \u2014 exemple illustratif (Suivi semis 2026-2027)")),
       /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex items-center gap-4" }, /* @__PURE__ */ import_react72.default.createElement(Bell, { size: 18, className: "text-gray-400" }), /* @__PURE__ */ import_react72.default.createElement(
         UserMenu,
         {
@@ -71420,7 +72350,7 @@ ${suffix2}`;
           onOpenAdmin
         }
       ))
-    ), /* @__PURE__ */ import_react72.default.createElement("main", { className: "p-8 grid grid-cols-3 gap-6" }, /* @__PURE__ */ import_react72.default.createElement("div", { className: "col-span-2" }, /* @__PURE__ */ import_react72.default.createElement(Card2, { className: "mb-5" }, /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex items-center gap-2 mb-1" }, /* @__PURE__ */ import_react72.default.createElement(ShieldCheck, { size: 16, style: { color: NAVY4 } }), /* @__PURE__ */ import_react72.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY4 } }, "Variables retenues pour cette session")), /* @__PURE__ */ import_react72.default.createElement("p", { className: "text-xs text-gray-400 mb-3" }, "Seules les variables coch\xE9es seront propos\xE9es dans les analyses ci-dessous."), /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex flex-wrap gap-2" }, VARIABLES.map((v) => /* @__PURE__ */ import_react72.default.createElement(
+    ), /* @__PURE__ */ import_react72.default.createElement("main", { className: "p-8 grid grid-cols-3 gap-6" }, /* @__PURE__ */ import_react72.default.createElement("div", { className: "col-span-2" }, /* @__PURE__ */ import_react72.default.createElement(Card2, { className: "mb-5" }, /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex items-center gap-2 mb-1" }, /* @__PURE__ */ import_react72.default.createElement(ShieldCheck, { size: 16, style: { color: NAVY4 } }), /* @__PURE__ */ import_react72.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY4 } }, "Variables retenues pour cette session")), /* @__PURE__ */ import_react72.default.createElement("p", { className: "text-xs text-gray-400 mb-3" }, dataset ? `Variables d\xE9tect\xE9es dans ${dataset.fileName}. Seules celles coch\xE9es seront propos\xE9es dans les analyses ci-dessous.` : "Seules les variables coch\xE9es seront propos\xE9es dans les analyses ci-dessous (exemple illustratif \u2014 importez un fichier pour vos propres variables)."), /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex flex-wrap gap-2" }, variables.map((v) => /* @__PURE__ */ import_react72.default.createElement(
       "button",
       {
         key: v.id,
@@ -71443,7 +72373,7 @@ ${suffix2}`;
         style: { background: "white", color: override ? AMBER : NAVY4 }
       },
       override ? "Ajust\xE9 par l'analyste" : "Propos\xE9 automatiquement"
-    )), /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex items-start gap-1.5 text-xs mb-3", style: { color: override ? AMBER : "#3A5488" } }, /* @__PURE__ */ import_react72.default.createElement(Info, { size: 13, className: "mt-0.5 shrink-0" }), /* @__PURE__ */ import_react72.default.createElement("span", null, proposal.justification)), /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex items-center gap-2" }, /* @__PURE__ */ import_react72.default.createElement(Pencil, { size: 13, className: "text-gray-400" }), /* @__PURE__ */ import_react72.default.createElement(
+    )), /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex items-start gap-1.5 text-xs mb-3", style: { color: override ? AMBER : "#3A5488" } }, /* @__PURE__ */ import_react72.default.createElement(Info, { size: 13, className: "mt-0.5 shrink-0" }), /* @__PURE__ */ import_react72.default.createElement("span", null, proposal.justification)), realStat && !realStat.error && /* @__PURE__ */ import_react72.default.createElement("div", { className: "rounded-xl bg-white/70 px-3 py-2 mb-3 text-xs font-mono", style: { color: NAVY4 } }, "R\xE9sultat calcul\xE9 sur les donn\xE9es import\xE9es : ", realStat.detail), realStat?.error && /* @__PURE__ */ import_react72.default.createElement("div", { className: "rounded-xl bg-white/70 px-3 py-2 mb-3 text-xs", style: { color: "#B3413A" } }, "Calcul impossible : ", realStat.error), !dataset && /* @__PURE__ */ import_react72.default.createElement("div", { className: "rounded-xl bg-white/70 px-3 py-2 mb-3 text-xs text-gray-400 italic" }, "Aucun fichier import\xE9 \u2014 importez une base \xE0 l'\xE9tape \xAB Assistant d'import \xBB pour un calcul r\xE9el."), /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex items-center gap-2" }, /* @__PURE__ */ import_react72.default.createElement(Pencil, { size: 13, className: "text-gray-400" }), /* @__PURE__ */ import_react72.default.createElement(
       "select",
       {
         value: activeTest,
@@ -71475,7 +72405,17 @@ ${suffix2}`;
       /* @__PURE__ */ import_react72.default.createElement(Plus, { size: 15 }),
       " ",
       allConfirmed ? "Ajouter \xE0 la file d'analyses" : `Confirmer les ${conditions.length} conditions pour continuer`
-    )), tab === "univariee" && /* @__PURE__ */ import_react72.default.createElement(Card2, null, /* @__PURE__ */ import_react72.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY4 } }, "Analyse univari\xE9e"), /* @__PURE__ */ import_react72.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, "Cochez les variables \xE0 d\xE9crire : les statistiques calcul\xE9es s'adaptent au type d\xE9tect\xE9."), /* @__PURE__ */ import_react72.default.createElement("div", { className: "space-y-2" }, availableVars.map((v) => /* @__PURE__ */ import_react72.default.createElement("label", { key: v.id, className: "flex items-center justify-between rounded-xl border border-gray-100 p-3 cursor-pointer hover:bg-gray-50" }, /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex items-center gap-3" }, /* @__PURE__ */ import_react72.default.createElement("input", { type: "checkbox", defaultChecked: ["sup_semee", "filiere"].includes(v.id), className: "w-4 h-4 rounded", style: { accentColor: NAVY4 } }), /* @__PURE__ */ import_react72.default.createElement("span", { className: "text-sm text-gray-800" }, v.label)), /* @__PURE__ */ import_react72.default.createElement("span", { className: "text-[11px] text-gray-400" }, v.type.startsWith("Quantitative") ? "Moyenne, m\xE9diane, \xE9cart-type" : "Fr\xE9quences, mode"))))), tab === "multivariee" && /* @__PURE__ */ import_react72.default.createElement(Card2, null, /* @__PURE__ */ import_react72.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY4 } }, "Analyse multivari\xE9e"), /* @__PURE__ */ import_react72.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, "Choisissez la m\xE9thode, puis les variables \xE0 inclure."), /* @__PURE__ */ import_react72.default.createElement("div", { className: "grid grid-cols-2 gap-3 mb-5" }, ["ACP", "AFC", "Classification (CAH)", "R\xE9gression multiple"].map((m, i) => /* @__PURE__ */ import_react72.default.createElement(
+    )), tab === "univariee" && /* @__PURE__ */ import_react72.default.createElement(Card2, null, /* @__PURE__ */ import_react72.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY4 } }, "Analyse univari\xE9e"), /* @__PURE__ */ import_react72.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, dataset ? "Statistiques calcul\xE9es r\xE9ellement \xE0 partir du fichier import\xE9." : "Cochez les variables \xE0 d\xE9crire : les statistiques calcul\xE9es s'adaptent au type d\xE9tect\xE9."), /* @__PURE__ */ import_react72.default.createElement("div", { className: "space-y-2" }, availableVars.map((v) => {
+      let real = null;
+      if (dataset) {
+        try {
+          real = v.isQuantitative ? descriptiveStats(dataset.rows, v.id) : frequencies(dataset.rows, v.id).slice(0, 3);
+        } catch (e) {
+          real = null;
+        }
+      }
+      return /* @__PURE__ */ import_react72.default.createElement("div", { key: v.id, className: "rounded-xl border border-gray-100 p-3" }, /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex items-center justify-between" }, /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex items-center gap-3" }, /* @__PURE__ */ import_react72.default.createElement("input", { type: "checkbox", checked: true, className: "w-4 h-4 rounded", readOnly: true, style: { accentColor: NAVY4 } }), /* @__PURE__ */ import_react72.default.createElement("span", { className: "text-sm text-gray-800" }, v.label)), !dataset && /* @__PURE__ */ import_react72.default.createElement("span", { className: "text-[11px] text-gray-400" }, v.isQuantitative ? "Moyenne, m\xE9diane, \xE9cart-type" : "Fr\xE9quences, mode")), real && v.isQuantitative && /* @__PURE__ */ import_react72.default.createElement("div", { className: "grid grid-cols-4 gap-2 mt-2 text-center" }, [["Moyenne", real.moyenne], ["M\xE9diane", real.mediane], ["\xC9cart-type", real.ecartType], ["CV (%)", real.cv]].map(([l, val]) => /* @__PURE__ */ import_react72.default.createElement("div", { key: l, className: "rounded-lg py-1.5", style: { background: NAVY_TINT } }, /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-[10px] text-gray-500" }, l), /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-xs font-bold", style: { color: NAVY4 } }, val.toFixed(2))))), real && !v.isQuantitative && /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex flex-wrap gap-1.5 mt-2" }, real.map((f) => /* @__PURE__ */ import_react72.default.createElement("span", { key: f.modalite, className: "text-[10px] px-2 py-1 rounded-full", style: { background: NAVY_TINT, color: NAVY4 } }, f.modalite, " \xB7 ", f.pct.toFixed(0), "% (n=", f.n, ")"))));
+    }))), tab === "multivariee" && /* @__PURE__ */ import_react72.default.createElement(Card2, null, /* @__PURE__ */ import_react72.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY4 } }, "Analyse multivari\xE9e"), /* @__PURE__ */ import_react72.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, "Choisissez la m\xE9thode, puis les variables \xE0 inclure."), /* @__PURE__ */ import_react72.default.createElement("div", { className: "rounded-xl p-3 mb-4 text-xs", style: { background: AMBER_TINT, color: AMBER } }, "Les m\xE9thodes multivari\xE9es (ACP, AFC, CAH, r\xE9gression) n\xE9cessitent le moteur de calcul R d\xE9crit dans l'architecture technique \u2014 non encore branch\xE9 \xE0 cette maquette. L'\xE9cran ci-dessous reste illustratif."), /* @__PURE__ */ import_react72.default.createElement("div", { className: "grid grid-cols-2 gap-3 mb-5" }, ["ACP", "AFC", "Classification (CAH)", "R\xE9gression multiple"].map((m, i) => /* @__PURE__ */ import_react72.default.createElement(
       "label",
       {
         key: m,
@@ -71493,7 +72433,7 @@ ${suffix2}`;
       const s2 = STATUS_STYLE[c2.status];
       const Icon3 = s2.icon;
       return /* @__PURE__ */ import_react72.default.createElement("label", { key: i, className: "flex items-start gap-3 rounded-xl p-2.5 cursor-pointer", style: { background: s2.bg } }, /* @__PURE__ */ import_react72.default.createElement("input", { type: "checkbox", className: "w-4 h-4 rounded mt-0.5", style: { accentColor: s2.color } }), /* @__PURE__ */ import_react72.default.createElement(Icon3, { size: 15, style: { color: s2.color }, className: "mt-0.5 shrink-0" }), /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex-1" }, /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-xs font-medium", style: { color: s2.color } }, c2.label), /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-[11px] text-gray-500 mt-0.5" }, c2.detail)), /* @__PURE__ */ import_react72.default.createElement("span", { className: "text-[10px] font-semibold shrink-0", style: { color: s2.color } }, s2.text));
-    }))))), /* @__PURE__ */ import_react72.default.createElement("div", null, /* @__PURE__ */ import_react72.default.createElement(Card2, null, /* @__PURE__ */ import_react72.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY4 } }, "File d'analyses configur\xE9es"), /* @__PURE__ */ import_react72.default.createElement("p", { className: "text-xs text-gray-400 mb-4" }, queue.length, " analyse", queue.length > 1 ? "s" : "", " pr\xEAte", queue.length > 1 ? "s" : "", " \xE0 ex\xE9cuter"), /* @__PURE__ */ import_react72.default.createElement("div", { className: "space-y-2 mb-5" }, queue.map((item, i) => /* @__PURE__ */ import_react72.default.createElement("div", { key: i, className: "flex items-start gap-2 rounded-xl border border-gray-100 p-3" }, /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex-1" }, /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-xs font-medium text-gray-800" }, item.label), /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-[11px] text-gray-500 mt-0.5" }, item.test), /* @__PURE__ */ import_react72.default.createElement(
+    }))))), /* @__PURE__ */ import_react72.default.createElement("div", null, /* @__PURE__ */ import_react72.default.createElement(Card2, null, /* @__PURE__ */ import_react72.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY4 } }, "File d'analyses configur\xE9es"), /* @__PURE__ */ import_react72.default.createElement("p", { className: "text-xs text-gray-400 mb-4" }, queue.length, " analyse", queue.length > 1 ? "s" : "", " pr\xEAte", queue.length > 1 ? "s" : "", " \xE0 ex\xE9cuter"), /* @__PURE__ */ import_react72.default.createElement("div", { className: "space-y-2 mb-5" }, queue.map((item, i) => /* @__PURE__ */ import_react72.default.createElement("div", { key: i, className: "flex items-start gap-2 rounded-xl border border-gray-100 p-3" }, /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex-1" }, /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-xs font-medium text-gray-800" }, item.label), /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-[11px] text-gray-500 mt-0.5" }, item.test), item.detail && /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-[10px] font-mono text-gray-400 mt-0.5" }, item.detail), /* @__PURE__ */ import_react72.default.createElement(
       "span",
       {
         className: "inline-flex items-center gap-1 text-[10px] font-medium px-1.5 py-0.5 rounded-full mt-1",
@@ -72171,6 +73111,7 @@ ${suffix2}`;
     const [active, setActive] = (0, import_react79.useState)("dashboard");
     const [showAdmin, setShowAdmin] = (0, import_react79.useState)(false);
     const [guestMode, setGuestMode] = (0, import_react79.useState)(false);
+    const [dataset, setDataset] = (0, import_react79.useState)(null);
     (0, import_react79.useEffect)(() => {
       if (!isSupabaseConfigured) {
         setSession(null);
@@ -72231,7 +73172,9 @@ ${suffix2}`;
         isAdmin,
         isGuest,
         onLogout: handleTopRightLogout,
-        onOpenAdmin: () => setShowAdmin(true)
+        onOpenAdmin: () => setShowAdmin(true),
+        dataset,
+        onDatasetParsed: setDataset
       }
     ));
   }
@@ -72332,6 +73275,14 @@ react-is/cjs/react-is.development.js:
    * This source code is licensed under the MIT license found in the
    * LICENSE file in the root directory of this source tree.
    *)
+
+papaparse/papaparse.min.js:
+  (* @license
+  Papa Parse
+  v5.6.0
+  https://github.com/mholt/PapaParse
+  License: MIT
+  *)
 
 lucide-react/dist/esm/shared/src/utils/mergeClasses.mjs:
 lucide-react/dist/esm/shared/src/utils/toKebabCase.mjs:
