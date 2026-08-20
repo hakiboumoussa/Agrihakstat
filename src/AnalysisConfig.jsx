@@ -278,16 +278,15 @@ function Select({ value, onChange, options, placeholder }) {
   );
 }
 
-export default function AnalysisConfig({ active, onNavigate, userEmail, roleLabel, isAdmin, isGuest, onLogout, onOpenAdmin, dataset }) {
+export default function AnalysisConfig({ active, onNavigate, userEmail, roleLabel, isAdmin, isGuest, onLogout, onOpenAdmin, dataset, analysisQueue, onAnalysisQueueChange }) {
   const [tab, setTab] = useState("bivariee");
   const [included, setIncluded] = useState(["sup_semee", "rendement", "filiere", "commune", "pluvio_decade", "acces_credit"]);
   const [x, setX] = useState("sup_semee");
   const [y, setY] = useState("pluvio_decade");
   const [override, setOverride] = useState(null);
   const [confirmed, setConfirmed] = useState({});
-  const [queue, setQueue] = useState([
-    { label: "Filière suivie × Rendement estimé", test: "ANOVA à un facteur", status: "auto", conditions: 3 },
-  ]);
+  const queue = analysisQueue || [];
+  const setQueue = onAnalysisQueueChange || (() => {});
 
   const variables = dataset
     ? dataset.columns.filter((c) => c.type !== "Vide" && c.type !== "Texte libre").map((c) => ({
@@ -328,10 +327,15 @@ export default function AnalysisConfig({ active, onNavigate, userEmail, roleLabe
     setQueue([
       ...queue,
       {
+        id: Date.now(),
         label: `${xVar.label} × ${yVar.label}`,
+        xId: x,
+        yId: y,
+        xLabel: xVar.label,
+        yLabel: yVar.label,
         test: activeTest,
         status: override ? "adjusted" : "auto",
-        conditions: conditions.length,
+        conditionsCount: conditions.length,
         detail: realStat?.detail,
       },
     ]);
@@ -664,7 +668,7 @@ export default function AnalysisConfig({ active, onNavigate, userEmail, roleLabe
                         <span className="inline-flex items-center gap-1 text-[10px] font-medium px-1.5 py-0.5 rounded-full mt-1"
                           style={item.status === "adjusted" ? { background: AMBER_TINT, color: AMBER } : { background: GREEN_TINT, color: GREEN }}>
                           {item.status === "adjusted" ? <Pencil size={9} /> : <Check size={9} />}
-                          {item.status === "adjusted" ? "Ajusté" : "Auto"} · {item.conditions} condition{item.conditions > 1 ? "s" : ""} validée{item.conditions > 1 ? "s" : ""}
+                          {item.status === "adjusted" ? "Ajusté" : "Auto"} · {item.conditionsCount} condition{item.conditionsCount > 1 ? "s" : ""} validée{item.conditionsCount > 1 ? "s" : ""}
                         </span>
                       </div>
                       <button onClick={() => setQueue(queue.filter((_, idx) => idx !== i))} className="text-gray-300 hover:text-red-400">
@@ -675,7 +679,9 @@ export default function AnalysisConfig({ active, onNavigate, userEmail, roleLabe
                   {queue.length === 0 && <div className="text-xs text-gray-400 italic">Aucune analyse ajoutée pour l'instant.</div>}
                 </div>
                 <button
-                  className="w-full px-4 py-2.5 rounded-xl text-sm font-medium flex items-center justify-center gap-1.5 text-white shadow-md"
+                  onClick={() => onNavigate("results")}
+                  disabled={queue.length === 0}
+                  className="w-full px-4 py-2.5 rounded-xl text-sm font-medium flex items-center justify-center gap-1.5 text-white shadow-md disabled:opacity-40 disabled:cursor-not-allowed"
                   style={{ background: `linear-gradient(135deg, #3E9C6B, ${GREEN})` }}
                 >
                   <Play size={14} /> Lancer les analyses

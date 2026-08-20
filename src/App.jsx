@@ -24,6 +24,7 @@ export default function App() {
   const [showAdmin, setShowAdmin] = useState(false);
   const [guestMode, setGuestMode] = useState(false);
   const [dataset, setDataset] = useState(null); // { rows, columns, fileName } — données réellement importées
+  const [analysisQueue, setAnalysisQueue] = useState([]); // analyses réellement configurées et calculées
 
   useEffect(() => {
     if (!isSupabaseConfigured) { setSession(null); return; }
@@ -99,6 +100,8 @@ export default function App() {
           onOpenAdmin={() => setShowAdmin(true)}
           dataset={dataset}
           onDatasetParsed={setDataset}
+          analysisQueue={analysisQueue}
+          onAnalysisQueueChange={setAnalysisQueue}
         />
       )}
     </div>

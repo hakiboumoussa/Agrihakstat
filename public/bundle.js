@@ -23546,25 +23546,16 @@
   ];
   var Clock = createLucideIcon("clock", __iconNode13);
 
-  // node_modules/lucide-react/dist/esm/icons/cloud-rain.mjs
-  var __iconNode14 = [
-    ["path", { d: "M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242", key: "1pljnt" }],
-    ["path", { d: "M16 14v6", key: "1j4efv" }],
-    ["path", { d: "M8 14v6", key: "17c4r9" }],
-    ["path", { d: "M12 16v6", key: "c8a4gj" }]
-  ];
-  var CloudRain = createLucideIcon("cloud-rain", __iconNode14);
-
   // node_modules/lucide-react/dist/esm/icons/download.mjs
-  var __iconNode15 = [
+  var __iconNode14 = [
     ["path", { d: "M12 15V3", key: "m9g1x1" }],
     ["path", { d: "M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4", key: "ih7n3h" }],
     ["path", { d: "m7 10 5 5 5-5", key: "brsn70" }]
   ];
-  var Download = createLucideIcon("download", __iconNode15);
+  var Download = createLucideIcon("download", __iconNode14);
 
   // node_modules/lucide-react/dist/esm/icons/droplets.mjs
-  var __iconNode16 = [
+  var __iconNode15 = [
     [
       "path",
       {
@@ -23580,18 +23571,18 @@
       }
     ]
   ];
-  var Droplets = createLucideIcon("droplets", __iconNode16);
+  var Droplets = createLucideIcon("droplets", __iconNode15);
 
   // node_modules/lucide-react/dist/esm/icons/ellipsis.mjs
-  var __iconNode17 = [
+  var __iconNode16 = [
     ["circle", { cx: "12", cy: "12", r: "1", key: "41hilf" }],
     ["circle", { cx: "19", cy: "12", r: "1", key: "1wjl8i" }],
     ["circle", { cx: "5", cy: "12", r: "1", key: "1pcz8c" }]
   ];
-  var Ellipsis = createLucideIcon("ellipsis", __iconNode17);
+  var Ellipsis = createLucideIcon("ellipsis", __iconNode16);
 
   // node_modules/lucide-react/dist/esm/icons/file-check-corner.mjs
-  var __iconNode18 = [
+  var __iconNode17 = [
     [
       "path",
       {
@@ -23602,10 +23593,10 @@
     ["path", { d: "M14 2v5a1 1 0 0 0 1 1h5", key: "wfsgrz" }],
     ["path", { d: "m14 20 2 2 4-4", key: "15kota" }]
   ];
-  var FileCheckCorner = createLucideIcon("file-check-corner", __iconNode18);
+  var FileCheckCorner = createLucideIcon("file-check-corner", __iconNode17);
 
   // node_modules/lucide-react/dist/esm/icons/file-down.mjs
-  var __iconNode19 = [
+  var __iconNode18 = [
     [
       "path",
       {
@@ -23617,10 +23608,10 @@
     ["path", { d: "M12 18v-6", key: "17g6i2" }],
     ["path", { d: "m9 15 3 3 3-3", key: "1npd3o" }]
   ];
-  var FileDown = createLucideIcon("file-down", __iconNode19);
+  var FileDown = createLucideIcon("file-down", __iconNode18);
 
   // node_modules/lucide-react/dist/esm/icons/file-output.mjs
-  var __iconNode20 = [
+  var __iconNode19 = [
     [
       "path",
       {
@@ -23632,10 +23623,10 @@
     ["path", { d: "m5 11-3 3", key: "1dgrs4" }],
     ["path", { d: "m5 17-3-3h10", key: "1mvvaf" }]
   ];
-  var FileOutput = createLucideIcon("file-output", __iconNode20);
+  var FileOutput = createLucideIcon("file-output", __iconNode19);
 
   // node_modules/lucide-react/dist/esm/icons/file-spreadsheet.mjs
-  var __iconNode21 = [
+  var __iconNode20 = [
     [
       "path",
       {
@@ -23649,10 +23640,10 @@
     ["path", { d: "M8 17h2", key: "2yhykz" }],
     ["path", { d: "M14 17h2", key: "10kma7" }]
   ];
-  var FileSpreadsheet = createLucideIcon("file-spreadsheet", __iconNode21);
+  var FileSpreadsheet = createLucideIcon("file-spreadsheet", __iconNode20);
 
   // node_modules/lucide-react/dist/esm/icons/file-text.mjs
-  var __iconNode22 = [
+  var __iconNode21 = [
     [
       "path",
       {
@@ -23665,10 +23656,10 @@
     ["path", { d: "M16 13H8", key: "t4e002" }],
     ["path", { d: "M16 17H8", key: "z1uh3a" }]
   ];
-  var FileText = createLucideIcon("file-text", __iconNode22);
+  var FileText = createLucideIcon("file-text", __iconNode21);
 
   // node_modules/lucide-react/dist/esm/icons/file-type-corner.mjs
-  var __iconNode23 = [
+  var __iconNode22 = [
     [
       "path",
       {
@@ -23681,10 +23672,10 @@
     ["path", { d: "M6 22h2", key: "194x9m" }],
     ["path", { d: "M7 14v8", key: "11ixej" }]
   ];
-  var FileTypeCorner = createLucideIcon("file-type-corner", __iconNode23);
+  var FileTypeCorner = createLucideIcon("file-type-corner", __iconNode22);
 
   // node_modules/lucide-react/dist/esm/icons/folder-kanban.mjs
-  var __iconNode24 = [
+  var __iconNode23 = [
     [
       "path",
       {
@@ -23696,10 +23687,10 @@
     ["path", { d: "M12 10v2", key: "hh53o1" }],
     ["path", { d: "M16 10v6", key: "1d6xys" }]
   ];
-  var FolderKanban = createLucideIcon("folder-kanban", __iconNode24);
+  var FolderKanban = createLucideIcon("folder-kanban", __iconNode23);
 
   // node_modules/lucide-react/dist/esm/icons/funnel.mjs
-  var __iconNode25 = [
+  var __iconNode24 = [
     [
       "path",
       {
@@ -23708,7 +23699,20 @@
       }
     ]
   ];
-  var Funnel = createLucideIcon("funnel", __iconNode25);
+  var Funnel = createLucideIcon("funnel", __iconNode24);
+
+  // node_modules/lucide-react/dist/esm/icons/inbox.mjs
+  var __iconNode25 = [
+    ["polyline", { points: "22 12 16 12 14 15 10 15 8 12 2 12", key: "o97t9d" }],
+    [
+      "path",
+      {
+        d: "M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z",
+        key: "oot6mr"
+      }
+    ]
+  ];
+  var Inbox = createLucideIcon("inbox", __iconNode25);
 
   // node_modules/lucide-react/dist/esm/icons/info.mjs
   var __iconNode26 = [
@@ -23894,31 +23898,25 @@
   ];
   var Sun = createLucideIcon("sun", __iconNode41);
 
-  // node_modules/lucide-react/dist/esm/icons/thermometer.mjs
-  var __iconNode42 = [
-    ["path", { d: "M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0Z", key: "17jzev" }]
-  ];
-  var Thermometer = createLucideIcon("thermometer", __iconNode42);
-
   // node_modules/lucide-react/dist/esm/icons/trash-2.mjs
-  var __iconNode43 = [
+  var __iconNode42 = [
     ["path", { d: "M10 11v6", key: "nco0om" }],
     ["path", { d: "M14 11v6", key: "outv1u" }],
     ["path", { d: "M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6", key: "miytrc" }],
     ["path", { d: "M3 6h18", key: "d0wm0j" }],
     ["path", { d: "M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2", key: "e791ji" }]
   ];
-  var Trash2 = createLucideIcon("trash-2", __iconNode43);
+  var Trash2 = createLucideIcon("trash-2", __iconNode42);
 
   // node_modules/lucide-react/dist/esm/icons/trending-up.mjs
-  var __iconNode44 = [
+  var __iconNode43 = [
     ["path", { d: "M16 7h6v6", key: "box55l" }],
     ["path", { d: "m22 7-8.5 8.5-5-5L2 17", key: "1t1m79" }]
   ];
-  var TrendingUp = createLucideIcon("trending-up", __iconNode44);
+  var TrendingUp = createLucideIcon("trending-up", __iconNode43);
 
   // node_modules/lucide-react/dist/esm/icons/triangle-alert.mjs
-  var __iconNode45 = [
+  var __iconNode44 = [
     [
       "path",
       {
@@ -23929,27 +23927,27 @@
     ["path", { d: "M12 9v4", key: "juzpu7" }],
     ["path", { d: "M12 17h.01", key: "p32p05" }]
   ];
-  var TriangleAlert = createLucideIcon("triangle-alert", __iconNode45);
+  var TriangleAlert = createLucideIcon("triangle-alert", __iconNode44);
 
   // node_modules/lucide-react/dist/esm/icons/upload.mjs
-  var __iconNode46 = [
+  var __iconNode45 = [
     ["path", { d: "M12 3v12", key: "1x0j5s" }],
     ["path", { d: "m17 8-5-5-5 5", key: "7q97r8" }],
     ["path", { d: "M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4", key: "ih7n3h" }]
   ];
-  var Upload = createLucideIcon("upload", __iconNode46);
+  var Upload = createLucideIcon("upload", __iconNode45);
 
   // node_modules/lucide-react/dist/esm/icons/users.mjs
-  var __iconNode47 = [
+  var __iconNode46 = [
     ["path", { d: "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2", key: "1yyitq" }],
     ["path", { d: "M16 3.128a4 4 0 0 1 0 7.744", key: "16gr8j" }],
     ["path", { d: "M22 21v-2a4 4 0 0 0-3-3.87", key: "kshegd" }],
     ["circle", { cx: "9", cy: "7", r: "4", key: "nufk8" }]
   ];
-  var Users = createLucideIcon("users", __iconNode47);
+  var Users = createLucideIcon("users", __iconNode46);
 
   // node_modules/lucide-react/dist/esm/icons/wand-sparkles.mjs
-  var __iconNode48 = [
+  var __iconNode47 = [
     [
       "path",
       {
@@ -23965,14 +23963,14 @@
     ["path", { d: "M21 16h-4", key: "1cnmox" }],
     ["path", { d: "M11 3H9", key: "1obp7u" }]
   ];
-  var WandSparkles = createLucideIcon("wand-sparkles", __iconNode48);
+  var WandSparkles = createLucideIcon("wand-sparkles", __iconNode47);
 
   // node_modules/lucide-react/dist/esm/icons/x.mjs
-  var __iconNode49 = [
+  var __iconNode48 = [
     ["path", { d: "M18 6 6 18", key: "1bl5f8" }],
     ["path", { d: "m6 6 12 12", key: "d8bk6v" }]
   ];
-  var X = createLucideIcon("x", __iconNode49);
+  var X = createLucideIcon("x", __iconNode48);
 
   // src/Dashboard.jsx
   var import_react70 = __toESM(require_react());
@@ -98550,7 +98548,7 @@ ${suffix2}`;
     const df = (xList.length - 1) * (yList.length - 1);
     const p = chiSquarePValue(chi2, df);
     const cramersV = Math.sqrt(chi2 / (grandTotal * (Math.min(xList.length, yList.length) - 1)));
-    return { chi2, df, p, cramersV, n: grandTotal, pctCellsBelow5: cellsBelow5 / totalCells * 100 };
+    return { chi2, df, p, cramersV, n: grandTotal, pctCellsBelow5: cellsBelow5 / totalCells * 100, table, xList, yList, rowTotals, colTotals };
   }
   function leveneTest(rows, quantCol, qualCol) {
     const groups = {};
@@ -99224,16 +99222,16 @@ ${suffix2}`;
       options.map((v) => /* @__PURE__ */ import_react72.default.createElement("option", { key: v.id, value: v.id }, v.label))
     );
   }
-  function AnalysisConfig({ active, onNavigate, userEmail, roleLabel, isAdmin, isGuest, onLogout, onOpenAdmin, dataset }) {
+  function AnalysisConfig({ active, onNavigate, userEmail, roleLabel, isAdmin, isGuest, onLogout, onOpenAdmin, dataset, analysisQueue, onAnalysisQueueChange }) {
     const [tab, setTab] = (0, import_react72.useState)("bivariee");
     const [included, setIncluded] = (0, import_react72.useState)(["sup_semee", "rendement", "filiere", "commune", "pluvio_decade", "acces_credit"]);
     const [x2, setX] = (0, import_react72.useState)("sup_semee");
     const [y2, setY] = (0, import_react72.useState)("pluvio_decade");
     const [override, setOverride] = (0, import_react72.useState)(null);
     const [confirmed, setConfirmed] = (0, import_react72.useState)({});
-    const [queue, setQueue] = (0, import_react72.useState)([
-      { label: "Fili\xE8re suivie \xD7 Rendement estim\xE9", test: "ANOVA \xE0 un facteur", status: "auto", conditions: 3 }
-    ]);
+    const queue = analysisQueue || [];
+    const setQueue = onAnalysisQueueChange || (() => {
+    });
     const variables = dataset ? dataset.columns.filter((c2) => c2.type !== "Vide" && c2.type !== "Texte libre").map((c2) => ({
       id: c2.name,
       label: c2.name,
@@ -99268,10 +99266,15 @@ ${suffix2}`;
       setQueue([
         ...queue,
         {
+          id: Date.now(),
           label: `${xVar.label} \xD7 ${yVar.label}`,
+          xId: x2,
+          yId: y2,
+          xLabel: xVar.label,
+          yLabel: yVar.label,
           test: activeTest,
           status: override ? "adjusted" : "auto",
-          conditions: conditions.length,
+          conditionsCount: conditions.length,
           detail: realStat?.detail
         }
       ]);
@@ -99406,15 +99409,17 @@ ${suffix2}`;
       item.status === "adjusted" ? /* @__PURE__ */ import_react72.default.createElement(Pencil, { size: 9 }) : /* @__PURE__ */ import_react72.default.createElement(Check, { size: 9 }),
       item.status === "adjusted" ? "Ajust\xE9" : "Auto",
       " \xB7 ",
-      item.conditions,
+      item.conditionsCount,
       " condition",
-      item.conditions > 1 ? "s" : "",
+      item.conditionsCount > 1 ? "s" : "",
       " valid\xE9e",
-      item.conditions > 1 ? "s" : ""
+      item.conditionsCount > 1 ? "s" : ""
     )), /* @__PURE__ */ import_react72.default.createElement("button", { onClick: () => setQueue(queue.filter((_, idx) => idx !== i)), className: "text-gray-300 hover:text-red-400" }, /* @__PURE__ */ import_react72.default.createElement(X, { size: 14 })))), queue.length === 0 && /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-xs text-gray-400 italic" }, "Aucune analyse ajout\xE9e pour l'instant.")), /* @__PURE__ */ import_react72.default.createElement(
       "button",
       {
-        className: "w-full px-4 py-2.5 rounded-xl text-sm font-medium flex items-center justify-center gap-1.5 text-white shadow-md",
+        onClick: () => onNavigate("results"),
+        disabled: queue.length === 0,
+        className: "w-full px-4 py-2.5 rounded-xl text-sm font-medium flex items-center justify-center gap-1.5 text-white shadow-md disabled:opacity-40 disabled:cursor-not-allowed",
         style: { background: `linear-gradient(135deg, #3E9C6B, ${GREEN})` }
       },
       /* @__PURE__ */ import_react72.default.createElement(Play, { size: 14 }),
@@ -99430,59 +99435,13 @@ ${suffix2}`;
   var GREEN_TINT2 = "#E4F5EC";
   var AMBER2 = "#8A5A00";
   var AMBER_TINT2 = "#FDF1DA";
-  var NAVY_TINT2 = "#EBEEF7";
-  var FILIERES2 = {
-    Soja: "#3E9C6B",
-    Ma\u00EFs: "#F0AC1B",
-    Riz: "#3592C4",
-    Manioc: "#B5651D",
-    Coton: "#6C7DAE"
-  };
+  var PALETTE = ["#1F3864", "#3E9C6B", "#C99A2E", "#3592C4", "#B5651D", "#6C7DAE", "#B3413A", "#7A8A3E"];
   var nav4 = [
     { id: "dashboard", label: "Tableau de bord", icon: LayoutDashboard },
     { id: "import", label: "Assistant d'import", icon: ClipboardList },
     { id: "config", label: "Configuration des analyses", icon: ChartColumn },
     { id: "results", label: "R\xE9sultats & rapport", icon: FileText },
     { id: "map", label: "Cartographie", icon: MapPin }
-  ];
-  var rendementParFiliere = [
-    { filiere: "Coton", moyenne: 1120, ecart: [90, 90] },
-    { filiere: "Ma\xEFs", moyenne: 1840, ecart: [140, 140] },
-    { filiere: "Riz", moyenne: 2210, ecart: [180, 180] },
-    { filiere: "Soja", moyenne: 1360, ecart: [110, 110] },
-    { filiere: "Manioc", moyenne: 9800, ecart: [620, 620] }
-  ];
-  var CLIMAT_COMMUNES = [
-    { name: "Sinend\xE9", x: 30, y: 10, mm: 108 },
-    { name: "Kalal\xE9", x: 68, y: 14, mm: 101 },
-    { name: "Bemb\xE9r\xE9k\xE9", x: 42, y: 30, mm: 95 },
-    { name: "N'Dali", x: 18, y: 48, mm: 84 },
-    { name: "P\xE9r\xE8r\xE8", x: 66, y: 42, mm: 61 },
-    { name: "Parakou", x: 40, y: 55, mm: 76 },
-    { name: "Nikki", x: 70, y: 62, mm: 89 },
-    { name: "Tchaourou", x: 34, y: 82, mm: 58 }
-  ];
-  function rainColor(mm) {
-    if (mm < 65) return "#C99A2E";
-    if (mm < 80) return "#8FAECB";
-    if (mm < 95) return "#4A7AB5";
-    return "#1F3864";
-  }
-  var scatterData = Array.from({ length: 24 }).map((_, i) => ({
-    x: 40 + i * 3 + i % 3 * 6,
-    y: 30 + i * 2.4 + i * 7 % 15
-  }));
-  var coefficients = [
-    { variable: "Superficie sem\xE9e (ha)", coef: "+18,4", p: "0,002", sig: true },
-    { variable: "Pluviom\xE9trie d\xE9cadaire (mm)", coef: "+6,1", p: "0,011", sig: true },
-    { variable: "Acc\xE8s au cr\xE9dit agricole", coef: "+142,7", p: "0,048", sig: true },
-    { variable: "Satisfaction intrants", coef: "+22,3", p: "0,192", sig: false }
-  ];
-  var annexTables = [
-    { id: "A1", title: "Statistiques descriptives \u2014 Superficie sem\xE9e (ha)", type: "Univari\xE9e", status: "auto", time: "10:42" },
-    { id: "A2", title: "ANOVA \u2014 Fili\xE8re suivie \xD7 Rendement estim\xE9", type: "Bivari\xE9e", status: "adjusted", time: "10:47" },
-    { id: "A3", title: "Corr\xE9lation de Spearman \u2014 Superficie sem\xE9e \xD7 Pluviom\xE9trie", type: "Bivari\xE9e", status: "auto", time: "10:51" },
-    { id: "A4", title: "R\xE9gression multiple \u2014 Mod\xE8le explicatif du rendement", type: "Multivari\xE9e", status: "auto", time: "10:58" }
   ];
   var reportSections = [
     "1. Contexte de l'\xE9tude",
@@ -99494,6 +99453,10 @@ ${suffix2}`;
     "7. Recommandations",
     "8. Conclusion"
   ];
+  function fmtP(p) {
+    if (p === void 0 || p === null || isNaN(p)) return "\u2014";
+    return p < 1e-3 ? "< 0,001" : p.toFixed(3);
+  }
   function Watermark4() {
     return /* @__PURE__ */ import_react73.default.createElement("div", { className: "fixed inset-0 overflow-hidden pointer-events-none z-0 flex items-center justify-center" }, /* @__PURE__ */ import_react73.default.createElement(
       "span",
@@ -99522,21 +99485,64 @@ ${suffix2}`;
   function ResultHeader({ title, subtitle, status }) {
     return /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-start justify-between mb-3" }, /* @__PURE__ */ import_react73.default.createElement("div", null, /* @__PURE__ */ import_react73.default.createElement("h3", { className: "font-serif font-semibold text-sm", style: { color: NAVY5 } }, title), /* @__PURE__ */ import_react73.default.createElement("p", { className: "text-[11px] text-gray-400 mt-0.5" }, subtitle)), /* @__PURE__ */ import_react73.default.createElement(StatusBadge, { status }));
   }
-  function ObjectiveGroup({ number: number4, title, indicator, children }) {
-    return /* @__PURE__ */ import_react73.default.createElement("div", { className: "rounded-2xl border-2 border-dashed p-1", style: { borderColor: "#D8C48A" } }, /* @__PURE__ */ import_react73.default.createElement("div", { className: "px-4 py-3 flex items-center gap-3" }, /* @__PURE__ */ import_react73.default.createElement("div", { className: "w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold text-white shrink-0", style: { background: GOLD4 } }, number4), /* @__PURE__ */ import_react73.default.createElement("div", null, /* @__PURE__ */ import_react73.default.createElement("div", { className: "text-sm font-serif font-semibold", style: { color: NAVY5 } }, title), /* @__PURE__ */ import_react73.default.createElement("div", { className: "text-[11px] text-gray-500" }, "Indicateur suivi : ", indicator))), /* @__PURE__ */ import_react73.default.createElement("div", { className: "space-y-3 px-1 pb-1" }, children));
+  function AnalysisResultCard({ item, dataset, index }) {
+    if (!dataset) {
+      return /* @__PURE__ */ import_react73.default.createElement(Card3, null, /* @__PURE__ */ import_react73.default.createElement(ResultHeader, { title: item.label, subtitle: item.test, status: item.status }), /* @__PURE__ */ import_react73.default.createElement("div", { className: "rounded-xl bg-gray-50 px-3 py-2 text-xs text-gray-400 italic" }, "Exemple illustratif \u2014 aucune base de donn\xE9es r\xE9elle n'\xE9tait import\xE9e lors de la configuration de cette analyse."));
+    }
+    const xCol = dataset.columns.find((c2) => c2.name === item.xId);
+    const yCol = dataset.columns.find((c2) => c2.name === item.yId);
+    if (!xCol || !yCol) {
+      return /* @__PURE__ */ import_react73.default.createElement(Card3, null, /* @__PURE__ */ import_react73.default.createElement(ResultHeader, { title: item.label, subtitle: item.test, status: item.status }), /* @__PURE__ */ import_react73.default.createElement("div", { className: "rounded-xl px-3 py-2 text-xs", style: { background: "#FBE7E5", color: "#B3413A" } }, "Les colonnes de cette analyse ne sont plus pr\xE9sentes dans la base actuellement import\xE9e."));
+    }
+    const isXQuant = xCol.isQuantitative, isYQuant = yCol.isQuantitative;
+    const test = item.test;
+    try {
+      if (test === "Corr\xE9lation de Pearson" || test === "Corr\xE9lation de Spearman") {
+        const r2 = test === "Corr\xE9lation de Pearson" ? pearsonCorrelation(dataset.rows, item.xId, item.yId) : spearmanCorrelation(dataset.rows, item.xId, item.yId);
+        const scatter = dataset.rows.map((row) => ({ x: Number(row[item.xId]), y: Number(row[item.yId]) })).filter((p) => !isNaN(p.x) && !isNaN(p.y));
+        const symbol = test === "Corr\xE9lation de Pearson" ? "r" : "\u03C1";
+        return /* @__PURE__ */ import_react73.default.createElement(Card3, null, /* @__PURE__ */ import_react73.default.createElement(ResultHeader, { title: item.label, subtitle: `${test} \xB7 ${symbol} = ${r2.r.toFixed(3)}, n = ${r2.n}, p = ${fmtP(r2.p)}`, status: item.status }), /* @__PURE__ */ import_react73.default.createElement(ResponsiveContainer, { width: "100%", height: 190 }, /* @__PURE__ */ import_react73.default.createElement(ScatterChart, null, /* @__PURE__ */ import_react73.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react73.default.createElement(XAxis, { dataKey: "x", tick: { fontSize: 11 }, stroke: "#999", name: item.xLabel, type: "number", domain: ["dataMin", "dataMax"] }), /* @__PURE__ */ import_react73.default.createElement(YAxis, { dataKey: "y", tick: { fontSize: 11 }, stroke: "#999", name: item.yLabel, width: 55, type: "number", domain: ["dataMin", "dataMax"] }), /* @__PURE__ */ import_react73.default.createElement(Tooltip, { cursor: { strokeDasharray: "3 3" } }), /* @__PURE__ */ import_react73.default.createElement(Scatter, { data: scatter, fill: NAVY5 }))), /* @__PURE__ */ import_react73.default.createElement("p", { className: "text-xs text-gray-500 mt-2" }, Math.abs(r2.r) < 0.1 ? "Association quasi nulle" : Math.abs(r2.r) < 0.3 ? "Association faible" : Math.abs(r2.r) < 0.5 ? "Association mod\xE9r\xE9e" : "Association forte", " ", "entre ", item.xLabel, " et ", item.yLabel, ", ", r2.p < 0.05 ? "statistiquement significative (p < 0,05)" : "non significative au seuil de 5 %", "."));
+      }
+      if (["Test de Student", "ANOVA \xE0 un facteur", "Test de Mann-Whitney", "Test de Kruskal-Wallis"].includes(test)) {
+        const [quantCol, qualCol] = isXQuant ? [item.xId, item.yId] : [item.yId, item.xId];
+        const [quantLabel, qualLabel] = isXQuant ? [item.xLabel, item.yLabel] : [item.yLabel, item.xLabel];
+        const isNonParam = test === "Test de Mann-Whitney" || test === "Test de Kruskal-Wallis";
+        if (isNonParam) {
+          const res = test === "Test de Mann-Whitney" ? mannWhitneyU(dataset.rows, quantCol, qualCol) : kruskalWallis(dataset.rows, quantCol, qualCol);
+          const groups = {};
+          dataset.rows.forEach((r2) => {
+            const g = String(r2[qualCol] ?? "").trim();
+            const v = Number(r2[quantCol]);
+            if (g === "" || isNaN(v)) return;
+            (groups[g] = groups[g] || []).push(v);
+          });
+          const chartData2 = Object.entries(groups).map(([g, vals]) => {
+            const sorted = [...vals].sort((a3, b) => a3 - b);
+            return { groupe: g, mediane: sorted[Math.floor(sorted.length / 2)], n: vals.length };
+          });
+          const stat = test === "Test de Mann-Whitney" ? `U = ${res.U.toFixed(1)}, z = ${res.z.toFixed(2)}` : `H(${res.df}) = ${res.H.toFixed(2)}`;
+          return /* @__PURE__ */ import_react73.default.createElement(Card3, null, /* @__PURE__ */ import_react73.default.createElement(ResultHeader, { title: item.label, subtitle: `${test} \xB7 ${stat}, p = ${fmtP(res.p)}`, status: item.status }), /* @__PURE__ */ import_react73.default.createElement(ResponsiveContainer, { width: "100%", height: 180 }, /* @__PURE__ */ import_react73.default.createElement(BarChart, { data: chartData2 }, /* @__PURE__ */ import_react73.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react73.default.createElement(XAxis, { dataKey: "groupe", tick: { fontSize: 11 }, stroke: "#999" }), /* @__PURE__ */ import_react73.default.createElement(YAxis, { tick: { fontSize: 11 }, stroke: "#999", width: 55 }), /* @__PURE__ */ import_react73.default.createElement(Tooltip, null), /* @__PURE__ */ import_react73.default.createElement(Bar, { dataKey: "mediane", name: `M\xE9diane de ${quantLabel}`, radius: [6, 6, 0, 0] }, chartData2.map((d, i) => /* @__PURE__ */ import_react73.default.createElement(Cell, { key: d.groupe, fill: PALETTE[i % PALETTE.length] }))))), /* @__PURE__ */ import_react73.default.createElement("p", { className: "text-xs text-gray-500 mt-2" }, "Diff\xE9rence ", res.p < 0.05 ? "statistiquement significative" : "non significative", " de ", quantLabel, " selon ", qualLabel, " (test non param\xE9trique, p = ", fmtP(res.p), ")."));
+        }
+        const a2 = oneWayAnova(dataset.rows, quantCol, qualCol);
+        const chartData = a2.groupStats.map((g) => ({ groupe: g.groupe, moyenne: g.moyenne, ecart: [g.ecartType, g.ecartType], n: g.n }));
+        const statLabel = test === "Test de Student" ? `t \u2248 ${Math.sqrt(a2.F).toFixed(2)}` : `F(${a2.dfBetween},${a2.dfWithin}) = ${a2.F.toFixed(2)}, \u03B7\xB2 = ${a2.etaSq.toFixed(2)}`;
+        return /* @__PURE__ */ import_react73.default.createElement(Card3, null, /* @__PURE__ */ import_react73.default.createElement(ResultHeader, { title: item.label, subtitle: `${test} \xB7 ${statLabel}, p = ${fmtP(a2.p)}`, status: item.status }), /* @__PURE__ */ import_react73.default.createElement(ResponsiveContainer, { width: "100%", height: 190 }, /* @__PURE__ */ import_react73.default.createElement(BarChart, { data: chartData }, /* @__PURE__ */ import_react73.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react73.default.createElement(XAxis, { dataKey: "groupe", tick: { fontSize: 11 }, stroke: "#999" }), /* @__PURE__ */ import_react73.default.createElement(YAxis, { tick: { fontSize: 11 }, stroke: "#999", width: 55 }), /* @__PURE__ */ import_react73.default.createElement(Tooltip, null), /* @__PURE__ */ import_react73.default.createElement(Bar, { dataKey: "moyenne", name: `Moyenne de ${quantLabel}`, radius: [6, 6, 0, 0] }, chartData.map((d, i) => /* @__PURE__ */ import_react73.default.createElement(Cell, { key: d.groupe, fill: PALETTE[i % PALETTE.length] })), /* @__PURE__ */ import_react73.default.createElement(ErrorBar, { dataKey: "ecart", width: 4, strokeWidth: 1.5, stroke: "#7A7A7A" })))), /* @__PURE__ */ import_react73.default.createElement("p", { className: "text-xs text-gray-500 mt-2" }, "Le ", quantLabel.toLowerCase(), " moyen ", a2.p < 0.05 ? "diff\xE8re significativement" : "ne diff\xE8re pas significativement", " selon ", qualLabel.toLowerCase(), " (p = ", fmtP(a2.p), ")."));
+      }
+      if (test === "Test du Khi\xB2 d'ind\xE9pendance" || test === "V de Cram\xE9r (mesure d'association)") {
+        const c2 = chiSquareTest(dataset.rows, item.xId, item.yId);
+        return /* @__PURE__ */ import_react73.default.createElement(Card3, null, /* @__PURE__ */ import_react73.default.createElement(ResultHeader, { title: item.label, subtitle: `${test} \xB7 \u03C7\xB2(${c2.df}) = ${c2.chi2.toFixed(2)}, p = ${fmtP(c2.p)}, V = ${c2.cramersV.toFixed(2)}`, status: item.status }), /* @__PURE__ */ import_react73.default.createElement("div", { className: "overflow-x-auto" }, /* @__PURE__ */ import_react73.default.createElement("table", { className: "text-xs w-full" }, /* @__PURE__ */ import_react73.default.createElement("thead", null, /* @__PURE__ */ import_react73.default.createElement("tr", null, /* @__PURE__ */ import_react73.default.createElement("th", { className: "text-left text-[10px] text-gray-400 uppercase pb-1 pr-3" }, item.xLabel, " \\ ", item.yLabel), c2.yList.map((y2) => /* @__PURE__ */ import_react73.default.createElement("th", { key: y2, className: "text-[10px] text-gray-400 uppercase pb-1 px-2" }, y2)))), /* @__PURE__ */ import_react73.default.createElement("tbody", null, c2.xList.map((x2) => /* @__PURE__ */ import_react73.default.createElement("tr", { key: x2, className: "border-t border-gray-50" }, /* @__PURE__ */ import_react73.default.createElement("td", { className: "py-1.5 pr-3 font-medium text-gray-700" }, x2), c2.yList.map((y2) => /* @__PURE__ */ import_react73.default.createElement("td", { key: y2, className: "py-1.5 px-2 text-center text-gray-600" }, c2.table[x2]?.[y2] || 0))))))), /* @__PURE__ */ import_react73.default.createElement("p", { className: "text-xs text-gray-500 mt-2" }, "Association ", c2.p < 0.05 ? "statistiquement significative" : "non significative", " entre ", item.xLabel, " et ", item.yLabel, " (p = ", fmtP(c2.p), ", V de Cram\xE9r = ", c2.cramersV.toFixed(2), ")."));
+      }
+    } catch (e) {
+      return /* @__PURE__ */ import_react73.default.createElement(Card3, null, /* @__PURE__ */ import_react73.default.createElement(ResultHeader, { title: item.label, subtitle: item.test, status: item.status }), /* @__PURE__ */ import_react73.default.createElement("div", { className: "rounded-xl px-3 py-2 text-xs", style: { background: "#FBE7E5", color: "#B3413A" } }, "Calcul impossible sur les donn\xE9es actuelles : ", e.message));
+    }
+    return null;
   }
-  function ClimateMap() {
-    return /* @__PURE__ */ import_react73.default.createElement("div", { className: "grid grid-cols-3 gap-4" }, /* @__PURE__ */ import_react73.default.createElement("div", { className: "col-span-2 relative rounded-xl bg-[#F7F9FC] border border-gray-100", style: { height: 210 } }, /* @__PURE__ */ import_react73.default.createElement("svg", { viewBox: "0 0 100 100", className: "w-full h-full" }, CLIMAT_COMMUNES.map((c2) => /* @__PURE__ */ import_react73.default.createElement("g", { key: c2.name }, /* @__PURE__ */ import_react73.default.createElement("circle", { cx: c2.x, cy: c2.y, r: 7.5, fill: rainColor(c2.mm), opacity: 0.88 }), /* @__PURE__ */ import_react73.default.createElement("circle", { cx: c2.x, cy: c2.y, r: 7.5, fill: "none", stroke: "white", strokeWidth: 0.6 }), /* @__PURE__ */ import_react73.default.createElement("text", { x: c2.x, y: c2.y - 10, fontSize: "3.4", textAnchor: "middle", fill: "#4A5568", fontWeight: "600" }, c2.name), /* @__PURE__ */ import_react73.default.createElement("text", { x: c2.x, y: c2.y + 1.2, fontSize: "3", textAnchor: "middle", fill: "white", fontWeight: "700" }, c2.mm)))), /* @__PURE__ */ import_react73.default.createElement("span", { className: "absolute bottom-2 right-3 text-[9px] text-gray-400 italic" }, "Interpolation IDW \u2014 illustrative")), /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex flex-col justify-center gap-2" }, /* @__PURE__ */ import_react73.default.createElement("div", { className: "text-[10px] font-medium text-gray-500 mb-1" }, "Cumul pluviom\xE9trique d\xE9cadaire (mm)"), [
-      ["#C99A2E", "< 65 mm \u2014 d\xE9ficitaire"],
-      ["#8FAECB", "65 \u2013 80 mm"],
-      ["#4A7AB5", "80 \u2013 95 mm"],
-      ["#1F3864", "\u2265 95 mm"]
-    ].map(([color2, label]) => /* @__PURE__ */ import_react73.default.createElement("div", { key: label, className: "flex items-center gap-2" }, /* @__PURE__ */ import_react73.default.createElement("span", { className: "w-3 h-3 rounded-full shrink-0", style: { background: color2 } }), /* @__PURE__ */ import_react73.default.createElement("span", { className: "text-[10px] text-gray-500" }, label)))));
-  }
-  function ResultsReport({ active, onNavigate, userEmail, roleLabel, isAdmin, isGuest, onLogout, onOpenAdmin }) {
+  function ResultsReport({ active, onNavigate, userEmail, roleLabel, isAdmin, isGuest, onLogout, onOpenAdmin, dataset, analysisQueue }) {
     const [sections, setSections] = (0, import_react73.useState)(reportSections);
     const [format2, setFormat] = (0, import_react73.useState)("docx");
+    const queue = analysisQueue || [];
     const toggleSection = (s2) => setSections((prev) => prev.includes(s2) ? prev.filter((i) => i !== s2) : [...prev, s2]);
+    const significantCount = queue.filter((item) => item.detail && /p\s*=\s*(0[,.]0[0-4]|<\s*0[,.]001)/.test(item.detail)).length;
     return /* @__PURE__ */ import_react73.default.createElement("div", { className: "min-h-screen relative bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans" }, /* @__PURE__ */ import_react73.default.createElement(Watermark4, null), /* @__PURE__ */ import_react73.default.createElement("div", { className: "relative z-10 flex" }, /* @__PURE__ */ import_react73.default.createElement(
       "aside",
       {
@@ -99561,7 +99567,7 @@ ${suffix2}`;
         className: "bg-white/70 backdrop-blur px-8 py-4 flex items-center justify-between",
         style: { borderBottom: `2px solid ${GOLD4}` }
       },
-      /* @__PURE__ */ import_react73.default.createElement("div", null, /* @__PURE__ */ import_react73.default.createElement("h1", { className: "font-serif text-xl font-bold", style: { color: NAVY5 } }, "R\xE9sultats & rapport final"), /* @__PURE__ */ import_react73.default.createElement("p", { className: "text-xs text-gray-500 mt-0.5" }, "Suivi semis 2026-2027 \xB7 D\xE9cade 3 \u2014 4 analyses ex\xE9cut\xE9es")),
+      /* @__PURE__ */ import_react73.default.createElement("div", null, /* @__PURE__ */ import_react73.default.createElement("h1", { className: "font-serif text-xl font-bold", style: { color: NAVY5 } }, "R\xE9sultats & rapport final"), /* @__PURE__ */ import_react73.default.createElement("p", { className: "text-xs text-gray-500 mt-0.5" }, dataset ? `${dataset.fileName} \xB7 ` : "", queue.length, " analyse", queue.length > 1 ? "s" : "", " configur\xE9e", queue.length > 1 ? "s" : "")),
       /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center gap-4" }, /* @__PURE__ */ import_react73.default.createElement(Bell, { size: 18, className: "text-gray-400" }), /* @__PURE__ */ import_react73.default.createElement(
         UserMenu,
         {
@@ -99573,32 +99579,15 @@ ${suffix2}`;
           onOpenAdmin
         }
       ))
-    ), /* @__PURE__ */ import_react73.default.createElement("main", { className: "p-8 grid grid-cols-3 gap-6" }, /* @__PURE__ */ import_react73.default.createElement("div", { className: "col-span-2 space-y-5" }, /* @__PURE__ */ import_react73.default.createElement(Card3, null, /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center gap-2 mb-1" }, /* @__PURE__ */ import_react73.default.createElement(CloudRain, { size: 16, style: { color: NAVY5 } }), /* @__PURE__ */ import_react73.default.createElement("h3", { className: "font-serif font-semibold text-sm", style: { color: NAVY5 } }, "Contexte climatique de la zone d'\xE9tude")), /* @__PURE__ */ import_react73.default.createElement("p", { className: "text-[11px] text-gray-400 mb-3" }, "Source : NASA POWER (Module 7) \xB7 D\xE9cade 3, juillet 2026 \xB7 Restitution cartographique (Module 8)"), /* @__PURE__ */ import_react73.default.createElement(ClimateMap, null), /* @__PURE__ */ import_react73.default.createElement("div", { className: "grid grid-cols-3 gap-3 mt-4" }, /* @__PURE__ */ import_react73.default.createElement("div", { className: "rounded-xl p-2.5 text-center", style: { background: NAVY_TINT2 } }, /* @__PURE__ */ import_react73.default.createElement(CloudRain, { size: 14, className: "mx-auto mb-1", style: { color: NAVY5 } }), /* @__PURE__ */ import_react73.default.createElement("div", { className: "text-[10px] text-gray-500" }, "Cumul moyen zone"), /* @__PURE__ */ import_react73.default.createElement("div", { className: "text-sm font-bold", style: { color: NAVY5 } }, "83 mm")), /* @__PURE__ */ import_react73.default.createElement("div", { className: "rounded-xl p-2.5 text-center", style: { background: NAVY_TINT2 } }, /* @__PURE__ */ import_react73.default.createElement(MapPin, { size: 14, className: "mx-auto mb-1", style: { color: NAVY5 } }), /* @__PURE__ */ import_react73.default.createElement("div", { className: "text-[10px] text-gray-500" }, "Jours de pluie"), /* @__PURE__ */ import_react73.default.createElement("div", { className: "text-sm font-bold", style: { color: NAVY5 } }, "6 j")), /* @__PURE__ */ import_react73.default.createElement("div", { className: "rounded-xl p-2.5 text-center", style: { background: NAVY_TINT2 } }, /* @__PURE__ */ import_react73.default.createElement(Thermometer, { size: 14, className: "mx-auto mb-1", style: { color: NAVY5 } }), /* @__PURE__ */ import_react73.default.createElement("div", { className: "text-[10px] text-gray-500" }, "Temp\xE9rature moy."), /* @__PURE__ */ import_react73.default.createElement("div", { className: "text-sm font-bold", style: { color: NAVY5 } }, "27,4 \xB0C")))), /* @__PURE__ */ import_react73.default.createElement(
-      ObjectiveGroup,
+    ), /* @__PURE__ */ import_react73.default.createElement("main", { className: "p-8 grid grid-cols-3 gap-6" }, /* @__PURE__ */ import_react73.default.createElement("div", { className: "col-span-2 space-y-5" }, queue.length === 0 ? /* @__PURE__ */ import_react73.default.createElement(Card3, { className: "text-center py-12" }, /* @__PURE__ */ import_react73.default.createElement(Inbox, { size: 32, className: "mx-auto text-gray-300 mb-3" }), /* @__PURE__ */ import_react73.default.createElement("p", { className: "text-sm font-medium text-gray-500" }, "Aucune analyse configur\xE9e pour l'instant"), /* @__PURE__ */ import_react73.default.createElement("p", { className: "text-xs text-gray-400 mt-1 mb-4 max-w-sm mx-auto" }, "Rendez-vous dans \xAB Configuration des analyses \xBB pour s\xE9lectionner des variables, valider un test statistique, puis l'ajouter \xE0 la file."), /* @__PURE__ */ import_react73.default.createElement(
+      "button",
       {
-        number: "1",
-        title: "\xC9valuer la progression des semis de coton sur la p\xE9riode de suivi",
-        indicator: "Taux de r\xE9alisation des semis / Superficie sem\xE9e (ha)"
+        onClick: () => onNavigate("config"),
+        className: "px-4 py-2 rounded-xl text-sm font-medium text-white shadow-md",
+        style: { background: `linear-gradient(135deg, ${NAVY5}, #2A4A82)` }
       },
-      /* @__PURE__ */ import_react73.default.createElement(Card3, null, /* @__PURE__ */ import_react73.default.createElement(ResultHeader, { title: "Superficie sem\xE9e (ha) \u2014 statistiques descriptives", subtitle: "Analyse univari\xE9e \xB7 Coton, Tchaourou & P\xE9r\xE8r\xE8", status: "auto" }), /* @__PURE__ */ import_react73.default.createElement("div", { className: "grid grid-cols-4 gap-3 text-center" }, [["Moyenne", "3,42 ha"], ["M\xE9diane", "3,10 ha"], ["\xC9cart-type", "1,08 ha"], ["CV", "31,6 %"]].map(([l, v]) => /* @__PURE__ */ import_react73.default.createElement("div", { key: l, className: "rounded-xl p-2.5", style: { background: NAVY_TINT2 } }, /* @__PURE__ */ import_react73.default.createElement("div", { className: "text-[10px] text-gray-500" }, l), /* @__PURE__ */ import_react73.default.createElement("div", { className: "text-sm font-bold", style: { color: NAVY5 } }, v))))),
-      /* @__PURE__ */ import_react73.default.createElement(Card3, null, /* @__PURE__ */ import_react73.default.createElement(ResultHeader, { title: "Superficie sem\xE9e \xD7 Pluviom\xE9trie d\xE9cadaire", subtitle: "Analyse bivari\xE9e inf\xE9rentielle \xB7 Corr\xE9lation de Spearman \xB7 \u03C1 = 0,62, p = 0,003", status: "auto" }), /* @__PURE__ */ import_react73.default.createElement(ResponsiveContainer, { width: "100%", height: 170 }, /* @__PURE__ */ import_react73.default.createElement(ScatterChart, null, /* @__PURE__ */ import_react73.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react73.default.createElement(XAxis, { dataKey: "x", tick: { fontSize: 11 }, stroke: "#999", name: "Pluviom\xE9trie", unit: " mm" }), /* @__PURE__ */ import_react73.default.createElement(YAxis, { dataKey: "y", tick: { fontSize: 11 }, stroke: "#999", name: "Superficie", unit: " a", width: 50 }), /* @__PURE__ */ import_react73.default.createElement(Tooltip, { cursor: { strokeDasharray: "3 3" } }), /* @__PURE__ */ import_react73.default.createElement(Scatter, { data: scatterData, fill: NAVY5 }))), /* @__PURE__ */ import_react73.default.createElement("p", { className: "text-xs text-gray-500 mt-2 leading-relaxed" }, "Une association positive mod\xE9r\xE9e est observ\xE9e : les d\xE9cades les plus arros\xE9es co\xEFncident avec une progression plus rapide des superficies sem\xE9es."))
-    ), /* @__PURE__ */ import_react73.default.createElement(
-      ObjectiveGroup,
-      {
-        number: "2",
-        title: "Comparer la performance de rendement entre fili\xE8res et en identifier les d\xE9terminants",
-        indicator: "Rendement estim\xE9 (kg/ha)"
-      },
-      /* @__PURE__ */ import_react73.default.createElement(Card3, null, /* @__PURE__ */ import_react73.default.createElement(ResultHeader, { title: "Fili\xE8re suivie \xD7 Rendement estim\xE9", subtitle: "Analyse bivari\xE9e inf\xE9rentielle \xB7 ANOVA \xE0 un facteur \xB7 F = 4,82, p = 0,007, \u03B7\xB2 = 0,31", status: "adjusted" }), /* @__PURE__ */ import_react73.default.createElement(ResponsiveContainer, { width: "100%", height: 180 }, /* @__PURE__ */ import_react73.default.createElement(BarChart, { data: rendementParFiliere }, /* @__PURE__ */ import_react73.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react73.default.createElement(XAxis, { dataKey: "filiere", tick: { fontSize: 11 }, stroke: "#999" }), /* @__PURE__ */ import_react73.default.createElement(YAxis, { tick: { fontSize: 11 }, stroke: "#999", unit: " kg/ha", width: 70 }), /* @__PURE__ */ import_react73.default.createElement(Tooltip, null), /* @__PURE__ */ import_react73.default.createElement(Bar, { dataKey: "moyenne", radius: [6, 6, 0, 0] }, rendementParFiliere.map((d) => /* @__PURE__ */ import_react73.default.createElement(Cell, { key: d.filiere, fill: FILIERES2[d.filiere] })), /* @__PURE__ */ import_react73.default.createElement(ErrorBar, { dataKey: "ecart", width: 4, strokeWidth: 1.5, stroke: "#7A7A7A" })))), /* @__PURE__ */ import_react73.default.createElement("p", { className: "text-xs text-gray-500 mt-2 leading-relaxed" }, "Le rendement moyen diff\xE8re significativement selon la fili\xE8re suivie (p < 0,01). Le Manioc pr\xE9sente le rendement brut le plus \xE9lev\xE9, en coh\xE9rence avec les r\xE9f\xE9rentiels agronomiques de la zone.")),
-      /* @__PURE__ */ import_react73.default.createElement(Card3, null, /* @__PURE__ */ import_react73.default.createElement(ResultHeader, { title: "Mod\xE8le explicatif du rendement", subtitle: "Analyse multivari\xE9e \xB7 R\xE9gression lin\xE9aire multiple \xB7 R\xB2 = 0,58, R\xB2 ajust\xE9 = 0,54", status: "auto" }), /* @__PURE__ */ import_react73.default.createElement("table", { className: "w-full text-xs" }, /* @__PURE__ */ import_react73.default.createElement("thead", null, /* @__PURE__ */ import_react73.default.createElement("tr", { className: "text-left text-[10px] text-gray-400 uppercase border-b border-gray-100" }, /* @__PURE__ */ import_react73.default.createElement("th", { className: "py-2 font-medium" }, "Variable explicative"), /* @__PURE__ */ import_react73.default.createElement("th", { className: "py-2 font-medium" }, "Coefficient"), /* @__PURE__ */ import_react73.default.createElement("th", { className: "py-2 font-medium" }, "p-valeur"), /* @__PURE__ */ import_react73.default.createElement("th", { className: "py-2 font-medium" }, "Significativit\xE9"))), /* @__PURE__ */ import_react73.default.createElement("tbody", null, coefficients.map((c2) => /* @__PURE__ */ import_react73.default.createElement("tr", { key: c2.variable, className: "border-b border-gray-50 last:border-0" }, /* @__PURE__ */ import_react73.default.createElement("td", { className: "py-2 text-gray-800" }, c2.variable), /* @__PURE__ */ import_react73.default.createElement("td", { className: "py-2 text-gray-600" }, c2.coef), /* @__PURE__ */ import_react73.default.createElement("td", { className: "py-2 text-gray-600" }, c2.p), /* @__PURE__ */ import_react73.default.createElement("td", { className: "py-2" }, /* @__PURE__ */ import_react73.default.createElement(
-        "span",
-        {
-          className: "px-2 py-0.5 rounded-full text-[10px] font-medium",
-          style: c2.sig ? { background: GREEN_TINT2, color: GREEN2 } : { background: "#EDEEF3", color: "#6B7280" }
-        },
-        c2.sig ? "Significatif" : "Non significatif"
-      )))))))
-    ), /* @__PURE__ */ import_react73.default.createElement(Card3, { className: "border-2", style: { borderColor: GOLD4 } }, /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center gap-2 mb-2" }, /* @__PURE__ */ import_react73.default.createElement(Sparkles, { size: 16, style: { color: GOLD4 } }), /* @__PURE__ */ import_react73.default.createElement("h3", { className: "font-serif font-semibold text-sm", style: { color: NAVY5 } }, "6. Analyse \u2014 lecture crois\xE9e des r\xE9sultats")), /* @__PURE__ */ import_react73.default.createElement("p", { className: "text-xs text-gray-600 leading-relaxed mb-2" }, "La carte pluviom\xE9trique confirme un d\xE9ficit localis\xE9 sur Tchaourou et P\xE9r\xE8r\xE8 (58 et 61 mm cumul\xE9s, contre 83 mm en moyenne sur la zone), ce qui explique en grande partie le retard de semis constat\xE9 \xE0 l'Objectif 1 : ces deux communes affichent \xE0 la fois le cumul d\xE9cadaire le plus faible et la progression des superficies sem\xE9es la plus lente."), /* @__PURE__ */ import_react73.default.createElement("p", { className: "text-xs text-gray-600 leading-relaxed mb-2" }, "Ce d\xE9ficit pluviom\xE9trique se r\xE9percute directement sur l'\xE9cart de rendement inter-fili\xE8res mis en \xE9vidence par l'ANOVA (Objectif 2) : le coton, fili\xE8re la plus sensible au calendrier pluviom\xE9trique d\xE9cadaire et majoritairement cultiv\xE9 sur ces deux communes d\xE9ficitaires, affiche le rendement le plus faible de l'\xE9chantillon \u2014 la lecture crois\xE9e cartographie/statistiques permet ainsi de distinguer un effet climatique d'un effet propre \xE0 la fili\xE8re."), /* @__PURE__ */ import_react73.default.createElement("p", { className: "text-xs text-gray-600 leading-relaxed" }, "Ce constat rejoint la litt\xE9rature agro-climatique r\xE9gionale sur la sensibilit\xE9 des cultures pluviales aux r\xE9gimes d\xE9cadaires en zone soudano-guin\xE9enne ", /* @__PURE__ */ import_react73.default.createElement("em", null, "(r\xE9f\xE9rence institutionnelle ou acad\xE9mique \xE0 documenter lors de la r\xE9daction finale, conform\xE9ment au standard APA 7 retenu)"), ", et sugg\xE8re que l'acc\xE8s au cr\xE9dit agricole \u2014 variable significative du mod\xE8le de r\xE9gression \u2014 constitue un levier d'att\xE9nuation partiel du risque climatique.")), /* @__PURE__ */ import_react73.default.createElement(Card3, { className: "border-2", style: { borderColor: "#3E9C6B" } }, /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center gap-2 mb-2" }, /* @__PURE__ */ import_react73.default.createElement(ShieldCheck, { size: 16, style: { color: GREEN2 } }), /* @__PURE__ */ import_react73.default.createElement("h3", { className: "font-serif font-semibold text-sm", style: { color: NAVY5 } }, "7. Recommandations")), /* @__PURE__ */ import_react73.default.createElement("ul", { className: "text-xs text-gray-600 leading-relaxed space-y-1.5 list-disc pl-4" }, /* @__PURE__ */ import_react73.default.createElement("li", null, "Prioriser l'appui-conseil et la distribution d'intrants coton sur les communes de Tchaourou et P\xE9r\xE8r\xE8 avant la d\xE9cade 4, en r\xE9ponse au retard de semis constat\xE9."), /* @__PURE__ */ import_react73.default.createElement("li", null, "Renforcer l'acc\xE8s au cr\xE9dit agricole en zone cotonni\xE8re, ce facteur ayant montr\xE9 un effet significatif sur le rendement dans le mod\xE8le explicatif."), /* @__PURE__ */ import_react73.default.createElement("li", null, "Int\xE9grer un suivi pluviom\xE9trique d\xE9cadaire syst\xE9matique (Module 7) dans les prochains cycles de collecte, afin d'anticiper les \xE9carts de calendrier cultural.")))), /* @__PURE__ */ import_react73.default.createElement("div", { className: "space-y-4" }, /* @__PURE__ */ import_react73.default.createElement(Card3, null, /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center gap-2 mb-3" }, /* @__PURE__ */ import_react73.default.createElement(ListChecks, { size: 16, style: { color: NAVY5 } }), /* @__PURE__ */ import_react73.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY5 } }, "Sommaire du rapport")), /* @__PURE__ */ import_react73.default.createElement("div", { className: "space-y-1.5" }, reportSections.map((s2) => /* @__PURE__ */ import_react73.default.createElement("label", { key: s2, className: "flex items-center gap-2 text-xs text-gray-700 cursor-pointer" }, /* @__PURE__ */ import_react73.default.createElement(
+      "Aller \xE0 la configuration des analyses"
+    )) : /* @__PURE__ */ import_react73.default.createElement(import_react73.default.Fragment, null, !dataset && /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-start gap-2 rounded-xl p-3", style: { background: AMBER_TINT2 } }, /* @__PURE__ */ import_react73.default.createElement(Info, { size: 14, style: { color: AMBER2 }, className: "mt-0.5 shrink-0" }), /* @__PURE__ */ import_react73.default.createElement("p", { className: "text-xs", style: { color: AMBER2 } }, "Aucune base de donn\xE9es r\xE9elle n'est actuellement import\xE9e : les analyses ci-dessous sont pr\xE9sent\xE9es \xE0 titre d'exemple. Importez un fichier via l'assistant d'import pour des r\xE9sultats calcul\xE9s sur vos propres donn\xE9es.")), queue.map((item, i) => /* @__PURE__ */ import_react73.default.createElement(AnalysisResultCard, { key: item.id || i, item, dataset, index: i })), /* @__PURE__ */ import_react73.default.createElement(Card3, { className: "border-2", style: { borderColor: GOLD4 } }, /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center gap-2 mb-2" }, /* @__PURE__ */ import_react73.default.createElement(Sparkles, { size: 16, style: { color: GOLD4 } }), /* @__PURE__ */ import_react73.default.createElement("h3", { className: "font-serif font-semibold text-sm", style: { color: NAVY5 } }, "6. Analyse")), /* @__PURE__ */ import_react73.default.createElement("p", { className: "text-xs text-gray-600 leading-relaxed mb-2" }, "Sur les ", queue.length, " analyse", queue.length > 1 ? "s" : "", " configur\xE9e", queue.length > 1 ? "s" : "", ", ", significantCount, " pr\xE9sente", significantCount > 1 ? "nt" : "", " un r\xE9sultat statistiquement significatif au seuil de 5 %.", dataset ? "" : " Ce constat porte sur des donn\xE9es d'exemple et non sur une base r\xE9ellement import\xE9e."), /* @__PURE__ */ import_react73.default.createElement("p", { className: "text-xs text-gray-500 leading-relaxed italic" }, "La discussion approfondie de ces r\xE9sultats \u2014 mise en regard avec la litt\xE9rature scientifique ou les rapports institutionnels pertinents, conform\xE9ment au standard APA 7 retenu \u2014 rel\xE8ve de l'analyste et n'est pas g\xE9n\xE9r\xE9e automatiquement, afin d'\xE9viter toute interpr\xE9tation causale non fond\xE9e.")), /* @__PURE__ */ import_react73.default.createElement(Card3, { className: "border-2", style: { borderColor: "#3E9C6B" } }, /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center gap-2 mb-2" }, /* @__PURE__ */ import_react73.default.createElement(ShieldCheck, { size: 16, style: { color: GREEN2 } }), /* @__PURE__ */ import_react73.default.createElement("h3", { className: "font-serif font-semibold text-sm", style: { color: NAVY5 } }, "7. Recommandations")), /* @__PURE__ */ import_react73.default.createElement("p", { className: "text-xs text-gray-500 leading-relaxed italic" }, "Section \xE0 compl\xE9ter par l'analyste, sur la base des constats de la section Analyse ci-dessus et du contexte propre \xE0 l'\xE9tude (section 4.2 du cahier des charges).")))), /* @__PURE__ */ import_react73.default.createElement("div", { className: "space-y-4" }, /* @__PURE__ */ import_react73.default.createElement(Card3, null, /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center gap-2 mb-3" }, /* @__PURE__ */ import_react73.default.createElement(ListChecks, { size: 16, style: { color: NAVY5 } }), /* @__PURE__ */ import_react73.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY5 } }, "Sommaire du rapport")), /* @__PURE__ */ import_react73.default.createElement("div", { className: "space-y-1.5" }, reportSections.map((s2) => /* @__PURE__ */ import_react73.default.createElement("label", { key: s2, className: "flex items-center gap-2 text-xs text-gray-700 cursor-pointer" }, /* @__PURE__ */ import_react73.default.createElement(
       "input",
       {
         type: "checkbox",
@@ -99607,7 +99596,7 @@ ${suffix2}`;
         className: "w-3.5 h-3.5 rounded",
         style: { accentColor: NAVY5 }
       }
-    ), s2)))), /* @__PURE__ */ import_react73.default.createElement(Card3, null, /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center gap-2 mb-3" }, /* @__PURE__ */ import_react73.default.createElement(Paperclip, { size: 16, style: { color: NAVY5 } }), /* @__PURE__ */ import_react73.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY5 } }, "Annexe automatique")), /* @__PURE__ */ import_react73.default.createElement("p", { className: "text-[11px] text-gray-400 mb-3" }, "Tableaux consolid\xE9s automatiquement, horodat\xE9s (Module 6)."), /* @__PURE__ */ import_react73.default.createElement("div", { className: "space-y-2" }, annexTables.map((t) => /* @__PURE__ */ import_react73.default.createElement("div", { key: t.id, className: "rounded-xl border border-gray-100 p-2.5" }, /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center justify-between" }, /* @__PURE__ */ import_react73.default.createElement("span", { className: "text-[11px] font-semibold", style: { color: NAVY5 } }, "Tableau ", t.id), /* @__PURE__ */ import_react73.default.createElement("span", { className: "text-[10px] text-gray-400" }, t.time)), /* @__PURE__ */ import_react73.default.createElement("div", { className: "text-[11px] text-gray-600 mt-0.5" }, t.title), /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center gap-1.5 mt-1.5" }, /* @__PURE__ */ import_react73.default.createElement("span", { className: "text-[10px] px-1.5 py-0.5 rounded-full", style: { background: NAVY_TINT2, color: NAVY5 } }, t.type), /* @__PURE__ */ import_react73.default.createElement(StatusBadge, { status: t.status })))))), /* @__PURE__ */ import_react73.default.createElement(Card3, null, /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center gap-2 mb-3" }, /* @__PURE__ */ import_react73.default.createElement(Sparkles, { size: 16, style: { color: GOLD4 } }), /* @__PURE__ */ import_react73.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY5 } }, "G\xE9n\xE9ration")), /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center gap-2 mb-3 text-xs" }, /* @__PURE__ */ import_react73.default.createElement(ShieldCheck, { size: 13, style: { color: GREEN2 } }), /* @__PURE__ */ import_react73.default.createElement("span", { className: "text-gray-500" }, "Th\xE8me : ", /* @__PURE__ */ import_react73.default.createElement("span", { className: "font-medium", style: { color: NAVY5 } }, "Ocean Depths / Terre & Moisson"))), /* @__PURE__ */ import_react73.default.createElement("div", { className: "grid grid-cols-2 gap-2 mb-4" }, /* @__PURE__ */ import_react73.default.createElement(
+    ), s2)))), /* @__PURE__ */ import_react73.default.createElement(Card3, null, /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center gap-2 mb-3" }, /* @__PURE__ */ import_react73.default.createElement(Paperclip, { size: 16, style: { color: NAVY5 } }), /* @__PURE__ */ import_react73.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY5 } }, "Annexe automatique")), /* @__PURE__ */ import_react73.default.createElement("p", { className: "text-[11px] text-gray-400 mb-3" }, "Tableaux consolid\xE9s automatiquement \xE0 partir de la file d'analyses (Module 6)."), /* @__PURE__ */ import_react73.default.createElement("div", { className: "space-y-2" }, queue.length === 0 && /* @__PURE__ */ import_react73.default.createElement("p", { className: "text-xs text-gray-400 italic" }, "Aucun tableau pour l'instant."), queue.map((item, i) => /* @__PURE__ */ import_react73.default.createElement("div", { key: item.id || i, className: "rounded-xl border border-gray-100 p-2.5" }, /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center justify-between" }, /* @__PURE__ */ import_react73.default.createElement("span", { className: "text-[11px] font-semibold", style: { color: NAVY5 } }, "Tableau A", i + 1)), /* @__PURE__ */ import_react73.default.createElement("div", { className: "text-[11px] text-gray-600 mt-0.5" }, item.test, " \u2014 ", item.label), /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center gap-1.5 mt-1.5" }, /* @__PURE__ */ import_react73.default.createElement(StatusBadge, { status: item.status })))))), /* @__PURE__ */ import_react73.default.createElement(Card3, null, /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center gap-2 mb-3" }, /* @__PURE__ */ import_react73.default.createElement(Sparkles, { size: 16, style: { color: GOLD4 } }), /* @__PURE__ */ import_react73.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY5 } }, "G\xE9n\xE9ration")), /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center gap-2 mb-3 text-xs" }, /* @__PURE__ */ import_react73.default.createElement(ShieldCheck, { size: 13, style: { color: GREEN2 } }), /* @__PURE__ */ import_react73.default.createElement("span", { className: "text-gray-500" }, "Th\xE8me : ", /* @__PURE__ */ import_react73.default.createElement("span", { className: "font-medium", style: { color: NAVY5 } }, "Ocean Depths / Terre & Moisson"))), /* @__PURE__ */ import_react73.default.createElement("div", { className: "grid grid-cols-2 gap-2 mb-4" }, /* @__PURE__ */ import_react73.default.createElement(
       "button",
       {
         onClick: () => setFormat("docx"),
@@ -99628,7 +99617,9 @@ ${suffix2}`;
     )), /* @__PURE__ */ import_react73.default.createElement(
       "button",
       {
-        className: "w-full px-4 py-2.5 rounded-xl text-sm font-medium flex items-center justify-center gap-1.5 text-white shadow-md",
+        disabled: queue.length === 0,
+        title: "G\xE9n\xE9ration du document final : \xE0 venir",
+        className: "w-full px-4 py-2.5 rounded-xl text-sm font-medium flex items-center justify-center gap-1.5 text-white shadow-md disabled:opacity-40 disabled:cursor-not-allowed",
         style: { background: `linear-gradient(135deg, #3E9C6B, ${GREEN2})` }
       },
       /* @__PURE__ */ import_react73.default.createElement(Layers, { size: 14 }),
@@ -99640,7 +99631,7 @@ ${suffix2}`;
   var import_react74 = __toESM(require_react());
   var NAVY6 = "#1F3864";
   var GOLD5 = "#C99A2E";
-  var FILIERES3 = {
+  var FILIERES2 = {
     Soja: "#3E9C6B",
     Ma\u00EFs: "#F0AC1B",
     Riz: "#3592C4",
@@ -99667,7 +99658,7 @@ ${suffix2}`;
   ];
   var SURVEY_POINTS = COMMUNES.flatMap(
     (c2, ci) => Array.from({ length: 4 }).map((_, i) => {
-      const filieres = Object.keys(FILIERES3);
+      const filieres = Object.keys(FILIERES2);
       return {
         id: `${c2.name}-${i}`,
         x: c2.x + ((ci + i) % 5 - 2) * 3.2,
@@ -99676,7 +99667,7 @@ ${suffix2}`;
       };
     })
   );
-  function rainColor2(mm) {
+  function rainColor(mm) {
     if (mm < 65) return "#C99A2E";
     if (mm < 80) return "#8FAECB";
     if (mm < 95) return "#4A7AB5";
@@ -99727,7 +99718,7 @@ ${suffix2}`;
   function Cartographie({ active, onNavigate, userEmail, roleLabel, isAdmin, isGuest, onLogout, onOpenAdmin, dataset }) {
     const [layer, setLayer] = (0, import_react74.useState)("points");
     const [indicateur, setIndicateur] = (0, import_react74.useState)("taux");
-    const [filieres, setFilieres] = (0, import_react74.useState)(Object.keys(FILIERES3));
+    const [filieres, setFilieres] = (0, import_react74.useState)(Object.keys(FILIERES2));
     const toggleFiliere = (f) => setFilieres((prev) => prev.includes(f) ? prev.filter((x2) => x2 !== f) : [...prev, f]);
     const indicateurLabel = { taux: "Taux de r\xE9alisation (%)", rendement: "Rendement moyen (kg/ha)", anomalies: "Anomalies d\xE9tect\xE9es" }[indicateur];
     const indicateurValue = (c2) => indicateur === "taux" ? `${c2.taux}%` : indicateur === "rendement" ? `${c2.rendement}` : c2.anomalies;
@@ -99807,7 +99798,7 @@ ${suffix2}`;
       /* @__PURE__ */ import_react74.default.createElement("option", { value: "taux" }, "Taux de r\xE9alisation (%)"),
       /* @__PURE__ */ import_react74.default.createElement("option", { value: "rendement" }, "Rendement moyen (kg/ha)"),
       /* @__PURE__ */ import_react74.default.createElement("option", { value: "anomalies" }, "Anomalies d\xE9tect\xE9es")
-    )), /* @__PURE__ */ import_react74.default.createElement("div", { className: "relative rounded-xl bg-[#F7F9FC] border border-gray-100", style: { height: 460 } }, layer === "points" && !hasRealGeo ? /* @__PURE__ */ import_react74.default.createElement("div", { className: "w-full h-full flex flex-col items-center justify-center text-center px-8" }, /* @__PURE__ */ import_react74.default.createElement(MapPin, { size: 32, className: "text-gray-300 mb-3" }), /* @__PURE__ */ import_react74.default.createElement("p", { className: "text-sm font-medium text-gray-500" }, "Aucune donn\xE9e de g\xE9or\xE9f\xE9rencement disponible"), /* @__PURE__ */ import_react74.default.createElement("p", { className: "text-xs text-gray-400 mt-1 max-w-sm" }, dataset ? "La base import\xE9e ne contient pas de colonnes de latitude/longitude exploitables. Importez une base incluant des coordonn\xE9es GPS pour activer la cartographie des points d'enqu\xEAte." : "Importez d'abord une base de donn\xE9es via l'assistant d'import (\xE9tape \xAB Base de donn\xE9es \xBB).")) : /* @__PURE__ */ import_react74.default.createElement(import_react74.default.Fragment, null, /* @__PURE__ */ import_react74.default.createElement("svg", { viewBox: "0 0 100 100", className: "w-full h-full" }, layer === "points" && hasRealGeo && realPoints.map((pt) => /* @__PURE__ */ import_react74.default.createElement("circle", { key: pt.id, cx: pt.x, cy: pt.y, r: 1.6, fill: pt.color, opacity: 0.85, stroke: "white", strokeWidth: 0.3 })), layer === "choropleth" && COMMUNES.map((c2) => /* @__PURE__ */ import_react74.default.createElement("g", { key: c2.name }, /* @__PURE__ */ import_react74.default.createElement("circle", { cx: c2.x, cy: c2.y, r: 9, fill: indicateurColor(c2), opacity: 0.88 }), /* @__PURE__ */ import_react74.default.createElement("circle", { cx: c2.x, cy: c2.y, r: 9, fill: "none", stroke: "white", strokeWidth: 0.6 }), /* @__PURE__ */ import_react74.default.createElement("text", { x: c2.x, y: c2.y - 12, fontSize: "3.4", textAnchor: "middle", fill: "#4A5568", fontWeight: "600" }, c2.name), /* @__PURE__ */ import_react74.default.createElement("text", { x: c2.x, y: c2.y + 1.2, fontSize: "3", textAnchor: "middle", fill: "white", fontWeight: "700" }, indicateurValue(c2)))), layer === "isohyet" && COMMUNES.map((c2) => /* @__PURE__ */ import_react74.default.createElement("g", { key: c2.name }, /* @__PURE__ */ import_react74.default.createElement("circle", { cx: c2.x, cy: c2.y, r: 11, fill: rainColor2(c2.mm), opacity: 0.25 }), /* @__PURE__ */ import_react74.default.createElement("circle", { cx: c2.x, cy: c2.y, r: 7, fill: rainColor2(c2.mm), opacity: 0.9 }), /* @__PURE__ */ import_react74.default.createElement("circle", { cx: c2.x, cy: c2.y, r: 7, fill: "none", stroke: "white", strokeWidth: 0.6 }), /* @__PURE__ */ import_react74.default.createElement("text", { x: c2.x, y: c2.y - 13, fontSize: "3.4", textAnchor: "middle", fill: "#4A5568", fontWeight: "600" }, c2.name), /* @__PURE__ */ import_react74.default.createElement("text", { x: c2.x, y: c2.y + 1.2, fontSize: "3", textAnchor: "middle", fill: "white", fontWeight: "700" }, c2.mm)))), /* @__PURE__ */ import_react74.default.createElement("span", { className: "absolute bottom-2 right-3 text-[9px] text-gray-400 italic" }, layer === "isohyet" ? "Interpolation IDW \u2014 illustrative" : hasRealGeo ? `Projection lin\xE9aire des coordonn\xE9es r\xE9elles (${latCol.name}/${lonCol.name})` : "Position illustrative \u2014 non g\xE9or\xE9f\xE9renc\xE9e \xE0 l'\xE9chelle"))), layer === "points" && hasRealGeo && /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex flex-wrap gap-3 mt-4" }, colorCol ? colorCol.modalites.map((m) => /* @__PURE__ */ import_react74.default.createElement("div", { key: m, className: "flex items-center gap-1.5 text-[11px] text-gray-600" }, /* @__PURE__ */ import_react74.default.createElement("span", { className: "w-2.5 h-2.5 rounded-full", style: { background: realColorMap[m] } }), " ", m)) : /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex items-center gap-1.5 text-[11px] text-gray-600" }, /* @__PURE__ */ import_react74.default.createElement("span", { className: "w-2.5 h-2.5 rounded-full", style: { background: NAVY6 } }), " Points d'enqu\xEAte (", realPoints.length, ")")), layer === "choropleth" && /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex items-center gap-4 mt-4" }, /* @__PURE__ */ import_react74.default.createElement("span", { className: "text-[11px] text-gray-500" }, indicateurLabel, " :"), /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex items-center gap-1.5 text-[11px] text-gray-600" }, /* @__PURE__ */ import_react74.default.createElement("span", { className: "w-2.5 h-2.5 rounded-full", style: { background: "#C1573F" } }), " Faible"), /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex items-center gap-1.5 text-[11px] text-gray-600" }, /* @__PURE__ */ import_react74.default.createElement("span", { className: "w-2.5 h-2.5 rounded-full", style: { background: "#E3A23B" } }), " Interm\xE9diaire"), /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex items-center gap-1.5 text-[11px] text-gray-600" }, /* @__PURE__ */ import_react74.default.createElement("span", { className: "w-2.5 h-2.5 rounded-full", style: { background: "#3E9C6B" } }), " Satisfaisant")), layer === "isohyet" && /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex items-center gap-4 mt-4 flex-wrap" }, /* @__PURE__ */ import_react74.default.createElement("span", { className: "text-[11px] text-gray-500" }, "Cumul d\xE9cadaire (mm) :"), [["#C99A2E", "< 65"], ["#8FAECB", "65\u201380"], ["#4A7AB5", "80\u201395"], ["#1F3864", "\u2265 95"]].map(([c2, l]) => /* @__PURE__ */ import_react74.default.createElement("div", { key: l, className: "flex items-center gap-1.5 text-[11px] text-gray-600" }, /* @__PURE__ */ import_react74.default.createElement("span", { className: "w-2.5 h-2.5 rounded-full", style: { background: c2 } }), " ", l))))), /* @__PURE__ */ import_react74.default.createElement("div", { className: "space-y-4" }, /* @__PURE__ */ import_react74.default.createElement(Card4, null, /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex items-center gap-2 mb-3" }, /* @__PURE__ */ import_react74.default.createElement(Funnel, { size: 16, style: { color: NAVY6 } }), /* @__PURE__ */ import_react74.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY6 } }, "Filtres")), /* @__PURE__ */ import_react74.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Fili\xE8re"), /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex flex-wrap gap-2 mb-4" }, Object.entries(FILIERES3).map(([f, c2]) => /* @__PURE__ */ import_react74.default.createElement(Chip2, { key: f, label: f, active: filieres.includes(f), onClick: () => toggleFiliere(f), color: c2 }))), /* @__PURE__ */ import_react74.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "P\xE9riode"), /* @__PURE__ */ import_react74.default.createElement("select", { className: "w-full text-sm rounded-xl border border-gray-200 p-2.5 focus:outline-none focus:ring-2", style: { "--tw-ring-color": GOLD5 } }, /* @__PURE__ */ import_react74.default.createElement("option", null, "D\xE9cade 3 \u2014 Juillet 2026"), /* @__PURE__ */ import_react74.default.createElement("option", null, "D\xE9cade 2 \u2014 Juillet 2026"), /* @__PURE__ */ import_react74.default.createElement("option", null, "D\xE9cade 1 \u2014 Juillet 2026"))), /* @__PURE__ */ import_react74.default.createElement(Card4, null, /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex items-center gap-2 mb-1" }, /* @__PURE__ */ import_react74.default.createElement(MapPin, { size: 16, style: { color: NAVY6 } }), /* @__PURE__ */ import_react74.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY6 } }, "Communes en alerte")), /* @__PURE__ */ import_react74.default.createElement("p", { className: "text-[11px] text-gray-400 mb-3" }, "Selon l'indicateur actuellement affich\xE9"), /* @__PURE__ */ import_react74.default.createElement("div", { className: "space-y-2" }, COMMUNES.filter((c2) => c2.taux < 70 || c2.anomalies > 1).map((c2) => /* @__PURE__ */ import_react74.default.createElement("div", { key: c2.name, className: "flex items-center justify-between rounded-xl border border-gray-100 p-2.5" }, /* @__PURE__ */ import_react74.default.createElement("span", { className: "text-xs font-medium text-gray-700" }, c2.name), /* @__PURE__ */ import_react74.default.createElement("span", { className: "text-[11px] font-semibold px-2 py-0.5 rounded-full", style: { background: "#FBE7E5", color: "#B3413A" } }, c2.taux, "% r\xE9alis\xE9"))))), /* @__PURE__ */ import_react74.default.createElement(Card4, null, /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex items-center gap-2 mb-3" }, /* @__PURE__ */ import_react74.default.createElement(FileOutput, { size: 16, style: { color: GOLD5 } }), /* @__PURE__ */ import_react74.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY6 } }, "Export")), /* @__PURE__ */ import_react74.default.createElement(
+    )), /* @__PURE__ */ import_react74.default.createElement("div", { className: "relative rounded-xl bg-[#F7F9FC] border border-gray-100", style: { height: 460 } }, layer === "points" && !hasRealGeo ? /* @__PURE__ */ import_react74.default.createElement("div", { className: "w-full h-full flex flex-col items-center justify-center text-center px-8" }, /* @__PURE__ */ import_react74.default.createElement(MapPin, { size: 32, className: "text-gray-300 mb-3" }), /* @__PURE__ */ import_react74.default.createElement("p", { className: "text-sm font-medium text-gray-500" }, "Aucune donn\xE9e de g\xE9or\xE9f\xE9rencement disponible"), /* @__PURE__ */ import_react74.default.createElement("p", { className: "text-xs text-gray-400 mt-1 max-w-sm" }, dataset ? "La base import\xE9e ne contient pas de colonnes de latitude/longitude exploitables. Importez une base incluant des coordonn\xE9es GPS pour activer la cartographie des points d'enqu\xEAte." : "Importez d'abord une base de donn\xE9es via l'assistant d'import (\xE9tape \xAB Base de donn\xE9es \xBB).")) : /* @__PURE__ */ import_react74.default.createElement(import_react74.default.Fragment, null, /* @__PURE__ */ import_react74.default.createElement("svg", { viewBox: "0 0 100 100", className: "w-full h-full" }, layer === "points" && hasRealGeo && realPoints.map((pt) => /* @__PURE__ */ import_react74.default.createElement("circle", { key: pt.id, cx: pt.x, cy: pt.y, r: 1.6, fill: pt.color, opacity: 0.85, stroke: "white", strokeWidth: 0.3 })), layer === "choropleth" && COMMUNES.map((c2) => /* @__PURE__ */ import_react74.default.createElement("g", { key: c2.name }, /* @__PURE__ */ import_react74.default.createElement("circle", { cx: c2.x, cy: c2.y, r: 9, fill: indicateurColor(c2), opacity: 0.88 }), /* @__PURE__ */ import_react74.default.createElement("circle", { cx: c2.x, cy: c2.y, r: 9, fill: "none", stroke: "white", strokeWidth: 0.6 }), /* @__PURE__ */ import_react74.default.createElement("text", { x: c2.x, y: c2.y - 12, fontSize: "3.4", textAnchor: "middle", fill: "#4A5568", fontWeight: "600" }, c2.name), /* @__PURE__ */ import_react74.default.createElement("text", { x: c2.x, y: c2.y + 1.2, fontSize: "3", textAnchor: "middle", fill: "white", fontWeight: "700" }, indicateurValue(c2)))), layer === "isohyet" && COMMUNES.map((c2) => /* @__PURE__ */ import_react74.default.createElement("g", { key: c2.name }, /* @__PURE__ */ import_react74.default.createElement("circle", { cx: c2.x, cy: c2.y, r: 11, fill: rainColor(c2.mm), opacity: 0.25 }), /* @__PURE__ */ import_react74.default.createElement("circle", { cx: c2.x, cy: c2.y, r: 7, fill: rainColor(c2.mm), opacity: 0.9 }), /* @__PURE__ */ import_react74.default.createElement("circle", { cx: c2.x, cy: c2.y, r: 7, fill: "none", stroke: "white", strokeWidth: 0.6 }), /* @__PURE__ */ import_react74.default.createElement("text", { x: c2.x, y: c2.y - 13, fontSize: "3.4", textAnchor: "middle", fill: "#4A5568", fontWeight: "600" }, c2.name), /* @__PURE__ */ import_react74.default.createElement("text", { x: c2.x, y: c2.y + 1.2, fontSize: "3", textAnchor: "middle", fill: "white", fontWeight: "700" }, c2.mm)))), /* @__PURE__ */ import_react74.default.createElement("span", { className: "absolute bottom-2 right-3 text-[9px] text-gray-400 italic" }, layer === "isohyet" ? "Interpolation IDW \u2014 illustrative" : hasRealGeo ? `Projection lin\xE9aire des coordonn\xE9es r\xE9elles (${latCol.name}/${lonCol.name})` : "Position illustrative \u2014 non g\xE9or\xE9f\xE9renc\xE9e \xE0 l'\xE9chelle"))), layer === "points" && hasRealGeo && /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex flex-wrap gap-3 mt-4" }, colorCol ? colorCol.modalites.map((m) => /* @__PURE__ */ import_react74.default.createElement("div", { key: m, className: "flex items-center gap-1.5 text-[11px] text-gray-600" }, /* @__PURE__ */ import_react74.default.createElement("span", { className: "w-2.5 h-2.5 rounded-full", style: { background: realColorMap[m] } }), " ", m)) : /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex items-center gap-1.5 text-[11px] text-gray-600" }, /* @__PURE__ */ import_react74.default.createElement("span", { className: "w-2.5 h-2.5 rounded-full", style: { background: NAVY6 } }), " Points d'enqu\xEAte (", realPoints.length, ")")), layer === "choropleth" && /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex items-center gap-4 mt-4" }, /* @__PURE__ */ import_react74.default.createElement("span", { className: "text-[11px] text-gray-500" }, indicateurLabel, " :"), /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex items-center gap-1.5 text-[11px] text-gray-600" }, /* @__PURE__ */ import_react74.default.createElement("span", { className: "w-2.5 h-2.5 rounded-full", style: { background: "#C1573F" } }), " Faible"), /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex items-center gap-1.5 text-[11px] text-gray-600" }, /* @__PURE__ */ import_react74.default.createElement("span", { className: "w-2.5 h-2.5 rounded-full", style: { background: "#E3A23B" } }), " Interm\xE9diaire"), /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex items-center gap-1.5 text-[11px] text-gray-600" }, /* @__PURE__ */ import_react74.default.createElement("span", { className: "w-2.5 h-2.5 rounded-full", style: { background: "#3E9C6B" } }), " Satisfaisant")), layer === "isohyet" && /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex items-center gap-4 mt-4 flex-wrap" }, /* @__PURE__ */ import_react74.default.createElement("span", { className: "text-[11px] text-gray-500" }, "Cumul d\xE9cadaire (mm) :"), [["#C99A2E", "< 65"], ["#8FAECB", "65\u201380"], ["#4A7AB5", "80\u201395"], ["#1F3864", "\u2265 95"]].map(([c2, l]) => /* @__PURE__ */ import_react74.default.createElement("div", { key: l, className: "flex items-center gap-1.5 text-[11px] text-gray-600" }, /* @__PURE__ */ import_react74.default.createElement("span", { className: "w-2.5 h-2.5 rounded-full", style: { background: c2 } }), " ", l))))), /* @__PURE__ */ import_react74.default.createElement("div", { className: "space-y-4" }, /* @__PURE__ */ import_react74.default.createElement(Card4, null, /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex items-center gap-2 mb-3" }, /* @__PURE__ */ import_react74.default.createElement(Funnel, { size: 16, style: { color: NAVY6 } }), /* @__PURE__ */ import_react74.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY6 } }, "Filtres")), /* @__PURE__ */ import_react74.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Fili\xE8re"), /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex flex-wrap gap-2 mb-4" }, Object.entries(FILIERES2).map(([f, c2]) => /* @__PURE__ */ import_react74.default.createElement(Chip2, { key: f, label: f, active: filieres.includes(f), onClick: () => toggleFiliere(f), color: c2 }))), /* @__PURE__ */ import_react74.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "P\xE9riode"), /* @__PURE__ */ import_react74.default.createElement("select", { className: "w-full text-sm rounded-xl border border-gray-200 p-2.5 focus:outline-none focus:ring-2", style: { "--tw-ring-color": GOLD5 } }, /* @__PURE__ */ import_react74.default.createElement("option", null, "D\xE9cade 3 \u2014 Juillet 2026"), /* @__PURE__ */ import_react74.default.createElement("option", null, "D\xE9cade 2 \u2014 Juillet 2026"), /* @__PURE__ */ import_react74.default.createElement("option", null, "D\xE9cade 1 \u2014 Juillet 2026"))), /* @__PURE__ */ import_react74.default.createElement(Card4, null, /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex items-center gap-2 mb-1" }, /* @__PURE__ */ import_react74.default.createElement(MapPin, { size: 16, style: { color: NAVY6 } }), /* @__PURE__ */ import_react74.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY6 } }, "Communes en alerte")), /* @__PURE__ */ import_react74.default.createElement("p", { className: "text-[11px] text-gray-400 mb-3" }, "Selon l'indicateur actuellement affich\xE9"), /* @__PURE__ */ import_react74.default.createElement("div", { className: "space-y-2" }, COMMUNES.filter((c2) => c2.taux < 70 || c2.anomalies > 1).map((c2) => /* @__PURE__ */ import_react74.default.createElement("div", { key: c2.name, className: "flex items-center justify-between rounded-xl border border-gray-100 p-2.5" }, /* @__PURE__ */ import_react74.default.createElement("span", { className: "text-xs font-medium text-gray-700" }, c2.name), /* @__PURE__ */ import_react74.default.createElement("span", { className: "text-[11px] font-semibold px-2 py-0.5 rounded-full", style: { background: "#FBE7E5", color: "#B3413A" } }, c2.taux, "% r\xE9alis\xE9"))))), /* @__PURE__ */ import_react74.default.createElement(Card4, null, /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex items-center gap-2 mb-3" }, /* @__PURE__ */ import_react74.default.createElement(FileOutput, { size: 16, style: { color: GOLD5 } }), /* @__PURE__ */ import_react74.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY6 } }, "Export")), /* @__PURE__ */ import_react74.default.createElement(
       "button",
       {
         className: "w-full mb-2 px-4 py-2.5 rounded-xl text-sm font-medium flex items-center justify-center gap-1.5 bg-white border",
@@ -100106,6 +100097,7 @@ ${suffix2}`;
     const [showAdmin, setShowAdmin] = (0, import_react79.useState)(false);
     const [guestMode, setGuestMode] = (0, import_react79.useState)(false);
     const [dataset, setDataset] = (0, import_react79.useState)(null);
+    const [analysisQueue, setAnalysisQueue] = (0, import_react79.useState)([]);
     (0, import_react79.useEffect)(() => {
       if (!isSupabaseConfigured) {
         setSession(null);
@@ -100168,7 +100160,9 @@ ${suffix2}`;
         onLogout: handleTopRightLogout,
         onOpenAdmin: () => setShowAdmin(true),
         dataset,
-        onDatasetParsed: setDataset
+        onDatasetParsed: setDataset,
+        analysisQueue,
+        onAnalysisQueueChange: setAnalysisQueue
       }
     ));
   }
@@ -100300,7 +100294,6 @@ lucide-react/dist/esm/icons/circle-check.mjs:
 lucide-react/dist/esm/icons/circle-x.mjs:
 lucide-react/dist/esm/icons/clipboard-list.mjs:
 lucide-react/dist/esm/icons/clock.mjs:
-lucide-react/dist/esm/icons/cloud-rain.mjs:
 lucide-react/dist/esm/icons/download.mjs:
 lucide-react/dist/esm/icons/droplets.mjs:
 lucide-react/dist/esm/icons/ellipsis.mjs:
@@ -100312,6 +100305,7 @@ lucide-react/dist/esm/icons/file-text.mjs:
 lucide-react/dist/esm/icons/file-type-corner.mjs:
 lucide-react/dist/esm/icons/folder-kanban.mjs:
 lucide-react/dist/esm/icons/funnel.mjs:
+lucide-react/dist/esm/icons/inbox.mjs:
 lucide-react/dist/esm/icons/info.mjs:
 lucide-react/dist/esm/icons/layers.mjs:
 lucide-react/dist/esm/icons/layout-dashboard.mjs:
@@ -100328,7 +100322,6 @@ lucide-react/dist/esm/icons/shield-check.mjs:
 lucide-react/dist/esm/icons/sigma.mjs:
 lucide-react/dist/esm/icons/sparkles.mjs:
 lucide-react/dist/esm/icons/sun.mjs:
-lucide-react/dist/esm/icons/thermometer.mjs:
 lucide-react/dist/esm/icons/trash-2.mjs:
 lucide-react/dist/esm/icons/trending-up.mjs:
 lucide-react/dist/esm/icons/triangle-alert.mjs:

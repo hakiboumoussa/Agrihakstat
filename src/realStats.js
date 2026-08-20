@@ -253,7 +253,7 @@ export function chiSquareTest(rows, colX, colY) {
   const p = chiSquarePValue(chi2, df);
   const cramersV = Math.sqrt(chi2 / (grandTotal * (Math.min(xList.length, yList.length) - 1)));
 
-  return { chi2, df, p, cramersV, n: grandTotal, pctCellsBelow5: (cellsBelow5 / totalCells) * 100 };
+  return { chi2, df, p, cramersV, n: grandTotal, pctCellsBelow5: (cellsBelow5 / totalCells) * 100, table, xList, yList, rowTotals, colTotals };
 }
 
 // Test de Levene simplifié (Brown-Forsythe) : ANOVA sur les écarts absolus à la médiane de chaque groupe

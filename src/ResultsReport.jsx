@@ -2,13 +2,17 @@ import React, { useState } from "react";
 import {
   LayoutDashboard, ClipboardList, BarChart3, FileText, Settings, Sprout,
   Bell, ChevronDown, Check, Pencil, FileDown, FileType2, Layers,
-  ListChecks, Paperclip, Sparkles, ShieldCheck, CloudRain, Thermometer, MapPin,
+  ListChecks, Paperclip, Sparkles, ShieldCheck, MapPin, Info, Inbox,
 } from "lucide-react";
 import UserMenu from "./UserMenu.jsx";
 import {
   BarChart, Bar, ErrorBar, ScatterChart, Scatter, XAxis, YAxis, CartesianGrid,
   Tooltip, ResponsiveContainer, Cell,
 } from "recharts";
+import {
+  pearsonCorrelation, spearmanCorrelation, oneWayAnova, kruskalWallis,
+  mannWhitneyU, chiSquareTest, numericValues,
+} from "./realStats.js";
 
 const NAVY = "#1F3864";
 const GOLD = "#C99A2E";
@@ -17,10 +21,7 @@ const GREEN_TINT = "#E4F5EC";
 const AMBER = "#8A5A00";
 const AMBER_TINT = "#FDF1DA";
 const NAVY_TINT = "#EBEEF7";
-
-const FILIERES = {
-  Soja: "#3E9C6B", Maïs: "#F0AC1B", Riz: "#3592C4", Manioc: "#B5651D", Coton: "#6C7DAE",
-};
+const PALETTE = ["#1F3864", "#3E9C6B", "#C99A2E", "#3592C4", "#B5651D", "#6C7DAE", "#B3413A", "#7A8A3E"];
 
 const nav = [
   { id: "dashboard", label: "Tableau de bord", icon: LayoutDashboard },
@@ -30,57 +31,15 @@ const nav = [
   { id: "map", label: "Cartographie", icon: MapPin },
 ];
 
-const rendementParFiliere = [
-  { filiere: "Coton", moyenne: 1120, ecart: [90, 90] },
-  { filiere: "Maïs", moyenne: 1840, ecart: [140, 140] },
-  { filiere: "Riz", moyenne: 2210, ecart: [180, 180] },
-  { filiere: "Soja", moyenne: 1360, ecart: [110, 110] },
-  { filiere: "Manioc", moyenne: 9800, ecart: [620, 620] },
-];
-
-// Positions relatives illustratives (mockup) des communes du Borgou, et cumul pluviométrique décadaire (mm) — NASA POWER
-const CLIMAT_COMMUNES = [
-  { name: "Sinendé", x: 30, y: 10, mm: 108 },
-  { name: "Kalalé", x: 68, y: 14, mm: 101 },
-  { name: "Bembéréké", x: 42, y: 30, mm: 95 },
-  { name: "N'Dali", x: 18, y: 48, mm: 84 },
-  { name: "Pérèrè", x: 66, y: 42, mm: 61 },
-  { name: "Parakou", x: 40, y: 55, mm: 76 },
-  { name: "Nikki", x: 70, y: 62, mm: 89 },
-  { name: "Tchaourou", x: 34, y: 82, mm: 58 },
-];
-
-function rainColor(mm) {
-  // Échelle ambre (déficit) → bleu marine (surplus), cohérente avec le code couleur d'alerte déjà établi
-  if (mm < 65) return "#C99A2E";
-  if (mm < 80) return "#8FAECB";
-  if (mm < 95) return "#4A7AB5";
-  return "#1F3864";
-}
-
-const scatterData = Array.from({ length: 24 }).map((_, i) => ({
-  x: 40 + i * 3 + (i % 3) * 6,
-  y: 30 + i * 2.4 + ((i * 7) % 15),
-}));
-
-const coefficients = [
-  { variable: "Superficie semée (ha)", coef: "+18,4", p: "0,002", sig: true },
-  { variable: "Pluviométrie décadaire (mm)", coef: "+6,1", p: "0,011", sig: true },
-  { variable: "Accès au crédit agricole", coef: "+142,7", p: "0,048", sig: true },
-  { variable: "Satisfaction intrants", coef: "+22,3", p: "0,192", sig: false },
-];
-
-const annexTables = [
-  { id: "A1", title: "Statistiques descriptives — Superficie semée (ha)", type: "Univariée", status: "auto", time: "10:42" },
-  { id: "A2", title: "ANOVA — Filière suivie × Rendement estimé", type: "Bivariée", status: "adjusted", time: "10:47" },
-  { id: "A3", title: "Corrélation de Spearman — Superficie semée × Pluviométrie", type: "Bivariée", status: "auto", time: "10:51" },
-  { id: "A4", title: "Régression multiple — Modèle explicatif du rendement", type: "Multivariée", status: "auto", time: "10:58" },
-];
-
 const reportSections = [
   "1. Contexte de l'étude", "2. Objectifs", "3. Indicateurs de performance mesurés",
   "4. Méthodologie", "5. Résultats", "6. Analyse", "7. Recommandations", "8. Conclusion",
 ];
+
+function fmtP(p) {
+  if (p === undefined || p === null || isNaN(p)) return "—";
+  return p < 0.001 ? "< 0,001" : p.toFixed(3);
+}
 
 function Watermark() {
   return (
@@ -123,63 +82,186 @@ function ResultHeader({ title, subtitle, status }) {
   );
 }
 
-function ObjectiveGroup({ number, title, indicator, children }) {
-  return (
-    <div className="rounded-2xl border-2 border-dashed p-1" style={{ borderColor: "#D8C48A" }}>
-      <div className="px-4 py-3 flex items-center gap-3">
-        <div className="w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold text-white shrink-0" style={{ background: GOLD }}>
-          {number}
+// Rendu réel d'une analyse de la file, à partir des vraies données importées
+function AnalysisResultCard({ item, dataset, index }) {
+  if (!dataset) {
+    return (
+      <Card>
+        <ResultHeader title={item.label} subtitle={item.test} status={item.status} />
+        <div className="rounded-xl bg-gray-50 px-3 py-2 text-xs text-gray-400 italic">
+          Exemple illustratif — aucune base de données réelle n'était importée lors de la configuration de cette analyse.
         </div>
-        <div>
-          <div className="text-sm font-serif font-semibold" style={{ color: NAVY }}>{title}</div>
-          <div className="text-[11px] text-gray-500">Indicateur suivi : {indicator}</div>
-        </div>
-      </div>
-      <div className="space-y-3 px-1 pb-1">{children}</div>
-    </div>
-  );
-}
+      </Card>
+    );
+  }
 
-function ClimateMap() {
-  return (
-    <div className="grid grid-cols-3 gap-4">
-      <div className="col-span-2 relative rounded-xl bg-[#F7F9FC] border border-gray-100" style={{ height: 210 }}>
-        <svg viewBox="0 0 100 100" className="w-full h-full">
-          {CLIMAT_COMMUNES.map((c) => (
-            <g key={c.name}>
-              <circle cx={c.x} cy={c.y} r={7.5} fill={rainColor(c.mm)} opacity={0.88} />
-              <circle cx={c.x} cy={c.y} r={7.5} fill="none" stroke="white" strokeWidth={0.6} />
-              <text x={c.x} y={c.y - 10} fontSize="3.4" textAnchor="middle" fill="#4A5568" fontWeight="600">{c.name}</text>
-              <text x={c.x} y={c.y + 1.2} fontSize="3" textAnchor="middle" fill="white" fontWeight="700">{c.mm}</text>
-            </g>
-          ))}
-        </svg>
-        <span className="absolute bottom-2 right-3 text-[9px] text-gray-400 italic">Interpolation IDW — illustrative</span>
-      </div>
-      <div className="flex flex-col justify-center gap-2">
-        <div className="text-[10px] font-medium text-gray-500 mb-1">Cumul pluviométrique décadaire (mm)</div>
-        {[
-          ["#C99A2E", "< 65 mm — déficitaire"],
-          ["#8FAECB", "65 – 80 mm"],
-          ["#4A7AB5", "80 – 95 mm"],
-          ["#1F3864", "≥ 95 mm"],
-        ].map(([color, label]) => (
-          <div key={label} className="flex items-center gap-2">
-            <span className="w-3 h-3 rounded-full shrink-0" style={{ background: color }} />
-            <span className="text-[10px] text-gray-500">{label}</span>
+  const xCol = dataset.columns.find((c) => c.name === item.xId);
+  const yCol = dataset.columns.find((c) => c.name === item.yId);
+  if (!xCol || !yCol) {
+    return (
+      <Card>
+        <ResultHeader title={item.label} subtitle={item.test} status={item.status} />
+        <div className="rounded-xl px-3 py-2 text-xs" style={{ background: "#FBE7E5", color: "#B3413A" }}>
+          Les colonnes de cette analyse ne sont plus présentes dans la base actuellement importée.
+        </div>
+      </Card>
+    );
+  }
+
+  const isXQuant = xCol.isQuantitative, isYQuant = yCol.isQuantitative;
+  const test = item.test;
+
+  try {
+    // ---- Corrélations (Pearson / Spearman) ----
+    if (test === "Corrélation de Pearson" || test === "Corrélation de Spearman") {
+      const r = test === "Corrélation de Pearson"
+        ? pearsonCorrelation(dataset.rows, item.xId, item.yId)
+        : spearmanCorrelation(dataset.rows, item.xId, item.yId);
+      const scatter = dataset.rows
+        .map((row) => ({ x: Number(row[item.xId]), y: Number(row[item.yId]) }))
+        .filter((p) => !isNaN(p.x) && !isNaN(p.y));
+      const symbol = test === "Corrélation de Pearson" ? "r" : "ρ";
+      return (
+        <Card>
+          <ResultHeader title={item.label} subtitle={`${test} · ${symbol} = ${r.r.toFixed(3)}, n = ${r.n}, p = ${fmtP(r.p)}`} status={item.status} />
+          <ResponsiveContainer width="100%" height={190}>
+            <ScatterChart>
+              <CartesianGrid strokeDasharray="3 3" stroke="#EDEDED" />
+              <XAxis dataKey="x" tick={{ fontSize: 11 }} stroke="#999" name={item.xLabel} type="number" domain={["dataMin", "dataMax"]} />
+              <YAxis dataKey="y" tick={{ fontSize: 11 }} stroke="#999" name={item.yLabel} width={55} type="number" domain={["dataMin", "dataMax"]} />
+              <Tooltip cursor={{ strokeDasharray: "3 3" }} />
+              <Scatter data={scatter} fill={NAVY} />
+            </ScatterChart>
+          </ResponsiveContainer>
+          <p className="text-xs text-gray-500 mt-2">
+            {Math.abs(r.r) < 0.1 ? "Association quasi nulle" : Math.abs(r.r) < 0.3 ? "Association faible" : Math.abs(r.r) < 0.5 ? "Association modérée" : "Association forte"}
+            {" "}entre {item.xLabel} et {item.yLabel}, {r.p < 0.05 ? "statistiquement significative (p < 0,05)" : "non significative au seuil de 5 %"}.
+          </p>
+        </Card>
+      );
+    }
+
+    // ---- Comparaison de groupes (Student / ANOVA / Mann-Whitney / Kruskal-Wallis) ----
+    if (["Test de Student", "ANOVA à un facteur", "Test de Mann-Whitney", "Test de Kruskal-Wallis"].includes(test)) {
+      const [quantCol, qualCol] = isXQuant ? [item.xId, item.yId] : [item.yId, item.xId];
+      const [quantLabel, qualLabel] = isXQuant ? [item.xLabel, item.yLabel] : [item.yLabel, item.xLabel];
+      const isNonParam = test === "Test de Mann-Whitney" || test === "Test de Kruskal-Wallis";
+
+      if (isNonParam) {
+        const res = test === "Test de Mann-Whitney" ? mannWhitneyU(dataset.rows, quantCol, qualCol) : kruskalWallis(dataset.rows, quantCol, qualCol);
+        // Médianes par groupe pour l'illustration graphique
+        const groups = {};
+        dataset.rows.forEach((r) => {
+          const g = String(r[qualCol] ?? "").trim(); const v = Number(r[quantCol]);
+          if (g === "" || isNaN(v)) return; (groups[g] = groups[g] || []).push(v);
+        });
+        const chartData = Object.entries(groups).map(([g, vals]) => {
+          const sorted = [...vals].sort((a, b) => a - b);
+          return { groupe: g, mediane: sorted[Math.floor(sorted.length / 2)], n: vals.length };
+        });
+        const stat = test === "Test de Mann-Whitney" ? `U = ${res.U.toFixed(1)}, z = ${res.z.toFixed(2)}` : `H(${res.df}) = ${res.H.toFixed(2)}`;
+        return (
+          <Card>
+            <ResultHeader title={item.label} subtitle={`${test} · ${stat}, p = ${fmtP(res.p)}`} status={item.status} />
+            <ResponsiveContainer width="100%" height={180}>
+              <BarChart data={chartData}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#EDEDED" />
+                <XAxis dataKey="groupe" tick={{ fontSize: 11 }} stroke="#999" />
+                <YAxis tick={{ fontSize: 11 }} stroke="#999" width={55} />
+                <Tooltip />
+                <Bar dataKey="mediane" name={`Médiane de ${quantLabel}`} radius={[6, 6, 0, 0]}>
+                  {chartData.map((d, i) => <Cell key={d.groupe} fill={PALETTE[i % PALETTE.length]} />)}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+            <p className="text-xs text-gray-500 mt-2">
+              Différence {res.p < 0.05 ? "statistiquement significative" : "non significative"} de {quantLabel} selon {qualLabel} (test non paramétrique, p = {fmtP(res.p)}).
+            </p>
+          </Card>
+        );
+      }
+
+      const a = oneWayAnova(dataset.rows, quantCol, qualCol);
+      const chartData = a.groupStats.map((g) => ({ groupe: g.groupe, moyenne: g.moyenne, ecart: [g.ecartType, g.ecartType], n: g.n }));
+      const statLabel = test === "Test de Student" ? `t ≈ ${Math.sqrt(a.F).toFixed(2)}` : `F(${a.dfBetween},${a.dfWithin}) = ${a.F.toFixed(2)}, η² = ${a.etaSq.toFixed(2)}`;
+      return (
+        <Card>
+          <ResultHeader title={item.label} subtitle={`${test} · ${statLabel}, p = ${fmtP(a.p)}`} status={item.status} />
+          <ResponsiveContainer width="100%" height={190}>
+            <BarChart data={chartData}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#EDEDED" />
+              <XAxis dataKey="groupe" tick={{ fontSize: 11 }} stroke="#999" />
+              <YAxis tick={{ fontSize: 11 }} stroke="#999" width={55} />
+              <Tooltip />
+              <Bar dataKey="moyenne" name={`Moyenne de ${quantLabel}`} radius={[6, 6, 0, 0]}>
+                {chartData.map((d, i) => <Cell key={d.groupe} fill={PALETTE[i % PALETTE.length]} />)}
+                <ErrorBar dataKey="ecart" width={4} strokeWidth={1.5} stroke="#7A7A7A" />
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
+          <p className="text-xs text-gray-500 mt-2">
+            Le {quantLabel.toLowerCase()} moyen {a.p < 0.05 ? "diffère significativement" : "ne diffère pas significativement"} selon {qualLabel.toLowerCase()} (p = {fmtP(a.p)}).
+          </p>
+        </Card>
+      );
+    }
+
+    // ---- Khi² / V de Cramér ----
+    if (test === "Test du Khi² d'indépendance" || test === "V de Cramér (mesure d'association)") {
+      const c = chiSquareTest(dataset.rows, item.xId, item.yId);
+      return (
+        <Card>
+          <ResultHeader title={item.label} subtitle={`${test} · χ²(${c.df}) = ${c.chi2.toFixed(2)}, p = ${fmtP(c.p)}, V = ${c.cramersV.toFixed(2)}`} status={item.status} />
+          <div className="overflow-x-auto">
+            <table className="text-xs w-full">
+              <thead>
+                <tr>
+                  <th className="text-left text-[10px] text-gray-400 uppercase pb-1 pr-3">{item.xLabel} \ {item.yLabel}</th>
+                  {c.yList.map((y) => <th key={y} className="text-[10px] text-gray-400 uppercase pb-1 px-2">{y}</th>)}
+                </tr>
+              </thead>
+              <tbody>
+                {c.xList.map((x) => (
+                  <tr key={x} className="border-t border-gray-50">
+                    <td className="py-1.5 pr-3 font-medium text-gray-700">{x}</td>
+                    {c.yList.map((y) => (
+                      <td key={y} className="py-1.5 px-2 text-center text-gray-600">{c.table[x]?.[y] || 0}</td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
-        ))}
-      </div>
-    </div>
-  );
+          <p className="text-xs text-gray-500 mt-2">
+            Association {c.p < 0.05 ? "statistiquement significative" : "non significative"} entre {item.xLabel} et {item.yLabel} (p = {fmtP(c.p)}, V de Cramér = {c.cramersV.toFixed(2)}).
+          </p>
+        </Card>
+      );
+    }
+  } catch (e) {
+    return (
+      <Card>
+        <ResultHeader title={item.label} subtitle={item.test} status={item.status} />
+        <div className="rounded-xl px-3 py-2 text-xs" style={{ background: "#FBE7E5", color: "#B3413A" }}>
+          Calcul impossible sur les données actuelles : {e.message}
+        </div>
+      </Card>
+    );
+  }
+
+  return null;
 }
 
-export default function ResultsReport({ active, onNavigate, userEmail, roleLabel, isAdmin, isGuest, onLogout, onOpenAdmin }) {
+
+export default function ResultsReport({ active, onNavigate, userEmail, roleLabel, isAdmin, isGuest, onLogout, onOpenAdmin, dataset, analysisQueue }) {
   const [sections, setSections] = useState(reportSections);
   const [format, setFormat] = useState("docx");
+  const queue = analysisQueue || [];
 
   const toggleSection = (s) =>
     setSections((prev) => (prev.includes(s) ? prev.filter((i) => i !== s) : [...prev, s]));
+
+  const significantCount = queue.filter((item) => item.detail && /p\s*=\s*(0[,.]0[0-4]|<\s*0[,.]001)/.test(item.detail)).length;
 
   return (
     <div className="min-h-screen relative bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans">
@@ -213,7 +295,9 @@ export default function ResultsReport({ active, onNavigate, userEmail, roleLabel
             style={{ borderBottom: `2px solid ${GOLD}` }}>
             <div>
               <h1 className="font-serif text-xl font-bold" style={{ color: NAVY }}>Résultats &amp; rapport final</h1>
-              <p className="text-xs text-gray-500 mt-0.5">Suivi semis 2026-2027 · Décade 3 — 4 analyses exécutées</p>
+              <p className="text-xs text-gray-500 mt-0.5">
+                {dataset ? `${dataset.fileName} · ` : ""}{queue.length} analyse{queue.length > 1 ? "s" : ""} configurée{queue.length > 1 ? "s" : ""}
+              </p>
             </div>
             <div className="flex items-center gap-4">
               <Bell size={18} className="text-gray-400" />
@@ -223,155 +307,62 @@ export default function ResultsReport({ active, onNavigate, userEmail, roleLabel
           </header>
 
           <main className="p-8 grid grid-cols-3 gap-6">
-            {/* Résultats — organisés par objectif spécifique (section 5 du rapport) */}
             <div className="col-span-2 space-y-5">
-
-              {/* Contexte climatique — Modules 7 & 8, mobilisé dans l'interprétation agronomique ci-dessous */}
-              <Card>
-                <div className="flex items-center gap-2 mb-1">
-                  <CloudRain size={16} style={{ color: NAVY }} />
-                  <h3 className="font-serif font-semibold text-sm" style={{ color: NAVY }}>Contexte climatique de la zone d'étude</h3>
-                </div>
-                <p className="text-[11px] text-gray-400 mb-3">Source : NASA POWER (Module 7) · Décade 3, juillet 2026 · Restitution cartographique (Module 8)</p>
-                <ClimateMap />
-                <div className="grid grid-cols-3 gap-3 mt-4">
-                  <div className="rounded-xl p-2.5 text-center" style={{ background: NAVY_TINT }}>
-                    <CloudRain size={14} className="mx-auto mb-1" style={{ color: NAVY }} />
-                    <div className="text-[10px] text-gray-500">Cumul moyen zone</div>
-                    <div className="text-sm font-bold" style={{ color: NAVY }}>83 mm</div>
-                  </div>
-                  <div className="rounded-xl p-2.5 text-center" style={{ background: NAVY_TINT }}>
-                    <MapPin size={14} className="mx-auto mb-1" style={{ color: NAVY }} />
-                    <div className="text-[10px] text-gray-500">Jours de pluie</div>
-                    <div className="text-sm font-bold" style={{ color: NAVY }}>6 j</div>
-                  </div>
-                  <div className="rounded-xl p-2.5 text-center" style={{ background: NAVY_TINT }}>
-                    <Thermometer size={14} className="mx-auto mb-1" style={{ color: NAVY }} />
-                    <div className="text-[10px] text-gray-500">Température moy.</div>
-                    <div className="text-sm font-bold" style={{ color: NAVY }}>27,4 °C</div>
-                  </div>
-                </div>
-              </Card>
-
-              <ObjectiveGroup
-                number="1"
-                title="Évaluer la progression des semis de coton sur la période de suivi"
-                indicator="Taux de réalisation des semis / Superficie semée (ha)"
-              >
-                <Card>
-                  <ResultHeader title="Superficie semée (ha) — statistiques descriptives" subtitle="Analyse univariée · Coton, Tchaourou & Pérèrè" status="auto" />
-                  <div className="grid grid-cols-4 gap-3 text-center">
-                    {[["Moyenne", "3,42 ha"], ["Médiane", "3,10 ha"], ["Écart-type", "1,08 ha"], ["CV", "31,6 %"]].map(([l, v]) => (
-                      <div key={l} className="rounded-xl p-2.5" style={{ background: NAVY_TINT }}>
-                        <div className="text-[10px] text-gray-500">{l}</div>
-                        <div className="text-sm font-bold" style={{ color: NAVY }}>{v}</div>
-                      </div>
-                    ))}
-                  </div>
-                </Card>
-
-                <Card>
-                  <ResultHeader title="Superficie semée × Pluviométrie décadaire" subtitle="Analyse bivariée inférentielle · Corrélation de Spearman · ρ = 0,62, p = 0,003" status="auto" />
-                  <ResponsiveContainer width="100%" height={170}>
-                    <ScatterChart>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#EDEDED" />
-                      <XAxis dataKey="x" tick={{ fontSize: 11 }} stroke="#999" name="Pluviométrie" unit=" mm" />
-                      <YAxis dataKey="y" tick={{ fontSize: 11 }} stroke="#999" name="Superficie" unit=" a" width={50} />
-                      <Tooltip cursor={{ strokeDasharray: "3 3" }} />
-                      <Scatter data={scatterData} fill={NAVY} />
-                    </ScatterChart>
-                  </ResponsiveContainer>
-                  <p className="text-xs text-gray-500 mt-2 leading-relaxed">
-                    Une association positive modérée est observée : les décades les plus arrosées coïncident avec une progression plus rapide des superficies semées.
+              {queue.length === 0 ? (
+                <Card className="text-center py-12">
+                  <Inbox size={32} className="mx-auto text-gray-300 mb-3" />
+                  <p className="text-sm font-medium text-gray-500">Aucune analyse configurée pour l'instant</p>
+                  <p className="text-xs text-gray-400 mt-1 mb-4 max-w-sm mx-auto">
+                    Rendez-vous dans « Configuration des analyses » pour sélectionner des variables, valider un test statistique, puis l'ajouter à la file.
                   </p>
+                  <button onClick={() => onNavigate("config")}
+                    className="px-4 py-2 rounded-xl text-sm font-medium text-white shadow-md"
+                    style={{ background: `linear-gradient(135deg, ${NAVY}, #2A4A82)` }}>
+                    Aller à la configuration des analyses
+                  </button>
                 </Card>
-              </ObjectiveGroup>
+              ) : (
+                <>
+                  {!dataset && (
+                    <div className="flex items-start gap-2 rounded-xl p-3" style={{ background: AMBER_TINT }}>
+                      <Info size={14} style={{ color: AMBER }} className="mt-0.5 shrink-0" />
+                      <p className="text-xs" style={{ color: AMBER }}>
+                        Aucune base de données réelle n'est actuellement importée : les analyses ci-dessous sont présentées à titre d'exemple. Importez un fichier via l'assistant d'import pour des résultats calculés sur vos propres données.
+                      </p>
+                    </div>
+                  )}
 
-              <ObjectiveGroup
-                number="2"
-                title="Comparer la performance de rendement entre filières et en identifier les déterminants"
-                indicator="Rendement estimé (kg/ha)"
-              >
-                <Card>
-                  <ResultHeader title="Filière suivie × Rendement estimé" subtitle="Analyse bivariée inférentielle · ANOVA à un facteur · F = 4,82, p = 0,007, η² = 0,31" status="adjusted" />
-                  <ResponsiveContainer width="100%" height={180}>
-                    <BarChart data={rendementParFiliere}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#EDEDED" />
-                      <XAxis dataKey="filiere" tick={{ fontSize: 11 }} stroke="#999" />
-                      <YAxis tick={{ fontSize: 11 }} stroke="#999" unit=" kg/ha" width={70} />
-                      <Tooltip />
-                      <Bar dataKey="moyenne" radius={[6, 6, 0, 0]}>
-                        {rendementParFiliere.map((d) => (
-                          <Cell key={d.filiere} fill={FILIERES[d.filiere]} />
-                        ))}
-                        <ErrorBar dataKey="ecart" width={4} strokeWidth={1.5} stroke="#7A7A7A" />
-                      </Bar>
-                    </BarChart>
-                  </ResponsiveContainer>
-                  <p className="text-xs text-gray-500 mt-2 leading-relaxed">
-                    Le rendement moyen diffère significativement selon la filière suivie (p &lt; 0,01). Le Manioc présente le rendement brut le plus élevé, en cohérence avec les référentiels agronomiques de la zone.
-                  </p>
-                </Card>
+                  {queue.map((item, i) => (
+                    <AnalysisResultCard key={item.id || i} item={item} dataset={dataset} index={i} />
+                  ))}
 
-                <Card>
-                  <ResultHeader title="Modèle explicatif du rendement" subtitle="Analyse multivariée · Régression linéaire multiple · R² = 0,58, R² ajusté = 0,54" status="auto" />
-                  <table className="w-full text-xs">
-                    <thead>
-                      <tr className="text-left text-[10px] text-gray-400 uppercase border-b border-gray-100">
-                        <th className="py-2 font-medium">Variable explicative</th>
-                        <th className="py-2 font-medium">Coefficient</th>
-                        <th className="py-2 font-medium">p-valeur</th>
-                        <th className="py-2 font-medium">Significativité</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {coefficients.map((c) => (
-                        <tr key={c.variable} className="border-b border-gray-50 last:border-0">
-                          <td className="py-2 text-gray-800">{c.variable}</td>
-                          <td className="py-2 text-gray-600">{c.coef}</td>
-                          <td className="py-2 text-gray-600">{c.p}</td>
-                          <td className="py-2">
-                            <span className="px-2 py-0.5 rounded-full text-[10px] font-medium"
-                              style={c.sig ? { background: GREEN_TINT, color: GREEN } : { background: "#EDEEF3", color: "#6B7280" }}>
-                              {c.sig ? "Significatif" : "Non significatif"}
-                            </span>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </Card>
-              </ObjectiveGroup>
+                  {/* Section 6 — Analyse : synthèse factuelle des résultats */}
+                  <Card className="border-2" style={{ borderColor: GOLD }}>
+                    <div className="flex items-center gap-2 mb-2">
+                      <Sparkles size={16} style={{ color: GOLD }} />
+                      <h3 className="font-serif font-semibold text-sm" style={{ color: NAVY }}>6. Analyse</h3>
+                    </div>
+                    <p className="text-xs text-gray-600 leading-relaxed mb-2">
+                      Sur les {queue.length} analyse{queue.length > 1 ? "s" : ""} configurée{queue.length > 1 ? "s" : ""}, {significantCount} présente{significantCount > 1 ? "nt" : ""} un résultat statistiquement significatif au seuil de 5 %.
+                      {dataset ? "" : " Ce constat porte sur des données d'exemple et non sur une base réellement importée."}
+                    </p>
+                    <p className="text-xs text-gray-500 leading-relaxed italic">
+                      La discussion approfondie de ces résultats — mise en regard avec la littérature scientifique ou les rapports institutionnels pertinents, conformément au standard APA 7 retenu — relève de l'analyste et n'est pas générée automatiquement, afin d'éviter toute interprétation causale non fondée.
+                    </p>
+                  </Card>
 
-              {/* Section 6 — Analyse : lecture croisée + discussion contextualisée */}
-              <Card className="border-2" style={{ borderColor: GOLD }}>
-                <div className="flex items-center gap-2 mb-2">
-                  <Sparkles size={16} style={{ color: GOLD }} />
-                  <h3 className="font-serif font-semibold text-sm" style={{ color: NAVY }}>6. Analyse — lecture croisée des résultats</h3>
-                </div>
-                <p className="text-xs text-gray-600 leading-relaxed mb-2">
-                  La carte pluviométrique confirme un déficit localisé sur Tchaourou et Pérèrè (58 et 61 mm cumulés, contre 83 mm en moyenne sur la zone), ce qui explique en grande partie le retard de semis constaté à l'Objectif 1 : ces deux communes affichent à la fois le cumul décadaire le plus faible et la progression des superficies semées la plus lente.
-                </p>
-                <p className="text-xs text-gray-600 leading-relaxed mb-2">
-                  Ce déficit pluviométrique se répercute directement sur l'écart de rendement inter-filières mis en évidence par l'ANOVA (Objectif 2) : le coton, filière la plus sensible au calendrier pluviométrique décadaire et majoritairement cultivé sur ces deux communes déficitaires, affiche le rendement le plus faible de l'échantillon — la lecture croisée cartographie/statistiques permet ainsi de distinguer un effet climatique d'un effet propre à la filière.
-                </p>
-                <p className="text-xs text-gray-600 leading-relaxed">
-                  Ce constat rejoint la littérature agro-climatique régionale sur la sensibilité des cultures pluviales aux régimes décadaires en zone soudano-guinéenne <em>(référence institutionnelle ou académique à documenter lors de la rédaction finale, conformément au standard APA 7 retenu)</em>, et suggère que l'accès au crédit agricole — variable significative du modèle de régression — constitue un levier d'atténuation partiel du risque climatique.
-                </p>
-              </Card>
-
-              {/* Section 7 — Recommandations orientées décision */}
-              <Card className="border-2" style={{ borderColor: "#3E9C6B" }}>
-                <div className="flex items-center gap-2 mb-2">
-                  <ShieldCheck size={16} style={{ color: GREEN }} />
-                  <h3 className="font-serif font-semibold text-sm" style={{ color: NAVY }}>7. Recommandations</h3>
-                </div>
-                <ul className="text-xs text-gray-600 leading-relaxed space-y-1.5 list-disc pl-4">
-                  <li>Prioriser l'appui-conseil et la distribution d'intrants coton sur les communes de Tchaourou et Pérèrè avant la décade 4, en réponse au retard de semis constaté.</li>
-                  <li>Renforcer l'accès au crédit agricole en zone cotonnière, ce facteur ayant montré un effet significatif sur le rendement dans le modèle explicatif.</li>
-                  <li>Intégrer un suivi pluviométrique décadaire systématique (Module 7) dans les prochains cycles de collecte, afin d'anticiper les écarts de calendrier cultural.</li>
-                </ul>
-              </Card>
+                  {/* Section 7 — Recommandations */}
+                  <Card className="border-2" style={{ borderColor: "#3E9C6B" }}>
+                    <div className="flex items-center gap-2 mb-2">
+                      <ShieldCheck size={16} style={{ color: GREEN }} />
+                      <h3 className="font-serif font-semibold text-sm" style={{ color: NAVY }}>7. Recommandations</h3>
+                    </div>
+                    <p className="text-xs text-gray-500 leading-relaxed italic">
+                      Section à compléter par l'analyste, sur la base des constats de la section Analyse ci-dessus et du contexte propre à l'étude (section 4.2 du cahier des charges).
+                    </p>
+                  </Card>
+                </>
+              )}
             </div>
 
             {/* Panneau de génération du rapport */}
@@ -397,18 +388,17 @@ export default function ResultsReport({ active, onNavigate, userEmail, roleLabel
                   <Paperclip size={16} style={{ color: NAVY }} />
                   <h2 className="font-serif font-semibold" style={{ color: NAVY }}>Annexe automatique</h2>
                 </div>
-                <p className="text-[11px] text-gray-400 mb-3">Tableaux consolidés automatiquement, horodatés (Module 6).</p>
+                <p className="text-[11px] text-gray-400 mb-3">Tableaux consolidés automatiquement à partir de la file d'analyses (Module 6).</p>
                 <div className="space-y-2">
-                  {annexTables.map((t) => (
-                    <div key={t.id} className="rounded-xl border border-gray-100 p-2.5">
+                  {queue.length === 0 && <p className="text-xs text-gray-400 italic">Aucun tableau pour l'instant.</p>}
+                  {queue.map((item, i) => (
+                    <div key={item.id || i} className="rounded-xl border border-gray-100 p-2.5">
                       <div className="flex items-center justify-between">
-                        <span className="text-[11px] font-semibold" style={{ color: NAVY }}>Tableau {t.id}</span>
-                        <span className="text-[10px] text-gray-400">{t.time}</span>
+                        <span className="text-[11px] font-semibold" style={{ color: NAVY }}>Tableau A{i + 1}</span>
                       </div>
-                      <div className="text-[11px] text-gray-600 mt-0.5">{t.title}</div>
+                      <div className="text-[11px] text-gray-600 mt-0.5">{item.test} — {item.label}</div>
                       <div className="flex items-center gap-1.5 mt-1.5">
-                        <span className="text-[10px] px-1.5 py-0.5 rounded-full" style={{ background: NAVY_TINT, color: NAVY }}>{t.type}</span>
-                        <StatusBadge status={t.status} />
+                        <StatusBadge status={item.status} />
                       </div>
                     </div>
                   ))}
@@ -436,7 +426,8 @@ export default function ResultsReport({ active, onNavigate, userEmail, roleLabel
                     <FileDown size={13} /> PDF
                   </button>
                 </div>
-                <button className="w-full px-4 py-2.5 rounded-xl text-sm font-medium flex items-center justify-center gap-1.5 text-white shadow-md"
+                <button disabled={queue.length === 0} title="Génération du document final : à venir"
+                  className="w-full px-4 py-2.5 rounded-xl text-sm font-medium flex items-center justify-center gap-1.5 text-white shadow-md disabled:opacity-40 disabled:cursor-not-allowed"
                   style={{ background: `linear-gradient(135deg, #3E9C6B, ${GREEN})` }}>
                   <Layers size={14} /> Générer le rapport final
                 </button>
