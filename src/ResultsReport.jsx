@@ -13,6 +13,7 @@ import {
   pearsonCorrelation, spearmanCorrelation, oneWayAnova, kruskalWallis,
   mannWhitneyU, chiSquareTest, numericValues,
 } from "./realStats.js";
+import { exportReportToDocx } from "./exportDocx.js";
 
 const NAVY = "#1F3864";
 const GOLD = "#C99A2E";
@@ -83,10 +84,20 @@ function ResultHeader({ title, subtitle, status }) {
 }
 
 // Rendu réel d'une analyse de la file, à partir des vraies données importées
-function AnalysisResultCard({ item, dataset, index }) {
+function AnalysisResultCard({ item, dataset, index, validated, onToggleValidated }) {
+  const validationBar = (
+    <label className="flex items-center gap-2 mb-3 text-xs cursor-pointer select-none">
+      <input type="checkbox" checked={!!validated} onChange={onToggleValidated} className="w-4 h-4 rounded" style={{ accentColor: "#256B45" }} />
+      <span className={validated ? "font-medium" : "text-gray-400"} style={validated ? { color: "#256B45" } : {}}>
+        {validated ? "Validé pour le rapport" : "Valider cette analyse pour l'inclure au rapport"}
+      </span>
+    </label>
+  );
+
   if (!dataset) {
     return (
       <Card>
+        {validationBar}
         <ResultHeader title={item.label} subtitle={item.test} status={item.status} />
         <div className="rounded-xl bg-gray-50 px-3 py-2 text-xs text-gray-400 italic">
           Exemple illustratif — aucune base de données réelle n'était importée lors de la configuration de cette analyse.
@@ -100,6 +111,7 @@ function AnalysisResultCard({ item, dataset, index }) {
   if (!xCol || !yCol) {
     return (
       <Card>
+        {validationBar}
         <ResultHeader title={item.label} subtitle={item.test} status={item.status} />
         <div className="rounded-xl px-3 py-2 text-xs" style={{ background: "#FBE7E5", color: "#B3413A" }}>
           Les colonnes de cette analyse ne sont plus présentes dans la base actuellement importée.
@@ -107,6 +119,7 @@ function AnalysisResultCard({ item, dataset, index }) {
       </Card>
     );
   }
+
 
   const isXQuant = xCol.isQuantitative, isYQuant = yCol.isQuantitative;
   const test = item.test;
@@ -123,6 +136,7 @@ function AnalysisResultCard({ item, dataset, index }) {
       const symbol = test === "Corrélation de Pearson" ? "r" : "ρ";
       return (
         <Card>
+          {validationBar}
           <ResultHeader title={item.label} subtitle={`${test} · ${symbol} = ${r.r.toFixed(3)}, n = ${r.n}, p = ${fmtP(r.p)}`} status={item.status} />
           <ResponsiveContainer width="100%" height={190}>
             <ScatterChart>
@@ -162,6 +176,7 @@ function AnalysisResultCard({ item, dataset, index }) {
         const stat = test === "Test de Mann-Whitney" ? `U = ${res.U.toFixed(1)}, z = ${res.z.toFixed(2)}` : `H(${res.df}) = ${res.H.toFixed(2)}`;
         return (
           <Card>
+            {validationBar}
             <ResultHeader title={item.label} subtitle={`${test} · ${stat}, p = ${fmtP(res.p)}`} status={item.status} />
             <ResponsiveContainer width="100%" height={180}>
               <BarChart data={chartData}>
@@ -186,6 +201,7 @@ function AnalysisResultCard({ item, dataset, index }) {
       const statLabel = test === "Test de Student" ? `t ≈ ${Math.sqrt(a.F).toFixed(2)}` : `F(${a.dfBetween},${a.dfWithin}) = ${a.F.toFixed(2)}, η² = ${a.etaSq.toFixed(2)}`;
       return (
         <Card>
+          {validationBar}
           <ResultHeader title={item.label} subtitle={`${test} · ${statLabel}, p = ${fmtP(a.p)}`} status={item.status} />
           <ResponsiveContainer width="100%" height={190}>
             <BarChart data={chartData}>
@@ -211,6 +227,7 @@ function AnalysisResultCard({ item, dataset, index }) {
       const c = chiSquareTest(dataset.rows, item.xId, item.yId);
       return (
         <Card>
+          {validationBar}
           <ResultHeader title={item.label} subtitle={`${test} · χ²(${c.df}) = ${c.chi2.toFixed(2)}, p = ${fmtP(c.p)}, V = ${c.cramersV.toFixed(2)}`} status={item.status} />
           <div className="overflow-x-auto">
             <table className="text-xs w-full">
@@ -241,6 +258,7 @@ function AnalysisResultCard({ item, dataset, index }) {
   } catch (e) {
     return (
       <Card>
+        {validationBar}
         <ResultHeader title={item.label} subtitle={item.test} status={item.status} />
         <div className="rounded-xl px-3 py-2 text-xs" style={{ background: "#FBE7E5", color: "#B3413A" }}>
           Calcul impossible sur les données actuelles : {e.message}
@@ -253,15 +271,58 @@ function AnalysisResultCard({ item, dataset, index }) {
 }
 
 
-export default function ResultsReport({ active, onNavigate, userEmail, roleLabel, isAdmin, isGuest, onLogout, onOpenAdmin, dataset, analysisQueue }) {
+export default function ResultsReport({ active, onNavigate, userEmail, roleLabel, isAdmin, isGuest, onLogout, onOpenAdmin, dataset, analysisQueue, onAnalysisQueueChange, context, onContextChange }) {
   const [sections, setSections] = useState(reportSections);
   const [format, setFormat] = useState("docx");
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiError, setAiError] = useState("");
+  const [aiReport, setAiReport] = useState(context?.aiReport || null); // { analyse, recommandations, conclusion }
+  const [exporting, setExporting] = useState(false);
   const queue = analysisQueue || [];
 
   const toggleSection = (s) =>
     setSections((prev) => (prev.includes(s) ? prev.filter((i) => i !== s) : [...prev, s]));
 
-  const significantCount = queue.filter((item) => item.detail && /p\s*=\s*(0[,.]0[0-4]|<\s*0[,.]001)/.test(item.detail)).length;
+  const toggleValidated = (idx) => {
+    if (!onAnalysisQueueChange) return;
+    const next = queue.map((item, i) => (i === idx ? { ...item, validated: !item.validated } : item));
+    onAnalysisQueueChange(next);
+  };
+
+  const validatedQueue = queue.filter((item) => item.validated);
+  const queueForReport = validatedQueue.length > 0 ? validatedQueue : queue;
+  const significantCount = queueForReport.filter((item) => item.detail && /p\s*=\s*(0[,.]0[0-4]|<\s*0[,.]001)/.test(item.detail)).length;
+
+  const generateWithClaude = async () => {
+    setAiLoading(true);
+    setAiError("");
+    try {
+      const res = await fetch("/api/generate-report", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ context, analyses: queueForReport }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Erreur inconnue du service de génération.");
+      setAiReport(data);
+      if (onContextChange && context) onContextChange({ ...context, aiReport: data });
+    } catch (e) {
+      setAiError(e.message);
+    } finally {
+      setAiLoading(false);
+    }
+  };
+
+  const handleExport = async () => {
+    setExporting(true);
+    try {
+      await exportReportToDocx({ context, queue: queueForReport, aiReport, dataset });
+    } catch (e) {
+      setAiError("Échec de l'export : " + e.message);
+    } finally {
+      setExporting(false);
+    }
+  };
 
   return (
     <div className="min-h-screen relative bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans">
@@ -333,22 +394,50 @@ export default function ResultsReport({ active, onNavigate, userEmail, roleLabel
                   )}
 
                   {queue.map((item, i) => (
-                    <AnalysisResultCard key={item.id || i} item={item} dataset={dataset} index={i} />
+                    <AnalysisResultCard key={item.id || i} item={item} dataset={dataset} index={i}
+                      validated={item.validated} onToggleValidated={() => toggleValidated(i)} />
                   ))}
 
-                  {/* Section 6 — Analyse : synthèse factuelle des résultats */}
-                  <Card className="border-2" style={{ borderColor: GOLD }}>
-                    <div className="flex items-center gap-2 mb-2">
-                      <Sparkles size={16} style={{ color: GOLD }} />
-                      <h3 className="font-serif font-semibold text-sm" style={{ color: NAVY }}>6. Analyse</h3>
+                  {validatedQueue.length > 0 && validatedQueue.length < queue.length && (
+                    <div className="flex items-start gap-2 rounded-xl p-3" style={{ background: NAVY_TINT }}>
+                      <Check size={14} style={{ color: NAVY }} className="mt-0.5 shrink-0" />
+                      <p className="text-xs" style={{ color: NAVY }}>
+                        {validatedQueue.length} analyse{validatedQueue.length > 1 ? "s" : ""} sur {queue.length} validée{validatedQueue.length > 1 ? "s" : ""} — seules celles-ci seront reprises dans le rapport et l'export.
+                      </p>
                     </div>
-                    <p className="text-xs text-gray-600 leading-relaxed mb-2">
-                      Sur les {queue.length} analyse{queue.length > 1 ? "s" : ""} configurée{queue.length > 1 ? "s" : ""}, {significantCount} présente{significantCount > 1 ? "nt" : ""} un résultat statistiquement significatif au seuil de 5 %.
-                      {dataset ? "" : " Ce constat porte sur des données d'exemple et non sur une base réellement importée."}
-                    </p>
-                    <p className="text-xs text-gray-500 leading-relaxed italic">
-                      La discussion approfondie de ces résultats — mise en regard avec la littérature scientifique ou les rapports institutionnels pertinents, conformément au standard APA 7 retenu — relève de l'analyste et n'est pas générée automatiquement, afin d'éviter toute interprétation causale non fondée.
-                    </p>
+                  )}
+
+                  {/* Section 6 — Analyse */}
+                  <Card className="border-2" style={{ borderColor: GOLD }}>
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center gap-2">
+                        <Sparkles size={16} style={{ color: GOLD }} />
+                        <h3 className="font-serif font-semibold text-sm" style={{ color: NAVY }}>6. Analyse</h3>
+                      </div>
+                      <button onClick={generateWithClaude} disabled={aiLoading || queueForReport.length === 0}
+                        className="text-xs font-medium flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-white disabled:opacity-50"
+                        style={{ background: NAVY }}>
+                        <Sparkles size={12} /> {aiLoading ? "Rédaction en cours…" : aiReport ? "Régénérer avec Claude" : "Rédiger avec Claude"}
+                      </button>
+                    </div>
+
+                    {aiError && (
+                      <div className="rounded-xl px-3 py-2 mb-3 text-xs" style={{ background: "#FBE7E5", color: "#B3413A" }}>{aiError}</div>
+                    )}
+
+                    {aiReport ? (
+                      <div className="text-xs text-gray-700 leading-relaxed whitespace-pre-line">{aiReport.analyse}</div>
+                    ) : (
+                      <>
+                        <p className="text-xs text-gray-600 leading-relaxed mb-2">
+                          Sur les {queueForReport.length} analyse{queueForReport.length > 1 ? "s" : ""} {validatedQueue.length > 0 ? "validée" + (queueForReport.length > 1 ? "s" : "") : "configurée" + (queueForReport.length > 1 ? "s" : "")}, {significantCount} présente{significantCount > 1 ? "nt" : ""} un résultat statistiquement significatif au seuil de 5 %.
+                          {dataset ? "" : " Ce constat porte sur des données d'exemple et non sur une base réellement importée."}
+                        </p>
+                        <p className="text-xs text-gray-500 leading-relaxed italic">
+                          Cliquez « Rédiger avec Claude » pour une lecture croisée rédigée en français scientifique, à partir du contexte de l'étude, des indicateurs déclarés et des résultats ci-dessus — ou complétez cette section vous-même.
+                        </p>
+                      </>
+                    )}
                   </Card>
 
                   {/* Section 7 — Recommandations */}
@@ -357,10 +446,24 @@ export default function ResultsReport({ active, onNavigate, userEmail, roleLabel
                       <ShieldCheck size={16} style={{ color: GREEN }} />
                       <h3 className="font-serif font-semibold text-sm" style={{ color: NAVY }}>7. Recommandations</h3>
                     </div>
-                    <p className="text-xs text-gray-500 leading-relaxed italic">
-                      Section à compléter par l'analyste, sur la base des constats de la section Analyse ci-dessus et du contexte propre à l'étude (section 4.2 du cahier des charges).
-                    </p>
+                    {aiReport ? (
+                      <div className="text-xs text-gray-700 leading-relaxed whitespace-pre-line">{aiReport.recommandations}</div>
+                    ) : (
+                      <p className="text-xs text-gray-500 leading-relaxed italic">
+                        Section à compléter par l'analyste, ou générée automatiquement avec Claude (bouton ci-dessus), sur la base des constats de la section Analyse et du contexte propre à l'étude (section 4.2 du cahier des charges).
+                      </p>
+                    )}
                   </Card>
+
+                  {aiReport?.conclusion && (
+                    <Card>
+                      <div className="flex items-center gap-2 mb-2">
+                        <ListChecks size={16} style={{ color: NAVY }} />
+                        <h3 className="font-serif font-semibold text-sm" style={{ color: NAVY }}>8. Conclusion</h3>
+                      </div>
+                      <div className="text-xs text-gray-700 leading-relaxed whitespace-pre-line">{aiReport.conclusion}</div>
+                    </Card>
+                  )}
                 </>
               )}
             </div>
@@ -426,10 +529,10 @@ export default function ResultsReport({ active, onNavigate, userEmail, roleLabel
                     <FileDown size={13} /> PDF
                   </button>
                 </div>
-                <button disabled={queue.length === 0} title="Génération du document final : à venir"
+                <button disabled={queue.length === 0 || exporting} onClick={handleExport}
                   className="w-full px-4 py-2.5 rounded-xl text-sm font-medium flex items-center justify-center gap-1.5 text-white shadow-md disabled:opacity-40 disabled:cursor-not-allowed"
                   style={{ background: `linear-gradient(135deg, #3E9C6B, ${GREEN})` }}>
-                  <Layers size={14} /> Générer le rapport final
+                  <Layers size={14} /> {exporting ? "Génération en cours…" : format === "docx" ? "Exporter en Word (.docx)" : "Exporter en Word (PDF à venir)"}
                 </button>
               </Card>
             </div>

@@ -16,15 +16,42 @@ const SCREENS = {
   results: ResultsReport, map: Cartographie,
 };
 
+const STORAGE_KEY = "agrihakstat_session_v1";
+
+function loadPersisted() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return null;
+    return JSON.parse(raw);
+  } catch {
+    return null;
+  }
+}
+
+function savePersisted(data) {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  } catch (e) {
+    console.warn("Impossible d'enregistrer la session localement (quota dépassé ?)", e.message);
+  }
+}
+
 export default function App() {
+  const persisted = loadPersisted();
   const [authView, setAuthView] = useState("landing"); // landing | login | signup
   const [session, setSession] = useState(undefined); // undefined = chargement, null = déconnecté
   const [profile, setProfile] = useState(null);
-  const [active, setActive] = useState("dashboard");
+  const [active, setActive] = useState(persisted?.active || "dashboard");
   const [showAdmin, setShowAdmin] = useState(false);
-  const [guestMode, setGuestMode] = useState(false);
-  const [dataset, setDataset] = useState(null); // { rows, columns, fileName } — données réellement importées
-  const [analysisQueue, setAnalysisQueue] = useState([]); // analyses réellement configurées et calculées
+  const [guestMode, setGuestMode] = useState(persisted?.guestMode || false);
+  const [dataset, setDataset] = useState(persisted?.dataset || null); // { rows, columns, fileName } — données réellement importées
+  const [analysisQueue, setAnalysisQueue] = useState(persisted?.analysisQueue || []); // analyses réellement configurées et calculées
+  const [context, setContext] = useState(persisted?.context || null); // contexte de l'étude (objectif, communes, filières, période, indicateurs)
+
+  // Sauvegarde automatique du travail en cours (survit à une fermeture d'onglet ou un rechargement)
+  useEffect(() => {
+    savePersisted({ active, dataset, analysisQueue, context, guestMode });
+  }, [active, dataset, analysisQueue, context, guestMode]);
 
   useEffect(() => {
     if (!isSupabaseConfigured) { setSession(null); return; }
@@ -52,6 +79,10 @@ export default function App() {
 
   const handleLogout = async () => {
     if (isSupabaseConfigured) await supabase.auth.signOut();
+    localStorage.removeItem(STORAGE_KEY);
+    setDataset(null);
+    setAnalysisQueue([]);
+    setContext(null);
     setAuthView("landing");
   };
 
@@ -102,6 +133,8 @@ export default function App() {
           onDatasetParsed={setDataset}
           analysisQueue={analysisQueue}
           onAnalysisQueueChange={setAnalysisQueue}
+          context={context}
+          onContextChange={setContext}
         />
       )}
     </div>

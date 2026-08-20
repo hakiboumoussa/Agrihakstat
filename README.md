@@ -109,6 +109,54 @@ sans créer de compte** sur la page d'accueil. Les boutons de connexion et
 d'inscription, eux, affichent un message explicite plutôt que d'échouer
 silencieusement tant que les clés Supabase ne sont pas renseignées.
 
+## Nouvelles fonctionnalités (persistance, validation, export, IA)
+
+### Persistance du travail
+
+Le fichier importé, les analyses configurées, le contexte de l'étude et l'écran
+en cours sont automatiquement sauvegardés dans le navigateur (`localStorage`).
+Fermer l'onglet, recharger la page ou fermer le navigateur ne fait plus perdre
+le travail en cours — tout est restauré à la prochaine visite, y compris en
+mode démonstration. Une vraie déconnexion (bouton « Se déconnecter ») efface
+volontairement cette sauvegarde locale, par précaution sur un poste partagé.
+
+### Validation des analyses
+
+Sur l'écran Résultats, chaque analyse porte désormais une case à cocher
+« Valider cette analyse pour l'inclure au rapport ». Si au moins une analyse
+est validée, seules les analyses validées sont reprises dans la section
+Analyse, l'annexe automatique, la génération IA et l'export Word. Si aucune
+n'est validée, l'ensemble de la file est utilisé par défaut.
+
+### Export Word réel
+
+Le bouton « Exporter en Word (.docx) » génère et télécharge, entièrement dans
+le navigateur, un vrai document Word contenant le contexte de l'étude, le
+tableau des indicateurs, les résultats validés, et les sections Analyse /
+Recommandations / Conclusion (rédigées par Claude si vous avez utilisé la
+fonction ci-dessous, sinon à compléter).
+
+### Rédaction assistée par Claude
+
+Le bouton « Rédiger avec Claude » sur la section Analyse envoie le contexte de
+l'étude, les indicateurs déclarés et les résultats statistiques réels à
+l'API Claude, qui rédige une analyse, des recommandations et une conclusion en
+français scientifique — jamais de chiffres inventés, seulement une mise en
+récit rigoureuse de ce qui a été réellement calculé.
+
+**Mise en place (une seule fois), car la clé API ne doit jamais être exposée
+au navigateur — elle est utilisée uniquement par une fonction serveur Vercel :**
+
+1. Créez une clé API sur **https://console.anthropic.com** → **Settings → API Keys**
+2. Sur **vercel.com**, ouvrez votre projet → **Settings → Environment Variables**
+3. Ajoutez une variable nommée exactement `ANTHROPIC_API_KEY`, collez votre clé, cochez les trois environnements (Production/Preview/Development), **Save**
+4. **Redéployez** (Deployments → ⋯ → Redeploy) pour que la variable soit prise en compte
+
+Le fichier `api/generate-report.js` est une fonction serveur Vercel détectée
+et déployée automatiquement — aucune autre configuration n'est nécessaire.
+Tant que la clé n'est pas configurée, le bouton affiche un message clair
+plutôt que d'échouer silencieusement.
+
 ## Conçu par
 
 Hakibou MOUSSA — Ingénieur Agronome, Spécialiste en Biostatistique & Modélisation

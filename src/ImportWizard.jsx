@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   LayoutDashboard, ClipboardList, BarChart3, FileText, Settings, Sprout,
   Bell, ChevronDown, Upload, FileSpreadsheet, FileCheck2, Link2, MapPin,
@@ -143,20 +143,20 @@ function Chip({ label, active, onClick, color }) {
   );
 }
 
-export default function ImportWizard({ active, onNavigate, userEmail, userId, roleLabel, isAdmin, isGuest, onLogout, onOpenAdmin, dataset, onDatasetParsed }) {
+export default function ImportWizard({ active, onNavigate, userEmail, userId, roleLabel, isAdmin, isGuest, onLogout, onOpenAdmin, dataset, onDatasetParsed, context, onContextChange }) {
   const [step, setStep] = useState(1);
-  const [departement, setDepartement] = useState("Borgou");
-  const [communes, setCommunes] = useState(["Tchaourou", "Pérèrè"]);
-  const [filieres, setFilieres] = useState(["Coton"]);
+  const [departement, setDepartement] = useState(context?.departement || "Borgou");
+  const [communes, setCommunes] = useState(context?.communes || ["Tchaourou", "Pérèrè"]);
+  const [filieres, setFilieres] = useState(context?.filieres || ["Coton"]);
   const [customFiliereInput, setCustomFiliereInput] = useState("");
   const [availableFilieres, setAvailableFilieres] = useState(DEFAULT_FILIERES);
   const [objectif, setObjectif] = useState(
-    "Suivre la progression décadaire des semis de coton sur les communes à risque pluviométrique du Borgou."
+    context?.objectif || "Suivre la progression décadaire des semis de coton sur les communes à risque pluviométrique du Borgou."
   );
-  const [periodeDebut, setPeriodeDebut] = useState("2026-06-10");
-  const [periodeFin, setPeriodeFin] = useState("2026-07-20");
-  const [uniteAnalyse, setUniteAnalyse] = useState("Exploitation agricole");
-  const [indicateurs, setIndicateurs] = useState([
+  const [periodeDebut, setPeriodeDebut] = useState(context?.periodeDebut || "2026-06-10");
+  const [periodeFin, setPeriodeFin] = useState(context?.periodeFin || "2026-07-20");
+  const [uniteAnalyse, setUniteAnalyse] = useState(context?.uniteAnalyse || "Exploitation agricole");
+  const [indicateurs, setIndicateurs] = useState(context?.indicateurs || [
     { id: 1, nom: "Taux de réalisation des semis", formule: "Superficie réalisée / Superficie prévue × 100", seuil: "75 %" },
     { id: 2, nom: "Rendement moyen estimé", formule: "Production estimée / Superficie réalisée", seuil: "ND — à renseigner" },
   ]);
@@ -167,6 +167,14 @@ export default function ImportWizard({ active, onNavigate, userEmail, userId, ro
   const [submitError, setSubmitError] = useState("");
   const [parsing, setParsing] = useState(false);
   const [fileError, setFileError] = useState("");
+
+  // Synchronise le contexte d'étude vers l'application (persistance + disponible pour le rapport)
+  useEffect(() => {
+    if (onContextChange) {
+      onContextChange({ departement, communes, filieres, objectif, periodeDebut, periodeFin, uniteAnalyse, indicateurs });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [departement, communes, filieres, objectif, periodeDebut, periodeFin, uniteAnalyse, indicateurs]);
 
   const communesDuDepartement = BENIN_DEPARTEMENTS.find((d) => d.departement === departement)?.communes || [];
 
