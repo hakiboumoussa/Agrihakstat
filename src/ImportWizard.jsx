@@ -2,25 +2,24 @@ import React, { useState } from "react";
 import {
   LayoutDashboard, ClipboardList, BarChart3, FileText, Settings, Sprout,
   Bell, ChevronDown, Upload, FileSpreadsheet, FileCheck2, Link2, MapPin,
-  Plus, Check, ChevronRight, ChevronLeft, X, AlertCircle, Trash2,
+  Plus, Check, ChevronRight, ChevronLeft, X, AlertCircle, Trash2, Pencil,
 } from "lucide-react";
 import UserMenu from "./UserMenu.jsx";
 import { supabase, isSupabaseConfigured } from "./supabaseClient.js";
 import Papa from "papaparse";
+import * as XLSX from "xlsx";
 import { buildColumnsMeta } from "./realStats.js";
+import { BENIN_DEPARTEMENTS } from "./beninGeo.js";
 
 const NAVY = "#1F3864";
 const GOLD = "#C99A2E";
 
-const FILIERES = {
-  Soja:   "#3E9C6B",
-  Maïs:   "#F0AC1B",
-  Riz:    "#3592C4",
-  Manioc: "#B5651D",
-  Coton:  "#6C7DAE",
-};
-
-const COMMUNES = ["Bembéréké", "Kalalé", "Nikki", "N'Dali", "Parakou", "Pérèrè", "Sinendé", "Tchaourou"];
+const FILIERE_COLORS = ["#6C7DAE", "#F0AC1B", "#3592C4", "#B5651D", "#3E9C6B", "#C9832E", "#8A6BB5", "#4FA07A", "#B3413A", "#7A8A3E", "#2E7D8C", "#A6642E"];
+const DEFAULT_FILIERES = ["Coton", "Maïs", "Riz", "Manioc", "Soja", "Arachide", "Sorgho", "Mil", "Niébé", "Igname", "Ananas", "Anacarde", "Palmier à huile", "Karité"];
+function filiereColor(name) {
+  const idx = DEFAULT_FILIERES.indexOf(name);
+  return FILIERE_COLORS[(idx >= 0 ? idx : name.length) % FILIERE_COLORS.length];
+}
 
 const nav = [
   { id: "dashboard", label: "Tableau de bord", icon: LayoutDashboard },
@@ -113,7 +112,7 @@ function Dropzone({ label, hint, formats }) {
   );
 }
 
-function UploadedFile({ icon: Icon, name, meta, tint, fg }) {
+function UploadedFile({ icon: Icon, name, meta, tint, fg, onDelete }) {
   return (
     <div className="flex items-center gap-3 rounded-xl p-3 border border-black/5" style={{ background: tint }}>
       <div className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0" style={{ background: "white" }}>
@@ -123,7 +122,7 @@ function UploadedFile({ icon: Icon, name, meta, tint, fg }) {
         <div className="text-sm font-medium truncate" style={{ color: fg }}>{name}</div>
         <div className="text-[11px] opacity-70" style={{ color: fg }}>{meta}</div>
       </div>
-      <button className="text-gray-400 hover:text-gray-600"><X size={16} /></button>
+      <button onClick={onDelete} type="button" className="text-gray-400 hover:text-red-500 transition-colors"><X size={16} /></button>
     </div>
   );
 }
@@ -146,39 +145,98 @@ function Chip({ label, active, onClick, color }) {
 
 export default function ImportWizard({ active, onNavigate, userEmail, userId, roleLabel, isAdmin, isGuest, onLogout, onOpenAdmin, dataset, onDatasetParsed }) {
   const [step, setStep] = useState(1);
+  const [departement, setDepartement] = useState("Borgou");
   const [communes, setCommunes] = useState(["Tchaourou", "Pérèrè"]);
   const [filieres, setFilieres] = useState(["Coton"]);
+  const [customFiliereInput, setCustomFiliereInput] = useState("");
+  const [availableFilieres, setAvailableFilieres] = useState(DEFAULT_FILIERES);
   const [objectif, setObjectif] = useState(
     "Suivre la progression décadaire des semis de coton sur les communes à risque pluviométrique du Borgou."
   );
+  const [periodeDebut, setPeriodeDebut] = useState("2026-06-10");
+  const [periodeFin, setPeriodeFin] = useState("2026-07-20");
+  const [uniteAnalyse, setUniteAnalyse] = useState("Exploitation agricole");
+  const [indicateurs, setIndicateurs] = useState([
+    { id: 1, nom: "Taux de réalisation des semis", formule: "Superficie réalisée / Superficie prévue × 100", seuil: "75 %" },
+    { id: 2, nom: "Rendement moyen estimé", formule: "Production estimée / Superficie réalisée", seuil: "ND — à renseigner" },
+  ]);
+  const [editingIndicateur, setEditingIndicateur] = useState(null); // {id|null, nom, formule, seuil}
+  const [questionnaire, setQuestionnaire] = useState(null); // { name, size }
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [submitError, setSubmitError] = useState("");
   const [parsing, setParsing] = useState(false);
   const [fileError, setFileError] = useState("");
 
+  const communesDuDepartement = BENIN_DEPARTEMENTS.find((d) => d.departement === departement)?.communes || [];
+
+  const handleQuestionnaireUpload = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setQuestionnaire({ name: file.name, size: (file.size / 1024).toFixed(0) + " Ko" });
+  };
+
+  const addCustomFiliere = () => {
+    const label = customFiliereInput.trim();
+    if (!label) return;
+    if (!availableFilieres.includes(label)) setAvailableFilieres([...availableFilieres, label]);
+    if (!filieres.includes(label)) setFilieres([...filieres, label]);
+    setCustomFiliereInput("");
+  };
+
+  const saveIndicateur = () => {
+    if (!editingIndicateur?.nom?.trim()) return;
+    if (editingIndicateur.id) {
+      setIndicateurs(indicateurs.map((k) => (k.id === editingIndicateur.id ? editingIndicateur : k)));
+    } else {
+      setIndicateurs([...indicateurs, { ...editingIndicateur, id: Date.now() }]);
+    }
+    setEditingIndicateur(null);
+  };
+
   const handleFileUpload = (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
     setFileError("");
     setParsing(true);
-    Papa.parse(file, {
-      header: true,
-      skipEmptyLines: true,
-      complete: (results) => {
-        setParsing(false);
-        if (!results.data.length) {
-          setFileError("Le fichier semble vide ou n'a pas pu être lu.");
-          return;
+    const extension = file.name.split(".").pop().toLowerCase();
+
+    const finish = (parsedRows) => {
+      setParsing(false);
+      if (!parsedRows || !parsedRows.length) {
+        setFileError("Le fichier semble vide ou n'a pas pu être lu. Vérifiez qu'il contient une ligne d'en-têtes et au moins une ligne de données.");
+        return;
+      }
+      const columns = buildColumnsMeta(parsedRows);
+      onDatasetParsed({ rows: parsedRows, columns, fileName: file.name });
+    };
+
+    if (extension === "xlsx" || extension === "xls") {
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        try {
+          const wb = XLSX.read(ev.target.result, { type: "array" });
+          const sheet = wb.Sheets[wb.SheetNames[0]];
+          const rows = XLSX.utils.sheet_to_json(sheet, { defval: "" });
+          finish(rows);
+        } catch (err) {
+          setParsing(false);
+          setFileError("Erreur de lecture du fichier Excel : " + err.message);
         }
-        const columns = buildColumnsMeta(results.data);
-        onDatasetParsed({ rows: results.data, columns, fileName: file.name });
-      },
-      error: (err) => {
-        setParsing(false);
-        setFileError("Erreur de lecture du fichier : " + err.message);
-      },
-    });
+      };
+      reader.onerror = () => { setParsing(false); setFileError("Erreur de lecture du fichier."); };
+      reader.readAsArrayBuffer(file);
+    } else if (extension === "csv") {
+      Papa.parse(file, {
+        header: true,
+        skipEmptyLines: true,
+        complete: (results) => finish(results.data),
+        error: (err) => { setParsing(false); setFileError("Erreur de lecture du fichier CSV : " + err.message); },
+      });
+    } else {
+      setParsing(false);
+      setFileError("Format non reconnu — utilisez un fichier .csv, .xlsx ou .xls.");
+    }
   };
 
   const toggle = (list, setList, item) =>
@@ -231,20 +289,39 @@ export default function ImportWizard({ active, onNavigate, userEmail, userId, ro
             {step === 1 && (
               <Card>
                 <h2 className="font-serif font-semibold mb-1" style={{ color: NAVY }}>Importer le questionnaire</h2>
-                <p className="text-xs text-gray-400 mb-5">Formats reconnus automatiquement : XLSForm/KoboToolbox, Akvo Flow, ODK, ou fichier Excel de structure libre.</p>
+                <p className="text-xs text-gray-400 mb-5">Formats acceptés : Excel (.xlsx), CSV, ou tout export XLSForm/KoboToolbox/Akvo Flow/ODK.</p>
                 <div className="grid grid-cols-2 gap-4">
-                  <Dropzone label="Glisser-déposer un fichier" hint="ou cliquer pour parcourir" formats={["XLSForm", "ODK", ".xlsx"]} />
+                  <label className="border-2 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center text-center gap-2 cursor-pointer transition-colors hover:bg-[#FAFBFE]" style={{ borderColor: "#C7D2E8" }}>
+                    <input type="file" accept=".xlsx,.xls,.csv,.pdf,.docx" className="hidden" onChange={handleQuestionnaireUpload} />
+                    <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-1" style={{ background: "#EBEEF7" }}>
+                      <Upload size={20} style={{ color: NAVY }} />
+                    </div>
+                    <div className="font-medium text-sm" style={{ color: NAVY }}>Glisser-déposer un fichier</div>
+                    <div className="text-xs text-gray-400">ou cliquer pour parcourir</div>
+                    <div className="flex flex-wrap gap-1.5 justify-center mt-2">
+                      {["XLSForm", "ODK", ".xlsx"].map((f) => (
+                        <span key={f} className="text-[10px] px-2 py-1 rounded-full bg-[#F6E9DD] text-[#8A4A1D] font-medium">{f}</span>
+                      ))}
+                    </div>
+                  </label>
                   <div className="border-2 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center text-center gap-2 cursor-pointer hover:bg-[#FAFBFE]" style={{ borderColor: "#C7D2E8" }}>
                     <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-1" style={{ background: "#E4F5EC" }}>
                       <Link2 size={20} style={{ color: "#256B45" }} />
                     </div>
                     <div className="font-medium text-sm" style={{ color: NAVY }}>Connecter Akvo Flow / KoboToolbox</div>
-                    <div className="text-xs text-gray-400">Import direct via API</div>
+                    <div className="text-xs text-gray-400">Import direct via API (à venir)</div>
                   </div>
                 </div>
-                <div className="mt-5">
-                  <UploadedFile icon={FileSpreadsheet} name="Questionnaire_Suivi_Semis_2026-2027.xlsx" meta="24 questions détectées · importé il y a 2 min" tint="#EBEEF7" fg={NAVY} />
-                </div>
+                {questionnaire ? (
+                  <div className="mt-5">
+                    <UploadedFile icon={FileSpreadsheet} name={questionnaire.name} meta={questionnaire.size}
+                      tint="#EBEEF7" fg={NAVY} onDelete={() => setQuestionnaire(null)} />
+                  </div>
+                ) : (
+                  <div className="mt-5 rounded-xl p-3 border border-black/5 bg-gray-50 text-xs text-gray-500">
+                    Aucun questionnaire importé pour l'instant.
+                  </div>
+                )}
               </Card>
             )}
 
@@ -252,16 +329,16 @@ export default function ImportWizard({ active, onNavigate, userEmail, userId, ro
             {step === 2 && (
               <Card>
                 <h2 className="font-serif font-semibold mb-1" style={{ color: NAVY }}>Importer la base de données</h2>
-                <p className="text-xs text-gray-400 mb-5">Fichier CSV réel — les colonnes et leur type sont détectés automatiquement.</p>
+                <p className="text-xs text-gray-400 mb-5">Fichier Excel (.xlsx) ou CSV réel — les colonnes et leur type sont détectés automatiquement.</p>
                 <div className="grid grid-cols-2 gap-4">
                   <label className="border-2 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center text-center gap-2 cursor-pointer hover:bg-[#FAFBFE]" style={{ borderColor: "#C7D2E8" }}>
-                    <input type="file" accept=".csv" className="hidden" onChange={handleFileUpload} />
+                    <input type="file" accept=".csv,.xlsx,.xls" className="hidden" onChange={handleFileUpload} />
                     <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-1" style={{ background: "#EBEEF7" }}>
                       <Upload size={20} style={{ color: NAVY }} />
                     </div>
-                    <div className="font-medium text-sm" style={{ color: NAVY }}>{parsing ? "Analyse en cours…" : "Glisser-déposer un fichier CSV"}</div>
+                    <div className="font-medium text-sm" style={{ color: NAVY }}>{parsing ? "Analyse en cours…" : "Glisser-déposer un fichier"}</div>
                     <div className="text-xs text-gray-400">ou cliquer pour parcourir</div>
-                    <span className="text-[10px] px-2 py-1 rounded-full bg-[#F6E9DD] text-[#8A4A1D] font-medium mt-2">CSV réel, avec en-têtes</span>
+                    <span className="text-[10px] px-2 py-1 rounded-full bg-[#F6E9DD] text-[#8A4A1D] font-medium mt-2">.xlsx, .xls ou .csv</span>
                   </label>
                   <div className="border-2 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center text-center gap-2 cursor-pointer hover:bg-[#FAFBFE]" style={{ borderColor: "#C7D2E8" }}>
                     <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-1" style={{ background: "#E4F5EC" }}>
@@ -280,7 +357,7 @@ export default function ImportWizard({ active, onNavigate, userEmail, userId, ro
                   <div className="mt-5 space-y-3">
                     <UploadedFile icon={FileCheck2} name={dataset.fileName}
                       meta={`${dataset.rows.length.toLocaleString("fr-FR")} enregistrements · ${dataset.columns.length} colonnes — analysées réellement`}
-                      tint="#E4F5EC" fg="#256B45" />
+                      tint="#E4F5EC" fg="#256B45" onDelete={() => onDatasetParsed(null)} />
                     {dataset.columns.some((c) => c.isGeo) ? (
                       <div className="flex items-start gap-2 rounded-xl p-3 border border-black/5" style={{ background: "#FDF1DA" }}>
                         <MapPin size={16} style={{ color: "#8A5A00" }} className="mt-0.5" />
@@ -316,32 +393,78 @@ export default function ImportWizard({ active, onNavigate, userEmail, userId, ro
                   onChange={(e) => setObjectif(e.target.value)}
                 />
 
-                <label className="text-xs font-medium text-gray-600 block mb-1.5">Zone géographique (communes)</label>
-                <div className="flex flex-wrap gap-2 mb-5">
-                  {COMMUNES.map((c) => (
+                <label className="text-xs font-medium text-gray-600 block mb-1.5">Zone géographique</label>
+                <div className="grid grid-cols-2 gap-3 mb-3">
+                  <div>
+                    <label className="text-[11px] text-gray-500 block mb-1">Département</label>
+                    <select
+                      value={departement}
+                      onChange={(e) => { setDepartement(e.target.value); setCommunes([]); }}
+                      className="w-full text-sm rounded-xl border border-gray-200 p-2.5 focus:outline-none focus:ring-2 bg-white"
+                      style={{ "--tw-ring-color": GOLD }}
+                    >
+                      {BENIN_DEPARTEMENTS.map((d) => (
+                        <option key={d.departement} value={d.departement}>{d.departement}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="flex items-end">
+                    <span className="text-[11px] text-gray-400">{communes.length} commune{communes.length > 1 ? "s" : ""} sélectionnée{communes.length > 1 ? "s" : ""} au total</span>
+                  </div>
+                </div>
+                <label className="text-[11px] text-gray-500 block mb-1">Communes de {departement}</label>
+                <div className="flex flex-wrap gap-2 mb-2">
+                  {communesDuDepartement.map((c) => (
                     <Chip key={c} label={c} active={communes.includes(c)} onClick={() => toggle(communes, setCommunes, c)} />
                   ))}
                 </div>
+                {communes.length > 0 && (
+                  <div className="flex flex-wrap gap-1.5 mb-5 pt-2 border-t border-gray-100">
+                    {communes.map((c) => (
+                      <span key={c} className="text-[11px] px-2 py-1 rounded-full flex items-center gap-1" style={{ background: "#EBEEF7", color: NAVY }}>
+                        {c}
+                        <button onClick={() => toggle(communes, setCommunes, c)} className="hover:text-red-500"><X size={11} /></button>
+                      </span>
+                    ))}
+                  </div>
+                )}
 
                 <label className="text-xs font-medium text-gray-600 block mb-1.5">Filière(s) concernée(s)</label>
-                <div className="flex flex-wrap gap-2 mb-5">
-                  {Object.entries(FILIERES).map(([f, c]) => (
-                    <Chip key={f} label={f} active={filieres.includes(f)} onClick={() => toggle(filieres, setFilieres, f)} color={c} />
+                <div className="flex flex-wrap gap-2 mb-3">
+                  {availableFilieres.map((f) => (
+                    <Chip key={f} label={f} active={filieres.includes(f)} onClick={() => toggle(filieres, setFilieres, f)} color={filiereColor(f)} />
                   ))}
+                </div>
+                <div className="flex items-center gap-2 mb-5">
+                  <input
+                    type="text"
+                    value={customFiliereInput}
+                    onChange={(e) => setCustomFiliereInput(e.target.value)}
+                    onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addCustomFiliere(); } }}
+                    placeholder="Ajouter une autre filière…"
+                    className="flex-1 text-sm rounded-xl border border-gray-200 p-2 focus:outline-none focus:ring-2"
+                    style={{ "--tw-ring-color": GOLD }}
+                  />
+                  <button onClick={addCustomFiliere} type="button" className="px-3 py-2 rounded-xl text-xs font-medium text-white" style={{ background: NAVY }}>
+                    <Plus size={13} />
+                  </button>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="text-xs font-medium text-gray-600 block mb-1.5">Période de référence</label>
                     <div className="flex items-center gap-2">
-                      <input type="text" defaultValue="10/06/2026" className="w-full text-sm rounded-xl border border-gray-200 p-2.5 focus:outline-none focus:ring-2" style={{ "--tw-ring-color": GOLD }} />
+                      <input type="date" value={periodeDebut} onChange={(e) => setPeriodeDebut(e.target.value)}
+                        className="w-full text-sm rounded-xl border border-gray-200 p-2.5 focus:outline-none focus:ring-2" style={{ "--tw-ring-color": GOLD }} />
                       <span className="text-gray-400 text-xs">→</span>
-                      <input type="text" defaultValue="20/07/2026" className="w-full text-sm rounded-xl border border-gray-200 p-2.5 focus:outline-none focus:ring-2" style={{ "--tw-ring-color": GOLD }} />
+                      <input type="date" value={periodeFin} onChange={(e) => setPeriodeFin(e.target.value)}
+                        className="w-full text-sm rounded-xl border border-gray-200 p-2.5 focus:outline-none focus:ring-2" style={{ "--tw-ring-color": GOLD }} />
                     </div>
                   </div>
                   <div>
                     <label className="text-xs font-medium text-gray-600 block mb-1.5">Unité d'analyse</label>
-                    <select className="w-full text-sm rounded-xl border border-gray-200 p-2.5 focus:outline-none focus:ring-2" style={{ "--tw-ring-color": GOLD }}>
+                    <select value={uniteAnalyse} onChange={(e) => setUniteAnalyse(e.target.value)}
+                      className="w-full text-sm rounded-xl border border-gray-200 p-2.5 focus:outline-none focus:ring-2" style={{ "--tw-ring-color": GOLD }}>
                       <option>Exploitation agricole</option>
                       <option>Ménage</option>
                       <option>Parcelle</option>
@@ -357,31 +480,69 @@ export default function ImportWizard({ active, onNavigate, userEmail, userId, ro
               <Card>
                 <div className="flex items-center justify-between mb-1">
                   <h2 className="font-serif font-semibold" style={{ color: NAVY }}>Indicateurs de performance</h2>
-                  <button className="text-xs font-medium flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-white" style={{ background: NAVY }}>
+                  <button
+                    onClick={() => setEditingIndicateur({ id: null, nom: "", formule: "", seuil: "" })}
+                    className="text-xs font-medium flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-white"
+                    style={{ background: NAVY }}
+                  >
                     <Plus size={14} /> Ajouter un indicateur
                   </button>
                 </div>
                 <p className="text-xs text-gray-400 mb-5">Ces indicateurs seront mis en regard des analyses bivariées et de l'enrichissement climatique (Module 7).</p>
 
+                {editingIndicateur && (
+                  <div className="rounded-xl border-2 p-3 mb-3" style={{ borderColor: GOLD, background: "#FFFDF7" }}>
+                    <div className="grid grid-cols-2 gap-2 mb-2">
+                      <input
+                        placeholder="Nom de l'indicateur"
+                        value={editingIndicateur.nom}
+                        onChange={(e) => setEditingIndicateur({ ...editingIndicateur, nom: e.target.value })}
+                        className="text-sm rounded-lg border border-gray-200 p-2 focus:outline-none focus:ring-2" style={{ "--tw-ring-color": GOLD }}
+                      />
+                      <input
+                        placeholder="Seuil de référence (ex. 75 %)"
+                        value={editingIndicateur.seuil}
+                        onChange={(e) => setEditingIndicateur({ ...editingIndicateur, seuil: e.target.value })}
+                        className="text-sm rounded-lg border border-gray-200 p-2 focus:outline-none focus:ring-2" style={{ "--tw-ring-color": GOLD }}
+                      />
+                    </div>
+                    <input
+                      placeholder="Formule de calcul"
+                      value={editingIndicateur.formule}
+                      onChange={(e) => setEditingIndicateur({ ...editingIndicateur, formule: e.target.value })}
+                      className="w-full text-sm rounded-lg border border-gray-200 p-2 mb-2 focus:outline-none focus:ring-2" style={{ "--tw-ring-color": GOLD }}
+                    />
+                    <div className="flex gap-2">
+                      <button onClick={saveIndicateur} className="px-3 py-1.5 rounded-lg text-xs font-medium text-white" style={{ background: "#256B45" }}>
+                        <Check size={12} className="inline mr-1 -mt-0.5" /> Enregistrer
+                      </button>
+                      <button onClick={() => setEditingIndicateur(null)} className="px-3 py-1.5 rounded-lg text-xs font-medium bg-white border border-gray-200 text-gray-600">
+                        Annuler
+                      </button>
+                    </div>
+                  </div>
+                )}
+
                 <div className="space-y-3">
-                  {[
-                    { name: "Taux de réalisation des semis", formule: "Superficie réalisée / Superficie prévue × 100", seuil: "75 %" },
-                    { name: "Rendement moyen estimé", formule: "Production estimée / Superficie réalisée", seuil: "ND — à renseigner" },
-                  ].map((kpi) => (
-                    <div key={kpi.name} className="flex items-center gap-3 rounded-xl border border-gray-100 p-3">
+                  {indicateurs.map((kpi) => (
+                    <div key={kpi.id} className="flex items-center gap-3 rounded-xl border border-gray-100 p-3">
                       <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{ background: "#EBEEF7" }}>
                         <BarChart3 size={15} style={{ color: NAVY }} />
                       </div>
                       <div className="flex-1">
-                        <div className="text-sm font-medium text-gray-800">{kpi.name}</div>
+                        <div className="text-sm font-medium text-gray-800">{kpi.nom}</div>
                         <div className="text-[11px] text-gray-400">{kpi.formule}</div>
                       </div>
                       <span className="text-[11px] font-medium px-2 py-1 rounded-full" style={{ background: "#FDF1DA", color: "#8A5A00" }}>
-                        Seuil : {kpi.seuil}
+                        Seuil : {kpi.seuil || "ND"}
                       </span>
-                      <button className="text-gray-300 hover:text-red-400"><Trash2 size={15} /></button>
+                      <button onClick={() => setEditingIndicateur(kpi)} className="text-gray-300 hover:text-blue-500"><Pencil size={14} /></button>
+                      <button onClick={() => setIndicateurs(indicateurs.filter((k) => k.id !== kpi.id))} className="text-gray-300 hover:text-red-400"><Trash2 size={15} /></button>
                     </div>
                   ))}
+                  {indicateurs.length === 0 && (
+                    <div className="text-xs text-gray-400 italic text-center py-4">Aucun indicateur défini — cliquez sur « Ajouter un indicateur ».</div>
+                  )}
                 </div>
               </Card>
             )}
@@ -484,6 +645,10 @@ export default function ImportWizard({ active, onNavigate, userEmail, userId, ro
                       thematiques: filieres,
                       communes: communes,
                       statut: "soumis",
+                      periode_debut: periodeDebut || null,
+                      periode_fin: periodeFin || null,
+                      unite_analyse: uniteAnalyse,
+                      indicateurs: indicateurs,
                     });
                     setSubmitting(false);
                     if (error) setSubmitError(error.message);

@@ -11,6 +11,7 @@ const GOLD = "#C99A2E";
 const FILIERES = {
   Soja: "#3E9C6B", Maïs: "#F0AC1B", Riz: "#3592C4", Manioc: "#B5651D", Coton: "#6C7DAE",
 };
+const FILIERE_PALETTE = ["#6C7DAE", "#F0AC1B", "#3592C4", "#B5651D", "#3E9C6B", "#C9832E", "#8A6BB5", "#B3413A"];
 
 const nav = [
   { id: "dashboard", label: "Tableau de bord", icon: LayoutDashboard },
@@ -100,7 +101,7 @@ function Chip({ label, active, onClick, color }) {
   );
 }
 
-export default function Cartographie({ active, onNavigate, userEmail, roleLabel, isAdmin, isGuest, onLogout, onOpenAdmin }) {
+export default function Cartographie({ active, onNavigate, userEmail, roleLabel, isAdmin, isGuest, onLogout, onOpenAdmin, dataset }) {
   const [layer, setLayer] = useState("points");
   const [indicateur, setIndicateur] = useState("taux");
   const [filieres, setFilieres] = useState(Object.keys(FILIERES));
@@ -111,6 +112,40 @@ export default function Cartographie({ active, onNavigate, userEmail, roleLabel,
   const indicateurLabel = { taux: "Taux de réalisation (%)", rendement: "Rendement moyen (kg/ha)", anomalies: "Anomalies détectées" }[indicateur];
   const indicateurValue = (c) => (indicateur === "taux" ? `${c.taux}%` : indicateur === "rendement" ? `${c.rendement}` : c.anomalies);
   const indicateurColor = (c) => (indicateur === "anomalies" ? (c.anomalies > 1 ? "#C1573F" : c.anomalies === 1 ? "#E3A23B" : "#3E9C6B") : indicateur === "taux" ? tauxColor(c.taux) : tauxColor((c.rendement / 2000) * 100));
+
+  // ---------- Détection et projection des vraies coordonnées géographiques importées ----------
+  const geoCols = dataset ? dataset.columns.filter((c) => c.isGeo) : [];
+  const latCol = geoCols.find((c) => /lat/i.test(c.name));
+  const lonCol = geoCols.find((c) => /lon|lng/i.test(c.name));
+  const hasRealGeo = !!(dataset && latCol && lonCol);
+
+  let realPoints = [];
+  let colorCol = null;
+  let realColorMap = {};
+  if (hasRealGeo) {
+    const rawPoints = dataset.rows
+      .map((r) => ({ lat: Number(r[latCol.name]), lon: Number(r[lonCol.name]), row: r }))
+      .filter((p) => !isNaN(p.lat) && !isNaN(p.lon));
+    if (rawPoints.length > 0) {
+      const lats = rawPoints.map((p) => p.lat), lons = rawPoints.map((p) => p.lon);
+      const latMin = Math.min(...lats), latMax = Math.max(...lats);
+      const lonMin = Math.min(...lons), lonMax = Math.max(...lons);
+      const latSpan = latMax - latMin || 1, lonSpan = lonMax - lonMin || 1;
+
+      colorCol = dataset.columns.find((c) => !c.isQuantitative && !c.isGeo && c.modalites && c.modalites.length <= 8) || null;
+      if (colorCol) {
+        colorCol.modalites.forEach((m, i) => { realColorMap[m] = FILIERE_PALETTE[i % FILIERE_PALETTE.length]; });
+      }
+
+      realPoints = rawPoints.map((p, i) => ({
+        id: i,
+        x: 5 + ((p.lon - lonMin) / lonSpan) * 90,
+        y: 95 - ((p.lat - latMin) / latSpan) * 90,
+        color: colorCol ? (realColorMap[p.row[colorCol.name]] || "#8A93A8") : NAVY,
+        label: colorCol ? p.row[colorCol.name] : null,
+      }));
+    }
+  }
 
   return (
     <div className="min-h-screen relative bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans">
@@ -177,12 +212,22 @@ export default function Cartographie({ active, onNavigate, userEmail, roleLabel,
                 )}
 
                 <div className="relative rounded-xl bg-[#F7F9FC] border border-gray-100" style={{ height: 460 }}>
+                  {layer === "points" && !hasRealGeo ? (
+                    <div className="w-full h-full flex flex-col items-center justify-center text-center px-8">
+                      <MapPin size={32} className="text-gray-300 mb-3" />
+                      <p className="text-sm font-medium text-gray-500">Aucune donnée de géoréférencement disponible</p>
+                      <p className="text-xs text-gray-400 mt-1 max-w-sm">
+                        {dataset
+                          ? "La base importée ne contient pas de colonnes de latitude/longitude exploitables. Importez une base incluant des coordonnées GPS pour activer la cartographie des points d'enquête."
+                          : "Importez d'abord une base de données via l'assistant d'import (étape « Base de données »)."}
+                      </p>
+                    </div>
+                  ) : (
+                  <>
                   <svg viewBox="0 0 100 100" className="w-full h-full">
-                    {layer === "points" && SURVEY_POINTS
-                      .filter((pt) => filieres.includes(pt.filiere))
-                      .map((pt) => (
-                        <circle key={pt.id} cx={pt.x} cy={pt.y} r={1.6} fill={FILIERES[pt.filiere]} opacity={0.85} stroke="white" strokeWidth={0.3} />
-                      ))}
+                    {layer === "points" && hasRealGeo && realPoints.map((pt) => (
+                      <circle key={pt.id} cx={pt.x} cy={pt.y} r={1.6} fill={pt.color} opacity={0.85} stroke="white" strokeWidth={0.3} />
+                    ))}
 
                     {layer === "choropleth" && COMMUNES.map((c) => (
                       <g key={c.name}>
@@ -192,6 +237,7 @@ export default function Cartographie({ active, onNavigate, userEmail, roleLabel,
                         <text x={c.x} y={c.y + 1.2} fontSize="3" textAnchor="middle" fill="white" fontWeight="700">{indicateurValue(c)}</text>
                       </g>
                     ))}
+
 
                     {layer === "isohyet" && COMMUNES.map((c) => (
                       <g key={c.name}>
@@ -204,18 +250,24 @@ export default function Cartographie({ active, onNavigate, userEmail, roleLabel,
                     ))}
                   </svg>
                   <span className="absolute bottom-2 right-3 text-[9px] text-gray-400 italic">
-                    {layer === "isohyet" ? "Interpolation IDW — illustrative" : "Position illustrative — non géoréférencée à l'échelle"}
+                    {layer === "isohyet" ? "Interpolation IDW — illustrative" : hasRealGeo ? `Projection linéaire des coordonnées réelles (${latCol.name}/${lonCol.name})` : "Position illustrative — non géoréférencée à l'échelle"}
                   </span>
+                  </>
+                  )}
                 </div>
 
                 {/* Légendes */}
-                {layer === "points" && (
+                {layer === "points" && hasRealGeo && (
                   <div className="flex flex-wrap gap-3 mt-4">
-                    {Object.entries(FILIERES).map(([f, c]) => (
-                      <div key={f} className="flex items-center gap-1.5 text-[11px] text-gray-600">
-                        <span className="w-2.5 h-2.5 rounded-full" style={{ background: c }} /> {f}
+                    {colorCol ? colorCol.modalites.map((m) => (
+                      <div key={m} className="flex items-center gap-1.5 text-[11px] text-gray-600">
+                        <span className="w-2.5 h-2.5 rounded-full" style={{ background: realColorMap[m] }} /> {m}
                       </div>
-                    ))}
+                    )) : (
+                      <div className="flex items-center gap-1.5 text-[11px] text-gray-600">
+                        <span className="w-2.5 h-2.5 rounded-full" style={{ background: NAVY }} /> Points d'enquête ({realPoints.length})
+                      </div>
+                    )}
                   </div>
                 )}
                 {layer === "choropleth" && (

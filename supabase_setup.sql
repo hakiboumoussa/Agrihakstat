@@ -87,3 +87,9 @@ create policy "Lire ses propres projets" on public.projets
 drop policy if exists "Les administrateurs lisent tous les projets" on public.projets;
 create policy "Les administrateurs lisent tous les projets" on public.projets
   for select using (public.is_admin());
+
+-- 7. Colonnes complémentaires du contexte d'étude (ajoutées après mise à jour de l'assistant d'import)
+alter table public.projets add column if not exists periode_debut date;
+alter table public.projets add column if not exists periode_fin date;
+alter table public.projets add column if not exists unite_analyse text;
+alter table public.projets add column if not exists indicateurs jsonb default '[]';
