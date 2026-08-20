@@ -50676,7 +50676,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         className: "w-60 min-h-screen shrink-0 py-6 px-4 text-[#C7D2E8]",
         style: { background: `linear-gradient(180deg, ${NAVY2} 0%, #16294B 100%)` }
       },
-      /* @__PURE__ */ import_react70.default.createElement("div", { className: "flex flex-col items-start gap-1 px-2 mb-8" }, /* @__PURE__ */ import_react70.default.createElement("img", { src: "./logo-compact.png", alt: "AgriHakStat", className: "h-16 w-auto -ml-1" }), /* @__PURE__ */ import_react70.default.createElement("div", { className: "text-[10px] opacity-60" }, "DDAEP-Borgou")),
+      /* @__PURE__ */ import_react70.default.createElement("div", { className: "flex flex-col items-start gap-1 px-2 mb-8" }, /* @__PURE__ */ import_react70.default.createElement("img", { src: "./logo-compact.png", alt: "AgriHakStat", className: "h-32 w-auto -ml-1" }), /* @__PURE__ */ import_react70.default.createElement("div", { className: "text-[10px] opacity-60" }, "DDAEP-Borgou")),
       /* @__PURE__ */ import_react70.default.createElement("nav", { className: "space-y-1.5" }, nav.map((item) => /* @__PURE__ */ import_react70.default.createElement(
         "div",
         {
@@ -50840,7 +50840,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         className: "w-60 min-h-screen shrink-0 py-6 px-4 text-[#C7D2E8]",
         style: { background: `linear-gradient(180deg, ${NAVY3} 0%, #16294B 100%)` }
       },
-      /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex flex-col items-start gap-1 px-2 mb-8" }, /* @__PURE__ */ import_react71.default.createElement("img", { src: "./logo-compact.png", alt: "AgriHakStat", className: "h-16 w-auto -ml-1" }), /* @__PURE__ */ import_react71.default.createElement("div", { className: "text-[10px] opacity-60" }, "DDAEP-Borgou")),
+      /* @__PURE__ */ import_react71.default.createElement("div", { className: "flex flex-col items-start gap-1 px-2 mb-8" }, /* @__PURE__ */ import_react71.default.createElement("img", { src: "./logo-compact.png", alt: "AgriHakStat", className: "h-32 w-auto -ml-1" }), /* @__PURE__ */ import_react71.default.createElement("div", { className: "text-[10px] opacity-60" }, "DDAEP-Borgou")),
       /* @__PURE__ */ import_react71.default.createElement("nav", { className: "space-y-1.5" }, nav2.map((item) => /* @__PURE__ */ import_react71.default.createElement(
         "div",
         {
@@ -51095,7 +51095,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         className: "w-60 min-h-screen shrink-0 py-6 px-4 text-[#C7D2E8]",
         style: { background: `linear-gradient(180deg, ${NAVY4} 0%, #16294B 100%)` }
       },
-      /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex flex-col items-start gap-1 px-2 mb-8" }, /* @__PURE__ */ import_react72.default.createElement("img", { src: "./logo-compact.png", alt: "AgriHakStat", className: "h-16 w-auto -ml-1" }), /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-[10px] opacity-60" }, "DDAEP-Borgou")),
+      /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex flex-col items-start gap-1 px-2 mb-8" }, /* @__PURE__ */ import_react72.default.createElement("img", { src: "./logo-compact.png", alt: "AgriHakStat", className: "h-32 w-auto -ml-1" }), /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-[10px] opacity-60" }, "DDAEP-Borgou")),
       /* @__PURE__ */ import_react72.default.createElement("nav", { className: "space-y-1.5" }, nav3.map((item) => /* @__PURE__ */ import_react72.default.createElement(
         "div",
         {
@@ -51344,7 +51344,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         className: "w-60 min-h-screen shrink-0 py-6 px-4 text-[#C7D2E8]",
         style: { background: `linear-gradient(180deg, ${NAVY5} 0%, #16294B 100%)` }
       },
-      /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex flex-col items-start gap-1 px-2 mb-8" }, /* @__PURE__ */ import_react73.default.createElement("img", { src: "./logo-compact.png", alt: "AgriHakStat", className: "h-16 w-auto -ml-1" }), /* @__PURE__ */ import_react73.default.createElement("div", { className: "text-[10px] opacity-60" }, "DDAEP-Borgou")),
+      /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex flex-col items-start gap-1 px-2 mb-8" }, /* @__PURE__ */ import_react73.default.createElement("img", { src: "./logo-compact.png", alt: "AgriHakStat", className: "h-32 w-auto -ml-1" }), /* @__PURE__ */ import_react73.default.createElement("div", { className: "text-[10px] opacity-60" }, "DDAEP-Borgou")),
       /* @__PURE__ */ import_react73.default.createElement("nav", { className: "space-y-1.5" }, nav4.map((item) => /* @__PURE__ */ import_react73.default.createElement(
         "div",
         {
@@ -51538,7 +51538,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         className: "w-60 min-h-screen shrink-0 py-6 px-4 text-[#C7D2E8]",
         style: { background: `linear-gradient(180deg, ${NAVY6} 0%, #16294B 100%)` }
       },
-      /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex flex-col items-start gap-1 px-2 mb-8" }, /* @__PURE__ */ import_react74.default.createElement("img", { src: "./logo-compact.png", alt: "AgriHakStat", className: "h-16 w-auto -ml-1" }), /* @__PURE__ */ import_react74.default.createElement("div", { className: "text-[10px] opacity-60" }, "DDAEP-Borgou")),
+      /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex flex-col items-start gap-1 px-2 mb-8" }, /* @__PURE__ */ import_react74.default.createElement("img", { src: "./logo-compact.png", alt: "AgriHakStat", className: "h-32 w-auto -ml-1" }), /* @__PURE__ */ import_react74.default.createElement("div", { className: "text-[10px] opacity-60" }, "DDAEP-Borgou")),
       /* @__PURE__ */ import_react74.default.createElement("nav", { className: "space-y-1.5" }, nav5.map((item) => /* @__PURE__ */ import_react74.default.createElement(
         "div",
         {
@@ -51602,7 +51602,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   var NAVY7 = "#1F3864";
   var GOLD6 = "#C99A2E";
   function Landing({ onGoLogin, onGoSignup, onGoDemo }) {
-    return /* @__PURE__ */ import_react75.default.createElement("div", { className: "min-h-screen bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans" }, /* @__PURE__ */ import_react75.default.createElement("header", { className: "flex items-center justify-between px-8 py-5" }, /* @__PURE__ */ import_react75.default.createElement("div", { className: "flex items-center gap-2" }, /* @__PURE__ */ import_react75.default.createElement("img", { src: "./logo-compact.png", alt: "AgriHakStat", className: "h-10 w-auto" })), /* @__PURE__ */ import_react75.default.createElement("div", { className: "flex items-center gap-3" }, /* @__PURE__ */ import_react75.default.createElement("button", { onClick: onGoLogin, className: "px-4 py-2 rounded-xl text-sm font-medium", style: { color: NAVY7 } }, "Se connecter"), /* @__PURE__ */ import_react75.default.createElement(
+    return /* @__PURE__ */ import_react75.default.createElement("div", { className: "min-h-screen bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans" }, /* @__PURE__ */ import_react75.default.createElement("header", { className: "flex items-center justify-between px-8 py-5" }, /* @__PURE__ */ import_react75.default.createElement("div", { className: "flex items-center gap-2" }, /* @__PURE__ */ import_react75.default.createElement("img", { src: "./logo-compact.png", alt: "AgriHakStat", className: "h-20 w-auto" })), /* @__PURE__ */ import_react75.default.createElement("div", { className: "flex items-center gap-3" }, /* @__PURE__ */ import_react75.default.createElement("button", { onClick: onGoLogin, className: "px-4 py-2 rounded-xl text-sm font-medium", style: { color: NAVY7 } }, "Se connecter"), /* @__PURE__ */ import_react75.default.createElement(
       "button",
       {
         onClick: onGoSignup,
@@ -71919,7 +71919,7 @@ ${suffix2}`;
       setLoading(false);
       if (error2) setError(error2.message);
     };
-    return /* @__PURE__ */ import_react76.default.createElement("div", { className: "min-h-screen flex items-center justify-center bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans px-4" }, /* @__PURE__ */ import_react76.default.createElement("div", { className: "w-full max-w-sm bg-white rounded-2xl shadow-sm border border-black/5 p-8" }, /* @__PURE__ */ import_react76.default.createElement("div", { className: "flex flex-col items-center mb-6" }, /* @__PURE__ */ import_react76.default.createElement("img", { src: "./logo-compact.png", alt: "AgriHakStat", className: "h-14 w-auto mb-2" }), /* @__PURE__ */ import_react76.default.createElement("h1", { className: "font-serif text-xl font-bold", style: { color: NAVY8 } }, "Se connecter")), error && /* @__PURE__ */ import_react76.default.createElement("div", { className: "flex items-start gap-2 rounded-xl p-3 mb-4 text-xs", style: { background: "#FBE7E5", color: "#B3413A" } }, /* @__PURE__ */ import_react76.default.createElement(CircleAlert, { size: 14, className: "mt-0.5 shrink-0" }), " ", error), /* @__PURE__ */ import_react76.default.createElement("form", { onSubmit: handleSubmit, className: "space-y-3" }, /* @__PURE__ */ import_react76.default.createElement("div", null, /* @__PURE__ */ import_react76.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Adresse e-mail"), /* @__PURE__ */ import_react76.default.createElement(
+    return /* @__PURE__ */ import_react76.default.createElement("div", { className: "min-h-screen flex items-center justify-center bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans px-4" }, /* @__PURE__ */ import_react76.default.createElement("div", { className: "w-full max-w-sm bg-white rounded-2xl shadow-sm border border-black/5 p-8" }, /* @__PURE__ */ import_react76.default.createElement("div", { className: "flex flex-col items-center mb-6" }, /* @__PURE__ */ import_react76.default.createElement("img", { src: "./logo-compact.png", alt: "AgriHakStat", className: "h-28 w-auto mb-2" }), /* @__PURE__ */ import_react76.default.createElement("h1", { className: "font-serif text-xl font-bold", style: { color: NAVY8 } }, "Se connecter")), error && /* @__PURE__ */ import_react76.default.createElement("div", { className: "flex items-start gap-2 rounded-xl p-3 mb-4 text-xs", style: { background: "#FBE7E5", color: "#B3413A" } }, /* @__PURE__ */ import_react76.default.createElement(CircleAlert, { size: 14, className: "mt-0.5 shrink-0" }), " ", error), /* @__PURE__ */ import_react76.default.createElement("form", { onSubmit: handleSubmit, className: "space-y-3" }, /* @__PURE__ */ import_react76.default.createElement("div", null, /* @__PURE__ */ import_react76.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Adresse e-mail"), /* @__PURE__ */ import_react76.default.createElement(
       "input",
       {
         type: "email",
@@ -71988,7 +71988,7 @@ ${suffix2}`;
         "Aller \xE0 la connexion"
       )));
     }
-    return /* @__PURE__ */ import_react77.default.createElement("div", { className: "min-h-screen flex items-center justify-center bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans px-4" }, /* @__PURE__ */ import_react77.default.createElement("div", { className: "w-full max-w-sm bg-white rounded-2xl shadow-sm border border-black/5 p-8" }, /* @__PURE__ */ import_react77.default.createElement("div", { className: "flex flex-col items-center mb-6" }, /* @__PURE__ */ import_react77.default.createElement("img", { src: "./logo-compact.png", alt: "AgriHakStat", className: "h-14 w-auto mb-2" }), /* @__PURE__ */ import_react77.default.createElement("h1", { className: "font-serif text-xl font-bold", style: { color: NAVY9 } }, "Cr\xE9er un compte")), error && /* @__PURE__ */ import_react77.default.createElement("div", { className: "flex items-start gap-2 rounded-xl p-3 mb-4 text-xs", style: { background: "#FBE7E5", color: "#B3413A" } }, /* @__PURE__ */ import_react77.default.createElement(CircleAlert, { size: 14, className: "mt-0.5 shrink-0" }), " ", error), /* @__PURE__ */ import_react77.default.createElement("form", { onSubmit: handleSubmit, className: "space-y-3" }, /* @__PURE__ */ import_react77.default.createElement("div", null, /* @__PURE__ */ import_react77.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Adresse e-mail"), /* @__PURE__ */ import_react77.default.createElement(
+    return /* @__PURE__ */ import_react77.default.createElement("div", { className: "min-h-screen flex items-center justify-center bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans px-4" }, /* @__PURE__ */ import_react77.default.createElement("div", { className: "w-full max-w-sm bg-white rounded-2xl shadow-sm border border-black/5 p-8" }, /* @__PURE__ */ import_react77.default.createElement("div", { className: "flex flex-col items-center mb-6" }, /* @__PURE__ */ import_react77.default.createElement("img", { src: "./logo-compact.png", alt: "AgriHakStat", className: "h-28 w-auto mb-2" }), /* @__PURE__ */ import_react77.default.createElement("h1", { className: "font-serif text-xl font-bold", style: { color: NAVY9 } }, "Cr\xE9er un compte")), error && /* @__PURE__ */ import_react77.default.createElement("div", { className: "flex items-start gap-2 rounded-xl p-3 mb-4 text-xs", style: { background: "#FBE7E5", color: "#B3413A" } }, /* @__PURE__ */ import_react77.default.createElement(CircleAlert, { size: 14, className: "mt-0.5 shrink-0" }), " ", error), /* @__PURE__ */ import_react77.default.createElement("form", { onSubmit: handleSubmit, className: "space-y-3" }, /* @__PURE__ */ import_react77.default.createElement("div", null, /* @__PURE__ */ import_react77.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Adresse e-mail"), /* @__PURE__ */ import_react77.default.createElement(
       "input",
       {
         type: "email",

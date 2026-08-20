@@ -9,7 +9,7 @@ export default function Landing({ onGoLogin, onGoSignup, onGoDemo }) {
     <div className="min-h-screen bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans">
       <header className="flex items-center justify-between px-8 py-5">
         <div className="flex items-center gap-2">
-          <img src="./logo-compact.png" alt="AgriHakStat" className="h-10 w-auto" />
+          <img src="./logo-compact.png" alt="AgriHakStat" className="h-20 w-auto" />
         </div>
         <div className="flex items-center gap-3">
           <button onClick={onGoLogin} className="px-4 py-2 rounded-xl text-sm font-medium" style={{ color: NAVY }}>

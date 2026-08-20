@@ -211,7 +211,7 @@ export default function AnalysisConfig({ active, onNavigate, userEmail, roleLabe
         <aside className="w-60 min-h-screen shrink-0 py-6 px-4 text-[#C7D2E8]"
           style={{ background: `linear-gradient(180deg, ${NAVY} 0%, #16294B 100%)` }}>
           <div className="flex flex-col items-start gap-1 px-2 mb-8">
-            <img src="./logo-compact.png" alt="AgriHakStat" className="h-16 w-auto -ml-1" />
+            <img src="./logo-compact.png" alt="AgriHakStat" className="h-32 w-auto -ml-1" />
             <div className="text-[10px] opacity-60">DDAEP-Borgou</div>
           </div>
           <nav className="space-y-1.5">

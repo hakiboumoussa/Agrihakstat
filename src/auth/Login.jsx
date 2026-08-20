@@ -28,7 +28,7 @@ export default function Login({ onGoSignup, onGoLanding }) {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans px-4">
       <div className="w-full max-w-sm bg-white rounded-2xl shadow-sm border border-black/5 p-8">
         <div className="flex flex-col items-center mb-6">
-          <img src="./logo-compact.png" alt="AgriHakStat" className="h-14 w-auto mb-2" />
+          <img src="./logo-compact.png" alt="AgriHakStat" className="h-28 w-auto mb-2" />
           <h1 className="font-serif text-xl font-bold" style={{ color: NAVY }}>Se connecter</h1>
         </div>
 
