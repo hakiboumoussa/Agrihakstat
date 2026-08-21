@@ -8,12 +8,14 @@ import Cartographie from "./Cartographie.jsx";
 import Landing from "./auth/Landing.jsx";
 import Login from "./auth/Login.jsx";
 import Signup from "./auth/Signup.jsx";
+import ResetPassword from "./auth/ResetPassword.jsx";
+import Settings from "./Settings.jsx";
 import AdminDashboard from "./admin/AdminDashboard.jsx";
 import { supabase, isSupabaseConfigured } from "./supabaseClient.js";
 
 const SCREENS = {
   dashboard: Dashboard, import: ImportWizard, config: AnalysisConfig,
-  results: ResultsReport, map: Cartographie,
+  results: ResultsReport, map: Cartographie, settings: Settings,
 };
 
 const STORAGE_KEY = "agrihakstat_session_v1";
@@ -47,6 +49,7 @@ export default function App() {
   const [dataset, setDataset] = useState(persisted?.dataset || null); // { rows, columns, fileName } — données réellement importées
   const [analysisQueue, setAnalysisQueue] = useState(persisted?.analysisQueue || []); // analyses réellement configurées et calculées
   const [context, setContext] = useState(persisted?.context || null); // contexte de l'étude (objectif, communes, filières, période, indicateurs)
+  const [recoveryMode, setRecoveryMode] = useState(false);
 
   // Sauvegarde automatique du travail en cours (survit à une fermeture d'onglet ou un rechargement)
   useEffect(() => {
@@ -56,7 +59,10 @@ export default function App() {
   useEffect(() => {
     if (!isSupabaseConfigured) { setSession(null); return; }
     supabase.auth.getSession().then(({ data }) => setSession(data.session));
-    const { data: sub } = supabase.auth.onAuthStateChange((_event, s) => setSession(s));
+    const { data: sub } = supabase.auth.onAuthStateChange((_event, s) => {
+      setSession(s);
+      if (_event === "PASSWORD_RECOVERY") setRecoveryMode(true);
+    });
     return () => sub.subscription.unsubscribe();
   }, []);
 
@@ -85,6 +91,11 @@ export default function App() {
     setContext(null);
     setAuthView("landing");
   };
+
+  // --- Réinitialisation de mot de passe : prioritaire sur tout le reste ---
+  if (recoveryMode) {
+    return <ResetPassword onDone={() => setRecoveryMode(false)} />;
+  }
 
   // --- Non connecté : accueil / connexion / inscription / démonstration libre ---
   if (!session && !guestMode) {

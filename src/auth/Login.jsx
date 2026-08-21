@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Sprout, Loader2, AlertCircle } from "lucide-react";
+import { Sprout, Loader2, AlertCircle, CheckCircle2 } from "lucide-react";
 import { supabase, isSupabaseConfigured } from "../supabaseClient.js";
 
 const NAVY = "#1F3864";
@@ -10,6 +10,8 @@ export default function Login({ onGoSignup, onGoLanding }) {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [showReset, setShowReset] = useState(false);
+  const [resetSent, setResetSent] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,6 +24,22 @@ export default function Login({ onGoSignup, onGoLanding }) {
     const { error } = await supabase.auth.signInWithPassword({ email, password });
     setLoading(false);
     if (error) setError(error.message);
+  };
+
+  const handleReset = async (e) => {
+    e.preventDefault();
+    setError("");
+    if (!isSupabaseConfigured) {
+      setError("Supabase n'est pas encore configuré.");
+      return;
+    }
+    setLoading(true);
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: window.location.origin + window.location.pathname,
+    });
+    setLoading(false);
+    if (error) setError(error.message);
+    else setResetSent(true);
   };
 
   return (
@@ -41,6 +59,36 @@ export default function Login({ onGoSignup, onGoLanding }) {
           </div>
         )}
 
+        {showReset ? (
+          resetSent ? (
+            <div className="text-center py-4">
+              <CheckCircle2 size={28} className="mx-auto mb-2" style={{ color: "#3E9C6B" }} />
+              <p className="text-sm text-gray-600 mb-1">E-mail envoyé</p>
+              <p className="text-xs text-gray-400">Vérifiez votre boîte de réception ({email}) pour le lien de réinitialisation.</p>
+              <button onClick={() => { setShowReset(false); setResetSent(false); }} className="text-xs font-medium mt-4" style={{ color: NAVY }}>
+                ← Retour à la connexion
+              </button>
+            </div>
+          ) : (
+            <form onSubmit={handleReset} className="space-y-3">
+              <p className="text-xs text-gray-500 mb-2">Indiquez votre adresse e-mail : un lien de réinitialisation vous sera envoyé.</p>
+              <div>
+                <label className="text-xs font-medium text-gray-600 block mb-1.5">Adresse e-mail</label>
+                <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)}
+                  className="w-full text-sm rounded-xl border border-gray-200 p-2.5 focus:outline-none focus:ring-2"
+                  style={{ "--tw-ring-color": GOLD }} placeholder="vous@exemple.com" />
+              </div>
+              <button type="submit" disabled={loading}
+                className="w-full mt-2 px-4 py-2.5 rounded-xl text-sm font-medium flex items-center justify-center gap-2 text-white shadow-md"
+                style={{ background: `linear-gradient(135deg, ${NAVY}, #2A4A82)` }}>
+                {loading && <Loader2 size={15} className="animate-spin" />} Envoyer le lien de réinitialisation
+              </button>
+              <button type="button" onClick={() => setShowReset(false)} className="w-full text-center text-xs text-gray-400 mt-1">
+                ← Retour à la connexion
+              </button>
+            </form>
+          )
+        ) : (
         <form onSubmit={handleSubmit} className="space-y-3">
           <div>
             <label className="text-xs font-medium text-gray-600 block mb-1.5">Adresse e-mail</label>
@@ -49,7 +97,12 @@ export default function Login({ onGoSignup, onGoLanding }) {
               style={{ "--tw-ring-color": GOLD }} placeholder="vous@exemple.com" />
           </div>
           <div>
-            <label className="text-xs font-medium text-gray-600 block mb-1.5">Mot de passe</label>
+            <div className="flex items-center justify-between mb-1.5">
+              <label className="text-xs font-medium text-gray-600">Mot de passe</label>
+              <button type="button" onClick={() => setShowReset(true)} className="text-[11px] font-medium" style={{ color: NAVY }}>
+                Mot de passe oublié ?
+              </button>
+            </div>
             <input type="password" required value={password} onChange={(e) => setPassword(e.target.value)}
               className="w-full text-sm rounded-xl border border-gray-200 p-2.5 focus:outline-none focus:ring-2"
               style={{ "--tw-ring-color": GOLD }} placeholder="••••••••" />
@@ -60,6 +113,7 @@ export default function Login({ onGoSignup, onGoLanding }) {
             {loading && <Loader2 size={15} className="animate-spin" />} Se connecter
           </button>
         </form>
+        )}
 
         <p className="text-center text-xs text-gray-400 mt-5">
           Pas encore de compte ?{" "}

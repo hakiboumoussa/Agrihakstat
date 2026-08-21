@@ -93,3 +93,62 @@ alter table public.projets add column if not exists periode_debut date;
 alter table public.projets add column if not exists periode_fin date;
 alter table public.projets add column if not exists unite_analyse text;
 alter table public.projets add column if not exists indicateurs jsonb default '[]';
+
+-- 8. Permet aux administrateurs de modifier le rôle des utilisateurs depuis l'écran Paramètres
+drop policy if exists "Les administrateurs modifient les profils" on public.profiles;
+create policy "Les administrateurs modifient les profils" on public.profiles
+  for update using (public.is_admin()) with check (public.is_admin());
+
+-- 8. Réglages applicatifs modifiables par l'administrateur, sans passer par le code
+create table if not exists public.app_settings (
+  key text primary key,
+  value jsonb not null,
+  updated_at timestamptz default now(),
+  updated_by text
+);
+
+alter table public.app_settings enable row level security;
+
+drop policy if exists "Tout le monde lit les réglages" on public.app_settings;
+create policy "Tout le monde lit les réglages" on public.app_settings
+  for select using (true);
+
+drop policy if exists "Seuls les administrateurs modifient les réglages" on public.app_settings;
+create policy "Seuls les administrateurs modifient les réglages" on public.app_settings
+  for all using (public.is_admin()) with check (public.is_admin());
+
+insert into public.app_settings (key, value) values
+  ('message_accueil', '"Bienvenue sur AgriHakStat"'),
+  ('seuil_alerte_realisation', '75'),
+  ('seuil_capacite_atypique', '3000'),
+  ('contact_support', '"hakiboumoussa@gmail.com"')
+on conflict (key) do nothing;
+
+-- 9. Signalements de bug / messages de contact des utilisateurs
+create table if not exists public.bug_reports (
+  id bigint generated always as identity primary key,
+  user_id uuid references auth.users on delete set null,
+  user_email text,
+  sujet text,
+  message text,
+  statut text default 'nouveau',
+  created_at timestamptz default now()
+);
+
+alter table public.bug_reports enable row level security;
+
+drop policy if exists "Soumettre un signalement" on public.bug_reports;
+create policy "Soumettre un signalement" on public.bug_reports
+  for insert with check (auth.uid() = user_id);
+
+drop policy if exists "Lire ses propres signalements" on public.bug_reports;
+create policy "Lire ses propres signalements" on public.bug_reports
+  for select using (auth.uid() = user_id);
+
+drop policy if exists "Les administrateurs lisent tous les signalements" on public.bug_reports;
+create policy "Les administrateurs lisent tous les signalements" on public.bug_reports
+  for select using (public.is_admin());
+
+drop policy if exists "Les administrateurs mettent à jour les signalements" on public.bug_reports;
+create policy "Les administrateurs mettent à jour les signalements" on public.bug_reports
+  for update using (public.is_admin());

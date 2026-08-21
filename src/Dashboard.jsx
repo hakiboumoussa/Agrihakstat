@@ -5,6 +5,7 @@ import {
   Clock, MoreHorizontal, Droplets, Sun, Leaf, MapPin,
 } from "lucide-react";
 import UserMenu from "./UserMenu.jsx";
+import Sidebar from "./Sidebar.jsx";
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
   PieChart, Pie, Cell,
@@ -93,31 +94,7 @@ export default function Dashboard({ active, onNavigate, userEmail, roleLabel, is
 
       <div className="relative z-10 flex">
         {/* Sidebar */}
-        <aside className="w-60 min-h-screen shrink-0 py-6 px-4 text-[#C7D2E8]"
-          style={{ background: `linear-gradient(180deg, ${NAVY} 0%, #16294B 100%)` }}>
-          <div className="flex flex-col items-start gap-1 px-2 mb-8">
-            <img src="./logo-compact.png" alt="AgriHakStat" className="h-32 w-auto -ml-1" />
-            <div className="text-[10px] opacity-60">DDAEP-Borgou</div>
-          </div>
-
-          <nav className="space-y-1.5">
-            {nav.map((item) => (
-              <div
-                key={item.id}
-                onClick={() => onNavigate(item.id)}
-                className={`flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer text-sm transition-colors ${
-                  item.id === active
-                    ? "bg-[#16294B] text-white font-medium shadow-inner border-l-4"
-                    : "hover:bg-white/5"
-                }`}
-                style={item.id === active ? { borderColor: GOLD } : {}}
-              >
-                <item.icon size={17} />
-                {item.label}
-              </div>
-            ))}
-          </nav>
-
+        <Sidebar active={active} onNavigate={onNavigate}>
           <div className="mt-10 mx-2 p-4 rounded-xl bg-white/5 border border-white/10">
             <div className="flex items-center gap-2 mb-2">
               <Sun size={15} style={{ color: GOLD }} />
@@ -125,7 +102,7 @@ export default function Dashboard({ active, onNavigate, userEmail, roleLabel, is
             </div>
             <p className="text-[11px] leading-relaxed opacity-70">Pic pluviométrique attendu semaine du 10 août sur Tchaourou et Pérèrè.</p>
           </div>
-        </aside>
+        </Sidebar>
 
         {/* Main content */}
         <div className="flex-1 min-h-screen">

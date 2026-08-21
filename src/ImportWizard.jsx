@@ -5,6 +5,7 @@ import {
   Plus, Check, ChevronRight, ChevronLeft, X, AlertCircle, Trash2, Pencil,
 } from "lucide-react";
 import UserMenu from "./UserMenu.jsx";
+import Sidebar from "./Sidebar.jsx";
 import { supabase, isSupabaseConfigured } from "./supabaseClient.js";
 import Papa from "papaparse";
 import * as XLSX from "xlsx";
@@ -255,25 +256,7 @@ export default function ImportWizard({ active, onNavigate, userEmail, userId, ro
       <Watermark />
       <div className="relative z-10 flex">
         {/* Sidebar */}
-        <aside className="w-60 min-h-screen shrink-0 py-6 px-4 text-[#C7D2E8]"
-          style={{ background: `linear-gradient(180deg, ${NAVY} 0%, #16294B 100%)` }}>
-          <div className="flex flex-col items-start gap-1 px-2 mb-8">
-            <img src="./logo-compact.png" alt="AgriHakStat" className="h-32 w-auto -ml-1" />
-            <div className="text-[10px] opacity-60">DDAEP-Borgou</div>
-          </div>
-          <nav className="space-y-1.5">
-            {nav.map((item) => (
-              <div key={item.id} onClick={() => onNavigate(item.id)}
-                className={`flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer text-sm transition-colors ${
-                  item.id === active ? "bg-[#16294B] text-white font-medium border-l-4" : "hover:bg-white/5"
-                }`}
-                style={item.id === active ? { borderColor: GOLD } : {}}>
-                <item.icon size={17} />
-                {item.label}
-              </div>
-            ))}
-          </nav>
-        </aside>
+        <Sidebar active={active} onNavigate={onNavigate} />
 
         {/* Main */}
         <div className="flex-1 min-h-screen">

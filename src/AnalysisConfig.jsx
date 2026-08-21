@@ -5,6 +5,7 @@ import {
   TrendingUp, Layers, Sigma, ShieldCheck, AlertTriangle, XCircle, CheckCircle2, MapPin,
 } from "lucide-react";
 import UserMenu from "./UserMenu.jsx";
+import Sidebar from "./Sidebar.jsx";
 import {
   descriptiveStats, frequencies, numericValues, normalityHint,
   pearsonCorrelation, spearmanCorrelation, oneWayAnova, leveneTest,
@@ -278,7 +279,10 @@ function Select({ value, onChange, options, placeholder }) {
   );
 }
 
-export default function AnalysisConfig({ active, onNavigate, userEmail, roleLabel, isAdmin, isGuest, onLogout, onOpenAdmin, dataset, analysisQueue, onAnalysisQueueChange }) {
+export default function AnalysisConfig({ active, onNavigate, userEmail, roleLabel, isAdmin, isGuest, onLogout, onOpenAdmin, dataset, analysisQueue, onAnalysisQueueChange, context }) {
+  const [suggestions, setSuggestions] = useState([]);
+  const [suggestLoading, setSuggestLoading] = useState(false);
+  const [suggestError, setSuggestError] = useState("");
   const [tab, setTab] = useState("bivariee");
   const [included, setIncluded] = useState(["sup_semee", "rendement", "filiere", "commune", "pluvio_decade", "acces_credit"]);
   const [x, setX] = useState("sup_semee");
@@ -311,6 +315,37 @@ export default function AnalysisConfig({ active, onNavigate, userEmail, roleLabe
 
   const toggleIncluded = (id) =>
     setIncluded((prev) => (prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]));
+
+  const fetchSuggestions = async () => {
+    if (!dataset) return;
+    setSuggestLoading(true);
+    setSuggestError("");
+    try {
+      const res = await fetch("/api/suggest-analyses", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          context,
+          columns: availableVars.map((v) => ({ name: v.id, isQuantitative: v.isQuantitative, type: v.type })),
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Erreur inconnue.");
+      setSuggestions(data.suggestions || []);
+    } catch (e) {
+      setSuggestError(e.message);
+    } finally {
+      setSuggestLoading(false);
+    }
+  };
+
+  const applySuggestion = (s) => {
+    setTab("bivariee");
+    setX(s.xId);
+    setY(s.yId);
+    setOverride(null);
+    setSuggestions((prev) => prev.filter((sg) => sg !== s));
+  };
 
   const proposal = proposeTest(x, y, variables, dataset);
   const activeTest = override || proposal?.test;
@@ -349,26 +384,7 @@ export default function AnalysisConfig({ active, onNavigate, userEmail, roleLabe
       <Watermark />
       <div className="relative z-10 flex">
         {/* Sidebar */}
-        <aside className="w-60 min-h-screen shrink-0 py-6 px-4 text-[#C7D2E8]"
-          style={{ background: `linear-gradient(180deg, ${NAVY} 0%, #16294B 100%)` }}>
-          <div className="flex flex-col items-start gap-1 px-2 mb-8">
-            <img src="./logo-compact.png" alt="AgriHakStat" className="h-32 w-auto -ml-1" />
-            <div className="text-[10px] opacity-60">DDAEP-Borgou</div>
-          </div>
-          <nav className="space-y-1.5">
-            {nav.map((item) => (
-              <div key={item.id}
-                onClick={() => onNavigate(item.id)}
-                className={`flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer text-sm transition-colors ${
-                  item.id === active ? "bg-[#16294B] text-white font-medium border-l-4" : "hover:bg-white/5"
-                }`}
-                style={item.id === active ? { borderColor: GOLD } : {}}>
-                <item.icon size={17} />
-                {item.label}
-              </div>
-            ))}
-          </nav>
-        </aside>
+        <Sidebar active={active} onNavigate={onNavigate} />
 
         {/* Main */}
         <div className="flex-1 min-h-screen">
@@ -419,6 +435,46 @@ export default function AnalysisConfig({ active, onNavigate, userEmail, roleLabe
                     </button>
                   ))}
                 </div>
+              </Card>
+
+              {/* Suggestions d'analyses proposées par Claude, à valider avant configuration */}
+              <Card className="mb-5">
+                <div className="flex items-center justify-between mb-1">
+                  <div className="flex items-center gap-2">
+                    <Wand2 size={16} style={{ color: GOLD }} />
+                    <h2 className="font-serif font-semibold" style={{ color: NAVY }}>Suggestions de Claude</h2>
+                  </div>
+                  <button onClick={fetchSuggestions} disabled={!dataset || suggestLoading}
+                    className="text-xs font-medium flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-white disabled:opacity-50"
+                    style={{ background: NAVY }}>
+                    <Wand2 size={12} /> {suggestLoading ? "Analyse en cours…" : "Proposer des analyses"}
+                  </button>
+                </div>
+                <p className="text-xs text-gray-400 mb-3">
+                  {dataset
+                    ? "Claude examine vos variables et le contexte de l'étude pour proposer des croisements pertinents — chaque suggestion reste à valider avant tout calcul."
+                    : "Importez d'abord une base de données pour activer les suggestions."}
+                </p>
+                {suggestError && (
+                  <div className="rounded-xl px-3 py-2 mb-2 text-xs" style={{ background: "#FBE7E5", color: "#B3413A" }}>{suggestError}</div>
+                )}
+                {suggestions.length > 0 && (
+                  <div className="space-y-2">
+                    {suggestions.map((s, i) => (
+                      <div key={i} className="rounded-xl border border-gray-100 p-3 flex items-start justify-between gap-3" style={{ background: "#FDF9F0" }}>
+                        <div>
+                          <div className="text-xs font-semibold" style={{ color: NAVY }}>{s.xId} × {s.yId}</div>
+                          <div className="text-[11px] text-gray-500 mt-0.5">{s.rationale}</div>
+                        </div>
+                        <button onClick={() => applySuggestion(s)}
+                          className="shrink-0 text-[11px] font-medium px-2.5 py-1.5 rounded-lg text-white whitespace-nowrap"
+                          style={{ background: "#256B45" }}>
+                          Configurer cette analyse
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </Card>
 
               {/* Tabs */}
