@@ -1343,7 +1343,7 @@
           return dispatcher;
         }
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-        var React69 = require_react(), Internals = {
+        var React70 = require_react(), Internals = {
           d: {
             f: noop7,
             r: function() {
@@ -1361,7 +1361,7 @@
           },
           p: 0,
           findDOMNode: null
-        }, REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), ReactSharedInternals = React69.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
+        }, REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), ReactSharedInternals = React70.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
         "function" === typeof Map && null != Map.prototype && "function" === typeof Map.prototype.forEach && "function" === typeof Set && null != Set.prototype && "function" === typeof Set.prototype.clear && "function" === typeof Set.prototype.forEach || console.error(
           "React depends on Map and Set built-in types. Make sure that you load a polyfill in older browsers. https://reactjs.org/link/react-polyfills"
         );
@@ -2896,7 +2896,7 @@
           "number" === type && getActiveElement(node.ownerDocument) === node || node.defaultValue === "" + value || (node.defaultValue = "" + value);
         }
         function validateOptionProps(element, props) {
-          null == props.value && ("object" === typeof props.children && null !== props.children ? React69.Children.forEach(props.children, function(child) {
+          null == props.value && ("object" === typeof props.children && null !== props.children ? React70.Children.forEach(props.children, function(child) {
             null == child || "string" === typeof child || "number" === typeof child || "bigint" === typeof child || didWarnInvalidChild || (didWarnInvalidChild = true, console.error(
               "Cannot infer the option value of complex children. Pass a `value` prop or use a plain string as children to <option>."
             ));
@@ -18528,14 +18528,14 @@
           ));
         }
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-        var Scheduler = require_scheduler(), React69 = require_react(), ReactDOM = require_react_dom(), assign2 = Object.assign, REACT_LEGACY_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.element"), REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = /* @__PURE__ */ Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = /* @__PURE__ */ Symbol.for("react.profiler"), REACT_CONSUMER_TYPE = /* @__PURE__ */ Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.context"), REACT_FORWARD_REF_TYPE2 = /* @__PURE__ */ Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = /* @__PURE__ */ Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = /* @__PURE__ */ Symbol.for("react.suspense_list"), REACT_MEMO_TYPE2 = /* @__PURE__ */ Symbol.for("react.memo"), REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy");
+        var Scheduler = require_scheduler(), React70 = require_react(), ReactDOM = require_react_dom(), assign2 = Object.assign, REACT_LEGACY_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.element"), REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = /* @__PURE__ */ Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = /* @__PURE__ */ Symbol.for("react.profiler"), REACT_CONSUMER_TYPE = /* @__PURE__ */ Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.context"), REACT_FORWARD_REF_TYPE2 = /* @__PURE__ */ Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = /* @__PURE__ */ Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = /* @__PURE__ */ Symbol.for("react.suspense_list"), REACT_MEMO_TYPE2 = /* @__PURE__ */ Symbol.for("react.memo"), REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy");
         /* @__PURE__ */ Symbol.for("react.scope");
         var REACT_ACTIVITY_TYPE = /* @__PURE__ */ Symbol.for("react.activity");
         /* @__PURE__ */ Symbol.for("react.legacy_hidden");
         /* @__PURE__ */ Symbol.for("react.tracing_marker");
         var REACT_MEMO_CACHE_SENTINEL = /* @__PURE__ */ Symbol.for("react.memo_cache_sentinel");
         /* @__PURE__ */ Symbol.for("react.view_transition");
-        var MAYBE_ITERATOR_SYMBOL = Symbol.iterator, REACT_CLIENT_REFERENCE = /* @__PURE__ */ Symbol.for("react.client.reference"), isArrayImpl = Array.isArray, ReactSharedInternals = React69.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, ReactDOMSharedInternals = ReactDOM.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, NotPending = Object.freeze({
+        var MAYBE_ITERATOR_SYMBOL = Symbol.iterator, REACT_CLIENT_REFERENCE = /* @__PURE__ */ Symbol.for("react.client.reference"), isArrayImpl = Array.isArray, ReactSharedInternals = React70.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, ReactDOMSharedInternals = ReactDOM.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, NotPending = Object.freeze({
           pending: false,
           data: null,
           method: null,
@@ -21323,7 +21323,7 @@
           }
         };
         (function() {
-          var isomorphicReactPackageVersion = React69.version;
+          var isomorphicReactPackageVersion = React70.version;
           if ("19.2.8" !== isomorphicReactPackageVersion)
             throw Error(
               'Incompatible React versions: The "react" and "react-dom" packages must have the exact same version. Instead got:\n  - react:      ' + (isomorphicReactPackageVersion + "\n  - react-dom:  19.2.8\nLearn more: https://react.dev/warnings/version-mismatch")
@@ -21472,7 +21472,7 @@
           return x2 === y2 && (0 !== x2 || 1 / x2 === 1 / y2) || x2 !== x2 && y2 !== y2;
         }
         function useSyncExternalStore$2(subscribe, getSnapshot) {
-          didWarnOld18Alpha || void 0 === React69.startTransition || (didWarnOld18Alpha = true, console.error(
+          didWarnOld18Alpha || void 0 === React70.startTransition || (didWarnOld18Alpha = true, console.error(
             "You are using an outdated, pre-release alpha of React 18 that does not support useSyncExternalStore. The use-sync-external-store shim will not work correctly. Upgrade to a newer pre-release."
           ));
           var value = getSnapshot();
@@ -21482,7 +21482,7 @@
               "The result of getSnapshot should be cached to avoid an infinite loop"
             ), didWarnUncachedGetSnapshot = true);
           }
-          cachedValue = useState26({
+          cachedValue = useState27({
             inst: { value, getSnapshot }
           });
           var inst = cachedValue[0].inst, forceUpdate = cachedValue[1];
@@ -21520,8 +21520,8 @@
           return getSnapshot();
         }
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-        var React69 = require_react(), objectIs = "function" === typeof Object.is ? Object.is : is3, useState26 = React69.useState, useEffect28 = React69.useEffect, useLayoutEffect10 = React69.useLayoutEffect, useDebugValue2 = React69.useDebugValue, didWarnOld18Alpha = false, didWarnUncachedGetSnapshot = false, shim = "undefined" === typeof window || "undefined" === typeof window.document || "undefined" === typeof window.document.createElement ? useSyncExternalStore$1 : useSyncExternalStore$2;
-        exports.useSyncExternalStore = void 0 !== React69.useSyncExternalStore ? React69.useSyncExternalStore : shim;
+        var React70 = require_react(), objectIs = "function" === typeof Object.is ? Object.is : is3, useState27 = React70.useState, useEffect28 = React70.useEffect, useLayoutEffect10 = React70.useLayoutEffect, useDebugValue2 = React70.useDebugValue, didWarnOld18Alpha = false, didWarnUncachedGetSnapshot = false, shim = "undefined" === typeof window || "undefined" === typeof window.document || "undefined" === typeof window.document.createElement ? useSyncExternalStore$1 : useSyncExternalStore$2;
+        exports.useSyncExternalStore = void 0 !== React70.useSyncExternalStore ? React70.useSyncExternalStore : shim;
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop(Error());
       })();
     }
@@ -21548,7 +21548,7 @@
           return x2 === y2 && (0 !== x2 || 1 / x2 === 1 / y2) || x2 !== x2 && y2 !== y2;
         }
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-        var React69 = require_react(), shim = require_shim(), objectIs = "function" === typeof Object.is ? Object.is : is3, useSyncExternalStore2 = shim.useSyncExternalStore, useRef25 = React69.useRef, useEffect28 = React69.useEffect, useMemo15 = React69.useMemo, useDebugValue2 = React69.useDebugValue;
+        var React70 = require_react(), shim = require_shim(), objectIs = "function" === typeof Object.is ? Object.is : is3, useSyncExternalStore2 = shim.useSyncExternalStore, useRef25 = React70.useRef, useEffect28 = React70.useEffect, useMemo15 = React70.useMemo, useDebugValue2 = React70.useDebugValue;
         exports.useSyncExternalStoreWithSelector = function(subscribe, getSnapshot, getServerSnapshot, selector, isEqual2) {
           var instRef = useRef25(null);
           if (null === instRef.current) {
@@ -21627,7 +21627,7 @@
           return x2 === y2 && (0 !== x2 || 1 / x2 === 1 / y2) || x2 !== x2 && y2 !== y2;
         }
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-        var React69 = require_react(), objectIs = "function" === typeof Object.is ? Object.is : is3, useSyncExternalStore2 = React69.useSyncExternalStore, useRef25 = React69.useRef, useEffect28 = React69.useEffect, useMemo15 = React69.useMemo, useDebugValue2 = React69.useDebugValue;
+        var React70 = require_react(), objectIs = "function" === typeof Object.is ? Object.is : is3, useSyncExternalStore2 = React70.useSyncExternalStore, useRef25 = React70.useRef, useEffect28 = React70.useEffect, useMemo15 = React70.useMemo, useDebugValue2 = React70.useDebugValue;
         exports.useSyncExternalStoreWithSelector = function(subscribe, getSnapshot, getServerSnapshot, selector, isEqual2) {
           var instRef = useRef25(null);
           if (null === instRef.current) {
@@ -23343,11 +23343,11 @@
   });
 
   // src/entry.jsx
-  var import_react83 = __toESM(require_react());
+  var import_react84 = __toESM(require_react());
   var import_client = __toESM(require_client());
 
   // src/App.jsx
-  var import_react82 = __toESM(require_react());
+  var import_react83 = __toESM(require_react());
 
   // node_modules/lucide-react/dist/esm/createLucideIcon.mjs
   var import_react3 = __toESM(require_react(), 1);
@@ -23560,16 +23560,25 @@
   ];
   var Clock = createLucideIcon("clock", __iconNode14);
 
-  // node_modules/lucide-react/dist/esm/icons/download.mjs
+  // node_modules/lucide-react/dist/esm/icons/cloud-rain.mjs
   var __iconNode15 = [
+    ["path", { d: "M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242", key: "1pljnt" }],
+    ["path", { d: "M16 14v6", key: "1j4efv" }],
+    ["path", { d: "M8 14v6", key: "17c4r9" }],
+    ["path", { d: "M12 16v6", key: "c8a4gj" }]
+  ];
+  var CloudRain = createLucideIcon("cloud-rain", __iconNode15);
+
+  // node_modules/lucide-react/dist/esm/icons/download.mjs
+  var __iconNode16 = [
     ["path", { d: "M12 15V3", key: "m9g1x1" }],
     ["path", { d: "M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4", key: "ih7n3h" }],
     ["path", { d: "m7 10 5 5 5-5", key: "brsn70" }]
   ];
-  var Download = createLucideIcon("download", __iconNode15);
+  var Download = createLucideIcon("download", __iconNode16);
 
   // node_modules/lucide-react/dist/esm/icons/droplets.mjs
-  var __iconNode16 = [
+  var __iconNode17 = [
     [
       "path",
       {
@@ -23585,18 +23594,18 @@
       }
     ]
   ];
-  var Droplets = createLucideIcon("droplets", __iconNode16);
+  var Droplets = createLucideIcon("droplets", __iconNode17);
 
   // node_modules/lucide-react/dist/esm/icons/ellipsis.mjs
-  var __iconNode17 = [
+  var __iconNode18 = [
     ["circle", { cx: "12", cy: "12", r: "1", key: "41hilf" }],
     ["circle", { cx: "19", cy: "12", r: "1", key: "1wjl8i" }],
     ["circle", { cx: "5", cy: "12", r: "1", key: "1pcz8c" }]
   ];
-  var Ellipsis = createLucideIcon("ellipsis", __iconNode17);
+  var Ellipsis = createLucideIcon("ellipsis", __iconNode18);
 
   // node_modules/lucide-react/dist/esm/icons/file-check-corner.mjs
-  var __iconNode18 = [
+  var __iconNode19 = [
     [
       "path",
       {
@@ -23607,10 +23616,10 @@
     ["path", { d: "M14 2v5a1 1 0 0 0 1 1h5", key: "wfsgrz" }],
     ["path", { d: "m14 20 2 2 4-4", key: "15kota" }]
   ];
-  var FileCheckCorner = createLucideIcon("file-check-corner", __iconNode18);
+  var FileCheckCorner = createLucideIcon("file-check-corner", __iconNode19);
 
   // node_modules/lucide-react/dist/esm/icons/file-down.mjs
-  var __iconNode19 = [
+  var __iconNode20 = [
     [
       "path",
       {
@@ -23622,10 +23631,10 @@
     ["path", { d: "M12 18v-6", key: "17g6i2" }],
     ["path", { d: "m9 15 3 3 3-3", key: "1npd3o" }]
   ];
-  var FileDown = createLucideIcon("file-down", __iconNode19);
+  var FileDown = createLucideIcon("file-down", __iconNode20);
 
   // node_modules/lucide-react/dist/esm/icons/file-output.mjs
-  var __iconNode20 = [
+  var __iconNode21 = [
     [
       "path",
       {
@@ -23637,10 +23646,10 @@
     ["path", { d: "m5 11-3 3", key: "1dgrs4" }],
     ["path", { d: "m5 17-3-3h10", key: "1mvvaf" }]
   ];
-  var FileOutput = createLucideIcon("file-output", __iconNode20);
+  var FileOutput = createLucideIcon("file-output", __iconNode21);
 
   // node_modules/lucide-react/dist/esm/icons/file-spreadsheet.mjs
-  var __iconNode21 = [
+  var __iconNode22 = [
     [
       "path",
       {
@@ -23654,10 +23663,10 @@
     ["path", { d: "M8 17h2", key: "2yhykz" }],
     ["path", { d: "M14 17h2", key: "10kma7" }]
   ];
-  var FileSpreadsheet = createLucideIcon("file-spreadsheet", __iconNode21);
+  var FileSpreadsheet = createLucideIcon("file-spreadsheet", __iconNode22);
 
   // node_modules/lucide-react/dist/esm/icons/file-text.mjs
-  var __iconNode22 = [
+  var __iconNode23 = [
     [
       "path",
       {
@@ -23670,10 +23679,10 @@
     ["path", { d: "M16 13H8", key: "t4e002" }],
     ["path", { d: "M16 17H8", key: "z1uh3a" }]
   ];
-  var FileText = createLucideIcon("file-text", __iconNode22);
+  var FileText = createLucideIcon("file-text", __iconNode23);
 
   // node_modules/lucide-react/dist/esm/icons/file-type-corner.mjs
-  var __iconNode23 = [
+  var __iconNode24 = [
     [
       "path",
       {
@@ -23686,10 +23695,10 @@
     ["path", { d: "M6 22h2", key: "194x9m" }],
     ["path", { d: "M7 14v8", key: "11ixej" }]
   ];
-  var FileTypeCorner = createLucideIcon("file-type-corner", __iconNode23);
+  var FileTypeCorner = createLucideIcon("file-type-corner", __iconNode24);
 
   // node_modules/lucide-react/dist/esm/icons/folder-kanban.mjs
-  var __iconNode24 = [
+  var __iconNode25 = [
     [
       "path",
       {
@@ -23701,10 +23710,10 @@
     ["path", { d: "M12 10v2", key: "hh53o1" }],
     ["path", { d: "M16 10v6", key: "1d6xys" }]
   ];
-  var FolderKanban = createLucideIcon("folder-kanban", __iconNode24);
+  var FolderKanban = createLucideIcon("folder-kanban", __iconNode25);
 
   // node_modules/lucide-react/dist/esm/icons/funnel.mjs
-  var __iconNode25 = [
+  var __iconNode26 = [
     [
       "path",
       {
@@ -23713,10 +23722,10 @@
       }
     ]
   ];
-  var Funnel = createLucideIcon("funnel", __iconNode25);
+  var Funnel = createLucideIcon("funnel", __iconNode26);
 
   // node_modules/lucide-react/dist/esm/icons/inbox.mjs
-  var __iconNode26 = [
+  var __iconNode27 = [
     ["polyline", { points: "22 12 16 12 14 15 10 15 8 12 2 12", key: "o97t9d" }],
     [
       "path",
@@ -23726,18 +23735,18 @@
       }
     ]
   ];
-  var Inbox = createLucideIcon("inbox", __iconNode26);
+  var Inbox = createLucideIcon("inbox", __iconNode27);
 
   // node_modules/lucide-react/dist/esm/icons/info.mjs
-  var __iconNode27 = [
+  var __iconNode28 = [
     ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
     ["path", { d: "M12 16v-4", key: "1dtifu" }],
     ["path", { d: "M12 8h.01", key: "e9boi3" }]
   ];
-  var Info = createLucideIcon("info", __iconNode27);
+  var Info = createLucideIcon("info", __iconNode28);
 
   // node_modules/lucide-react/dist/esm/icons/key-round.mjs
-  var __iconNode28 = [
+  var __iconNode29 = [
     [
       "path",
       {
@@ -23747,10 +23756,10 @@
     ],
     ["circle", { cx: "16.5", cy: "7.5", r: ".5", fill: "currentColor", key: "w0ekpg" }]
   ];
-  var KeyRound = createLucideIcon("key-round", __iconNode28);
+  var KeyRound = createLucideIcon("key-round", __iconNode29);
 
   // node_modules/lucide-react/dist/esm/icons/layers.mjs
-  var __iconNode29 = [
+  var __iconNode30 = [
     [
       "path",
       {
@@ -23773,56 +23782,56 @@
       }
     ]
   ];
-  var Layers = createLucideIcon("layers", __iconNode29);
+  var Layers = createLucideIcon("layers", __iconNode30);
 
   // node_modules/lucide-react/dist/esm/icons/layout-dashboard.mjs
-  var __iconNode30 = [
+  var __iconNode31 = [
     ["rect", { width: "7", height: "9", x: "3", y: "3", rx: "1", key: "10lvy0" }],
     ["rect", { width: "7", height: "5", x: "14", y: "3", rx: "1", key: "16une8" }],
     ["rect", { width: "7", height: "9", x: "14", y: "12", rx: "1", key: "1hutg5" }],
     ["rect", { width: "7", height: "5", x: "3", y: "16", rx: "1", key: "ldoo1y" }]
   ];
-  var LayoutDashboard = createLucideIcon("layout-dashboard", __iconNode30);
+  var LayoutDashboard = createLucideIcon("layout-dashboard", __iconNode31);
 
   // node_modules/lucide-react/dist/esm/icons/link-2.mjs
-  var __iconNode31 = [
+  var __iconNode32 = [
     ["path", { d: "M9 17H7A5 5 0 0 1 7 7h2", key: "8i5ue5" }],
     ["path", { d: "M15 7h2a5 5 0 1 1 0 10h-2", key: "1b9ql8" }],
     ["line", { x1: "8", x2: "16", y1: "12", y2: "12", key: "1jonct" }]
   ];
-  var Link2 = createLucideIcon("link-2", __iconNode31);
+  var Link2 = createLucideIcon("link-2", __iconNode32);
 
   // node_modules/lucide-react/dist/esm/icons/list-checks.mjs
-  var __iconNode32 = [
+  var __iconNode33 = [
     ["path", { d: "M13 5h8", key: "a7qcls" }],
     ["path", { d: "M13 12h8", key: "h98zly" }],
     ["path", { d: "M13 19h8", key: "c3s6r1" }],
     ["path", { d: "m3 17 2 2 4-4", key: "1jhpwq" }],
     ["path", { d: "m3 7 2 2 4-4", key: "1obspn" }]
   ];
-  var ListChecks = createLucideIcon("list-checks", __iconNode32);
+  var ListChecks = createLucideIcon("list-checks", __iconNode33);
 
   // node_modules/lucide-react/dist/esm/icons/loader-circle.mjs
-  var __iconNode33 = [["path", { d: "M21 12a9 9 0 1 1-6.219-8.56", key: "13zald" }]];
-  var LoaderCircle = createLucideIcon("loader-circle", __iconNode33);
+  var __iconNode34 = [["path", { d: "M21 12a9 9 0 1 1-6.219-8.56", key: "13zald" }]];
+  var LoaderCircle = createLucideIcon("loader-circle", __iconNode34);
 
   // node_modules/lucide-react/dist/esm/icons/log-out.mjs
-  var __iconNode34 = [
+  var __iconNode35 = [
     ["path", { d: "m16 17 5-5-5-5", key: "1bji2h" }],
     ["path", { d: "M21 12H9", key: "dn1m92" }],
     ["path", { d: "M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4", key: "1uf3rs" }]
   ];
-  var LogOut = createLucideIcon("log-out", __iconNode34);
+  var LogOut = createLucideIcon("log-out", __iconNode35);
 
   // node_modules/lucide-react/dist/esm/icons/mail.mjs
-  var __iconNode35 = [
+  var __iconNode36 = [
     ["path", { d: "m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7", key: "132q7q" }],
     ["rect", { x: "2", y: "4", width: "20", height: "16", rx: "2", key: "izxlao" }]
   ];
-  var Mail = createLucideIcon("mail", __iconNode35);
+  var Mail = createLucideIcon("mail", __iconNode36);
 
   // node_modules/lucide-react/dist/esm/icons/map-pin.mjs
-  var __iconNode36 = [
+  var __iconNode37 = [
     [
       "path",
       {
@@ -23832,10 +23841,10 @@
     ],
     ["circle", { cx: "12", cy: "10", r: "3", key: "ilqhr7" }]
   ];
-  var MapPin = createLucideIcon("map-pin", __iconNode36);
+  var MapPin = createLucideIcon("map-pin", __iconNode37);
 
   // node_modules/lucide-react/dist/esm/icons/paperclip.mjs
-  var __iconNode37 = [
+  var __iconNode38 = [
     [
       "path",
       {
@@ -23844,10 +23853,10 @@
       }
     ]
   ];
-  var Paperclip = createLucideIcon("paperclip", __iconNode37);
+  var Paperclip = createLucideIcon("paperclip", __iconNode38);
 
   // node_modules/lucide-react/dist/esm/icons/pencil.mjs
-  var __iconNode38 = [
+  var __iconNode39 = [
     [
       "path",
       {
@@ -23857,10 +23866,10 @@
     ],
     ["path", { d: "m15 5 4 4", key: "1mk7zo" }]
   ];
-  var Pencil = createLucideIcon("pencil", __iconNode38);
+  var Pencil = createLucideIcon("pencil", __iconNode39);
 
   // node_modules/lucide-react/dist/esm/icons/play.mjs
-  var __iconNode39 = [
+  var __iconNode40 = [
     [
       "path",
       {
@@ -23869,17 +23878,26 @@
       }
     ]
   ];
-  var Play = createLucideIcon("play", __iconNode39);
+  var Play = createLucideIcon("play", __iconNode40);
 
   // node_modules/lucide-react/dist/esm/icons/plus.mjs
-  var __iconNode40 = [
+  var __iconNode41 = [
     ["path", { d: "M5 12h14", key: "1ays0h" }],
     ["path", { d: "M12 5v14", key: "s699le" }]
   ];
-  var Plus = createLucideIcon("plus", __iconNode40);
+  var Plus = createLucideIcon("plus", __iconNode41);
+
+  // node_modules/lucide-react/dist/esm/icons/refresh-cw.mjs
+  var __iconNode42 = [
+    ["path", { d: "M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8", key: "v9h5vc" }],
+    ["path", { d: "M21 3v5h-5", key: "1q7to0" }],
+    ["path", { d: "M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16", key: "3uifl3" }],
+    ["path", { d: "M8 16H3v5", key: "1cv678" }]
+  ];
+  var RefreshCw = createLucideIcon("refresh-cw", __iconNode42);
 
   // node_modules/lucide-react/dist/esm/icons/settings.mjs
-  var __iconNode41 = [
+  var __iconNode43 = [
     [
       "path",
       {
@@ -23889,10 +23907,10 @@
     ],
     ["circle", { cx: "12", cy: "12", r: "3", key: "1v7zrd" }]
   ];
-  var Settings = createLucideIcon("settings", __iconNode41);
+  var Settings = createLucideIcon("settings", __iconNode43);
 
   // node_modules/lucide-react/dist/esm/icons/shield-check.mjs
-  var __iconNode42 = [
+  var __iconNode44 = [
     [
       "path",
       {
@@ -23902,10 +23920,10 @@
     ],
     ["path", { d: "m9 12 2 2 4-4", key: "dzmm74" }]
   ];
-  var ShieldCheck = createLucideIcon("shield-check", __iconNode42);
+  var ShieldCheck = createLucideIcon("shield-check", __iconNode44);
 
   // node_modules/lucide-react/dist/esm/icons/sigma.mjs
-  var __iconNode43 = [
+  var __iconNode45 = [
     [
       "path",
       {
@@ -23914,10 +23932,10 @@
       }
     ]
   ];
-  var Sigma = createLucideIcon("sigma", __iconNode43);
+  var Sigma = createLucideIcon("sigma", __iconNode45);
 
   // node_modules/lucide-react/dist/esm/icons/sparkles.mjs
-  var __iconNode44 = [
+  var __iconNode46 = [
     [
       "path",
       {
@@ -23929,10 +23947,10 @@
     ["path", { d: "M22 4h-4", key: "gwowj6" }],
     ["circle", { cx: "4", cy: "20", r: "2", key: "6kqj1y" }]
   ];
-  var Sparkles = createLucideIcon("sparkles", __iconNode44);
+  var Sparkles = createLucideIcon("sparkles", __iconNode46);
 
   // node_modules/lucide-react/dist/esm/icons/sun.mjs
-  var __iconNode45 = [
+  var __iconNode47 = [
     ["circle", { cx: "12", cy: "12", r: "4", key: "4exip2" }],
     ["path", { d: "M12 2v2", key: "tus03m" }],
     ["path", { d: "M12 20v2", key: "1lh1kg" }],
@@ -23943,41 +23961,47 @@
     ["path", { d: "m6.34 17.66-1.41 1.41", key: "1m8zz5" }],
     ["path", { d: "m19.07 4.93-1.41 1.41", key: "1shlcs" }]
   ];
-  var Sun = createLucideIcon("sun", __iconNode45);
+  var Sun = createLucideIcon("sun", __iconNode47);
+
+  // node_modules/lucide-react/dist/esm/icons/thermometer.mjs
+  var __iconNode48 = [
+    ["path", { d: "M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0Z", key: "17jzev" }]
+  ];
+  var Thermometer = createLucideIcon("thermometer", __iconNode48);
 
   // node_modules/lucide-react/dist/esm/icons/toggle-right.mjs
-  var __iconNode46 = [
+  var __iconNode49 = [
     ["circle", { cx: "15", cy: "12", r: "3", key: "1afu0r" }],
     ["rect", { width: "20", height: "14", x: "2", y: "5", rx: "7", key: "g7kal2" }]
   ];
-  var ToggleRight = createLucideIcon("toggle-right", __iconNode46);
+  var ToggleRight = createLucideIcon("toggle-right", __iconNode49);
 
   // node_modules/lucide-react/dist/esm/icons/toggle-left.mjs
-  var __iconNode47 = [
+  var __iconNode50 = [
     ["circle", { cx: "9", cy: "12", r: "3", key: "u3jwor" }],
     ["rect", { width: "20", height: "14", x: "2", y: "5", rx: "7", key: "g7kal2" }]
   ];
-  var ToggleLeft = createLucideIcon("toggle-left", __iconNode47);
+  var ToggleLeft = createLucideIcon("toggle-left", __iconNode50);
 
   // node_modules/lucide-react/dist/esm/icons/trash-2.mjs
-  var __iconNode48 = [
+  var __iconNode51 = [
     ["path", { d: "M10 11v6", key: "nco0om" }],
     ["path", { d: "M14 11v6", key: "outv1u" }],
     ["path", { d: "M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6", key: "miytrc" }],
     ["path", { d: "M3 6h18", key: "d0wm0j" }],
     ["path", { d: "M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2", key: "e791ji" }]
   ];
-  var Trash2 = createLucideIcon("trash-2", __iconNode48);
+  var Trash2 = createLucideIcon("trash-2", __iconNode51);
 
   // node_modules/lucide-react/dist/esm/icons/trending-up.mjs
-  var __iconNode49 = [
+  var __iconNode52 = [
     ["path", { d: "M16 7h6v6", key: "box55l" }],
     ["path", { d: "m22 7-8.5 8.5-5-5L2 17", key: "1t1m79" }]
   ];
-  var TrendingUp = createLucideIcon("trending-up", __iconNode49);
+  var TrendingUp = createLucideIcon("trending-up", __iconNode52);
 
   // node_modules/lucide-react/dist/esm/icons/triangle-alert.mjs
-  var __iconNode50 = [
+  var __iconNode53 = [
     [
       "path",
       {
@@ -23988,34 +24012,34 @@
     ["path", { d: "M12 9v4", key: "juzpu7" }],
     ["path", { d: "M12 17h.01", key: "p32p05" }]
   ];
-  var TriangleAlert = createLucideIcon("triangle-alert", __iconNode50);
+  var TriangleAlert = createLucideIcon("triangle-alert", __iconNode53);
 
   // node_modules/lucide-react/dist/esm/icons/upload.mjs
-  var __iconNode51 = [
+  var __iconNode54 = [
     ["path", { d: "M12 3v12", key: "1x0j5s" }],
     ["path", { d: "m17 8-5-5-5 5", key: "7q97r8" }],
     ["path", { d: "M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4", key: "ih7n3h" }]
   ];
-  var Upload = createLucideIcon("upload", __iconNode51);
+  var Upload = createLucideIcon("upload", __iconNode54);
 
   // node_modules/lucide-react/dist/esm/icons/user.mjs
-  var __iconNode52 = [
+  var __iconNode55 = [
     ["path", { d: "M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2", key: "975kel" }],
     ["circle", { cx: "12", cy: "7", r: "4", key: "17ys0d" }]
   ];
-  var User = createLucideIcon("user", __iconNode52);
+  var User = createLucideIcon("user", __iconNode55);
 
   // node_modules/lucide-react/dist/esm/icons/users.mjs
-  var __iconNode53 = [
+  var __iconNode56 = [
     ["path", { d: "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2", key: "1yyitq" }],
     ["path", { d: "M16 3.128a4 4 0 0 1 0 7.744", key: "16gr8j" }],
     ["path", { d: "M22 21v-2a4 4 0 0 0-3-3.87", key: "kshegd" }],
     ["circle", { cx: "9", cy: "7", r: "4", key: "nufk8" }]
   ];
-  var Users = createLucideIcon("users", __iconNode53);
+  var Users = createLucideIcon("users", __iconNode56);
 
   // node_modules/lucide-react/dist/esm/icons/wand-sparkles.mjs
-  var __iconNode54 = [
+  var __iconNode57 = [
     [
       "path",
       {
@@ -24031,14 +24055,14 @@
     ["path", { d: "M21 16h-4", key: "1cnmox" }],
     ["path", { d: "M11 3H9", key: "1obp7u" }]
   ];
-  var WandSparkles = createLucideIcon("wand-sparkles", __iconNode54);
+  var WandSparkles = createLucideIcon("wand-sparkles", __iconNode57);
 
   // node_modules/lucide-react/dist/esm/icons/x.mjs
-  var __iconNode55 = [
+  var __iconNode58 = [
     ["path", { d: "M18 6 6 18", key: "1bl5f8" }],
     ["path", { d: "m6 6 12 12", key: "d8bk6v" }]
   ];
-  var X = createLucideIcon("x", __iconNode55);
+  var X = createLucideIcon("x", __iconNode58);
 
   // src/Dashboard.jsx
   var import_react71 = __toESM(require_react());
@@ -24089,6 +24113,7 @@
     { id: "config", label: "Configuration des analyses", icon: ChartColumn },
     { id: "results", label: "R\xE9sultats & rapport", icon: FileText },
     { id: "map", label: "Cartographie", icon: MapPin },
+    { id: "climate", label: "Climat", icon: CloudRain },
     { id: "settings", label: "Param\xE8tres", icon: Settings }
   ];
   function Sidebar({ active, onNavigate, children }) {
@@ -118715,10 +118740,251 @@ ${suffix2}`;
     return /* @__PURE__ */ import_react80.default.createElement(Card5, null, /* @__PURE__ */ import_react80.default.createElement("div", { className: "flex items-center gap-2 mb-1" }, /* @__PURE__ */ import_react80.default.createElement(Mail, { size: 16, style: { color: GOLD12 } }), /* @__PURE__ */ import_react80.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY13 } }, "Signalements re\xE7us")), /* @__PURE__ */ import_react80.default.createElement("p", { className: "text-xs text-gray-400 mb-4" }, "Messages envoy\xE9s par les utilisateurs depuis l'onglet Contact."), error && /* @__PURE__ */ import_react80.default.createElement("div", { className: "rounded-xl p-3 mb-3 text-xs", style: { background: "#FBE7E5", color: "#B3413A" } }, error), loading ? /* @__PURE__ */ import_react80.default.createElement("p", { className: "text-xs text-gray-400" }, "Chargement\u2026") : reports.length === 0 ? /* @__PURE__ */ import_react80.default.createElement("p", { className: "text-xs text-gray-400 italic" }, "Aucun signalement pour l'instant.") : /* @__PURE__ */ import_react80.default.createElement("div", { className: "space-y-2 max-h-80 overflow-y-auto" }, reports.map((r2) => /* @__PURE__ */ import_react80.default.createElement("div", { key: r2.id, className: "rounded-xl border border-gray-100 p-3" }, /* @__PURE__ */ import_react80.default.createElement("div", { className: "flex items-start justify-between gap-2" }, /* @__PURE__ */ import_react80.default.createElement("div", null, /* @__PURE__ */ import_react80.default.createElement("div", { className: "text-xs font-semibold text-gray-800" }, r2.sujet), /* @__PURE__ */ import_react80.default.createElement("div", { className: "text-[11px] text-gray-500 mt-0.5" }, r2.message), /* @__PURE__ */ import_react80.default.createElement("div", { className: "text-[10px] text-gray-400 mt-1" }, r2.user_email, " \xB7 ", new Date(r2.created_at).toLocaleDateString("fr-FR"))), r2.statut === "r\xE9solu" ? /* @__PURE__ */ import_react80.default.createElement("span", { className: "text-[10px] font-medium px-2 py-1 rounded-full shrink-0", style: { background: "#E4F5EC", color: GREEN3 } }, "R\xE9solu") : /* @__PURE__ */ import_react80.default.createElement("button", { onClick: () => markResolved(r2), className: "text-[10px] font-medium px-2 py-1 rounded-full shrink-0", style: { background: "#FDF1DA", color: "#8A5A00" } }, "Marquer r\xE9solu"))))));
   }
 
-  // src/admin/AdminDashboard.jsx
+  // src/Climate.jsx
   var import_react81 = __toESM(require_react());
+
+  // src/communeCoords.js
+  var COMMUNE_COORDS = {
+    // Alibori
+    "Banikoara": { lat: 11.3, lon: 2.44 },
+    "Gogounou": { lat: 10.83, lon: 2.83 },
+    "Kandi": { lat: 11.13, lon: 2.94 },
+    "Karimama": { lat: 12.07, lon: 3.18 },
+    "Malanville": { lat: 11.86, lon: 3.39 },
+    "S\xE9gbana": { lat: 10.93, lon: 3.63 },
+    // Atacora
+    "Boukoumb\xE9": { lat: 10.19, lon: 1.1 },
+    "Cobly": { lat: 10.37, lon: 1.06 },
+    "K\xE9rou": { lat: 10.8, lon: 2.02 },
+    "Kouand\xE9": { lat: 10.33, lon: 1.68 },
+    "Mat\xE9ri": { lat: 10.72, lon: 1.07 },
+    "Natitingou": { lat: 10.3, lon: 1.38 },
+    "P\xE9hunco": { lat: 10.47, lon: 2.1 },
+    "Tangui\xE9ta": { lat: 10.62, lon: 1.27 },
+    "Toucountouna": { lat: 10.44, lon: 1.44 },
+    // Atlantique
+    "Abomey-Calavi": { lat: 6.45, lon: 2.35 },
+    "Allada": { lat: 6.67, lon: 2.15 },
+    "Kpomass\xE8": { lat: 6.52, lon: 2.07 },
+    "Ouidah": { lat: 6.36, lon: 2.09 },
+    "S\xF4-Ava": { lat: 6.48, lon: 2.42 },
+    "Toffo": { lat: 6.83, lon: 2.12 },
+    "Tori-Bossito": { lat: 6.55, lon: 2.15 },
+    "Z\xE8": { lat: 6.6, lon: 2.28 },
+    // Borgou
+    "Bemb\xE9r\xE9k\xE9": { lat: 10.23, lon: 2.67 },
+    "Kalal\xE9": { lat: 10.3, lon: 3.36 },
+    "N'Dali": { lat: 9.85, lon: 2.7 },
+    "Nikki": { lat: 9.94, lon: 3.21 },
+    "Parakou": { lat: 9.34, lon: 2.63 },
+    "P\xE9r\xE8r\xE8": { lat: 9.66, lon: 2.79 },
+    "Sinend\xE9": { lat: 10.3, lon: 2.35 },
+    "Tchaourou": { lat: 8.89, lon: 2.6 },
+    // Collines
+    "Bant\xE8": { lat: 8.42, lon: 1.88 },
+    "Dassa-Zoum\xE8": { lat: 7.75, lon: 2.18 },
+    "Glazou\xE9": { lat: 8.1, lon: 2.3 },
+    "Ou\xE8ss\xE8": { lat: 8.33, lon: 2.5 },
+    "Savalou": { lat: 7.93, lon: 1.98 },
+    "Sav\xE8": { lat: 8.04, lon: 2.49 },
+    // Couffo
+    "Aplahou\xE9": { lat: 6.93, lon: 1.68 },
+    "Djakotomey": { lat: 6.83, lon: 1.72 },
+    "Dogbo": { lat: 6.8, lon: 1.78 },
+    "Klou\xE9kanm\xE8": { lat: 6.95, lon: 1.86 },
+    "Lalo": { lat: 6.9, lon: 1.88 },
+    "Toviklin": { lat: 6.87, lon: 1.83 },
+    // Donga
+    "Bassila": { lat: 9.02, lon: 1.67 },
+    "Copargo": { lat: 9.75, lon: 1.55 },
+    "Djougou": { lat: 9.71, lon: 1.67 },
+    "Ouak\xE9": { lat: 9.82, lon: 1.38 },
+    // Littoral
+    "Cotonou": { lat: 6.37, lon: 2.43 },
+    // Mono
+    "Athi\xE9m\xE9": { lat: 6.58, lon: 1.68 },
+    "Bopa": { lat: 6.58, lon: 1.98 },
+    "Com\xE8": { lat: 6.4, lon: 1.88 },
+    "Grand-Popo": { lat: 6.28, lon: 1.82 },
+    "Hou\xE9yogb\xE9": { lat: 6.53, lon: 1.9 },
+    "Lokossa": { lat: 6.64, lon: 1.72 },
+    // Ouémé
+    "Adjarra": { lat: 6.48, lon: 2.56 },
+    "Adjohoun": { lat: 6.7, lon: 2.48 },
+    "Agu\xE9gu\xE9s": { lat: 6.51, lon: 2.51 },
+    "Akpro-Miss\xE9r\xE9t\xE9": { lat: 6.55, lon: 2.53 },
+    "Avrankou": { lat: 6.53, lon: 2.66 },
+    "Bonou": { lat: 6.9, lon: 2.47 },
+    "Dangbo": { lat: 6.58, lon: 2.56 },
+    "Porto-Novo": { lat: 6.5, lon: 2.62 },
+    "S\xE8m\xE8-Kpodji": { lat: 6.38, lon: 2.61 },
+    // Plateau
+    "Adja-Ou\xE8r\xE8": { lat: 7.18, lon: 2.55 },
+    "Ifangni": { lat: 6.9, lon: 2.65 },
+    "K\xE9tou": { lat: 7.36, lon: 2.6 },
+    "Pob\xE8": { lat: 7, lon: 2.67 },
+    "Sak\xE9t\xE9": { lat: 6.73, lon: 2.65 },
+    // Zou
+    "Abomey": { lat: 7.18, lon: 1.99 },
+    "Agbangnizoun": { lat: 7.13, lon: 2.02 },
+    "Bohicon": { lat: 7.18, lon: 2.07 },
+    "Cov\xE8": { lat: 7.23, lon: 2.34 },
+    "Djidja": { lat: 7.35, lon: 1.94 },
+    "Ouinhi": { lat: 7.02, lon: 2.42 },
+    "Za-Kpota": { lat: 7.23, lon: 2.2 },
+    "Zagnanado": { lat: 7.2, lon: 2.3 },
+    "Zogbodomey": { lat: 6.98, lon: 2.18 }
+  };
+
+  // src/Climate.jsx
   var NAVY14 = "#1F3864";
   var GOLD13 = "#C99A2E";
+  function Card6({ children, className = "" }) {
+    return /* @__PURE__ */ import_react81.default.createElement("div", { className: `bg-white rounded-2xl p-6 shadow-sm border border-black/5 ${className}` }, children);
+  }
+  function toYYYYMMDD(d) {
+    return d.toISOString().slice(0, 10).replace(/-/g, "");
+  }
+  function defaultDates() {
+    const end = /* @__PURE__ */ new Date();
+    end.setDate(end.getDate() - 4);
+    const start = new Date(end);
+    start.setDate(start.getDate() - 29);
+    return { start: toYYYYMMDD(start), end: toYYYYMMDD(end) };
+  }
+  function Climate({ active, onNavigate, userEmail, roleLabel, isAdmin, isGuest, onLogout, onOpenAdmin }) {
+    const defaults = defaultDates();
+    const [departement, setDepartement] = (0, import_react81.useState)("Borgou");
+    const [commune, setCommune] = (0, import_react81.useState)("Parakou");
+    const [startDate, setStartDate] = (0, import_react81.useState)(defaults.start);
+    const [endDate, setEndDate] = (0, import_react81.useState)(defaults.end);
+    const [loading, setLoading] = (0, import_react81.useState)(false);
+    const [error, setError] = (0, import_react81.useState)("");
+    const [result, setResult] = (0, import_react81.useState)(null);
+    const communesDuDepartement = BENIN_DEPARTEMENTS.find((d) => d.departement === departement)?.communes || [];
+    const fetchClimate = async () => {
+      const coords = COMMUNE_COORDS[commune];
+      if (!coords) {
+        setError("Coordonn\xE9es non disponibles pour cette commune.");
+        return;
+      }
+      setLoading(true);
+      setError("");
+      setResult(null);
+      try {
+        const url = `https://power.larc.nasa.gov/api/temporal/daily/point?parameters=PRECTOTCORR,T2M_MAX,T2M_MIN,T2M&community=AG&longitude=${coords.lon}&latitude=${coords.lat}&start=${startDate}&end=${endDate}&format=JSON`;
+        const res = await fetch(url);
+        if (!res.ok) throw new Error(`Le service NASA POWER a r\xE9pondu avec le code ${res.status}.`);
+        const data = await res.json();
+        const params = data?.properties?.parameter;
+        if (!params) throw new Error(data?.messages?.[0] || "R\xE9ponse inattendue du service NASA POWER.");
+        const dates = Object.keys(params.PRECTOTCORR || {}).sort();
+        const daily = dates.map((d) => ({
+          date: `${d.slice(6, 8)}/${d.slice(4, 6)}`,
+          pluie: params.PRECTOTCORR[d] === -999 ? null : params.PRECTOTCORR[d],
+          tmax: params.T2M_MAX[d] === -999 ? null : params.T2M_MAX[d],
+          tmin: params.T2M_MIN[d] === -999 ? null : params.T2M_MIN[d]
+        })).filter((d) => d.pluie !== null);
+        if (daily.length === 0) throw new Error("Aucune donn\xE9e exploitable sur la p\xE9riode demand\xE9e (essayez une p\xE9riode plus ancienne).");
+        const cumulPluie = daily.reduce((s2, d) => s2 + d.pluie, 0);
+        const joursPluie = daily.filter((d) => d.pluie >= 1).length;
+        const tMaxAbs = Math.max(...daily.map((d) => d.tmax).filter((v) => v !== null));
+        const tMinAbs = Math.min(...daily.map((d) => d.tmin).filter((v) => v !== null));
+        const tMoyenne = daily.reduce((s2, d) => s2 + (d.tmax + d.tmin) / 2, 0) / daily.length;
+        setResult({ daily, cumulPluie, joursPluie, tMaxAbs, tMinAbs, tMoyenne, n: daily.length });
+      } catch (e) {
+        if (e instanceof TypeError) {
+          setError("Impossible de joindre le service NASA POWER (connexion r\xE9seau ou blocage temporaire). V\xE9rifiez votre connexion internet et r\xE9essayez dans quelques instants.");
+        } else {
+          setError(e.message || "\xC9chec de la r\xE9cup\xE9ration des donn\xE9es climatiques.");
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+    return /* @__PURE__ */ import_react81.default.createElement("div", { className: "min-h-screen bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans" }, /* @__PURE__ */ import_react81.default.createElement("div", { className: "flex" }, /* @__PURE__ */ import_react81.default.createElement(Sidebar, { active, onNavigate }), /* @__PURE__ */ import_react81.default.createElement("div", { className: "flex-1 min-h-screen" }, /* @__PURE__ */ import_react81.default.createElement(
+      "header",
+      {
+        className: "bg-white/70 backdrop-blur px-8 py-4 flex items-center justify-between",
+        style: { borderBottom: `2px solid ${GOLD13}` }
+      },
+      /* @__PURE__ */ import_react81.default.createElement("div", null, /* @__PURE__ */ import_react81.default.createElement("h1", { className: "font-serif text-xl font-bold", style: { color: NAVY14 } }, "Situation agrom\xE9t\xE9orologique"), /* @__PURE__ */ import_react81.default.createElement("p", { className: "text-xs text-gray-500 mt-0.5" }, "Donn\xE9es NASA POWER, par localit\xE9 \u2014 B\xE9nin")),
+      /* @__PURE__ */ import_react81.default.createElement("div", { className: "flex items-center gap-4" }, /* @__PURE__ */ import_react81.default.createElement(Bell, { size: 18, className: "text-gray-400" }), /* @__PURE__ */ import_react81.default.createElement(
+        UserMenu,
+        {
+          email: userEmail,
+          roleLabel,
+          isAdmin,
+          isGuest,
+          onLogout,
+          onOpenAdmin
+        }
+      ))
+    ), /* @__PURE__ */ import_react81.default.createElement("main", { className: "p-8" }, /* @__PURE__ */ import_react81.default.createElement(Card6, { className: "mb-5" }, /* @__PURE__ */ import_react81.default.createElement("div", { className: "grid grid-cols-4 gap-3 items-end" }, /* @__PURE__ */ import_react81.default.createElement("div", null, /* @__PURE__ */ import_react81.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "D\xE9partement"), /* @__PURE__ */ import_react81.default.createElement(
+      "select",
+      {
+        value: departement,
+        onChange: (e) => {
+          setDepartement(e.target.value);
+          setCommune(BENIN_DEPARTEMENTS.find((d) => d.departement === e.target.value).communes[0]);
+        },
+        className: "w-full text-sm rounded-xl border border-gray-200 p-2.5 bg-white focus:outline-none focus:ring-2",
+        style: { "--tw-ring-color": GOLD13 }
+      },
+      BENIN_DEPARTEMENTS.map((d) => /* @__PURE__ */ import_react81.default.createElement("option", { key: d.departement, value: d.departement }, d.departement))
+    )), /* @__PURE__ */ import_react81.default.createElement("div", null, /* @__PURE__ */ import_react81.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Commune"), /* @__PURE__ */ import_react81.default.createElement(
+      "select",
+      {
+        value: commune,
+        onChange: (e) => setCommune(e.target.value),
+        className: "w-full text-sm rounded-xl border border-gray-200 p-2.5 bg-white focus:outline-none focus:ring-2",
+        style: { "--tw-ring-color": GOLD13 }
+      },
+      communesDuDepartement.map((c2) => /* @__PURE__ */ import_react81.default.createElement("option", { key: c2, value: c2 }, c2))
+    )), /* @__PURE__ */ import_react81.default.createElement("div", null, /* @__PURE__ */ import_react81.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "P\xE9riode"), /* @__PURE__ */ import_react81.default.createElement("div", { className: "flex items-center gap-1.5" }, /* @__PURE__ */ import_react81.default.createElement(
+      "input",
+      {
+        type: "date",
+        value: `${startDate.slice(0, 4)}-${startDate.slice(4, 6)}-${startDate.slice(6, 8)}`,
+        onChange: (e) => setStartDate(e.target.value.replace(/-/g, "")),
+        className: "w-full text-xs rounded-xl border border-gray-200 p-2.5 focus:outline-none focus:ring-2",
+        style: { "--tw-ring-color": GOLD13 }
+      }
+    ), /* @__PURE__ */ import_react81.default.createElement(
+      "input",
+      {
+        type: "date",
+        value: `${endDate.slice(0, 4)}-${endDate.slice(4, 6)}-${endDate.slice(6, 8)}`,
+        onChange: (e) => setEndDate(e.target.value.replace(/-/g, "")),
+        className: "w-full text-xs rounded-xl border border-gray-200 p-2.5 focus:outline-none focus:ring-2",
+        style: { "--tw-ring-color": GOLD13 }
+      }
+    ))), /* @__PURE__ */ import_react81.default.createElement(
+      "button",
+      {
+        onClick: fetchClimate,
+        disabled: loading,
+        className: "px-4 py-2.5 rounded-xl text-sm font-medium flex items-center justify-center gap-2 text-white shadow-md disabled:opacity-60",
+        style: { background: `linear-gradient(135deg, ${NAVY14}, #2A4A82)` }
+      },
+      loading ? /* @__PURE__ */ import_react81.default.createElement(LoaderCircle, { size: 15, className: "animate-spin" }) : /* @__PURE__ */ import_react81.default.createElement(RefreshCw, { size: 15 }),
+      " Afficher"
+    )), /* @__PURE__ */ import_react81.default.createElement("p", { className: "text-[11px] text-gray-400 mt-2" }, "Coordonn\xE9es approximatives du centre de la commune (", COMMUNE_COORDS[commune]?.lat.toFixed(2), ", ", COMMUNE_COORDS[commune]?.lon.toFixed(2), ") \xB7 Source : NASA POWER (communaut\xE9 agroclimatique), publication diff\xE9r\xE9e de quelques jours.")), error && /* @__PURE__ */ import_react81.default.createElement("div", { className: "flex items-start gap-2 rounded-xl p-4 mb-5", style: { background: "#FBE7E5", color: "#B3413A" } }, /* @__PURE__ */ import_react81.default.createElement(CircleAlert, { size: 16, className: "mt-0.5 shrink-0" }), /* @__PURE__ */ import_react81.default.createElement("div", { className: "text-sm" }, /* @__PURE__ */ import_react81.default.createElement("p", null, error), /* @__PURE__ */ import_react81.default.createElement(
+      "a",
+      {
+        href: `https://power.larc.nasa.gov/data-access-viewer/`,
+        target: "_blank",
+        rel: "noreferrer",
+        className: "underline font-medium inline-block mt-1"
+      },
+      "Consulter directement le site NASA POWER"
+    ))), result && /* @__PURE__ */ import_react81.default.createElement(import_react81.default.Fragment, null, /* @__PURE__ */ import_react81.default.createElement("div", { className: "grid grid-cols-4 gap-4 mb-5" }, /* @__PURE__ */ import_react81.default.createElement(Card6, null, /* @__PURE__ */ import_react81.default.createElement(CloudRain, { size: 18, style: { color: GOLD13 } }), /* @__PURE__ */ import_react81.default.createElement("div", { className: "font-serif text-2xl font-bold mt-2", style: { color: NAVY14 } }, result.cumulPluie.toFixed(1), " mm"), /* @__PURE__ */ import_react81.default.createElement("div", { className: "text-xs text-gray-400" }, "Cumul pluviom\xE9trique")), /* @__PURE__ */ import_react81.default.createElement(Card6, null, /* @__PURE__ */ import_react81.default.createElement(Droplets, { size: 18, style: { color: GOLD13 } }), /* @__PURE__ */ import_react81.default.createElement("div", { className: "font-serif text-2xl font-bold mt-2", style: { color: NAVY14 } }, result.joursPluie, " j"), /* @__PURE__ */ import_react81.default.createElement("div", { className: "text-xs text-gray-400" }, "Jours de pluie (\u2265 1 mm) sur ", result.n)), /* @__PURE__ */ import_react81.default.createElement(Card6, null, /* @__PURE__ */ import_react81.default.createElement(Thermometer, { size: 18, style: { color: "#B3413A" } }), /* @__PURE__ */ import_react81.default.createElement("div", { className: "font-serif text-2xl font-bold mt-2", style: { color: NAVY14 } }, result.tMaxAbs.toFixed(1), " \xB0C"), /* @__PURE__ */ import_react81.default.createElement("div", { className: "text-xs text-gray-400" }, "Temp\xE9rature maximale")), /* @__PURE__ */ import_react81.default.createElement(Card6, null, /* @__PURE__ */ import_react81.default.createElement(Thermometer, { size: 18, style: { color: "#3592C4" } }), /* @__PURE__ */ import_react81.default.createElement("div", { className: "font-serif text-2xl font-bold mt-2", style: { color: NAVY14 } }, result.tMinAbs.toFixed(1), " \xB0C"), /* @__PURE__ */ import_react81.default.createElement("div", { className: "text-xs text-gray-400" }, "Temp\xE9rature minimale"))), /* @__PURE__ */ import_react81.default.createElement("div", { className: "grid grid-cols-2 gap-4" }, /* @__PURE__ */ import_react81.default.createElement(Card6, null, /* @__PURE__ */ import_react81.default.createElement("h2", { className: "font-serif font-semibold mb-3", style: { color: NAVY14 } }, "Pr\xE9cipitations journali\xE8res"), /* @__PURE__ */ import_react81.default.createElement(ResponsiveContainer, { width: "100%", height: 220 }, /* @__PURE__ */ import_react81.default.createElement(BarChart, { data: result.daily }, /* @__PURE__ */ import_react81.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react81.default.createElement(XAxis, { dataKey: "date", tick: { fontSize: 10 }, interval: Math.ceil(result.daily.length / 8) }), /* @__PURE__ */ import_react81.default.createElement(YAxis, { tick: { fontSize: 11 }, unit: " mm", width: 50 }), /* @__PURE__ */ import_react81.default.createElement(Tooltip, null), /* @__PURE__ */ import_react81.default.createElement(Bar, { dataKey: "pluie", fill: "#3592C4", radius: [3, 3, 0, 0], name: "Pluie (mm)" })))), /* @__PURE__ */ import_react81.default.createElement(Card6, null, /* @__PURE__ */ import_react81.default.createElement("h2", { className: "font-serif font-semibold mb-3", style: { color: NAVY14 } }, "Temp\xE9ratures journali\xE8res"), /* @__PURE__ */ import_react81.default.createElement(ResponsiveContainer, { width: "100%", height: 220 }, /* @__PURE__ */ import_react81.default.createElement(LineChart, { data: result.daily }, /* @__PURE__ */ import_react81.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react81.default.createElement(XAxis, { dataKey: "date", tick: { fontSize: 10 }, interval: Math.ceil(result.daily.length / 8) }), /* @__PURE__ */ import_react81.default.createElement(YAxis, { tick: { fontSize: 11 }, unit: "\xB0C", width: 45 }), /* @__PURE__ */ import_react81.default.createElement(Tooltip, null), /* @__PURE__ */ import_react81.default.createElement(Line, { type: "monotone", dataKey: "tmax", stroke: "#B3413A", strokeWidth: 2, dot: false, name: "T\xB0 max" }), /* @__PURE__ */ import_react81.default.createElement(Line, { type: "monotone", dataKey: "tmin", stroke: "#3592C4", strokeWidth: 2, dot: false, name: "T\xB0 min" })))))), !result && !error && !loading && /* @__PURE__ */ import_react81.default.createElement(Card6, { className: "text-center py-12" }, /* @__PURE__ */ import_react81.default.createElement(MapPin, { size: 32, className: "mx-auto text-gray-300 mb-3" }), /* @__PURE__ */ import_react81.default.createElement("p", { className: "text-sm text-gray-500" }, "Choisissez une commune et une p\xE9riode, puis cliquez \xAB Afficher \xBB."))))));
+  }
+
+  // src/admin/AdminDashboard.jsx
+  var import_react82 = __toESM(require_react());
+  var NAVY15 = "#1F3864";
+  var GOLD14 = "#C99A2E";
   var GREEN4 = "#256B45";
   var GREEN_TINT3 = "#E4F5EC";
   var AMBER_TINT3 = "#FDF1DA";
@@ -118734,13 +119000,13 @@ ${suffix2}`;
     return THEME_COLORS[i % THEME_COLORS.length];
   }
   function AdminDashboard({ onBack }) {
-    const [users, setUsers] = (0, import_react81.useState)([]);
-    const [activity, setActivity] = (0, import_react81.useState)([]);
-    const [projets, setProjets] = (0, import_react81.useState)([]);
-    const [loading, setLoading] = (0, import_react81.useState)(true);
-    const [error, setError] = (0, import_react81.useState)("");
-    const [selectedTheme, setSelectedTheme] = (0, import_react81.useState)(null);
-    (0, import_react81.useEffect)(() => {
+    const [users, setUsers] = (0, import_react82.useState)([]);
+    const [activity, setActivity] = (0, import_react82.useState)([]);
+    const [projets, setProjets] = (0, import_react82.useState)([]);
+    const [loading, setLoading] = (0, import_react82.useState)(true);
+    const [error, setError] = (0, import_react82.useState)("");
+    const [selectedTheme, setSelectedTheme] = (0, import_react82.useState)(null);
+    (0, import_react82.useEffect)(() => {
       async function load() {
         const { data: profiles, error: e1 } = await supabase.from("profiles").select("email, role, created_at").order("created_at", { ascending: false });
         const { data: logs, error: e22 } = await supabase.from("activity_log").select("screen");
@@ -118769,14 +119035,14 @@ ${suffix2}`;
     const themeProjects = selectedTheme ? themeMap[selectedTheme] || [] : [];
     const themeUsers = new Set(themeProjects.map((p2) => p2.user_email)).size;
     const themeLastDate = themeProjects[0]?.created_at;
-    return /* @__PURE__ */ import_react81.default.createElement("div", { className: "min-h-screen bg-[#F4F6FB] font-sans p-8" }, /* @__PURE__ */ import_react81.default.createElement("button", { onClick: selectedTheme ? () => setSelectedTheme(null) : onBack, className: "flex items-center gap-2 text-sm mb-6", style: { color: NAVY14 } }, /* @__PURE__ */ import_react81.default.createElement(ArrowLeft, { size: 15 }), " ", selectedTheme ? "Retour aux th\xE9matiques" : "Retour \xE0 l'application"), error && /* @__PURE__ */ import_react81.default.createElement("div", { className: "rounded-xl p-4 mb-6 text-sm", style: { background: "#FBE7E5", color: "#B3413A" } }, error, ". V\xE9rifiez que le script supabase_setup.sql a bien \xE9t\xE9 ex\xE9cut\xE9 (y compris la table \xAB projets \xBB) et que votre compte a le r\xF4le \xAB admin \xBB."), loading ? /* @__PURE__ */ import_react81.default.createElement("p", { className: "text-sm text-gray-400" }, "Chargement\u2026") : selectedTheme ? (
+    return /* @__PURE__ */ import_react82.default.createElement("div", { className: "min-h-screen bg-[#F4F6FB] font-sans p-8" }, /* @__PURE__ */ import_react82.default.createElement("button", { onClick: selectedTheme ? () => setSelectedTheme(null) : onBack, className: "flex items-center gap-2 text-sm mb-6", style: { color: NAVY15 } }, /* @__PURE__ */ import_react82.default.createElement(ArrowLeft, { size: 15 }), " ", selectedTheme ? "Retour aux th\xE9matiques" : "Retour \xE0 l'application"), error && /* @__PURE__ */ import_react82.default.createElement("div", { className: "rounded-xl p-4 mb-6 text-sm", style: { background: "#FBE7E5", color: "#B3413A" } }, error, ". V\xE9rifiez que le script supabase_setup.sql a bien \xE9t\xE9 ex\xE9cut\xE9 (y compris la table \xAB projets \xBB) et que votre compte a le r\xF4le \xAB admin \xBB."), loading ? /* @__PURE__ */ import_react82.default.createElement("p", { className: "text-sm text-gray-400" }, "Chargement\u2026") : selectedTheme ? (
       /* ---------- VUE DÉTAIL D'UNE THÉMATIQUE ---------- */
-      /* @__PURE__ */ import_react81.default.createElement(import_react81.default.Fragment, null, /* @__PURE__ */ import_react81.default.createElement("div", { className: "flex items-center gap-2 mb-1" }, /* @__PURE__ */ import_react81.default.createElement("span", { className: "w-3 h-3 rounded-full", style: { background: themeColor(themes.findIndex(([t]) => t === selectedTheme)) } }), /* @__PURE__ */ import_react81.default.createElement("h1", { className: "font-serif text-2xl font-bold", style: { color: NAVY14 } }, "Th\xE9matique : ", selectedTheme)), /* @__PURE__ */ import_react81.default.createElement("p", { className: "text-sm text-gray-500 mb-6" }, "Point des projets soumis par les utilisateurs sur cette th\xE9matique"), /* @__PURE__ */ import_react81.default.createElement("div", { className: "grid grid-cols-3 gap-4 mb-6" }, /* @__PURE__ */ import_react81.default.createElement("div", { className: "bg-white rounded-2xl p-5 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react81.default.createElement(FolderKanban, { size: 18, style: { color: GOLD13 } }), /* @__PURE__ */ import_react81.default.createElement("div", { className: "font-serif text-2xl font-bold mt-2", style: { color: NAVY14 } }, themeProjects.length), /* @__PURE__ */ import_react81.default.createElement("div", { className: "text-xs text-gray-400" }, "Projets soumis")), /* @__PURE__ */ import_react81.default.createElement("div", { className: "bg-white rounded-2xl p-5 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react81.default.createElement(Users, { size: 18, style: { color: GOLD13 } }), /* @__PURE__ */ import_react81.default.createElement("div", { className: "font-serif text-2xl font-bold mt-2", style: { color: NAVY14 } }, themeUsers), /* @__PURE__ */ import_react81.default.createElement("div", { className: "text-xs text-gray-400" }, "Utilisateurs distincts")), /* @__PURE__ */ import_react81.default.createElement("div", { className: "bg-white rounded-2xl p-5 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react81.default.createElement(Clock, { size: 18, style: { color: GOLD13 } }), /* @__PURE__ */ import_react81.default.createElement("div", { className: "font-serif text-2xl font-bold mt-2", style: { color: NAVY14 } }, themeLastDate ? new Date(themeLastDate).toLocaleDateString("fr-FR") : "\u2014"), /* @__PURE__ */ import_react81.default.createElement("div", { className: "text-xs text-gray-400" }, "Dernier d\xE9p\xF4t"))), /* @__PURE__ */ import_react81.default.createElement("div", { className: "bg-white rounded-2xl shadow-sm border border-black/5 overflow-hidden" }, /* @__PURE__ */ import_react81.default.createElement("div", { className: "px-5 py-4" }, /* @__PURE__ */ import_react81.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY14 } }, "Projets soumis sur cette th\xE9matique")), /* @__PURE__ */ import_react81.default.createElement("table", { className: "w-full text-sm" }, /* @__PURE__ */ import_react81.default.createElement("thead", null, /* @__PURE__ */ import_react81.default.createElement("tr", { className: "text-left text-[11px] text-gray-400 uppercase border-t border-b border-gray-100" }, /* @__PURE__ */ import_react81.default.createElement("th", { className: "px-5 py-2 font-medium" }, "Objectif / Titre"), /* @__PURE__ */ import_react81.default.createElement("th", { className: "px-5 py-2 font-medium" }, "Soumis par"), /* @__PURE__ */ import_react81.default.createElement("th", { className: "px-5 py-2 font-medium" }, "Communes"), /* @__PURE__ */ import_react81.default.createElement("th", { className: "px-5 py-2 font-medium" }, "Statut"), /* @__PURE__ */ import_react81.default.createElement("th", { className: "px-5 py-2 font-medium" }, "Date"))), /* @__PURE__ */ import_react81.default.createElement("tbody", null, themeProjects.map((p2) => /* @__PURE__ */ import_react81.default.createElement("tr", { key: p2.id, className: "border-b border-gray-50 last:border-0" }, /* @__PURE__ */ import_react81.default.createElement("td", { className: "px-5 py-3 text-gray-800 max-w-xs" }, p2.titre), /* @__PURE__ */ import_react81.default.createElement("td", { className: "px-5 py-3 text-gray-500" }, p2.user_email), /* @__PURE__ */ import_react81.default.createElement("td", { className: "px-5 py-3 text-gray-500" }, (p2.communes || []).join(", ") || "\u2014"), /* @__PURE__ */ import_react81.default.createElement("td", { className: "px-5 py-3" }, /* @__PURE__ */ import_react81.default.createElement("span", { className: "px-2 py-1 rounded-full text-[11px] font-medium", style: { background: GREEN_TINT3, color: GREEN4 } }, p2.statut)), /* @__PURE__ */ import_react81.default.createElement("td", { className: "px-5 py-3 text-gray-400" }, new Date(p2.created_at).toLocaleDateString("fr-FR")))), themeProjects.length === 0 && /* @__PURE__ */ import_react81.default.createElement("tr", null, /* @__PURE__ */ import_react81.default.createElement("td", { colSpan: 5, className: "px-5 py-6 text-center text-gray-400 text-xs" }, "Aucun projet sur cette th\xE9matique."))))))
+      /* @__PURE__ */ import_react82.default.createElement(import_react82.default.Fragment, null, /* @__PURE__ */ import_react82.default.createElement("div", { className: "flex items-center gap-2 mb-1" }, /* @__PURE__ */ import_react82.default.createElement("span", { className: "w-3 h-3 rounded-full", style: { background: themeColor(themes.findIndex(([t]) => t === selectedTheme)) } }), /* @__PURE__ */ import_react82.default.createElement("h1", { className: "font-serif text-2xl font-bold", style: { color: NAVY15 } }, "Th\xE9matique : ", selectedTheme)), /* @__PURE__ */ import_react82.default.createElement("p", { className: "text-sm text-gray-500 mb-6" }, "Point des projets soumis par les utilisateurs sur cette th\xE9matique"), /* @__PURE__ */ import_react82.default.createElement("div", { className: "grid grid-cols-3 gap-4 mb-6" }, /* @__PURE__ */ import_react82.default.createElement("div", { className: "bg-white rounded-2xl p-5 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react82.default.createElement(FolderKanban, { size: 18, style: { color: GOLD14 } }), /* @__PURE__ */ import_react82.default.createElement("div", { className: "font-serif text-2xl font-bold mt-2", style: { color: NAVY15 } }, themeProjects.length), /* @__PURE__ */ import_react82.default.createElement("div", { className: "text-xs text-gray-400" }, "Projets soumis")), /* @__PURE__ */ import_react82.default.createElement("div", { className: "bg-white rounded-2xl p-5 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react82.default.createElement(Users, { size: 18, style: { color: GOLD14 } }), /* @__PURE__ */ import_react82.default.createElement("div", { className: "font-serif text-2xl font-bold mt-2", style: { color: NAVY15 } }, themeUsers), /* @__PURE__ */ import_react82.default.createElement("div", { className: "text-xs text-gray-400" }, "Utilisateurs distincts")), /* @__PURE__ */ import_react82.default.createElement("div", { className: "bg-white rounded-2xl p-5 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react82.default.createElement(Clock, { size: 18, style: { color: GOLD14 } }), /* @__PURE__ */ import_react82.default.createElement("div", { className: "font-serif text-2xl font-bold mt-2", style: { color: NAVY15 } }, themeLastDate ? new Date(themeLastDate).toLocaleDateString("fr-FR") : "\u2014"), /* @__PURE__ */ import_react82.default.createElement("div", { className: "text-xs text-gray-400" }, "Dernier d\xE9p\xF4t"))), /* @__PURE__ */ import_react82.default.createElement("div", { className: "bg-white rounded-2xl shadow-sm border border-black/5 overflow-hidden" }, /* @__PURE__ */ import_react82.default.createElement("div", { className: "px-5 py-4" }, /* @__PURE__ */ import_react82.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY15 } }, "Projets soumis sur cette th\xE9matique")), /* @__PURE__ */ import_react82.default.createElement("table", { className: "w-full text-sm" }, /* @__PURE__ */ import_react82.default.createElement("thead", null, /* @__PURE__ */ import_react82.default.createElement("tr", { className: "text-left text-[11px] text-gray-400 uppercase border-t border-b border-gray-100" }, /* @__PURE__ */ import_react82.default.createElement("th", { className: "px-5 py-2 font-medium" }, "Objectif / Titre"), /* @__PURE__ */ import_react82.default.createElement("th", { className: "px-5 py-2 font-medium" }, "Soumis par"), /* @__PURE__ */ import_react82.default.createElement("th", { className: "px-5 py-2 font-medium" }, "Communes"), /* @__PURE__ */ import_react82.default.createElement("th", { className: "px-5 py-2 font-medium" }, "Statut"), /* @__PURE__ */ import_react82.default.createElement("th", { className: "px-5 py-2 font-medium" }, "Date"))), /* @__PURE__ */ import_react82.default.createElement("tbody", null, themeProjects.map((p2) => /* @__PURE__ */ import_react82.default.createElement("tr", { key: p2.id, className: "border-b border-gray-50 last:border-0" }, /* @__PURE__ */ import_react82.default.createElement("td", { className: "px-5 py-3 text-gray-800 max-w-xs" }, p2.titre), /* @__PURE__ */ import_react82.default.createElement("td", { className: "px-5 py-3 text-gray-500" }, p2.user_email), /* @__PURE__ */ import_react82.default.createElement("td", { className: "px-5 py-3 text-gray-500" }, (p2.communes || []).join(", ") || "\u2014"), /* @__PURE__ */ import_react82.default.createElement("td", { className: "px-5 py-3" }, /* @__PURE__ */ import_react82.default.createElement("span", { className: "px-2 py-1 rounded-full text-[11px] font-medium", style: { background: GREEN_TINT3, color: GREEN4 } }, p2.statut)), /* @__PURE__ */ import_react82.default.createElement("td", { className: "px-5 py-3 text-gray-400" }, new Date(p2.created_at).toLocaleDateString("fr-FR")))), themeProjects.length === 0 && /* @__PURE__ */ import_react82.default.createElement("tr", null, /* @__PURE__ */ import_react82.default.createElement("td", { colSpan: 5, className: "px-5 py-6 text-center text-gray-400 text-xs" }, "Aucun projet sur cette th\xE9matique."))))))
     ) : (
       /* ---------- VUE D'ENSEMBLE ---------- */
-      /* @__PURE__ */ import_react81.default.createElement(import_react81.default.Fragment, null, /* @__PURE__ */ import_react81.default.createElement("h1", { className: "font-serif text-2xl font-bold mb-1", style: { color: NAVY14 } }, "Panneau d'administration"), /* @__PURE__ */ import_react81.default.createElement("p", { className: "text-sm text-gray-500 mb-6" }, "Utilisateurs inscrits, fr\xE9quentation, et projets soumis par th\xE9matique"), /* @__PURE__ */ import_react81.default.createElement("div", { className: "grid grid-cols-3 gap-4 mb-6" }, /* @__PURE__ */ import_react81.default.createElement("div", { className: "bg-white rounded-2xl p-5 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react81.default.createElement(Users, { size: 18, style: { color: GOLD13 } }), /* @__PURE__ */ import_react81.default.createElement("div", { className: "font-serif text-2xl font-bold mt-2", style: { color: NAVY14 } }, users.length), /* @__PURE__ */ import_react81.default.createElement("div", { className: "text-xs text-gray-400" }, "Utilisateurs inscrits")), /* @__PURE__ */ import_react81.default.createElement("div", { className: "bg-white rounded-2xl p-5 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react81.default.createElement(FolderKanban, { size: 18, style: { color: GOLD13 } }), /* @__PURE__ */ import_react81.default.createElement("div", { className: "font-serif text-2xl font-bold mt-2", style: { color: NAVY14 } }, projets.length), /* @__PURE__ */ import_react81.default.createElement("div", { className: "text-xs text-gray-400" }, "Projets soumis au total")), /* @__PURE__ */ import_react81.default.createElement("div", { className: "bg-white rounded-2xl p-5 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react81.default.createElement(Clock, { size: 18, style: { color: GOLD13 } }), /* @__PURE__ */ import_react81.default.createElement("div", { className: "font-serif text-2xl font-bold mt-2", style: { color: NAVY14 } }, users[0] ? new Date(users[0].created_at).toLocaleDateString("fr-FR") : "\u2014"), /* @__PURE__ */ import_react81.default.createElement("div", { className: "text-xs text-gray-400" }, "Derni\xE8re inscription"))), /* @__PURE__ */ import_react81.default.createElement("div", { className: "bg-white rounded-2xl p-5 shadow-sm border border-black/5 mb-6" }, /* @__PURE__ */ import_react81.default.createElement("div", { className: "flex items-center gap-2 mb-1" }, /* @__PURE__ */ import_react81.default.createElement(Layers, { size: 16, style: { color: NAVY14 } }), /* @__PURE__ */ import_react81.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY14 } }, "Projets soumis par th\xE9matique")), /* @__PURE__ */ import_react81.default.createElement("p", { className: "text-xs text-gray-400 mb-4" }, "Cliquez sur une th\xE9matique pour ouvrir son tableau de bord de suivi."), themes.length === 0 ? /* @__PURE__ */ import_react81.default.createElement("p", { className: "text-xs text-gray-400" }, "Aucun projet soumis pour l'instant.") : /* @__PURE__ */ import_react81.default.createElement("div", { className: "grid grid-cols-3 gap-3" }, themes.map(([theme, list], i) => {
+      /* @__PURE__ */ import_react82.default.createElement(import_react82.default.Fragment, null, /* @__PURE__ */ import_react82.default.createElement("h1", { className: "font-serif text-2xl font-bold mb-1", style: { color: NAVY15 } }, "Panneau d'administration"), /* @__PURE__ */ import_react82.default.createElement("p", { className: "text-sm text-gray-500 mb-6" }, "Utilisateurs inscrits, fr\xE9quentation, et projets soumis par th\xE9matique"), /* @__PURE__ */ import_react82.default.createElement("div", { className: "grid grid-cols-3 gap-4 mb-6" }, /* @__PURE__ */ import_react82.default.createElement("div", { className: "bg-white rounded-2xl p-5 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react82.default.createElement(Users, { size: 18, style: { color: GOLD14 } }), /* @__PURE__ */ import_react82.default.createElement("div", { className: "font-serif text-2xl font-bold mt-2", style: { color: NAVY15 } }, users.length), /* @__PURE__ */ import_react82.default.createElement("div", { className: "text-xs text-gray-400" }, "Utilisateurs inscrits")), /* @__PURE__ */ import_react82.default.createElement("div", { className: "bg-white rounded-2xl p-5 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react82.default.createElement(FolderKanban, { size: 18, style: { color: GOLD14 } }), /* @__PURE__ */ import_react82.default.createElement("div", { className: "font-serif text-2xl font-bold mt-2", style: { color: NAVY15 } }, projets.length), /* @__PURE__ */ import_react82.default.createElement("div", { className: "text-xs text-gray-400" }, "Projets soumis au total")), /* @__PURE__ */ import_react82.default.createElement("div", { className: "bg-white rounded-2xl p-5 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react82.default.createElement(Clock, { size: 18, style: { color: GOLD14 } }), /* @__PURE__ */ import_react82.default.createElement("div", { className: "font-serif text-2xl font-bold mt-2", style: { color: NAVY15 } }, users[0] ? new Date(users[0].created_at).toLocaleDateString("fr-FR") : "\u2014"), /* @__PURE__ */ import_react82.default.createElement("div", { className: "text-xs text-gray-400" }, "Derni\xE8re inscription"))), /* @__PURE__ */ import_react82.default.createElement("div", { className: "bg-white rounded-2xl p-5 shadow-sm border border-black/5 mb-6" }, /* @__PURE__ */ import_react82.default.createElement("div", { className: "flex items-center gap-2 mb-1" }, /* @__PURE__ */ import_react82.default.createElement(Layers, { size: 16, style: { color: NAVY15 } }), /* @__PURE__ */ import_react82.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY15 } }, "Projets soumis par th\xE9matique")), /* @__PURE__ */ import_react82.default.createElement("p", { className: "text-xs text-gray-400 mb-4" }, "Cliquez sur une th\xE9matique pour ouvrir son tableau de bord de suivi."), themes.length === 0 ? /* @__PURE__ */ import_react82.default.createElement("p", { className: "text-xs text-gray-400" }, "Aucun projet soumis pour l'instant.") : /* @__PURE__ */ import_react82.default.createElement("div", { className: "grid grid-cols-3 gap-3" }, themes.map(([theme, list], i) => {
         const distinctUsers = new Set(list.map((p2) => p2.user_email)).size;
-        return /* @__PURE__ */ import_react81.default.createElement(
+        return /* @__PURE__ */ import_react82.default.createElement(
           "button",
           {
             key: theme,
@@ -118784,11 +119050,11 @@ ${suffix2}`;
             className: "text-left rounded-xl border border-gray-100 p-4 hover:shadow-md transition-shadow",
             style: { background: AMBER_TINT3 }
           },
-          /* @__PURE__ */ import_react81.default.createElement("div", { className: "flex items-center justify-between mb-2" }, /* @__PURE__ */ import_react81.default.createElement("span", { className: "w-2.5 h-2.5 rounded-full", style: { background: themeColor(i) } }), /* @__PURE__ */ import_react81.default.createElement(ChevronRight, { size: 14, className: "text-gray-400" })),
-          /* @__PURE__ */ import_react81.default.createElement("div", { className: "font-serif font-semibold text-sm", style: { color: NAVY14 } }, theme),
-          /* @__PURE__ */ import_react81.default.createElement("div", { className: "text-[11px] text-gray-500 mt-1" }, list.length, " projet", list.length > 1 ? "s" : "", " \xB7 ", distinctUsers, " utilisateur", distinctUsers > 1 ? "s" : "")
+          /* @__PURE__ */ import_react82.default.createElement("div", { className: "flex items-center justify-between mb-2" }, /* @__PURE__ */ import_react82.default.createElement("span", { className: "w-2.5 h-2.5 rounded-full", style: { background: themeColor(i) } }), /* @__PURE__ */ import_react82.default.createElement(ChevronRight, { size: 14, className: "text-gray-400" })),
+          /* @__PURE__ */ import_react82.default.createElement("div", { className: "font-serif font-semibold text-sm", style: { color: NAVY15 } }, theme),
+          /* @__PURE__ */ import_react82.default.createElement("div", { className: "text-[11px] text-gray-500 mt-1" }, list.length, " projet", list.length > 1 ? "s" : "", " \xB7 ", distinctUsers, " utilisateur", distinctUsers > 1 ? "s" : "")
         );
-      }))), /* @__PURE__ */ import_react81.default.createElement("div", { className: "grid grid-cols-3 gap-4" }, /* @__PURE__ */ import_react81.default.createElement("div", { className: "col-span-2 bg-white rounded-2xl p-5 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react81.default.createElement("h2", { className: "font-serif font-semibold mb-3", style: { color: NAVY14 } }, "Fr\xE9quentation par \xE9cran"), /* @__PURE__ */ import_react81.default.createElement(ResponsiveContainer, { width: "100%", height: 220 }, /* @__PURE__ */ import_react81.default.createElement(BarChart, { data: chartData, layout: "vertical", margin: { left: 40 } }, /* @__PURE__ */ import_react81.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react81.default.createElement(XAxis, { type: "number", tick: { fontSize: 11 }, allowDecimals: false }), /* @__PURE__ */ import_react81.default.createElement(YAxis, { type: "category", dataKey: "label", tick: { fontSize: 11 }, width: 160 }), /* @__PURE__ */ import_react81.default.createElement(Tooltip, null), /* @__PURE__ */ import_react81.default.createElement(Bar, { dataKey: "visites", fill: NAVY14, radius: [0, 6, 6, 0] })))), /* @__PURE__ */ import_react81.default.createElement("div", { className: "bg-white rounded-2xl p-5 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react81.default.createElement("h2", { className: "font-serif font-semibold mb-3", style: { color: NAVY14 } }, "Derniers inscrits"), /* @__PURE__ */ import_react81.default.createElement("div", { className: "space-y-2 max-h-56 overflow-y-auto" }, users.slice(0, 8).map((u, i) => /* @__PURE__ */ import_react81.default.createElement("div", { key: i, className: "text-xs border-b border-gray-50 pb-2" }, /* @__PURE__ */ import_react81.default.createElement("div", { className: "font-medium text-gray-700" }, u.email), /* @__PURE__ */ import_react81.default.createElement("div", { className: "text-gray-400" }, new Date(u.created_at).toLocaleDateString("fr-FR"), " \xB7 ", u.role))), users.length === 0 && /* @__PURE__ */ import_react81.default.createElement("p", { className: "text-xs text-gray-400" }, "Aucun utilisateur pour l'instant.")))))
+      }))), /* @__PURE__ */ import_react82.default.createElement("div", { className: "grid grid-cols-3 gap-4" }, /* @__PURE__ */ import_react82.default.createElement("div", { className: "col-span-2 bg-white rounded-2xl p-5 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react82.default.createElement("h2", { className: "font-serif font-semibold mb-3", style: { color: NAVY15 } }, "Fr\xE9quentation par \xE9cran"), /* @__PURE__ */ import_react82.default.createElement(ResponsiveContainer, { width: "100%", height: 220 }, /* @__PURE__ */ import_react82.default.createElement(BarChart, { data: chartData, layout: "vertical", margin: { left: 40 } }, /* @__PURE__ */ import_react82.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react82.default.createElement(XAxis, { type: "number", tick: { fontSize: 11 }, allowDecimals: false }), /* @__PURE__ */ import_react82.default.createElement(YAxis, { type: "category", dataKey: "label", tick: { fontSize: 11 }, width: 160 }), /* @__PURE__ */ import_react82.default.createElement(Tooltip, null), /* @__PURE__ */ import_react82.default.createElement(Bar, { dataKey: "visites", fill: NAVY15, radius: [0, 6, 6, 0] })))), /* @__PURE__ */ import_react82.default.createElement("div", { className: "bg-white rounded-2xl p-5 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react82.default.createElement("h2", { className: "font-serif font-semibold mb-3", style: { color: NAVY15 } }, "Derniers inscrits"), /* @__PURE__ */ import_react82.default.createElement("div", { className: "space-y-2 max-h-56 overflow-y-auto" }, users.slice(0, 8).map((u, i) => /* @__PURE__ */ import_react82.default.createElement("div", { key: i, className: "text-xs border-b border-gray-50 pb-2" }, /* @__PURE__ */ import_react82.default.createElement("div", { className: "font-medium text-gray-700" }, u.email), /* @__PURE__ */ import_react82.default.createElement("div", { className: "text-gray-400" }, new Date(u.created_at).toLocaleDateString("fr-FR"), " \xB7 ", u.role))), users.length === 0 && /* @__PURE__ */ import_react82.default.createElement("p", { className: "text-xs text-gray-400" }, "Aucun utilisateur pour l'instant.")))))
     ));
   }
 
@@ -118799,6 +119065,7 @@ ${suffix2}`;
     config: AnalysisConfig,
     results: ResultsReport,
     map: Cartographie,
+    climate: Climate,
     settings: Settings3
   };
   var STORAGE_KEY2 = "agrihakstat_session_v1";
@@ -118820,20 +119087,20 @@ ${suffix2}`;
   }
   function App() {
     const persisted = loadPersisted();
-    const [authView, setAuthView] = (0, import_react82.useState)("landing");
-    const [session, setSession] = (0, import_react82.useState)(void 0);
-    const [profile, setProfile] = (0, import_react82.useState)(null);
-    const [active, setActive] = (0, import_react82.useState)(persisted?.active || "dashboard");
-    const [showAdmin, setShowAdmin] = (0, import_react82.useState)(false);
-    const [guestMode, setGuestMode] = (0, import_react82.useState)(persisted?.guestMode || false);
-    const [dataset, setDataset] = (0, import_react82.useState)(persisted?.dataset || null);
-    const [analysisQueue, setAnalysisQueue] = (0, import_react82.useState)(persisted?.analysisQueue || []);
-    const [context, setContext] = (0, import_react82.useState)(persisted?.context || null);
-    const [recoveryMode, setRecoveryMode] = (0, import_react82.useState)(false);
-    (0, import_react82.useEffect)(() => {
+    const [authView, setAuthView] = (0, import_react83.useState)("landing");
+    const [session, setSession] = (0, import_react83.useState)(void 0);
+    const [profile, setProfile] = (0, import_react83.useState)(null);
+    const [active, setActive] = (0, import_react83.useState)(persisted?.active || "dashboard");
+    const [showAdmin, setShowAdmin] = (0, import_react83.useState)(false);
+    const [guestMode, setGuestMode] = (0, import_react83.useState)(persisted?.guestMode || false);
+    const [dataset, setDataset] = (0, import_react83.useState)(persisted?.dataset || null);
+    const [analysisQueue, setAnalysisQueue] = (0, import_react83.useState)(persisted?.analysisQueue || []);
+    const [context, setContext] = (0, import_react83.useState)(persisted?.context || null);
+    const [recoveryMode, setRecoveryMode] = (0, import_react83.useState)(false);
+    (0, import_react83.useEffect)(() => {
       savePersisted({ active, dataset, analysisQueue, context, guestMode });
     }, [active, dataset, analysisQueue, context, guestMode]);
-    (0, import_react82.useEffect)(() => {
+    (0, import_react83.useEffect)(() => {
       if (!isSupabaseConfigured) {
         setSession(null);
         return;
@@ -118845,7 +119112,7 @@ ${suffix2}`;
       });
       return () => sub.subscription.unsubscribe();
     }, []);
-    (0, import_react82.useEffect)(() => {
+    (0, import_react83.useEffect)(() => {
       if (!session || !isSupabaseConfigured) {
         setProfile(null);
         return;
@@ -118872,16 +119139,16 @@ ${suffix2}`;
       setAuthView("landing");
     };
     if (recoveryMode) {
-      return /* @__PURE__ */ import_react82.default.createElement(ResetPassword, { onDone: () => setRecoveryMode(false) });
+      return /* @__PURE__ */ import_react83.default.createElement(ResetPassword, { onDone: () => setRecoveryMode(false) });
     }
     if (!session && !guestMode) {
       if (authView === "login") {
-        return /* @__PURE__ */ import_react82.default.createElement(Login, { onGoSignup: () => setAuthView("signup"), onGoLanding: () => setAuthView("landing") });
+        return /* @__PURE__ */ import_react83.default.createElement(Login, { onGoSignup: () => setAuthView("signup"), onGoLanding: () => setAuthView("landing") });
       }
       if (authView === "signup") {
-        return /* @__PURE__ */ import_react82.default.createElement(Signup, { onGoLogin: () => setAuthView("login"), onGoLanding: () => setAuthView("landing") });
+        return /* @__PURE__ */ import_react83.default.createElement(Signup, { onGoLogin: () => setAuthView("login"), onGoLanding: () => setAuthView("landing") });
       }
-      return /* @__PURE__ */ import_react82.default.createElement(Landing, { onGoLogin: () => setAuthView("login"), onGoSignup: () => setAuthView("signup"), onGoDemo: () => setGuestMode(true) });
+      return /* @__PURE__ */ import_react83.default.createElement(Landing, { onGoLogin: () => setAuthView("login"), onGoSignup: () => setAuthView("signup"), onGoDemo: () => setGuestMode(true) });
     }
     const Active = SCREENS[active];
     const isAdmin = profile?.role === "admin";
@@ -118889,10 +119156,10 @@ ${suffix2}`;
     const userEmail = session?.user?.email || "";
     const roleLabel = isGuest ? "D\xE9monstration" : isAdmin ? "Administrateur" : "Utilisateur";
     const handleTopRightLogout = isGuest ? () => setGuestMode(false) : handleLogout;
-    return /* @__PURE__ */ import_react82.default.createElement("div", { className: "relative" }, isGuest && /* @__PURE__ */ import_react82.default.createElement("div", { className: "sticky top-0 z-[70] bg-[#C99A2E] text-[#1F3864] text-xs font-medium text-center py-1.5" }, "Mode d\xE9monstration \u2014 aucune donn\xE9e n'est enregistr\xE9e.", " ", /* @__PURE__ */ import_react82.default.createElement("button", { onClick: () => {
+    return /* @__PURE__ */ import_react83.default.createElement("div", { className: "relative" }, isGuest && /* @__PURE__ */ import_react83.default.createElement("div", { className: "sticky top-0 z-[70] bg-[#C99A2E] text-[#1F3864] text-xs font-medium text-center py-1.5" }, "Mode d\xE9monstration \u2014 aucune donn\xE9e n'est enregistr\xE9e.", " ", /* @__PURE__ */ import_react83.default.createElement("button", { onClick: () => {
       setGuestMode(false);
       setAuthView("signup");
-    }, className: "underline font-semibold" }, "Cr\xE9er un compte")), showAdmin ? /* @__PURE__ */ import_react82.default.createElement(AdminDashboard, { onBack: () => setShowAdmin(false) }) : /* @__PURE__ */ import_react82.default.createElement(
+    }, className: "underline font-semibold" }, "Cr\xE9er un compte")), showAdmin ? /* @__PURE__ */ import_react83.default.createElement(AdminDashboard, { onBack: () => setShowAdmin(false) }) : /* @__PURE__ */ import_react83.default.createElement(
       Active,
       {
         active,
@@ -118916,7 +119183,7 @@ ${suffix2}`;
 
   // src/entry.jsx
   var root = (0, import_client.createRoot)(document.getElementById("root"));
-  root.render(/* @__PURE__ */ import_react83.default.createElement(App, null));
+  root.render(/* @__PURE__ */ import_react84.default.createElement(App, null));
 })();
 /*! Bundled license information:
 
@@ -119042,6 +119309,7 @@ lucide-react/dist/esm/icons/circle-question-mark.mjs:
 lucide-react/dist/esm/icons/circle-x.mjs:
 lucide-react/dist/esm/icons/clipboard-list.mjs:
 lucide-react/dist/esm/icons/clock.mjs:
+lucide-react/dist/esm/icons/cloud-rain.mjs:
 lucide-react/dist/esm/icons/download.mjs:
 lucide-react/dist/esm/icons/droplets.mjs:
 lucide-react/dist/esm/icons/ellipsis.mjs:
@@ -119068,11 +119336,13 @@ lucide-react/dist/esm/icons/paperclip.mjs:
 lucide-react/dist/esm/icons/pencil.mjs:
 lucide-react/dist/esm/icons/play.mjs:
 lucide-react/dist/esm/icons/plus.mjs:
+lucide-react/dist/esm/icons/refresh-cw.mjs:
 lucide-react/dist/esm/icons/settings.mjs:
 lucide-react/dist/esm/icons/shield-check.mjs:
 lucide-react/dist/esm/icons/sigma.mjs:
 lucide-react/dist/esm/icons/sparkles.mjs:
 lucide-react/dist/esm/icons/sun.mjs:
+lucide-react/dist/esm/icons/thermometer.mjs:
 lucide-react/dist/esm/icons/toggle-right.mjs:
 lucide-react/dist/esm/icons/toggle-left.mjs:
 lucide-react/dist/esm/icons/trash-2.mjs:

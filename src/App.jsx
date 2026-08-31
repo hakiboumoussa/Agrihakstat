@@ -10,12 +10,13 @@ import Login from "./auth/Login.jsx";
 import Signup from "./auth/Signup.jsx";
 import ResetPassword from "./auth/ResetPassword.jsx";
 import Settings from "./Settings.jsx";
+import Climate from "./Climate.jsx";
 import AdminDashboard from "./admin/AdminDashboard.jsx";
 import { supabase, isSupabaseConfigured } from "./supabaseClient.js";
 
 const SCREENS = {
   dashboard: Dashboard, import: ImportWizard, config: AnalysisConfig,
-  results: ResultsReport, map: Cartographie, settings: Settings,
+  results: ResultsReport, map: Cartographie, climate: Climate, settings: Settings,
 };
 
 const STORAGE_KEY = "agrihakstat_session_v1";

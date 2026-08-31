@@ -1,6 +1,6 @@
 import React from "react";
 import {
-  LayoutDashboard, ClipboardList, BarChart3, FileText, MapPin, Settings,
+  LayoutDashboard, ClipboardList, BarChart3, FileText, MapPin, Settings, CloudRain,
 } from "lucide-react";
 
 const NAVY = "#1F3864";
@@ -12,6 +12,7 @@ export const NAV_ITEMS = [
   { id: "config", label: "Configuration des analyses", icon: BarChart3 },
   { id: "results", label: "Résultats & rapport", icon: FileText },
   { id: "map", label: "Cartographie", icon: MapPin },
+  { id: "climate", label: "Climat", icon: CloudRain },
   { id: "settings", label: "Paramètres", icon: Settings },
 ];
 
