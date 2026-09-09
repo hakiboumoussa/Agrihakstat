@@ -119968,20 +119968,35 @@ ${suffix2}`;
         communes.map(async (commune) => {
           const coords = COMMUNE_COORDS[commune];
           if (!coords) throw new Error(`Coordonn\xE9es non disponibles pour ${commune}.`);
-          const url = `https://power.larc.nasa.gov/api/temporal/daily/point?parameters=PRECTOTCORR,T2M_MAX,T2M_MIN,ET0,WS2M&community=AG&longitude=${coords.lon}&latitude=${coords.lat}&start=${startDate}&end=${endDate}&format=JSON`;
-          const res = await fetch(url);
-          if (!res.ok) throw new Error(`code ${res.status}`);
-          const data = await res.json();
-          const params = data?.properties?.parameter;
-          if (!params) throw new Error(data?.messages?.[0] || "r\xE9ponse inattendue");
-          const dates = Object.keys(params.PRECTOTCORR || {}).sort();
+          const baseUrl = `https://power.larc.nasa.gov/api/temporal/daily/point?community=AG&longitude=${coords.lon}&latitude=${coords.lat}&start=${startDate}&end=${endDate}&format=JSON`;
+          const coreRes = await fetch(`${baseUrl}&parameters=PRECTOTCORR,T2M_MAX,T2M_MIN`);
+          const coreBody = await coreRes.text();
+          if (!coreRes.ok) throw new Error(`${commune} : le service NASA POWER a r\xE9pondu ${coreRes.status} \u2014 ${coreBody.slice(0, 200)}`);
+          let coreData;
+          try {
+            coreData = JSON.parse(coreBody);
+          } catch {
+            throw new Error(`${commune} : r\xE9ponse NASA POWER illisible \u2014 ${coreBody.slice(0, 200)}`);
+          }
+          const coreParams = coreData?.properties?.parameter;
+          if (!coreParams) throw new Error(`${commune} : ${coreData?.messages?.[0] || coreBody.slice(0, 200) || "r\xE9ponse inattendue du service NASA POWER"}`);
+          let extraParams = {};
+          try {
+            const extraRes = await fetch(`${baseUrl}&parameters=ET0,WS2M`);
+            if (extraRes.ok) {
+              const extraData = await extraRes.json();
+              extraParams = extraData?.properties?.parameter || {};
+            }
+          } catch {
+          }
+          const dates = Object.keys(coreParams.PRECTOTCORR || {}).sort();
           const daily2 = {};
           dates.forEach((d) => {
-            const pluie = params.PRECTOTCORR[d];
-            const tmax = params.T2M_MAX[d];
-            const tmin = params.T2M_MIN[d];
-            const eto = params.ET0?.[d];
-            const vent = params.WS2M?.[d];
+            const pluie = coreParams.PRECTOTCORR[d];
+            const tmax = coreParams.T2M_MAX[d];
+            const tmin = coreParams.T2M_MIN[d];
+            const eto = extraParams.ET0?.[d];
+            const vent = extraParams.WS2M?.[d];
             daily2[d] = {
               pluie: pluie === -999 ? null : pluie,
               tmax: tmax === -999 ? null : tmax,
@@ -119995,9 +120010,12 @@ ${suffix2}`;
       );
       const succeeded = outcomes.filter((o) => o.status === "fulfilled").map((o) => o.value);
       const failed = communes.filter((_, i) => outcomes[i].status === "rejected");
+      const firstErrorDetail = outcomes.find((o) => o.status === "rejected")?.reason?.message;
       setLoading(false);
       if (succeeded.length === 0) {
-        setError("Impossible de r\xE9cup\xE9rer des donn\xE9es pour aucune des communes s\xE9lectionn\xE9es. V\xE9rifiez votre connexion et r\xE9essayez.");
+        setError(
+          firstErrorDetail ? `\xC9chec de la r\xE9cup\xE9ration des donn\xE9es climatiques : ${firstErrorDetail}` : "Impossible de r\xE9cup\xE9rer des donn\xE9es pour aucune des communes s\xE9lectionn\xE9es. V\xE9rifiez votre connexion et r\xE9essayez."
+        );
         return;
       }
       if (failed.length > 0) {

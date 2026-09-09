@@ -76,20 +76,38 @@ export default function Climate({ active, onNavigate, userEmail, roleLabel, isAd
       communes.map(async (commune) => {
         const coords = COMMUNE_COORDS[commune];
         if (!coords) throw new Error(`Coordonnées non disponibles pour ${commune}.`);
-        const url = `https://power.larc.nasa.gov/api/temporal/daily/point?parameters=PRECTOTCORR,T2M_MAX,T2M_MIN,ET0,WS2M&community=AG&longitude=${coords.lon}&latitude=${coords.lat}&start=${startDate}&end=${endDate}&format=JSON`;
-        const res = await fetch(url);
-        if (!res.ok) throw new Error(`code ${res.status}`);
-        const data = await res.json();
-        const params = data?.properties?.parameter;
-        if (!params) throw new Error(data?.messages?.[0] || "réponse inattendue");
-        const dates = Object.keys(params.PRECTOTCORR || {}).sort();
+
+        // Appel "cœur" (pluie, températures) séparé des paramètres supplémentaires (ET0, vent) :
+        // si ces derniers posent problème, cela ne doit jamais faire échouer toute la commune.
+        const baseUrl = `https://power.larc.nasa.gov/api/temporal/daily/point?community=AG&longitude=${coords.lon}&latitude=${coords.lat}&start=${startDate}&end=${endDate}&format=JSON`;
+
+        const coreRes = await fetch(`${baseUrl}&parameters=PRECTOTCORR,T2M_MAX,T2M_MIN`);
+        const coreBody = await coreRes.text();
+        if (!coreRes.ok) throw new Error(`${commune} : le service NASA POWER a répondu ${coreRes.status} — ${coreBody.slice(0, 200)}`);
+        let coreData;
+        try { coreData = JSON.parse(coreBody); } catch { throw new Error(`${commune} : réponse NASA POWER illisible — ${coreBody.slice(0, 200)}`); }
+        const coreParams = coreData?.properties?.parameter;
+        if (!coreParams) throw new Error(`${commune} : ${coreData?.messages?.[0] || coreBody.slice(0, 200) || "réponse inattendue du service NASA POWER"}`);
+
+        let extraParams = {};
+        try {
+          const extraRes = await fetch(`${baseUrl}&parameters=ET0,WS2M`);
+          if (extraRes.ok) {
+            const extraData = await extraRes.json();
+            extraParams = extraData?.properties?.parameter || {};
+          }
+        } catch {
+          // Paramètres supplémentaires indisponibles : on continue sans eux, silencieusement.
+        }
+
+        const dates = Object.keys(coreParams.PRECTOTCORR || {}).sort();
         const daily = {};
         dates.forEach((d) => {
-          const pluie = params.PRECTOTCORR[d];
-          const tmax = params.T2M_MAX[d];
-          const tmin = params.T2M_MIN[d];
-          const eto = params.ET0?.[d];
-          const vent = params.WS2M?.[d];
+          const pluie = coreParams.PRECTOTCORR[d];
+          const tmax = coreParams.T2M_MAX[d];
+          const tmin = coreParams.T2M_MIN[d];
+          const eto = extraParams.ET0?.[d];
+          const vent = extraParams.WS2M?.[d];
           daily[d] = {
             pluie: pluie === -999 ? null : pluie,
             tmax: tmax === -999 ? null : tmax,
@@ -104,11 +122,16 @@ export default function Climate({ active, onNavigate, userEmail, roleLabel, isAd
 
     const succeeded = outcomes.filter((o) => o.status === "fulfilled").map((o) => o.value);
     const failed = communes.filter((_, i) => outcomes[i].status === "rejected");
+    const firstErrorDetail = outcomes.find((o) => o.status === "rejected")?.reason?.message;
 
     setLoading(false);
 
     if (succeeded.length === 0) {
-      setError("Impossible de récupérer des données pour aucune des communes sélectionnées. Vérifiez votre connexion et réessayez.");
+      setError(
+        firstErrorDetail
+          ? `Échec de la récupération des données climatiques : ${firstErrorDetail}`
+          : "Impossible de récupérer des données pour aucune des communes sélectionnées. Vérifiez votre connexion et réessayez."
+      );
       return;
     }
     if (failed.length > 0) {
