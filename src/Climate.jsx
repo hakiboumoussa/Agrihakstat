@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import {
-  Bell, CloudRain, Thermometer, Droplets, MapPin, Loader2, AlertCircle, RefreshCw, X,
+  Bell, CloudRain, Thermometer, Droplets, MapPin, Loader2, AlertCircle, RefreshCw, X, Sun, Wind,
 } from "lucide-react";
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Line, LineChart,
@@ -76,7 +76,7 @@ export default function Climate({ active, onNavigate, userEmail, roleLabel, isAd
       communes.map(async (commune) => {
         const coords = COMMUNE_COORDS[commune];
         if (!coords) throw new Error(`Coordonnées non disponibles pour ${commune}.`);
-        const url = `https://power.larc.nasa.gov/api/temporal/daily/point?parameters=PRECTOTCORR,T2M_MAX,T2M_MIN&community=AG&longitude=${coords.lon}&latitude=${coords.lat}&start=${startDate}&end=${endDate}&format=JSON`;
+        const url = `https://power.larc.nasa.gov/api/temporal/daily/point?parameters=PRECTOTCORR,T2M_MAX,T2M_MIN,ET0,WS2M&community=AG&longitude=${coords.lon}&latitude=${coords.lat}&start=${startDate}&end=${endDate}&format=JSON`;
         const res = await fetch(url);
         if (!res.ok) throw new Error(`code ${res.status}`);
         const data = await res.json();
@@ -88,10 +88,14 @@ export default function Climate({ active, onNavigate, userEmail, roleLabel, isAd
           const pluie = params.PRECTOTCORR[d];
           const tmax = params.T2M_MAX[d];
           const tmin = params.T2M_MIN[d];
+          const eto = params.ET0?.[d];
+          const vent = params.WS2M?.[d];
           daily[d] = {
             pluie: pluie === -999 ? null : pluie,
             tmax: tmax === -999 ? null : tmax,
             tmin: tmin === -999 ? null : tmin,
+            eto: eto === -999 || eto === undefined ? null : eto,
+            vent: vent === -999 || vent === undefined ? null : vent,
           };
         });
         return { commune, daily };
@@ -120,11 +124,15 @@ export default function Climate({ active, onNavigate, userEmail, roleLabel, isAd
       const pluies = succeeded.map((s) => s.daily[d]?.pluie).filter((v) => v !== null && v !== undefined);
       const tmaxs = succeeded.map((s) => s.daily[d]?.tmax).filter((v) => v !== null && v !== undefined);
       const tmins = succeeded.map((s) => s.daily[d]?.tmin).filter((v) => v !== null && v !== undefined);
+      const etos = succeeded.map((s) => s.daily[d]?.eto).filter((v) => v !== null && v !== undefined);
+      const vents = succeeded.map((s) => s.daily[d]?.vent).filter((v) => v !== null && v !== undefined);
       return {
         date: `${d.slice(6, 8)}/${d.slice(4, 6)}`,
         pluie: pluies.length ? pluies.reduce((a, b) => a + b, 0) / pluies.length : null,
         tmax: tmaxs.length ? tmaxs.reduce((a, b) => a + b, 0) / tmaxs.length : null,
         tmin: tmins.length ? tmins.reduce((a, b) => a + b, 0) / tmins.length : null,
+        eto: etos.length ? etos.reduce((a, b) => a + b, 0) / etos.length : null,
+        vent: vents.length ? vents.reduce((a, b) => a + b, 0) / vents.length : null,
       };
     }).filter((d) => d.pluie !== null);
 
@@ -134,11 +142,15 @@ export default function Climate({ active, onNavigate, userEmail, roleLabel, isAd
     }
 
     const cumulPluie = daily.reduce((s, d) => s + d.pluie, 0);
-    const joursPluie = daily.filter((d) => d.pluie >= 1).length;
+    const joursPluie = daily.filter((d) => d.pluie >= 10).length;
     const tMaxAbs = Math.max(...daily.map((d) => d.tmax).filter((v) => v !== null));
     const tMinAbs = Math.min(...daily.map((d) => d.tmin).filter((v) => v !== null));
+    const etoValides = daily.map((d) => d.eto).filter((v) => v !== null);
+    const cumulEto = etoValides.length ? etoValides.reduce((a, b) => a + b, 0) : null;
+    const ventValides = daily.map((d) => d.vent).filter((v) => v !== null);
+    const ventMoyen = ventValides.length ? ventValides.reduce((a, b) => a + b, 0) / ventValides.length : null;
 
-    setResult({ daily, cumulPluie, joursPluie, tMaxAbs, tMinAbs, n: daily.length, communesUtilisees: succeeded.map((s) => s.commune) });
+    setResult({ daily, cumulPluie, joursPluie, tMaxAbs, tMinAbs, cumulEto, ventMoyen, n: daily.length, communesUtilisees: succeeded.map((s) => s.commune) });
   };
 
   return (
@@ -245,7 +257,7 @@ export default function Climate({ active, onNavigate, userEmail, roleLabel, isAd
                 <p className="text-xs text-gray-500 mb-3">
                   Moyenne de zone sur <span className="font-medium" style={{ color: NAVY }}>{result.communesUtilisees.length} commune{result.communesUtilisees.length > 1 ? "s" : ""}</span> : {result.communesUtilisees.join(", ")}
                 </p>
-                <div className="grid grid-cols-4 gap-4 mb-5">
+                <div className="grid grid-cols-3 gap-4 mb-5">
                   <Card>
                     <CloudRain size={18} style={{ color: GOLD }} />
                     <div className="font-serif text-2xl font-bold mt-2" style={{ color: NAVY }}>{result.cumulPluie.toFixed(1)} mm</div>
@@ -254,7 +266,7 @@ export default function Climate({ active, onNavigate, userEmail, roleLabel, isAd
                   <Card>
                     <Droplets size={18} style={{ color: GOLD }} />
                     <div className="font-serif text-2xl font-bold mt-2" style={{ color: NAVY }}>{result.joursPluie} j</div>
-                    <div className="text-xs text-gray-400">Jours de pluie (≥ 1 mm) sur {result.n}</div>
+                    <div className="text-xs text-gray-400">Jours de pluie (≥ 10 mm) sur {result.n}</div>
                   </Card>
                   <Card>
                     <Thermometer size={18} style={{ color: "#B3413A" }} />
@@ -265,6 +277,16 @@ export default function Climate({ active, onNavigate, userEmail, roleLabel, isAd
                     <Thermometer size={18} style={{ color: "#3592C4" }} />
                     <div className="font-serif text-2xl font-bold mt-2" style={{ color: NAVY }}>{result.tMinAbs.toFixed(1)} °C</div>
                     <div className="text-xs text-gray-400">Température minimale (moyenne de zone)</div>
+                  </Card>
+                  <Card>
+                    <Sun size={18} style={{ color: "#C9832E" }} />
+                    <div className="font-serif text-2xl font-bold mt-2" style={{ color: NAVY }}>{result.cumulEto !== null ? `${result.cumulEto.toFixed(1)} mm` : "ND"}</div>
+                    <div className="text-xs text-gray-400">Évapotranspiration cumulée (ET0)</div>
+                  </Card>
+                  <Card>
+                    <Wind size={18} style={{ color: "#3E9C6B" }} />
+                    <div className="font-serif text-2xl font-bold mt-2" style={{ color: NAVY }}>{result.ventMoyen !== null ? `${result.ventMoyen.toFixed(1)} m/s` : "ND"}</div>
+                    <div className="text-xs text-gray-400">Vitesse du vent à 2 m (moyenne)</div>
                   </Card>
                 </div>
 
@@ -291,6 +313,30 @@ export default function Climate({ active, onNavigate, userEmail, roleLabel, isAd
                         <Tooltip />
                         <Line type="monotone" dataKey="tmax" stroke="#B3413A" strokeWidth={2} dot={false} name="T° max" />
                         <Line type="monotone" dataKey="tmin" stroke="#3592C4" strokeWidth={2} dot={false} name="T° min" />
+                      </LineChart>
+                    </ResponsiveContainer>
+                  </Card>
+                  <Card>
+                    <h2 className="font-serif font-semibold mb-3" style={{ color: NAVY }}>Évapotranspiration journalière — ET0 (moyenne de zone)</h2>
+                    <ResponsiveContainer width="100%" height={220}>
+                      <BarChart data={result.daily}>
+                        <CartesianGrid strokeDasharray="3 3" stroke="#EDEDED" />
+                        <XAxis dataKey="date" tick={{ fontSize: 10 }} interval={Math.ceil(result.daily.length / 8)} />
+                        <YAxis tick={{ fontSize: 11 }} unit=" mm" width={50} />
+                        <Tooltip />
+                        <Bar dataKey="eto" fill="#C9832E" radius={[3, 3, 0, 0]} name="ET0 (mm)" />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </Card>
+                  <Card>
+                    <h2 className="font-serif font-semibold mb-3" style={{ color: NAVY }}>Vitesse du vent à 2 m (moyenne de zone)</h2>
+                    <ResponsiveContainer width="100%" height={220}>
+                      <LineChart data={result.daily}>
+                        <CartesianGrid strokeDasharray="3 3" stroke="#EDEDED" />
+                        <XAxis dataKey="date" tick={{ fontSize: 10 }} interval={Math.ceil(result.daily.length / 8)} />
+                        <YAxis tick={{ fontSize: 11 }} unit=" m/s" width={50} />
+                        <Tooltip />
+                        <Line type="monotone" dataKey="vent" stroke="#3E9C6B" strokeWidth={2} dot={false} name="Vent (m/s)" />
                       </LineChart>
                     </ResponsiveContainer>
                   </Card>

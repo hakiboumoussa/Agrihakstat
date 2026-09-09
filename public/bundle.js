@@ -24472,8 +24472,21 @@
   __iconData57.node;
   var WandSparkles = createLucideIcon(__iconData57);
 
-  // node_modules/lucide-react/dist/esm/icons/x.mjs
+  // node_modules/lucide-react/dist/esm/icons/wind.mjs
   var __iconData58 = {
+    name: "wind",
+    size: 24,
+    node: [
+      ["path", { d: "M12.8 19.6A2 2 0 1 0 14 16H2", key: "148xed" }],
+      ["path", { d: "M17.5 8a2.5 2.5 0 1 1 2 4H2", key: "1u4tom" }],
+      ["path", { d: "M9.8 4.4A2 2 0 1 1 11 8H2", key: "75valh" }]
+    ]
+  };
+  __iconData58.node;
+  var Wind = createLucideIcon(__iconData58);
+
+  // node_modules/lucide-react/dist/esm/icons/x.mjs
+  var __iconData59 = {
     name: "x",
     size: 24,
     node: [
@@ -24481,8 +24494,8 @@
       ["path", { d: "m6 6 12 12", key: "d8bk6v" }]
     ]
   };
-  __iconData58.node;
-  var X = createLucideIcon(__iconData58);
+  __iconData59.node;
+  var X = createLucideIcon(__iconData59);
 
   // src/Dashboard.jsx
   var import_react71 = __toESM(require_react());
@@ -119955,7 +119968,7 @@ ${suffix2}`;
         communes.map(async (commune) => {
           const coords = COMMUNE_COORDS[commune];
           if (!coords) throw new Error(`Coordonn\xE9es non disponibles pour ${commune}.`);
-          const url = `https://power.larc.nasa.gov/api/temporal/daily/point?parameters=PRECTOTCORR,T2M_MAX,T2M_MIN&community=AG&longitude=${coords.lon}&latitude=${coords.lat}&start=${startDate}&end=${endDate}&format=JSON`;
+          const url = `https://power.larc.nasa.gov/api/temporal/daily/point?parameters=PRECTOTCORR,T2M_MAX,T2M_MIN,ET0,WS2M&community=AG&longitude=${coords.lon}&latitude=${coords.lat}&start=${startDate}&end=${endDate}&format=JSON`;
           const res = await fetch(url);
           if (!res.ok) throw new Error(`code ${res.status}`);
           const data = await res.json();
@@ -119967,10 +119980,14 @@ ${suffix2}`;
             const pluie = params.PRECTOTCORR[d];
             const tmax = params.T2M_MAX[d];
             const tmin = params.T2M_MIN[d];
+            const eto = params.ET0?.[d];
+            const vent = params.WS2M?.[d];
             daily2[d] = {
               pluie: pluie === -999 ? null : pluie,
               tmax: tmax === -999 ? null : tmax,
-              tmin: tmin === -999 ? null : tmin
+              tmin: tmin === -999 ? null : tmin,
+              eto: eto === -999 || eto === void 0 ? null : eto,
+              vent: vent === -999 || vent === void 0 ? null : vent
             };
           });
           return { commune, daily: daily2 };
@@ -119993,11 +120010,15 @@ ${suffix2}`;
         const pluies = succeeded.map((s2) => s2.daily[d]?.pluie).filter((v) => v !== null && v !== void 0);
         const tmaxs = succeeded.map((s2) => s2.daily[d]?.tmax).filter((v) => v !== null && v !== void 0);
         const tmins = succeeded.map((s2) => s2.daily[d]?.tmin).filter((v) => v !== null && v !== void 0);
+        const etos = succeeded.map((s2) => s2.daily[d]?.eto).filter((v) => v !== null && v !== void 0);
+        const vents = succeeded.map((s2) => s2.daily[d]?.vent).filter((v) => v !== null && v !== void 0);
         return {
           date: `${d.slice(6, 8)}/${d.slice(4, 6)}`,
           pluie: pluies.length ? pluies.reduce((a2, b) => a2 + b, 0) / pluies.length : null,
           tmax: tmaxs.length ? tmaxs.reduce((a2, b) => a2 + b, 0) / tmaxs.length : null,
-          tmin: tmins.length ? tmins.reduce((a2, b) => a2 + b, 0) / tmins.length : null
+          tmin: tmins.length ? tmins.reduce((a2, b) => a2 + b, 0) / tmins.length : null,
+          eto: etos.length ? etos.reduce((a2, b) => a2 + b, 0) / etos.length : null,
+          vent: vents.length ? vents.reduce((a2, b) => a2 + b, 0) / vents.length : null
         };
       }).filter((d) => d.pluie !== null);
       if (daily.length === 0) {
@@ -120005,10 +120026,14 @@ ${suffix2}`;
         return;
       }
       const cumulPluie = daily.reduce((s2, d) => s2 + d.pluie, 0);
-      const joursPluie = daily.filter((d) => d.pluie >= 1).length;
+      const joursPluie = daily.filter((d) => d.pluie >= 10).length;
       const tMaxAbs = Math.max(...daily.map((d) => d.tmax).filter((v) => v !== null));
       const tMinAbs = Math.min(...daily.map((d) => d.tmin).filter((v) => v !== null));
-      setResult({ daily, cumulPluie, joursPluie, tMaxAbs, tMinAbs, n: daily.length, communesUtilisees: succeeded.map((s2) => s2.commune) });
+      const etoValides = daily.map((d) => d.eto).filter((v) => v !== null);
+      const cumulEto = etoValides.length ? etoValides.reduce((a2, b) => a2 + b, 0) : null;
+      const ventValides = daily.map((d) => d.vent).filter((v) => v !== null);
+      const ventMoyen = ventValides.length ? ventValides.reduce((a2, b) => a2 + b, 0) / ventValides.length : null;
+      setResult({ daily, cumulPluie, joursPluie, tMaxAbs, tMinAbs, cumulEto, ventMoyen, n: daily.length, communesUtilisees: succeeded.map((s2) => s2.commune) });
     };
     return /* @__PURE__ */ import_react81.default.createElement("div", { className: "min-h-screen bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans" }, /* @__PURE__ */ import_react81.default.createElement("div", { className: "flex" }, /* @__PURE__ */ import_react81.default.createElement(Sidebar, { active, onNavigate }), /* @__PURE__ */ import_react81.default.createElement("div", { className: "flex-1 min-h-screen" }, /* @__PURE__ */ import_react81.default.createElement(
       "header",
@@ -120065,7 +120090,7 @@ ${suffix2}`;
         className: "underline font-medium inline-block mt-1"
       },
       "Consulter directement le site NASA POWER"
-    ))), partialWarning && /* @__PURE__ */ import_react81.default.createElement("div", { className: "flex items-start gap-2 rounded-xl p-3 mb-5", style: { background: "#FDF1DA", color: "#8A5A00" } }, /* @__PURE__ */ import_react81.default.createElement(CircleAlert, { size: 14, className: "mt-0.5 shrink-0" }), /* @__PURE__ */ import_react81.default.createElement("p", { className: "text-xs" }, partialWarning)), result && /* @__PURE__ */ import_react81.default.createElement(import_react81.default.Fragment, null, /* @__PURE__ */ import_react81.default.createElement("p", { className: "text-xs text-gray-500 mb-3" }, "Moyenne de zone sur ", /* @__PURE__ */ import_react81.default.createElement("span", { className: "font-medium", style: { color: NAVY14 } }, result.communesUtilisees.length, " commune", result.communesUtilisees.length > 1 ? "s" : ""), " : ", result.communesUtilisees.join(", ")), /* @__PURE__ */ import_react81.default.createElement("div", { className: "grid grid-cols-4 gap-4 mb-5" }, /* @__PURE__ */ import_react81.default.createElement(Card6, null, /* @__PURE__ */ import_react81.default.createElement(CloudRain, { size: 18, style: { color: GOLD13 } }), /* @__PURE__ */ import_react81.default.createElement("div", { className: "font-serif text-2xl font-bold mt-2", style: { color: NAVY14 } }, result.cumulPluie.toFixed(1), " mm"), /* @__PURE__ */ import_react81.default.createElement("div", { className: "text-xs text-gray-400" }, "Cumul pluviom\xE9trique (moyenne de zone)")), /* @__PURE__ */ import_react81.default.createElement(Card6, null, /* @__PURE__ */ import_react81.default.createElement(Droplets, { size: 18, style: { color: GOLD13 } }), /* @__PURE__ */ import_react81.default.createElement("div", { className: "font-serif text-2xl font-bold mt-2", style: { color: NAVY14 } }, result.joursPluie, " j"), /* @__PURE__ */ import_react81.default.createElement("div", { className: "text-xs text-gray-400" }, "Jours de pluie (\u2265 1 mm) sur ", result.n)), /* @__PURE__ */ import_react81.default.createElement(Card6, null, /* @__PURE__ */ import_react81.default.createElement(Thermometer, { size: 18, style: { color: "#B3413A" } }), /* @__PURE__ */ import_react81.default.createElement("div", { className: "font-serif text-2xl font-bold mt-2", style: { color: NAVY14 } }, result.tMaxAbs.toFixed(1), " \xB0C"), /* @__PURE__ */ import_react81.default.createElement("div", { className: "text-xs text-gray-400" }, "Temp\xE9rature maximale (moyenne de zone)")), /* @__PURE__ */ import_react81.default.createElement(Card6, null, /* @__PURE__ */ import_react81.default.createElement(Thermometer, { size: 18, style: { color: "#3592C4" } }), /* @__PURE__ */ import_react81.default.createElement("div", { className: "font-serif text-2xl font-bold mt-2", style: { color: NAVY14 } }, result.tMinAbs.toFixed(1), " \xB0C"), /* @__PURE__ */ import_react81.default.createElement("div", { className: "text-xs text-gray-400" }, "Temp\xE9rature minimale (moyenne de zone)"))), /* @__PURE__ */ import_react81.default.createElement("div", { className: "grid grid-cols-2 gap-4" }, /* @__PURE__ */ import_react81.default.createElement(Card6, null, /* @__PURE__ */ import_react81.default.createElement("h2", { className: "font-serif font-semibold mb-3", style: { color: NAVY14 } }, "Pr\xE9cipitations journali\xE8res (moyenne de zone)"), /* @__PURE__ */ import_react81.default.createElement(ResponsiveContainer, { width: "100%", height: 220 }, /* @__PURE__ */ import_react81.default.createElement(BarChart, { data: result.daily }, /* @__PURE__ */ import_react81.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react81.default.createElement(XAxis, { dataKey: "date", tick: { fontSize: 10 }, interval: Math.ceil(result.daily.length / 8) }), /* @__PURE__ */ import_react81.default.createElement(YAxis, { tick: { fontSize: 11 }, unit: " mm", width: 50 }), /* @__PURE__ */ import_react81.default.createElement(Tooltip, null), /* @__PURE__ */ import_react81.default.createElement(Bar, { dataKey: "pluie", fill: "#3592C4", radius: [3, 3, 0, 0], name: "Pluie (mm)" })))), /* @__PURE__ */ import_react81.default.createElement(Card6, null, /* @__PURE__ */ import_react81.default.createElement("h2", { className: "font-serif font-semibold mb-3", style: { color: NAVY14 } }, "Temp\xE9ratures journali\xE8res (moyenne de zone)"), /* @__PURE__ */ import_react81.default.createElement(ResponsiveContainer, { width: "100%", height: 220 }, /* @__PURE__ */ import_react81.default.createElement(LineChart, { data: result.daily }, /* @__PURE__ */ import_react81.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react81.default.createElement(XAxis, { dataKey: "date", tick: { fontSize: 10 }, interval: Math.ceil(result.daily.length / 8) }), /* @__PURE__ */ import_react81.default.createElement(YAxis, { tick: { fontSize: 11 }, unit: "\xB0C", width: 45 }), /* @__PURE__ */ import_react81.default.createElement(Tooltip, null), /* @__PURE__ */ import_react81.default.createElement(Line, { type: "monotone", dataKey: "tmax", stroke: "#B3413A", strokeWidth: 2, dot: false, name: "T\xB0 max" }), /* @__PURE__ */ import_react81.default.createElement(Line, { type: "monotone", dataKey: "tmin", stroke: "#3592C4", strokeWidth: 2, dot: false, name: "T\xB0 min" })))))), !result && !error && !loading && /* @__PURE__ */ import_react81.default.createElement(Card6, { className: "text-center py-12" }, /* @__PURE__ */ import_react81.default.createElement(MapPin, { size: 32, className: "mx-auto text-gray-300 mb-3" }), /* @__PURE__ */ import_react81.default.createElement("p", { className: "text-sm text-gray-500" }, "Choisissez une ou plusieurs communes et une p\xE9riode, puis cliquez \xAB Afficher \xBB."))))));
+    ))), partialWarning && /* @__PURE__ */ import_react81.default.createElement("div", { className: "flex items-start gap-2 rounded-xl p-3 mb-5", style: { background: "#FDF1DA", color: "#8A5A00" } }, /* @__PURE__ */ import_react81.default.createElement(CircleAlert, { size: 14, className: "mt-0.5 shrink-0" }), /* @__PURE__ */ import_react81.default.createElement("p", { className: "text-xs" }, partialWarning)), result && /* @__PURE__ */ import_react81.default.createElement(import_react81.default.Fragment, null, /* @__PURE__ */ import_react81.default.createElement("p", { className: "text-xs text-gray-500 mb-3" }, "Moyenne de zone sur ", /* @__PURE__ */ import_react81.default.createElement("span", { className: "font-medium", style: { color: NAVY14 } }, result.communesUtilisees.length, " commune", result.communesUtilisees.length > 1 ? "s" : ""), " : ", result.communesUtilisees.join(", ")), /* @__PURE__ */ import_react81.default.createElement("div", { className: "grid grid-cols-3 gap-4 mb-5" }, /* @__PURE__ */ import_react81.default.createElement(Card6, null, /* @__PURE__ */ import_react81.default.createElement(CloudRain, { size: 18, style: { color: GOLD13 } }), /* @__PURE__ */ import_react81.default.createElement("div", { className: "font-serif text-2xl font-bold mt-2", style: { color: NAVY14 } }, result.cumulPluie.toFixed(1), " mm"), /* @__PURE__ */ import_react81.default.createElement("div", { className: "text-xs text-gray-400" }, "Cumul pluviom\xE9trique (moyenne de zone)")), /* @__PURE__ */ import_react81.default.createElement(Card6, null, /* @__PURE__ */ import_react81.default.createElement(Droplets, { size: 18, style: { color: GOLD13 } }), /* @__PURE__ */ import_react81.default.createElement("div", { className: "font-serif text-2xl font-bold mt-2", style: { color: NAVY14 } }, result.joursPluie, " j"), /* @__PURE__ */ import_react81.default.createElement("div", { className: "text-xs text-gray-400" }, "Jours de pluie (\u2265 10 mm) sur ", result.n)), /* @__PURE__ */ import_react81.default.createElement(Card6, null, /* @__PURE__ */ import_react81.default.createElement(Thermometer, { size: 18, style: { color: "#B3413A" } }), /* @__PURE__ */ import_react81.default.createElement("div", { className: "font-serif text-2xl font-bold mt-2", style: { color: NAVY14 } }, result.tMaxAbs.toFixed(1), " \xB0C"), /* @__PURE__ */ import_react81.default.createElement("div", { className: "text-xs text-gray-400" }, "Temp\xE9rature maximale (moyenne de zone)")), /* @__PURE__ */ import_react81.default.createElement(Card6, null, /* @__PURE__ */ import_react81.default.createElement(Thermometer, { size: 18, style: { color: "#3592C4" } }), /* @__PURE__ */ import_react81.default.createElement("div", { className: "font-serif text-2xl font-bold mt-2", style: { color: NAVY14 } }, result.tMinAbs.toFixed(1), " \xB0C"), /* @__PURE__ */ import_react81.default.createElement("div", { className: "text-xs text-gray-400" }, "Temp\xE9rature minimale (moyenne de zone)")), /* @__PURE__ */ import_react81.default.createElement(Card6, null, /* @__PURE__ */ import_react81.default.createElement(Sun, { size: 18, style: { color: "#C9832E" } }), /* @__PURE__ */ import_react81.default.createElement("div", { className: "font-serif text-2xl font-bold mt-2", style: { color: NAVY14 } }, result.cumulEto !== null ? `${result.cumulEto.toFixed(1)} mm` : "ND"), /* @__PURE__ */ import_react81.default.createElement("div", { className: "text-xs text-gray-400" }, "\xC9vapotranspiration cumul\xE9e (ET0)")), /* @__PURE__ */ import_react81.default.createElement(Card6, null, /* @__PURE__ */ import_react81.default.createElement(Wind, { size: 18, style: { color: "#3E9C6B" } }), /* @__PURE__ */ import_react81.default.createElement("div", { className: "font-serif text-2xl font-bold mt-2", style: { color: NAVY14 } }, result.ventMoyen !== null ? `${result.ventMoyen.toFixed(1)} m/s` : "ND"), /* @__PURE__ */ import_react81.default.createElement("div", { className: "text-xs text-gray-400" }, "Vitesse du vent \xE0 2 m (moyenne)"))), /* @__PURE__ */ import_react81.default.createElement("div", { className: "grid grid-cols-2 gap-4" }, /* @__PURE__ */ import_react81.default.createElement(Card6, null, /* @__PURE__ */ import_react81.default.createElement("h2", { className: "font-serif font-semibold mb-3", style: { color: NAVY14 } }, "Pr\xE9cipitations journali\xE8res (moyenne de zone)"), /* @__PURE__ */ import_react81.default.createElement(ResponsiveContainer, { width: "100%", height: 220 }, /* @__PURE__ */ import_react81.default.createElement(BarChart, { data: result.daily }, /* @__PURE__ */ import_react81.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react81.default.createElement(XAxis, { dataKey: "date", tick: { fontSize: 10 }, interval: Math.ceil(result.daily.length / 8) }), /* @__PURE__ */ import_react81.default.createElement(YAxis, { tick: { fontSize: 11 }, unit: " mm", width: 50 }), /* @__PURE__ */ import_react81.default.createElement(Tooltip, null), /* @__PURE__ */ import_react81.default.createElement(Bar, { dataKey: "pluie", fill: "#3592C4", radius: [3, 3, 0, 0], name: "Pluie (mm)" })))), /* @__PURE__ */ import_react81.default.createElement(Card6, null, /* @__PURE__ */ import_react81.default.createElement("h2", { className: "font-serif font-semibold mb-3", style: { color: NAVY14 } }, "Temp\xE9ratures journali\xE8res (moyenne de zone)"), /* @__PURE__ */ import_react81.default.createElement(ResponsiveContainer, { width: "100%", height: 220 }, /* @__PURE__ */ import_react81.default.createElement(LineChart, { data: result.daily }, /* @__PURE__ */ import_react81.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react81.default.createElement(XAxis, { dataKey: "date", tick: { fontSize: 10 }, interval: Math.ceil(result.daily.length / 8) }), /* @__PURE__ */ import_react81.default.createElement(YAxis, { tick: { fontSize: 11 }, unit: "\xB0C", width: 45 }), /* @__PURE__ */ import_react81.default.createElement(Tooltip, null), /* @__PURE__ */ import_react81.default.createElement(Line, { type: "monotone", dataKey: "tmax", stroke: "#B3413A", strokeWidth: 2, dot: false, name: "T\xB0 max" }), /* @__PURE__ */ import_react81.default.createElement(Line, { type: "monotone", dataKey: "tmin", stroke: "#3592C4", strokeWidth: 2, dot: false, name: "T\xB0 min" })))), /* @__PURE__ */ import_react81.default.createElement(Card6, null, /* @__PURE__ */ import_react81.default.createElement("h2", { className: "font-serif font-semibold mb-3", style: { color: NAVY14 } }, "\xC9vapotranspiration journali\xE8re \u2014 ET0 (moyenne de zone)"), /* @__PURE__ */ import_react81.default.createElement(ResponsiveContainer, { width: "100%", height: 220 }, /* @__PURE__ */ import_react81.default.createElement(BarChart, { data: result.daily }, /* @__PURE__ */ import_react81.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react81.default.createElement(XAxis, { dataKey: "date", tick: { fontSize: 10 }, interval: Math.ceil(result.daily.length / 8) }), /* @__PURE__ */ import_react81.default.createElement(YAxis, { tick: { fontSize: 11 }, unit: " mm", width: 50 }), /* @__PURE__ */ import_react81.default.createElement(Tooltip, null), /* @__PURE__ */ import_react81.default.createElement(Bar, { dataKey: "eto", fill: "#C9832E", radius: [3, 3, 0, 0], name: "ET0 (mm)" })))), /* @__PURE__ */ import_react81.default.createElement(Card6, null, /* @__PURE__ */ import_react81.default.createElement("h2", { className: "font-serif font-semibold mb-3", style: { color: NAVY14 } }, "Vitesse du vent \xE0 2 m (moyenne de zone)"), /* @__PURE__ */ import_react81.default.createElement(ResponsiveContainer, { width: "100%", height: 220 }, /* @__PURE__ */ import_react81.default.createElement(LineChart, { data: result.daily }, /* @__PURE__ */ import_react81.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react81.default.createElement(XAxis, { dataKey: "date", tick: { fontSize: 10 }, interval: Math.ceil(result.daily.length / 8) }), /* @__PURE__ */ import_react81.default.createElement(YAxis, { tick: { fontSize: 11 }, unit: " m/s", width: 50 }), /* @__PURE__ */ import_react81.default.createElement(Tooltip, null), /* @__PURE__ */ import_react81.default.createElement(Line, { type: "monotone", dataKey: "vent", stroke: "#3E9C6B", strokeWidth: 2, dot: false, name: "Vent (m/s)" })))))), !result && !error && !loading && /* @__PURE__ */ import_react81.default.createElement(Card6, { className: "text-center py-12" }, /* @__PURE__ */ import_react81.default.createElement(MapPin, { size: 32, className: "mx-auto text-gray-300 mb-3" }), /* @__PURE__ */ import_react81.default.createElement("p", { className: "text-sm text-gray-500" }, "Choisissez une ou plusieurs communes et une p\xE9riode, puis cliquez \xAB Afficher \xBB."))))));
   }
 
   // src/admin/AdminDashboard.jsx
@@ -120442,6 +120467,7 @@ lucide-react/dist/esm/icons/upload.mjs:
 lucide-react/dist/esm/icons/user.mjs:
 lucide-react/dist/esm/icons/users.mjs:
 lucide-react/dist/esm/icons/wand-sparkles.mjs:
+lucide-react/dist/esm/icons/wind.mjs:
 lucide-react/dist/esm/icons/x.mjs:
 lucide-react/dist/esm/lucide-react.mjs:
   (**
