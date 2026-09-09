@@ -162,7 +162,7 @@ function Chip({ label, active, onClick, color }) {
 
 export default function ImportWizard({ active, onNavigate, userEmail, userId, roleLabel, isAdmin, isGuest, onLogout, onOpenAdmin, dataset, onDatasetParsed, context, onContextChange }) {
   const [step, setStep] = useState(1);
-  const [departement, setDepartement] = useState(context?.departement || "Borgou");
+  const [departements, setDepartements] = useState(context?.departements || ["Borgou"]);
   const [communes, setCommunes] = useState(context?.communes || ["Tchaourou", "Pérèrè"]);
   const [filieres, setFilieres] = useState(context?.filieres || ["Coton"]);
   const [customFiliereInput, setCustomFiliereInput] = useState("");
@@ -189,12 +189,20 @@ export default function ImportWizard({ active, onNavigate, userEmail, userId, ro
   // Synchronise le contexte d'étude vers l'application (persistance + disponible pour le rapport)
   useEffect(() => {
     if (onContextChange) {
-      onContextChange({ departement, communes, filieres, objectif, periodeDebut, periodeFin, uniteAnalyse, indicateurs });
+      onContextChange({ departements, communes, filieres, objectif, periodeDebut, periodeFin, uniteAnalyse, indicateurs });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [departement, communes, filieres, objectif, periodeDebut, periodeFin, uniteAnalyse, indicateurs]);
+  }, [departements, communes, filieres, objectif, periodeDebut, periodeFin, uniteAnalyse, indicateurs]);
 
-  const communesDuDepartement = BENIN_DEPARTEMENTS.find((d) => d.departement === departement)?.communes || [];
+  const toggleDepartement = (dep) => {
+    if (departements.includes(dep)) {
+      const communesDeCeDepartement = new Set(BENIN_DEPARTEMENTS.find((d) => d.departement === dep)?.communes || []);
+      setCommunes(communes.filter((c) => !communesDeCeDepartement.has(c)));
+      setDepartements(departements.filter((d) => d !== dep));
+    } else {
+      setDepartements([...departements, dep]);
+    }
+  };
 
   const excludeSensitiveColumns = () => {
     const namesToRemove = new Set(sensitiveColumns.map((c) => c.name));
@@ -399,30 +407,36 @@ export default function ImportWizard({ active, onNavigate, userEmail, userId, ro
                 />
 
                 <label className="text-xs font-medium text-gray-600 block mb-1.5">Zone géographique</label>
-                <div className="grid grid-cols-2 gap-3 mb-3">
-                  <div>
-                    <label className="text-[11px] text-gray-500 block mb-1">Département</label>
-                    <select
-                      value={departement}
-                      onChange={(e) => { setDepartement(e.target.value); setCommunes([]); }}
-                      className="w-full text-sm rounded-xl border border-gray-200 p-2.5 focus:outline-none focus:ring-2 bg-white"
-                      style={{ "--tw-ring-color": GOLD }}
-                    >
-                      {BENIN_DEPARTEMENTS.map((d) => (
-                        <option key={d.departement} value={d.departement}>{d.departement}</option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className="flex items-end">
-                    <span className="text-[11px] text-gray-400">{communes.length} commune{communes.length > 1 ? "s" : ""} sélectionnée{communes.length > 1 ? "s" : ""} au total</span>
-                  </div>
+                <div className="flex items-center justify-between mb-1.5">
+                  <label className="text-[11px] text-gray-500 block">Département(s)</label>
+                  <span className="text-[11px] text-gray-400">{communes.length} commune{communes.length > 1 ? "s" : ""} sélectionnée{communes.length > 1 ? "s" : ""} au total</span>
                 </div>
-                <label className="text-[11px] text-gray-500 block mb-1">Communes de {departement}</label>
-                <div className="flex flex-wrap gap-2 mb-2">
-                  {communesDuDepartement.map((c) => (
-                    <Chip key={c} label={c} active={communes.includes(c)} onClick={() => toggle(communes, setCommunes, c)} />
+                <div className="flex flex-wrap gap-2 mb-3">
+                  {BENIN_DEPARTEMENTS.map((d) => (
+                    <Chip key={d.departement} label={d.departement} active={departements.includes(d.departement)} onClick={() => toggleDepartement(d.departement)} />
                   ))}
                 </div>
+
+                {departements.length === 0 ? (
+                  <p className="text-[11px] text-gray-400 italic mb-3">Sélectionnez au moins un département pour afficher ses communes.</p>
+                ) : (
+                  <div className="space-y-3 mb-2">
+                    {departements.map((dep) => {
+                      const communesDuDep = BENIN_DEPARTEMENTS.find((d) => d.departement === dep)?.communes || [];
+                      return (
+                        <div key={dep}>
+                          <label className="text-[11px] text-gray-500 block mb-1">Communes de {dep}</label>
+                          <div className="flex flex-wrap gap-2">
+                            {communesDuDep.map((c) => (
+                              <Chip key={c} label={c} active={communes.includes(c)} onClick={() => toggle(communes, setCommunes, c)} />
+                            ))}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+
                 {communes.length > 0 && (
                   <div className="flex flex-wrap gap-1.5 mb-5 pt-2 border-t border-gray-100">
                     {communes.map((c) => (

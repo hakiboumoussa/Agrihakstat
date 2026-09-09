@@ -99710,7 +99710,7 @@ ${suffix2}`;
   }
   function ImportWizard({ active, onNavigate, userEmail, userId, roleLabel, isAdmin, isGuest, onLogout, onOpenAdmin, dataset, onDatasetParsed, context, onContextChange }) {
     const [step, setStep] = (0, import_react72.useState)(1);
-    const [departement, setDepartement] = (0, import_react72.useState)(context?.departement || "Borgou");
+    const [departements, setDepartements] = (0, import_react72.useState)(context?.departements || ["Borgou"]);
     const [communes, setCommunes] = (0, import_react72.useState)(context?.communes || ["Tchaourou", "P\xE9r\xE8r\xE8"]);
     const [filieres, setFilieres] = (0, import_react72.useState)(context?.filieres || ["Coton"]);
     const [customFiliereInput, setCustomFiliereInput] = (0, import_react72.useState)("");
@@ -99735,10 +99735,18 @@ ${suffix2}`;
     const [anonymizationConfirmed, setAnonymizationConfirmed] = (0, import_react72.useState)(false);
     (0, import_react72.useEffect)(() => {
       if (onContextChange) {
-        onContextChange({ departement, communes, filieres, objectif, periodeDebut, periodeFin, uniteAnalyse, indicateurs });
+        onContextChange({ departements, communes, filieres, objectif, periodeDebut, periodeFin, uniteAnalyse, indicateurs });
       }
-    }, [departement, communes, filieres, objectif, periodeDebut, periodeFin, uniteAnalyse, indicateurs]);
-    const communesDuDepartement = BENIN_DEPARTEMENTS.find((d) => d.departement === departement)?.communes || [];
+    }, [departements, communes, filieres, objectif, periodeDebut, periodeFin, uniteAnalyse, indicateurs]);
+    const toggleDepartement = (dep) => {
+      if (departements.includes(dep)) {
+        const communesDeCeDepartement = new Set(BENIN_DEPARTEMENTS.find((d) => d.departement === dep)?.communes || []);
+        setCommunes(communes.filter((c2) => !communesDeCeDepartement.has(c2)));
+        setDepartements(departements.filter((d) => d !== dep));
+      } else {
+        setDepartements([...departements, dep]);
+      }
+    };
     const excludeSensitiveColumns = () => {
       const namesToRemove = new Set(sensitiveColumns.map((c2) => c2.name));
       const cleanedRows = dataset.rows.map((row) => {
@@ -99876,19 +99884,10 @@ ${suffix2}`;
         value: objectif,
         onChange: (e) => setObjectif(e.target.value)
       }
-    ), /* @__PURE__ */ import_react72.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Zone g\xE9ographique"), /* @__PURE__ */ import_react72.default.createElement("div", { className: "grid grid-cols-2 gap-3 mb-3" }, /* @__PURE__ */ import_react72.default.createElement("div", null, /* @__PURE__ */ import_react72.default.createElement("label", { className: "text-[11px] text-gray-500 block mb-1" }, "D\xE9partement"), /* @__PURE__ */ import_react72.default.createElement(
-      "select",
-      {
-        value: departement,
-        onChange: (e) => {
-          setDepartement(e.target.value);
-          setCommunes([]);
-        },
-        className: "w-full text-sm rounded-xl border border-gray-200 p-2.5 focus:outline-none focus:ring-2 bg-white",
-        style: { "--tw-ring-color": GOLD3 }
-      },
-      BENIN_DEPARTEMENTS.map((d) => /* @__PURE__ */ import_react72.default.createElement("option", { key: d.departement, value: d.departement }, d.departement))
-    )), /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex items-end" }, /* @__PURE__ */ import_react72.default.createElement("span", { className: "text-[11px] text-gray-400" }, communes.length, " commune", communes.length > 1 ? "s" : "", " s\xE9lectionn\xE9e", communes.length > 1 ? "s" : "", " au total"))), /* @__PURE__ */ import_react72.default.createElement("label", { className: "text-[11px] text-gray-500 block mb-1" }, "Communes de ", departement), /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex flex-wrap gap-2 mb-2" }, communesDuDepartement.map((c2) => /* @__PURE__ */ import_react72.default.createElement(Chip, { key: c2, label: c2, active: communes.includes(c2), onClick: () => toggle(communes, setCommunes, c2) }))), communes.length > 0 && /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex flex-wrap gap-1.5 mb-5 pt-2 border-t border-gray-100" }, communes.map((c2) => /* @__PURE__ */ import_react72.default.createElement("span", { key: c2, className: "text-[11px] px-2 py-1 rounded-full flex items-center gap-1", style: { background: "#EBEEF7", color: NAVY4 } }, c2, /* @__PURE__ */ import_react72.default.createElement("button", { onClick: () => toggle(communes, setCommunes, c2), className: "hover:text-red-500" }, /* @__PURE__ */ import_react72.default.createElement(X, { size: 11 }))))), /* @__PURE__ */ import_react72.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Fili\xE8re(s) concern\xE9e(s)"), /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex flex-wrap gap-2 mb-3" }, availableFilieres.map((f) => /* @__PURE__ */ import_react72.default.createElement(Chip, { key: f, label: f, active: filieres.includes(f), onClick: () => toggle(filieres, setFilieres, f), color: filiereColor(f) }))), /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex items-center gap-2 mb-5" }, /* @__PURE__ */ import_react72.default.createElement(
+    ), /* @__PURE__ */ import_react72.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Zone g\xE9ographique"), /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex items-center justify-between mb-1.5" }, /* @__PURE__ */ import_react72.default.createElement("label", { className: "text-[11px] text-gray-500 block" }, "D\xE9partement(s)"), /* @__PURE__ */ import_react72.default.createElement("span", { className: "text-[11px] text-gray-400" }, communes.length, " commune", communes.length > 1 ? "s" : "", " s\xE9lectionn\xE9e", communes.length > 1 ? "s" : "", " au total")), /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex flex-wrap gap-2 mb-3" }, BENIN_DEPARTEMENTS.map((d) => /* @__PURE__ */ import_react72.default.createElement(Chip, { key: d.departement, label: d.departement, active: departements.includes(d.departement), onClick: () => toggleDepartement(d.departement) }))), departements.length === 0 ? /* @__PURE__ */ import_react72.default.createElement("p", { className: "text-[11px] text-gray-400 italic mb-3" }, "S\xE9lectionnez au moins un d\xE9partement pour afficher ses communes.") : /* @__PURE__ */ import_react72.default.createElement("div", { className: "space-y-3 mb-2" }, departements.map((dep) => {
+      const communesDuDep = BENIN_DEPARTEMENTS.find((d) => d.departement === dep)?.communes || [];
+      return /* @__PURE__ */ import_react72.default.createElement("div", { key: dep }, /* @__PURE__ */ import_react72.default.createElement("label", { className: "text-[11px] text-gray-500 block mb-1" }, "Communes de ", dep), /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex flex-wrap gap-2" }, communesDuDep.map((c2) => /* @__PURE__ */ import_react72.default.createElement(Chip, { key: c2, label: c2, active: communes.includes(c2), onClick: () => toggle(communes, setCommunes, c2) }))));
+    })), communes.length > 0 && /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex flex-wrap gap-1.5 mb-5 pt-2 border-t border-gray-100" }, communes.map((c2) => /* @__PURE__ */ import_react72.default.createElement("span", { key: c2, className: "text-[11px] px-2 py-1 rounded-full flex items-center gap-1", style: { background: "#EBEEF7", color: NAVY4 } }, c2, /* @__PURE__ */ import_react72.default.createElement("button", { onClick: () => toggle(communes, setCommunes, c2), className: "hover:text-red-500" }, /* @__PURE__ */ import_react72.default.createElement(X, { size: 11 }))))), /* @__PURE__ */ import_react72.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Fili\xE8re(s) concern\xE9e(s)"), /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex flex-wrap gap-2 mb-3" }, availableFilieres.map((f) => /* @__PURE__ */ import_react72.default.createElement(Chip, { key: f, label: f, active: filieres.includes(f), onClick: () => toggle(filieres, setFilieres, f), color: filiereColor(f) }))), /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex items-center gap-2 mb-5" }, /* @__PURE__ */ import_react72.default.createElement(
       "input",
       {
         type: "text",
