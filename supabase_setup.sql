@@ -152,3 +152,6 @@ create policy "Les administrateurs lisent tous les signalements" on public.bug_r
 drop policy if exists "Les administrateurs mettent à jour les signalements" on public.bug_reports;
 create policy "Les administrateurs mettent à jour les signalements" on public.bug_reports
   for update using (public.is_admin());
+
+-- 10. Attestation d'anonymisation confirmée par l'opérateur avant soumission
+alter table public.projets add column if not exists donnees_anonymisees boolean default false;

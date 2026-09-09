@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import {
-  LayoutDashboard, ClipboardList, BarChart3, FileText, Settings, Sprout,
-  Bell, ChevronDown, Upload, FileSpreadsheet, FileCheck2, Link2, MapPin,
-  Plus, Check, ChevronRight, ChevronLeft, X, AlertCircle, Trash2, Pencil,
+  Upload, FileCheck2, Link2, MapPin, Bell,
+  Plus, Check, ChevronRight, ChevronLeft, X, AlertCircle, Trash2, Pencil, BarChart3,
 } from "lucide-react";
 import UserMenu from "./UserMenu.jsx";
 import Sidebar from "./Sidebar.jsx";
@@ -22,21 +21,38 @@ function filiereColor(name) {
   return FILIERE_COLORS[(idx >= 0 ? idx : name.length) % FILIERE_COLORS.length];
 }
 
-const nav = [
-  { id: "dashboard", label: "Tableau de bord", icon: LayoutDashboard },
-  { id: "import", label: "Assistant d'import", icon: ClipboardList },
-  { id: "config", label: "Configuration des analyses", icon: BarChart3 },
-  { id: "results", label: "Résultats & rapport", icon: FileText },
-  { id: "map", label: "Cartographie", icon: MapPin },
-];
 
 const STEPS = [
-  { id: 1, label: "Questionnaire" },
-  { id: 2, label: "Base de données" },
-  { id: 3, label: "Contexte de l'étude" },
-  { id: 4, label: "Indicateurs" },
-  { id: 5, label: "Cartographie des variables" },
+  { id: 1, label: "Base de données" },
+  { id: 2, label: "Contexte de l'étude" },
+  { id: 3, label: "Indicateurs" },
+  { id: 4, label: "Cartographie des variables" },
 ];
+
+// Motifs de colonnes susceptibles de contenir des données à caractère personnel
+const SENSITIVE_PATTERNS = [
+  { regex: /(^|_)nom(_|$)|prenom|pr[ée]nom/i, label: "nom / prénom" },
+  { regex: /t[ée]l[ée]phone|(^|_)tel(_|$)|contact.*(tel|phone)|num[ée]ro.*(tel|phone)/i, label: "téléphone" },
+  { regex: /e-?mail|courriel/i, label: "e-mail" },
+  { regex: /adresse(?!.*ip)/i, label: "adresse" },
+  { regex: /\bcni\b|carte.*identit|n[ée]?\.?\s*(pi[èe]ce|identit)|passeport|\bnin\b/i, label: "pièce d'identité" },
+  { regex: /date.*naissance|\bddn\b/i, label: "date de naissance" },
+];
+
+function normalize(s) {
+  return String(s).normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+}
+
+function detectSensitiveColumns(columns) {
+  const found = [];
+  columns.forEach((c) => {
+    const n = normalize(c.name);
+    for (const p of SENSITIVE_PATTERNS) {
+      if (p.regex.test(n)) { found.push({ name: c.name, reason: p.label }); break; }
+    }
+  });
+  return found;
+}
 
 function Watermark() {
   return (
@@ -162,12 +178,13 @@ export default function ImportWizard({ active, onNavigate, userEmail, userId, ro
     { id: 2, nom: "Rendement moyen estimé", formule: "Production estimée / Superficie réalisée", seuil: "ND — à renseigner" },
   ]);
   const [editingIndicateur, setEditingIndicateur] = useState(null); // {id|null, nom, formule, seuil}
-  const [questionnaire, setQuestionnaire] = useState(null); // { name, size }
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [submitError, setSubmitError] = useState("");
   const [parsing, setParsing] = useState(false);
   const [fileError, setFileError] = useState("");
+  const [sensitiveColumns, setSensitiveColumns] = useState([]);
+  const [anonymizationConfirmed, setAnonymizationConfirmed] = useState(false);
 
   // Synchronise le contexte d'étude vers l'application (persistance + disponible pour le rapport)
   useEffect(() => {
@@ -179,10 +196,16 @@ export default function ImportWizard({ active, onNavigate, userEmail, userId, ro
 
   const communesDuDepartement = BENIN_DEPARTEMENTS.find((d) => d.departement === departement)?.communes || [];
 
-  const handleQuestionnaireUpload = (e) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    setQuestionnaire({ name: file.name, size: (file.size / 1024).toFixed(0) + " Ko" });
+  const excludeSensitiveColumns = () => {
+    const namesToRemove = new Set(sensitiveColumns.map((c) => c.name));
+    const cleanedRows = dataset.rows.map((row) => {
+      const copy = { ...row };
+      namesToRemove.forEach((n) => delete copy[n]);
+      return copy;
+    });
+    const cleanedColumns = dataset.columns.filter((c) => !namesToRemove.has(c.name));
+    onDatasetParsed({ ...dataset, rows: cleanedRows, columns: cleanedColumns });
+    setSensitiveColumns([]);
   };
 
   const addCustomFiliere = () => {
@@ -217,6 +240,8 @@ export default function ImportWizard({ active, onNavigate, userEmail, userId, ro
         return;
       }
       const columns = buildColumnsMeta(parsedRows);
+      setAnonymizationConfirmed(false);
+      setSensitiveColumns(detectSensitiveColumns(columns));
       onDatasetParsed({ rows: parsedRows, columns, fileName: file.name });
     };
 
@@ -264,7 +289,7 @@ export default function ImportWizard({ active, onNavigate, userEmail, userId, ro
             style={{ borderBottom: `2px solid ${GOLD}` }}>
             <div>
               <h1 className="font-serif text-xl font-bold" style={{ color: NAVY }}>Nouvelle enquête</h1>
-              <p className="text-xs text-gray-500 mt-0.5">Assistant d'import — questionnaire, base et contexte d'étude</p>
+              <p className="text-xs text-gray-500 mt-0.5">Assistant d'import — base de données et contexte d'étude</p>
             </div>
             <div className="flex items-center gap-4">
               <Bell size={18} className="text-gray-400" />
@@ -276,48 +301,8 @@ export default function ImportWizard({ active, onNavigate, userEmail, userId, ro
           <main className="p-8 max-w-4xl">
             <Stepper current={step} setCurrent={setStep} />
 
-            {/* STEP 1 — Questionnaire */}
+            {/* STEP 1 — Base de données */}
             {step === 1 && (
-              <Card>
-                <h2 className="font-serif font-semibold mb-1" style={{ color: NAVY }}>Importer le questionnaire</h2>
-                <p className="text-xs text-gray-400 mb-5">Formats acceptés : Excel (.xlsx), CSV, ou tout export XLSForm/KoboToolbox/Akvo Flow/ODK.</p>
-                <div className="grid grid-cols-2 gap-4">
-                  <label className="border-2 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center text-center gap-2 cursor-pointer transition-colors hover:bg-[#FAFBFE]" style={{ borderColor: "#C7D2E8" }}>
-                    <input type="file" accept=".xlsx,.xls,.csv,.pdf,.docx" className="hidden" onChange={handleQuestionnaireUpload} />
-                    <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-1" style={{ background: "#EBEEF7" }}>
-                      <Upload size={20} style={{ color: NAVY }} />
-                    </div>
-                    <div className="font-medium text-sm" style={{ color: NAVY }}>Glisser-déposer un fichier</div>
-                    <div className="text-xs text-gray-400">ou cliquer pour parcourir</div>
-                    <div className="flex flex-wrap gap-1.5 justify-center mt-2">
-                      {["XLSForm", "ODK", ".xlsx"].map((f) => (
-                        <span key={f} className="text-[10px] px-2 py-1 rounded-full bg-[#F6E9DD] text-[#8A4A1D] font-medium">{f}</span>
-                      ))}
-                    </div>
-                  </label>
-                  <div className="border-2 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center text-center gap-2 cursor-pointer hover:bg-[#FAFBFE]" style={{ borderColor: "#C7D2E8" }}>
-                    <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-1" style={{ background: "#E4F5EC" }}>
-                      <Link2 size={20} style={{ color: "#256B45" }} />
-                    </div>
-                    <div className="font-medium text-sm" style={{ color: NAVY }}>Connecter Akvo Flow / KoboToolbox</div>
-                    <div className="text-xs text-gray-400">Import direct via API (à venir)</div>
-                  </div>
-                </div>
-                {questionnaire ? (
-                  <div className="mt-5">
-                    <UploadedFile icon={FileSpreadsheet} name={questionnaire.name} meta={questionnaire.size}
-                      tint="#EBEEF7" fg={NAVY} onDelete={() => setQuestionnaire(null)} />
-                  </div>
-                ) : (
-                  <div className="mt-5 rounded-xl p-3 border border-black/5 bg-gray-50 text-xs text-gray-500">
-                    Aucun questionnaire importé pour l'instant.
-                  </div>
-                )}
-              </Card>
-            )}
-
-            {/* STEP 2 — Base de données */}
-            {step === 2 && (
               <Card>
                 <h2 className="font-serif font-semibold mb-1" style={{ color: NAVY }}>Importer la base de données</h2>
                 <p className="text-xs text-gray-400 mb-5">Fichier Excel (.xlsx) ou CSV réel — les colonnes et leur type sont détectés automatiquement.</p>
@@ -348,7 +333,7 @@ export default function ImportWizard({ active, onNavigate, userEmail, userId, ro
                   <div className="mt-5 space-y-3">
                     <UploadedFile icon={FileCheck2} name={dataset.fileName}
                       meta={`${dataset.rows.length.toLocaleString("fr-FR")} enregistrements · ${dataset.columns.length} colonnes — analysées réellement`}
-                      tint="#E4F5EC" fg="#256B45" onDelete={() => onDatasetParsed(null)} />
+                      tint="#E4F5EC" fg="#256B45" onDelete={() => { onDatasetParsed(null); setSensitiveColumns([]); setAnonymizationConfirmed(false); }} />
                     {dataset.columns.some((c) => c.isGeo) ? (
                       <div className="flex items-start gap-2 rounded-xl p-3 border border-black/5" style={{ background: "#FDF1DA" }}>
                         <MapPin size={16} style={{ color: "#8A5A00" }} className="mt-0.5" />
@@ -364,13 +349,42 @@ export default function ImportWizard({ active, onNavigate, userEmail, userId, ro
                         Aucune colonne de géolocalisation détectée dans ce fichier.
                       </div>
                     )}
+
+                    {sensitiveColumns.length > 0 && (
+                      <div className="rounded-xl p-3 border" style={{ background: "#FBE7E5", borderColor: "#F3C6C2" }}>
+                        <div className="flex items-start gap-2">
+                          <AlertCircle size={16} style={{ color: "#B3413A" }} className="mt-0.5 shrink-0" />
+                          <div className="text-xs" style={{ color: "#B3413A" }}>
+                            <span className="font-medium">
+                              Colonne(s) potentiellement à caractère personnel détectée(s) :
+                            </span>{" "}
+                            {sensitiveColumns.map((c) => `${c.name} (${c.reason})`).join(", ")}.
+                            {" "}Ces données ne doivent pas être importées sans anonymisation préalable (loi n°2017-20).
+                          </div>
+                        </div>
+                        <button onClick={excludeSensitiveColumns}
+                          className="mt-2 text-xs font-medium px-3 py-1.5 rounded-lg text-white"
+                          style={{ background: "#B3413A" }}>
+                          Exclure ces colonnes et continuer
+                        </button>
+                      </div>
+                    )}
+
+                    <label className="flex items-start gap-2 rounded-xl p-3 border border-gray-100 cursor-pointer" style={{ background: anonymizationConfirmed ? "#E4F5EC" : "#F9FAFB" }}>
+                      <input type="checkbox" checked={anonymizationConfirmed} disabled={sensitiveColumns.length > 0}
+                        onChange={(e) => setAnonymizationConfirmed(e.target.checked)}
+                        className="w-4 h-4 rounded mt-0.5" style={{ accentColor: "#256B45" }} />
+                      <span className="text-xs" style={{ color: anonymizationConfirmed ? "#256B45" : "#374151" }}>
+                        Je certifie que cette base ne contient aucune donnée permettant d'identifier une personne physique (nom, contact, pièce d'identité…) et respecte les obligations d'anonymisation applicables.
+                      </span>
+                    </label>
                   </div>
                 )}
               </Card>
             )}
 
-            {/* STEP 3 — Contexte de l'étude */}
-            {step === 3 && (
+            {/* STEP 2 — Contexte de l'étude */}
+            {step === 2 && (
               <Card>
                 <h2 className="font-serif font-semibold mb-1" style={{ color: NAVY }}>Contexte de l'étude</h2>
                 <p className="text-xs text-gray-400 mb-5">Ces informations cadrent l'interprétation narrative du rapport final.</p>
@@ -466,8 +480,8 @@ export default function ImportWizard({ active, onNavigate, userEmail, userId, ro
               </Card>
             )}
 
-            {/* STEP 4 — Indicateurs */}
-            {step === 4 && (
+            {/* STEP 3 — Indicateurs */}
+            {step === 3 && (
               <Card>
                 <div className="flex items-center justify-between mb-1">
                   <h2 className="font-serif font-semibold" style={{ color: NAVY }}>Indicateurs de performance</h2>
@@ -538,8 +552,8 @@ export default function ImportWizard({ active, onNavigate, userEmail, userId, ro
               </Card>
             )}
 
-            {/* STEP 5 — Cartographie des variables */}
-            {step === 5 && (
+            {/* STEP 4 — Cartographie des variables */}
+            {step === 4 && (
               <Card>
                 <h2 className="font-serif font-semibold mb-1" style={{ color: NAVY }}>Cartographie automatique des variables</h2>
                 <p className="text-xs text-gray-400 mb-5">
@@ -608,10 +622,12 @@ export default function ImportWizard({ active, onNavigate, userEmail, userId, ro
               >
                 <ChevronLeft size={15} /> Précédent
               </button>
-              {step < 5 ? (
+              {step < 4 ? (
                 <button
                   onClick={() => setStep(step + 1)}
-                  className="px-5 py-2.5 rounded-xl text-sm font-medium flex items-center gap-1.5 text-white shadow-md"
+                  disabled={step === 1 && (!dataset || !anonymizationConfirmed)}
+                  title={step === 1 && dataset && !anonymizationConfirmed ? "Cochez l'attestation d'anonymisation pour continuer" : undefined}
+                  className="px-5 py-2.5 rounded-xl text-sm font-medium flex items-center gap-1.5 text-white shadow-md disabled:opacity-40 disabled:cursor-not-allowed"
                   style={{ background: `linear-gradient(135deg, ${NAVY}, #2A4A82)` }}
                 >
                   Suivant <ChevronRight size={15} />
@@ -640,6 +656,7 @@ export default function ImportWizard({ active, onNavigate, userEmail, userId, ro
                       periode_fin: periodeFin || null,
                       unite_analyse: uniteAnalyse,
                       indicateurs: indicateurs,
+                      donnees_anonymisees: anonymizationConfirmed,
                     });
                     setSubmitting(false);
                     if (error) setSubmitError(error.message);

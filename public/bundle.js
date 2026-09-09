@@ -22958,12 +22958,12 @@
       })(exports, function r2() {
         var n = "undefined" != typeof self ? self : "undefined" != typeof window ? window : void 0 !== n ? n : {};
         var s2 = !n.document && !!n.postMessage, a2 = n.IS_PAPA_WORKER || false, o = {}, h = 0, w = {};
-        function P(e) {
+        function q(e) {
           return 65279 === e.charCodeAt(0) ? e.slice(1) : e;
         }
         function u(e) {
           this._handle = null, this._finished = false, this._completed = false, this._halted = false, this._input = null, this._baseIndex = 0, this._partialLine = "", this._rowCount = 0, this._start = 0, this._nextChunk = null, this.isFirstChunk = true, this._completeResults = { data: [], errors: [], meta: {} }, function(e3) {
-            var t = b(e3);
+            var t = v(e3);
             t.chunkSize = parseInt(t.chunkSize), e3.step || e3.chunk || (t.chunkSize = null);
             this._handle = new i(t), (this._handle.streamer = this)._config = t;
           }.call(this, e), this.parseChunk = function(t, e3) {
@@ -22999,7 +22999,7 @@
           }, this._readChunk = function() {
             if (this._finished) this._chunkLoaded();
             else {
-              if (r3 = new XMLHttpRequest(), this._config.withCredentials && (r3.withCredentials = this._config.withCredentials), s2 || (r3.onload = m(this._chunkLoaded, this), r3.onerror = m(this._chunkError, this)), r3.open(this._config.downloadRequestBody ? "POST" : "GET", this._input, !s2), this._config.downloadRequestHeaders) {
+              if (r3 = new XMLHttpRequest(), this._config.withCredentials && (r3.withCredentials = this._config.withCredentials), s2 || (r3.onload = m(this._chunkLoaded, this), r3.onerror = m(this._chunkError, this)), r3.ontimeout = m(this._chunkTimeout, this), r3.open(this._config.downloadRequestBody ? "POST" : "GET", this._input, !s2), this._config.downloadTimeout && !s2 && (r3.timeout = this._config.downloadTimeout), this._config.downloadRequestHeaders) {
                 var e3, t = this._config.downloadRequestHeaders;
                 for (e3 in t) r3.setRequestHeader(e3, t[e3]);
               }
@@ -23017,6 +23017,8 @@
           }, this._chunkError = function(e3) {
             e3 = r3.statusText || e3;
             this._sendError(new Error(e3));
+          }, this._chunkTimeout = function() {
+            this._chunkError("Request timed out after " + this._config.downloadTimeout + "ms");
           };
         }
         function l(e) {
@@ -23080,8 +23082,8 @@
             if (p3 && a3 && (k2("Delimiter", "UndetectableDelimiter", "Unable to auto-detect delimiting character; defaulted to '" + w.DefaultDelimiter + "'"), a3 = false), m2.skipEmptyLines && (p3.data = p3.data.filter(function(e4) {
               return !y2(e4);
             })), g2()) {
-              let t3 = function(e4, t4) {
-                e4 = P(e4), U(m2.transformHeader) && (e4 = m2.transformHeader(e4, t4)), c3.push(e4);
+              let t3 = function(e4) {
+                c3.push(e4);
               };
               var t2 = t3;
               if (p3) if (Array.isArray(p3.data[0])) {
@@ -23122,8 +23124,8 @@
                 0 < _3.data.length && (c4 /= _3.data.length - p4), 1.99 < c4 && (void 0 === a4 || f3 < a4 || f3 === a4 && h3 < c4) && (a4 = f3, s4 = l3, h3 = c4);
               }
               return { successful: !!(m2.delimiter = s4), bestDelimiter: s4 };
-            })(e3, m2.newline, m2.skipEmptyLines, m2.comments, m2.delimitersToGuess)).successful ? m2.delimiter = r4.bestDelimiter : (a3 = true, m2.delimiter = w.DefaultDelimiter), p3.meta.delimiter = m2.delimiter), b(m2));
-            return m2.preview && m2.header && r4.preview++, n2 = e3, s3 = new E(r4), p3 = s3.parse(n2, t2, i3), _2(), f2 ? { meta: { paused: true } } : p3 || { meta: { paused: false } };
+            })(e3, m2.newline, m2.skipEmptyLines, m2.comments, m2.delimitersToGuess)).successful ? m2.delimiter = r4.bestDelimiter : (a3 = true, m2.delimiter = w.DefaultDelimiter), p3.meta.delimiter = m2.delimiter), v(m2));
+            return r4.header = g2(), m2.preview && m2.header && r4.preview++, n2 = e3, s3 = new E(r4), p3 = s3.parse(n2, t2, i3), _2(), f2 ? { meta: { paused: true } } : p3 || { meta: { paused: false } };
           }, this.paused = function() {
             return f2;
           }, this.pause = function() {
@@ -23136,38 +23138,38 @@
             e = true, s3.abort(), p3.meta.aborted = true, U(m2.complete) && m2.complete(p3), n2 = "";
           }, this.guessLineEndings = function(e3, t2) {
             e3 = e3.substring(0, 1048576);
-            var t2 = new RegExp(q(t2) + "([^]*?)" + q(t2), "gm"), i3 = (e3 = e3.replace(t2, "")).split("\r"), t2 = e3.split("\n"), e3 = 1 < t2.length && t2[0].length < i3[0].length;
+            var t2 = new RegExp(P(t2) + "([^]*?)" + P(t2), "gm"), i3 = (e3 = e3.replace(t2, "")).split("\r"), t2 = e3.split("\n"), e3 = 1 < t2.length && t2[0].length < i3[0].length;
             if (1 === i3.length || e3) return "\n";
             for (var r4 = 0, n3 = 0; n3 < i3.length; n3++) "\n" === i3[n3][0] && r4++;
             return r4 >= i3.length / 2 ? "\r\n" : "\r";
           };
         }
-        function q(e) {
+        function P(e) {
           return e.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
         }
         function E(C) {
-          var S = (C = C || {}).delimiter, O2 = C.newline, x2 = C.comments, I = C.step, A = C.preview, T = C.fastMode, D = null, L = false, F = null == C.quoteChar ? '"' : C.quoteChar, z = F;
+          var S = (C = C || {}).delimiter, O2 = C.newline, x2 = C.comments, T = C.step, I = C.preview, A = C.fastMode, D = null, L = false, F = null == C.quoteChar ? '"' : C.quoteChar, z = F;
           if (void 0 !== C.escapeChar && (z = C.escapeChar), ("string" != typeof S || -1 < w.BAD_DELIMITERS.indexOf(S)) && (S = ","), x2 === S) throw new Error("Comment character same as delimiter");
           true === x2 ? x2 = "#" : ("string" != typeof x2 || -1 < w.BAD_DELIMITERS.indexOf(x2)) && (x2 = false), "\n" !== O2 && "\r" !== O2 && "\r\n" !== O2 && (O2 = "\n");
           var M = 0, j = false;
           this.parse = function(i2, t, r3) {
             if ("string" != typeof i2) throw new Error("Input must be a string");
-            var n2 = i2.length, e = S.length, s3 = O2.length, a3 = x2.length, o2 = U(I), h2 = [], u2 = [], d2 = [], l2 = M = 0;
-            if (!i2) return v();
-            if (T || false !== T && -1 === i2.indexOf(F)) {
+            var n2 = i2.length, e = S.length, s3 = O2.length, a3 = x2.length, o2 = U(T), h2 = [], u2 = [], d2 = [], l2 = M = 0;
+            if (!i2) return b();
+            if (A || false !== A && -1 === i2.indexOf(F)) {
               for (var f2 = i2.split(O2), c3 = 0; c3 < f2.length; c3++) {
                 if (d2 = f2[c3], M += d2.length, c3 !== f2.length - 1) M += O2.length;
-                else if (r3) return v();
+                else if (r3) return b();
                 if (!x2 || d2.substring(0, a3) !== x2) {
                   if (o2) {
-                    if (h2 = [], k2(d2.split(S)), R(), j) return v();
+                    if (h2 = [], k2(d2.split(S)), R(), j) return b();
                   } else k2(d2.split(S));
-                  if (A && A <= c3) return h2 = h2.slice(0, A), v(true);
+                  if (I && I <= c3) return h2 = h2.slice(0, I), b(true);
                 }
               }
-              return v();
+              return b();
             }
-            for (var p3 = i2.indexOf(S, M), _2 = i2.indexOf(O2, M), g2 = new RegExp(q(z) + q(F), "g"), m2 = i2.indexOf(F, M); ; ) if (i2[M] === F) for (m2 = M, M++; ; ) {
+            for (var p3 = i2.indexOf(S, M), _2 = i2.indexOf(O2, M), g2 = new RegExp(P(z) + P(F), "g"), m2 = i2.indexOf(F, M); ; ) if (i2[M] === F) for (m2 = M, M++; ; ) {
               if (-1 === (m2 = i2.indexOf(F, m2 + 1))) return r3 || u2.push({ type: "Quotes", code: "MissingQuotes", message: "Quoted field unterminated", row: h2.length, index: M }), E2();
               if (m2 === n2 - 1) return E2(i2.substring(M, m2).replace(g2, F));
               if (F === z && i2[m2 + 1] === z) m2++;
@@ -23180,21 +23182,21 @@
                 }
                 y2 = w2(_2);
                 if (i2.substring(m2 + 1 + y2, m2 + 1 + y2 + s3) === O2) {
-                  if (d2.push(i2.substring(M, m2).replace(g2, F)), b2(m2 + 1 + y2 + s3), p3 = i2.indexOf(S, M), m2 = i2.indexOf(F, M), o2 && (R(), j)) return v();
-                  if (A && h2.length >= A) return v(true);
+                  if (d2.push(i2.substring(M, m2).replace(g2, F)), v2(m2 + 1 + y2 + s3), p3 = i2.indexOf(S, M), m2 = i2.indexOf(F, M), o2 && (R(), j)) return b();
+                  if (I && h2.length >= I) return b(true);
                   break;
                 }
                 u2.push({ type: "Quotes", code: "InvalidQuotes", message: "Trailing quote on quoted field is malformed", row: h2.length, index: M }), m2++;
               }
             }
             else if (x2 && 0 === d2.length && i2.substring(M, M + a3) === x2) {
-              if (-1 === _2) return v();
+              if (-1 === _2) return b();
               M = _2 + s3, _2 = i2.indexOf(O2, M), p3 = i2.indexOf(S, M);
             } else if (-1 !== p3 && (p3 < _2 || -1 === _2)) d2.push(i2.substring(M, p3)), M = p3 + e, p3 = i2.indexOf(S, M);
             else {
               if (-1 === _2) break;
-              if (d2.push(i2.substring(M, _2)), b2(_2 + s3), o2 && (R(), j)) return v();
-              if (A && h2.length >= A) return v(true);
+              if (d2.push(i2.substring(M, _2)), v2(_2 + s3), o2 && (R(), j)) return b();
+              if (I && h2.length >= I) return b(true);
             }
             return E2();
             function k2(e3) {
@@ -23205,17 +23207,17 @@
               return t2 = -1 !== e3 && (e3 = i2.substring(m2 + 1, e3)) && "" === e3.trim() ? e3.length : t2;
             }
             function E2(e3) {
-              return r3 || (void 0 === e3 && (e3 = i2.substring(M)), d2.push(e3), M = n2, k2(d2), o2 && R()), v();
+              return r3 || (void 0 === e3 && (e3 = i2.substring(M)), d2.push(e3), M = n2, k2(d2), o2 && R()), b();
             }
-            function b2(e3) {
+            function v2(e3) {
               M = e3, k2(d2), d2 = [], _2 = i2.indexOf(O2, M);
             }
-            function v(e3) {
+            function b(e3) {
               if (C.header && !t && h2.length && !L) {
                 var s4 = h2[0], a4 = /* @__PURE__ */ Object.create(null), o3 = new Set(s4);
                 let n3 = false;
                 for (let r4 = 0; r4 < s4.length; r4++) {
-                  let i3 = P(s4[r4]);
+                  let i3 = q(s4[r4]);
                   if (a4[i3 = U(C.transformHeader) ? C.transformHeader(i3, r4) : i3]) {
                     let e4, t2 = a4[i3];
                     for (; e4 = i3 + "_" + t2, t2++, o3.has(e4); ) ;
@@ -23228,7 +23230,7 @@
               return { data: h2, errors: u2, meta: { delimiter: S, linebreak: O2, aborted: j, truncated: !!e3, cursor: l2 + (t || 0), renamedHeaders: D } };
             }
             function R() {
-              I(v()), h2 = [], u2 = [];
+              T(b()), h2 = [], u2 = [];
             }
           }, this.abort = function() {
             j = true;
@@ -23257,10 +23259,10 @@
         function g() {
           throw new Error("Not implemented.");
         }
-        function b(e) {
+        function v(e) {
           if ("object" != typeof e || null === e) return e;
           var t, i2 = Array.isArray(e) ? [] : {};
-          for (t in e) i2[t] = b(e[t]);
+          for (t in e) i2[t] = v(e[t]);
           return i2;
         }
         function m(e, t) {
@@ -23274,7 +23276,12 @@
         return w.parse = function(e, t) {
           var i2 = (t = t || {}).dynamicTyping || false;
           U(i2) && (t.dynamicTypingFunction = i2, i2 = {});
-          if (t.dynamicTyping = i2, t.transform = !!U(t.transform) && t.transform, !t.worker || !w.WORKERS_SUPPORTED) return i2 = null, w.NODE_STREAM_INPUT, "string" == typeof e ? (e = P(e), i2 = new (t.download ? d : f)(t)) : true === e.readable && U(e.read) && U(e.on) ? i2 = new c2(t) : (n.File && e instanceof File || e instanceof Object) && (i2 = new l(t)), i2.stream(e);
+          if (t.dynamicTyping = i2, t.transform = !!U(t.transform) && t.transform, void 0 !== t.downloadTimeout) {
+            var i2 = parseInt(t.downloadTimeout);
+            if (isNaN(i2)) throw new Error("Config downloadTimeout value (" + t.downloadTimeout + ") not parsable by parseInt(val).");
+            t.downloadTimeout = i2;
+          }
+          if (!t.worker || !w.WORKERS_SUPPORTED) return i2 = null, w.NODE_STREAM_INPUT, "string" == typeof e ? (e = q(e), i2 = new (t.download ? d : f)(t)) : true === e.readable && U(e.read) && U(e.on) ? i2 = new c2(t) : (n.File && e instanceof File || e instanceof Object) && (i2 = new l(t)), i2.stream(e);
           (i2 = (() => {
             var e3;
             return !!w.WORKERS_SUPPORTED && (e3 = (() => {
@@ -23293,7 +23300,7 @@
               }
               void 0 !== t.escapeChar && (o2 = t.escapeChar + a3), t.escapeFormulae instanceof RegExp ? h2 = t.escapeFormulae : "boolean" == typeof t.escapeFormulae && t.escapeFormulae && (h2 = /^[=+\-@\t\r].*$/);
             }
-          })(), new RegExp(q(a3), "g"));
+          })(), new RegExp(P(a3), "g"));
           "string" == typeof e && (e = JSON.parse(e));
           if (Array.isArray(e)) {
             if (!e.length || Array.isArray(e[0])) return n2(null, e, i2);
@@ -23352,19 +23359,40 @@
   // node_modules/lucide-react/dist/esm/createLucideIcon.mjs
   var import_react3 = __toESM(require_react(), 1);
 
-  // node_modules/lucide-react/dist/esm/shared/src/utils/mergeClasses.mjs
-  var mergeClasses = (...classes) => classes.filter((className, index, array) => {
-    return Boolean(className) && className.trim() !== "" && array.indexOf(className) === index;
-  }).join(" ").trim();
-
   // node_modules/lucide-react/dist/esm/shared/src/utils/toKebabCase.mjs
-  var toKebabCase = (string) => string.replace(/([a-z0-9])([A-Z])/g, "$1-$2").toLowerCase();
+  var toKebabCase = (string) => string?.replace(/([a-z0-9])([A-Z])/g, "$1-$2").toLowerCase();
+
+  // node_modules/lucide-react/dist/esm/shared/src/utils/toLucideIconData.mjs
+  function toLucideIconData(iconName, iconNode, aliases = []) {
+    if (iconNode == null) {
+      throw new Error("[lucide]: iconNode is required when icon name is used");
+    }
+    return {
+      name: toKebabCase(iconName),
+      size: 24,
+      node: iconNode,
+      ...aliases.length > 0 ? { aliases } : {}
+    };
+  }
 
   // node_modules/lucide-react/dist/esm/shared/src/utils/toCamelCase.mjs
-  var toCamelCase = (string) => string.replace(
-    /^([A-Z])|[\s-_]+(\w)/g,
-    (match, p1, p2) => p2 ? p2.toUpperCase() : p1.toLowerCase()
-  );
+  var toCamelCase = (string) => {
+    let out = "";
+    let upperNext = false;
+    for (const ch of string) {
+      if (ch === "-" || ch === "_" || ch <= " ") {
+        upperNext = out.length > 0;
+        continue;
+      }
+      if (out.length === 0) {
+        out += ch.toLowerCase();
+      } else {
+        out += upperNext ? ch.toUpperCase() : ch;
+      }
+      upperNext = false;
+    }
+    return out;
+  };
 
   // node_modules/lucide-react/dist/esm/shared/src/utils/toPascalCase.mjs
   var toPascalCase = (string) => {
@@ -23375,7 +23403,12 @@
   // node_modules/lucide-react/dist/esm/Icon.mjs
   var import_react2 = __toESM(require_react(), 1);
 
-  // node_modules/lucide-react/dist/esm/defaultAttributes.mjs
+  // node_modules/lucide-react/dist/esm/shared/src/utils/mergeClasses.mjs
+  var mergeClasses = (...classes) => classes.filter((className, index, array) => {
+    return Boolean(className) && className.trim() !== "" && array.indexOf(className) === index;
+  }).join(" ").trim();
+
+  // node_modules/lucide-react/dist/esm/shared/src/build/defaultAttributes.mjs
   var defaultAttributes = {
     xmlns: "http://www.w3.org/2000/svg",
     width: 24,
@@ -23383,10 +23416,78 @@
     viewBox: "0 0 24 24",
     fill: "none",
     stroke: "currentColor",
-    strokeWidth: 2,
-    strokeLinecap: "round",
-    strokeLinejoin: "round"
+    "stroke-width": 2,
+    "stroke-linecap": "round",
+    "stroke-linejoin": "round"
   };
+
+  // node_modules/lucide-react/dist/esm/shared/src/build/buildLucideIconNode.mjs
+  function isDefined(value) {
+    return value !== null && value !== void 0;
+  }
+  function buildLucideIconNode(icon, params = {}) {
+    const attributeNames = params.attributeNames ?? {};
+    const getAttributeName = (attributeName) => attributeNames[attributeName] ?? attributeName;
+    const viewBoxWidth = icon.size ?? icon.width ?? defaultAttributes["width"];
+    const viewBoxHeight = icon.size ?? icon.height ?? defaultAttributes["height"];
+    const aliasClassNames = icon.aliases?.filter((alias) => typeof alias === "string" && alias.trim() !== "").map((alias) => `lucide-${alias}`) ?? [];
+    const iconClassNames = [...icon.name ? [`lucide-${icon.name}`] : [], ...aliasClassNames];
+    const classNamesFromClassName = params.className?.split(" ").filter(Boolean) ?? [];
+    const className = params.includeDefaultClasses === false ? mergeClasses(...classNamesFromClassName) : mergeClasses("lucide", ...iconClassNames, ...classNamesFromClassName);
+    const calculatedStrokeWidth = params.absoluteStrokeWidth ? Number(params.strokeWidth ?? defaultAttributes["stroke-width"]) * Number(icon.size ?? icon.width ?? defaultAttributes["width"]) / Number(params.size ?? params.width ?? defaultAttributes["width"]) : params.strokeWidth ?? defaultAttributes["stroke-width"];
+    const attributes = {
+      ...Object.entries(defaultAttributes).reduce((attrs, [attrName, value]) => {
+        attrs[getAttributeName(attrName)] = value;
+        return attrs;
+      }, {}),
+      ..."color" in params && params.color && {
+        [getAttributeName("stroke")]: params.color
+      },
+      ..."size" in params && isDefined(params.size) && {
+        [getAttributeName("width")]: params.size,
+        [getAttributeName("height")]: params.size
+      },
+      ..."width" in params && isDefined(params.width) && {
+        [getAttributeName("width")]: params.width
+      },
+      ..."height" in params && isDefined(params.height) && {
+        [getAttributeName("height")]: params.height
+      },
+      [getAttributeName("stroke-width")]: calculatedStrokeWidth,
+      ...className && {
+        [getAttributeName("class")]: className
+      },
+      [getAttributeName("viewBox")]: `0 0 ${viewBoxWidth} ${viewBoxHeight}`,
+      ...params.hasA11yProp === false ? {
+        [getAttributeName("aria-hidden")]: "true"
+      } : {},
+      ..."attributes" in params && params.attributes
+    };
+    return [
+      "svg",
+      attributes,
+      icon.node.map((child) => {
+        const [name, attrs, children] = child;
+        const nextAttrs = params.nonScalingStroke ? { [getAttributeName("vector-effect")]: "non-scaling-stroke", ...attrs } : attrs;
+        return children ? [name, nextAttrs, children] : [name, nextAttrs];
+      })
+    ];
+  }
+
+  // node_modules/lucide-react/dist/esm/shared/src/build/buildLucideIconForReact.mjs
+  function buildLucideIconForReact(icon, params = {}) {
+    return buildLucideIconNode(icon, {
+      ...params,
+      attributeNames: {
+        ...params.attributeNames,
+        class: "className",
+        "stroke-width": "strokeWidth",
+        "stroke-linecap": "strokeLinecap",
+        "stroke-linejoin": "strokeLinejoin",
+        "vector-effect": "vectorEffect"
+      }
+    });
+  }
 
   // node_modules/lucide-react/dist/esm/shared/src/utils/hasA11yProp.mjs
   var hasA11yProp = (props) => {
@@ -23405,30 +23506,52 @@
 
   // node_modules/lucide-react/dist/esm/Icon.mjs
   var Icon = (0, import_react2.forwardRef)(
-    ({ color: color2, size, strokeWidth, absoluteStrokeWidth, className = "", children, iconNode, ...rest }, ref) => {
+    ({
+      color: color2,
+      size,
+      width,
+      height,
+      strokeWidth,
+      absoluteStrokeWidth,
+      nonScalingStroke,
+      className = "",
+      children,
+      iconNode = [],
+      icon = {
+        node: iconNode,
+        aliases: [],
+        size: 24
+      },
+      ...rest
+    }, ref) => {
       const {
         size: contextSize = 24,
         strokeWidth: contextStrokeWidth = 2,
         absoluteStrokeWidth: contextAbsoluteStrokeWidth = false,
+        nonScalingStroke: contextNonScalingStroke = false,
         color: contextColor = "currentColor",
         className: contextClass = ""
       } = useLucideContext() ?? {};
-      const calculatedStrokeWidth = absoluteStrokeWidth ?? contextAbsoluteStrokeWidth ? Number(strokeWidth ?? contextStrokeWidth) * 24 / Number(size ?? contextSize) : strokeWidth ?? contextStrokeWidth;
+      const hasAccessibleProp = Boolean(children) || hasA11yProp(rest);
+      const [name, svgAttributes, builtIconNode = []] = buildLucideIconForReact(icon, {
+        color: color2 ?? contextColor,
+        width: width ?? size ?? contextSize,
+        height: height ?? size ?? contextSize,
+        strokeWidth: strokeWidth ?? contextStrokeWidth,
+        absoluteStrokeWidth: absoluteStrokeWidth ?? contextAbsoluteStrokeWidth,
+        nonScalingStroke: nonScalingStroke ?? contextNonScalingStroke,
+        className: mergeClasses(contextClass, className),
+        hasA11yProp: hasAccessibleProp,
+        attributes: rest
+      });
       return (0, import_react2.createElement)(
-        "svg",
+        name,
         {
           ref,
-          ...defaultAttributes,
-          width: size ?? contextSize ?? defaultAttributes.width,
-          height: size ?? contextSize ?? defaultAttributes.height,
-          stroke: color2 ?? contextColor,
-          strokeWidth: calculatedStrokeWidth,
-          className: mergeClasses("lucide", contextClass, className),
-          ...!children && !hasA11yProp(rest) && { "aria-hidden": "true" },
-          ...rest
+          ...svgAttributes
         },
         [
-          ...iconNode.map(([tag, attrs]) => (0, import_react2.createElement)(tag, attrs)),
+          ...builtIconNode.map(([tag, attrs]) => (0, import_react2.createElement)(tag, attrs)),
           ...Array.isArray(children) ? children : [children]
         ]
       );
@@ -23436,633 +23559,913 @@
   );
 
   // node_modules/lucide-react/dist/esm/createLucideIcon.mjs
-  var createLucideIcon = (iconName, iconNode) => {
+  function createLucideIcon(iconDataOrName, iconNode = [], aliases = []) {
+    const iconData = typeof iconDataOrName === "string" ? toLucideIconData(iconDataOrName, iconNode, aliases) : iconDataOrName;
     const Component2 = (0, import_react3.forwardRef)(
       ({ className, ...props }, ref) => (0, import_react3.createElement)(Icon, {
         ref,
-        iconNode,
-        className: mergeClasses(
-          `lucide-${toKebabCase(toPascalCase(iconName))}`,
-          `lucide-${iconName}`,
-          className
-        ),
+        icon: iconData,
+        className,
         ...props
       })
     );
-    Component2.displayName = toPascalCase(iconName);
+    if (iconData.name) {
+      Component2.displayName = toPascalCase(iconData.name);
+    }
     return Component2;
-  };
+  }
 
   // node_modules/lucide-react/dist/esm/icons/arrow-left.mjs
-  var __iconNode = [
-    ["path", { d: "m12 19-7-7 7-7", key: "1l729n" }],
-    ["path", { d: "M19 12H5", key: "x3x0zl" }]
-  ];
-  var ArrowLeft = createLucideIcon("arrow-left", __iconNode);
+  var __iconData = {
+    name: "arrow-left",
+    size: 24,
+    node: [
+      ["path", { d: "m12 19-7-7 7-7", key: "1l729n" }],
+      ["path", { d: "M19 12H5", key: "x3x0zl" }]
+    ]
+  };
+  __iconData.node;
+  var ArrowLeft = createLucideIcon(__iconData);
 
   // node_modules/lucide-react/dist/esm/icons/arrow-right.mjs
-  var __iconNode2 = [
-    ["path", { d: "M5 12h14", key: "1ays0h" }],
-    ["path", { d: "m12 5 7 7-7 7", key: "xquz4c" }]
-  ];
-  var ArrowRight = createLucideIcon("arrow-right", __iconNode2);
+  var __iconData2 = {
+    name: "arrow-right",
+    size: 24,
+    node: [
+      ["path", { d: "M5 12h14", key: "1ays0h" }],
+      ["path", { d: "m12 5 7 7-7 7", key: "xquz4c" }]
+    ]
+  };
+  __iconData2.node;
+  var ArrowRight = createLucideIcon(__iconData2);
 
   // node_modules/lucide-react/dist/esm/icons/bell.mjs
-  var __iconNode3 = [
-    ["path", { d: "M10.268 21a2 2 0 0 0 3.464 0", key: "vwvbt9" }],
-    [
-      "path",
-      {
-        d: "M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326",
-        key: "11g9vi"
-      }
+  var __iconData3 = {
+    name: "bell",
+    size: 24,
+    node: [
+      ["path", { d: "M10.268 21a2 2 0 0 0 3.464 0", key: "vwvbt9" }],
+      [
+        "path",
+        {
+          d: "M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326",
+          key: "11g9vi"
+        }
+      ]
     ]
-  ];
-  var Bell = createLucideIcon("bell", __iconNode3);
+  };
+  __iconData3.node;
+  var Bell = createLucideIcon(__iconData3);
 
   // node_modules/lucide-react/dist/esm/icons/chart-column.mjs
-  var __iconNode4 = [
-    ["path", { d: "M3 3v16a2 2 0 0 0 2 2h16", key: "c24i48" }],
-    ["path", { d: "M18 17V9", key: "2bz60n" }],
-    ["path", { d: "M13 17V5", key: "1frdt8" }],
-    ["path", { d: "M8 17v-3", key: "17ska0" }]
-  ];
-  var ChartColumn = createLucideIcon("chart-column", __iconNode4);
+  var __iconData4 = {
+    name: "chart-column",
+    size: 24,
+    node: [
+      ["path", { d: "M3 3v16a2 2 0 0 0 2 2h16", key: "c24i48" }],
+      ["path", { d: "M18 17V9", key: "2bz60n" }],
+      ["path", { d: "M13 17V5", key: "1frdt8" }],
+      ["path", { d: "M8 17v-3", key: "17ska0" }]
+    ],
+    aliases: ["bar-chart-3"]
+  };
+  __iconData4.node;
+  var ChartColumn = createLucideIcon(__iconData4);
 
   // node_modules/lucide-react/dist/esm/icons/check.mjs
-  var __iconNode5 = [["path", { d: "M20 6 9 17l-5-5", key: "1gmf2c" }]];
-  var Check = createLucideIcon("check", __iconNode5);
+  var __iconData5 = {
+    name: "check",
+    size: 24,
+    node: [["path", { d: "M20 6 9 17l-5-5", key: "1gmf2c" }]]
+  };
+  __iconData5.node;
+  var Check = createLucideIcon(__iconData5);
 
   // node_modules/lucide-react/dist/esm/icons/chevron-down.mjs
-  var __iconNode6 = [["path", { d: "m6 9 6 6 6-6", key: "qrunsl" }]];
-  var ChevronDown = createLucideIcon("chevron-down", __iconNode6);
+  var __iconData6 = {
+    name: "chevron-down",
+    size: 24,
+    node: [["path", { d: "m6 9 6 6 6-6", key: "qrunsl" }]]
+  };
+  __iconData6.node;
+  var ChevronDown = createLucideIcon(__iconData6);
 
   // node_modules/lucide-react/dist/esm/icons/chevron-left.mjs
-  var __iconNode7 = [["path", { d: "m15 18-6-6 6-6", key: "1wnfg3" }]];
-  var ChevronLeft = createLucideIcon("chevron-left", __iconNode7);
+  var __iconData7 = {
+    name: "chevron-left",
+    size: 24,
+    node: [["path", { d: "m15 18-6-6 6-6", key: "1wnfg3" }]]
+  };
+  __iconData7.node;
+  var ChevronLeft = createLucideIcon(__iconData7);
 
   // node_modules/lucide-react/dist/esm/icons/chevron-right.mjs
-  var __iconNode8 = [["path", { d: "m9 18 6-6-6-6", key: "mthhwq" }]];
-  var ChevronRight = createLucideIcon("chevron-right", __iconNode8);
+  var __iconData8 = {
+    name: "chevron-right",
+    size: 24,
+    node: [["path", { d: "m9 18 6-6-6-6", key: "mthhwq" }]]
+  };
+  __iconData8.node;
+  var ChevronRight = createLucideIcon(__iconData8);
 
   // node_modules/lucide-react/dist/esm/icons/circle-alert.mjs
-  var __iconNode9 = [
-    ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
-    ["line", { x1: "12", x2: "12", y1: "8", y2: "12", key: "1pkeuh" }],
-    ["line", { x1: "12", x2: "12.01", y1: "16", y2: "16", key: "4dfq90" }]
-  ];
-  var CircleAlert = createLucideIcon("circle-alert", __iconNode9);
+  var __iconData9 = {
+    name: "circle-alert",
+    size: 24,
+    node: [
+      ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
+      ["line", { x1: "12", x2: "12", y1: "8", y2: "12", key: "1pkeuh" }],
+      ["line", { x1: "12", x2: "12.01", y1: "16", y2: "16", key: "4dfq90" }]
+    ],
+    aliases: ["alert-circle"]
+  };
+  __iconData9.node;
+  var CircleAlert = createLucideIcon(__iconData9);
 
   // node_modules/lucide-react/dist/esm/icons/circle-check.mjs
-  var __iconNode10 = [
-    ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
-    ["path", { d: "m9 12 2 2 4-4", key: "dzmm74" }]
-  ];
-  var CircleCheck = createLucideIcon("circle-check", __iconNode10);
+  var __iconData10 = {
+    name: "circle-check",
+    size: 24,
+    node: [
+      ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
+      ["path", { d: "m16 9-5.5 5.5L8 12", key: "xofnsj" }]
+    ],
+    aliases: ["check-circle-2"]
+  };
+  __iconData10.node;
+  var CircleCheck = createLucideIcon(__iconData10);
 
   // node_modules/lucide-react/dist/esm/icons/circle-question-mark.mjs
-  var __iconNode11 = [
-    ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
-    ["path", { d: "M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3", key: "1u773s" }],
-    ["path", { d: "M12 17h.01", key: "p32p05" }]
-  ];
-  var CircleQuestionMark = createLucideIcon("circle-question-mark", __iconNode11);
+  var __iconData11 = {
+    name: "circle-question-mark",
+    size: 24,
+    node: [
+      ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
+      ["path", { d: "M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3", key: "1u773s" }],
+      ["path", { d: "M12 17h.01", key: "p32p05" }]
+    ],
+    aliases: ["help-circle", "circle-help"]
+  };
+  __iconData11.node;
+  var CircleQuestionMark = createLucideIcon(__iconData11);
 
   // node_modules/lucide-react/dist/esm/icons/circle-x.mjs
-  var __iconNode12 = [
-    ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
-    ["path", { d: "m15 9-6 6", key: "1uzhvr" }],
-    ["path", { d: "m9 9 6 6", key: "z0biqf" }]
-  ];
-  var CircleX = createLucideIcon("circle-x", __iconNode12);
+  var __iconData12 = {
+    name: "circle-x",
+    size: 24,
+    node: [
+      ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
+      ["path", { d: "m15 9-6 6", key: "1uzhvr" }],
+      ["path", { d: "m9 9 6 6", key: "z0biqf" }]
+    ],
+    aliases: ["x-circle"]
+  };
+  __iconData12.node;
+  var CircleX = createLucideIcon(__iconData12);
 
   // node_modules/lucide-react/dist/esm/icons/clipboard-list.mjs
-  var __iconNode13 = [
-    ["rect", { width: "8", height: "4", x: "8", y: "2", rx: "1", ry: "1", key: "tgr4d6" }],
-    [
-      "path",
-      {
-        d: "M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2",
-        key: "116196"
-      }
-    ],
-    ["path", { d: "M12 11h4", key: "1jrz19" }],
-    ["path", { d: "M12 16h4", key: "n85exb" }],
-    ["path", { d: "M8 11h.01", key: "1dfujw" }],
-    ["path", { d: "M8 16h.01", key: "18s6g9" }]
-  ];
-  var ClipboardList = createLucideIcon("clipboard-list", __iconNode13);
+  var __iconData13 = {
+    name: "clipboard-list",
+    size: 24,
+    node: [
+      ["rect", { width: "8", height: "4", x: "8", y: "2", rx: "1", ry: "1", key: "tgr4d6" }],
+      [
+        "path",
+        {
+          d: "M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2",
+          key: "116196"
+        }
+      ],
+      ["path", { d: "M12 11h4", key: "1jrz19" }],
+      ["path", { d: "M12 16h4", key: "n85exb" }],
+      ["path", { d: "M8 11h.01", key: "1dfujw" }],
+      ["path", { d: "M8 16h.01", key: "18s6g9" }]
+    ]
+  };
+  __iconData13.node;
+  var ClipboardList = createLucideIcon(__iconData13);
 
   // node_modules/lucide-react/dist/esm/icons/clock.mjs
-  var __iconNode14 = [
-    ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
-    ["path", { d: "M12 6v6l4 2", key: "mmk7yg" }]
-  ];
-  var Clock = createLucideIcon("clock", __iconNode14);
+  var __iconData14 = {
+    name: "clock",
+    size: 24,
+    node: [
+      ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
+      ["path", { d: "M12 6v6l4 2", key: "mmk7yg" }]
+    ]
+  };
+  __iconData14.node;
+  var Clock = createLucideIcon(__iconData14);
 
   // node_modules/lucide-react/dist/esm/icons/cloud-rain.mjs
-  var __iconNode15 = [
-    ["path", { d: "M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242", key: "1pljnt" }],
-    ["path", { d: "M16 14v6", key: "1j4efv" }],
-    ["path", { d: "M8 14v6", key: "17c4r9" }],
-    ["path", { d: "M12 16v6", key: "c8a4gj" }]
-  ];
-  var CloudRain = createLucideIcon("cloud-rain", __iconNode15);
+  var __iconData15 = {
+    name: "cloud-rain",
+    size: 24,
+    node: [
+      ["path", { d: "M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242", key: "1pljnt" }],
+      ["path", { d: "M16 14v6", key: "1j4efv" }],
+      ["path", { d: "M8 14v6", key: "17c4r9" }],
+      ["path", { d: "M12 16v6", key: "c8a4gj" }]
+    ]
+  };
+  __iconData15.node;
+  var CloudRain = createLucideIcon(__iconData15);
 
   // node_modules/lucide-react/dist/esm/icons/download.mjs
-  var __iconNode16 = [
-    ["path", { d: "M12 15V3", key: "m9g1x1" }],
-    ["path", { d: "M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4", key: "ih7n3h" }],
-    ["path", { d: "m7 10 5 5 5-5", key: "brsn70" }]
-  ];
-  var Download = createLucideIcon("download", __iconNode16);
+  var __iconData16 = {
+    name: "download",
+    size: 24,
+    node: [
+      ["path", { d: "M12 15V3", key: "m9g1x1" }],
+      ["path", { d: "M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4", key: "ih7n3h" }],
+      ["path", { d: "m7 10 5 5 5-5", key: "brsn70" }]
+    ]
+  };
+  __iconData16.node;
+  var Download = createLucideIcon(__iconData16);
 
   // node_modules/lucide-react/dist/esm/icons/droplets.mjs
-  var __iconNode17 = [
-    [
-      "path",
-      {
-        d: "M7 16.3c2.2 0 4-1.83 4-4.05 0-1.16-.57-2.26-1.71-3.19S7.29 6.75 7 5.3c-.29 1.45-1.14 2.84-2.29 3.76S3 11.1 3 12.25c0 2.22 1.8 4.05 4 4.05z",
-        key: "1ptgy4"
-      }
-    ],
-    [
-      "path",
-      {
-        d: "M12.56 6.6A10.97 10.97 0 0 0 14 3.02c.5 2.5 2 4.9 4 6.5s3 3.5 3 5.5a6.98 6.98 0 0 1-11.91 4.97",
-        key: "1sl1rz"
-      }
+  var __iconData17 = {
+    name: "droplets",
+    size: 24,
+    node: [
+      [
+        "path",
+        {
+          d: "M7 16.3c2.2 0 4-1.83 4-4.05 0-1.16-.57-2.26-1.71-3.19S7.29 6.75 7 5.3c-.29 1.45-1.14 2.84-2.29 3.76S3 11.1 3 12.25c0 2.22 1.8 4.05 4 4.05z",
+          key: "1ptgy4"
+        }
+      ],
+      [
+        "path",
+        {
+          d: "M12.56 6.6A10.97 10.97 0 0 0 14 3.02c.5 2.5 2 4.9 4 6.5s3 3.5 3 5.5a6.98 6.98 0 0 1-11.91 4.97",
+          key: "1sl1rz"
+        }
+      ]
     ]
-  ];
-  var Droplets = createLucideIcon("droplets", __iconNode17);
+  };
+  __iconData17.node;
+  var Droplets = createLucideIcon(__iconData17);
 
   // node_modules/lucide-react/dist/esm/icons/ellipsis.mjs
-  var __iconNode18 = [
-    ["circle", { cx: "12", cy: "12", r: "1", key: "41hilf" }],
-    ["circle", { cx: "19", cy: "12", r: "1", key: "1wjl8i" }],
-    ["circle", { cx: "5", cy: "12", r: "1", key: "1pcz8c" }]
-  ];
-  var Ellipsis = createLucideIcon("ellipsis", __iconNode18);
+  var __iconData18 = {
+    name: "ellipsis",
+    size: 24,
+    node: [
+      ["circle", { cx: "12", cy: "12", r: "1", key: "41hilf" }],
+      ["circle", { cx: "19", cy: "12", r: "1", key: "1wjl8i" }],
+      ["circle", { cx: "5", cy: "12", r: "1", key: "1pcz8c" }]
+    ],
+    aliases: ["more-horizontal"]
+  };
+  __iconData18.node;
+  var Ellipsis = createLucideIcon(__iconData18);
 
   // node_modules/lucide-react/dist/esm/icons/file-check-corner.mjs
-  var __iconNode19 = [
-    [
-      "path",
-      {
-        d: "M10.5 22H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.706.706l3.588 3.588A2.4 2.4 0 0 1 20 8v6",
-        key: "g5mvt7"
-      }
+  var __iconData19 = {
+    name: "file-check-corner",
+    size: 24,
+    node: [
+      [
+        "path",
+        {
+          d: "M10.5 22H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.706.706l3.588 3.588A2.4 2.4 0 0 1 20 8v6",
+          key: "g5mvt7"
+        }
+      ],
+      ["path", { d: "M14 2v5a1 1 0 0 0 1 1h5", key: "wfsgrz" }],
+      ["path", { d: "m14 20 2 2 4-4", key: "15kota" }]
     ],
-    ["path", { d: "M14 2v5a1 1 0 0 0 1 1h5", key: "wfsgrz" }],
-    ["path", { d: "m14 20 2 2 4-4", key: "15kota" }]
-  ];
-  var FileCheckCorner = createLucideIcon("file-check-corner", __iconNode19);
+    aliases: ["file-check-2"]
+  };
+  __iconData19.node;
+  var FileCheckCorner = createLucideIcon(__iconData19);
 
   // node_modules/lucide-react/dist/esm/icons/file-down.mjs
-  var __iconNode20 = [
-    [
-      "path",
-      {
-        d: "M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z",
-        key: "1oefj6"
-      }
-    ],
-    ["path", { d: "M14 2v5a1 1 0 0 0 1 1h5", key: "wfsgrz" }],
-    ["path", { d: "M12 18v-6", key: "17g6i2" }],
-    ["path", { d: "m9 15 3 3 3-3", key: "1npd3o" }]
-  ];
-  var FileDown = createLucideIcon("file-down", __iconNode20);
+  var __iconData20 = {
+    name: "file-down",
+    size: 24,
+    node: [
+      [
+        "path",
+        {
+          d: "M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z",
+          key: "1oefj6"
+        }
+      ],
+      ["path", { d: "M14 2v5a1 1 0 0 0 1 1h5", key: "wfsgrz" }],
+      ["path", { d: "M12 18v-6", key: "17g6i2" }],
+      ["path", { d: "m9 15 3 3 3-3", key: "1npd3o" }]
+    ]
+  };
+  __iconData20.node;
+  var FileDown = createLucideIcon(__iconData20);
 
   // node_modules/lucide-react/dist/esm/icons/file-output.mjs
-  var __iconNode21 = [
-    [
-      "path",
-      {
-        d: "M4.226 20.925A2 2 0 0 0 6 22h12a2 2 0 0 0 2-2V8a2.4 2.4 0 0 0-.706-1.706l-3.588-3.588A2.4 2.4 0 0 0 14 2H6a2 2 0 0 0-2 2v3.127",
-        key: "wfxp4w"
-      }
-    ],
-    ["path", { d: "M14 2v5a1 1 0 0 0 1 1h5", key: "wfsgrz" }],
-    ["path", { d: "m5 11-3 3", key: "1dgrs4" }],
-    ["path", { d: "m5 17-3-3h10", key: "1mvvaf" }]
-  ];
-  var FileOutput = createLucideIcon("file-output", __iconNode21);
-
-  // node_modules/lucide-react/dist/esm/icons/file-spreadsheet.mjs
-  var __iconNode22 = [
-    [
-      "path",
-      {
-        d: "M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z",
-        key: "1oefj6"
-      }
-    ],
-    ["path", { d: "M14 2v5a1 1 0 0 0 1 1h5", key: "wfsgrz" }],
-    ["path", { d: "M8 13h2", key: "yr2amv" }],
-    ["path", { d: "M14 13h2", key: "un5t4a" }],
-    ["path", { d: "M8 17h2", key: "2yhykz" }],
-    ["path", { d: "M14 17h2", key: "10kma7" }]
-  ];
-  var FileSpreadsheet = createLucideIcon("file-spreadsheet", __iconNode22);
+  var __iconData21 = {
+    name: "file-output",
+    size: 24,
+    node: [
+      [
+        "path",
+        {
+          d: "M4.226 20.925A2 2 0 0 0 6 22h12a2 2 0 0 0 2-2V8a2.4 2.4 0 0 0-.706-1.706l-3.588-3.588A2.4 2.4 0 0 0 14 2H6a2 2 0 0 0-2 2v3.127",
+          key: "wfxp4w"
+        }
+      ],
+      ["path", { d: "M14 2v5a1 1 0 0 0 1 1h5", key: "wfsgrz" }],
+      ["path", { d: "m5 11-3 3", key: "1dgrs4" }],
+      ["path", { d: "m5 17-3-3h10", key: "1mvvaf" }]
+    ]
+  };
+  __iconData21.node;
+  var FileOutput = createLucideIcon(__iconData21);
 
   // node_modules/lucide-react/dist/esm/icons/file-text.mjs
-  var __iconNode23 = [
-    [
-      "path",
-      {
-        d: "M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z",
-        key: "1oefj6"
-      }
-    ],
-    ["path", { d: "M14 2v5a1 1 0 0 0 1 1h5", key: "wfsgrz" }],
-    ["path", { d: "M10 9H8", key: "b1mrlr" }],
-    ["path", { d: "M16 13H8", key: "t4e002" }],
-    ["path", { d: "M16 17H8", key: "z1uh3a" }]
-  ];
-  var FileText = createLucideIcon("file-text", __iconNode23);
+  var __iconData22 = {
+    name: "file-text",
+    size: 24,
+    node: [
+      [
+        "path",
+        {
+          d: "M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z",
+          key: "1oefj6"
+        }
+      ],
+      ["path", { d: "M14 2v5a1 1 0 0 0 1 1h5", key: "wfsgrz" }],
+      ["path", { d: "M10 9H8", key: "b1mrlr" }],
+      ["path", { d: "M16 13H8", key: "t4e002" }],
+      ["path", { d: "M16 17H8", key: "z1uh3a" }]
+    ]
+  };
+  __iconData22.node;
+  var FileText = createLucideIcon(__iconData22);
 
   // node_modules/lucide-react/dist/esm/icons/file-type-corner.mjs
-  var __iconNode24 = [
-    [
-      "path",
-      {
-        d: "M12 22h6a2 2 0 0 0 2-2V8a2.4 2.4 0 0 0-.706-1.706l-3.588-3.588A2.4 2.4 0 0 0 14 2H6a2 2 0 0 0-2 2v6",
-        key: "15usau"
-      }
+  var __iconData23 = {
+    name: "file-type-corner",
+    size: 24,
+    node: [
+      [
+        "path",
+        {
+          d: "M12 22h6a2 2 0 0 0 2-2V8a2.4 2.4 0 0 0-.706-1.706l-3.588-3.588A2.4 2.4 0 0 0 14 2H6a2 2 0 0 0-2 2v6",
+          key: "15usau"
+        }
+      ],
+      ["path", { d: "M14 2v5a1 1 0 0 0 1 1h5", key: "wfsgrz" }],
+      ["path", { d: "M3 16v-1.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5V16", key: "s1gz5" }],
+      ["path", { d: "M6 22h2", key: "194x9m" }],
+      ["path", { d: "M7 14v8", key: "11ixej" }]
     ],
-    ["path", { d: "M14 2v5a1 1 0 0 0 1 1h5", key: "wfsgrz" }],
-    ["path", { d: "M3 16v-1.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5V16", key: "s1gz5" }],
-    ["path", { d: "M6 22h2", key: "194x9m" }],
-    ["path", { d: "M7 14v8", key: "11ixej" }]
-  ];
-  var FileTypeCorner = createLucideIcon("file-type-corner", __iconNode24);
+    aliases: ["file-type-2"]
+  };
+  __iconData23.node;
+  var FileTypeCorner = createLucideIcon(__iconData23);
 
   // node_modules/lucide-react/dist/esm/icons/folder-kanban.mjs
-  var __iconNode25 = [
-    [
-      "path",
-      {
-        d: "M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z",
-        key: "1fr9dc"
-      }
-    ],
-    ["path", { d: "M8 10v4", key: "tgpxqk" }],
-    ["path", { d: "M12 10v2", key: "hh53o1" }],
-    ["path", { d: "M16 10v6", key: "1d6xys" }]
-  ];
-  var FolderKanban = createLucideIcon("folder-kanban", __iconNode25);
+  var __iconData24 = {
+    name: "folder-kanban",
+    size: 24,
+    node: [
+      [
+        "path",
+        {
+          d: "M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z",
+          key: "1fr9dc"
+        }
+      ],
+      ["path", { d: "M8 10v4", key: "tgpxqk" }],
+      ["path", { d: "M12 10v2", key: "hh53o1" }],
+      ["path", { d: "M16 10v6", key: "1d6xys" }]
+    ]
+  };
+  __iconData24.node;
+  var FolderKanban = createLucideIcon(__iconData24);
 
   // node_modules/lucide-react/dist/esm/icons/funnel.mjs
-  var __iconNode26 = [
-    [
-      "path",
-      {
-        d: "M10 20a1 1 0 0 0 .553.895l2 1A1 1 0 0 0 14 21v-7a2 2 0 0 1 .517-1.341L21.74 4.67A1 1 0 0 0 21 3H3a1 1 0 0 0-.742 1.67l7.225 7.989A2 2 0 0 1 10 14z",
-        key: "sc7q7i"
-      }
-    ]
-  ];
-  var Funnel = createLucideIcon("funnel", __iconNode26);
+  var __iconData25 = {
+    name: "funnel",
+    size: 24,
+    node: [
+      [
+        "path",
+        {
+          d: "M10 20a1 1 0 0 0 .553.895l2 1A1 1 0 0 0 14 21v-7a2 2 0 0 1 .517-1.341L21.74 4.67A1 1 0 0 0 21 3H3a1 1 0 0 0-.742 1.67l7.225 7.989A2 2 0 0 1 10 14z",
+          key: "sc7q7i"
+        }
+      ]
+    ],
+    aliases: ["filter"]
+  };
+  __iconData25.node;
+  var Funnel = createLucideIcon(__iconData25);
 
   // node_modules/lucide-react/dist/esm/icons/inbox.mjs
-  var __iconNode27 = [
-    ["polyline", { points: "22 12 16 12 14 15 10 15 8 12 2 12", key: "o97t9d" }],
-    [
-      "path",
-      {
-        d: "M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z",
-        key: "oot6mr"
-      }
+  var __iconData26 = {
+    name: "inbox",
+    size: 24,
+    node: [
+      ["polyline", { points: "22 12 16 12 14 15 10 15 8 12 2 12", key: "o97t9d" }],
+      [
+        "path",
+        {
+          d: "M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z",
+          key: "oot6mr"
+        }
+      ]
     ]
-  ];
-  var Inbox = createLucideIcon("inbox", __iconNode27);
+  };
+  __iconData26.node;
+  var Inbox = createLucideIcon(__iconData26);
 
   // node_modules/lucide-react/dist/esm/icons/info.mjs
-  var __iconNode28 = [
-    ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
-    ["path", { d: "M12 16v-4", key: "1dtifu" }],
-    ["path", { d: "M12 8h.01", key: "e9boi3" }]
-  ];
-  var Info = createLucideIcon("info", __iconNode28);
+  var __iconData27 = {
+    name: "info",
+    size: 24,
+    node: [
+      ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
+      ["path", { d: "M12 16v-4", key: "1dtifu" }],
+      ["path", { d: "M12 8h.01", key: "e9boi3" }]
+    ]
+  };
+  __iconData27.node;
+  var Info = createLucideIcon(__iconData27);
 
   // node_modules/lucide-react/dist/esm/icons/key-round.mjs
-  var __iconNode29 = [
-    [
-      "path",
-      {
-        d: "M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z",
-        key: "1s6t7t"
-      }
-    ],
-    ["circle", { cx: "16.5", cy: "7.5", r: ".5", fill: "currentColor", key: "w0ekpg" }]
-  ];
-  var KeyRound = createLucideIcon("key-round", __iconNode29);
+  var __iconData28 = {
+    name: "key-round",
+    size: 24,
+    node: [
+      [
+        "path",
+        {
+          d: "M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z",
+          key: "1s6t7t"
+        }
+      ],
+      ["circle", { cx: "16.5", cy: "7.5", r: ".5", fill: "currentColor", key: "w0ekpg" }]
+    ]
+  };
+  __iconData28.node;
+  var KeyRound = createLucideIcon(__iconData28);
 
   // node_modules/lucide-react/dist/esm/icons/layers.mjs
-  var __iconNode30 = [
-    [
-      "path",
-      {
-        d: "M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z",
-        key: "zw3jo"
-      }
+  var __iconData29 = {
+    name: "layers",
+    size: 24,
+    node: [
+      [
+        "path",
+        {
+          d: "M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z",
+          key: "zw3jo"
+        }
+      ],
+      [
+        "path",
+        {
+          d: "M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12",
+          key: "1wduqc"
+        }
+      ],
+      [
+        "path",
+        {
+          d: "M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17",
+          key: "kqbvx6"
+        }
+      ]
     ],
-    [
-      "path",
-      {
-        d: "M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12",
-        key: "1wduqc"
-      }
-    ],
-    [
-      "path",
-      {
-        d: "M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17",
-        key: "kqbvx6"
-      }
-    ]
-  ];
-  var Layers = createLucideIcon("layers", __iconNode30);
+    aliases: ["layers-3"]
+  };
+  __iconData29.node;
+  var Layers = createLucideIcon(__iconData29);
 
   // node_modules/lucide-react/dist/esm/icons/layout-dashboard.mjs
-  var __iconNode31 = [
-    ["rect", { width: "7", height: "9", x: "3", y: "3", rx: "1", key: "10lvy0" }],
-    ["rect", { width: "7", height: "5", x: "14", y: "3", rx: "1", key: "16une8" }],
-    ["rect", { width: "7", height: "9", x: "14", y: "12", rx: "1", key: "1hutg5" }],
-    ["rect", { width: "7", height: "5", x: "3", y: "16", rx: "1", key: "ldoo1y" }]
-  ];
-  var LayoutDashboard = createLucideIcon("layout-dashboard", __iconNode31);
+  var __iconData30 = {
+    name: "layout-dashboard",
+    size: 24,
+    node: [
+      ["rect", { width: "7", height: "9", x: "3", y: "3", rx: "1", key: "10lvy0" }],
+      ["rect", { width: "7", height: "5", x: "14", y: "3", rx: "1", key: "16une8" }],
+      ["rect", { width: "7", height: "9", x: "14", y: "12", rx: "1", key: "1hutg5" }],
+      ["rect", { width: "7", height: "5", x: "3", y: "16", rx: "1", key: "ldoo1y" }]
+    ]
+  };
+  __iconData30.node;
+  var LayoutDashboard = createLucideIcon(__iconData30);
 
   // node_modules/lucide-react/dist/esm/icons/link-2.mjs
-  var __iconNode32 = [
-    ["path", { d: "M9 17H7A5 5 0 0 1 7 7h2", key: "8i5ue5" }],
-    ["path", { d: "M15 7h2a5 5 0 1 1 0 10h-2", key: "1b9ql8" }],
-    ["line", { x1: "8", x2: "16", y1: "12", y2: "12", key: "1jonct" }]
-  ];
-  var Link2 = createLucideIcon("link-2", __iconNode32);
+  var __iconData31 = {
+    name: "link-2",
+    size: 24,
+    node: [
+      ["path", { d: "M9 17H7A5 5 0 0 1 7 7h2", key: "8i5ue5" }],
+      ["path", { d: "M15 7h2a5 5 0 1 1 0 10h-2", key: "1b9ql8" }],
+      ["line", { x1: "8", x2: "16", y1: "12", y2: "12", key: "1jonct" }]
+    ]
+  };
+  __iconData31.node;
+  var Link2 = createLucideIcon(__iconData31);
 
   // node_modules/lucide-react/dist/esm/icons/list-checks.mjs
-  var __iconNode33 = [
-    ["path", { d: "M13 5h8", key: "a7qcls" }],
-    ["path", { d: "M13 12h8", key: "h98zly" }],
-    ["path", { d: "M13 19h8", key: "c3s6r1" }],
-    ["path", { d: "m3 17 2 2 4-4", key: "1jhpwq" }],
-    ["path", { d: "m3 7 2 2 4-4", key: "1obspn" }]
-  ];
-  var ListChecks = createLucideIcon("list-checks", __iconNode33);
+  var __iconData32 = {
+    name: "list-checks",
+    size: 24,
+    node: [
+      ["path", { d: "M13 5h8", key: "a7qcls" }],
+      ["path", { d: "M13 12h8", key: "h98zly" }],
+      ["path", { d: "M13 19h8", key: "c3s6r1" }],
+      ["path", { d: "m3 17 2 2 4-4", key: "1jhpwq" }],
+      ["path", { d: "m3 7 2 2 4-4", key: "1obspn" }]
+    ]
+  };
+  __iconData32.node;
+  var ListChecks = createLucideIcon(__iconData32);
 
   // node_modules/lucide-react/dist/esm/icons/loader-circle.mjs
-  var __iconNode34 = [["path", { d: "M21 12a9 9 0 1 1-6.219-8.56", key: "13zald" }]];
-  var LoaderCircle = createLucideIcon("loader-circle", __iconNode34);
+  var __iconData33 = {
+    name: "loader-circle",
+    size: 24,
+    node: [["path", { d: "M21 12a9 9 0 1 1-6.219-8.56", key: "13zald" }]],
+    aliases: ["loader-2"]
+  };
+  __iconData33.node;
+  var LoaderCircle = createLucideIcon(__iconData33);
 
   // node_modules/lucide-react/dist/esm/icons/log-out.mjs
-  var __iconNode35 = [
-    ["path", { d: "m16 17 5-5-5-5", key: "1bji2h" }],
-    ["path", { d: "M21 12H9", key: "dn1m92" }],
-    ["path", { d: "M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4", key: "1uf3rs" }]
-  ];
-  var LogOut = createLucideIcon("log-out", __iconNode35);
+  var __iconData34 = {
+    name: "log-out",
+    size: 24,
+    node: [
+      ["path", { d: "m16 17 5-5-5-5", key: "1bji2h" }],
+      ["path", { d: "M21 12H9", key: "dn1m92" }],
+      ["path", { d: "M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4", key: "1uf3rs" }]
+    ]
+  };
+  __iconData34.node;
+  var LogOut = createLucideIcon(__iconData34);
 
   // node_modules/lucide-react/dist/esm/icons/mail.mjs
-  var __iconNode36 = [
-    ["path", { d: "m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7", key: "132q7q" }],
-    ["rect", { x: "2", y: "4", width: "20", height: "16", rx: "2", key: "izxlao" }]
-  ];
-  var Mail = createLucideIcon("mail", __iconNode36);
+  var __iconData35 = {
+    name: "mail",
+    size: 24,
+    node: [
+      ["path", { d: "m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7", key: "132q7q" }],
+      ["rect", { x: "2", y: "4", width: "20", height: "16", rx: "2", key: "izxlao" }]
+    ]
+  };
+  __iconData35.node;
+  var Mail = createLucideIcon(__iconData35);
 
   // node_modules/lucide-react/dist/esm/icons/map-pin.mjs
-  var __iconNode37 = [
-    [
-      "path",
-      {
-        d: "M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0",
-        key: "1r0f0z"
-      }
-    ],
-    ["circle", { cx: "12", cy: "10", r: "3", key: "ilqhr7" }]
-  ];
-  var MapPin = createLucideIcon("map-pin", __iconNode37);
+  var __iconData36 = {
+    name: "map-pin",
+    size: 24,
+    node: [
+      [
+        "path",
+        {
+          d: "M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0",
+          key: "1r0f0z"
+        }
+      ],
+      ["circle", { cx: "12", cy: "10", r: "3", key: "ilqhr7" }]
+    ]
+  };
+  __iconData36.node;
+  var MapPin = createLucideIcon(__iconData36);
 
   // node_modules/lucide-react/dist/esm/icons/paperclip.mjs
-  var __iconNode38 = [
-    [
-      "path",
-      {
-        d: "m16 6-8.414 8.586a2 2 0 0 0 2.829 2.829l8.414-8.586a4 4 0 1 0-5.657-5.657l-8.379 8.551a6 6 0 1 0 8.485 8.485l8.379-8.551",
-        key: "1miecu"
-      }
+  var __iconData37 = {
+    name: "paperclip",
+    size: 24,
+    node: [
+      [
+        "path",
+        {
+          d: "m16 6-8.414 8.586a2 2 0 0 0 2.829 2.829l8.414-8.586a4 4 0 1 0-5.657-5.657l-8.379 8.551a6 6 0 1 0 8.485 8.485l8.379-8.551",
+          key: "1miecu"
+        }
+      ]
     ]
-  ];
-  var Paperclip = createLucideIcon("paperclip", __iconNode38);
+  };
+  __iconData37.node;
+  var Paperclip = createLucideIcon(__iconData37);
 
   // node_modules/lucide-react/dist/esm/icons/pencil.mjs
-  var __iconNode39 = [
-    [
-      "path",
-      {
-        d: "M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z",
-        key: "1a8usu"
-      }
-    ],
-    ["path", { d: "m15 5 4 4", key: "1mk7zo" }]
-  ];
-  var Pencil = createLucideIcon("pencil", __iconNode39);
+  var __iconData38 = {
+    name: "pencil",
+    size: 24,
+    node: [
+      [
+        "path",
+        {
+          d: "M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z",
+          key: "1a8usu"
+        }
+      ],
+      ["path", { d: "m15 5 4 4", key: "1mk7zo" }]
+    ]
+  };
+  __iconData38.node;
+  var Pencil = createLucideIcon(__iconData38);
 
   // node_modules/lucide-react/dist/esm/icons/play.mjs
-  var __iconNode40 = [
-    [
-      "path",
-      {
-        d: "M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z",
-        key: "10ikf1"
-      }
+  var __iconData39 = {
+    name: "play",
+    size: 24,
+    node: [
+      [
+        "path",
+        {
+          d: "M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z",
+          key: "10ikf1"
+        }
+      ]
     ]
-  ];
-  var Play = createLucideIcon("play", __iconNode40);
+  };
+  __iconData39.node;
+  var Play = createLucideIcon(__iconData39);
 
   // node_modules/lucide-react/dist/esm/icons/plus.mjs
-  var __iconNode41 = [
-    ["path", { d: "M5 12h14", key: "1ays0h" }],
-    ["path", { d: "M12 5v14", key: "s699le" }]
-  ];
-  var Plus = createLucideIcon("plus", __iconNode41);
+  var __iconData40 = {
+    name: "plus",
+    size: 24,
+    node: [
+      ["path", { d: "M5 12h14", key: "1ays0h" }],
+      ["path", { d: "M12 5v14", key: "s699le" }]
+    ]
+  };
+  __iconData40.node;
+  var Plus = createLucideIcon(__iconData40);
 
   // node_modules/lucide-react/dist/esm/icons/refresh-cw.mjs
-  var __iconNode42 = [
-    ["path", { d: "M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8", key: "v9h5vc" }],
-    ["path", { d: "M21 3v5h-5", key: "1q7to0" }],
-    ["path", { d: "M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16", key: "3uifl3" }],
-    ["path", { d: "M8 16H3v5", key: "1cv678" }]
-  ];
-  var RefreshCw = createLucideIcon("refresh-cw", __iconNode42);
+  var __iconData41 = {
+    name: "refresh-cw",
+    size: 24,
+    node: [
+      ["path", { d: "M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8", key: "v9h5vc" }],
+      ["path", { d: "M21 3v5h-5", key: "1q7to0" }],
+      ["path", { d: "M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16", key: "3uifl3" }],
+      ["path", { d: "M8 16H3v5", key: "1cv678" }]
+    ]
+  };
+  __iconData41.node;
+  var RefreshCw = createLucideIcon(__iconData41);
 
   // node_modules/lucide-react/dist/esm/icons/settings.mjs
-  var __iconNode43 = [
-    [
-      "path",
-      {
-        d: "M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915",
-        key: "1i5ecw"
-      }
-    ],
-    ["circle", { cx: "12", cy: "12", r: "3", key: "1v7zrd" }]
-  ];
-  var Settings = createLucideIcon("settings", __iconNode43);
+  var __iconData42 = {
+    name: "settings",
+    size: 24,
+    node: [
+      [
+        "path",
+        {
+          d: "M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915",
+          key: "1i5ecw"
+        }
+      ],
+      ["circle", { cx: "12", cy: "12", r: "3", key: "1v7zrd" }]
+    ]
+  };
+  __iconData42.node;
+  var Settings = createLucideIcon(__iconData42);
 
   // node_modules/lucide-react/dist/esm/icons/shield-check.mjs
-  var __iconNode44 = [
-    [
-      "path",
-      {
-        d: "M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z",
-        key: "oel41y"
-      }
-    ],
-    ["path", { d: "m9 12 2 2 4-4", key: "dzmm74" }]
-  ];
-  var ShieldCheck = createLucideIcon("shield-check", __iconNode44);
+  var __iconData43 = {
+    name: "shield-check",
+    size: 24,
+    node: [
+      [
+        "path",
+        {
+          d: "M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z",
+          key: "oel41y"
+        }
+      ],
+      ["path", { d: "m9 12 2 2 4-4", key: "dzmm74" }]
+    ]
+  };
+  __iconData43.node;
+  var ShieldCheck = createLucideIcon(__iconData43);
 
   // node_modules/lucide-react/dist/esm/icons/sigma.mjs
-  var __iconNode45 = [
-    [
-      "path",
-      {
-        d: "M18 7V5a1 1 0 0 0-1-1H6.5a.5.5 0 0 0-.4.8l4.5 6a2 2 0 0 1 0 2.4l-4.5 6a.5.5 0 0 0 .4.8H17a1 1 0 0 0 1-1v-2",
-        key: "wuwx1p"
-      }
+  var __iconData44 = {
+    name: "sigma",
+    size: 24,
+    node: [
+      [
+        "path",
+        {
+          d: "M18 7V5a1 1 0 0 0-1-1H6.5a.5.5 0 0 0-.4.8l4.5 6a2 2 0 0 1 0 2.4l-4.5 6a.5.5 0 0 0 .4.8H17a1 1 0 0 0 1-1v-2",
+          key: "wuwx1p"
+        }
+      ]
     ]
-  ];
-  var Sigma = createLucideIcon("sigma", __iconNode45);
+  };
+  __iconData44.node;
+  var Sigma = createLucideIcon(__iconData44);
 
   // node_modules/lucide-react/dist/esm/icons/sparkles.mjs
-  var __iconNode46 = [
-    [
-      "path",
-      {
-        d: "M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z",
-        key: "1s2grr"
-      }
+  var __iconData45 = {
+    name: "sparkles",
+    size: 24,
+    node: [
+      [
+        "path",
+        {
+          d: "M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z",
+          key: "1s2grr"
+        }
+      ],
+      ["path", { d: "M20 2v4", key: "1rf3ol" }],
+      ["path", { d: "M22 4h-4", key: "gwowj6" }],
+      ["circle", { cx: "4", cy: "20", r: "2", key: "6kqj1y" }]
     ],
-    ["path", { d: "M20 2v4", key: "1rf3ol" }],
-    ["path", { d: "M22 4h-4", key: "gwowj6" }],
-    ["circle", { cx: "4", cy: "20", r: "2", key: "6kqj1y" }]
-  ];
-  var Sparkles = createLucideIcon("sparkles", __iconNode46);
+    aliases: ["stars"]
+  };
+  __iconData45.node;
+  var Sparkles = createLucideIcon(__iconData45);
 
   // node_modules/lucide-react/dist/esm/icons/sun.mjs
-  var __iconNode47 = [
-    ["circle", { cx: "12", cy: "12", r: "4", key: "4exip2" }],
-    ["path", { d: "M12 2v2", key: "tus03m" }],
-    ["path", { d: "M12 20v2", key: "1lh1kg" }],
-    ["path", { d: "m4.93 4.93 1.41 1.41", key: "149t6j" }],
-    ["path", { d: "m17.66 17.66 1.41 1.41", key: "ptbguv" }],
-    ["path", { d: "M2 12h2", key: "1t8f8n" }],
-    ["path", { d: "M20 12h2", key: "1q8mjw" }],
-    ["path", { d: "m6.34 17.66-1.41 1.41", key: "1m8zz5" }],
-    ["path", { d: "m19.07 4.93-1.41 1.41", key: "1shlcs" }]
-  ];
-  var Sun = createLucideIcon("sun", __iconNode47);
+  var __iconData46 = {
+    name: "sun",
+    size: 24,
+    node: [
+      ["circle", { cx: "12", cy: "12", r: "4", key: "4exip2" }],
+      ["path", { d: "M12 2v2", key: "tus03m" }],
+      ["path", { d: "M12 20v2", key: "1lh1kg" }],
+      ["path", { d: "m4.93 4.93 1.41 1.41", key: "149t6j" }],
+      ["path", { d: "m17.66 17.66 1.41 1.41", key: "ptbguv" }],
+      ["path", { d: "M2 12h2", key: "1t8f8n" }],
+      ["path", { d: "M20 12h2", key: "1q8mjw" }],
+      ["path", { d: "m6.34 17.66-1.41 1.41", key: "1m8zz5" }],
+      ["path", { d: "m19.07 4.93-1.41 1.41", key: "1shlcs" }]
+    ]
+  };
+  __iconData46.node;
+  var Sun = createLucideIcon(__iconData46);
 
   // node_modules/lucide-react/dist/esm/icons/thermometer.mjs
-  var __iconNode48 = [
-    ["path", { d: "M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0Z", key: "17jzev" }]
-  ];
-  var Thermometer = createLucideIcon("thermometer", __iconNode48);
-
-  // node_modules/lucide-react/dist/esm/icons/toggle-right.mjs
-  var __iconNode49 = [
-    ["circle", { cx: "15", cy: "12", r: "3", key: "1afu0r" }],
-    ["rect", { width: "20", height: "14", x: "2", y: "5", rx: "7", key: "g7kal2" }]
-  ];
-  var ToggleRight = createLucideIcon("toggle-right", __iconNode49);
+  var __iconData47 = {
+    name: "thermometer",
+    size: 24,
+    node: [["path", { d: "M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0Z", key: "17jzev" }]]
+  };
+  __iconData47.node;
+  var Thermometer = createLucideIcon(__iconData47);
 
   // node_modules/lucide-react/dist/esm/icons/toggle-left.mjs
-  var __iconNode50 = [
-    ["circle", { cx: "9", cy: "12", r: "3", key: "u3jwor" }],
-    ["rect", { width: "20", height: "14", x: "2", y: "5", rx: "7", key: "g7kal2" }]
-  ];
-  var ToggleLeft = createLucideIcon("toggle-left", __iconNode50);
+  var __iconData48 = {
+    name: "toggle-left",
+    size: 24,
+    node: [
+      ["circle", { cx: "9", cy: "12", r: "3", key: "u3jwor" }],
+      ["rect", { width: "20", height: "14", x: "2", y: "5", rx: "7", key: "g7kal2" }]
+    ]
+  };
+  __iconData48.node;
+  var ToggleLeft = createLucideIcon(__iconData48);
 
-  // node_modules/lucide-react/dist/esm/icons/trash-2.mjs
-  var __iconNode51 = [
-    ["path", { d: "M10 11v6", key: "nco0om" }],
-    ["path", { d: "M14 11v6", key: "outv1u" }],
-    ["path", { d: "M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6", key: "miytrc" }],
-    ["path", { d: "M3 6h18", key: "d0wm0j" }],
-    ["path", { d: "M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2", key: "e791ji" }]
-  ];
-  var Trash2 = createLucideIcon("trash-2", __iconNode51);
+  // node_modules/lucide-react/dist/esm/icons/toggle-right.mjs
+  var __iconData49 = {
+    name: "toggle-right",
+    size: 24,
+    node: [
+      ["circle", { cx: "15", cy: "12", r: "3", key: "1afu0r" }],
+      ["rect", { width: "20", height: "14", x: "2", y: "5", rx: "7", key: "g7kal2" }]
+    ]
+  };
+  __iconData49.node;
+  var ToggleRight = createLucideIcon(__iconData49);
+
+  // node_modules/lucide-react/dist/esm/icons/trash.mjs
+  var __iconData50 = {
+    name: "trash",
+    size: 24,
+    node: [
+      ["path", { d: "M10 11v6", key: "nco0om" }],
+      ["path", { d: "M14 11v6", key: "outv1u" }],
+      ["path", { d: "M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6", key: "miytrc" }],
+      ["path", { d: "M3 6h18", key: "d0wm0j" }],
+      ["path", { d: "M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2", key: "e791ji" }]
+    ],
+    aliases: ["trash-2"]
+  };
+  __iconData50.node;
+  var Trash = createLucideIcon(__iconData50);
 
   // node_modules/lucide-react/dist/esm/icons/trending-up.mjs
-  var __iconNode52 = [
-    ["path", { d: "M16 7h6v6", key: "box55l" }],
-    ["path", { d: "m22 7-8.5 8.5-5-5L2 17", key: "1t1m79" }]
-  ];
-  var TrendingUp = createLucideIcon("trending-up", __iconNode52);
+  var __iconData51 = {
+    name: "trending-up",
+    size: 24,
+    node: [
+      ["path", { d: "M16 7h6v6", key: "box55l" }],
+      ["path", { d: "m22 7-8.5 8.5-5-5L2 17", key: "1t1m79" }]
+    ]
+  };
+  __iconData51.node;
+  var TrendingUp = createLucideIcon(__iconData51);
 
   // node_modules/lucide-react/dist/esm/icons/triangle-alert.mjs
-  var __iconNode53 = [
-    [
-      "path",
-      {
-        d: "m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3",
-        key: "wmoenq"
-      }
+  var __iconData52 = {
+    name: "triangle-alert",
+    size: 24,
+    node: [
+      [
+        "path",
+        {
+          d: "m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3",
+          key: "wmoenq"
+        }
+      ],
+      ["path", { d: "M12 9v4", key: "juzpu7" }],
+      ["path", { d: "M12 17h.01", key: "p32p05" }]
     ],
-    ["path", { d: "M12 9v4", key: "juzpu7" }],
-    ["path", { d: "M12 17h.01", key: "p32p05" }]
-  ];
-  var TriangleAlert = createLucideIcon("triangle-alert", __iconNode53);
+    aliases: ["alert-triangle"]
+  };
+  __iconData52.node;
+  var TriangleAlert = createLucideIcon(__iconData52);
 
   // node_modules/lucide-react/dist/esm/icons/upload.mjs
-  var __iconNode54 = [
-    ["path", { d: "M12 3v12", key: "1x0j5s" }],
-    ["path", { d: "m17 8-5-5-5 5", key: "7q97r8" }],
-    ["path", { d: "M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4", key: "ih7n3h" }]
-  ];
-  var Upload = createLucideIcon("upload", __iconNode54);
+  var __iconData53 = {
+    name: "upload",
+    size: 24,
+    node: [
+      ["path", { d: "M12 3v12", key: "1x0j5s" }],
+      ["path", { d: "m17 8-5-5-5 5", key: "7q97r8" }],
+      ["path", { d: "M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4", key: "ih7n3h" }]
+    ]
+  };
+  __iconData53.node;
+  var Upload = createLucideIcon(__iconData53);
 
   // node_modules/lucide-react/dist/esm/icons/user.mjs
-  var __iconNode55 = [
-    ["path", { d: "M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2", key: "975kel" }],
-    ["circle", { cx: "12", cy: "7", r: "4", key: "17ys0d" }]
-  ];
-  var User = createLucideIcon("user", __iconNode55);
+  var __iconData54 = {
+    name: "user",
+    size: 24,
+    node: [
+      ["path", { d: "M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2", key: "975kel" }],
+      ["circle", { cx: "12", cy: "7", r: "4", key: "17ys0d" }]
+    ]
+  };
+  __iconData54.node;
+  var User = createLucideIcon(__iconData54);
 
   // node_modules/lucide-react/dist/esm/icons/users.mjs
-  var __iconNode56 = [
-    ["path", { d: "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2", key: "1yyitq" }],
-    ["path", { d: "M16 3.128a4 4 0 0 1 0 7.744", key: "16gr8j" }],
-    ["path", { d: "M22 21v-2a4 4 0 0 0-3-3.87", key: "kshegd" }],
-    ["circle", { cx: "9", cy: "7", r: "4", key: "nufk8" }]
-  ];
-  var Users = createLucideIcon("users", __iconNode56);
+  var __iconData55 = {
+    name: "users",
+    size: 24,
+    node: [
+      ["path", { d: "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2", key: "1yyitq" }],
+      ["path", { d: "M16 3.128a4 4 0 0 1 0 7.744", key: "16gr8j" }],
+      ["path", { d: "M22 21v-2a4 4 0 0 0-3-3.87", key: "kshegd" }],
+      ["circle", { cx: "9", cy: "7", r: "4", key: "nufk8" }]
+    ]
+  };
+  __iconData55.node;
+  var Users = createLucideIcon(__iconData55);
 
   // node_modules/lucide-react/dist/esm/icons/wand-sparkles.mjs
-  var __iconNode57 = [
-    [
-      "path",
-      {
-        d: "m21.64 3.64-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.2 1.2 0 0 0 1.72 0L21.64 5.36a1.2 1.2 0 0 0 0-1.72",
-        key: "ul74o6"
-      }
+  var __iconData56 = {
+    name: "wand-sparkles",
+    size: 24,
+    node: [
+      [
+        "path",
+        {
+          d: "m21.64 3.64-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.2 1.2 0 0 0 1.72 0L21.64 5.36a1.2 1.2 0 0 0 0-1.72",
+          key: "ul74o6"
+        }
+      ],
+      ["path", { d: "m14 7 3 3", key: "1r5n42" }],
+      ["path", { d: "M5 6v4", key: "ilb8ba" }],
+      ["path", { d: "M19 14v4", key: "blhpug" }],
+      ["path", { d: "M10 2v2", key: "7u0qdc" }],
+      ["path", { d: "M7 8H3", key: "zfb6yr" }],
+      ["path", { d: "M21 16h-4", key: "1cnmox" }],
+      ["path", { d: "M11 3H9", key: "1obp7u" }]
     ],
-    ["path", { d: "m14 7 3 3", key: "1r5n42" }],
-    ["path", { d: "M5 6v4", key: "ilb8ba" }],
-    ["path", { d: "M19 14v4", key: "blhpug" }],
-    ["path", { d: "M10 2v2", key: "7u0qdc" }],
-    ["path", { d: "M7 8H3", key: "zfb6yr" }],
-    ["path", { d: "M21 16h-4", key: "1cnmox" }],
-    ["path", { d: "M11 3H9", key: "1obp7u" }]
-  ];
-  var WandSparkles = createLucideIcon("wand-sparkles", __iconNode57);
+    aliases: ["wand-2"]
+  };
+  __iconData56.node;
+  var WandSparkles = createLucideIcon(__iconData56);
 
   // node_modules/lucide-react/dist/esm/icons/x.mjs
-  var __iconNode58 = [
-    ["path", { d: "M18 6 6 18", key: "1bl5f8" }],
-    ["path", { d: "m6 6 12 12", key: "d8bk6v" }]
-  ];
-  var X = createLucideIcon("x", __iconNode58);
+  var __iconData57 = {
+    name: "x",
+    size: 24,
+    node: [
+      ["path", { d: "M18 6 6 18", key: "1bl5f8" }],
+      ["path", { d: "m6 6 12 12", key: "d8bk6v" }]
+    ]
+  };
+  __iconData57.node;
+  var X = createLucideIcon(__iconData57);
 
   // src/Dashboard.jsx
   var import_react71 = __toESM(require_react());
@@ -24666,12 +25069,21 @@
     return String(value);
   }
 
+  // node_modules/es-toolkit/dist/compat/predicate/isSymbol.mjs
+  function isSymbol(value) {
+    return typeof value === "symbol" || value instanceof Symbol;
+  }
+
   // node_modules/es-toolkit/dist/compat/util/toString.mjs
   function toString(value) {
     if (value == null) return "";
+    return baseToString(value);
+  }
+  function baseToString(value) {
     if (typeof value === "string") return value;
-    if (Array.isArray(value)) return value.map(toString).join(",");
-    const result = String(value);
+    if (Array.isArray(value)) return value.map(baseToString).join(",");
+    if (isSymbol(value)) return value.toString();
+    const result = value + "";
     if (result === "0" && Object.is(Number(value), -0)) return "-0";
     return result;
   }
@@ -24688,6 +25100,8 @@
     let key = "";
     let quoteChar = "";
     let bracket = false;
+    let bracketHadQuote = false;
+    const bracketNumberRegex = /^-?\d+(?:\.\d+)?$/;
     if (deepKey.charCodeAt(0) === 46) result.push("");
     while (index < length) {
       const char = deepKey[index];
@@ -24696,14 +25110,20 @@
         key += deepKey[index];
       } else if (char === quoteChar) quoteChar = "";
       else key += char;
-      else if (bracket) if (char === '"' || char === "'") quoteChar = char;
-      else if (char === "]") {
+      else if (bracket) if (char === '"' || char === "'") {
+        quoteChar = char;
+        bracketHadQuote = true;
+      } else if (char === "]") {
         bracket = false;
-        result.push(key);
+        if (!bracketHadQuote && key.includes(".") && !bracketNumberRegex.test(key)) {
+          const segments = key.split(".");
+          for (let i = 0; i < segments.length; i++) if (segments[i] !== "") result.push(segments[i]);
+        } else result.push(key);
         key = "";
       } else key += char;
       else if (char === "[") {
         bracket = true;
+        bracketHadQuote = false;
         if (key) {
           result.push(key);
           key = "";
@@ -26554,6 +26974,16 @@
     return x2;
   }
 
+  // node_modules/es-toolkit/dist/predicate/isLength.mjs
+  function isLength(value) {
+    return Number.isSafeInteger(value) && value >= 0;
+  }
+
+  // node_modules/es-toolkit/dist/compat/predicate/isArrayLike.mjs
+  function isArrayLike(value) {
+    return value != null && typeof value !== "function" && isLength(value.length);
+  }
+
   // node_modules/es-toolkit/dist/compat/object/property.mjs
   function property(path2) {
     return function(object) {
@@ -26784,7 +27214,7 @@
     if (source === target) return true;
     switch (typeof source) {
       case "object":
-        return isObjectMatch(target, source, compare, stack);
+        return isObjectMatch(target, source, compare, stack, isRoot);
       case "function":
         if (Object.keys(source).length > 0) return isMatchWithInternal(target, { ...source }, compare, stack, isRoot);
         return eq(target, source);
@@ -26797,20 +27227,26 @@
         return eq(target, source);
     }
   }
-  function isObjectMatch(target, source, compare, stack) {
+  function isObjectMatch(target, source, compare, stack, isRoot = false) {
     if (source == null) return true;
     if (Array.isArray(source)) return isArrayMatch(target, source, compare, stack);
     if (source instanceof Map) return isMapMatch(target, source, compare, stack);
     if (source instanceof Set) return isSetMatch(target, source, compare, stack);
     const keys2 = Object.keys(source);
-    if (target == null || isPrimitive(target)) return keys2.length === 0;
+    if (target == null) return isRoot && keys2.length === 0;
+    if (isRoot) {
+      if (isPrimitive(target)) target = Object(target);
+    } else {
+      const tag = getTag(target);
+      if (tag !== "[object Object]" && tag !== "[object Arguments]") return false;
+    }
     if (keys2.length === 0) return true;
     if (stack?.has(source)) return stack.get(source) === target;
     stack?.set(source, target);
     try {
       for (let i = 0; i < keys2.length; i++) {
         const key = keys2[i];
-        if (!isPrimitive(target) && !(key in target)) return false;
+        if (!(key in target)) return false;
         if (source[key] === void 0 && target[key] !== void 0) return false;
         if (source[key] === null && target[key] !== null) return false;
         if (!compare(target[key], source[key], key, target, source, stack)) return false;
@@ -26932,9 +27368,9 @@
     if (resolvedPath.length === 0) return false;
     let current2 = object;
     for (let i = 0; i < resolvedPath.length; i++) {
-      const key = resolvedPath[i];
+      const key = toKey(resolvedPath[i]);
       if (current2 == null || !Object.hasOwn(current2, key)) {
-        if (!((Array.isArray(current2) || isArguments(current2)) && isIndex(key) && key < current2.length)) return false;
+        if (!((Array.isArray(current2) || isArguments(current2)) && isIndex(key) && Number(key) < current2.length)) return false;
       }
       current2 = current2[key];
     }
@@ -26969,37 +27405,20 @@
       case "object":
         if (Array.isArray(value) && value.length === 2) return matchesProperty(value[0], value[1]);
         return matches(value);
-      case "string":
-      case "symbol":
-      case "number":
+      default:
         return property(value);
     }
   }
 
-  // node_modules/es-toolkit/dist/predicate/isLength.mjs
-  function isLength(value) {
-    return Number.isSafeInteger(value) && value >= 0;
-  }
-
-  // node_modules/es-toolkit/dist/compat/predicate/isArrayLike.mjs
-  function isArrayLike(value) {
-    return value != null && typeof value !== "function" && isLength(value.length);
-  }
-
-  // node_modules/es-toolkit/dist/compat/predicate/isObjectLike.mjs
-  function isObjectLike(value) {
-    return typeof value === "object" && value !== null;
-  }
-
-  // node_modules/es-toolkit/dist/compat/predicate/isArrayLikeObject.mjs
-  function isArrayLikeObject(value) {
-    return isObjectLike(value) && isArrayLike(value);
+  // node_modules/es-toolkit/dist/compat/_internal/normalizeZero.mjs
+  function normalizeZero(value) {
+    return value === 0 ? 0 : value;
   }
 
   // node_modules/es-toolkit/dist/compat/array/uniqBy.mjs
   function uniqBy2(array, iteratee$1 = identity) {
-    if (!isArrayLikeObject(array)) return [];
-    return uniqBy(Array.from(array), ary(iteratee(iteratee$1), 1));
+    if (!isArrayLike(array)) return [];
+    return uniqBy(Array.from(array), ary(iteratee(iteratee$1), 1)).map(normalizeZero);
   }
 
   // node_modules/recharts/es6/util/payload/getUniqPayload.js
@@ -27382,11 +27801,6 @@
     return 0;
   };
 
-  // node_modules/es-toolkit/dist/compat/predicate/isSymbol.mjs
-  function isSymbol(value) {
-    return typeof value === "symbol" || value instanceof Symbol;
-  }
-
   // node_modules/es-toolkit/dist/compat/_internal/isKey.mjs
   var regexIsDeepProp2 = /\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\\]|\\.)*?\1)\]/;
   var regexIsPlainProp = /^\w*$/;
@@ -27400,26 +27814,27 @@
   function orderBy(collection, criteria, orders, guard) {
     if (collection == null) return [];
     orders = guard ? void 0 : orders;
-    if (!Array.isArray(collection)) collection = Object.values(collection);
+    if (!Array.isArray(collection)) collection = isArrayLike(collection) ? Array.from(collection) : Object.values(collection);
     if (!Array.isArray(criteria)) criteria = criteria == null ? [null] : [criteria];
     if (criteria.length === 0) criteria = [null];
     if (!Array.isArray(orders)) orders = orders == null ? [] : [orders];
     orders = orders.map((order) => String(order));
     const getValueByNestedPath = (object, path2) => {
       let target = object;
-      for (let i = 0; i < path2.length && target != null; ++i) target = target[path2[i]];
-      return target;
+      let index = 0;
+      for (; index < path2.length && target != null; ++index) target = target[path2[index]];
+      return index > 0 && index === path2.length ? target : void 0;
     };
     const getValueByCriterion = (criterion, object) => {
-      if (object == null || criterion == null) return object;
+      if (criterion == null) return object;
+      if (object == null) return;
       if (typeof criterion === "object" && "key" in criterion) {
         if (Object.hasOwn(object, criterion.key)) return object[criterion.key];
         return getValueByNestedPath(object, criterion.path);
       }
       if (typeof criterion === "function") return criterion(object);
       if (Array.isArray(criterion)) return getValueByNestedPath(object, criterion);
-      if (typeof object === "object") return object[criterion];
-      return object;
+      return object[criterion];
     };
     const preparedCriteria = criteria.map((criterion) => {
       if (Array.isArray(criterion) && criterion.length === 1) criterion = criterion[0];
@@ -28731,6 +29146,8 @@
     }
     return copy3;
   }
+  var _globalIterator = globalThis.Iterator;
+  var hasIteratorFrom = typeof _globalIterator?.from === "function";
   var immer = new Immer2();
   var produce = immer.produce;
   var castDraft = (value) => value;
@@ -31054,7 +31471,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       if (maxWait != null) {
         if (pendingAt === null) pendingAt = Date.now();
         if (Date.now() - pendingAt >= maxWait) {
-          result = func.apply(this, args);
+          if (leading || trailing) result = func.apply(this, args);
           pendingAt = Date.now();
           _debounced.cancel();
           _debounced.schedule();
@@ -51616,14 +52033,6 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   };
 
   // node_modules/@supabase/postgrest-js/dist/index.mjs
-  var DEFAULT_MAX_RETRIES = 3;
-  var getRetryDelay = (attemptIndex) => Math.min(1e3 * 2 ** attemptIndex, 3e4);
-  var RETRYABLE_STATUS_CODES = [520, 503];
-  var RETRYABLE_METHODS = [
-    "GET",
-    "HEAD",
-    "OPTIONS"
-  ];
   var PostgrestError = class extends Error {
     /**
     * @example
@@ -51655,6 +52064,14 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       };
     }
   };
+  var DEFAULT_MAX_RETRIES = 3;
+  var getRetryDelay = (attemptIndex) => Math.min(1e3 * 2 ** attemptIndex, 3e4);
+  var RETRYABLE_STATUS_CODES = [520, 503];
+  var RETRYABLE_METHODS = [
+    "GET",
+    "HEAD",
+    "OPTIONS"
+  ];
   function _typeof(o) {
     "@babel/helpers - typeof";
     return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o$1) {
@@ -51728,6 +52145,42 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     if (!RETRYABLE_METHODS.includes(method)) return false;
     if (!RETRYABLE_STATUS_CODES.includes(status)) return false;
     return true;
+  }
+  async function fetchWithRetry(fetchImpl, url, request, retryEnabled) {
+    let attemptCount = 0;
+    while (true) {
+      const headers = _objectSpread210({}, request.headers);
+      if (attemptCount > 0) headers["X-Retry-Count"] = String(attemptCount);
+      let res;
+      try {
+        res = await fetchImpl(url, {
+          method: request.method,
+          headers,
+          body: request.body,
+          signal: request.signal
+        });
+      } catch (fetchError) {
+        if ((fetchError === null || fetchError === void 0 ? void 0 : fetchError.name) === "AbortError" || (fetchError === null || fetchError === void 0 ? void 0 : fetchError.code) === "ABORT_ERR") throw fetchError;
+        if (!RETRYABLE_METHODS.includes(request.method)) throw fetchError;
+        if (retryEnabled && attemptCount < DEFAULT_MAX_RETRIES) {
+          const delay = getRetryDelay(attemptCount);
+          attemptCount++;
+          await sleep(delay, request.signal);
+          continue;
+        }
+        throw fetchError;
+      }
+      if (shouldRetry(request.method, res.status, attemptCount, retryEnabled)) {
+        var _res$headers$get, _res$headers;
+        const retryAfterHeader = (_res$headers$get = (_res$headers = res.headers) === null || _res$headers === void 0 ? void 0 : _res$headers.get("Retry-After")) !== null && _res$headers$get !== void 0 ? _res$headers$get : null;
+        const delay = retryAfterHeader !== null ? Math.max(0, parseInt(retryAfterHeader, 10) || 0) * 1e3 : getRetryDelay(attemptCount);
+        await res.text();
+        attemptCount++;
+        await sleep(delay, request.signal);
+        continue;
+      }
+      return res;
+    }
   }
   var PostgrestBuilder = class {
     /**
@@ -51898,43 +52351,17 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       }
       const _fetch = this.fetch;
       const executeWithRetry = async () => {
-        let attemptCount = 0;
-        while (true) {
-          const headers = {};
-          _this.headers.forEach((value, key) => {
-            headers[key] = value;
-          });
-          if (attemptCount > 0) headers["X-Retry-Count"] = String(attemptCount);
-          let res$1;
-          try {
-            res$1 = await _fetch(_this.url.toString(), {
-              method: _this.method,
-              headers,
-              body: JSON.stringify(_this.body, (_, value) => typeof value === "bigint" ? value.toString() : value),
-              signal: _this.signal
-            });
-          } catch (fetchError) {
-            if ((fetchError === null || fetchError === void 0 ? void 0 : fetchError.name) === "AbortError" || (fetchError === null || fetchError === void 0 ? void 0 : fetchError.code) === "ABORT_ERR") throw fetchError;
-            if (!RETRYABLE_METHODS.includes(_this.method)) throw fetchError;
-            if (_this.retryEnabled && attemptCount < DEFAULT_MAX_RETRIES) {
-              const delay = getRetryDelay(attemptCount);
-              attemptCount++;
-              await sleep(delay, _this.signal);
-              continue;
-            }
-            throw fetchError;
-          }
-          if (shouldRetry(_this.method, res$1.status, attemptCount, _this.retryEnabled)) {
-            var _res$headers$get, _res$headers;
-            const retryAfterHeader = (_res$headers$get = (_res$headers = res$1.headers) === null || _res$headers === void 0 ? void 0 : _res$headers.get("Retry-After")) !== null && _res$headers$get !== void 0 ? _res$headers$get : null;
-            const delay = retryAfterHeader !== null ? Math.max(0, parseInt(retryAfterHeader, 10) || 0) * 1e3 : getRetryDelay(attemptCount);
-            await res$1.text();
-            attemptCount++;
-            await sleep(delay, _this.signal);
-            continue;
-          }
-          return await _this.processResponse(res$1);
-        }
+        const headers = {};
+        _this.headers.forEach((value, key) => {
+          headers[key] = value;
+        });
+        const res$1 = await fetchWithRetry(_fetch, _this.url.toString(), {
+          method: _this.method,
+          headers,
+          body: JSON.stringify(_this.body, (_, value) => typeof value === "bigint" ? value.toString() : value),
+          signal: _this.signal
+        }, _this.retryEnabled);
+        return await _this.processResponse(res$1);
       };
       let res = executeWithRetry();
       if (!this.shouldThrowOnError) res = res.catch((fetchError) => {
@@ -51995,7 +52422,7 @@ ${cause.stack}`;
       let status = res.status;
       let statusText = res.statusText;
       if (res.ok) {
-        var _this$headers$get2, _res$headers$get2;
+        var _this$headers$get2, _res$headers$get;
         if (_this2.method !== "HEAD") {
           var _this$headers$get;
           const body = await res.text();
@@ -52016,7 +52443,7 @@ ${cause.stack}`;
           }
         }
         const countHeader = (_this$headers$get2 = _this2.headers.get("Prefer")) === null || _this$headers$get2 === void 0 ? void 0 : _this$headers$get2.match(/count=(exact|planned|estimated)/);
-        const contentRange = (_res$headers$get2 = res.headers.get("content-range")) === null || _res$headers$get2 === void 0 ? void 0 : _res$headers$get2.split("/");
+        const contentRange = (_res$headers$get = res.headers.get("content-range")) === null || _res$headers$get === void 0 ? void 0 : _res$headers$get.split("/");
         if (countHeader && contentRange && contentRange.length > 1) count = parseInt(contentRange[1]);
         if (_this2.isMaybeSingle && Array.isArray(data)) if (data.length > 1) {
           error = {
@@ -55099,6 +55526,44 @@ ${cause.stack}`;
       });
     }
   };
+  function toOpenApiError(body, statusText) {
+    try {
+      const parsed = JSON.parse(body);
+      if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
+        var _parsed$message, _parsed$details, _parsed$hint, _parsed$code;
+        return new PostgrestError({
+          message: String((_parsed$message = parsed.message) !== null && _parsed$message !== void 0 ? _parsed$message : body),
+          details: (_parsed$details = parsed.details) !== null && _parsed$details !== void 0 ? _parsed$details : "",
+          hint: (_parsed$hint = parsed.hint) !== null && _parsed$hint !== void 0 ? _parsed$hint : "",
+          code: (_parsed$code = parsed.code) !== null && _parsed$code !== void 0 ? _parsed$code : ""
+        });
+      }
+    } catch (_unused) {
+    }
+    return new PostgrestError({
+      message: body || statusText,
+      details: "",
+      hint: "",
+      code: ""
+    });
+  }
+  function toTransportFailure(cause, status, statusText) {
+    var _err$name;
+    const err = cause;
+    return {
+      success: false,
+      error: new PostgrestError({
+        message: `${(_err$name = err === null || err === void 0 ? void 0 : err.name) !== null && _err$name !== void 0 ? _err$name : "FetchError"}: ${err === null || err === void 0 ? void 0 : err.message}`,
+        details: "",
+        hint: "",
+        code: ""
+      }),
+      data: null,
+      count: null,
+      status,
+      statusText
+    };
+  }
   var PostgrestClient = class PostgrestClient2 {
     /**
     * Creates a PostgREST client.
@@ -55196,6 +55661,74 @@ ${cause.stack}`;
         urlLengthLimit: this.urlLengthLimit,
         retry: this.retry
       });
+    }
+    /**
+    * Fetch the OpenAPI description PostgREST publishes for this client's schema.
+    *
+    * The document lists only the tables, views and functions the caller's role
+    * holds privileges on; PostgREST applies that filtering server-side. The
+    * schema is the one this client was created with, so call `.schema()` first
+    * to describe a different one. Transient failures are retried according to
+    * the client's `retry` option, like any other idempotent request.
+    *
+    * @example
+    * ```ts
+    * const { data, error } = await supabase.getOpenApiSpec()
+    * ```
+    *
+    * @example Describe a schema other than the client default
+    * ```ts
+    * const { data, error } = await supabase.schema('billing').getOpenApiSpec()
+    * ```
+    *
+    * @category Database
+    */
+    async getOpenApiSpec() {
+      var _this = this;
+      var _this$fetch;
+      const headers = new Headers(_this.headers);
+      headers.set("Accept", "application/openapi+json");
+      if (_this.schemaName) headers.set("Accept-Profile", _this.schemaName);
+      const requestHeaders = {};
+      headers.forEach((value, key) => {
+        requestHeaders[key] = value;
+      });
+      const fetchImpl = (_this$fetch = _this.fetch) !== null && _this$fetch !== void 0 ? _this$fetch : globalThis.fetch;
+      let res;
+      try {
+        var _this$retry;
+        res = await fetchWithRetry(fetchImpl, `${_this.url}/`, {
+          method: "GET",
+          headers: requestHeaders
+        }, (_this$retry = _this.retry) !== null && _this$retry !== void 0 ? _this$retry : true);
+      } catch (fetchError) {
+        return toTransportFailure(fetchError, 0, "");
+      }
+      let body;
+      try {
+        body = await res.text();
+      } catch (readError) {
+        return toTransportFailure(readError, res.status, res.statusText);
+      }
+      if (res.ok) try {
+        return {
+          success: true,
+          error: null,
+          data: JSON.parse(body),
+          count: null,
+          status: res.status,
+          statusText: res.statusText
+        };
+      } catch (_unused2) {
+      }
+      return {
+        success: false,
+        error: toOpenApiError(body, res.statusText),
+        data: null,
+        count: null,
+        status: res.status,
+        statusText: res.statusText
+      };
     }
     /**
     * Perform a function call.
@@ -55363,7 +55896,7 @@ ${cause.stack}`;
     * ```
     */
     rpc(fn, args = {}, { head: head2 = false, get: get4 = false, count } = {}) {
-      var _this$fetch;
+      var _this$fetch2;
       let method;
       const url = new URL(`${this.url}/rpc/${fn}`);
       let body;
@@ -55390,7 +55923,7 @@ ${cause.stack}`;
         headers,
         schema: this.schemaName,
         body,
-        fetch: (_this$fetch = this.fetch) !== null && _this$fetch !== void 0 ? _this$fetch : fetch,
+        fetch: (_this$fetch2 = this.fetch) !== null && _this$fetch2 !== void 0 ? _this$fetch2 : fetch,
         urlLengthLimit: this.urlLengthLimit,
         retry: this.retry
       });
@@ -55501,7 +56034,7 @@ Suggested solution: ${env.workaround}`;
   var websocket_factory_default = WebSocketFactory;
 
   // node_modules/@supabase/realtime-js/dist/module/lib/version.js
-  var version2 = "2.112.3";
+  var version2 = "2.116.0";
 
   // node_modules/@supabase/realtime-js/dist/module/lib/constants.js
   var DEFAULT_VERSION = `realtime-js/${version2}`;
@@ -55509,6 +56042,8 @@ Suggested solution: ${env.workaround}`;
   var VSN_2_0_0 = "2.0.0";
   var DEFAULT_VSN = VSN_2_0_0;
   var DEFAULT_TIMEOUT = 1e4;
+  var DEFAULT_POSTGRES_CHANGES_WAIT_TIMEOUT = 15e3;
+  var POSTGRES_CHANGES_WAIT_ERROR_GRACE = 1e4;
   var MAX_PUSH_BUFFER_SIZE = 100;
   var CHANNEL_STATES = {
     closed: "closed",
@@ -58133,21 +58668,16 @@ Suggested solution: ${env.workaround}`;
      * ```
      */
     subscribe(callback, timeout = this.timeout) {
-      var _a, _b, _c;
+      var _a, _b, _c, _d;
       if (!this.socket.isConnected()) {
         this.socket.connect();
       }
       if (this.channelAdapter.isClosed()) {
-        const { config: { broadcast, presence, private: isPrivate } } = this.params;
+        const { config: { broadcast, presence, private: isPrivate, postgres_changes_options } } = this.params;
         const postgres_changes = (_b = (_a = this.bindings.postgres_changes) === null || _a === void 0 ? void 0 : _a.map((r2) => r2.filter)) !== null && _b !== void 0 ? _b : [];
         const presence_enabled = !!this.bindings[REALTIME_LISTEN_TYPES.PRESENCE] && this.bindings[REALTIME_LISTEN_TYPES.PRESENCE].length > 0 || ((_c = this.params.config.presence) === null || _c === void 0 ? void 0 : _c.enabled) === true;
         const accessTokenPayload = {};
-        const config = {
-          broadcast,
-          presence: Object.assign(Object.assign({}, presence), { enabled: presence_enabled }),
-          postgres_changes,
-          private: isPrivate
-        };
+        const config = Object.assign({ broadcast, presence: Object.assign(Object.assign({}, presence), { enabled: presence_enabled }), postgres_changes, private: isPrivate }, postgres_changes_options ? { postgres_changes_options } : {});
         if (this.socket.accessTokenValue) {
           accessTokenPayload.access_token = this.socket.accessTokenValue;
         }
@@ -58157,7 +58687,8 @@ Suggested solution: ${env.workaround}`;
         this._onClose(() => callback === null || callback === void 0 ? void 0 : callback(REALTIME_SUBSCRIBE_STATES.CLOSED));
         this.updateJoinPayload(Object.assign({ config }, accessTokenPayload));
         this._updateFilterMessage();
-        this.channelAdapter.subscribe(timeout).receive("ok", async ({ postgres_changes: postgres_changes2 }) => {
+        const joinTimeout = (postgres_changes_options === null || postgres_changes_options === void 0 ? void 0 : postgres_changes_options.wait) && postgres_changes.length > 0 ? Math.max(timeout, ((_d = postgres_changes_options.timeout) !== null && _d !== void 0 ? _d : DEFAULT_POSTGRES_CHANGES_WAIT_TIMEOUT) + POSTGRES_CHANGES_WAIT_ERROR_GRACE) : timeout;
+        this.channelAdapter.subscribe(joinTimeout).receive("ok", async ({ postgres_changes: postgres_changes2 }) => {
           if (!this.socket._isManualToken()) {
             this.socket.setAuth();
           }
@@ -58516,7 +59047,12 @@ Suggested solution: ${env.workaround}`;
     async send(args, opts = {}) {
       var _a, _b;
       if (!this.channelAdapter.canPush() && args.type === "broadcast") {
-        console.warn("Realtime send() is automatically falling back to REST API. This behavior will be deprecated in the future. Please use httpSend() explicitly for REST delivery.");
+        const fallbackWarning = "Realtime send() is automatically falling back to REST API. This behavior will be deprecated in the future. Please use httpSend() explicitly for REST delivery.";
+        if (this.socket.hasLogger()) {
+          this.socket.log("channel", fallbackWarning);
+        } else {
+          console.warn(fallbackWarning);
+        }
         const { event, payload: endpoint_payload } = args;
         const headers = {
           apikey: this.socket.apiKey ? this.socket.apiKey : "",
@@ -58816,6 +59352,9 @@ Suggested solution: ${env.workaround}`;
     }
     log(kind, msg, data) {
       this.socket.log(kind, msg, data);
+    }
+    hasLogger() {
+      return this.socket.hasLogger();
     }
     makeRef() {
       return this.socket.makeRef();
@@ -59122,6 +59661,14 @@ Suggested solution: ${env.workaround}`;
      */
     log(kind, msg, data) {
       this.socketAdapter.log(kind, msg, data);
+    }
+    /**
+     * Returns true if a custom `logger` has been configured on this client.
+     *
+     * @category Realtime
+     */
+    hasLogger() {
+      return this.socketAdapter.hasLogger();
     }
     /**
      * Returns the current state of the socket.
@@ -60738,6 +61285,7 @@ Suggested solution: ${env.workaround}`;
     * @param fromPath The original file path, including the current file name. For example `folder/image.png`.
     * @param toPath The new file path, including the new file name. For example `folder/image-new.png`.
     * @param options The destination options.
+    * @param options.sourceVersionId The version id of the source object to move.
     * @returns Promise with response containing success message or error
     *
     * @example Move file
@@ -60771,7 +61319,8 @@ Suggested solution: ${env.workaround}`;
           bucketId: _this6.bucketId,
           sourceKey: fromPath,
           destinationKey: toPath2,
-          destinationBucket: options === null || options === void 0 ? void 0 : options.destinationBucket
+          destinationBucket: options === null || options === void 0 ? void 0 : options.destinationBucket,
+          sourceVersionId: options === null || options === void 0 ? void 0 : options.sourceVersionId
         }, { headers: _this6.headers });
       });
     }
@@ -60783,6 +61332,7 @@ Suggested solution: ${env.workaround}`;
     * @param fromPath The original file path, including the current file name. For example `folder/image.png`.
     * @param toPath The new file path, including the new file name. For example `folder/image-copy.png`.
     * @param options The destination options.
+    * @param options.sourceVersionId The version id of the source object to copy.
     * @returns Promise with response containing copied file path or error
     *
     * @example Copy file
@@ -60816,7 +61366,8 @@ Suggested solution: ${env.workaround}`;
           bucketId: _this7.bucketId,
           sourceKey: fromPath,
           destinationKey: toPath2,
-          destinationBucket: options === null || options === void 0 ? void 0 : options.destinationBucket
+          destinationBucket: options === null || options === void 0 ? void 0 : options.destinationBucket,
+          sourceVersionId: options === null || options === void 0 ? void 0 : options.sourceVersionId
         }, { headers: _this7.headers })).Key };
       });
     }
@@ -60830,6 +61381,7 @@ Suggested solution: ${env.workaround}`;
     * @param options.download triggers the file as a download if set to true. Set this parameter as the name of the file if you want to trigger the download with a different filename.
     * @param options.transform Transform the asset before serving it to the client.
     * @param options.cacheNonce Append a cache nonce parameter to the URL to invalidate the cache.
+    * @param options.versionId Create a signed URL for a specific object version rather than the current one.
     * @returns Promise with response containing signed URL or error
     *
     * @example Create Signed URL
@@ -60884,7 +61436,7 @@ Suggested solution: ${env.workaround}`;
       return _this8.handleOperation(async () => {
         let _path = _this8._getFinalPath(path2);
         const hasTransform = typeof (options === null || options === void 0 ? void 0 : options.transform) === "object" && options.transform !== null && Object.keys(options.transform).length > 0;
-        let data = await post(_this8.fetch, `${_this8.url}/object/sign/${_path}`, _objectSpread211({ expiresIn }, hasTransform ? { transform: options.transform } : {}), { headers: _this8.headers });
+        let data = await post(_this8.fetch, `${_this8.url}/object/sign/${_path}`, _objectSpread211(_objectSpread211({ expiresIn }, hasTransform ? { transform: options.transform } : {}), (options === null || options === void 0 ? void 0 : options.versionId) != null ? { versionId: options.versionId } : {}), { headers: _this8.headers });
         const query = new URLSearchParams();
         if (options === null || options === void 0 ? void 0 : options.download) query.set("download", options.download === true ? "" : options.download);
         if ((options === null || options === void 0 ? void 0 : options.cacheNonce) != null) query.set("cacheNonce", String(options.cacheNonce));
@@ -60958,7 +61510,7 @@ Suggested solution: ${env.workaround}`;
     * @category Storage
     * @subcategory File Buckets
     * @param path The full path and file name of the file to be downloaded. For example `folder/image.png`.
-    * @param options Optional settings: `transform` to transform the asset before serving it to the client, and `cacheNonce` to append a cache nonce parameter to the URL to invalidate the cache.
+    * @param options Optional settings: `transform` to transform the asset before serving it to the client, `cacheNonce` to append a cache nonce parameter to the URL to invalidate the cache, and `versionId` to download a specific object version.
     * @param parameters Additional fetch parameters like signal for cancellation. Supports standard fetch options including cache control.
     * @returns BlobDownloadBuilder instance for downloading the file
     *
@@ -61022,6 +61574,7 @@ Suggested solution: ${env.workaround}`;
       const query = new URLSearchParams();
       if (options === null || options === void 0 ? void 0 : options.transform) this.applyTransformOptsToQuery(query, options.transform);
       if ((options === null || options === void 0 ? void 0 : options.cacheNonce) != null) query.set("cacheNonce", String(options.cacheNonce));
+      if ((options === null || options === void 0 ? void 0 : options.versionId) != null) query.set("versionId", String(options.versionId));
       const queryString = query.toString();
       const _path = this._getFinalPath(path2);
       const downloadFn = () => get3(this.fetch, `${this.url}/${renderPath}/${_path}${queryString ? `?${queryString}` : ""}`, {
@@ -61039,6 +61592,7 @@ Suggested solution: ${env.workaround}`;
     * @category Storage
     * @subcategory File Buckets
     * @param path The file path, including the file name. For example `folder/image.png`.
+    * @param options Optional settings, including `versionId` to retrieve a specific object version.
     * @returns Promise with response containing file metadata or error
     *
     * @example Get file info
@@ -61054,11 +61608,14 @@ Suggested solution: ${env.workaround}`;
     * }
     * ```
     */
-    async info(path2) {
+    async info(path2, options) {
       var _this10 = this;
       const _path = _this10._getFinalPath(path2);
+      const query = new URLSearchParams();
+      if ((options === null || options === void 0 ? void 0 : options.versionId) != null) query.set("versionId", String(options.versionId));
+      const queryString = query.toString();
       return _this10.handleOperation(async () => {
-        return recursiveToCamel(await get3(_this10.fetch, `${_this10.url}/object/info/${_path}`, { headers: _this10.headers }));
+        return recursiveToCamel(await get3(_this10.fetch, `${_this10.url}/object/info/${_path}${queryString ? `?${queryString}` : ""}`, { headers: _this10.headers }));
       });
     }
     /**
@@ -61109,6 +61666,7 @@ Suggested solution: ${env.workaround}`;
     * @param options.download Triggers the file as a download if set to true. Set this parameter as the name of the file if you want to trigger the download with a different filename.
     * @param options.transform Transform the asset before serving it to the client.
     * @param options.cacheNonce Append a cache nonce parameter to the URL to invalidate the cache.
+    * @param options.versionId Return the URL for a specific object version rather than the current one.
     * @returns Object with public URL
     *
     * @example Returns the URL for an asset in a public bucket
@@ -61164,6 +61722,7 @@ Suggested solution: ${env.workaround}`;
       if (options === null || options === void 0 ? void 0 : options.download) query.set("download", options.download === true ? "" : options.download);
       if (options === null || options === void 0 ? void 0 : options.transform) this.applyTransformOptsToQuery(query, options.transform);
       if ((options === null || options === void 0 ? void 0 : options.cacheNonce) != null) query.set("cacheNonce", String(options.cacheNonce));
+      if ((options === null || options === void 0 ? void 0 : options.versionId) != null) query.set("versionId", String(options.versionId));
       const queryString = query.toString();
       const renderPath = typeof (options === null || options === void 0 ? void 0 : options.transform) === "object" && options.transform !== null && Object.keys(options.transform).length > 0 ? "render/image" : "object";
       return { data: { publicUrl: encodeURI(`${this.url}/${renderPath}/public/${_path}`) + (queryString ? `?${queryString}` : "") } };
@@ -61176,7 +61735,9 @@ Suggested solution: ${env.workaround}`;
     *
     * @category Storage
     * @subcategory File Buckets
-    * @param paths An array of files to delete, including the path and file name. For example [`'folder/image.png'`].
+    * @param paths An array of files to delete. Each entry is either a path (deletes whichever
+    * version is currently at that path, e.g. `'folder/image.png'`), or `{ path, versionId }` to
+    * delete an exact version current or archived (e.g. `{ path: 'folder/image.png', versionId: '...' }`).
     * @returns Promise with response containing array of deleted file objects or error
     *
     * @example Delete file
@@ -61193,6 +61754,14 @@ Suggested solution: ${env.workaround}`;
     *   "data": [],
     *   "error": null
     * }
+    * ```
+    *
+    * @example Delete a specific object version
+    * ```js
+    * const { data, error } = await supabase
+    *   .storage
+    *   .from('avatars')
+    *   .remove([{ path: 'folder/avatar1.png', versionId: 'noncurrent-version-id' }])
     * ```
     *
     * @remarks
@@ -61437,7 +62006,7 @@ Suggested solution: ${env.workaround}`;
       return query;
     }
   };
-  var version3 = "2.112.3";
+  var version3 = "2.116.0";
   var DEFAULT_HEADERS = { "X-Client-Info": `storage-js/${version3}` };
   var StorageBucketApi = class extends BaseApiClient {
     constructor(url, headers = {}, fetch$1, opts) {
@@ -61556,6 +62125,8 @@ Suggested solution: ${env.workaround}`;
     * Each mime type specified can be a wildcard, e.g. image/*, or a specific mime type, e.g. image/png.
     * @param options.type (private-beta) specifies the bucket type. see `BucketType` for more details.
     *   - default bucket type is `STANDARD`
+    * @param options.versioningStatus the bucket's initial object versioning status.
+    * The default value is `DISABLED`
     * @returns Promise with response containing newly created bucket name or error
     *
     * @example Create bucket
@@ -61594,7 +62165,8 @@ Suggested solution: ${env.workaround}`;
           type: options.type,
           public: options.public,
           file_size_limit: options.fileSizeLimit,
-          allowed_mime_types: options.allowedMimeTypes
+          allowed_mime_types: options.allowedMimeTypes,
+          versioning_status: options.versioningStatus
         }, { headers: _this3.headers });
       });
     }
@@ -61611,6 +62183,8 @@ Suggested solution: ${env.workaround}`;
     * @param options.allowedMimeTypes specifies the allowed mime types that this bucket can accept during upload.
     * The default value is null, which allows files with all mime types to be uploaded.
     * Each mime type specified can be a wildcard, e.g. image/*, or a specific mime type, e.g. image/png.
+    * @param options.versioningStatus the bucket's new object versioning status. `DISABLED` is not
+    * valid here, there's no transition back to it once versioning has been touched.
     * @returns Promise with response containing success message or error
     *
     * @example Update bucket
@@ -61648,7 +62222,8 @@ Suggested solution: ${env.workaround}`;
           name: id,
           public: options.public,
           file_size_limit: options.fileSizeLimit,
-          allowed_mime_types: options.allowedMimeTypes
+          allowed_mime_types: options.allowedMimeTypes,
+          versioning_status: options.versioningStatus
         }, { headers: _this4.headers });
       });
     }
@@ -61728,6 +62303,153 @@ Suggested solution: ${env.workaround}`;
       });
     }
     /**
+    * Returns the lifecycle policy stored on a bucket.
+    *
+    * Fails with `NoSuchLifecycleConfiguration` when the bucket has no policy.
+    *
+    * These rules expire previous versions of objects, not the current one.
+    * Turn versioning on or there is nothing for the policy to act on.
+    * Standard buckets only. Returns `FeatureNotEnabled` if lifecycle is off
+    * for the project.
+    *
+    * @category Storage
+    * @subcategory File Buckets
+    * @param id The unique identifier of the bucket.
+    * @returns Promise with the lifecycle configuration or error
+    *
+    * @example Get lifecycle configuration
+    * ```js
+    * const { data, error } = await supabase
+    *   .storage
+    *   .getBucketLifecycle('avatars')
+    * ```
+    *
+    * Response:
+    * ```json
+    * {
+    *   "data": {
+    *     "rules": [
+    *       {
+    *         "id": "expire-history",
+    *         "status": "Enabled",
+    *         "filter": {},
+    *         "noncurrentVersionExpiration": {
+    *           "noncurrentDays": 30,
+    *           "newerNoncurrentVersions": 2
+    *         }
+    *       }
+    *     ]
+    *   },
+    *   "error": null
+    * }
+    * ```
+    *
+    * @remarks
+    * - RLS policy permissions required:
+    *   - `buckets` table permissions: `select`
+    *   - `objects` table permissions: none
+    * - Refer to the [Storage guide](/docs/guides/storage/security/access-control) on how access control works
+    */
+    async getBucketLifecycle(id) {
+      var _this7 = this;
+      return _this7.handleOperation(async () => {
+        return await get3(_this7.fetch, _this7.bucketLifecycleUrl(id), { headers: _this7.headers });
+      });
+    }
+    /**
+    * Replaces the lifecycle policy on a bucket.
+    *
+    * The `rules` array you send is the whole policy. Anything previously stored
+    * is overwritten. Send at least one rule. Call {@link deleteBucketLifecycle}
+    * to remove the policy.
+    *
+    * Each rule currently supports only `noncurrentVersionExpiration`. `filter`
+    * is required and must be `{}`. Prefix filters, tag filters, and current-object
+    * expiration are rejected. Rule IDs must be unique. Omit `id` and the
+    * server generates one.
+    *
+    * Standard buckets only. Returns `FeatureNotEnabled` if lifecycle is off
+    * for the project.
+    *
+    * @category Storage
+    * @subcategory File Buckets
+    * @param id The unique identifier of the bucket.
+    * @param configuration The full lifecycle configuration to store.
+    * @returns Promise with the stored configuration or error
+    *
+    * @example Replace lifecycle configuration
+    * ```js
+    * const { data, error } = await supabase
+    *   .storage
+    *   .updateBucketLifecycle('avatars', {
+    *     rules: [
+    *       {
+    *         id: 'expire-history',
+    *         status: 'Enabled',
+    *         filter: {},
+    *         noncurrentVersionExpiration: {
+    *           noncurrentDays: 30,
+    *           newerNoncurrentVersions: 2,
+    *         },
+    *       },
+    *     ],
+    *   })
+    * ```
+    *
+    * @remarks
+    * - RLS policy permissions required:
+    *   - `buckets` table permissions: `select` and `update`
+    *   - `objects` table permissions: none
+    * - Refer to the [Storage guide](/docs/guides/storage/security/access-control) on how access control works
+    */
+    async updateBucketLifecycle(id, configuration) {
+      var _this8 = this;
+      return _this8.handleOperation(async () => {
+        return await put(_this8.fetch, _this8.bucketLifecycleUrl(id), configuration, { headers: _this8.headers });
+      });
+    }
+    /**
+    * Removes the lifecycle policy from a bucket.
+    *
+    * Safe to call when no policy is stored. The response is still success.
+    * Standard buckets only. Returns `FeatureNotEnabled` if lifecycle is off
+    * for the project.
+    *
+    * @category Storage
+    * @subcategory File Buckets
+    * @param id The unique identifier of the bucket.
+    * @returns Promise with success message or error
+    *
+    * @example Delete lifecycle configuration
+    * ```js
+    * const { data, error } = await supabase
+    *   .storage
+    *   .deleteBucketLifecycle('avatars')
+    * ```
+    *
+    * Response:
+    * ```json
+    * {
+    *   "data": {
+    *     "message": "Successfully deleted"
+    *   },
+    *   "error": null
+    * }
+    * ```
+    *
+    * @remarks
+    * - RLS policy permissions required:
+    *   - `buckets` table permissions: `select` and `update`
+    *   - `objects` table permissions: none
+    * - Refer to the [Storage guide](/docs/guides/storage/security/access-control) on how access control works
+    */
+    async deleteBucketLifecycle(id) {
+      var _this9 = this;
+      return _this9.handleOperation(async () => {
+        return await remove(_this9.fetch, _this9.bucketLifecycleUrl(id), {}, { headers: _this9.headers });
+      });
+    }
+    /**
     * Purges the CDN cache for an entire bucket.
     *
     * Maps to `DELETE /cdn/{bucket}` on the Storage API. The server
@@ -61764,13 +62486,16 @@ Suggested solution: ${env.workaround}`;
     * ```
     */
     async purgeBucketCache(id, options, parameters) {
-      var _this7 = this;
-      return _this7.handleOperation(async () => {
+      var _this10 = this;
+      return _this10.handleOperation(async () => {
         const query = new URLSearchParams();
         if (options === null || options === void 0 ? void 0 : options.transformations) query.set("transformations", "true");
         const queryString = query.toString();
-        return await remove(_this7.fetch, `${_this7.url}/cdn/${encodeStoragePath(id)}${queryString ? `?${queryString}` : ""}`, {}, { headers: _this7.headers }, parameters);
+        return await remove(_this10.fetch, `${_this10.url}/cdn/${encodeStoragePath(id)}${queryString ? `?${queryString}` : ""}`, {}, { headers: _this10.headers }, parameters);
       });
+    }
+    bucketLifecycleUrl(id) {
+      return `${this.url}/bucket/${encodeStoragePath(id)}/lifecycle`;
     }
     listBucketOptionsToQueryString(options) {
       const params = {};
@@ -62706,7 +63431,7 @@ Suggested solution: ${env.workaround}`;
     * @category Storage
     * @subcategory Vector Buckets
     * @param options - Query options (bucket and index names automatically set)
-    * @returns Promise with response containing matches array of similar vectors ordered by distance or error
+    * @returns Promise with response containing vectors ordered by distance, an optional pagination token, or an error
     *
     * @example Query similar vectors
     * ```typescript
@@ -62839,7 +63564,7 @@ Suggested solution: ${env.workaround}`;
   };
 
   // node_modules/@supabase/auth-js/dist/module/lib/version.js
-  var version4 = "2.112.3";
+  var version4 = "2.116.0";
 
   // node_modules/@supabase/auth-js/dist/module/lib/constants.js
   var AUTO_REFRESH_TICK_DURATION_MS = 30 * 1e3;
@@ -63470,6 +64195,11 @@ Suggested solution: ${env.workaround}`;
   function assertPasskeyExperimentalEnabled(experimental) {
     if (!experimental.passkey) {
       throw new Error("@supabase/auth-js: the passkey API is experimental and disabled by default. Enable it by passing `auth: { experimental: { passkey: true } }` to createClient (or to the GoTrueClient constructor).");
+    }
+  }
+  function assertRecoveryCodesExperimentalEnabled(experimental) {
+    if (!experimental.recoveryCodes) {
+      throw new Error("@supabase/auth-js: the MFA recovery codes API is experimental and disabled by default. Enable it by passing `auth: { experimental: { recoveryCodes: true } }` to createClient (or to the GoTrueClient constructor).");
     }
   }
   function userNotAvailableProxy() {
@@ -65543,7 +66273,7 @@ ${suffix2}`;
         if (!factor) {
           await this.client.mfa.listFactors().then((factors) => {
             var _a;
-            return (_a = factors.data) === null || _a === void 0 ? void 0 : _a.all.find((v) => v.factor_type === "webauthn" && v.friendly_name === friendlyName && v.status !== "unverified");
+            return (_a = factors.data) === null || _a === void 0 ? void 0 : _a.all.find((v) => v.factor_type === "webauthn" && v.friendly_name === friendlyName && v.status === "unverified");
           }).then((factor2) => factor2 ? this.client.mfa.unenroll({ factorId: factor2 === null || factor2 === void 0 ? void 0 : factor2.id }) : void 0);
           return { data: null, error: enrollError };
         }
@@ -65599,6 +66329,7 @@ ${suffix2}`;
     experimental: {}
   };
   var GLOBAL_JWKS = {};
+  var deprecatedLockWarned = false;
   var GoTrueClient = class _GoTrueClient {
     /**
      * The JWKS used for verifying asymmetric JWTs
@@ -65694,6 +66425,10 @@ ${suffix2}`;
       this.lockAcquireTimeout = settings.lockAcquireTimeout;
       if (settings.lock != null) {
         this.lock = settings.lock;
+        if (!deprecatedLockWarned) {
+          deprecatedLockWarned = true;
+          console.warn(`${this._logPrefix()} The "lock" option is deprecated and will be removed in v3. The client now coordinates session refreshes without a lock, so most apps can drop the option. See https://github.com/supabase/supabase-js/blob/master/packages/core/auth-js/migrations/lockless-coordination.md`);
+        }
       }
       if (!this.jwks) {
         this.jwks = { keys: [] };
@@ -65707,7 +66442,14 @@ ${suffix2}`;
         listFactors: this._listFactors.bind(this),
         challengeAndVerify: this._challengeAndVerify.bind(this),
         getAuthenticatorAssuranceLevel: this._getAuthenticatorAssuranceLevel.bind(this),
-        webauthn: new WebAuthnApi(this)
+        webauthn: new WebAuthnApi(this),
+        recoveryCodes: {
+          getStatus: this._getRecoveryCodesStatus.bind(this),
+          generate: this._generateRecoveryCodes.bind(this),
+          verify: this._verifyRecoveryCode.bind(this),
+          regenerate: this._regenerateRecoveryCodes.bind(this),
+          unenroll: this._unenrollRecoveryCodes.bind(this)
+        }
       };
       this.oauth = {
         getAuthorizationDetails: this._getAuthorizationDetails.bind(this),
@@ -68952,6 +69694,9 @@ ${suffix2}`;
         } catch (err) {
           await ((_b = this.stateChangeEmitters.get(id)) === null || _b === void 0 ? void 0 : _b.callback("INITIAL_SESSION", null));
           this._debug("INITIAL_SESSION", "callback id", id, "error", err);
+          if (isAuthRefreshDiscardedError(err)) {
+            return;
+          }
           if (isAuthSessionMissingError(err) || isAuthRetryableFetchError(err) || isAuthApiError(err) && (err.code === "refresh_token_not_found" || err.code === "refresh_token_already_used" || err.code === "session_expired")) {
             console.warn(err);
           } else {
@@ -69419,6 +70164,8 @@ ${suffix2}`;
       this._debug(debugName, "begin");
       try {
         this.refreshingDeferred = new Deferred();
+        this.refreshingDeferred.promise.then(void 0, () => {
+        });
         const storedAtStart = await getItemAsync(this.storage, this.storageKey);
         const { data, error } = await this._refreshAccessToken(refreshToken);
         if (error)
@@ -70082,11 +70829,12 @@ ${suffix2}`;
         all: [],
         phone: [],
         totp: [],
-        webauthn: []
+        webauthn: [],
+        recovery_code: []
       };
       for (const factor of (_a = user === null || user === void 0 ? void 0 : user.factors) !== null && _a !== void 0 ? _a : []) {
         data.all.push(factor);
-        if (factor.status === "verified") {
+        if (factor.status === "verified" && factor.factor_type in data && Array.isArray(data[factor.factor_type])) {
           ;
           data[factor.factor_type].push(factor);
         }
@@ -70148,6 +70896,158 @@ ${suffix2}`;
       }
       const currentAuthenticationMethods = payload.amr || [];
       return { data: { currentLevel, nextLevel, currentAuthenticationMethods }, error: null };
+    }
+    /**
+     * {@link AuthMFARecoveryCodesApi#getStatus}
+     */
+    async _getRecoveryCodesStatus() {
+      assertRecoveryCodesExperimentalEnabled(this.experimental);
+      try {
+        return await this._useSession(async (result) => {
+          var _a;
+          const { data: sessionData, error: sessionError } = result;
+          if (sessionError) {
+            return this._returnResult({ data: null, error: sessionError });
+          }
+          const { data, error } = await _request(this.fetch, "GET", `${this.url}/factors/recovery-codes`, {
+            headers: this.headers,
+            jwt: (_a = sessionData === null || sessionData === void 0 ? void 0 : sessionData.session) === null || _a === void 0 ? void 0 : _a.access_token
+          });
+          if (error) {
+            return this._returnResult({ data: null, error });
+          }
+          return this._returnResult({ data, error: null });
+        });
+      } catch (error) {
+        if (isAuthError(error)) {
+          return this._returnResult({ data: null, error });
+        }
+        throw error;
+      }
+    }
+    /**
+     * {@link AuthMFARecoveryCodesApi#generate}
+     */
+    async _generateRecoveryCodes(params) {
+      assertRecoveryCodesExperimentalEnabled(this.experimental);
+      try {
+        return await this._useSession(async (result) => {
+          var _a;
+          const { data: sessionData, error: sessionError } = result;
+          if (sessionError) {
+            return this._returnResult({ data: null, error: sessionError });
+          }
+          const { data, error } = await _request(this.fetch, "POST", `${this.url}/factors/recovery-codes`, {
+            // The body is optional server-side; only send one when a name was given.
+            body: (params === null || params === void 0 ? void 0 : params.friendlyName) ? { friendly_name: params.friendlyName } : void 0,
+            headers: this.headers,
+            jwt: (_a = sessionData === null || sessionData === void 0 ? void 0 : sessionData.session) === null || _a === void 0 ? void 0 : _a.access_token
+          });
+          if (error) {
+            return this._returnResult({ data: null, error });
+          }
+          return this._returnResult({ data, error: null });
+        });
+      } catch (error) {
+        if (isAuthError(error)) {
+          return this._returnResult({ data: null, error });
+        }
+        throw error;
+      }
+    }
+    /**
+     * {@link AuthMFARecoveryCodesApi#verify}
+     */
+    async _verifyRecoveryCode(params) {
+      assertRecoveryCodesExperimentalEnabled(this.experimental);
+      const run = async () => {
+        try {
+          return await this._useSession(async (result) => {
+            var _a;
+            const { data: sessionData, error: sessionError } = result;
+            if (sessionError) {
+              return this._returnResult({ data: null, error: sessionError });
+            }
+            const { data, error } = await _request(this.fetch, "POST", `${this.url}/factors/recovery-codes/verify`, {
+              body: { code: params.code },
+              headers: this.headers,
+              jwt: (_a = sessionData === null || sessionData === void 0 ? void 0 : sessionData.session) === null || _a === void 0 ? void 0 : _a.access_token
+            });
+            if (error) {
+              return this._returnResult({ data: null, error });
+            }
+            const session = Object.assign({ expires_at: expiresAt(data.expires_in) }, data);
+            await this._saveSession(session);
+            await this._notifyAllSubscribers("MFA_CHALLENGE_VERIFIED", session);
+            return this._returnResult({ data, error: null });
+          });
+        } catch (error) {
+          if (isAuthError(error)) {
+            return this._returnResult({ data: null, error });
+          }
+          throw error;
+        }
+      };
+      if (this.lock != null) {
+        return this._acquireLock(this.lockAcquireTimeout, run);
+      }
+      return run();
+    }
+    /**
+     * {@link AuthMFARecoveryCodesApi#regenerate}
+     */
+    async _regenerateRecoveryCodes() {
+      assertRecoveryCodesExperimentalEnabled(this.experimental);
+      try {
+        return await this._useSession(async (result) => {
+          var _a;
+          const { data: sessionData, error: sessionError } = result;
+          if (sessionError) {
+            return this._returnResult({ data: null, error: sessionError });
+          }
+          const { data, error } = await _request(this.fetch, "POST", `${this.url}/factors/recovery-codes/regenerate`, {
+            headers: this.headers,
+            jwt: (_a = sessionData === null || sessionData === void 0 ? void 0 : sessionData.session) === null || _a === void 0 ? void 0 : _a.access_token
+          });
+          if (error) {
+            return this._returnResult({ data: null, error });
+          }
+          return this._returnResult({ data, error: null });
+        });
+      } catch (error) {
+        if (isAuthError(error)) {
+          return this._returnResult({ data: null, error });
+        }
+        throw error;
+      }
+    }
+    /**
+     * {@link AuthMFARecoveryCodesApi#unenroll}
+     */
+    async _unenrollRecoveryCodes() {
+      assertRecoveryCodesExperimentalEnabled(this.experimental);
+      try {
+        return await this._useSession(async (result) => {
+          var _a;
+          const { data: sessionData, error: sessionError } = result;
+          if (sessionError) {
+            return this._returnResult({ data: null, error: sessionError });
+          }
+          const { data, error } = await _request(this.fetch, "DELETE", `${this.url}/factors/recovery-codes`, {
+            headers: this.headers,
+            jwt: (_a = sessionData === null || sessionData === void 0 ? void 0 : sessionData.session) === null || _a === void 0 ? void 0 : _a.access_token
+          });
+          if (error) {
+            return this._returnResult({ data: null, error });
+          }
+          return this._returnResult({ data, error: null });
+        });
+      } catch (error) {
+        if (isAuthError(error)) {
+          return this._returnResult({ data: null, error });
+        }
+        throw error;
+      }
     }
     /**
      * Retrieves details about an OAuth authorization request.
@@ -70775,7 +71675,7 @@ ${suffix2}`;
   var AuthClient_default = AuthClient;
 
   // node_modules/@supabase/supabase-js/dist/index.mjs
-  var version5 = "2.112.3";
+  var version5 = "2.116.0";
   var JS_ENV = "";
   var JS_RUNTIME_VERSION;
   if (typeof Deno !== "undefined") {
@@ -70994,6 +71894,13 @@ ${suffix2}`;
   }
   function ensureTrailingSlash(url) {
     return url.endsWith("/") ? url : url + "/";
+  }
+  var warnedTopLevelSchema = false;
+  function checkTopLevelSchemaOption(options) {
+    if (warnedTopLevelSchema) return;
+    if (typeof options !== "object" || options === null || !("schema" in options) || options.schema === void 0) return;
+    warnedTopLevelSchema = true;
+    console.warn(`@supabase/supabase-js: The "schema" option must be nested under "db", e.g. createClient(url, key, { db: { schema: 'myschema' } }). A top-level "schema" is ignored and queries go to the default schema.`);
   }
   function applySettingDefaults(options, defaults) {
     var _DEFAULT_GLOBAL_OPTIO, _globalOptions$header, _ref2, _tracePropagationOpti, _ref22, _tracePropagationOpti2;
@@ -71254,6 +72161,7 @@ ${suffix2}`;
       const baseUrl = validateSupabaseUrl(supabaseUrl);
       if (!supabaseKey) throw new Error("supabaseKey is required.");
       checkApiKeyFormat(supabaseKey);
+      checkTopLevelSchemaOption(options);
       this.realtimeUrl = new URL("realtime/v1", baseUrl);
       this.realtimeUrl.protocol = this.realtimeUrl.protocol.replace("http", "ws");
       this.authUrl = new URL("auth/v1", baseUrl);
@@ -71325,6 +72233,23 @@ ${suffix2}`;
     */
     schema(schema) {
       return this.rest.schema(schema);
+    }
+    /**
+    * Fetch the OpenAPI description PostgREST publishes for this client's schema.
+    *
+    * The document lists only the tables, views and functions the caller's role
+    * holds privileges on. The request carries the same `apikey` and
+    * `Authorization` headers as every other query, so the description is scoped
+    * to the signed-in user. Call `.schema()` first to describe a schema other
+    * than the client default.
+    *
+    * @example
+    * ```ts
+    * const { data, error } = await supabase.getOpenApiSpec()
+    * ```
+    */
+    getOpenApiSpec() {
+      return this.rest.getOpenApiSpec();
     }
     /**
     * Perform a function call.
@@ -98703,12 +99628,35 @@ ${suffix2}`;
     return FILIERE_COLORS[(idx >= 0 ? idx : name.length) % FILIERE_COLORS.length];
   }
   var STEPS = [
-    { id: 1, label: "Questionnaire" },
-    { id: 2, label: "Base de donn\xE9es" },
-    { id: 3, label: "Contexte de l'\xE9tude" },
-    { id: 4, label: "Indicateurs" },
-    { id: 5, label: "Cartographie des variables" }
+    { id: 1, label: "Base de donn\xE9es" },
+    { id: 2, label: "Contexte de l'\xE9tude" },
+    { id: 3, label: "Indicateurs" },
+    { id: 4, label: "Cartographie des variables" }
   ];
+  var SENSITIVE_PATTERNS = [
+    { regex: /(^|_)nom(_|$)|prenom|pr[ée]nom/i, label: "nom / pr\xE9nom" },
+    { regex: /t[ée]l[ée]phone|(^|_)tel(_|$)|contact.*(tel|phone)|num[ée]ro.*(tel|phone)/i, label: "t\xE9l\xE9phone" },
+    { regex: /e-?mail|courriel/i, label: "e-mail" },
+    { regex: /adresse(?!.*ip)/i, label: "adresse" },
+    { regex: /\bcni\b|carte.*identit|n[ée]?\.?\s*(pi[èe]ce|identit)|passeport|\bnin\b/i, label: "pi\xE8ce d'identit\xE9" },
+    { regex: /date.*naissance|\bddn\b/i, label: "date de naissance" }
+  ];
+  function normalize2(s2) {
+    return String(s2).normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  }
+  function detectSensitiveColumns(columns) {
+    const found = [];
+    columns.forEach((c2) => {
+      const n = normalize2(c2.name);
+      for (const p2 of SENSITIVE_PATTERNS) {
+        if (p2.regex.test(n)) {
+          found.push({ name: c2.name, reason: p2.label });
+          break;
+        }
+      }
+    });
+    return found;
+  }
   function Watermark2() {
     return /* @__PURE__ */ import_react72.default.createElement("div", { className: "fixed inset-0 overflow-hidden pointer-events-none z-0 flex items-center justify-center" }, /* @__PURE__ */ import_react72.default.createElement(
       "span",
@@ -98778,22 +99726,29 @@ ${suffix2}`;
       { id: 2, nom: "Rendement moyen estim\xE9", formule: "Production estim\xE9e / Superficie r\xE9alis\xE9e", seuil: "ND \u2014 \xE0 renseigner" }
     ]);
     const [editingIndicateur, setEditingIndicateur] = (0, import_react72.useState)(null);
-    const [questionnaire, setQuestionnaire] = (0, import_react72.useState)(null);
     const [submitting, setSubmitting] = (0, import_react72.useState)(false);
     const [submitted, setSubmitted] = (0, import_react72.useState)(false);
     const [submitError, setSubmitError] = (0, import_react72.useState)("");
     const [parsing, setParsing] = (0, import_react72.useState)(false);
     const [fileError, setFileError] = (0, import_react72.useState)("");
+    const [sensitiveColumns, setSensitiveColumns] = (0, import_react72.useState)([]);
+    const [anonymizationConfirmed, setAnonymizationConfirmed] = (0, import_react72.useState)(false);
     (0, import_react72.useEffect)(() => {
       if (onContextChange) {
         onContextChange({ departement, communes, filieres, objectif, periodeDebut, periodeFin, uniteAnalyse, indicateurs });
       }
     }, [departement, communes, filieres, objectif, periodeDebut, periodeFin, uniteAnalyse, indicateurs]);
     const communesDuDepartement = BENIN_DEPARTEMENTS.find((d) => d.departement === departement)?.communes || [];
-    const handleQuestionnaireUpload = (e) => {
-      const file = e.target.files?.[0];
-      if (!file) return;
-      setQuestionnaire({ name: file.name, size: (file.size / 1024).toFixed(0) + " Ko" });
+    const excludeSensitiveColumns = () => {
+      const namesToRemove = new Set(sensitiveColumns.map((c2) => c2.name));
+      const cleanedRows = dataset.rows.map((row) => {
+        const copy3 = { ...row };
+        namesToRemove.forEach((n) => delete copy3[n]);
+        return copy3;
+      });
+      const cleanedColumns = dataset.columns.filter((c2) => !namesToRemove.has(c2.name));
+      onDatasetParsed({ ...dataset, rows: cleanedRows, columns: cleanedColumns });
+      setSensitiveColumns([]);
     };
     const addCustomFiliere = () => {
       const label = customFiliereInput.trim();
@@ -98824,6 +99779,8 @@ ${suffix2}`;
           return;
         }
         const columns = buildColumnsMeta(parsedRows);
+        setAnonymizationConfirmed(false);
+        setSensitiveColumns(detectSensitiveColumns(columns));
         onDatasetParsed({ rows: parsedRows, columns, fileName: file.name });
       };
       if (extension === "xlsx" || extension === "xls") {
@@ -98866,7 +99823,7 @@ ${suffix2}`;
         className: "bg-white/70 backdrop-blur px-8 py-4 flex items-center justify-between",
         style: { borderBottom: `2px solid ${GOLD3}` }
       },
-      /* @__PURE__ */ import_react72.default.createElement("div", null, /* @__PURE__ */ import_react72.default.createElement("h1", { className: "font-serif text-xl font-bold", style: { color: NAVY4 } }, "Nouvelle enqu\xEAte"), /* @__PURE__ */ import_react72.default.createElement("p", { className: "text-xs text-gray-500 mt-0.5" }, "Assistant d'import \u2014 questionnaire, base et contexte d'\xE9tude")),
+      /* @__PURE__ */ import_react72.default.createElement("div", null, /* @__PURE__ */ import_react72.default.createElement("h1", { className: "font-serif text-xl font-bold", style: { color: NAVY4 } }, "Nouvelle enqu\xEAte"), /* @__PURE__ */ import_react72.default.createElement("p", { className: "text-xs text-gray-500 mt-0.5" }, "Assistant d'import \u2014 base de donn\xE9es et contexte d'\xE9tude")),
       /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex items-center gap-4" }, /* @__PURE__ */ import_react72.default.createElement(Bell, { size: 18, className: "text-gray-400" }), /* @__PURE__ */ import_react72.default.createElement(
         UserMenu,
         {
@@ -98878,17 +99835,7 @@ ${suffix2}`;
           onOpenAdmin
         }
       ))
-    ), /* @__PURE__ */ import_react72.default.createElement("main", { className: "p-8 max-w-4xl" }, /* @__PURE__ */ import_react72.default.createElement(Stepper, { current: step, setCurrent: setStep }), step === 1 && /* @__PURE__ */ import_react72.default.createElement(Card, null, /* @__PURE__ */ import_react72.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY4 } }, "Importer le questionnaire"), /* @__PURE__ */ import_react72.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, "Formats accept\xE9s : Excel (.xlsx), CSV, ou tout export XLSForm/KoboToolbox/Akvo Flow/ODK."), /* @__PURE__ */ import_react72.default.createElement("div", { className: "grid grid-cols-2 gap-4" }, /* @__PURE__ */ import_react72.default.createElement("label", { className: "border-2 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center text-center gap-2 cursor-pointer transition-colors hover:bg-[#FAFBFE]", style: { borderColor: "#C7D2E8" } }, /* @__PURE__ */ import_react72.default.createElement("input", { type: "file", accept: ".xlsx,.xls,.csv,.pdf,.docx", className: "hidden", onChange: handleQuestionnaireUpload }), /* @__PURE__ */ import_react72.default.createElement("div", { className: "w-12 h-12 rounded-xl flex items-center justify-center mb-1", style: { background: "#EBEEF7" } }, /* @__PURE__ */ import_react72.default.createElement(Upload, { size: 20, style: { color: NAVY4 } })), /* @__PURE__ */ import_react72.default.createElement("div", { className: "font-medium text-sm", style: { color: NAVY4 } }, "Glisser-d\xE9poser un fichier"), /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-xs text-gray-400" }, "ou cliquer pour parcourir"), /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex flex-wrap gap-1.5 justify-center mt-2" }, ["XLSForm", "ODK", ".xlsx"].map((f) => /* @__PURE__ */ import_react72.default.createElement("span", { key: f, className: "text-[10px] px-2 py-1 rounded-full bg-[#F6E9DD] text-[#8A4A1D] font-medium" }, f)))), /* @__PURE__ */ import_react72.default.createElement("div", { className: "border-2 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center text-center gap-2 cursor-pointer hover:bg-[#FAFBFE]", style: { borderColor: "#C7D2E8" } }, /* @__PURE__ */ import_react72.default.createElement("div", { className: "w-12 h-12 rounded-xl flex items-center justify-center mb-1", style: { background: "#E4F5EC" } }, /* @__PURE__ */ import_react72.default.createElement(Link2, { size: 20, style: { color: "#256B45" } })), /* @__PURE__ */ import_react72.default.createElement("div", { className: "font-medium text-sm", style: { color: NAVY4 } }, "Connecter Akvo Flow / KoboToolbox"), /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-xs text-gray-400" }, "Import direct via API (\xE0 venir)"))), questionnaire ? /* @__PURE__ */ import_react72.default.createElement("div", { className: "mt-5" }, /* @__PURE__ */ import_react72.default.createElement(
-      UploadedFile,
-      {
-        icon: FileSpreadsheet,
-        name: questionnaire.name,
-        meta: questionnaire.size,
-        tint: "#EBEEF7",
-        fg: NAVY4,
-        onDelete: () => setQuestionnaire(null)
-      }
-    )) : /* @__PURE__ */ import_react72.default.createElement("div", { className: "mt-5 rounded-xl p-3 border border-black/5 bg-gray-50 text-xs text-gray-500" }, "Aucun questionnaire import\xE9 pour l'instant.")), step === 2 && /* @__PURE__ */ import_react72.default.createElement(Card, null, /* @__PURE__ */ import_react72.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY4 } }, "Importer la base de donn\xE9es"), /* @__PURE__ */ import_react72.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, "Fichier Excel (.xlsx) ou CSV r\xE9el \u2014 les colonnes et leur type sont d\xE9tect\xE9s automatiquement."), /* @__PURE__ */ import_react72.default.createElement("div", { className: "grid grid-cols-2 gap-4" }, /* @__PURE__ */ import_react72.default.createElement("label", { className: "border-2 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center text-center gap-2 cursor-pointer hover:bg-[#FAFBFE]", style: { borderColor: "#C7D2E8" } }, /* @__PURE__ */ import_react72.default.createElement("input", { type: "file", accept: ".csv,.xlsx,.xls", className: "hidden", onChange: handleFileUpload }), /* @__PURE__ */ import_react72.default.createElement("div", { className: "w-12 h-12 rounded-xl flex items-center justify-center mb-1", style: { background: "#EBEEF7" } }, /* @__PURE__ */ import_react72.default.createElement(Upload, { size: 20, style: { color: NAVY4 } })), /* @__PURE__ */ import_react72.default.createElement("div", { className: "font-medium text-sm", style: { color: NAVY4 } }, parsing ? "Analyse en cours\u2026" : "Glisser-d\xE9poser un fichier"), /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-xs text-gray-400" }, "ou cliquer pour parcourir"), /* @__PURE__ */ import_react72.default.createElement("span", { className: "text-[10px] px-2 py-1 rounded-full bg-[#F6E9DD] text-[#8A4A1D] font-medium mt-2" }, ".xlsx, .xls ou .csv")), /* @__PURE__ */ import_react72.default.createElement("div", { className: "border-2 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center text-center gap-2 cursor-pointer hover:bg-[#FAFBFE]", style: { borderColor: "#C7D2E8" } }, /* @__PURE__ */ import_react72.default.createElement("div", { className: "w-12 h-12 rounded-xl flex items-center justify-center mb-1", style: { background: "#E4F5EC" } }, /* @__PURE__ */ import_react72.default.createElement(Link2, { size: 20, style: { color: "#256B45" } })), /* @__PURE__ */ import_react72.default.createElement("div", { className: "font-medium text-sm", style: { color: NAVY4 } }, "Connecter Akvo Flow / KoboToolbox"), /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-xs text-gray-400" }, "Synchronisation automatique (\xE0 venir)"))), fileError && /* @__PURE__ */ import_react72.default.createElement("div", { className: "mt-4 rounded-xl p-3 text-xs", style: { background: "#FBE7E5", color: "#B3413A" } }, fileError), dataset && /* @__PURE__ */ import_react72.default.createElement("div", { className: "mt-5 space-y-3" }, /* @__PURE__ */ import_react72.default.createElement(
+    ), /* @__PURE__ */ import_react72.default.createElement("main", { className: "p-8 max-w-4xl" }, /* @__PURE__ */ import_react72.default.createElement(Stepper, { current: step, setCurrent: setStep }), step === 1 && /* @__PURE__ */ import_react72.default.createElement(Card, null, /* @__PURE__ */ import_react72.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY4 } }, "Importer la base de donn\xE9es"), /* @__PURE__ */ import_react72.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, "Fichier Excel (.xlsx) ou CSV r\xE9el \u2014 les colonnes et leur type sont d\xE9tect\xE9s automatiquement."), /* @__PURE__ */ import_react72.default.createElement("div", { className: "grid grid-cols-2 gap-4" }, /* @__PURE__ */ import_react72.default.createElement("label", { className: "border-2 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center text-center gap-2 cursor-pointer hover:bg-[#FAFBFE]", style: { borderColor: "#C7D2E8" } }, /* @__PURE__ */ import_react72.default.createElement("input", { type: "file", accept: ".csv,.xlsx,.xls", className: "hidden", onChange: handleFileUpload }), /* @__PURE__ */ import_react72.default.createElement("div", { className: "w-12 h-12 rounded-xl flex items-center justify-center mb-1", style: { background: "#EBEEF7" } }, /* @__PURE__ */ import_react72.default.createElement(Upload, { size: 20, style: { color: NAVY4 } })), /* @__PURE__ */ import_react72.default.createElement("div", { className: "font-medium text-sm", style: { color: NAVY4 } }, parsing ? "Analyse en cours\u2026" : "Glisser-d\xE9poser un fichier"), /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-xs text-gray-400" }, "ou cliquer pour parcourir"), /* @__PURE__ */ import_react72.default.createElement("span", { className: "text-[10px] px-2 py-1 rounded-full bg-[#F6E9DD] text-[#8A4A1D] font-medium mt-2" }, ".xlsx, .xls ou .csv")), /* @__PURE__ */ import_react72.default.createElement("div", { className: "border-2 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center text-center gap-2 cursor-pointer hover:bg-[#FAFBFE]", style: { borderColor: "#C7D2E8" } }, /* @__PURE__ */ import_react72.default.createElement("div", { className: "w-12 h-12 rounded-xl flex items-center justify-center mb-1", style: { background: "#E4F5EC" } }, /* @__PURE__ */ import_react72.default.createElement(Link2, { size: 20, style: { color: "#256B45" } })), /* @__PURE__ */ import_react72.default.createElement("div", { className: "font-medium text-sm", style: { color: NAVY4 } }, "Connecter Akvo Flow / KoboToolbox"), /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-xs text-gray-400" }, "Synchronisation automatique (\xE0 venir)"))), fileError && /* @__PURE__ */ import_react72.default.createElement("div", { className: "mt-4 rounded-xl p-3 text-xs", style: { background: "#FBE7E5", color: "#B3413A" } }, fileError), dataset && /* @__PURE__ */ import_react72.default.createElement("div", { className: "mt-5 space-y-3" }, /* @__PURE__ */ import_react72.default.createElement(
       UploadedFile,
       {
         icon: FileCheckCorner,
@@ -98896,9 +99843,31 @@ ${suffix2}`;
         meta: `${dataset.rows.length.toLocaleString("fr-FR")} enregistrements \xB7 ${dataset.columns.length} colonnes \u2014 analys\xE9es r\xE9ellement`,
         tint: "#E4F5EC",
         fg: "#256B45",
-        onDelete: () => onDatasetParsed(null)
+        onDelete: () => {
+          onDatasetParsed(null);
+          setSensitiveColumns([]);
+          setAnonymizationConfirmed(false);
+        }
       }
-    ), dataset.columns.some((c2) => c2.isGeo) ? /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex items-start gap-2 rounded-xl p-3 border border-black/5", style: { background: "#FDF1DA" } }, /* @__PURE__ */ import_react72.default.createElement(MapPin, { size: 16, style: { color: "#8A5A00" }, className: "mt-0.5" }), /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-xs", style: { color: "#8A5A00" } }, /* @__PURE__ */ import_react72.default.createElement("span", { className: "font-medium" }, dataset.columns.filter((c2) => c2.isGeo).length, " colonne(s) de g\xE9olocalisation d\xE9tect\xE9e(s)"), " ", "(", dataset.columns.filter((c2) => c2.isGeo).map((c2) => c2.name).join(", "), ")")) : /* @__PURE__ */ import_react72.default.createElement("div", { className: "rounded-xl p-3 border border-black/5 bg-gray-50 text-xs text-gray-500" }, "Aucune colonne de g\xE9olocalisation d\xE9tect\xE9e dans ce fichier."))), step === 3 && /* @__PURE__ */ import_react72.default.createElement(Card, null, /* @__PURE__ */ import_react72.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY4 } }, "Contexte de l'\xE9tude"), /* @__PURE__ */ import_react72.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, "Ces informations cadrent l'interpr\xE9tation narrative du rapport final."), /* @__PURE__ */ import_react72.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Objectif de l'\xE9tude"), /* @__PURE__ */ import_react72.default.createElement(
+    ), dataset.columns.some((c2) => c2.isGeo) ? /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex items-start gap-2 rounded-xl p-3 border border-black/5", style: { background: "#FDF1DA" } }, /* @__PURE__ */ import_react72.default.createElement(MapPin, { size: 16, style: { color: "#8A5A00" }, className: "mt-0.5" }), /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-xs", style: { color: "#8A5A00" } }, /* @__PURE__ */ import_react72.default.createElement("span", { className: "font-medium" }, dataset.columns.filter((c2) => c2.isGeo).length, " colonne(s) de g\xE9olocalisation d\xE9tect\xE9e(s)"), " ", "(", dataset.columns.filter((c2) => c2.isGeo).map((c2) => c2.name).join(", "), ")")) : /* @__PURE__ */ import_react72.default.createElement("div", { className: "rounded-xl p-3 border border-black/5 bg-gray-50 text-xs text-gray-500" }, "Aucune colonne de g\xE9olocalisation d\xE9tect\xE9e dans ce fichier."), sensitiveColumns.length > 0 && /* @__PURE__ */ import_react72.default.createElement("div", { className: "rounded-xl p-3 border", style: { background: "#FBE7E5", borderColor: "#F3C6C2" } }, /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex items-start gap-2" }, /* @__PURE__ */ import_react72.default.createElement(CircleAlert, { size: 16, style: { color: "#B3413A" }, className: "mt-0.5 shrink-0" }), /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-xs", style: { color: "#B3413A" } }, /* @__PURE__ */ import_react72.default.createElement("span", { className: "font-medium" }, "Colonne(s) potentiellement \xE0 caract\xE8re personnel d\xE9tect\xE9e(s) :"), " ", sensitiveColumns.map((c2) => `${c2.name} (${c2.reason})`).join(", "), ".", " ", "Ces donn\xE9es ne doivent pas \xEAtre import\xE9es sans anonymisation pr\xE9alable (loi n\xB02017-20).")), /* @__PURE__ */ import_react72.default.createElement(
+      "button",
+      {
+        onClick: excludeSensitiveColumns,
+        className: "mt-2 text-xs font-medium px-3 py-1.5 rounded-lg text-white",
+        style: { background: "#B3413A" }
+      },
+      "Exclure ces colonnes et continuer"
+    )), /* @__PURE__ */ import_react72.default.createElement("label", { className: "flex items-start gap-2 rounded-xl p-3 border border-gray-100 cursor-pointer", style: { background: anonymizationConfirmed ? "#E4F5EC" : "#F9FAFB" } }, /* @__PURE__ */ import_react72.default.createElement(
+      "input",
+      {
+        type: "checkbox",
+        checked: anonymizationConfirmed,
+        disabled: sensitiveColumns.length > 0,
+        onChange: (e) => setAnonymizationConfirmed(e.target.checked),
+        className: "w-4 h-4 rounded mt-0.5",
+        style: { accentColor: "#256B45" }
+      }
+    ), /* @__PURE__ */ import_react72.default.createElement("span", { className: "text-xs", style: { color: anonymizationConfirmed ? "#256B45" : "#374151" } }, "Je certifie que cette base ne contient aucune donn\xE9e permettant d'identifier une personne physique (nom, contact, pi\xE8ce d'identit\xE9\u2026) et respecte les obligations d'anonymisation applicables.")))), step === 2 && /* @__PURE__ */ import_react72.default.createElement(Card, null, /* @__PURE__ */ import_react72.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY4 } }, "Contexte de l'\xE9tude"), /* @__PURE__ */ import_react72.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, "Ces informations cadrent l'interpr\xE9tation narrative du rapport final."), /* @__PURE__ */ import_react72.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Objectif de l'\xE9tude"), /* @__PURE__ */ import_react72.default.createElement(
       "textarea",
       {
         className: "w-full text-sm rounded-xl border border-gray-200 p-3 mb-5 resize-none focus:outline-none focus:ring-2",
@@ -98965,7 +99934,7 @@ ${suffix2}`;
       /* @__PURE__ */ import_react72.default.createElement("option", null, "M\xE9nage"),
       /* @__PURE__ */ import_react72.default.createElement("option", null, "Parcelle"),
       /* @__PURE__ */ import_react72.default.createElement("option", null, "Commune")
-    )))), step === 4 && /* @__PURE__ */ import_react72.default.createElement(Card, null, /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex items-center justify-between mb-1" }, /* @__PURE__ */ import_react72.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY4 } }, "Indicateurs de performance"), /* @__PURE__ */ import_react72.default.createElement(
+    )))), step === 3 && /* @__PURE__ */ import_react72.default.createElement(Card, null, /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex items-center justify-between mb-1" }, /* @__PURE__ */ import_react72.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY4 } }, "Indicateurs de performance"), /* @__PURE__ */ import_react72.default.createElement(
       "button",
       {
         onClick: () => setEditingIndicateur({ id: null, nom: "", formule: "", seuil: "" }),
@@ -99001,7 +99970,7 @@ ${suffix2}`;
         className: "w-full text-sm rounded-lg border border-gray-200 p-2 mb-2 focus:outline-none focus:ring-2",
         style: { "--tw-ring-color": GOLD3 }
       }
-    ), /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex gap-2" }, /* @__PURE__ */ import_react72.default.createElement("button", { onClick: saveIndicateur, className: "px-3 py-1.5 rounded-lg text-xs font-medium text-white", style: { background: "#256B45" } }, /* @__PURE__ */ import_react72.default.createElement(Check, { size: 12, className: "inline mr-1 -mt-0.5" }), " Enregistrer"), /* @__PURE__ */ import_react72.default.createElement("button", { onClick: () => setEditingIndicateur(null), className: "px-3 py-1.5 rounded-lg text-xs font-medium bg-white border border-gray-200 text-gray-600" }, "Annuler"))), /* @__PURE__ */ import_react72.default.createElement("div", { className: "space-y-3" }, indicateurs.map((kpi) => /* @__PURE__ */ import_react72.default.createElement("div", { key: kpi.id, className: "flex items-center gap-3 rounded-xl border border-gray-100 p-3" }, /* @__PURE__ */ import_react72.default.createElement("div", { className: "w-8 h-8 rounded-lg flex items-center justify-center shrink-0", style: { background: "#EBEEF7" } }, /* @__PURE__ */ import_react72.default.createElement(ChartColumn, { size: 15, style: { color: NAVY4 } })), /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex-1" }, /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-sm font-medium text-gray-800" }, kpi.nom), /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-[11px] text-gray-400" }, kpi.formule)), /* @__PURE__ */ import_react72.default.createElement("span", { className: "text-[11px] font-medium px-2 py-1 rounded-full", style: { background: "#FDF1DA", color: "#8A5A00" } }, "Seuil : ", kpi.seuil || "ND"), /* @__PURE__ */ import_react72.default.createElement("button", { onClick: () => setEditingIndicateur(kpi), className: "text-gray-300 hover:text-blue-500" }, /* @__PURE__ */ import_react72.default.createElement(Pencil, { size: 14 })), /* @__PURE__ */ import_react72.default.createElement("button", { onClick: () => setIndicateurs(indicateurs.filter((k2) => k2.id !== kpi.id)), className: "text-gray-300 hover:text-red-400" }, /* @__PURE__ */ import_react72.default.createElement(Trash2, { size: 15 })))), indicateurs.length === 0 && /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-xs text-gray-400 italic text-center py-4" }, "Aucun indicateur d\xE9fini \u2014 cliquez sur \xAB Ajouter un indicateur \xBB."))), step === 5 && /* @__PURE__ */ import_react72.default.createElement(Card, null, /* @__PURE__ */ import_react72.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY4 } }, "Cartographie automatique des variables"), /* @__PURE__ */ import_react72.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, dataset ? `Types d\xE9tect\xE9s r\xE9ellement \xE0 partir de ${dataset.fileName} (${dataset.rows.length} lignes).` : "Aucun fichier import\xE9 \xE0 l'\xE9tape 2 \u2014 exemple illustratif ci-dessous."), /* @__PURE__ */ import_react72.default.createElement("div", { className: "rounded-xl overflow-hidden border border-gray-100" }, /* @__PURE__ */ import_react72.default.createElement("table", { className: "w-full text-sm" }, /* @__PURE__ */ import_react72.default.createElement("thead", null, /* @__PURE__ */ import_react72.default.createElement("tr", { className: "text-left text-[11px] text-gray-400 uppercase bg-gray-50" }, /* @__PURE__ */ import_react72.default.createElement("th", { className: "px-4 py-2.5 font-medium" }, "Colonne de la base"), /* @__PURE__ */ import_react72.default.createElement("th", { className: "px-4 py-2.5 font-medium" }, "Type d\xE9tect\xE9"), /* @__PURE__ */ import_react72.default.createElement("th", { className: "px-4 py-2.5 font-medium" }, "Statut"))), /* @__PURE__ */ import_react72.default.createElement("tbody", null, (dataset ? dataset.columns.map((c2) => ({
+    ), /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex gap-2" }, /* @__PURE__ */ import_react72.default.createElement("button", { onClick: saveIndicateur, className: "px-3 py-1.5 rounded-lg text-xs font-medium text-white", style: { background: "#256B45" } }, /* @__PURE__ */ import_react72.default.createElement(Check, { size: 12, className: "inline mr-1 -mt-0.5" }), " Enregistrer"), /* @__PURE__ */ import_react72.default.createElement("button", { onClick: () => setEditingIndicateur(null), className: "px-3 py-1.5 rounded-lg text-xs font-medium bg-white border border-gray-200 text-gray-600" }, "Annuler"))), /* @__PURE__ */ import_react72.default.createElement("div", { className: "space-y-3" }, indicateurs.map((kpi) => /* @__PURE__ */ import_react72.default.createElement("div", { key: kpi.id, className: "flex items-center gap-3 rounded-xl border border-gray-100 p-3" }, /* @__PURE__ */ import_react72.default.createElement("div", { className: "w-8 h-8 rounded-lg flex items-center justify-center shrink-0", style: { background: "#EBEEF7" } }, /* @__PURE__ */ import_react72.default.createElement(ChartColumn, { size: 15, style: { color: NAVY4 } })), /* @__PURE__ */ import_react72.default.createElement("div", { className: "flex-1" }, /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-sm font-medium text-gray-800" }, kpi.nom), /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-[11px] text-gray-400" }, kpi.formule)), /* @__PURE__ */ import_react72.default.createElement("span", { className: "text-[11px] font-medium px-2 py-1 rounded-full", style: { background: "#FDF1DA", color: "#8A5A00" } }, "Seuil : ", kpi.seuil || "ND"), /* @__PURE__ */ import_react72.default.createElement("button", { onClick: () => setEditingIndicateur(kpi), className: "text-gray-300 hover:text-blue-500" }, /* @__PURE__ */ import_react72.default.createElement(Pencil, { size: 14 })), /* @__PURE__ */ import_react72.default.createElement("button", { onClick: () => setIndicateurs(indicateurs.filter((k2) => k2.id !== kpi.id)), className: "text-gray-300 hover:text-red-400" }, /* @__PURE__ */ import_react72.default.createElement(Trash, { size: 15 })))), indicateurs.length === 0 && /* @__PURE__ */ import_react72.default.createElement("div", { className: "text-xs text-gray-400 italic text-center py-4" }, "Aucun indicateur d\xE9fini \u2014 cliquez sur \xAB Ajouter un indicateur \xBB."))), step === 4 && /* @__PURE__ */ import_react72.default.createElement(Card, null, /* @__PURE__ */ import_react72.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY4 } }, "Cartographie automatique des variables"), /* @__PURE__ */ import_react72.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, dataset ? `Types d\xE9tect\xE9s r\xE9ellement \xE0 partir de ${dataset.fileName} (${dataset.rows.length} lignes).` : "Aucun fichier import\xE9 \xE0 l'\xE9tape 2 \u2014 exemple illustratif ci-dessous."), /* @__PURE__ */ import_react72.default.createElement("div", { className: "rounded-xl overflow-hidden border border-gray-100" }, /* @__PURE__ */ import_react72.default.createElement("table", { className: "w-full text-sm" }, /* @__PURE__ */ import_react72.default.createElement("thead", null, /* @__PURE__ */ import_react72.default.createElement("tr", { className: "text-left text-[11px] text-gray-400 uppercase bg-gray-50" }, /* @__PURE__ */ import_react72.default.createElement("th", { className: "px-4 py-2.5 font-medium" }, "Colonne de la base"), /* @__PURE__ */ import_react72.default.createElement("th", { className: "px-4 py-2.5 font-medium" }, "Type d\xE9tect\xE9"), /* @__PURE__ */ import_react72.default.createElement("th", { className: "px-4 py-2.5 font-medium" }, "Statut"))), /* @__PURE__ */ import_react72.default.createElement("tbody", null, (dataset ? dataset.columns.map((c2) => ({
       q: c2.name,
       type: c2.type,
       status: c2.isGeo ? "geo" : c2.type === "Texte libre" ? "warn" : "ok"
@@ -99020,11 +99989,13 @@ ${suffix2}`;
       },
       /* @__PURE__ */ import_react72.default.createElement(ChevronLeft, { size: 15 }),
       " Pr\xE9c\xE9dent"
-    ), step < 5 ? /* @__PURE__ */ import_react72.default.createElement(
+    ), step < 4 ? /* @__PURE__ */ import_react72.default.createElement(
       "button",
       {
         onClick: () => setStep(step + 1),
-        className: "px-5 py-2.5 rounded-xl text-sm font-medium flex items-center gap-1.5 text-white shadow-md",
+        disabled: step === 1 && (!dataset || !anonymizationConfirmed),
+        title: step === 1 && dataset && !anonymizationConfirmed ? "Cochez l'attestation d'anonymisation pour continuer" : void 0,
+        className: "px-5 py-2.5 rounded-xl text-sm font-medium flex items-center gap-1.5 text-white shadow-md disabled:opacity-40 disabled:cursor-not-allowed",
         style: { background: `linear-gradient(135deg, ${NAVY4}, #2A4A82)` }
       },
       "Suivant ",
@@ -99049,7 +100020,8 @@ ${suffix2}`;
             periode_debut: periodeDebut || null,
             periode_fin: periodeFin || null,
             unite_analyse: uniteAnalyse,
-            indicateurs
+            indicateurs,
+            donnees_anonymisees: anonymizationConfirmed
           });
           setSubmitting(false);
           if (error) setSubmitError(error.message);
@@ -119281,16 +120253,19 @@ react-is/cjs/react-is.development.js:
 papaparse/papaparse.min.js:
   (* @license
   Papa Parse
-  v5.6.0
+  v5.7.0
   https://github.com/mholt/PapaParse
   License: MIT
   *)
 
-lucide-react/dist/esm/shared/src/utils/mergeClasses.mjs:
 lucide-react/dist/esm/shared/src/utils/toKebabCase.mjs:
+lucide-react/dist/esm/shared/src/utils/toLucideIconData.mjs:
 lucide-react/dist/esm/shared/src/utils/toCamelCase.mjs:
 lucide-react/dist/esm/shared/src/utils/toPascalCase.mjs:
-lucide-react/dist/esm/defaultAttributes.mjs:
+lucide-react/dist/esm/shared/src/utils/mergeClasses.mjs:
+lucide-react/dist/esm/shared/src/build/defaultAttributes.mjs:
+lucide-react/dist/esm/shared/src/build/buildLucideIconNode.mjs:
+lucide-react/dist/esm/shared/src/build/buildLucideIconForReact.mjs:
 lucide-react/dist/esm/shared/src/utils/hasA11yProp.mjs:
 lucide-react/dist/esm/context.mjs:
 lucide-react/dist/esm/Icon.mjs:
@@ -119316,7 +120291,6 @@ lucide-react/dist/esm/icons/ellipsis.mjs:
 lucide-react/dist/esm/icons/file-check-corner.mjs:
 lucide-react/dist/esm/icons/file-down.mjs:
 lucide-react/dist/esm/icons/file-output.mjs:
-lucide-react/dist/esm/icons/file-spreadsheet.mjs:
 lucide-react/dist/esm/icons/file-text.mjs:
 lucide-react/dist/esm/icons/file-type-corner.mjs:
 lucide-react/dist/esm/icons/folder-kanban.mjs:
@@ -119343,9 +120317,9 @@ lucide-react/dist/esm/icons/sigma.mjs:
 lucide-react/dist/esm/icons/sparkles.mjs:
 lucide-react/dist/esm/icons/sun.mjs:
 lucide-react/dist/esm/icons/thermometer.mjs:
-lucide-react/dist/esm/icons/toggle-right.mjs:
 lucide-react/dist/esm/icons/toggle-left.mjs:
-lucide-react/dist/esm/icons/trash-2.mjs:
+lucide-react/dist/esm/icons/toggle-right.mjs:
+lucide-react/dist/esm/icons/trash.mjs:
 lucide-react/dist/esm/icons/trending-up.mjs:
 lucide-react/dist/esm/icons/triangle-alert.mjs:
 lucide-react/dist/esm/icons/upload.mjs:
@@ -119355,7 +120329,7 @@ lucide-react/dist/esm/icons/wand-sparkles.mjs:
 lucide-react/dist/esm/icons/x.mjs:
 lucide-react/dist/esm/lucide-react.mjs:
   (**
-   * @license lucide-react v1.28.0 - ISC
+   * @license lucide-react v1.43.0 - ISC
    *
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
