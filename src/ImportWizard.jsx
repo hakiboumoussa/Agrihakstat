@@ -54,6 +54,41 @@ function detectSensitiveColumns(columns) {
   return found;
 }
 
+// ---------- Détection sur le contenu réel des cellules ----------
+// Motifs recherchés dans un échantillon de valeurs, indépendamment du nom de la colonne.
+const PHONE_RE = /^(\+?229)?[\s.-]?\d{2}[\s.-]?\d{2}[\s.-]?\d{2}[\s.-]?\d{2}$/;
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i;
+const FULLNAME_RE = /^[A-ZÀ-Ý][a-zà-ÿ'-]+(\s[A-ZÀ-Ý][a-zà-ÿ'-]+){1,3}$/;
+
+function sampleValues(rows, colName, max = 60) {
+  const vals = [];
+  for (const row of rows) {
+    const v = row[colName];
+    if (v !== null && v !== undefined && String(v).trim() !== "") vals.push(String(v).trim());
+    if (vals.length >= max) break;
+  }
+  return vals;
+}
+
+function detectSensitiveValues(columns, rows, alreadyFlagged) {
+  const flaggedNames = new Set(alreadyFlagged.map((c) => c.name));
+  const found = [];
+  columns.forEach((c) => {
+    if (flaggedNames.has(c.name)) return; // déjà signalée par son nom, inutile de rescanner
+    const vals = sampleValues(rows, c.name);
+    if (vals.length < 5) return;
+
+    const pctPhone = vals.filter((v) => PHONE_RE.test(v.replace(/\s/g, ""))).length / vals.length;
+    const pctEmail = vals.filter((v) => EMAIL_RE.test(v)).length / vals.length;
+    const pctName = vals.filter((v) => FULLNAME_RE.test(v)).length / vals.length;
+
+    if (pctPhone >= 0.5) found.push({ name: c.name, reason: "valeurs ressemblant à des numéros de téléphone" });
+    else if (pctEmail >= 0.5) found.push({ name: c.name, reason: "valeurs ressemblant à des adresses e-mail" });
+    else if (pctName >= 0.5) found.push({ name: c.name, reason: "valeurs ressemblant à des noms de personnes" });
+  });
+  return found;
+}
+
 function Watermark() {
   return (
     <div className="fixed inset-0 overflow-hidden pointer-events-none z-0 flex items-center justify-center">
@@ -249,7 +284,9 @@ export default function ImportWizard({ active, onNavigate, userEmail, userId, ro
       }
       const columns = buildColumnsMeta(parsedRows);
       setAnonymizationConfirmed(false);
-      setSensitiveColumns(detectSensitiveColumns(columns));
+      const byName = detectSensitiveColumns(columns);
+      const byValue = detectSensitiveValues(columns, parsedRows, byName);
+      setSensitiveColumns([...byName, ...byValue]);
       onDatasetParsed({ rows: parsedRows, columns, fileName: file.name });
     };
 

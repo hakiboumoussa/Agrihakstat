@@ -99674,6 +99674,34 @@ ${suffix2}`;
     });
     return found;
   }
+  var PHONE_RE = /^(\+?229)?[\s.-]?\d{2}[\s.-]?\d{2}[\s.-]?\d{2}[\s.-]?\d{2}$/;
+  var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i;
+  var FULLNAME_RE = /^[A-ZÀ-Ý][a-zà-ÿ'-]+(\s[A-ZÀ-Ý][a-zà-ÿ'-]+){1,3}$/;
+  function sampleValues(rows, colName, max2 = 60) {
+    const vals = [];
+    for (const row of rows) {
+      const v = row[colName];
+      if (v !== null && v !== void 0 && String(v).trim() !== "") vals.push(String(v).trim());
+      if (vals.length >= max2) break;
+    }
+    return vals;
+  }
+  function detectSensitiveValues(columns, rows, alreadyFlagged) {
+    const flaggedNames = new Set(alreadyFlagged.map((c2) => c2.name));
+    const found = [];
+    columns.forEach((c2) => {
+      if (flaggedNames.has(c2.name)) return;
+      const vals = sampleValues(rows, c2.name);
+      if (vals.length < 5) return;
+      const pctPhone = vals.filter((v) => PHONE_RE.test(v.replace(/\s/g, ""))).length / vals.length;
+      const pctEmail = vals.filter((v) => EMAIL_RE.test(v)).length / vals.length;
+      const pctName = vals.filter((v) => FULLNAME_RE.test(v)).length / vals.length;
+      if (pctPhone >= 0.5) found.push({ name: c2.name, reason: "valeurs ressemblant \xE0 des num\xE9ros de t\xE9l\xE9phone" });
+      else if (pctEmail >= 0.5) found.push({ name: c2.name, reason: "valeurs ressemblant \xE0 des adresses e-mail" });
+      else if (pctName >= 0.5) found.push({ name: c2.name, reason: "valeurs ressemblant \xE0 des noms de personnes" });
+    });
+    return found;
+  }
   function Watermark2() {
     return /* @__PURE__ */ import_react72.default.createElement("div", { className: "fixed inset-0 overflow-hidden pointer-events-none z-0 flex items-center justify-center" }, /* @__PURE__ */ import_react72.default.createElement(
       "span",
@@ -99805,7 +99833,9 @@ ${suffix2}`;
         }
         const columns = buildColumnsMeta(parsedRows);
         setAnonymizationConfirmed(false);
-        setSensitiveColumns(detectSensitiveColumns(columns));
+        const byName = detectSensitiveColumns(columns);
+        const byValue = detectSensitiveValues(columns, parsedRows, byName);
+        setSensitiveColumns([...byName, ...byValue]);
         onDatasetParsed({ rows: parsedRows, columns, fileName: file.name });
       };
       if (extension === "xlsx" || extension === "xls") {
