@@ -1517,6 +1517,10 @@ video {
   line-height: 1.25;
 }
 
+.tracking-wide {
+  letter-spacing: 0.025em;
+}
+
 .text-\[\#1F3864\] {
   --tw-text-opacity: 1;
   color: rgb(31 56 100 / var(--tw-text-opacity, 1));

@@ -21548,9 +21548,9 @@
           return x2 === y2 && (0 !== x2 || 1 / x2 === 1 / y2) || x2 !== x2 && y2 !== y2;
         }
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-        var React70 = require_react(), shim = require_shim(), objectIs = "function" === typeof Object.is ? Object.is : is3, useSyncExternalStore2 = shim.useSyncExternalStore, useRef25 = React70.useRef, useEffect28 = React70.useEffect, useMemo15 = React70.useMemo, useDebugValue2 = React70.useDebugValue;
+        var React70 = require_react(), shim = require_shim(), objectIs = "function" === typeof Object.is ? Object.is : is3, useSyncExternalStore2 = shim.useSyncExternalStore, useRef26 = React70.useRef, useEffect28 = React70.useEffect, useMemo15 = React70.useMemo, useDebugValue2 = React70.useDebugValue;
         exports.useSyncExternalStoreWithSelector = function(subscribe, getSnapshot, getServerSnapshot, selector, isEqual2) {
-          var instRef = useRef25(null);
+          var instRef = useRef26(null);
           if (null === instRef.current) {
             var inst = { hasValue: false, value: null };
             instRef.current = inst;
@@ -21627,9 +21627,9 @@
           return x2 === y2 && (0 !== x2 || 1 / x2 === 1 / y2) || x2 !== x2 && y2 !== y2;
         }
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-        var React70 = require_react(), objectIs = "function" === typeof Object.is ? Object.is : is3, useSyncExternalStore2 = React70.useSyncExternalStore, useRef25 = React70.useRef, useEffect28 = React70.useEffect, useMemo15 = React70.useMemo, useDebugValue2 = React70.useDebugValue;
+        var React70 = require_react(), objectIs = "function" === typeof Object.is ? Object.is : is3, useSyncExternalStore2 = React70.useSyncExternalStore, useRef26 = React70.useRef, useEffect28 = React70.useEffect, useMemo15 = React70.useMemo, useDebugValue2 = React70.useDebugValue;
         exports.useSyncExternalStoreWithSelector = function(subscribe, getSnapshot, getServerSnapshot, selector, isEqual2) {
-          var instRef = useRef25(null);
+          var instRef = useRef26(null);
           if (null === instRef.current) {
             var inst = { hasValue: false, value: null };
             instRef.current = inst;
@@ -24291,8 +24291,25 @@
   __iconData45.node;
   var Sparkles = createLucideIcon(__iconData45);
 
-  // node_modules/lucide-react/dist/esm/icons/sun.mjs
+  // node_modules/lucide-react/dist/esm/icons/star.mjs
   var __iconData46 = {
+    name: "star",
+    size: 24,
+    node: [
+      [
+        "path",
+        {
+          d: "M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z",
+          key: "r04s7s"
+        }
+      ]
+    ]
+  };
+  __iconData46.node;
+  var Star = createLucideIcon(__iconData46);
+
+  // node_modules/lucide-react/dist/esm/icons/sun.mjs
+  var __iconData47 = {
     name: "sun",
     size: 24,
     node: [
@@ -24307,20 +24324,20 @@
       ["path", { d: "m19.07 4.93-1.41 1.41", key: "1shlcs" }]
     ]
   };
-  __iconData46.node;
-  var Sun = createLucideIcon(__iconData46);
+  __iconData47.node;
+  var Sun = createLucideIcon(__iconData47);
 
   // node_modules/lucide-react/dist/esm/icons/thermometer.mjs
-  var __iconData47 = {
+  var __iconData48 = {
     name: "thermometer",
     size: 24,
     node: [["path", { d: "M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0Z", key: "17jzev" }]]
   };
-  __iconData47.node;
-  var Thermometer = createLucideIcon(__iconData47);
+  __iconData48.node;
+  var Thermometer = createLucideIcon(__iconData48);
 
   // node_modules/lucide-react/dist/esm/icons/toggle-left.mjs
-  var __iconData48 = {
+  var __iconData49 = {
     name: "toggle-left",
     size: 24,
     node: [
@@ -24328,11 +24345,11 @@
       ["rect", { width: "20", height: "14", x: "2", y: "5", rx: "7", key: "g7kal2" }]
     ]
   };
-  __iconData48.node;
-  var ToggleLeft = createLucideIcon(__iconData48);
+  __iconData49.node;
+  var ToggleLeft = createLucideIcon(__iconData49);
 
   // node_modules/lucide-react/dist/esm/icons/toggle-right.mjs
-  var __iconData49 = {
+  var __iconData50 = {
     name: "toggle-right",
     size: 24,
     node: [
@@ -24340,11 +24357,11 @@
       ["rect", { width: "20", height: "14", x: "2", y: "5", rx: "7", key: "g7kal2" }]
     ]
   };
-  __iconData49.node;
-  var ToggleRight = createLucideIcon(__iconData49);
+  __iconData50.node;
+  var ToggleRight = createLucideIcon(__iconData50);
 
   // node_modules/lucide-react/dist/esm/icons/trash.mjs
-  var __iconData50 = {
+  var __iconData51 = {
     name: "trash",
     size: 24,
     node: [
@@ -24356,11 +24373,11 @@
     ],
     aliases: ["trash-2"]
   };
-  __iconData50.node;
-  var Trash = createLucideIcon(__iconData50);
+  __iconData51.node;
+  var Trash = createLucideIcon(__iconData51);
 
   // node_modules/lucide-react/dist/esm/icons/trending-up.mjs
-  var __iconData51 = {
+  var __iconData52 = {
     name: "trending-up",
     size: 24,
     node: [
@@ -24368,11 +24385,11 @@
       ["path", { d: "m22 7-8.5 8.5-5-5L2 17", key: "1t1m79" }]
     ]
   };
-  __iconData51.node;
-  var TrendingUp = createLucideIcon(__iconData51);
+  __iconData52.node;
+  var TrendingUp = createLucideIcon(__iconData52);
 
   // node_modules/lucide-react/dist/esm/icons/triangle-alert.mjs
-  var __iconData52 = {
+  var __iconData53 = {
     name: "triangle-alert",
     size: 24,
     node: [
@@ -24388,11 +24405,11 @@
     ],
     aliases: ["alert-triangle"]
   };
-  __iconData52.node;
-  var TriangleAlert = createLucideIcon(__iconData52);
+  __iconData53.node;
+  var TriangleAlert = createLucideIcon(__iconData53);
 
   // node_modules/lucide-react/dist/esm/icons/upload.mjs
-  var __iconData53 = {
+  var __iconData54 = {
     name: "upload",
     size: 24,
     node: [
@@ -24401,11 +24418,11 @@
       ["path", { d: "M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4", key: "ih7n3h" }]
     ]
   };
-  __iconData53.node;
-  var Upload = createLucideIcon(__iconData53);
+  __iconData54.node;
+  var Upload = createLucideIcon(__iconData54);
 
   // node_modules/lucide-react/dist/esm/icons/user.mjs
-  var __iconData54 = {
+  var __iconData55 = {
     name: "user",
     size: 24,
     node: [
@@ -24413,11 +24430,11 @@
       ["circle", { cx: "12", cy: "7", r: "4", key: "17ys0d" }]
     ]
   };
-  __iconData54.node;
-  var User = createLucideIcon(__iconData54);
+  __iconData55.node;
+  var User = createLucideIcon(__iconData55);
 
   // node_modules/lucide-react/dist/esm/icons/users.mjs
-  var __iconData55 = {
+  var __iconData56 = {
     name: "users",
     size: 24,
     node: [
@@ -24427,11 +24444,11 @@
       ["circle", { cx: "9", cy: "7", r: "4", key: "nufk8" }]
     ]
   };
-  __iconData55.node;
-  var Users = createLucideIcon(__iconData55);
+  __iconData56.node;
+  var Users = createLucideIcon(__iconData56);
 
   // node_modules/lucide-react/dist/esm/icons/wand-sparkles.mjs
-  var __iconData56 = {
+  var __iconData57 = {
     name: "wand-sparkles",
     size: 24,
     node: [
@@ -24452,11 +24469,11 @@
     ],
     aliases: ["wand-2"]
   };
-  __iconData56.node;
-  var WandSparkles = createLucideIcon(__iconData56);
+  __iconData57.node;
+  var WandSparkles = createLucideIcon(__iconData57);
 
   // node_modules/lucide-react/dist/esm/icons/x.mjs
-  var __iconData57 = {
+  var __iconData58 = {
     name: "x",
     size: 24,
     node: [
@@ -24464,8 +24481,8 @@
       ["path", { d: "m6 6 12 12", key: "d8bk6v" }]
     ]
   };
-  __iconData57.node;
-  var X = createLucideIcon(__iconData57);
+  __iconData58.node;
+  var X = createLucideIcon(__iconData58);
 
   // src/Dashboard.jsx
   var import_react71 = __toESM(require_react());
@@ -100300,6 +100317,33 @@ ${suffix2}`;
     }, [dataset]);
     const availableVars = variables.filter((v) => included.includes(v.id));
     const toggleIncluded = (id) => setIncluded((prev) => prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]);
+    function normalizeTxt(s2) {
+      return String(s2).normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[_\-]/g, " ");
+    }
+    const indicateurTexts = (context?.indicateurs || []).map((k2) => normalizeTxt(`${k2.nom} ${k2.formule || ""}`));
+    const isPriority = (v) => {
+      if (indicateurTexts.length === 0) return false;
+      const tokens = normalizeTxt(v.label).split(/\s+/).filter((t) => t.length >= 4);
+      return tokens.some((t) => indicateurTexts.some((txt) => txt.includes(t)));
+    };
+    const variablesWithPriority = variables.map((v) => ({ ...v, priority: isPriority(v) }));
+    const priorityVariables = variablesWithPriority.filter((v) => v.priority);
+    const [variableSearch, setVariableSearch] = (0, import_react73.useState)("");
+    const searchNorm = normalizeTxt(variableSearch);
+    const filteredVariables = variablesWithPriority.filter((v) => !searchNorm || normalizeTxt(v.label).includes(searchNorm));
+    const sortByPriority = (a2, b) => b.priority === a2.priority ? 0 : b.priority ? 1 : -1;
+    const groupedVariables = {
+      quantitative: filteredVariables.filter((v) => v.isQuantitative).sort(sortByPriority),
+      qualitative: filteredVariables.filter((v) => !v.isQuantitative).sort(sortByPriority)
+    };
+    const autoSuggestDone = (0, import_react73.useRef)(false);
+    (0, import_react73.useEffect)(() => {
+      if (dataset && context?.indicateurs?.length > 0 && !autoSuggestDone.current) {
+        autoSuggestDone.current = true;
+        fetchSuggestions();
+      }
+      if (!dataset) autoSuggestDone.current = false;
+    }, [dataset]);
     const fetchSuggestions = async () => {
       if (!dataset) return;
       setSuggestLoading(true);
@@ -100377,17 +100421,31 @@ ${suffix2}`;
           onOpenAdmin
         }
       ))
-    ), /* @__PURE__ */ import_react73.default.createElement("main", { className: "p-8 grid grid-cols-3 gap-6" }, /* @__PURE__ */ import_react73.default.createElement("div", { className: "col-span-2" }, /* @__PURE__ */ import_react73.default.createElement(Card2, { className: "mb-5" }, /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center gap-2 mb-1" }, /* @__PURE__ */ import_react73.default.createElement(ShieldCheck, { size: 16, style: { color: NAVY5 } }), /* @__PURE__ */ import_react73.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY5 } }, "Variables retenues pour cette session")), /* @__PURE__ */ import_react73.default.createElement("p", { className: "text-xs text-gray-400 mb-3" }, dataset ? `Variables d\xE9tect\xE9es dans ${dataset.fileName}. Seules celles coch\xE9es seront propos\xE9es dans les analyses ci-dessous.` : "Seules les variables coch\xE9es seront propos\xE9es dans les analyses ci-dessous (exemple illustratif \u2014 importez un fichier pour vos propres variables)."), /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex flex-wrap gap-2" }, variables.map((v) => /* @__PURE__ */ import_react73.default.createElement(
+    ), /* @__PURE__ */ import_react73.default.createElement("main", { className: "p-8 grid grid-cols-3 gap-6" }, /* @__PURE__ */ import_react73.default.createElement("div", { className: "col-span-2" }, /* @__PURE__ */ import_react73.default.createElement(Card2, { className: "mb-5" }, /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center gap-2 mb-1" }, /* @__PURE__ */ import_react73.default.createElement(ShieldCheck, { size: 16, style: { color: NAVY5 } }), /* @__PURE__ */ import_react73.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY5 } }, "Variables retenues pour cette session")), /* @__PURE__ */ import_react73.default.createElement("p", { className: "text-xs text-gray-400 mb-3" }, dataset ? `Variables d\xE9tect\xE9es dans ${dataset.fileName}. Seules celles coch\xE9es seront propos\xE9es dans les analyses ci-dessous.` : "Seules les variables coch\xE9es seront propos\xE9es dans les analyses ci-dessous (exemple illustratif \u2014 importez un fichier pour vos propres variables)."), variables.length > 8 && /* @__PURE__ */ import_react73.default.createElement(
+      "input",
+      {
+        type: "text",
+        value: variableSearch,
+        onChange: (e) => setVariableSearch(e.target.value),
+        placeholder: `Rechercher parmi les ${variables.length} variables\u2026`,
+        className: "w-full text-sm rounded-xl border border-gray-200 p-2.5 mb-3 focus:outline-none focus:ring-2",
+        style: { "--tw-ring-color": GOLD4 }
+      }
+    ), priorityVariables.length > 0 && /* @__PURE__ */ import_react73.default.createElement("p", { className: "text-[11px] mb-2 flex items-center gap-1", style: { color: "#8A5A00" } }, /* @__PURE__ */ import_react73.default.createElement(Star, { size: 11, fill: "#C99A2E", style: { color: GOLD4 } }), " ", priorityVariables.length, " variable", priorityVariables.length > 1 ? "s" : "", " en lien avec vos indicateurs d\xE9clar\xE9s \u2014 mise", priorityVariables.length > 1 ? "s" : "", " en avant ci-dessous."), [
+      { label: "Quantitatives", list: groupedVariables.quantitative },
+      { label: "Qualitatives", list: groupedVariables.qualitative }
+    ].map(({ label, list }) => list.length > 0 && /* @__PURE__ */ import_react73.default.createElement("div", { key: label, className: "mb-3" }, /* @__PURE__ */ import_react73.default.createElement("div", { className: "text-[10px] uppercase tracking-wide text-gray-400 font-medium mb-1.5" }, label, " \xB7 ", list.length), /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex flex-wrap gap-2" }, list.map((v) => /* @__PURE__ */ import_react73.default.createElement(
       "button",
       {
         key: v.id,
         onClick: () => toggleIncluded(v.id),
-        className: "px-3 py-1.5 rounded-full text-xs font-medium border transition-colors",
-        style: included.includes(v.id) ? { background: NAVY_TINT, borderColor: NAVY5, color: NAVY5 } : { background: "white", borderColor: "#D8DEE9", color: "#B0B7C6" }
+        className: "px-3 py-1.5 rounded-full text-xs font-medium border transition-colors flex items-center gap-1",
+        style: included.includes(v.id) ? { background: v.priority ? "#FDF1DA" : NAVY_TINT, borderColor: v.priority ? GOLD4 : NAVY5, color: v.priority ? "#8A5A00" : NAVY5 } : { background: "white", borderColor: "#D8DEE9", color: "#B0B7C6" }
       },
-      included.includes(v.id) ? /* @__PURE__ */ import_react73.default.createElement(Check, { size: 11, className: "inline mr-1 -mt-0.5" }) : null,
+      v.priority && /* @__PURE__ */ import_react73.default.createElement(Star, { size: 10, fill: included.includes(v.id) ? "#C99A2E" : "none", style: { color: GOLD4 } }),
+      included.includes(v.id) ? /* @__PURE__ */ import_react73.default.createElement(Check, { size: 11 }) : null,
       v.label
-    )))), /* @__PURE__ */ import_react73.default.createElement(Card2, { className: "mb-5" }, /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center justify-between mb-1" }, /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center gap-2" }, /* @__PURE__ */ import_react73.default.createElement(WandSparkles, { size: 16, style: { color: GOLD4 } }), /* @__PURE__ */ import_react73.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY5 } }, "Suggestions de Claude")), /* @__PURE__ */ import_react73.default.createElement(
+    ))))), variables.length > 0 && groupedVariables.quantitative.length === 0 && groupedVariables.qualitative.length === 0 && /* @__PURE__ */ import_react73.default.createElement("p", { className: "text-xs text-gray-400 italic" }, "Aucune variable ne correspond \xE0 cette recherche.")), /* @__PURE__ */ import_react73.default.createElement(Card2, { className: "mb-5" }, /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center justify-between mb-1" }, /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center gap-2" }, /* @__PURE__ */ import_react73.default.createElement(WandSparkles, { size: 16, style: { color: GOLD4 } }), /* @__PURE__ */ import_react73.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY5 } }, "Suggestions de Claude")), /* @__PURE__ */ import_react73.default.createElement(
       "button",
       {
         onClick: fetchSuggestions,
@@ -120314,6 +120372,7 @@ lucide-react/dist/esm/icons/settings.mjs:
 lucide-react/dist/esm/icons/shield-check.mjs:
 lucide-react/dist/esm/icons/sigma.mjs:
 lucide-react/dist/esm/icons/sparkles.mjs:
+lucide-react/dist/esm/icons/star.mjs:
 lucide-react/dist/esm/icons/sun.mjs:
 lucide-react/dist/esm/icons/thermometer.mjs:
 lucide-react/dist/esm/icons/toggle-left.mjs:

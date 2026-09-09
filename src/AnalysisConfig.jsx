@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   LayoutDashboard, ClipboardList, BarChart3, FileText, Settings, Sprout,
   Bell, ChevronDown, Wand2, Pencil, Plus, X, Play, Check, Info,
-  TrendingUp, Layers, Sigma, ShieldCheck, AlertTriangle, XCircle, CheckCircle2, MapPin,
+  TrendingUp, Layers, Sigma, ShieldCheck, AlertTriangle, XCircle, CheckCircle2, MapPin, Star,
 } from "lucide-react";
 import UserMenu from "./UserMenu.jsx";
 import Sidebar from "./Sidebar.jsx";
@@ -316,6 +316,39 @@ export default function AnalysisConfig({ active, onNavigate, userEmail, roleLabe
   const toggleIncluded = (id) =>
     setIncluded((prev) => (prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]));
 
+  // Variables jugées prioritaires car mentionnées (même partiellement) dans le nom ou la formule d'un indicateur déclaré
+  function normalizeTxt(s) {
+    return String(s).normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[_\-]/g, " ");
+  }
+  const indicateurTexts = (context?.indicateurs || []).map((k) => normalizeTxt(`${k.nom} ${k.formule || ""}`));
+  const isPriority = (v) => {
+    if (indicateurTexts.length === 0) return false;
+    const tokens = normalizeTxt(v.label).split(/\s+/).filter((t) => t.length >= 4);
+    return tokens.some((t) => indicateurTexts.some((txt) => txt.includes(t)));
+  };
+  const variablesWithPriority = variables.map((v) => ({ ...v, priority: isPriority(v) }));
+  const priorityVariables = variablesWithPriority.filter((v) => v.priority);
+
+  const [variableSearch, setVariableSearch] = useState("");
+  const searchNorm = normalizeTxt(variableSearch);
+  const filteredVariables = variablesWithPriority.filter((v) => !searchNorm || normalizeTxt(v.label).includes(searchNorm));
+  const sortByPriority = (a, b) => (b.priority === a.priority ? 0 : b.priority ? 1 : -1);
+  const groupedVariables = {
+    quantitative: filteredVariables.filter((v) => v.isQuantitative).sort(sortByPriority),
+    qualitative: filteredVariables.filter((v) => !v.isQuantitative).sort(sortByPriority),
+  };
+
+  // Propose automatiquement des analyses dès qu'une base et des indicateurs sont disponibles (une seule fois par import)
+  const autoSuggestDone = useRef(false);
+  useEffect(() => {
+    if (dataset && context?.indicateurs?.length > 0 && !autoSuggestDone.current) {
+      autoSuggestDone.current = true;
+      fetchSuggestions();
+    }
+    if (!dataset) autoSuggestDone.current = false;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dataset]);
+
   const fetchSuggestions = async () => {
     if (!dataset) return;
     setSuggestLoading(true);
@@ -418,23 +451,53 @@ export default function AnalysisConfig({ active, onNavigate, userEmail, roleLabe
                     ? `Variables détectées dans ${dataset.fileName}. Seules celles cochées seront proposées dans les analyses ci-dessous.`
                     : "Seules les variables cochées seront proposées dans les analyses ci-dessous (exemple illustratif — importez un fichier pour vos propres variables)."}
                 </p>
-                <div className="flex flex-wrap gap-2">
-                  {variables.map((v) => (
-                    <button
-                      key={v.id}
-                      onClick={() => toggleIncluded(v.id)}
-                      className="px-3 py-1.5 rounded-full text-xs font-medium border transition-colors"
-                      style={
-                        included.includes(v.id)
-                          ? { background: NAVY_TINT, borderColor: NAVY, color: NAVY }
-                          : { background: "white", borderColor: "#D8DEE9", color: "#B0B7C6" }
-                      }
-                    >
-                      {included.includes(v.id) ? <Check size={11} className="inline mr-1 -mt-0.5" /> : null}
-                      {v.label}
-                    </button>
-                  ))}
-                </div>
+
+                {variables.length > 8 && (
+                  <input
+                    type="text"
+                    value={variableSearch}
+                    onChange={(e) => setVariableSearch(e.target.value)}
+                    placeholder={`Rechercher parmi les ${variables.length} variables…`}
+                    className="w-full text-sm rounded-xl border border-gray-200 p-2.5 mb-3 focus:outline-none focus:ring-2"
+                    style={{ "--tw-ring-color": GOLD }}
+                  />
+                )}
+
+                {priorityVariables.length > 0 && (
+                  <p className="text-[11px] mb-2 flex items-center gap-1" style={{ color: "#8A5A00" }}>
+                    <Star size={11} fill="#C99A2E" style={{ color: GOLD }} /> {priorityVariables.length} variable{priorityVariables.length > 1 ? "s" : ""} en lien avec vos indicateurs déclarés — mise{priorityVariables.length > 1 ? "s" : ""} en avant ci-dessous.
+                  </p>
+                )}
+
+                {[
+                  { label: "Quantitatives", list: groupedVariables.quantitative },
+                  { label: "Qualitatives", list: groupedVariables.qualitative },
+                ].map(({ label, list }) => list.length > 0 && (
+                  <div key={label} className="mb-3">
+                    <div className="text-[10px] uppercase tracking-wide text-gray-400 font-medium mb-1.5">{label} · {list.length}</div>
+                    <div className="flex flex-wrap gap-2">
+                      {list.map((v) => (
+                        <button
+                          key={v.id}
+                          onClick={() => toggleIncluded(v.id)}
+                          className="px-3 py-1.5 rounded-full text-xs font-medium border transition-colors flex items-center gap-1"
+                          style={
+                            included.includes(v.id)
+                              ? { background: v.priority ? "#FDF1DA" : NAVY_TINT, borderColor: v.priority ? GOLD : NAVY, color: v.priority ? "#8A5A00" : NAVY }
+                              : { background: "white", borderColor: "#D8DEE9", color: "#B0B7C6" }
+                          }
+                        >
+                          {v.priority && <Star size={10} fill={included.includes(v.id) ? "#C99A2E" : "none"} style={{ color: GOLD }} />}
+                          {included.includes(v.id) ? <Check size={11} /> : null}
+                          {v.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+                {variables.length > 0 && groupedVariables.quantitative.length === 0 && groupedVariables.qualitative.length === 0 && (
+                  <p className="text-xs text-gray-400 italic">Aucune variable ne correspond à cette recherche.</p>
+                )}
               </Card>
 
               {/* Suggestions d'analyses proposées par Claude, à valider avant configuration */}
