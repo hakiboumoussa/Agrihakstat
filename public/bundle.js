@@ -119901,6 +119901,17 @@ ${suffix2}`;
   function Card6({ children, className = "" }) {
     return /* @__PURE__ */ import_react81.default.createElement("div", { className: `bg-white rounded-2xl p-6 shadow-sm border border-black/5 ${className}` }, children);
   }
+  function Chip3({ label, active, onClick }) {
+    return /* @__PURE__ */ import_react81.default.createElement(
+      "button",
+      {
+        onClick,
+        className: "px-3 py-1.5 rounded-full text-xs font-medium border transition-colors",
+        style: active ? { background: NAVY14, borderColor: NAVY14, color: "white" } : { background: "white", borderColor: "#D8DEE9", color: "#5A6478" }
+      },
+      label
+    );
+  }
   function toYYYYMMDD(d) {
     return d.toISOString().slice(0, 10).replace(/-/g, "");
   }
@@ -119913,53 +119924,91 @@ ${suffix2}`;
   }
   function Climate({ active, onNavigate, userEmail, roleLabel, isAdmin, isGuest, onLogout, onOpenAdmin }) {
     const defaults = defaultDates();
-    const [departement, setDepartement] = (0, import_react81.useState)("Borgou");
-    const [commune, setCommune] = (0, import_react81.useState)("Parakou");
+    const [departements, setDepartements] = (0, import_react81.useState)(["Borgou"]);
+    const [communes, setCommunes] = (0, import_react81.useState)(["Parakou"]);
     const [startDate, setStartDate] = (0, import_react81.useState)(defaults.start);
     const [endDate, setEndDate] = (0, import_react81.useState)(defaults.end);
     const [loading, setLoading] = (0, import_react81.useState)(false);
     const [error, setError] = (0, import_react81.useState)("");
+    const [partialWarning, setPartialWarning] = (0, import_react81.useState)("");
     const [result, setResult] = (0, import_react81.useState)(null);
-    const communesDuDepartement = BENIN_DEPARTEMENTS.find((d) => d.departement === departement)?.communes || [];
+    const toggleDepartement = (dep) => {
+      if (departements.includes(dep)) {
+        const communesDeCeDepartement = new Set(BENIN_DEPARTEMENTS.find((d) => d.departement === dep)?.communes || []);
+        setCommunes(communes.filter((c2) => !communesDeCeDepartement.has(c2)));
+        setDepartements(departements.filter((d) => d !== dep));
+      } else {
+        setDepartements([...departements, dep]);
+      }
+    };
+    const toggleCommune = (c2) => setCommunes(communes.includes(c2) ? communes.filter((x2) => x2 !== c2) : [...communes, c2]);
     const fetchClimate = async () => {
-      const coords = COMMUNE_COORDS[commune];
-      if (!coords) {
-        setError("Coordonn\xE9es non disponibles pour cette commune.");
+      if (communes.length === 0) {
+        setError("S\xE9lectionnez au moins une commune.");
         return;
       }
       setLoading(true);
       setError("");
+      setPartialWarning("");
       setResult(null);
-      try {
-        const url = `https://power.larc.nasa.gov/api/temporal/daily/point?parameters=PRECTOTCORR,T2M_MAX,T2M_MIN,T2M&community=AG&longitude=${coords.lon}&latitude=${coords.lat}&start=${startDate}&end=${endDate}&format=JSON`;
-        const res = await fetch(url);
-        if (!res.ok) throw new Error(`Le service NASA POWER a r\xE9pondu avec le code ${res.status}.`);
-        const data = await res.json();
-        const params = data?.properties?.parameter;
-        if (!params) throw new Error(data?.messages?.[0] || "R\xE9ponse inattendue du service NASA POWER.");
-        const dates = Object.keys(params.PRECTOTCORR || {}).sort();
-        const daily = dates.map((d) => ({
-          date: `${d.slice(6, 8)}/${d.slice(4, 6)}`,
-          pluie: params.PRECTOTCORR[d] === -999 ? null : params.PRECTOTCORR[d],
-          tmax: params.T2M_MAX[d] === -999 ? null : params.T2M_MAX[d],
-          tmin: params.T2M_MIN[d] === -999 ? null : params.T2M_MIN[d]
-        })).filter((d) => d.pluie !== null);
-        if (daily.length === 0) throw new Error("Aucune donn\xE9e exploitable sur la p\xE9riode demand\xE9e (essayez une p\xE9riode plus ancienne).");
-        const cumulPluie = daily.reduce((s2, d) => s2 + d.pluie, 0);
-        const joursPluie = daily.filter((d) => d.pluie >= 1).length;
-        const tMaxAbs = Math.max(...daily.map((d) => d.tmax).filter((v) => v !== null));
-        const tMinAbs = Math.min(...daily.map((d) => d.tmin).filter((v) => v !== null));
-        const tMoyenne = daily.reduce((s2, d) => s2 + (d.tmax + d.tmin) / 2, 0) / daily.length;
-        setResult({ daily, cumulPluie, joursPluie, tMaxAbs, tMinAbs, tMoyenne, n: daily.length });
-      } catch (e) {
-        if (e instanceof TypeError) {
-          setError("Impossible de joindre le service NASA POWER (connexion r\xE9seau ou blocage temporaire). V\xE9rifiez votre connexion internet et r\xE9essayez dans quelques instants.");
-        } else {
-          setError(e.message || "\xC9chec de la r\xE9cup\xE9ration des donn\xE9es climatiques.");
-        }
-      } finally {
-        setLoading(false);
+      const outcomes = await Promise.allSettled(
+        communes.map(async (commune) => {
+          const coords = COMMUNE_COORDS[commune];
+          if (!coords) throw new Error(`Coordonn\xE9es non disponibles pour ${commune}.`);
+          const url = `https://power.larc.nasa.gov/api/temporal/daily/point?parameters=PRECTOTCORR,T2M_MAX,T2M_MIN&community=AG&longitude=${coords.lon}&latitude=${coords.lat}&start=${startDate}&end=${endDate}&format=JSON`;
+          const res = await fetch(url);
+          if (!res.ok) throw new Error(`code ${res.status}`);
+          const data = await res.json();
+          const params = data?.properties?.parameter;
+          if (!params) throw new Error(data?.messages?.[0] || "r\xE9ponse inattendue");
+          const dates = Object.keys(params.PRECTOTCORR || {}).sort();
+          const daily2 = {};
+          dates.forEach((d) => {
+            const pluie = params.PRECTOTCORR[d];
+            const tmax = params.T2M_MAX[d];
+            const tmin = params.T2M_MIN[d];
+            daily2[d] = {
+              pluie: pluie === -999 ? null : pluie,
+              tmax: tmax === -999 ? null : tmax,
+              tmin: tmin === -999 ? null : tmin
+            };
+          });
+          return { commune, daily: daily2 };
+        })
+      );
+      const succeeded = outcomes.filter((o) => o.status === "fulfilled").map((o) => o.value);
+      const failed = communes.filter((_, i) => outcomes[i].status === "rejected");
+      setLoading(false);
+      if (succeeded.length === 0) {
+        setError("Impossible de r\xE9cup\xE9rer des donn\xE9es pour aucune des communes s\xE9lectionn\xE9es. V\xE9rifiez votre connexion et r\xE9essayez.");
+        return;
       }
+      if (failed.length > 0) {
+        setPartialWarning(`Donn\xE9es indisponibles pour : ${failed.join(", ")}. La moyenne ci-dessous porte uniquement sur ${succeeded.map((s2) => s2.commune).join(", ")}.`);
+      }
+      const allDates = /* @__PURE__ */ new Set();
+      succeeded.forEach((s2) => Object.keys(s2.daily).forEach((d) => allDates.add(d)));
+      const sortedDates = [...allDates].sort();
+      const daily = sortedDates.map((d) => {
+        const pluies = succeeded.map((s2) => s2.daily[d]?.pluie).filter((v) => v !== null && v !== void 0);
+        const tmaxs = succeeded.map((s2) => s2.daily[d]?.tmax).filter((v) => v !== null && v !== void 0);
+        const tmins = succeeded.map((s2) => s2.daily[d]?.tmin).filter((v) => v !== null && v !== void 0);
+        return {
+          date: `${d.slice(6, 8)}/${d.slice(4, 6)}`,
+          pluie: pluies.length ? pluies.reduce((a2, b) => a2 + b, 0) / pluies.length : null,
+          tmax: tmaxs.length ? tmaxs.reduce((a2, b) => a2 + b, 0) / tmaxs.length : null,
+          tmin: tmins.length ? tmins.reduce((a2, b) => a2 + b, 0) / tmins.length : null
+        };
+      }).filter((d) => d.pluie !== null);
+      if (daily.length === 0) {
+        setError("Aucune donn\xE9e exploitable sur la p\xE9riode demand\xE9e (essayez une p\xE9riode plus ancienne).");
+        return;
+      }
+      const cumulPluie = daily.reduce((s2, d) => s2 + d.pluie, 0);
+      const joursPluie = daily.filter((d) => d.pluie >= 1).length;
+      const tMaxAbs = Math.max(...daily.map((d) => d.tmax).filter((v) => v !== null));
+      const tMinAbs = Math.min(...daily.map((d) => d.tmin).filter((v) => v !== null));
+      setResult({ daily, cumulPluie, joursPluie, tMaxAbs, tMinAbs, n: daily.length, communesUtilisees: succeeded.map((s2) => s2.commune) });
     };
     return /* @__PURE__ */ import_react81.default.createElement("div", { className: "min-h-screen bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans" }, /* @__PURE__ */ import_react81.default.createElement("div", { className: "flex" }, /* @__PURE__ */ import_react81.default.createElement(Sidebar, { active, onNavigate }), /* @__PURE__ */ import_react81.default.createElement("div", { className: "flex-1 min-h-screen" }, /* @__PURE__ */ import_react81.default.createElement(
       "header",
@@ -119967,7 +120016,7 @@ ${suffix2}`;
         className: "bg-white/70 backdrop-blur px-8 py-4 flex items-center justify-between",
         style: { borderBottom: `2px solid ${GOLD13}` }
       },
-      /* @__PURE__ */ import_react81.default.createElement("div", null, /* @__PURE__ */ import_react81.default.createElement("h1", { className: "font-serif text-xl font-bold", style: { color: NAVY14 } }, "Situation agrom\xE9t\xE9orologique"), /* @__PURE__ */ import_react81.default.createElement("p", { className: "text-xs text-gray-500 mt-0.5" }, "Donn\xE9es NASA POWER, par localit\xE9 \u2014 B\xE9nin")),
+      /* @__PURE__ */ import_react81.default.createElement("div", null, /* @__PURE__ */ import_react81.default.createElement("h1", { className: "font-serif text-xl font-bold", style: { color: NAVY14 } }, "Situation agrom\xE9t\xE9orologique"), /* @__PURE__ */ import_react81.default.createElement("p", { className: "text-xs text-gray-500 mt-0.5" }, "Donn\xE9es NASA POWER \u2014 moyenne sur zone d'intervention, B\xE9nin")),
       /* @__PURE__ */ import_react81.default.createElement("div", { className: "flex items-center gap-4" }, /* @__PURE__ */ import_react81.default.createElement(Bell, { size: 18, className: "text-gray-400" }), /* @__PURE__ */ import_react81.default.createElement(
         UserMenu,
         {
@@ -119979,28 +120028,7 @@ ${suffix2}`;
           onOpenAdmin
         }
       ))
-    ), /* @__PURE__ */ import_react81.default.createElement("main", { className: "p-8" }, /* @__PURE__ */ import_react81.default.createElement(Card6, { className: "mb-5" }, /* @__PURE__ */ import_react81.default.createElement("div", { className: "grid grid-cols-4 gap-3 items-end" }, /* @__PURE__ */ import_react81.default.createElement("div", null, /* @__PURE__ */ import_react81.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "D\xE9partement"), /* @__PURE__ */ import_react81.default.createElement(
-      "select",
-      {
-        value: departement,
-        onChange: (e) => {
-          setDepartement(e.target.value);
-          setCommune(BENIN_DEPARTEMENTS.find((d) => d.departement === e.target.value).communes[0]);
-        },
-        className: "w-full text-sm rounded-xl border border-gray-200 p-2.5 bg-white focus:outline-none focus:ring-2",
-        style: { "--tw-ring-color": GOLD13 }
-      },
-      BENIN_DEPARTEMENTS.map((d) => /* @__PURE__ */ import_react81.default.createElement("option", { key: d.departement, value: d.departement }, d.departement))
-    )), /* @__PURE__ */ import_react81.default.createElement("div", null, /* @__PURE__ */ import_react81.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Commune"), /* @__PURE__ */ import_react81.default.createElement(
-      "select",
-      {
-        value: commune,
-        onChange: (e) => setCommune(e.target.value),
-        className: "w-full text-sm rounded-xl border border-gray-200 p-2.5 bg-white focus:outline-none focus:ring-2",
-        style: { "--tw-ring-color": GOLD13 }
-      },
-      communesDuDepartement.map((c2) => /* @__PURE__ */ import_react81.default.createElement("option", { key: c2, value: c2 }, c2))
-    )), /* @__PURE__ */ import_react81.default.createElement("div", null, /* @__PURE__ */ import_react81.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "P\xE9riode"), /* @__PURE__ */ import_react81.default.createElement("div", { className: "flex items-center gap-1.5" }, /* @__PURE__ */ import_react81.default.createElement(
+    ), /* @__PURE__ */ import_react81.default.createElement("main", { className: "p-8" }, /* @__PURE__ */ import_react81.default.createElement(Card6, { className: "mb-5" }, /* @__PURE__ */ import_react81.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Zone d'intervention \u2014 d\xE9partement(s)"), /* @__PURE__ */ import_react81.default.createElement("div", { className: "flex flex-wrap gap-2 mb-3" }, BENIN_DEPARTEMENTS.map((d) => /* @__PURE__ */ import_react81.default.createElement(Chip3, { key: d.departement, label: d.departement, active: departements.includes(d.departement), onClick: () => toggleDepartement(d.departement) }))), departements.length === 0 ? /* @__PURE__ */ import_react81.default.createElement("p", { className: "text-[11px] text-gray-400 italic mb-3" }, "S\xE9lectionnez au moins un d\xE9partement pour afficher ses communes.") : /* @__PURE__ */ import_react81.default.createElement("div", { className: "space-y-2 mb-2" }, departements.map((dep) => /* @__PURE__ */ import_react81.default.createElement("div", { key: dep }, /* @__PURE__ */ import_react81.default.createElement("label", { className: "text-[11px] text-gray-500 block mb-1" }, "Communes de ", dep), /* @__PURE__ */ import_react81.default.createElement("div", { className: "flex flex-wrap gap-2" }, (BENIN_DEPARTEMENTS.find((d) => d.departement === dep)?.communes || []).map((c2) => /* @__PURE__ */ import_react81.default.createElement(Chip3, { key: c2, label: c2, active: communes.includes(c2), onClick: () => toggleCommune(c2) })))))), communes.length > 0 && /* @__PURE__ */ import_react81.default.createElement("div", { className: "flex flex-wrap gap-1.5 mb-4 pt-2 border-t border-gray-100" }, communes.map((c2) => /* @__PURE__ */ import_react81.default.createElement("span", { key: c2, className: "text-[11px] px-2 py-1 rounded-full flex items-center gap-1", style: { background: "#EBEEF7", color: NAVY14 } }, c2, /* @__PURE__ */ import_react81.default.createElement("button", { onClick: () => toggleCommune(c2), className: "hover:text-red-500" }, /* @__PURE__ */ import_react81.default.createElement(X, { size: 11 }))))), /* @__PURE__ */ import_react81.default.createElement("div", { className: "grid grid-cols-3 gap-3 items-end" }, /* @__PURE__ */ import_react81.default.createElement("div", { className: "col-span-2" }, /* @__PURE__ */ import_react81.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "P\xE9riode"), /* @__PURE__ */ import_react81.default.createElement("div", { className: "flex items-center gap-1.5" }, /* @__PURE__ */ import_react81.default.createElement(
       "input",
       {
         type: "date",
@@ -120028,7 +120056,7 @@ ${suffix2}`;
       },
       loading ? /* @__PURE__ */ import_react81.default.createElement(LoaderCircle, { size: 15, className: "animate-spin" }) : /* @__PURE__ */ import_react81.default.createElement(RefreshCw, { size: 15 }),
       " Afficher"
-    )), /* @__PURE__ */ import_react81.default.createElement("p", { className: "text-[11px] text-gray-400 mt-2" }, "Coordonn\xE9es approximatives du centre de la commune (", COMMUNE_COORDS[commune]?.lat.toFixed(2), ", ", COMMUNE_COORDS[commune]?.lon.toFixed(2), ") \xB7 Source : NASA POWER (communaut\xE9 agroclimatique), publication diff\xE9r\xE9e de quelques jours.")), error && /* @__PURE__ */ import_react81.default.createElement("div", { className: "flex items-start gap-2 rounded-xl p-4 mb-5", style: { background: "#FBE7E5", color: "#B3413A" } }, /* @__PURE__ */ import_react81.default.createElement(CircleAlert, { size: 16, className: "mt-0.5 shrink-0" }), /* @__PURE__ */ import_react81.default.createElement("div", { className: "text-sm" }, /* @__PURE__ */ import_react81.default.createElement("p", null, error), /* @__PURE__ */ import_react81.default.createElement(
+    )), /* @__PURE__ */ import_react81.default.createElement("p", { className: "text-[11px] text-gray-400 mt-2" }, "Moyenne calcul\xE9e jour par jour sur les communes s\xE9lectionn\xE9es (coordonn\xE9es approximatives du centre de chaque commune) \xB7 Source : NASA POWER, publication diff\xE9r\xE9e de quelques jours.")), error && /* @__PURE__ */ import_react81.default.createElement("div", { className: "flex items-start gap-2 rounded-xl p-4 mb-5", style: { background: "#FBE7E5", color: "#B3413A" } }, /* @__PURE__ */ import_react81.default.createElement(CircleAlert, { size: 16, className: "mt-0.5 shrink-0" }), /* @__PURE__ */ import_react81.default.createElement("div", { className: "text-sm" }, /* @__PURE__ */ import_react81.default.createElement("p", null, error), /* @__PURE__ */ import_react81.default.createElement(
       "a",
       {
         href: `https://power.larc.nasa.gov/data-access-viewer/`,
@@ -120037,7 +120065,7 @@ ${suffix2}`;
         className: "underline font-medium inline-block mt-1"
       },
       "Consulter directement le site NASA POWER"
-    ))), result && /* @__PURE__ */ import_react81.default.createElement(import_react81.default.Fragment, null, /* @__PURE__ */ import_react81.default.createElement("div", { className: "grid grid-cols-4 gap-4 mb-5" }, /* @__PURE__ */ import_react81.default.createElement(Card6, null, /* @__PURE__ */ import_react81.default.createElement(CloudRain, { size: 18, style: { color: GOLD13 } }), /* @__PURE__ */ import_react81.default.createElement("div", { className: "font-serif text-2xl font-bold mt-2", style: { color: NAVY14 } }, result.cumulPluie.toFixed(1), " mm"), /* @__PURE__ */ import_react81.default.createElement("div", { className: "text-xs text-gray-400" }, "Cumul pluviom\xE9trique")), /* @__PURE__ */ import_react81.default.createElement(Card6, null, /* @__PURE__ */ import_react81.default.createElement(Droplets, { size: 18, style: { color: GOLD13 } }), /* @__PURE__ */ import_react81.default.createElement("div", { className: "font-serif text-2xl font-bold mt-2", style: { color: NAVY14 } }, result.joursPluie, " j"), /* @__PURE__ */ import_react81.default.createElement("div", { className: "text-xs text-gray-400" }, "Jours de pluie (\u2265 1 mm) sur ", result.n)), /* @__PURE__ */ import_react81.default.createElement(Card6, null, /* @__PURE__ */ import_react81.default.createElement(Thermometer, { size: 18, style: { color: "#B3413A" } }), /* @__PURE__ */ import_react81.default.createElement("div", { className: "font-serif text-2xl font-bold mt-2", style: { color: NAVY14 } }, result.tMaxAbs.toFixed(1), " \xB0C"), /* @__PURE__ */ import_react81.default.createElement("div", { className: "text-xs text-gray-400" }, "Temp\xE9rature maximale")), /* @__PURE__ */ import_react81.default.createElement(Card6, null, /* @__PURE__ */ import_react81.default.createElement(Thermometer, { size: 18, style: { color: "#3592C4" } }), /* @__PURE__ */ import_react81.default.createElement("div", { className: "font-serif text-2xl font-bold mt-2", style: { color: NAVY14 } }, result.tMinAbs.toFixed(1), " \xB0C"), /* @__PURE__ */ import_react81.default.createElement("div", { className: "text-xs text-gray-400" }, "Temp\xE9rature minimale"))), /* @__PURE__ */ import_react81.default.createElement("div", { className: "grid grid-cols-2 gap-4" }, /* @__PURE__ */ import_react81.default.createElement(Card6, null, /* @__PURE__ */ import_react81.default.createElement("h2", { className: "font-serif font-semibold mb-3", style: { color: NAVY14 } }, "Pr\xE9cipitations journali\xE8res"), /* @__PURE__ */ import_react81.default.createElement(ResponsiveContainer, { width: "100%", height: 220 }, /* @__PURE__ */ import_react81.default.createElement(BarChart, { data: result.daily }, /* @__PURE__ */ import_react81.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react81.default.createElement(XAxis, { dataKey: "date", tick: { fontSize: 10 }, interval: Math.ceil(result.daily.length / 8) }), /* @__PURE__ */ import_react81.default.createElement(YAxis, { tick: { fontSize: 11 }, unit: " mm", width: 50 }), /* @__PURE__ */ import_react81.default.createElement(Tooltip, null), /* @__PURE__ */ import_react81.default.createElement(Bar, { dataKey: "pluie", fill: "#3592C4", radius: [3, 3, 0, 0], name: "Pluie (mm)" })))), /* @__PURE__ */ import_react81.default.createElement(Card6, null, /* @__PURE__ */ import_react81.default.createElement("h2", { className: "font-serif font-semibold mb-3", style: { color: NAVY14 } }, "Temp\xE9ratures journali\xE8res"), /* @__PURE__ */ import_react81.default.createElement(ResponsiveContainer, { width: "100%", height: 220 }, /* @__PURE__ */ import_react81.default.createElement(LineChart, { data: result.daily }, /* @__PURE__ */ import_react81.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react81.default.createElement(XAxis, { dataKey: "date", tick: { fontSize: 10 }, interval: Math.ceil(result.daily.length / 8) }), /* @__PURE__ */ import_react81.default.createElement(YAxis, { tick: { fontSize: 11 }, unit: "\xB0C", width: 45 }), /* @__PURE__ */ import_react81.default.createElement(Tooltip, null), /* @__PURE__ */ import_react81.default.createElement(Line, { type: "monotone", dataKey: "tmax", stroke: "#B3413A", strokeWidth: 2, dot: false, name: "T\xB0 max" }), /* @__PURE__ */ import_react81.default.createElement(Line, { type: "monotone", dataKey: "tmin", stroke: "#3592C4", strokeWidth: 2, dot: false, name: "T\xB0 min" })))))), !result && !error && !loading && /* @__PURE__ */ import_react81.default.createElement(Card6, { className: "text-center py-12" }, /* @__PURE__ */ import_react81.default.createElement(MapPin, { size: 32, className: "mx-auto text-gray-300 mb-3" }), /* @__PURE__ */ import_react81.default.createElement("p", { className: "text-sm text-gray-500" }, "Choisissez une commune et une p\xE9riode, puis cliquez \xAB Afficher \xBB."))))));
+    ))), partialWarning && /* @__PURE__ */ import_react81.default.createElement("div", { className: "flex items-start gap-2 rounded-xl p-3 mb-5", style: { background: "#FDF1DA", color: "#8A5A00" } }, /* @__PURE__ */ import_react81.default.createElement(CircleAlert, { size: 14, className: "mt-0.5 shrink-0" }), /* @__PURE__ */ import_react81.default.createElement("p", { className: "text-xs" }, partialWarning)), result && /* @__PURE__ */ import_react81.default.createElement(import_react81.default.Fragment, null, /* @__PURE__ */ import_react81.default.createElement("p", { className: "text-xs text-gray-500 mb-3" }, "Moyenne de zone sur ", /* @__PURE__ */ import_react81.default.createElement("span", { className: "font-medium", style: { color: NAVY14 } }, result.communesUtilisees.length, " commune", result.communesUtilisees.length > 1 ? "s" : ""), " : ", result.communesUtilisees.join(", ")), /* @__PURE__ */ import_react81.default.createElement("div", { className: "grid grid-cols-4 gap-4 mb-5" }, /* @__PURE__ */ import_react81.default.createElement(Card6, null, /* @__PURE__ */ import_react81.default.createElement(CloudRain, { size: 18, style: { color: GOLD13 } }), /* @__PURE__ */ import_react81.default.createElement("div", { className: "font-serif text-2xl font-bold mt-2", style: { color: NAVY14 } }, result.cumulPluie.toFixed(1), " mm"), /* @__PURE__ */ import_react81.default.createElement("div", { className: "text-xs text-gray-400" }, "Cumul pluviom\xE9trique (moyenne de zone)")), /* @__PURE__ */ import_react81.default.createElement(Card6, null, /* @__PURE__ */ import_react81.default.createElement(Droplets, { size: 18, style: { color: GOLD13 } }), /* @__PURE__ */ import_react81.default.createElement("div", { className: "font-serif text-2xl font-bold mt-2", style: { color: NAVY14 } }, result.joursPluie, " j"), /* @__PURE__ */ import_react81.default.createElement("div", { className: "text-xs text-gray-400" }, "Jours de pluie (\u2265 1 mm) sur ", result.n)), /* @__PURE__ */ import_react81.default.createElement(Card6, null, /* @__PURE__ */ import_react81.default.createElement(Thermometer, { size: 18, style: { color: "#B3413A" } }), /* @__PURE__ */ import_react81.default.createElement("div", { className: "font-serif text-2xl font-bold mt-2", style: { color: NAVY14 } }, result.tMaxAbs.toFixed(1), " \xB0C"), /* @__PURE__ */ import_react81.default.createElement("div", { className: "text-xs text-gray-400" }, "Temp\xE9rature maximale (moyenne de zone)")), /* @__PURE__ */ import_react81.default.createElement(Card6, null, /* @__PURE__ */ import_react81.default.createElement(Thermometer, { size: 18, style: { color: "#3592C4" } }), /* @__PURE__ */ import_react81.default.createElement("div", { className: "font-serif text-2xl font-bold mt-2", style: { color: NAVY14 } }, result.tMinAbs.toFixed(1), " \xB0C"), /* @__PURE__ */ import_react81.default.createElement("div", { className: "text-xs text-gray-400" }, "Temp\xE9rature minimale (moyenne de zone)"))), /* @__PURE__ */ import_react81.default.createElement("div", { className: "grid grid-cols-2 gap-4" }, /* @__PURE__ */ import_react81.default.createElement(Card6, null, /* @__PURE__ */ import_react81.default.createElement("h2", { className: "font-serif font-semibold mb-3", style: { color: NAVY14 } }, "Pr\xE9cipitations journali\xE8res (moyenne de zone)"), /* @__PURE__ */ import_react81.default.createElement(ResponsiveContainer, { width: "100%", height: 220 }, /* @__PURE__ */ import_react81.default.createElement(BarChart, { data: result.daily }, /* @__PURE__ */ import_react81.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react81.default.createElement(XAxis, { dataKey: "date", tick: { fontSize: 10 }, interval: Math.ceil(result.daily.length / 8) }), /* @__PURE__ */ import_react81.default.createElement(YAxis, { tick: { fontSize: 11 }, unit: " mm", width: 50 }), /* @__PURE__ */ import_react81.default.createElement(Tooltip, null), /* @__PURE__ */ import_react81.default.createElement(Bar, { dataKey: "pluie", fill: "#3592C4", radius: [3, 3, 0, 0], name: "Pluie (mm)" })))), /* @__PURE__ */ import_react81.default.createElement(Card6, null, /* @__PURE__ */ import_react81.default.createElement("h2", { className: "font-serif font-semibold mb-3", style: { color: NAVY14 } }, "Temp\xE9ratures journali\xE8res (moyenne de zone)"), /* @__PURE__ */ import_react81.default.createElement(ResponsiveContainer, { width: "100%", height: 220 }, /* @__PURE__ */ import_react81.default.createElement(LineChart, { data: result.daily }, /* @__PURE__ */ import_react81.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react81.default.createElement(XAxis, { dataKey: "date", tick: { fontSize: 10 }, interval: Math.ceil(result.daily.length / 8) }), /* @__PURE__ */ import_react81.default.createElement(YAxis, { tick: { fontSize: 11 }, unit: "\xB0C", width: 45 }), /* @__PURE__ */ import_react81.default.createElement(Tooltip, null), /* @__PURE__ */ import_react81.default.createElement(Line, { type: "monotone", dataKey: "tmax", stroke: "#B3413A", strokeWidth: 2, dot: false, name: "T\xB0 max" }), /* @__PURE__ */ import_react81.default.createElement(Line, { type: "monotone", dataKey: "tmin", stroke: "#3592C4", strokeWidth: 2, dot: false, name: "T\xB0 min" })))))), !result && !error && !loading && /* @__PURE__ */ import_react81.default.createElement(Card6, { className: "text-center py-12" }, /* @__PURE__ */ import_react81.default.createElement(MapPin, { size: 32, className: "mx-auto text-gray-300 mb-3" }), /* @__PURE__ */ import_react81.default.createElement("p", { className: "text-sm text-gray-500" }, "Choisissez une ou plusieurs communes et une p\xE9riode, puis cliquez \xAB Afficher \xBB."))))));
   }
 
   // src/admin/AdminDashboard.jsx
