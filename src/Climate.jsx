@@ -89,15 +89,33 @@ export default function Climate({ active, onNavigate, userEmail, roleLabel, isAd
         const coreParams = coreData?.properties?.parameter;
         if (!coreParams) throw new Error(`${commune} : ${coreData?.messages?.[0] || coreBody.slice(0, 200) || "réponse inattendue du service NASA POWER"}`);
 
-        let extraParams = {};
+        // Évapotranspiration (ET0) et vitesse du vent : Open-Meteo plutôt que NASA POWER pour ces deux
+        // paramètres précis, qui se combinaient mal dans la requête NASA POWER unique. Le vent y est
+        // mesuré à 10 m ; conversion vers 2 m selon la formule logarithmique standard FAO-56.
+        let extraByDate = {};
         try {
-          const extraRes = await fetch(`${baseUrl}&parameters=ET0,WS2M`);
+          const isoStart = `${startDate.slice(0, 4)}-${startDate.slice(4, 6)}-${startDate.slice(6, 8)}`;
+          const isoEnd = `${endDate.slice(0, 4)}-${endDate.slice(4, 6)}-${endDate.slice(6, 8)}`;
+          const omUrl = `https://archive-api.open-meteo.com/v1/archive?latitude=${coords.lat}&longitude=${coords.lon}&start_date=${isoStart}&end_date=${isoEnd}&daily=et0_fao_evapotranspiration,wind_speed_10m_max&timezone=auto`;
+          const extraRes = await fetch(omUrl);
           if (extraRes.ok) {
             const extraData = await extraRes.json();
-            extraParams = extraData?.properties?.parameter || {};
+            const times = extraData?.daily?.time || [];
+            const etos = extraData?.daily?.et0_fao_evapotranspiration || [];
+            const winds10 = extraData?.daily?.wind_speed_10m_max || [];
+            times.forEach((isoDate, i) => {
+              const key = isoDate.replace(/-/g, "");
+              const eto = etos[i];
+              const w10 = winds10[i];
+              extraByDate[key] = {
+                eto: eto === null || eto === undefined ? null : eto,
+                // FAO-56 : u2 = u10 × 4.87 / ln(67.8×10 − 5.42)
+                vent: w10 === null || w10 === undefined ? null : w10 * (4.87 / Math.log(67.8 * 10 - 5.42)),
+              };
+            });
           }
         } catch {
-          // Paramètres supplémentaires indisponibles : on continue sans eux, silencieusement.
+          // Open-Meteo indisponible : on continue sans ET0/vent, silencieusement.
         }
 
         const dates = Object.keys(coreParams.PRECTOTCORR || {}).sort();
@@ -106,8 +124,8 @@ export default function Climate({ active, onNavigate, userEmail, roleLabel, isAd
           const pluie = coreParams.PRECTOTCORR[d];
           const tmax = coreParams.T2M_MAX[d];
           const tmin = coreParams.T2M_MIN[d];
-          const eto = extraParams.ET0?.[d];
-          const vent = extraParams.WS2M?.[d];
+          const eto = extraByDate[d]?.eto;
+          const vent = extraByDate[d]?.vent;
           daily[d] = {
             pluie: pluie === -999 ? null : pluie,
             tmax: tmax === -999 ? null : tmax,

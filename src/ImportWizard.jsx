@@ -205,6 +205,7 @@ export default function ImportWizard({ active, onNavigate, userEmail, userId, ro
   const [objectif, setObjectif] = useState(
     context?.objectif || "Suivre la progression décadaire des semis de coton sur les communes à risque pluviométrique du Borgou."
   );
+  const [structure, setStructure] = useState(context?.structure || "DDAEP-Borgou");
   const [periodeDebut, setPeriodeDebut] = useState(context?.periodeDebut || "2026-06-10");
   const [periodeFin, setPeriodeFin] = useState(context?.periodeFin || "2026-07-20");
   const [uniteAnalyse, setUniteAnalyse] = useState(context?.uniteAnalyse || "Exploitation agricole");
@@ -224,10 +225,10 @@ export default function ImportWizard({ active, onNavigate, userEmail, userId, ro
   // Synchronise le contexte d'étude vers l'application (persistance + disponible pour le rapport)
   useEffect(() => {
     if (onContextChange) {
-      onContextChange({ departements, communes, filieres, objectif, periodeDebut, periodeFin, uniteAnalyse, indicateurs });
+      onContextChange({ departements, communes, filieres, objectif, structure, periodeDebut, periodeFin, uniteAnalyse, indicateurs });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [departements, communes, filieres, objectif, periodeDebut, periodeFin, uniteAnalyse, indicateurs]);
+  }, [departements, communes, filieres, objectif, structure, periodeDebut, periodeFin, uniteAnalyse, indicateurs]);
 
   const toggleDepartement = (dep) => {
     if (departements.includes(dep)) {
@@ -441,6 +442,16 @@ export default function ImportWizard({ active, onNavigate, userEmail, userId, ro
                   rows={2}
                   value={objectif}
                   onChange={(e) => setObjectif(e.target.value)}
+                />
+
+                <label className="text-xs font-medium text-gray-600 block mb-1.5">Structure ayant conduit la collecte</label>
+                <input
+                  type="text"
+                  value={structure}
+                  onChange={(e) => setStructure(e.target.value)}
+                  placeholder="Ex. : DDAEP-Borgou, ONG XYZ, Projet ABC…"
+                  className="w-full text-sm rounded-xl border border-gray-200 p-2.5 mb-5 focus:outline-none focus:ring-2"
+                  style={{ "--tw-ring-color": GOLD }}
                 />
 
                 <label className="text-xs font-medium text-gray-600 block mb-1.5">Zone géographique</label>
@@ -700,6 +711,7 @@ export default function ImportWizard({ active, onNavigate, userEmail, userId, ro
                       user_id: userId,
                       user_email: userEmail,
                       titre: objectif,
+                      structure: structure,
                       thematiques: filieres,
                       communes: communes,
                       statut: "soumis",

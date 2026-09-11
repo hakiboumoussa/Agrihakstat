@@ -155,3 +155,6 @@ create policy "Les administrateurs mettent à jour les signalements" on public.b
 
 -- 10. Attestation d'anonymisation confirmée par l'opérateur avant soumission
 alter table public.projets add column if not exists donnees_anonymisees boolean default false;
+
+-- 11. Structure ayant conduit la collecte (affichée sur le tableau de bord)
+alter table public.projets add column if not exists structure text;
