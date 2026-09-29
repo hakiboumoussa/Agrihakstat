@@ -8,6 +8,13 @@
 // ---------- Table des coefficients culturaux (Kc) par culture ----------
 // stades : initiale (ini) / développement (dev) / mi-saison (mid) / fin de cycle (fin)
 // duree : nombre de jours de chaque stade ; kc : valeur du coefficient cultural au stade
+// ---------- Seuil de « jour de pluie » ----------
+// Un jour est considéré comme un jour de pluie lorsque la hauteur pluviométrique
+// enregistrée est strictement supérieure à ce seuil (mm/jour). Ce seuil sert à la fois
+// au comptage des jours de pluie (agrégations par période) et, par complémentarité,
+// à la détection des séquences sèches (un jour non pluvieux = pluie ≤ seuil).
+export const RAIN_DAY_THRESHOLD_MM = 5;
+
 export const CROP_KC_TABLE = {
   mais: {
     label: "Maïs (cycle moyen)",
@@ -181,14 +188,15 @@ export function computeCropWaterSatisfaction(daily, cropKey, sowingDateISO) {
 }
 
 // ---------- Détection des séquences sèches ----------
-// Une séquence sèche = suite de jours consécutifs dont la pluviométrie est inférieure au seuil
-// (par défaut 1 mm, seuil usuel de « jour sans pluie utile »). minLength fixe la longueur à partir
-// de laquelle la séquence est agronomiquement significative (par défaut 7 jours consécutifs).
-export function detectDrySpells(daily, threshold = 1, minLength = 7) {
+// Une séquence sèche = suite de jours consécutifs dont la pluviométrie ne dépasse pas le seuil
+// de jour de pluie (par défaut RAIN_DAY_THRESHOLD_MM = 5 mm), c'est-à-dire des jours qui ne sont
+// pas comptés comme jours de pluie. minLength fixe la longueur à partir de laquelle la séquence
+// est agronomiquement significative (par défaut 7 jours consécutifs).
+export function detectDrySpells(daily, threshold = RAIN_DAY_THRESHOLD_MM, minLength = 7) {
   const spells = [];
   let run = null;
   daily.forEach((d, i) => {
-    const isDry = d.pluie !== null && d.pluie !== undefined && d.pluie < threshold;
+    const isDry = d.pluie !== null && d.pluie !== undefined && d.pluie <= threshold;
     if (isDry) {
       if (!run) run = { startIndex: i, start: d.date, startISO: d.dateISO, length: 0 };
       run.length += 1;
@@ -222,7 +230,7 @@ export function aggregateByPeriod(daily, period) {
       groups.set(key, { key, pluie: 0, et0: 0, tmaxSum: 0, tminSum: 0, n: 0, joursPluie: 0 });
     }
     const g = groups.get(key);
-    if (d.pluie !== null && d.pluie !== undefined) { g.pluie += d.pluie; if (d.pluie >= 1) g.joursPluie += 1; }
+    if (d.pluie !== null && d.pluie !== undefined) { g.pluie += d.pluie; if (d.pluie > RAIN_DAY_THRESHOLD_MM) g.joursPluie += 1; }
     if (d.et0 !== null && d.et0 !== undefined) g.et0 += d.et0;
     if (d.tmax !== null && d.tmax !== undefined) g.tmaxSum += d.tmax;
     if (d.tmin !== null && d.tmin !== undefined) g.tminSum += d.tmin;

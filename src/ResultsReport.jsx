@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import {
   LayoutDashboard, ClipboardList, BarChart3, FileText, Settings, Sprout,
   Bell, ChevronDown, Check, Pencil, FileDown, FileType2, Layers,
@@ -15,6 +15,7 @@ import {
   mannWhitneyU, chiSquareTest, numericValues,
 } from "./realStats.js";
 import { exportReportToDocx } from "./exportDocx.js";
+import { ChartExportButton } from "./chartExport.js";
 
 const NAVY = "#1F3864";
 const GOLD = "#C99A2E";
@@ -86,6 +87,7 @@ function ResultHeader({ title, subtitle, status }) {
 
 // Rendu réel d'une analyse de la file, à partir des vraies données importées
 function AnalysisResultCard({ item, dataset, index, validated, onToggleValidated }) {
+  const chartRef = useRef(null);
   const validationBar = (
     <label className="flex items-center gap-2 mb-3 text-xs cursor-pointer select-none">
       <input type="checkbox" checked={!!validated} onChange={onToggleValidated} className="w-4 h-4 rounded" style={{ accentColor: "#256B45" }} />
@@ -139,15 +141,20 @@ function AnalysisResultCard({ item, dataset, index, validated, onToggleValidated
         <Card>
           {validationBar}
           <ResultHeader title={item.label} subtitle={`${test} · ${symbol} = ${r.r.toFixed(3)}, n = ${r.n}, p = ${fmtP(r.p)}`} status={item.status} />
-          <ResponsiveContainer width="100%" height={190}>
-            <ScatterChart>
-              <CartesianGrid strokeDasharray="3 3" stroke="#EDEDED" />
-              <XAxis dataKey="x" tick={{ fontSize: 11 }} stroke="#999" name={item.xLabel} type="number" domain={["dataMin", "dataMax"]} />
-              <YAxis dataKey="y" tick={{ fontSize: 11 }} stroke="#999" name={item.yLabel} width={55} type="number" domain={["dataMin", "dataMax"]} />
-              <Tooltip cursor={{ strokeDasharray: "3 3" }} />
-              <Scatter data={scatter} fill={NAVY} />
-            </ScatterChart>
-          </ResponsiveContainer>
+          <div className="flex justify-end mb-1">
+            <ChartExportButton targetRef={chartRef} filename={item.label} />
+          </div>
+          <div ref={chartRef}>
+            <ResponsiveContainer width="100%" height={190}>
+              <ScatterChart>
+                <CartesianGrid strokeDasharray="3 3" stroke="#EDEDED" />
+                <XAxis dataKey="x" tick={{ fontSize: 11 }} stroke="#999" name={item.xLabel} type="number" domain={["dataMin", "dataMax"]} />
+                <YAxis dataKey="y" tick={{ fontSize: 11 }} stroke="#999" name={item.yLabel} width={55} type="number" domain={["dataMin", "dataMax"]} />
+                <Tooltip cursor={{ strokeDasharray: "3 3" }} />
+                <Scatter data={scatter} fill={NAVY} />
+              </ScatterChart>
+            </ResponsiveContainer>
+          </div>
           <p className="text-xs text-gray-500 mt-2">
             {Math.abs(r.r) < 0.1 ? "Association quasi nulle" : Math.abs(r.r) < 0.3 ? "Association faible" : Math.abs(r.r) < 0.5 ? "Association modérée" : "Association forte"}
             {" "}entre {item.xLabel} et {item.yLabel}, {r.p < 0.05 ? "statistiquement significative (p < 0,05)" : "non significative au seuil de 5 %"}.
@@ -179,17 +186,22 @@ function AnalysisResultCard({ item, dataset, index, validated, onToggleValidated
           <Card>
             {validationBar}
             <ResultHeader title={item.label} subtitle={`${test} · ${stat}, p = ${fmtP(res.p)}`} status={item.status} />
-            <ResponsiveContainer width="100%" height={180}>
-              <BarChart data={chartData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#EDEDED" />
-                <XAxis dataKey="groupe" tick={{ fontSize: 11 }} stroke="#999" />
-                <YAxis tick={{ fontSize: 11 }} stroke="#999" width={55} />
-                <Tooltip />
-                <Bar dataKey="mediane" name={`Médiane de ${quantLabel}`} radius={[6, 6, 0, 0]}>
-                  {chartData.map((d, i) => <Cell key={d.groupe} fill={PALETTE[i % PALETTE.length]} />)}
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
+            <div className="flex justify-end mb-1">
+              <ChartExportButton targetRef={chartRef} filename={item.label} />
+            </div>
+            <div ref={chartRef}>
+              <ResponsiveContainer width="100%" height={180}>
+                <BarChart data={chartData}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#EDEDED" />
+                  <XAxis dataKey="groupe" tick={{ fontSize: 11 }} stroke="#999" />
+                  <YAxis tick={{ fontSize: 11 }} stroke="#999" width={55} />
+                  <Tooltip />
+                  <Bar dataKey="mediane" name={`Médiane de ${quantLabel}`} radius={[6, 6, 0, 0]}>
+                    {chartData.map((d, i) => <Cell key={d.groupe} fill={PALETTE[i % PALETTE.length]} />)}
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
             <p className="text-xs text-gray-500 mt-2">
               Différence {res.p < 0.05 ? "statistiquement significative" : "non significative"} de {quantLabel} selon {qualLabel} (test non paramétrique, p = {fmtP(res.p)}).
             </p>
@@ -204,18 +216,23 @@ function AnalysisResultCard({ item, dataset, index, validated, onToggleValidated
         <Card>
           {validationBar}
           <ResultHeader title={item.label} subtitle={`${test} · ${statLabel}, p = ${fmtP(a.p)}`} status={item.status} />
-          <ResponsiveContainer width="100%" height={190}>
-            <BarChart data={chartData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#EDEDED" />
-              <XAxis dataKey="groupe" tick={{ fontSize: 11 }} stroke="#999" />
-              <YAxis tick={{ fontSize: 11 }} stroke="#999" width={55} />
-              <Tooltip />
-              <Bar dataKey="moyenne" name={`Moyenne de ${quantLabel}`} radius={[6, 6, 0, 0]}>
-                {chartData.map((d, i) => <Cell key={d.groupe} fill={PALETTE[i % PALETTE.length]} />)}
-                <ErrorBar dataKey="ecart" width={4} strokeWidth={1.5} stroke="#7A7A7A" />
-              </Bar>
-            </BarChart>
-          </ResponsiveContainer>
+          <div className="flex justify-end mb-1">
+            <ChartExportButton targetRef={chartRef} filename={item.label} />
+          </div>
+          <div ref={chartRef}>
+            <ResponsiveContainer width="100%" height={190}>
+              <BarChart data={chartData}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#EDEDED" />
+                <XAxis dataKey="groupe" tick={{ fontSize: 11 }} stroke="#999" />
+                <YAxis tick={{ fontSize: 11 }} stroke="#999" width={55} />
+                <Tooltip />
+                <Bar dataKey="moyenne" name={`Moyenne de ${quantLabel}`} radius={[6, 6, 0, 0]}>
+                  {chartData.map((d, i) => <Cell key={d.groupe} fill={PALETTE[i % PALETTE.length]} />)}
+                  <ErrorBar dataKey="ecart" width={4} strokeWidth={1.5} stroke="#7A7A7A" />
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
           <p className="text-xs text-gray-500 mt-2">
             Le {quantLabel.toLowerCase()} moyen {a.p < 0.05 ? "diffère significativement" : "ne diffère pas significativement"} selon {qualLabel.toLowerCase()} (p = {fmtP(a.p)}).
           </p>

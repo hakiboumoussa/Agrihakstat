@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import {
   LayoutDashboard, ClipboardList, BarChart3, FileText, Settings, Sprout,
   Bell, ChevronDown, Plus, Upload, TrendingUp, AlertTriangle, CheckCircle2,
@@ -10,6 +10,7 @@ import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
   PieChart, Pie, Cell,
 } from "recharts";
+import { ChartExportButton } from "./chartExport.js";
 
 /* ---- Palette par filière (couleurs vives et distinctes) ---- */
 const FILIERES = {
@@ -88,6 +89,8 @@ function Watermark() {
 }
 
 export default function Dashboard({ active, onNavigate, userEmail, roleLabel, isAdmin, isGuest, onLogout, onOpenAdmin }) {
+  const growthChartRef = useRef(null);
+  const repartitionChartRef = useRef(null);
   return (
     <div className="min-h-screen relative bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans">
       <Watermark />
@@ -154,38 +157,48 @@ export default function Dashboard({ active, onNavigate, userEmail, roleLabel, is
               <div className="col-span-2 bg-white rounded-2xl p-5 shadow-sm border border-black/5">
                 <div className="flex items-center justify-between mb-1">
                   <h2 className="font-serif font-semibold" style={{ color: NAVY }}>Progression des semis par filière</h2>
-                  <MoreHorizontal size={16} className="text-gray-400" />
+                  <div className="flex items-center gap-2">
+                    <ChartExportButton targetRef={growthChartRef} filename="Progression_semis_par_filiere" />
+                    <MoreHorizontal size={16} className="text-gray-400" />
+                  </div>
                 </div>
                 <p className="text-xs text-gray-400 mb-4">Taux de réalisation cumulé (%) par décade — toutes communes</p>
-                <ResponsiveContainer width="100%" height={230}>
-                  <LineChart data={growthData}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#EDEDED" />
-                    <XAxis dataKey="decade" tick={{ fontSize: 11 }} stroke="#999" />
-                    <YAxis tick={{ fontSize: 11 }} stroke="#999" unit="%" />
-                    <Tooltip />
-                    <Legend wrapperStyle={{ fontSize: 11 }} />
-                    {Object.entries(FILIERES).map(([key, val]) => (
-                      <Line key={key} type="monotone" dataKey={key} stroke={val.color} strokeWidth={2.5} dot={{ r: 3 }} />
-                    ))}
-                  </LineChart>
-                </ResponsiveContainer>
+                <div ref={growthChartRef}>
+                  <ResponsiveContainer width="100%" height={230}>
+                    <LineChart data={growthData}>
+                      <CartesianGrid strokeDasharray="3 3" stroke="#EDEDED" />
+                      <XAxis dataKey="decade" tick={{ fontSize: 11 }} stroke="#999" />
+                      <YAxis tick={{ fontSize: 11 }} stroke="#999" unit="%" />
+                      <Tooltip />
+                      <Legend wrapperStyle={{ fontSize: 11 }} />
+                      {Object.entries(FILIERES).map(([key, val]) => (
+                        <Line key={key} type="monotone" dataKey={key} stroke={val.color} strokeWidth={2.5} dot={{ r: 3 }} />
+                      ))}
+                    </LineChart>
+                  </ResponsiveContainer>
+                </div>
                 <div className="h-1 w-16 rounded-full mt-2" style={{ background: GOLD }} />
               </div>
 
               {/* Répartition par filière (donut coloré) */}
               <div className="bg-white rounded-2xl p-5 shadow-sm border border-black/5">
-                <h2 className="font-serif font-semibold mb-1" style={{ color: NAVY }}>Répartition des enquêtes</h2>
+                <div className="flex items-center justify-between mb-1">
+                  <h2 className="font-serif font-semibold" style={{ color: NAVY }}>Répartition des enquêtes</h2>
+                  <ChartExportButton targetRef={repartitionChartRef} filename="Repartition_enquetes_par_filiere" />
+                </div>
                 <p className="text-xs text-gray-400 mb-2">Par filière — campagne en cours</p>
-                <ResponsiveContainer width="100%" height={160}>
-                  <PieChart>
-                    <Pie data={repartition} dataKey="value" nameKey="name" innerRadius={38} outerRadius={62} paddingAngle={3}>
-                      {repartition.map((entry) => (
-                        <Cell key={entry.name} fill={FILIERES[entry.name].color} />
-                      ))}
-                    </Pie>
-                    <Tooltip />
-                  </PieChart>
-                </ResponsiveContainer>
+                <div ref={repartitionChartRef}>
+                  <ResponsiveContainer width="100%" height={160}>
+                    <PieChart>
+                      <Pie data={repartition} dataKey="value" nameKey="name" innerRadius={38} outerRadius={62} paddingAngle={3}>
+                        {repartition.map((entry) => (
+                          <Cell key={entry.name} fill={FILIERES[entry.name].color} />
+                        ))}
+                      </Pie>
+                      <Tooltip />
+                    </PieChart>
+                  </ResponsiveContainer>
+                </div>
                 <div className="grid grid-cols-2 gap-x-3 gap-y-1.5 mt-2">
                   {repartition.map((entry) => (
                     <div key={entry.name} className="flex items-center gap-1.5 text-[11px] text-gray-600">

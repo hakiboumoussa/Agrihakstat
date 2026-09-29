@@ -1343,7 +1343,7 @@
           return dispatcher;
         }
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-        var React72 = require_react(), Internals = {
+        var React73 = require_react(), Internals = {
           d: {
             f: noop7,
             r: function() {
@@ -1361,7 +1361,7 @@
           },
           p: 0,
           findDOMNode: null
-        }, REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), ReactSharedInternals = React72.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
+        }, REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), ReactSharedInternals = React73.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
         "function" === typeof Map && null != Map.prototype && "function" === typeof Map.prototype.forEach && "function" === typeof Set && null != Set.prototype && "function" === typeof Set.prototype.clear && "function" === typeof Set.prototype.forEach || console.error(
           "React depends on Map and Set built-in types. Make sure that you load a polyfill in older browsers. https://reactjs.org/link/react-polyfills"
         );
@@ -2896,7 +2896,7 @@
           "number" === type && getActiveElement(node.ownerDocument) === node || node.defaultValue === "" + value || (node.defaultValue = "" + value);
         }
         function validateOptionProps(element, props) {
-          null == props.value && ("object" === typeof props.children && null !== props.children ? React72.Children.forEach(props.children, function(child) {
+          null == props.value && ("object" === typeof props.children && null !== props.children ? React73.Children.forEach(props.children, function(child) {
             null == child || "string" === typeof child || "number" === typeof child || "bigint" === typeof child || didWarnInvalidChild || (didWarnInvalidChild = true, console.error(
               "Cannot infer the option value of complex children. Pass a `value` prop or use a plain string as children to <option>."
             ));
@@ -18528,14 +18528,14 @@
           ));
         }
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-        var Scheduler = require_scheduler(), React72 = require_react(), ReactDOM = require_react_dom(), assign2 = Object.assign, REACT_LEGACY_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.element"), REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = /* @__PURE__ */ Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = /* @__PURE__ */ Symbol.for("react.profiler"), REACT_CONSUMER_TYPE = /* @__PURE__ */ Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.context"), REACT_FORWARD_REF_TYPE2 = /* @__PURE__ */ Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = /* @__PURE__ */ Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = /* @__PURE__ */ Symbol.for("react.suspense_list"), REACT_MEMO_TYPE2 = /* @__PURE__ */ Symbol.for("react.memo"), REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy");
+        var Scheduler = require_scheduler(), React73 = require_react(), ReactDOM = require_react_dom(), assign2 = Object.assign, REACT_LEGACY_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.element"), REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = /* @__PURE__ */ Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = /* @__PURE__ */ Symbol.for("react.profiler"), REACT_CONSUMER_TYPE = /* @__PURE__ */ Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.context"), REACT_FORWARD_REF_TYPE2 = /* @__PURE__ */ Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = /* @__PURE__ */ Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = /* @__PURE__ */ Symbol.for("react.suspense_list"), REACT_MEMO_TYPE2 = /* @__PURE__ */ Symbol.for("react.memo"), REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy");
         /* @__PURE__ */ Symbol.for("react.scope");
         var REACT_ACTIVITY_TYPE = /* @__PURE__ */ Symbol.for("react.activity");
         /* @__PURE__ */ Symbol.for("react.legacy_hidden");
         /* @__PURE__ */ Symbol.for("react.tracing_marker");
         var REACT_MEMO_CACHE_SENTINEL = /* @__PURE__ */ Symbol.for("react.memo_cache_sentinel");
         /* @__PURE__ */ Symbol.for("react.view_transition");
-        var MAYBE_ITERATOR_SYMBOL = Symbol.iterator, REACT_CLIENT_REFERENCE = /* @__PURE__ */ Symbol.for("react.client.reference"), isArrayImpl = Array.isArray, ReactSharedInternals = React72.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, ReactDOMSharedInternals = ReactDOM.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, NotPending = Object.freeze({
+        var MAYBE_ITERATOR_SYMBOL = Symbol.iterator, REACT_CLIENT_REFERENCE = /* @__PURE__ */ Symbol.for("react.client.reference"), isArrayImpl = Array.isArray, ReactSharedInternals = React73.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, ReactDOMSharedInternals = ReactDOM.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, NotPending = Object.freeze({
           pending: false,
           data: null,
           method: null,
@@ -21323,7 +21323,7 @@
           }
         };
         (function() {
-          var isomorphicReactPackageVersion = React72.version;
+          var isomorphicReactPackageVersion = React73.version;
           if ("19.2.8" !== isomorphicReactPackageVersion)
             throw Error(
               'Incompatible React versions: The "react" and "react-dom" packages must have the exact same version. Instead got:\n  - react:      ' + (isomorphicReactPackageVersion + "\n  - react-dom:  19.2.8\nLearn more: https://react.dev/warnings/version-mismatch")
@@ -21472,7 +21472,7 @@
           return x2 === y2 && (0 !== x2 || 1 / x2 === 1 / y2) || x2 !== x2 && y2 !== y2;
         }
         function useSyncExternalStore$2(subscribe, getSnapshot) {
-          didWarnOld18Alpha || void 0 === React72.startTransition || (didWarnOld18Alpha = true, console.error(
+          didWarnOld18Alpha || void 0 === React73.startTransition || (didWarnOld18Alpha = true, console.error(
             "You are using an outdated, pre-release alpha of React 18 that does not support useSyncExternalStore. The use-sync-external-store shim will not work correctly. Upgrade to a newer pre-release."
           ));
           var value = getSnapshot();
@@ -21520,8 +21520,8 @@
           return getSnapshot();
         }
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-        var React72 = require_react(), objectIs = "function" === typeof Object.is ? Object.is : is3, useState27 = React72.useState, useEffect29 = React72.useEffect, useLayoutEffect10 = React72.useLayoutEffect, useDebugValue2 = React72.useDebugValue, didWarnOld18Alpha = false, didWarnUncachedGetSnapshot = false, shim = "undefined" === typeof window || "undefined" === typeof window.document || "undefined" === typeof window.document.createElement ? useSyncExternalStore$1 : useSyncExternalStore$2;
-        exports.useSyncExternalStore = void 0 !== React72.useSyncExternalStore ? React72.useSyncExternalStore : shim;
+        var React73 = require_react(), objectIs = "function" === typeof Object.is ? Object.is : is3, useState27 = React73.useState, useEffect29 = React73.useEffect, useLayoutEffect10 = React73.useLayoutEffect, useDebugValue2 = React73.useDebugValue, didWarnOld18Alpha = false, didWarnUncachedGetSnapshot = false, shim = "undefined" === typeof window || "undefined" === typeof window.document || "undefined" === typeof window.document.createElement ? useSyncExternalStore$1 : useSyncExternalStore$2;
+        exports.useSyncExternalStore = void 0 !== React73.useSyncExternalStore ? React73.useSyncExternalStore : shim;
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop(Error());
       })();
     }
@@ -21548,9 +21548,9 @@
           return x2 === y2 && (0 !== x2 || 1 / x2 === 1 / y2) || x2 !== x2 && y2 !== y2;
         }
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-        var React72 = require_react(), shim = require_shim(), objectIs = "function" === typeof Object.is ? Object.is : is3, useSyncExternalStore2 = shim.useSyncExternalStore, useRef25 = React72.useRef, useEffect29 = React72.useEffect, useMemo16 = React72.useMemo, useDebugValue2 = React72.useDebugValue;
+        var React73 = require_react(), shim = require_shim(), objectIs = "function" === typeof Object.is ? Object.is : is3, useSyncExternalStore2 = shim.useSyncExternalStore, useRef28 = React73.useRef, useEffect29 = React73.useEffect, useMemo16 = React73.useMemo, useDebugValue2 = React73.useDebugValue;
         exports.useSyncExternalStoreWithSelector = function(subscribe, getSnapshot, getServerSnapshot, selector, isEqual2) {
-          var instRef = useRef25(null);
+          var instRef = useRef28(null);
           if (null === instRef.current) {
             var inst = { hasValue: false, value: null };
             instRef.current = inst;
@@ -21627,9 +21627,9 @@
           return x2 === y2 && (0 !== x2 || 1 / x2 === 1 / y2) || x2 !== x2 && y2 !== y2;
         }
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-        var React72 = require_react(), objectIs = "function" === typeof Object.is ? Object.is : is3, useSyncExternalStore2 = React72.useSyncExternalStore, useRef25 = React72.useRef, useEffect29 = React72.useEffect, useMemo16 = React72.useMemo, useDebugValue2 = React72.useDebugValue;
+        var React73 = require_react(), objectIs = "function" === typeof Object.is ? Object.is : is3, useSyncExternalStore2 = React73.useSyncExternalStore, useRef28 = React73.useRef, useEffect29 = React73.useEffect, useMemo16 = React73.useMemo, useDebugValue2 = React73.useDebugValue;
         exports.useSyncExternalStoreWithSelector = function(subscribe, getSnapshot, getServerSnapshot, selector, isEqual2) {
-          var instRef = useRef25(null);
+          var instRef = useRef28(null);
           if (null === instRef.current) {
             var inst = { hasValue: false, value: null };
             instRef.current = inst;
@@ -23343,11 +23343,11 @@
   });
 
   // src/entry.jsx
-  var import_react86 = __toESM(require_react());
+  var import_react87 = __toESM(require_react());
   var import_client = __toESM(require_client());
 
   // src/App.jsx
-  var import_react85 = __toESM(require_react());
+  var import_react86 = __toESM(require_react());
 
   // node_modules/lucide-react/dist/esm/createLucideIcon.mjs
   var import_react3 = __toESM(require_react(), 1);
@@ -24087,7 +24087,7 @@
   var X = createLucideIcon("x", __iconNode60);
 
   // src/Dashboard.jsx
-  var import_react73 = __toESM(require_react());
+  var import_react74 = __toESM(require_react());
 
   // src/UserMenu.jsx
   var import_react4 = __toESM(require_react());
@@ -51461,6 +51461,63 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     });
   });
 
+  // src/chartExport.js
+  var import_react73 = __toESM(require_react());
+  function downloadChartAsPNG(containerEl, filename) {
+    if (!containerEl) return;
+    const svg = containerEl.querySelector(".recharts-wrapper > svg.recharts-surface") || containerEl.querySelector(".recharts-wrapper > svg") || containerEl.querySelector("svg");
+    if (!svg) return;
+    const svgClone = svg.cloneNode(true);
+    svgClone.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+    const bbox = svg.getBoundingClientRect();
+    const width = Math.max(1, Math.round(bbox.width) || 800);
+    const height = Math.max(1, Math.round(bbox.height) || 400);
+    svgClone.setAttribute("width", width);
+    svgClone.setAttribute("height", height);
+    const svgData = new XMLSerializer().serializeToString(svgClone);
+    const svgBlob = new Blob([svgData], { type: "image/svg+xml;charset=utf-8" });
+    const url = URL.createObjectURL(svgBlob);
+    const img = new Image();
+    img.onload = () => {
+      const scale = 2;
+      const canvas = document.createElement("canvas");
+      canvas.width = width * scale;
+      canvas.height = height * scale;
+      const ctx = canvas.getContext("2d");
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.scale(scale, scale);
+      ctx.drawImage(img, 0, 0, width, height);
+      URL.revokeObjectURL(url);
+      canvas.toBlob((blob) => {
+        if (!blob) return;
+        const link = document.createElement("a");
+        const safeName = (filename || "graphe").replace(/[^a-zA-Z0-9_\-À-ÿ]+/g, "_");
+        link.download = `${safeName}.png`;
+        link.href = URL.createObjectURL(blob);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        setTimeout(() => URL.revokeObjectURL(link.href), 2e3);
+      }, "image/png");
+    };
+    img.onerror = () => URL.revokeObjectURL(url);
+    img.src = url;
+  }
+  function ChartExportButton({ targetRef, filename, title }) {
+    return /* @__PURE__ */ import_react73.default.createElement(
+      "button",
+      {
+        type: "button",
+        onClick: () => downloadChartAsPNG(targetRef?.current, filename),
+        title: title || "Exporter ce graphe en image (.png)",
+        className: "inline-flex items-center gap-1 text-xs px-2 py-1 rounded-lg border border-gray-200 text-gray-500 hover:text-gray-700 hover:border-gray-300 hover:bg-gray-50 transition-colors"
+      },
+      /* @__PURE__ */ import_react73.default.createElement(Download, { size: 12 }),
+      /* @__PURE__ */ import_react73.default.createElement("span", { className: "hidden sm:inline" }, "PNG")
+    );
+  }
+
   // src/Dashboard.jsx
   var FILIERES = {
     Soja: { color: "#3E9C6B", tint: "#E4F5EC" },
@@ -51504,14 +51561,14 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   var NAVY3 = "#1F3864";
   var GOLD2 = "#C99A2E";
   function Watermark() {
-    return /* @__PURE__ */ import_react73.default.createElement("div", { className: "fixed inset-0 overflow-hidden pointer-events-none z-0 flex items-center justify-center" }, /* @__PURE__ */ import_react73.default.createElement(
+    return /* @__PURE__ */ import_react74.default.createElement("div", { className: "fixed inset-0 overflow-hidden pointer-events-none z-0 flex items-center justify-center" }, /* @__PURE__ */ import_react74.default.createElement(
       "span",
       {
         className: "font-serif font-black whitespace-nowrap select-none",
         style: { color: NAVY3, opacity: 0.06, fontSize: "13vw", letterSpacing: "-0.02em" }
       },
       "AgriHakStat"
-    ), /* @__PURE__ */ import_react73.default.createElement(
+    ), /* @__PURE__ */ import_react74.default.createElement(
       "span",
       {
         className: "absolute bottom-4 right-6 text-xs font-medium select-none",
@@ -51521,14 +51578,16 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     ));
   }
   function Dashboard({ active, onNavigate, userEmail, roleLabel, isAdmin, isGuest, onLogout, onOpenAdmin }) {
-    return /* @__PURE__ */ import_react73.default.createElement("div", { className: "min-h-screen relative bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans" }, /* @__PURE__ */ import_react73.default.createElement(Watermark, null), /* @__PURE__ */ import_react73.default.createElement("div", { className: "relative z-10 flex" }, /* @__PURE__ */ import_react73.default.createElement(Sidebar, { active, onNavigate }, /* @__PURE__ */ import_react73.default.createElement("div", { className: "mt-10 mx-2 p-4 rounded-xl bg-white/5 border border-white/10" }, /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center gap-2 mb-2" }, /* @__PURE__ */ import_react73.default.createElement(Sun, { size: 15, style: { color: GOLD2 } }), /* @__PURE__ */ import_react73.default.createElement("span", { className: "text-xs font-medium text-white" }, "Saison des pluies")), /* @__PURE__ */ import_react73.default.createElement("p", { className: "text-[11px] leading-relaxed opacity-70" }, "Pic pluviom\xE9trique attendu semaine du 10 ao\xFBt sur Tchaourou et P\xE9r\xE8r\xE8."))), /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex-1 min-h-screen" }, /* @__PURE__ */ import_react73.default.createElement(
+    const growthChartRef = (0, import_react74.useRef)(null);
+    const repartitionChartRef = (0, import_react74.useRef)(null);
+    return /* @__PURE__ */ import_react74.default.createElement("div", { className: "min-h-screen relative bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans" }, /* @__PURE__ */ import_react74.default.createElement(Watermark, null), /* @__PURE__ */ import_react74.default.createElement("div", { className: "relative z-10 flex" }, /* @__PURE__ */ import_react74.default.createElement(Sidebar, { active, onNavigate }, /* @__PURE__ */ import_react74.default.createElement("div", { className: "mt-10 mx-2 p-4 rounded-xl bg-white/5 border border-white/10" }, /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex items-center gap-2 mb-2" }, /* @__PURE__ */ import_react74.default.createElement(Sun, { size: 15, style: { color: GOLD2 } }), /* @__PURE__ */ import_react74.default.createElement("span", { className: "text-xs font-medium text-white" }, "Saison des pluies")), /* @__PURE__ */ import_react74.default.createElement("p", { className: "text-[11px] leading-relaxed opacity-70" }, "Pic pluviom\xE9trique attendu semaine du 10 ao\xFBt sur Tchaourou et P\xE9r\xE8r\xE8."))), /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex-1 min-h-screen" }, /* @__PURE__ */ import_react74.default.createElement(
       "header",
       {
         className: "bg-white/70 backdrop-blur px-8 py-4 flex items-center justify-between",
         style: { borderBottom: `2px solid ${GOLD2}` }
       },
-      /* @__PURE__ */ import_react73.default.createElement("div", null, /* @__PURE__ */ import_react73.default.createElement("h1", { className: "font-serif text-xl font-bold", style: { color: NAVY3 } }, "Tableau de bord"), /* @__PURE__ */ import_react73.default.createElement("p", { className: "text-xs text-gray-500 mt-0.5" }, "Campagne agricole 2026\u20132027 \xB7 P\xF4le de D\xE9veloppement Agricole n\xB04")),
-      /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center gap-4" }, /* @__PURE__ */ import_react73.default.createElement(Bell, { size: 18, className: "text-gray-400" }), /* @__PURE__ */ import_react73.default.createElement(
+      /* @__PURE__ */ import_react74.default.createElement("div", null, /* @__PURE__ */ import_react74.default.createElement("h1", { className: "font-serif text-xl font-bold", style: { color: NAVY3 } }, "Tableau de bord"), /* @__PURE__ */ import_react74.default.createElement("p", { className: "text-xs text-gray-500 mt-0.5" }, "Campagne agricole 2026\u20132027 \xB7 P\xF4le de D\xE9veloppement Agricole n\xB04")),
+      /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex items-center gap-4" }, /* @__PURE__ */ import_react74.default.createElement(Bell, { size: 18, className: "text-gray-400" }), /* @__PURE__ */ import_react74.default.createElement(
         UserMenu,
         {
           email: userEmail,
@@ -51539,40 +51598,40 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           onOpenAdmin
         }
       ))
-    ), /* @__PURE__ */ import_react73.default.createElement("main", { className: "p-8" }, /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex gap-3 mb-6" }, /* @__PURE__ */ import_react73.default.createElement(
+    ), /* @__PURE__ */ import_react74.default.createElement("main", { className: "p-8" }, /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex gap-3 mb-6" }, /* @__PURE__ */ import_react74.default.createElement(
       "button",
       {
         onClick: () => onNavigate("import"),
         className: "px-4 py-2.5 rounded-xl text-sm font-medium flex items-center gap-2 text-white shadow-md hover:shadow-lg transition-shadow",
         style: { background: `linear-gradient(135deg, ${NAVY3}, #2A4A82)` }
       },
-      /* @__PURE__ */ import_react73.default.createElement(Plus, { size: 15 }),
+      /* @__PURE__ */ import_react74.default.createElement(Plus, { size: 15 }),
       " Nouvelle enqu\xEAte"
-    ), /* @__PURE__ */ import_react73.default.createElement(
+    ), /* @__PURE__ */ import_react74.default.createElement(
       "button",
       {
         onClick: () => onNavigate("import"),
         className: "px-4 py-2.5 rounded-xl text-sm font-medium flex items-center gap-2 shadow-sm hover:shadow-md transition-shadow bg-white",
         style: { border: `1.5px solid ${GOLD2}`, color: "#8A5A00" }
       },
-      /* @__PURE__ */ import_react73.default.createElement(Upload, { size: 15 }),
+      /* @__PURE__ */ import_react74.default.createElement(Upload, { size: 15 }),
       " Importer questionnaire + base"
-    )), /* @__PURE__ */ import_react73.default.createElement("div", { className: "grid grid-cols-4 gap-4 mb-6" }, kpis.map((kpi) => /* @__PURE__ */ import_react73.default.createElement(
+    )), /* @__PURE__ */ import_react74.default.createElement("div", { className: "grid grid-cols-4 gap-4 mb-6" }, kpis.map((kpi) => /* @__PURE__ */ import_react74.default.createElement(
       "div",
       {
         key: kpi.label,
         className: "relative rounded-2xl p-4 overflow-hidden shadow-sm border border-black/5",
         style: { background: kpi.tint }
       },
-      /* @__PURE__ */ import_react73.default.createElement(kpi.icon, { size: 64, style: { color: kpi.fg, opacity: 0.08 }, className: "absolute -right-3 -bottom-3" }),
-      /* @__PURE__ */ import_react73.default.createElement("div", { className: "relative flex items-center justify-between mb-3" }, /* @__PURE__ */ import_react73.default.createElement("span", { className: "text-xs font-medium", style: { color: kpi.fg, opacity: 0.85 } }, kpi.label), /* @__PURE__ */ import_react73.default.createElement(kpi.icon, { size: 16, style: { color: kpi.fg } })),
-      /* @__PURE__ */ import_react73.default.createElement("div", { className: "relative font-serif text-2xl font-bold", style: { color: kpi.fg } }, kpi.value),
-      /* @__PURE__ */ import_react73.default.createElement("div", { className: "relative text-[11px] mt-1", style: { color: kpi.fg, opacity: 0.65 } }, kpi.note)
-    ))), /* @__PURE__ */ import_react73.default.createElement("div", { className: "grid grid-cols-3 gap-4" }, /* @__PURE__ */ import_react73.default.createElement("div", { className: "col-span-2 bg-white rounded-2xl p-5 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react73.default.createElement("div", { className: "flex items-center justify-between mb-1" }, /* @__PURE__ */ import_react73.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY3 } }, "Progression des semis par fili\xE8re"), /* @__PURE__ */ import_react73.default.createElement(Ellipsis, { size: 16, className: "text-gray-400" })), /* @__PURE__ */ import_react73.default.createElement("p", { className: "text-xs text-gray-400 mb-4" }, "Taux de r\xE9alisation cumul\xE9 (%) par d\xE9cade \u2014 toutes communes"), /* @__PURE__ */ import_react73.default.createElement(ResponsiveContainer, { width: "100%", height: 230 }, /* @__PURE__ */ import_react73.default.createElement(LineChart, { data: growthData }, /* @__PURE__ */ import_react73.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react73.default.createElement(XAxis, { dataKey: "decade", tick: { fontSize: 11 }, stroke: "#999" }), /* @__PURE__ */ import_react73.default.createElement(YAxis, { tick: { fontSize: 11 }, stroke: "#999", unit: "%" }), /* @__PURE__ */ import_react73.default.createElement(Tooltip, null), /* @__PURE__ */ import_react73.default.createElement(Legend, { wrapperStyle: { fontSize: 11 } }), Object.entries(FILIERES).map(([key, val]) => /* @__PURE__ */ import_react73.default.createElement(Line, { key, type: "monotone", dataKey: key, stroke: val.color, strokeWidth: 2.5, dot: { r: 3 } })))), /* @__PURE__ */ import_react73.default.createElement("div", { className: "h-1 w-16 rounded-full mt-2", style: { background: GOLD2 } })), /* @__PURE__ */ import_react73.default.createElement("div", { className: "bg-white rounded-2xl p-5 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react73.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY3 } }, "R\xE9partition des enqu\xEAtes"), /* @__PURE__ */ import_react73.default.createElement("p", { className: "text-xs text-gray-400 mb-2" }, "Par fili\xE8re \u2014 campagne en cours"), /* @__PURE__ */ import_react73.default.createElement(ResponsiveContainer, { width: "100%", height: 160 }, /* @__PURE__ */ import_react73.default.createElement(PieChart, null, /* @__PURE__ */ import_react73.default.createElement(Pie, { data: repartition, dataKey: "value", nameKey: "name", innerRadius: 38, outerRadius: 62, paddingAngle: 3 }, repartition.map((entry) => /* @__PURE__ */ import_react73.default.createElement(Cell, { key: entry.name, fill: FILIERES[entry.name].color }))), /* @__PURE__ */ import_react73.default.createElement(Tooltip, null))), /* @__PURE__ */ import_react73.default.createElement("div", { className: "grid grid-cols-2 gap-x-3 gap-y-1.5 mt-2" }, repartition.map((entry) => /* @__PURE__ */ import_react73.default.createElement("div", { key: entry.name, className: "flex items-center gap-1.5 text-[11px] text-gray-600" }, /* @__PURE__ */ import_react73.default.createElement("span", { className: "w-2.5 h-2.5 rounded-full", style: { background: FILIERES[entry.name].color } }), entry.name, " \xB7 ", entry.value, "%"))))), /* @__PURE__ */ import_react73.default.createElement("div", { className: "grid grid-cols-3 gap-4 mt-4" }, /* @__PURE__ */ import_react73.default.createElement("div", { className: "rounded-2xl p-4 shadow-sm border-l-4 bg-white flex items-start gap-3", style: { borderColor: "#F0AC1B" } }, /* @__PURE__ */ import_react73.default.createElement(TriangleAlert, { size: 18, style: { color: "#F0AC1B" }, className: "mt-0.5" }), /* @__PURE__ */ import_react73.default.createElement("div", null, /* @__PURE__ */ import_react73.default.createElement("div", { className: "text-sm font-medium text-gray-800" }, "Coton \u2014 P\xE9r\xE8r\xE8"), /* @__PURE__ */ import_react73.default.createElement("div", { className: "text-xs text-gray-500 mt-0.5" }, "Taux de r\xE9alisation 62 %, sous le seuil d\xE9cadaire (75 %)"))), /* @__PURE__ */ import_react73.default.createElement("div", { className: "rounded-2xl p-4 shadow-sm border-l-4 bg-white flex items-start gap-3", style: { borderColor: "#D9534F" } }, /* @__PURE__ */ import_react73.default.createElement(Droplets, { size: 18, style: { color: "#D9534F" }, className: "mt-0.5" }), /* @__PURE__ */ import_react73.default.createElement("div", null, /* @__PURE__ */ import_react73.default.createElement("div", { className: "text-sm font-medium text-gray-800" }, "Riz \u2014 Bemb\xE9r\xE9k\xE9"), /* @__PURE__ */ import_react73.default.createElement("div", { className: "text-xs text-gray-500 mt-0.5" }, "Anomalie de saisie d\xE9tect\xE9e sur 4 fiches"))), /* @__PURE__ */ import_react73.default.createElement("div", { className: "rounded-2xl p-4 shadow-sm border-l-4 bg-white flex items-start gap-3", style: { borderColor: "#3E9C6B" } }, /* @__PURE__ */ import_react73.default.createElement(CircleCheck, { size: 18, style: { color: "#3E9C6B" }, className: "mt-0.5" }), /* @__PURE__ */ import_react73.default.createElement("div", null, /* @__PURE__ */ import_react73.default.createElement("div", { className: "text-sm font-medium text-gray-800" }, "Ma\xEFs \u2014 N'Dali"), /* @__PURE__ */ import_react73.default.createElement("div", { className: "text-xs text-gray-500 mt-0.5" }, "Objectif d\xE9cadaire atteint")))), /* @__PURE__ */ import_react73.default.createElement("div", { className: "bg-white rounded-2xl mt-4 overflow-hidden shadow-sm border border-black/5" }, /* @__PURE__ */ import_react73.default.createElement("div", { className: "px-5 py-4 flex items-center justify-between" }, /* @__PURE__ */ import_react73.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY3 } }, "Enqu\xEAtes r\xE9centes"), /* @__PURE__ */ import_react73.default.createElement(Clock, { size: 15, className: "text-gray-400" })), /* @__PURE__ */ import_react73.default.createElement("table", { className: "w-full text-sm" }, /* @__PURE__ */ import_react73.default.createElement("thead", null, /* @__PURE__ */ import_react73.default.createElement("tr", { className: "text-left text-[11px] text-gray-400 uppercase border-t border-b border-gray-100" }, /* @__PURE__ */ import_react73.default.createElement("th", { className: "px-5 py-2 font-medium" }, "Enqu\xEAte"), /* @__PURE__ */ import_react73.default.createElement("th", { className: "px-5 py-2 font-medium" }, "Fili\xE8re"), /* @__PURE__ */ import_react73.default.createElement("th", { className: "px-5 py-2 font-medium" }, "Commune"), /* @__PURE__ */ import_react73.default.createElement("th", { className: "px-5 py-2 font-medium" }, "Statut"), /* @__PURE__ */ import_react73.default.createElement("th", { className: "px-5 py-2 font-medium" }, "Date"))), /* @__PURE__ */ import_react73.default.createElement("tbody", null, surveys.map((s2) => /* @__PURE__ */ import_react73.default.createElement("tr", { key: s2.name, className: "border-b border-gray-50 last:border-0" }, /* @__PURE__ */ import_react73.default.createElement("td", { className: "px-5 py-3 text-gray-800" }, s2.name), /* @__PURE__ */ import_react73.default.createElement("td", { className: "px-5 py-3" }, /* @__PURE__ */ import_react73.default.createElement("span", { className: "inline-flex items-center gap-1.5 text-gray-600" }, /* @__PURE__ */ import_react73.default.createElement("span", { className: "w-2 h-2 rounded-full", style: { background: FILIERES[s2.filiere].color } }), s2.filiere)), /* @__PURE__ */ import_react73.default.createElement("td", { className: "px-5 py-3 text-gray-500" }, s2.commune), /* @__PURE__ */ import_react73.default.createElement("td", { className: "px-5 py-3" }, /* @__PURE__ */ import_react73.default.createElement("span", { className: `px-2 py-1 rounded-full text-[11px] font-medium ${statusColors[s2.status]}` }, s2.status)), /* @__PURE__ */ import_react73.default.createElement("td", { className: "px-5 py-3 text-gray-400" }, s2.date))))))))));
+      /* @__PURE__ */ import_react74.default.createElement(kpi.icon, { size: 64, style: { color: kpi.fg, opacity: 0.08 }, className: "absolute -right-3 -bottom-3" }),
+      /* @__PURE__ */ import_react74.default.createElement("div", { className: "relative flex items-center justify-between mb-3" }, /* @__PURE__ */ import_react74.default.createElement("span", { className: "text-xs font-medium", style: { color: kpi.fg, opacity: 0.85 } }, kpi.label), /* @__PURE__ */ import_react74.default.createElement(kpi.icon, { size: 16, style: { color: kpi.fg } })),
+      /* @__PURE__ */ import_react74.default.createElement("div", { className: "relative font-serif text-2xl font-bold", style: { color: kpi.fg } }, kpi.value),
+      /* @__PURE__ */ import_react74.default.createElement("div", { className: "relative text-[11px] mt-1", style: { color: kpi.fg, opacity: 0.65 } }, kpi.note)
+    ))), /* @__PURE__ */ import_react74.default.createElement("div", { className: "grid grid-cols-3 gap-4" }, /* @__PURE__ */ import_react74.default.createElement("div", { className: "col-span-2 bg-white rounded-2xl p-5 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex items-center justify-between mb-1" }, /* @__PURE__ */ import_react74.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY3 } }, "Progression des semis par fili\xE8re"), /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex items-center gap-2" }, /* @__PURE__ */ import_react74.default.createElement(ChartExportButton, { targetRef: growthChartRef, filename: "Progression_semis_par_filiere" }), /* @__PURE__ */ import_react74.default.createElement(Ellipsis, { size: 16, className: "text-gray-400" }))), /* @__PURE__ */ import_react74.default.createElement("p", { className: "text-xs text-gray-400 mb-4" }, "Taux de r\xE9alisation cumul\xE9 (%) par d\xE9cade \u2014 toutes communes"), /* @__PURE__ */ import_react74.default.createElement("div", { ref: growthChartRef }, /* @__PURE__ */ import_react74.default.createElement(ResponsiveContainer, { width: "100%", height: 230 }, /* @__PURE__ */ import_react74.default.createElement(LineChart, { data: growthData }, /* @__PURE__ */ import_react74.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react74.default.createElement(XAxis, { dataKey: "decade", tick: { fontSize: 11 }, stroke: "#999" }), /* @__PURE__ */ import_react74.default.createElement(YAxis, { tick: { fontSize: 11 }, stroke: "#999", unit: "%" }), /* @__PURE__ */ import_react74.default.createElement(Tooltip, null), /* @__PURE__ */ import_react74.default.createElement(Legend, { wrapperStyle: { fontSize: 11 } }), Object.entries(FILIERES).map(([key, val]) => /* @__PURE__ */ import_react74.default.createElement(Line, { key, type: "monotone", dataKey: key, stroke: val.color, strokeWidth: 2.5, dot: { r: 3 } }))))), /* @__PURE__ */ import_react74.default.createElement("div", { className: "h-1 w-16 rounded-full mt-2", style: { background: GOLD2 } })), /* @__PURE__ */ import_react74.default.createElement("div", { className: "bg-white rounded-2xl p-5 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex items-center justify-between mb-1" }, /* @__PURE__ */ import_react74.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY3 } }, "R\xE9partition des enqu\xEAtes"), /* @__PURE__ */ import_react74.default.createElement(ChartExportButton, { targetRef: repartitionChartRef, filename: "Repartition_enquetes_par_filiere" })), /* @__PURE__ */ import_react74.default.createElement("p", { className: "text-xs text-gray-400 mb-2" }, "Par fili\xE8re \u2014 campagne en cours"), /* @__PURE__ */ import_react74.default.createElement("div", { ref: repartitionChartRef }, /* @__PURE__ */ import_react74.default.createElement(ResponsiveContainer, { width: "100%", height: 160 }, /* @__PURE__ */ import_react74.default.createElement(PieChart, null, /* @__PURE__ */ import_react74.default.createElement(Pie, { data: repartition, dataKey: "value", nameKey: "name", innerRadius: 38, outerRadius: 62, paddingAngle: 3 }, repartition.map((entry) => /* @__PURE__ */ import_react74.default.createElement(Cell, { key: entry.name, fill: FILIERES[entry.name].color }))), /* @__PURE__ */ import_react74.default.createElement(Tooltip, null)))), /* @__PURE__ */ import_react74.default.createElement("div", { className: "grid grid-cols-2 gap-x-3 gap-y-1.5 mt-2" }, repartition.map((entry) => /* @__PURE__ */ import_react74.default.createElement("div", { key: entry.name, className: "flex items-center gap-1.5 text-[11px] text-gray-600" }, /* @__PURE__ */ import_react74.default.createElement("span", { className: "w-2.5 h-2.5 rounded-full", style: { background: FILIERES[entry.name].color } }), entry.name, " \xB7 ", entry.value, "%"))))), /* @__PURE__ */ import_react74.default.createElement("div", { className: "grid grid-cols-3 gap-4 mt-4" }, /* @__PURE__ */ import_react74.default.createElement("div", { className: "rounded-2xl p-4 shadow-sm border-l-4 bg-white flex items-start gap-3", style: { borderColor: "#F0AC1B" } }, /* @__PURE__ */ import_react74.default.createElement(TriangleAlert, { size: 18, style: { color: "#F0AC1B" }, className: "mt-0.5" }), /* @__PURE__ */ import_react74.default.createElement("div", null, /* @__PURE__ */ import_react74.default.createElement("div", { className: "text-sm font-medium text-gray-800" }, "Coton \u2014 P\xE9r\xE8r\xE8"), /* @__PURE__ */ import_react74.default.createElement("div", { className: "text-xs text-gray-500 mt-0.5" }, "Taux de r\xE9alisation 62 %, sous le seuil d\xE9cadaire (75 %)"))), /* @__PURE__ */ import_react74.default.createElement("div", { className: "rounded-2xl p-4 shadow-sm border-l-4 bg-white flex items-start gap-3", style: { borderColor: "#D9534F" } }, /* @__PURE__ */ import_react74.default.createElement(Droplets, { size: 18, style: { color: "#D9534F" }, className: "mt-0.5" }), /* @__PURE__ */ import_react74.default.createElement("div", null, /* @__PURE__ */ import_react74.default.createElement("div", { className: "text-sm font-medium text-gray-800" }, "Riz \u2014 Bemb\xE9r\xE9k\xE9"), /* @__PURE__ */ import_react74.default.createElement("div", { className: "text-xs text-gray-500 mt-0.5" }, "Anomalie de saisie d\xE9tect\xE9e sur 4 fiches"))), /* @__PURE__ */ import_react74.default.createElement("div", { className: "rounded-2xl p-4 shadow-sm border-l-4 bg-white flex items-start gap-3", style: { borderColor: "#3E9C6B" } }, /* @__PURE__ */ import_react74.default.createElement(CircleCheck, { size: 18, style: { color: "#3E9C6B" }, className: "mt-0.5" }), /* @__PURE__ */ import_react74.default.createElement("div", null, /* @__PURE__ */ import_react74.default.createElement("div", { className: "text-sm font-medium text-gray-800" }, "Ma\xEFs \u2014 N'Dali"), /* @__PURE__ */ import_react74.default.createElement("div", { className: "text-xs text-gray-500 mt-0.5" }, "Objectif d\xE9cadaire atteint")))), /* @__PURE__ */ import_react74.default.createElement("div", { className: "bg-white rounded-2xl mt-4 overflow-hidden shadow-sm border border-black/5" }, /* @__PURE__ */ import_react74.default.createElement("div", { className: "px-5 py-4 flex items-center justify-between" }, /* @__PURE__ */ import_react74.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY3 } }, "Enqu\xEAtes r\xE9centes"), /* @__PURE__ */ import_react74.default.createElement(Clock, { size: 15, className: "text-gray-400" })), /* @__PURE__ */ import_react74.default.createElement("table", { className: "w-full text-sm" }, /* @__PURE__ */ import_react74.default.createElement("thead", null, /* @__PURE__ */ import_react74.default.createElement("tr", { className: "text-left text-[11px] text-gray-400 uppercase border-t border-b border-gray-100" }, /* @__PURE__ */ import_react74.default.createElement("th", { className: "px-5 py-2 font-medium" }, "Enqu\xEAte"), /* @__PURE__ */ import_react74.default.createElement("th", { className: "px-5 py-2 font-medium" }, "Fili\xE8re"), /* @__PURE__ */ import_react74.default.createElement("th", { className: "px-5 py-2 font-medium" }, "Commune"), /* @__PURE__ */ import_react74.default.createElement("th", { className: "px-5 py-2 font-medium" }, "Statut"), /* @__PURE__ */ import_react74.default.createElement("th", { className: "px-5 py-2 font-medium" }, "Date"))), /* @__PURE__ */ import_react74.default.createElement("tbody", null, surveys.map((s2) => /* @__PURE__ */ import_react74.default.createElement("tr", { key: s2.name, className: "border-b border-gray-50 last:border-0" }, /* @__PURE__ */ import_react74.default.createElement("td", { className: "px-5 py-3 text-gray-800" }, s2.name), /* @__PURE__ */ import_react74.default.createElement("td", { className: "px-5 py-3" }, /* @__PURE__ */ import_react74.default.createElement("span", { className: "inline-flex items-center gap-1.5 text-gray-600" }, /* @__PURE__ */ import_react74.default.createElement("span", { className: "w-2 h-2 rounded-full", style: { background: FILIERES[s2.filiere].color } }), s2.filiere)), /* @__PURE__ */ import_react74.default.createElement("td", { className: "px-5 py-3 text-gray-500" }, s2.commune), /* @__PURE__ */ import_react74.default.createElement("td", { className: "px-5 py-3" }, /* @__PURE__ */ import_react74.default.createElement("span", { className: `px-2 py-1 rounded-full text-[11px] font-medium ${statusColors[s2.status]}` }, s2.status)), /* @__PURE__ */ import_react74.default.createElement("td", { className: "px-5 py-3 text-gray-400" }, s2.date))))))))));
   }
 
   // src/ImportWizard.jsx
-  var import_react74 = __toESM(require_react());
+  var import_react75 = __toESM(require_react());
 
   // node_modules/@supabase/supabase-js/dist/tracingRegistry.mjs
   var EXTRACTOR_KEY = /* @__PURE__ */ Symbol.for("@supabase/supabase-js.traceContextExtractor");
@@ -103959,14 +104018,14 @@ ${suffix2}`;
     { id: 5, label: "Cartographie des variables" }
   ];
   function Watermark2() {
-    return /* @__PURE__ */ import_react74.default.createElement("div", { className: "fixed inset-0 overflow-hidden pointer-events-none z-0 flex items-center justify-center" }, /* @__PURE__ */ import_react74.default.createElement(
+    return /* @__PURE__ */ import_react75.default.createElement("div", { className: "fixed inset-0 overflow-hidden pointer-events-none z-0 flex items-center justify-center" }, /* @__PURE__ */ import_react75.default.createElement(
       "span",
       {
         className: "font-serif font-black whitespace-nowrap select-none",
         style: { color: NAVY4, opacity: 0.06, fontSize: "13vw", letterSpacing: "-0.02em" }
       },
       "AgriHakStat"
-    ), /* @__PURE__ */ import_react74.default.createElement(
+    ), /* @__PURE__ */ import_react75.default.createElement(
       "span",
       {
         className: "absolute bottom-4 right-6 text-xs font-medium select-none",
@@ -103976,30 +104035,30 @@ ${suffix2}`;
     ));
   }
   function Stepper({ current: current2, setCurrent }) {
-    return /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex items-center mb-8" }, STEPS.map((s2, i) => /* @__PURE__ */ import_react74.default.createElement(import_react74.default.Fragment, { key: s2.id }, /* @__PURE__ */ import_react74.default.createElement("button", { onClick: () => setCurrent(s2.id), className: "flex items-center gap-2 group" }, /* @__PURE__ */ import_react74.default.createElement(
+    return /* @__PURE__ */ import_react75.default.createElement("div", { className: "flex items-center mb-8" }, STEPS.map((s2, i) => /* @__PURE__ */ import_react75.default.createElement(import_react75.default.Fragment, { key: s2.id }, /* @__PURE__ */ import_react75.default.createElement("button", { onClick: () => setCurrent(s2.id), className: "flex items-center gap-2 group" }, /* @__PURE__ */ import_react75.default.createElement(
       "div",
       {
         className: "w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold transition-colors shrink-0",
         style: s2.id < current2 ? { background: "#3E9C6B", color: "white" } : s2.id === current2 ? { background: NAVY4, color: "white" } : { background: "#EDEEF3", color: "#8A93A8" }
       },
-      s2.id < current2 ? /* @__PURE__ */ import_react74.default.createElement(Check, { size: 14 }) : s2.id
-    ), /* @__PURE__ */ import_react74.default.createElement(
+      s2.id < current2 ? /* @__PURE__ */ import_react75.default.createElement(Check, { size: 14 }) : s2.id
+    ), /* @__PURE__ */ import_react75.default.createElement(
       "span",
       {
         className: "text-xs font-medium hidden md:block",
         style: { color: s2.id === current2 ? NAVY4 : "#8A93A8" }
       },
       s2.label
-    )), i < STEPS.length - 1 && /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex-1 h-[2px] mx-3", style: { background: s2.id < current2 ? "#3E9C6B" : "#E4E6ED" } }))));
+    )), i < STEPS.length - 1 && /* @__PURE__ */ import_react75.default.createElement("div", { className: "flex-1 h-[2px] mx-3", style: { background: s2.id < current2 ? "#3E9C6B" : "#E4E6ED" } }))));
   }
   function Card({ children, className = "" }) {
-    return /* @__PURE__ */ import_react74.default.createElement("div", { className: `bg-white rounded-2xl p-6 shadow-sm border border-black/5 ${className}` }, children);
+    return /* @__PURE__ */ import_react75.default.createElement("div", { className: `bg-white rounded-2xl p-6 shadow-sm border border-black/5 ${className}` }, children);
   }
   function UploadedFile({ icon: Icon3, name, meta, tint, fg, onDelete }) {
-    return /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex items-center gap-3 rounded-xl p-3 border border-black/5", style: { background: tint } }, /* @__PURE__ */ import_react74.default.createElement("div", { className: "w-10 h-10 rounded-lg flex items-center justify-center shrink-0", style: { background: "white" } }, /* @__PURE__ */ import_react74.default.createElement(Icon3, { size: 18, style: { color: fg } })), /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex-1 min-w-0" }, /* @__PURE__ */ import_react74.default.createElement("div", { className: "text-sm font-medium truncate", style: { color: fg } }, name), /* @__PURE__ */ import_react74.default.createElement("div", { className: "text-[11px] opacity-70", style: { color: fg } }, meta)), /* @__PURE__ */ import_react74.default.createElement("button", { onClick: onDelete, type: "button", className: "text-gray-400 hover:text-red-500 transition-colors" }, /* @__PURE__ */ import_react74.default.createElement(X, { size: 16 })));
+    return /* @__PURE__ */ import_react75.default.createElement("div", { className: "flex items-center gap-3 rounded-xl p-3 border border-black/5", style: { background: tint } }, /* @__PURE__ */ import_react75.default.createElement("div", { className: "w-10 h-10 rounded-lg flex items-center justify-center shrink-0", style: { background: "white" } }, /* @__PURE__ */ import_react75.default.createElement(Icon3, { size: 18, style: { color: fg } })), /* @__PURE__ */ import_react75.default.createElement("div", { className: "flex-1 min-w-0" }, /* @__PURE__ */ import_react75.default.createElement("div", { className: "text-sm font-medium truncate", style: { color: fg } }, name), /* @__PURE__ */ import_react75.default.createElement("div", { className: "text-[11px] opacity-70", style: { color: fg } }, meta)), /* @__PURE__ */ import_react75.default.createElement("button", { onClick: onDelete, type: "button", className: "text-gray-400 hover:text-red-500 transition-colors" }, /* @__PURE__ */ import_react75.default.createElement(X, { size: 16 })));
   }
   function Chip({ label, active, onClick, color: color2 }) {
-    return /* @__PURE__ */ import_react74.default.createElement(
+    return /* @__PURE__ */ import_react75.default.createElement(
       "button",
       {
         onClick,
@@ -104010,30 +104069,30 @@ ${suffix2}`;
     );
   }
   function ImportWizard({ active, onNavigate, userEmail, userId, roleLabel, isAdmin, isGuest, onLogout, onOpenAdmin, dataset, onDatasetParsed, context, onContextChange }) {
-    const [step, setStep] = (0, import_react74.useState)(1);
-    const [departement, setDepartement] = (0, import_react74.useState)(context?.departement || "Borgou");
-    const [communes, setCommunes] = (0, import_react74.useState)(context?.communes || ["Tchaourou", "P\xE9r\xE8r\xE8"]);
-    const [filieres, setFilieres] = (0, import_react74.useState)(context?.filieres || ["Coton"]);
-    const [customFiliereInput, setCustomFiliereInput] = (0, import_react74.useState)("");
-    const [availableFilieres, setAvailableFilieres] = (0, import_react74.useState)(DEFAULT_FILIERES);
-    const [objectif, setObjectif] = (0, import_react74.useState)(
+    const [step, setStep] = (0, import_react75.useState)(1);
+    const [departement, setDepartement] = (0, import_react75.useState)(context?.departement || "Borgou");
+    const [communes, setCommunes] = (0, import_react75.useState)(context?.communes || ["Tchaourou", "P\xE9r\xE8r\xE8"]);
+    const [filieres, setFilieres] = (0, import_react75.useState)(context?.filieres || ["Coton"]);
+    const [customFiliereInput, setCustomFiliereInput] = (0, import_react75.useState)("");
+    const [availableFilieres, setAvailableFilieres] = (0, import_react75.useState)(DEFAULT_FILIERES);
+    const [objectif, setObjectif] = (0, import_react75.useState)(
       context?.objectif || "Suivre la progression d\xE9cadaire des semis de coton sur les communes \xE0 risque pluviom\xE9trique du Borgou."
     );
-    const [periodeDebut, setPeriodeDebut] = (0, import_react74.useState)(context?.periodeDebut || "2026-06-10");
-    const [periodeFin, setPeriodeFin] = (0, import_react74.useState)(context?.periodeFin || "2026-07-20");
-    const [uniteAnalyse, setUniteAnalyse] = (0, import_react74.useState)(context?.uniteAnalyse || "Exploitation agricole");
-    const [indicateurs, setIndicateurs] = (0, import_react74.useState)(context?.indicateurs || [
+    const [periodeDebut, setPeriodeDebut] = (0, import_react75.useState)(context?.periodeDebut || "2026-06-10");
+    const [periodeFin, setPeriodeFin] = (0, import_react75.useState)(context?.periodeFin || "2026-07-20");
+    const [uniteAnalyse, setUniteAnalyse] = (0, import_react75.useState)(context?.uniteAnalyse || "Exploitation agricole");
+    const [indicateurs, setIndicateurs] = (0, import_react75.useState)(context?.indicateurs || [
       { id: 1, nom: "Taux de r\xE9alisation des semis", formule: "Superficie r\xE9alis\xE9e / Superficie pr\xE9vue \xD7 100", seuil: "75 %" },
       { id: 2, nom: "Rendement moyen estim\xE9", formule: "Production estim\xE9e / Superficie r\xE9alis\xE9e", seuil: "ND \u2014 \xE0 renseigner" }
     ]);
-    const [editingIndicateur, setEditingIndicateur] = (0, import_react74.useState)(null);
-    const [questionnaire, setQuestionnaire] = (0, import_react74.useState)(null);
-    const [submitting, setSubmitting] = (0, import_react74.useState)(false);
-    const [submitted, setSubmitted] = (0, import_react74.useState)(false);
-    const [submitError, setSubmitError] = (0, import_react74.useState)("");
-    const [parsing, setParsing] = (0, import_react74.useState)(false);
-    const [fileError, setFileError] = (0, import_react74.useState)("");
-    (0, import_react74.useEffect)(() => {
+    const [editingIndicateur, setEditingIndicateur] = (0, import_react75.useState)(null);
+    const [questionnaire, setQuestionnaire] = (0, import_react75.useState)(null);
+    const [submitting, setSubmitting] = (0, import_react75.useState)(false);
+    const [submitted, setSubmitted] = (0, import_react75.useState)(false);
+    const [submitError, setSubmitError] = (0, import_react75.useState)("");
+    const [parsing, setParsing] = (0, import_react75.useState)(false);
+    const [fileError, setFileError] = (0, import_react75.useState)("");
+    (0, import_react75.useEffect)(() => {
       if (onContextChange) {
         onContextChange({ departement, communes, filieres, objectif, periodeDebut, periodeFin, uniteAnalyse, indicateurs });
       }
@@ -104109,14 +104168,14 @@ ${suffix2}`;
       }
     };
     const toggle = (list, setList, item) => setList(list.includes(item) ? list.filter((x2) => x2 !== item) : [...list, item]);
-    return /* @__PURE__ */ import_react74.default.createElement("div", { className: "min-h-screen relative bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans" }, /* @__PURE__ */ import_react74.default.createElement(Watermark2, null), /* @__PURE__ */ import_react74.default.createElement("div", { className: "relative z-10 flex" }, /* @__PURE__ */ import_react74.default.createElement(Sidebar, { active, onNavigate }), /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex-1 min-h-screen" }, /* @__PURE__ */ import_react74.default.createElement(
+    return /* @__PURE__ */ import_react75.default.createElement("div", { className: "min-h-screen relative bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans" }, /* @__PURE__ */ import_react75.default.createElement(Watermark2, null), /* @__PURE__ */ import_react75.default.createElement("div", { className: "relative z-10 flex" }, /* @__PURE__ */ import_react75.default.createElement(Sidebar, { active, onNavigate }), /* @__PURE__ */ import_react75.default.createElement("div", { className: "flex-1 min-h-screen" }, /* @__PURE__ */ import_react75.default.createElement(
       "header",
       {
         className: "bg-white/70 backdrop-blur px-8 py-4 flex items-center justify-between",
         style: { borderBottom: `2px solid ${GOLD3}` }
       },
-      /* @__PURE__ */ import_react74.default.createElement("div", null, /* @__PURE__ */ import_react74.default.createElement("h1", { className: "font-serif text-xl font-bold", style: { color: NAVY4 } }, "Nouvelle enqu\xEAte"), /* @__PURE__ */ import_react74.default.createElement("p", { className: "text-xs text-gray-500 mt-0.5" }, "Assistant d'import \u2014 questionnaire, base et contexte d'\xE9tude")),
-      /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex items-center gap-4" }, /* @__PURE__ */ import_react74.default.createElement(Bell, { size: 18, className: "text-gray-400" }), /* @__PURE__ */ import_react74.default.createElement(
+      /* @__PURE__ */ import_react75.default.createElement("div", null, /* @__PURE__ */ import_react75.default.createElement("h1", { className: "font-serif text-xl font-bold", style: { color: NAVY4 } }, "Nouvelle enqu\xEAte"), /* @__PURE__ */ import_react75.default.createElement("p", { className: "text-xs text-gray-500 mt-0.5" }, "Assistant d'import \u2014 questionnaire, base et contexte d'\xE9tude")),
+      /* @__PURE__ */ import_react75.default.createElement("div", { className: "flex items-center gap-4" }, /* @__PURE__ */ import_react75.default.createElement(Bell, { size: 18, className: "text-gray-400" }), /* @__PURE__ */ import_react75.default.createElement(
         UserMenu,
         {
           email: userEmail,
@@ -104127,7 +104186,7 @@ ${suffix2}`;
           onOpenAdmin
         }
       ))
-    ), /* @__PURE__ */ import_react74.default.createElement("main", { className: "p-8 max-w-4xl" }, /* @__PURE__ */ import_react74.default.createElement(Stepper, { current: step, setCurrent: setStep }), step === 1 && /* @__PURE__ */ import_react74.default.createElement(Card, null, /* @__PURE__ */ import_react74.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY4 } }, "Importer le questionnaire"), /* @__PURE__ */ import_react74.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, "Formats accept\xE9s : Excel (.xlsx), CSV, ou tout export XLSForm/KoboToolbox/Akvo Flow/ODK."), /* @__PURE__ */ import_react74.default.createElement("div", { className: "grid grid-cols-2 gap-4" }, /* @__PURE__ */ import_react74.default.createElement("label", { className: "border-2 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center text-center gap-2 cursor-pointer transition-colors hover:bg-[#FAFBFE]", style: { borderColor: "#C7D2E8" } }, /* @__PURE__ */ import_react74.default.createElement("input", { type: "file", accept: ".xlsx,.xls,.csv,.pdf,.docx", className: "hidden", onChange: handleQuestionnaireUpload }), /* @__PURE__ */ import_react74.default.createElement("div", { className: "w-12 h-12 rounded-xl flex items-center justify-center mb-1", style: { background: "#EBEEF7" } }, /* @__PURE__ */ import_react74.default.createElement(Upload, { size: 20, style: { color: NAVY4 } })), /* @__PURE__ */ import_react74.default.createElement("div", { className: "font-medium text-sm", style: { color: NAVY4 } }, "Glisser-d\xE9poser un fichier"), /* @__PURE__ */ import_react74.default.createElement("div", { className: "text-xs text-gray-400" }, "ou cliquer pour parcourir"), /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex flex-wrap gap-1.5 justify-center mt-2" }, ["XLSForm", "ODK", ".xlsx"].map((f) => /* @__PURE__ */ import_react74.default.createElement("span", { key: f, className: "text-[10px] px-2 py-1 rounded-full bg-[#F6E9DD] text-[#8A4A1D] font-medium" }, f)))), /* @__PURE__ */ import_react74.default.createElement("div", { className: "border-2 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center text-center gap-2 cursor-pointer hover:bg-[#FAFBFE]", style: { borderColor: "#C7D2E8" } }, /* @__PURE__ */ import_react74.default.createElement("div", { className: "w-12 h-12 rounded-xl flex items-center justify-center mb-1", style: { background: "#E4F5EC" } }, /* @__PURE__ */ import_react74.default.createElement(Link2, { size: 20, style: { color: "#256B45" } })), /* @__PURE__ */ import_react74.default.createElement("div", { className: "font-medium text-sm", style: { color: NAVY4 } }, "Connecter Akvo Flow / KoboToolbox"), /* @__PURE__ */ import_react74.default.createElement("div", { className: "text-xs text-gray-400" }, "Import direct via API (\xE0 venir)"))), questionnaire ? /* @__PURE__ */ import_react74.default.createElement("div", { className: "mt-5" }, /* @__PURE__ */ import_react74.default.createElement(
+    ), /* @__PURE__ */ import_react75.default.createElement("main", { className: "p-8 max-w-4xl" }, /* @__PURE__ */ import_react75.default.createElement(Stepper, { current: step, setCurrent: setStep }), step === 1 && /* @__PURE__ */ import_react75.default.createElement(Card, null, /* @__PURE__ */ import_react75.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY4 } }, "Importer le questionnaire"), /* @__PURE__ */ import_react75.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, "Formats accept\xE9s : Excel (.xlsx), CSV, ou tout export XLSForm/KoboToolbox/Akvo Flow/ODK."), /* @__PURE__ */ import_react75.default.createElement("div", { className: "grid grid-cols-2 gap-4" }, /* @__PURE__ */ import_react75.default.createElement("label", { className: "border-2 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center text-center gap-2 cursor-pointer transition-colors hover:bg-[#FAFBFE]", style: { borderColor: "#C7D2E8" } }, /* @__PURE__ */ import_react75.default.createElement("input", { type: "file", accept: ".xlsx,.xls,.csv,.pdf,.docx", className: "hidden", onChange: handleQuestionnaireUpload }), /* @__PURE__ */ import_react75.default.createElement("div", { className: "w-12 h-12 rounded-xl flex items-center justify-center mb-1", style: { background: "#EBEEF7" } }, /* @__PURE__ */ import_react75.default.createElement(Upload, { size: 20, style: { color: NAVY4 } })), /* @__PURE__ */ import_react75.default.createElement("div", { className: "font-medium text-sm", style: { color: NAVY4 } }, "Glisser-d\xE9poser un fichier"), /* @__PURE__ */ import_react75.default.createElement("div", { className: "text-xs text-gray-400" }, "ou cliquer pour parcourir"), /* @__PURE__ */ import_react75.default.createElement("div", { className: "flex flex-wrap gap-1.5 justify-center mt-2" }, ["XLSForm", "ODK", ".xlsx"].map((f) => /* @__PURE__ */ import_react75.default.createElement("span", { key: f, className: "text-[10px] px-2 py-1 rounded-full bg-[#F6E9DD] text-[#8A4A1D] font-medium" }, f)))), /* @__PURE__ */ import_react75.default.createElement("div", { className: "border-2 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center text-center gap-2 cursor-pointer hover:bg-[#FAFBFE]", style: { borderColor: "#C7D2E8" } }, /* @__PURE__ */ import_react75.default.createElement("div", { className: "w-12 h-12 rounded-xl flex items-center justify-center mb-1", style: { background: "#E4F5EC" } }, /* @__PURE__ */ import_react75.default.createElement(Link2, { size: 20, style: { color: "#256B45" } })), /* @__PURE__ */ import_react75.default.createElement("div", { className: "font-medium text-sm", style: { color: NAVY4 } }, "Connecter Akvo Flow / KoboToolbox"), /* @__PURE__ */ import_react75.default.createElement("div", { className: "text-xs text-gray-400" }, "Import direct via API (\xE0 venir)"))), questionnaire ? /* @__PURE__ */ import_react75.default.createElement("div", { className: "mt-5" }, /* @__PURE__ */ import_react75.default.createElement(
       UploadedFile,
       {
         icon: FileSpreadsheet,
@@ -104137,7 +104196,7 @@ ${suffix2}`;
         fg: NAVY4,
         onDelete: () => setQuestionnaire(null)
       }
-    )) : /* @__PURE__ */ import_react74.default.createElement("div", { className: "mt-5 rounded-xl p-3 border border-black/5 bg-gray-50 text-xs text-gray-500" }, "Aucun questionnaire import\xE9 pour l'instant.")), step === 2 && /* @__PURE__ */ import_react74.default.createElement(Card, null, /* @__PURE__ */ import_react74.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY4 } }, "Importer la base de donn\xE9es"), /* @__PURE__ */ import_react74.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, "Fichier Excel (.xlsx) ou CSV r\xE9el \u2014 les colonnes et leur type sont d\xE9tect\xE9s automatiquement."), /* @__PURE__ */ import_react74.default.createElement("div", { className: "grid grid-cols-2 gap-4" }, /* @__PURE__ */ import_react74.default.createElement("label", { className: "border-2 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center text-center gap-2 cursor-pointer hover:bg-[#FAFBFE]", style: { borderColor: "#C7D2E8" } }, /* @__PURE__ */ import_react74.default.createElement("input", { type: "file", accept: ".csv,.xlsx,.xls", className: "hidden", onChange: handleFileUpload }), /* @__PURE__ */ import_react74.default.createElement("div", { className: "w-12 h-12 rounded-xl flex items-center justify-center mb-1", style: { background: "#EBEEF7" } }, /* @__PURE__ */ import_react74.default.createElement(Upload, { size: 20, style: { color: NAVY4 } })), /* @__PURE__ */ import_react74.default.createElement("div", { className: "font-medium text-sm", style: { color: NAVY4 } }, parsing ? "Analyse en cours\u2026" : "Glisser-d\xE9poser un fichier"), /* @__PURE__ */ import_react74.default.createElement("div", { className: "text-xs text-gray-400" }, "ou cliquer pour parcourir"), /* @__PURE__ */ import_react74.default.createElement("span", { className: "text-[10px] px-2 py-1 rounded-full bg-[#F6E9DD] text-[#8A4A1D] font-medium mt-2" }, ".xlsx, .xls ou .csv")), /* @__PURE__ */ import_react74.default.createElement("div", { className: "border-2 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center text-center gap-2 cursor-pointer hover:bg-[#FAFBFE]", style: { borderColor: "#C7D2E8" } }, /* @__PURE__ */ import_react74.default.createElement("div", { className: "w-12 h-12 rounded-xl flex items-center justify-center mb-1", style: { background: "#E4F5EC" } }, /* @__PURE__ */ import_react74.default.createElement(Link2, { size: 20, style: { color: "#256B45" } })), /* @__PURE__ */ import_react74.default.createElement("div", { className: "font-medium text-sm", style: { color: NAVY4 } }, "Connecter Akvo Flow / KoboToolbox"), /* @__PURE__ */ import_react74.default.createElement("div", { className: "text-xs text-gray-400" }, "Synchronisation automatique (\xE0 venir)"))), fileError && /* @__PURE__ */ import_react74.default.createElement("div", { className: "mt-4 rounded-xl p-3 text-xs", style: { background: "#FBE7E5", color: "#B3413A" } }, fileError), dataset && /* @__PURE__ */ import_react74.default.createElement("div", { className: "mt-5 space-y-3" }, /* @__PURE__ */ import_react74.default.createElement(
+    )) : /* @__PURE__ */ import_react75.default.createElement("div", { className: "mt-5 rounded-xl p-3 border border-black/5 bg-gray-50 text-xs text-gray-500" }, "Aucun questionnaire import\xE9 pour l'instant.")), step === 2 && /* @__PURE__ */ import_react75.default.createElement(Card, null, /* @__PURE__ */ import_react75.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY4 } }, "Importer la base de donn\xE9es"), /* @__PURE__ */ import_react75.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, "Fichier Excel (.xlsx) ou CSV r\xE9el \u2014 les colonnes et leur type sont d\xE9tect\xE9s automatiquement."), /* @__PURE__ */ import_react75.default.createElement("div", { className: "grid grid-cols-2 gap-4" }, /* @__PURE__ */ import_react75.default.createElement("label", { className: "border-2 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center text-center gap-2 cursor-pointer hover:bg-[#FAFBFE]", style: { borderColor: "#C7D2E8" } }, /* @__PURE__ */ import_react75.default.createElement("input", { type: "file", accept: ".csv,.xlsx,.xls", className: "hidden", onChange: handleFileUpload }), /* @__PURE__ */ import_react75.default.createElement("div", { className: "w-12 h-12 rounded-xl flex items-center justify-center mb-1", style: { background: "#EBEEF7" } }, /* @__PURE__ */ import_react75.default.createElement(Upload, { size: 20, style: { color: NAVY4 } })), /* @__PURE__ */ import_react75.default.createElement("div", { className: "font-medium text-sm", style: { color: NAVY4 } }, parsing ? "Analyse en cours\u2026" : "Glisser-d\xE9poser un fichier"), /* @__PURE__ */ import_react75.default.createElement("div", { className: "text-xs text-gray-400" }, "ou cliquer pour parcourir"), /* @__PURE__ */ import_react75.default.createElement("span", { className: "text-[10px] px-2 py-1 rounded-full bg-[#F6E9DD] text-[#8A4A1D] font-medium mt-2" }, ".xlsx, .xls ou .csv")), /* @__PURE__ */ import_react75.default.createElement("div", { className: "border-2 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center text-center gap-2 cursor-pointer hover:bg-[#FAFBFE]", style: { borderColor: "#C7D2E8" } }, /* @__PURE__ */ import_react75.default.createElement("div", { className: "w-12 h-12 rounded-xl flex items-center justify-center mb-1", style: { background: "#E4F5EC" } }, /* @__PURE__ */ import_react75.default.createElement(Link2, { size: 20, style: { color: "#256B45" } })), /* @__PURE__ */ import_react75.default.createElement("div", { className: "font-medium text-sm", style: { color: NAVY4 } }, "Connecter Akvo Flow / KoboToolbox"), /* @__PURE__ */ import_react75.default.createElement("div", { className: "text-xs text-gray-400" }, "Synchronisation automatique (\xE0 venir)"))), fileError && /* @__PURE__ */ import_react75.default.createElement("div", { className: "mt-4 rounded-xl p-3 text-xs", style: { background: "#FBE7E5", color: "#B3413A" } }, fileError), dataset && /* @__PURE__ */ import_react75.default.createElement("div", { className: "mt-5 space-y-3" }, /* @__PURE__ */ import_react75.default.createElement(
       UploadedFile,
       {
         icon: FileCheckCorner,
@@ -104147,7 +104206,7 @@ ${suffix2}`;
         fg: "#256B45",
         onDelete: () => onDatasetParsed(null)
       }
-    ), dataset.columns.some((c2) => c2.isGeo) ? /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex items-start gap-2 rounded-xl p-3 border border-black/5", style: { background: "#FDF1DA" } }, /* @__PURE__ */ import_react74.default.createElement(MapPin, { size: 16, style: { color: "#8A5A00" }, className: "mt-0.5" }), /* @__PURE__ */ import_react74.default.createElement("div", { className: "text-xs", style: { color: "#8A5A00" } }, /* @__PURE__ */ import_react74.default.createElement("span", { className: "font-medium" }, dataset.columns.filter((c2) => c2.isGeo).length, " colonne(s) de g\xE9olocalisation d\xE9tect\xE9e(s)"), " ", "(", dataset.columns.filter((c2) => c2.isGeo).map((c2) => c2.name).join(", "), ")")) : /* @__PURE__ */ import_react74.default.createElement("div", { className: "rounded-xl p-3 border border-black/5 bg-gray-50 text-xs text-gray-500" }, "Aucune colonne de g\xE9olocalisation d\xE9tect\xE9e dans ce fichier."))), step === 3 && /* @__PURE__ */ import_react74.default.createElement(Card, null, /* @__PURE__ */ import_react74.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY4 } }, "Contexte de l'\xE9tude"), /* @__PURE__ */ import_react74.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, "Ces informations cadrent l'interpr\xE9tation narrative du rapport final."), /* @__PURE__ */ import_react74.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Objectif de l'\xE9tude"), /* @__PURE__ */ import_react74.default.createElement(
+    ), dataset.columns.some((c2) => c2.isGeo) ? /* @__PURE__ */ import_react75.default.createElement("div", { className: "flex items-start gap-2 rounded-xl p-3 border border-black/5", style: { background: "#FDF1DA" } }, /* @__PURE__ */ import_react75.default.createElement(MapPin, { size: 16, style: { color: "#8A5A00" }, className: "mt-0.5" }), /* @__PURE__ */ import_react75.default.createElement("div", { className: "text-xs", style: { color: "#8A5A00" } }, /* @__PURE__ */ import_react75.default.createElement("span", { className: "font-medium" }, dataset.columns.filter((c2) => c2.isGeo).length, " colonne(s) de g\xE9olocalisation d\xE9tect\xE9e(s)"), " ", "(", dataset.columns.filter((c2) => c2.isGeo).map((c2) => c2.name).join(", "), ")")) : /* @__PURE__ */ import_react75.default.createElement("div", { className: "rounded-xl p-3 border border-black/5 bg-gray-50 text-xs text-gray-500" }, "Aucune colonne de g\xE9olocalisation d\xE9tect\xE9e dans ce fichier."))), step === 3 && /* @__PURE__ */ import_react75.default.createElement(Card, null, /* @__PURE__ */ import_react75.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY4 } }, "Contexte de l'\xE9tude"), /* @__PURE__ */ import_react75.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, "Ces informations cadrent l'interpr\xE9tation narrative du rapport final."), /* @__PURE__ */ import_react75.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Objectif de l'\xE9tude"), /* @__PURE__ */ import_react75.default.createElement(
       "textarea",
       {
         className: "w-full text-sm rounded-xl border border-gray-200 p-3 mb-5 resize-none focus:outline-none focus:ring-2",
@@ -104156,7 +104215,7 @@ ${suffix2}`;
         value: objectif,
         onChange: (e) => setObjectif(e.target.value)
       }
-    ), /* @__PURE__ */ import_react74.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Zone g\xE9ographique"), /* @__PURE__ */ import_react74.default.createElement("div", { className: "grid grid-cols-2 gap-3 mb-3" }, /* @__PURE__ */ import_react74.default.createElement("div", null, /* @__PURE__ */ import_react74.default.createElement("label", { className: "text-[11px] text-gray-500 block mb-1" }, "D\xE9partement"), /* @__PURE__ */ import_react74.default.createElement(
+    ), /* @__PURE__ */ import_react75.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Zone g\xE9ographique"), /* @__PURE__ */ import_react75.default.createElement("div", { className: "grid grid-cols-2 gap-3 mb-3" }, /* @__PURE__ */ import_react75.default.createElement("div", null, /* @__PURE__ */ import_react75.default.createElement("label", { className: "text-[11px] text-gray-500 block mb-1" }, "D\xE9partement"), /* @__PURE__ */ import_react75.default.createElement(
       "select",
       {
         value: departement,
@@ -104167,8 +104226,8 @@ ${suffix2}`;
         className: "w-full text-sm rounded-xl border border-gray-200 p-2.5 focus:outline-none focus:ring-2 bg-white",
         style: { "--tw-ring-color": GOLD3 }
       },
-      BENIN_DEPARTEMENTS.map((d) => /* @__PURE__ */ import_react74.default.createElement("option", { key: d.departement, value: d.departement }, d.departement))
-    )), /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex items-end" }, /* @__PURE__ */ import_react74.default.createElement("span", { className: "text-[11px] text-gray-400" }, communes.length, " commune", communes.length > 1 ? "s" : "", " s\xE9lectionn\xE9e", communes.length > 1 ? "s" : "", " au total"))), /* @__PURE__ */ import_react74.default.createElement("label", { className: "text-[11px] text-gray-500 block mb-1" }, "Communes de ", departement), /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex flex-wrap gap-2 mb-2" }, communesDuDepartement.map((c2) => /* @__PURE__ */ import_react74.default.createElement(Chip, { key: c2, label: c2, active: communes.includes(c2), onClick: () => toggle(communes, setCommunes, c2) }))), communes.length > 0 && /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex flex-wrap gap-1.5 mb-5 pt-2 border-t border-gray-100" }, communes.map((c2) => /* @__PURE__ */ import_react74.default.createElement("span", { key: c2, className: "text-[11px] px-2 py-1 rounded-full flex items-center gap-1", style: { background: "#EBEEF7", color: NAVY4 } }, c2, /* @__PURE__ */ import_react74.default.createElement("button", { onClick: () => toggle(communes, setCommunes, c2), className: "hover:text-red-500" }, /* @__PURE__ */ import_react74.default.createElement(X, { size: 11 }))))), /* @__PURE__ */ import_react74.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Fili\xE8re(s) concern\xE9e(s)"), /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex flex-wrap gap-2 mb-3" }, availableFilieres.map((f) => /* @__PURE__ */ import_react74.default.createElement(Chip, { key: f, label: f, active: filieres.includes(f), onClick: () => toggle(filieres, setFilieres, f), color: filiereColor(f) }))), /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex items-center gap-2 mb-5" }, /* @__PURE__ */ import_react74.default.createElement(
+      BENIN_DEPARTEMENTS.map((d) => /* @__PURE__ */ import_react75.default.createElement("option", { key: d.departement, value: d.departement }, d.departement))
+    )), /* @__PURE__ */ import_react75.default.createElement("div", { className: "flex items-end" }, /* @__PURE__ */ import_react75.default.createElement("span", { className: "text-[11px] text-gray-400" }, communes.length, " commune", communes.length > 1 ? "s" : "", " s\xE9lectionn\xE9e", communes.length > 1 ? "s" : "", " au total"))), /* @__PURE__ */ import_react75.default.createElement("label", { className: "text-[11px] text-gray-500 block mb-1" }, "Communes de ", departement), /* @__PURE__ */ import_react75.default.createElement("div", { className: "flex flex-wrap gap-2 mb-2" }, communesDuDepartement.map((c2) => /* @__PURE__ */ import_react75.default.createElement(Chip, { key: c2, label: c2, active: communes.includes(c2), onClick: () => toggle(communes, setCommunes, c2) }))), communes.length > 0 && /* @__PURE__ */ import_react75.default.createElement("div", { className: "flex flex-wrap gap-1.5 mb-5 pt-2 border-t border-gray-100" }, communes.map((c2) => /* @__PURE__ */ import_react75.default.createElement("span", { key: c2, className: "text-[11px] px-2 py-1 rounded-full flex items-center gap-1", style: { background: "#EBEEF7", color: NAVY4 } }, c2, /* @__PURE__ */ import_react75.default.createElement("button", { onClick: () => toggle(communes, setCommunes, c2), className: "hover:text-red-500" }, /* @__PURE__ */ import_react75.default.createElement(X, { size: 11 }))))), /* @__PURE__ */ import_react75.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Fili\xE8re(s) concern\xE9e(s)"), /* @__PURE__ */ import_react75.default.createElement("div", { className: "flex flex-wrap gap-2 mb-3" }, availableFilieres.map((f) => /* @__PURE__ */ import_react75.default.createElement(Chip, { key: f, label: f, active: filieres.includes(f), onClick: () => toggle(filieres, setFilieres, f), color: filiereColor(f) }))), /* @__PURE__ */ import_react75.default.createElement("div", { className: "flex items-center gap-2 mb-5" }, /* @__PURE__ */ import_react75.default.createElement(
       "input",
       {
         type: "text",
@@ -104184,7 +104243,7 @@ ${suffix2}`;
         className: "flex-1 text-sm rounded-xl border border-gray-200 p-2 focus:outline-none focus:ring-2",
         style: { "--tw-ring-color": GOLD3 }
       }
-    ), /* @__PURE__ */ import_react74.default.createElement("button", { onClick: addCustomFiliere, type: "button", className: "px-3 py-2 rounded-xl text-xs font-medium text-white", style: { background: NAVY4 } }, /* @__PURE__ */ import_react74.default.createElement(Plus, { size: 13 }))), /* @__PURE__ */ import_react74.default.createElement("div", { className: "grid grid-cols-2 gap-4" }, /* @__PURE__ */ import_react74.default.createElement("div", null, /* @__PURE__ */ import_react74.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "P\xE9riode de r\xE9f\xE9rence"), /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex items-center gap-2" }, /* @__PURE__ */ import_react74.default.createElement(
+    ), /* @__PURE__ */ import_react75.default.createElement("button", { onClick: addCustomFiliere, type: "button", className: "px-3 py-2 rounded-xl text-xs font-medium text-white", style: { background: NAVY4 } }, /* @__PURE__ */ import_react75.default.createElement(Plus, { size: 13 }))), /* @__PURE__ */ import_react75.default.createElement("div", { className: "grid grid-cols-2 gap-4" }, /* @__PURE__ */ import_react75.default.createElement("div", null, /* @__PURE__ */ import_react75.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "P\xE9riode de r\xE9f\xE9rence"), /* @__PURE__ */ import_react75.default.createElement("div", { className: "flex items-center gap-2" }, /* @__PURE__ */ import_react75.default.createElement(
       "input",
       {
         type: "date",
@@ -104193,7 +104252,7 @@ ${suffix2}`;
         className: "w-full text-sm rounded-xl border border-gray-200 p-2.5 focus:outline-none focus:ring-2",
         style: { "--tw-ring-color": GOLD3 }
       }
-    ), /* @__PURE__ */ import_react74.default.createElement("span", { className: "text-gray-400 text-xs" }, "\u2192"), /* @__PURE__ */ import_react74.default.createElement(
+    ), /* @__PURE__ */ import_react75.default.createElement("span", { className: "text-gray-400 text-xs" }, "\u2192"), /* @__PURE__ */ import_react75.default.createElement(
       "input",
       {
         type: "date",
@@ -104202,7 +104261,7 @@ ${suffix2}`;
         className: "w-full text-sm rounded-xl border border-gray-200 p-2.5 focus:outline-none focus:ring-2",
         style: { "--tw-ring-color": GOLD3 }
       }
-    ))), /* @__PURE__ */ import_react74.default.createElement("div", null, /* @__PURE__ */ import_react74.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Unit\xE9 d'analyse"), /* @__PURE__ */ import_react74.default.createElement(
+    ))), /* @__PURE__ */ import_react75.default.createElement("div", null, /* @__PURE__ */ import_react75.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Unit\xE9 d'analyse"), /* @__PURE__ */ import_react75.default.createElement(
       "select",
       {
         value: uniteAnalyse,
@@ -104210,20 +104269,20 @@ ${suffix2}`;
         className: "w-full text-sm rounded-xl border border-gray-200 p-2.5 focus:outline-none focus:ring-2",
         style: { "--tw-ring-color": GOLD3 }
       },
-      /* @__PURE__ */ import_react74.default.createElement("option", null, "Exploitation agricole"),
-      /* @__PURE__ */ import_react74.default.createElement("option", null, "M\xE9nage"),
-      /* @__PURE__ */ import_react74.default.createElement("option", null, "Parcelle"),
-      /* @__PURE__ */ import_react74.default.createElement("option", null, "Commune")
-    )))), step === 4 && /* @__PURE__ */ import_react74.default.createElement(Card, null, /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex items-center justify-between mb-1" }, /* @__PURE__ */ import_react74.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY4 } }, "Indicateurs de performance"), /* @__PURE__ */ import_react74.default.createElement(
+      /* @__PURE__ */ import_react75.default.createElement("option", null, "Exploitation agricole"),
+      /* @__PURE__ */ import_react75.default.createElement("option", null, "M\xE9nage"),
+      /* @__PURE__ */ import_react75.default.createElement("option", null, "Parcelle"),
+      /* @__PURE__ */ import_react75.default.createElement("option", null, "Commune")
+    )))), step === 4 && /* @__PURE__ */ import_react75.default.createElement(Card, null, /* @__PURE__ */ import_react75.default.createElement("div", { className: "flex items-center justify-between mb-1" }, /* @__PURE__ */ import_react75.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY4 } }, "Indicateurs de performance"), /* @__PURE__ */ import_react75.default.createElement(
       "button",
       {
         onClick: () => setEditingIndicateur({ id: null, nom: "", formule: "", seuil: "" }),
         className: "text-xs font-medium flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-white",
         style: { background: NAVY4 }
       },
-      /* @__PURE__ */ import_react74.default.createElement(Plus, { size: 14 }),
+      /* @__PURE__ */ import_react75.default.createElement(Plus, { size: 14 }),
       " Ajouter un indicateur"
-    )), /* @__PURE__ */ import_react74.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, "Ces indicateurs seront mis en regard des analyses bivari\xE9es et de l'enrichissement climatique (Module 7)."), editingIndicateur && /* @__PURE__ */ import_react74.default.createElement("div", { className: "rounded-xl border-2 p-3 mb-3", style: { borderColor: GOLD3, background: "#FFFDF7" } }, /* @__PURE__ */ import_react74.default.createElement("div", { className: "grid grid-cols-2 gap-2 mb-2" }, /* @__PURE__ */ import_react74.default.createElement(
+    )), /* @__PURE__ */ import_react75.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, "Ces indicateurs seront mis en regard des analyses bivari\xE9es et de l'enrichissement climatique (Module 7)."), editingIndicateur && /* @__PURE__ */ import_react75.default.createElement("div", { className: "rounded-xl border-2 p-3 mb-3", style: { borderColor: GOLD3, background: "#FFFDF7" } }, /* @__PURE__ */ import_react75.default.createElement("div", { className: "grid grid-cols-2 gap-2 mb-2" }, /* @__PURE__ */ import_react75.default.createElement(
       "input",
       {
         placeholder: "Nom de l'indicateur",
@@ -104232,7 +104291,7 @@ ${suffix2}`;
         className: "text-sm rounded-lg border border-gray-200 p-2 focus:outline-none focus:ring-2",
         style: { "--tw-ring-color": GOLD3 }
       }
-    ), /* @__PURE__ */ import_react74.default.createElement(
+    ), /* @__PURE__ */ import_react75.default.createElement(
       "input",
       {
         placeholder: "Seuil de r\xE9f\xE9rence (ex. 75 %)",
@@ -104241,7 +104300,7 @@ ${suffix2}`;
         className: "text-sm rounded-lg border border-gray-200 p-2 focus:outline-none focus:ring-2",
         style: { "--tw-ring-color": GOLD3 }
       }
-    )), /* @__PURE__ */ import_react74.default.createElement(
+    )), /* @__PURE__ */ import_react75.default.createElement(
       "input",
       {
         placeholder: "Formule de calcul",
@@ -104250,7 +104309,7 @@ ${suffix2}`;
         className: "w-full text-sm rounded-lg border border-gray-200 p-2 mb-2 focus:outline-none focus:ring-2",
         style: { "--tw-ring-color": GOLD3 }
       }
-    ), /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex gap-2" }, /* @__PURE__ */ import_react74.default.createElement("button", { onClick: saveIndicateur, className: "px-3 py-1.5 rounded-lg text-xs font-medium text-white", style: { background: "#256B45" } }, /* @__PURE__ */ import_react74.default.createElement(Check, { size: 12, className: "inline mr-1 -mt-0.5" }), " Enregistrer"), /* @__PURE__ */ import_react74.default.createElement("button", { onClick: () => setEditingIndicateur(null), className: "px-3 py-1.5 rounded-lg text-xs font-medium bg-white border border-gray-200 text-gray-600" }, "Annuler"))), /* @__PURE__ */ import_react74.default.createElement("div", { className: "space-y-3" }, indicateurs.map((kpi) => /* @__PURE__ */ import_react74.default.createElement("div", { key: kpi.id, className: "flex items-center gap-3 rounded-xl border border-gray-100 p-3" }, /* @__PURE__ */ import_react74.default.createElement("div", { className: "w-8 h-8 rounded-lg flex items-center justify-center shrink-0", style: { background: "#EBEEF7" } }, /* @__PURE__ */ import_react74.default.createElement(ChartColumn, { size: 15, style: { color: NAVY4 } })), /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex-1" }, /* @__PURE__ */ import_react74.default.createElement("div", { className: "text-sm font-medium text-gray-800" }, kpi.nom), /* @__PURE__ */ import_react74.default.createElement("div", { className: "text-[11px] text-gray-400" }, kpi.formule)), /* @__PURE__ */ import_react74.default.createElement("span", { className: "text-[11px] font-medium px-2 py-1 rounded-full", style: { background: "#FDF1DA", color: "#8A5A00" } }, "Seuil : ", kpi.seuil || "ND"), /* @__PURE__ */ import_react74.default.createElement("button", { onClick: () => setEditingIndicateur(kpi), className: "text-gray-300 hover:text-blue-500" }, /* @__PURE__ */ import_react74.default.createElement(Pencil, { size: 14 })), /* @__PURE__ */ import_react74.default.createElement("button", { onClick: () => setIndicateurs(indicateurs.filter((k2) => k2.id !== kpi.id)), className: "text-gray-300 hover:text-red-400" }, /* @__PURE__ */ import_react74.default.createElement(Trash2, { size: 15 })))), indicateurs.length === 0 && /* @__PURE__ */ import_react74.default.createElement("div", { className: "text-xs text-gray-400 italic text-center py-4" }, "Aucun indicateur d\xE9fini \u2014 cliquez sur \xAB Ajouter un indicateur \xBB."))), step === 5 && /* @__PURE__ */ import_react74.default.createElement(Card, null, /* @__PURE__ */ import_react74.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY4 } }, "Cartographie automatique des variables"), /* @__PURE__ */ import_react74.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, dataset ? `Types d\xE9tect\xE9s r\xE9ellement \xE0 partir de ${dataset.fileName} (${dataset.rows.length} lignes).` : "Aucun fichier import\xE9 \xE0 l'\xE9tape 2 \u2014 exemple illustratif ci-dessous."), /* @__PURE__ */ import_react74.default.createElement("div", { className: "rounded-xl overflow-hidden border border-gray-100" }, /* @__PURE__ */ import_react74.default.createElement("table", { className: "w-full text-sm" }, /* @__PURE__ */ import_react74.default.createElement("thead", null, /* @__PURE__ */ import_react74.default.createElement("tr", { className: "text-left text-[11px] text-gray-400 uppercase bg-gray-50" }, /* @__PURE__ */ import_react74.default.createElement("th", { className: "px-4 py-2.5 font-medium" }, "Colonne de la base"), /* @__PURE__ */ import_react74.default.createElement("th", { className: "px-4 py-2.5 font-medium" }, "Type d\xE9tect\xE9"), /* @__PURE__ */ import_react74.default.createElement("th", { className: "px-4 py-2.5 font-medium" }, "Statut"))), /* @__PURE__ */ import_react74.default.createElement("tbody", null, (dataset ? dataset.columns.map((c2) => ({
+    ), /* @__PURE__ */ import_react75.default.createElement("div", { className: "flex gap-2" }, /* @__PURE__ */ import_react75.default.createElement("button", { onClick: saveIndicateur, className: "px-3 py-1.5 rounded-lg text-xs font-medium text-white", style: { background: "#256B45" } }, /* @__PURE__ */ import_react75.default.createElement(Check, { size: 12, className: "inline mr-1 -mt-0.5" }), " Enregistrer"), /* @__PURE__ */ import_react75.default.createElement("button", { onClick: () => setEditingIndicateur(null), className: "px-3 py-1.5 rounded-lg text-xs font-medium bg-white border border-gray-200 text-gray-600" }, "Annuler"))), /* @__PURE__ */ import_react75.default.createElement("div", { className: "space-y-3" }, indicateurs.map((kpi) => /* @__PURE__ */ import_react75.default.createElement("div", { key: kpi.id, className: "flex items-center gap-3 rounded-xl border border-gray-100 p-3" }, /* @__PURE__ */ import_react75.default.createElement("div", { className: "w-8 h-8 rounded-lg flex items-center justify-center shrink-0", style: { background: "#EBEEF7" } }, /* @__PURE__ */ import_react75.default.createElement(ChartColumn, { size: 15, style: { color: NAVY4 } })), /* @__PURE__ */ import_react75.default.createElement("div", { className: "flex-1" }, /* @__PURE__ */ import_react75.default.createElement("div", { className: "text-sm font-medium text-gray-800" }, kpi.nom), /* @__PURE__ */ import_react75.default.createElement("div", { className: "text-[11px] text-gray-400" }, kpi.formule)), /* @__PURE__ */ import_react75.default.createElement("span", { className: "text-[11px] font-medium px-2 py-1 rounded-full", style: { background: "#FDF1DA", color: "#8A5A00" } }, "Seuil : ", kpi.seuil || "ND"), /* @__PURE__ */ import_react75.default.createElement("button", { onClick: () => setEditingIndicateur(kpi), className: "text-gray-300 hover:text-blue-500" }, /* @__PURE__ */ import_react75.default.createElement(Pencil, { size: 14 })), /* @__PURE__ */ import_react75.default.createElement("button", { onClick: () => setIndicateurs(indicateurs.filter((k2) => k2.id !== kpi.id)), className: "text-gray-300 hover:text-red-400" }, /* @__PURE__ */ import_react75.default.createElement(Trash2, { size: 15 })))), indicateurs.length === 0 && /* @__PURE__ */ import_react75.default.createElement("div", { className: "text-xs text-gray-400 italic text-center py-4" }, "Aucun indicateur d\xE9fini \u2014 cliquez sur \xAB Ajouter un indicateur \xBB."))), step === 5 && /* @__PURE__ */ import_react75.default.createElement(Card, null, /* @__PURE__ */ import_react75.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY4 } }, "Cartographie automatique des variables"), /* @__PURE__ */ import_react75.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, dataset ? `Types d\xE9tect\xE9s r\xE9ellement \xE0 partir de ${dataset.fileName} (${dataset.rows.length} lignes).` : "Aucun fichier import\xE9 \xE0 l'\xE9tape 2 \u2014 exemple illustratif ci-dessous."), /* @__PURE__ */ import_react75.default.createElement("div", { className: "rounded-xl overflow-hidden border border-gray-100" }, /* @__PURE__ */ import_react75.default.createElement("table", { className: "w-full text-sm" }, /* @__PURE__ */ import_react75.default.createElement("thead", null, /* @__PURE__ */ import_react75.default.createElement("tr", { className: "text-left text-[11px] text-gray-400 uppercase bg-gray-50" }, /* @__PURE__ */ import_react75.default.createElement("th", { className: "px-4 py-2.5 font-medium" }, "Colonne de la base"), /* @__PURE__ */ import_react75.default.createElement("th", { className: "px-4 py-2.5 font-medium" }, "Type d\xE9tect\xE9"), /* @__PURE__ */ import_react75.default.createElement("th", { className: "px-4 py-2.5 font-medium" }, "Statut"))), /* @__PURE__ */ import_react75.default.createElement("tbody", null, (dataset ? dataset.columns.map((c2) => ({
       q: c2.name,
       type: c2.type,
       status: c2.isGeo ? "geo" : c2.type === "Texte libre" ? "warn" : "ok"
@@ -104260,16 +104319,16 @@ ${suffix2}`;
       { q: "commune", type: "Nominale", status: "ok" },
       { q: "geo_lat / geo_lon", type: "G\xE9olocalisation", status: "geo" },
       { q: "satisf_intrants", type: "Ordinale", status: "warn" }
-    ]).map((r2) => /* @__PURE__ */ import_react74.default.createElement("tr", { key: r2.q, className: "border-t border-gray-50" }, /* @__PURE__ */ import_react74.default.createElement("td", { className: "px-4 py-3 text-gray-800 font-mono text-xs" }, r2.q), /* @__PURE__ */ import_react74.default.createElement("td", { className: "px-4 py-3 text-gray-500" }, r2.type), /* @__PURE__ */ import_react74.default.createElement("td", { className: "px-4 py-3" }, r2.status === "ok" && /* @__PURE__ */ import_react74.default.createElement("span", { className: "inline-flex items-center gap-1 text-[11px] font-medium px-2 py-1 rounded-full", style: { background: "#E4F5EC", color: "#256B45" } }, /* @__PURE__ */ import_react74.default.createElement(Check, { size: 11 }), " Confirm\xE9"), r2.status === "geo" && /* @__PURE__ */ import_react74.default.createElement("span", { className: "inline-flex items-center gap-1 text-[11px] font-medium px-2 py-1 rounded-full", style: { background: "#EBEEF7", color: NAVY4 } }, /* @__PURE__ */ import_react74.default.createElement(MapPin, { size: 11 }), " G\xE9o d\xE9tect\xE9e"), r2.status === "warn" && /* @__PURE__ */ import_react74.default.createElement("span", { className: "inline-flex items-center gap-1 text-[11px] font-medium px-2 py-1 rounded-full", style: { background: "#FDF1DA", color: "#8A5A00" } }, /* @__PURE__ */ import_react74.default.createElement(CircleAlert, { size: 11 }), " \xC0 v\xE9rifier")))))))), /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex items-center justify-between mt-6" }, /* @__PURE__ */ import_react74.default.createElement(
+    ]).map((r2) => /* @__PURE__ */ import_react75.default.createElement("tr", { key: r2.q, className: "border-t border-gray-50" }, /* @__PURE__ */ import_react75.default.createElement("td", { className: "px-4 py-3 text-gray-800 font-mono text-xs" }, r2.q), /* @__PURE__ */ import_react75.default.createElement("td", { className: "px-4 py-3 text-gray-500" }, r2.type), /* @__PURE__ */ import_react75.default.createElement("td", { className: "px-4 py-3" }, r2.status === "ok" && /* @__PURE__ */ import_react75.default.createElement("span", { className: "inline-flex items-center gap-1 text-[11px] font-medium px-2 py-1 rounded-full", style: { background: "#E4F5EC", color: "#256B45" } }, /* @__PURE__ */ import_react75.default.createElement(Check, { size: 11 }), " Confirm\xE9"), r2.status === "geo" && /* @__PURE__ */ import_react75.default.createElement("span", { className: "inline-flex items-center gap-1 text-[11px] font-medium px-2 py-1 rounded-full", style: { background: "#EBEEF7", color: NAVY4 } }, /* @__PURE__ */ import_react75.default.createElement(MapPin, { size: 11 }), " G\xE9o d\xE9tect\xE9e"), r2.status === "warn" && /* @__PURE__ */ import_react75.default.createElement("span", { className: "inline-flex items-center gap-1 text-[11px] font-medium px-2 py-1 rounded-full", style: { background: "#FDF1DA", color: "#8A5A00" } }, /* @__PURE__ */ import_react75.default.createElement(CircleAlert, { size: 11 }), " \xC0 v\xE9rifier")))))))), /* @__PURE__ */ import_react75.default.createElement("div", { className: "flex items-center justify-between mt-6" }, /* @__PURE__ */ import_react75.default.createElement(
       "button",
       {
         onClick: () => setStep(Math.max(1, step - 1)),
         disabled: step === 1,
         className: "px-4 py-2.5 rounded-xl text-sm font-medium flex items-center gap-1.5 disabled:opacity-0 bg-white border border-gray-200 text-gray-600"
       },
-      /* @__PURE__ */ import_react74.default.createElement(ChevronLeft, { size: 15 }),
+      /* @__PURE__ */ import_react75.default.createElement(ChevronLeft, { size: 15 }),
       " Pr\xE9c\xE9dent"
-    ), step < 5 ? /* @__PURE__ */ import_react74.default.createElement(
+    ), step < 5 ? /* @__PURE__ */ import_react75.default.createElement(
       "button",
       {
         onClick: () => setStep(step + 1),
@@ -104277,8 +104336,8 @@ ${suffix2}`;
         style: { background: `linear-gradient(135deg, ${NAVY4}, #2A4A82)` }
       },
       "Suivant ",
-      /* @__PURE__ */ import_react74.default.createElement(ChevronRight, { size: 15 })
-    ) : submitted ? /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex items-center gap-2 text-sm font-medium", style: { color: "#256B45" } }, /* @__PURE__ */ import_react74.default.createElement(Check, { size: 16 }), " Projet soumis \u2014 visible dans le tableau de bord administrateur") : /* @__PURE__ */ import_react74.default.createElement(
+      /* @__PURE__ */ import_react75.default.createElement(ChevronRight, { size: 15 })
+    ) : submitted ? /* @__PURE__ */ import_react75.default.createElement("div", { className: "flex items-center gap-2 text-sm font-medium", style: { color: "#256B45" } }, /* @__PURE__ */ import_react75.default.createElement(Check, { size: 16 }), " Projet soumis \u2014 visible dans le tableau de bord administrateur") : /* @__PURE__ */ import_react75.default.createElement(
       "button",
       {
         onClick: async () => {
@@ -104308,14 +104367,14 @@ ${suffix2}`;
         className: "px-5 py-2.5 rounded-xl text-sm font-medium flex items-center gap-1.5 text-white shadow-md disabled:opacity-60",
         style: { background: `linear-gradient(135deg, #3E9C6B, #256B45)` }
       },
-      /* @__PURE__ */ import_react74.default.createElement(Check, { size: 15 }),
+      /* @__PURE__ */ import_react75.default.createElement(Check, { size: 15 }),
       " ",
       submitting ? "Envoi en cours\u2026" : "Lancer les analyses"
-    )), submitError && /* @__PURE__ */ import_react74.default.createElement("p", { className: "text-xs mt-3 text-right", style: { color: "#B3413A" } }, submitError)))));
+    )), submitError && /* @__PURE__ */ import_react75.default.createElement("p", { className: "text-xs mt-3 text-right", style: { color: "#B3413A" } }, submitError)))));
   }
 
   // src/AnalysisConfig.jsx
-  var import_react75 = __toESM(require_react());
+  var import_react76 = __toESM(require_react());
   var NAVY5 = "#1F3864";
   var GOLD4 = "#C99A2E";
   var GREEN = "#256B45";
@@ -104508,33 +104567,33 @@ ${suffix2}`;
     fail: { icon: CircleX, color: "#B3413A", bg: "#FBE7E5", text: "Non conforme" }
   };
   function Watermark3() {
-    return /* @__PURE__ */ import_react75.default.createElement("div", { className: "fixed inset-0 overflow-hidden pointer-events-none z-0 flex items-center justify-center" }, /* @__PURE__ */ import_react75.default.createElement(
+    return /* @__PURE__ */ import_react76.default.createElement("div", { className: "fixed inset-0 overflow-hidden pointer-events-none z-0 flex items-center justify-center" }, /* @__PURE__ */ import_react76.default.createElement(
       "span",
       {
         className: "font-serif font-black whitespace-nowrap select-none",
         style: { color: NAVY5, opacity: 0.06, fontSize: "13vw", letterSpacing: "-0.02em" }
       },
       "AgriHakStat"
-    ), /* @__PURE__ */ import_react75.default.createElement("span", { className: "absolute bottom-4 right-6 text-xs font-medium select-none", style: { color: NAVY5, opacity: 0.35 } }, "Con\xE7u par Hakibou MOUSSA"));
+    ), /* @__PURE__ */ import_react76.default.createElement("span", { className: "absolute bottom-4 right-6 text-xs font-medium select-none", style: { color: NAVY5, opacity: 0.35 } }, "Con\xE7u par Hakibou MOUSSA"));
   }
   function Card2({ children, className = "" }) {
-    return /* @__PURE__ */ import_react75.default.createElement("div", { className: `bg-white rounded-2xl p-6 shadow-sm border border-black/5 ${className}` }, children);
+    return /* @__PURE__ */ import_react76.default.createElement("div", { className: `bg-white rounded-2xl p-6 shadow-sm border border-black/5 ${className}` }, children);
   }
   function TabButton({ label, icon: Icon3, active, onClick }) {
-    return /* @__PURE__ */ import_react75.default.createElement(
+    return /* @__PURE__ */ import_react76.default.createElement(
       "button",
       {
         onClick,
         className: "flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-colors",
         style: active ? { background: NAVY5, color: "white" } : { background: "white", color: "#5A6478", border: "1px solid #E4E6ED" }
       },
-      /* @__PURE__ */ import_react75.default.createElement(Icon3, { size: 15 }),
+      /* @__PURE__ */ import_react76.default.createElement(Icon3, { size: 15 }),
       " ",
       label
     );
   }
   function Select({ value, onChange, options, placeholder }) {
-    return /* @__PURE__ */ import_react75.default.createElement(
+    return /* @__PURE__ */ import_react76.default.createElement(
       "select",
       {
         value: value || "",
@@ -104542,21 +104601,21 @@ ${suffix2}`;
         className: "w-full text-sm rounded-xl border border-gray-200 p-2.5 focus:outline-none focus:ring-2 bg-white",
         style: { "--tw-ring-color": GOLD4 }
       },
-      /* @__PURE__ */ import_react75.default.createElement("option", { value: "", disabled: true }, placeholder),
-      options.map((v) => /* @__PURE__ */ import_react75.default.createElement("option", { key: v.id, value: v.id }, v.label))
+      /* @__PURE__ */ import_react76.default.createElement("option", { value: "", disabled: true }, placeholder),
+      options.map((v) => /* @__PURE__ */ import_react76.default.createElement("option", { key: v.id, value: v.id }, v.label))
     );
   }
   function AnalysisConfig({ active, onNavigate, userEmail, roleLabel, isAdmin, isGuest, onLogout, onOpenAdmin, dataset, analysisQueue, onAnalysisQueueChange, context, univariateQueue, onUnivariateQueueChange }) {
-    const [suggestions, setSuggestions] = (0, import_react75.useState)([]);
-    const [suggestLoading, setSuggestLoading] = (0, import_react75.useState)(false);
-    const [suggestError, setSuggestError] = (0, import_react75.useState)("");
-    const [tab, setTab] = (0, import_react75.useState)("bivariee");
-    const [included, setIncluded] = (0, import_react75.useState)(["sup_semee", "rendement", "filiere", "commune", "pluvio_decade", "acces_credit"]);
-    const [x2, setX] = (0, import_react75.useState)("sup_semee");
-    const [y2, setY] = (0, import_react75.useState)("pluvio_decade");
-    const [override, setOverride] = (0, import_react75.useState)(null);
-    const [confirmed, setConfirmed] = (0, import_react75.useState)({});
-    const [selectedXs, setSelectedXs] = (0, import_react75.useState)([]);
+    const [suggestions, setSuggestions] = (0, import_react76.useState)([]);
+    const [suggestLoading, setSuggestLoading] = (0, import_react76.useState)(false);
+    const [suggestError, setSuggestError] = (0, import_react76.useState)("");
+    const [tab, setTab] = (0, import_react76.useState)("bivariee");
+    const [included, setIncluded] = (0, import_react76.useState)(["sup_semee", "rendement", "filiere", "commune", "pluvio_decade", "acces_credit"]);
+    const [x2, setX] = (0, import_react76.useState)("sup_semee");
+    const [y2, setY] = (0, import_react76.useState)("pluvio_decade");
+    const [override, setOverride] = (0, import_react76.useState)(null);
+    const [confirmed, setConfirmed] = (0, import_react76.useState)({});
+    const [selectedXs, setSelectedXs] = (0, import_react76.useState)([]);
     const queue2 = analysisQueue || [];
     const setQueue = onAnalysisQueueChange || (() => {
     });
@@ -104570,7 +104629,7 @@ ${suffix2}`;
       isQuantitative: c2.isQuantitative,
       modalites: c2.modalites
     })) : VARIABLES;
-    (0, import_react75.useEffect)(() => {
+    (0, import_react76.useEffect)(() => {
       if (dataset) {
         const ids = variables.map((v) => v.id);
         setIncluded(ids);
@@ -104618,10 +104677,10 @@ ${suffix2}`;
     const conditions = activeTest ? getConditions(activeTest, { dataset, xId: x2, yId: y2 }) : [];
     const allConfirmed = conditions.length > 0 && conditions.every((_, i) => confirmed[i]);
     const realStat = activeTest ? computeRealStat(activeTest, x2, y2, dataset) : null;
-    (0, import_react75.useEffect)(() => {
+    (0, import_react76.useEffect)(() => {
       setConfirmed({});
     }, [activeTest, x2, y2]);
-    (0, import_react75.useEffect)(() => {
+    (0, import_react76.useEffect)(() => {
       setSelectedXs([]);
     }, [y2, dataset]);
     const addToQueue = () => {
@@ -104672,14 +104731,14 @@ ${suffix2}`;
       setQueue([...queue2, ...newItems]);
       setSelectedXs([]);
     };
-    return /* @__PURE__ */ import_react75.default.createElement("div", { className: "min-h-screen relative bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans" }, /* @__PURE__ */ import_react75.default.createElement(Watermark3, null), /* @__PURE__ */ import_react75.default.createElement("div", { className: "relative z-10 flex" }, /* @__PURE__ */ import_react75.default.createElement(Sidebar, { active, onNavigate }), /* @__PURE__ */ import_react75.default.createElement("div", { className: "flex-1 min-h-screen" }, /* @__PURE__ */ import_react75.default.createElement(
+    return /* @__PURE__ */ import_react76.default.createElement("div", { className: "min-h-screen relative bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans" }, /* @__PURE__ */ import_react76.default.createElement(Watermark3, null), /* @__PURE__ */ import_react76.default.createElement("div", { className: "relative z-10 flex" }, /* @__PURE__ */ import_react76.default.createElement(Sidebar, { active, onNavigate }), /* @__PURE__ */ import_react76.default.createElement("div", { className: "flex-1 min-h-screen" }, /* @__PURE__ */ import_react76.default.createElement(
       "header",
       {
         className: "bg-white/70 backdrop-blur px-8 py-4 flex items-center justify-between",
         style: { borderBottom: `2px solid ${GOLD4}` }
       },
-      /* @__PURE__ */ import_react75.default.createElement("div", null, /* @__PURE__ */ import_react75.default.createElement("h1", { className: "font-serif text-xl font-bold", style: { color: NAVY5 } }, "Configuration des analyses"), /* @__PURE__ */ import_react75.default.createElement("p", { className: "text-xs text-gray-500 mt-0.5" }, dataset ? /* @__PURE__ */ import_react75.default.createElement(import_react75.default.Fragment, null, "Donn\xE9es r\xE9elles : ", /* @__PURE__ */ import_react75.default.createElement("span", { className: "font-medium", style: { color: "#256B45" } }, dataset.fileName), " (", dataset.rows.length, " lignes)") : "Aucun fichier import\xE9 \u2014 exemple illustratif (Suivi semis 2026-2027)")),
-      /* @__PURE__ */ import_react75.default.createElement("div", { className: "flex items-center gap-4" }, /* @__PURE__ */ import_react75.default.createElement(Bell, { size: 18, className: "text-gray-400" }), /* @__PURE__ */ import_react75.default.createElement(
+      /* @__PURE__ */ import_react76.default.createElement("div", null, /* @__PURE__ */ import_react76.default.createElement("h1", { className: "font-serif text-xl font-bold", style: { color: NAVY5 } }, "Configuration des analyses"), /* @__PURE__ */ import_react76.default.createElement("p", { className: "text-xs text-gray-500 mt-0.5" }, dataset ? /* @__PURE__ */ import_react76.default.createElement(import_react76.default.Fragment, null, "Donn\xE9es r\xE9elles : ", /* @__PURE__ */ import_react76.default.createElement("span", { className: "font-medium", style: { color: "#256B45" } }, dataset.fileName), " (", dataset.rows.length, " lignes)") : "Aucun fichier import\xE9 \u2014 exemple illustratif (Suivi semis 2026-2027)")),
+      /* @__PURE__ */ import_react76.default.createElement("div", { className: "flex items-center gap-4" }, /* @__PURE__ */ import_react76.default.createElement(Bell, { size: 18, className: "text-gray-400" }), /* @__PURE__ */ import_react76.default.createElement(
         UserMenu,
         {
           email: userEmail,
@@ -104690,7 +104749,7 @@ ${suffix2}`;
           onOpenAdmin
         }
       ))
-    ), /* @__PURE__ */ import_react75.default.createElement("main", { className: "p-8 grid grid-cols-3 gap-6" }, /* @__PURE__ */ import_react75.default.createElement("div", { className: "col-span-2" }, /* @__PURE__ */ import_react75.default.createElement(Card2, { className: "mb-5" }, /* @__PURE__ */ import_react75.default.createElement("div", { className: "flex items-center gap-2 mb-1" }, /* @__PURE__ */ import_react75.default.createElement(ShieldCheck, { size: 16, style: { color: NAVY5 } }), /* @__PURE__ */ import_react75.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY5 } }, "Variables retenues pour cette session")), /* @__PURE__ */ import_react75.default.createElement("p", { className: "text-xs text-gray-400 mb-3" }, dataset ? `Variables d\xE9tect\xE9es dans ${dataset.fileName}. Seules celles coch\xE9es seront propos\xE9es dans les analyses ci-dessous.` : "Seules les variables coch\xE9es seront propos\xE9es dans les analyses ci-dessous (exemple illustratif \u2014 importez un fichier pour vos propres variables)."), /* @__PURE__ */ import_react75.default.createElement("div", { className: "flex flex-wrap gap-2" }, variables.map((v) => /* @__PURE__ */ import_react75.default.createElement(
+    ), /* @__PURE__ */ import_react76.default.createElement("main", { className: "p-8 grid grid-cols-3 gap-6" }, /* @__PURE__ */ import_react76.default.createElement("div", { className: "col-span-2" }, /* @__PURE__ */ import_react76.default.createElement(Card2, { className: "mb-5" }, /* @__PURE__ */ import_react76.default.createElement("div", { className: "flex items-center gap-2 mb-1" }, /* @__PURE__ */ import_react76.default.createElement(ShieldCheck, { size: 16, style: { color: NAVY5 } }), /* @__PURE__ */ import_react76.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY5 } }, "Variables retenues pour cette session")), /* @__PURE__ */ import_react76.default.createElement("p", { className: "text-xs text-gray-400 mb-3" }, dataset ? `Variables d\xE9tect\xE9es dans ${dataset.fileName}. Seules celles coch\xE9es seront propos\xE9es dans les analyses ci-dessous.` : "Seules les variables coch\xE9es seront propos\xE9es dans les analyses ci-dessous (exemple illustratif \u2014 importez un fichier pour vos propres variables)."), /* @__PURE__ */ import_react76.default.createElement("div", { className: "flex flex-wrap gap-2" }, variables.map((v) => /* @__PURE__ */ import_react76.default.createElement(
       "button",
       {
         key: v.id,
@@ -104698,9 +104757,9 @@ ${suffix2}`;
         className: "px-3 py-1.5 rounded-full text-xs font-medium border transition-colors",
         style: included.includes(v.id) ? { background: NAVY_TINT, borderColor: NAVY5, color: NAVY5 } : { background: "white", borderColor: "#D8DEE9", color: "#B0B7C6" }
       },
-      included.includes(v.id) ? /* @__PURE__ */ import_react75.default.createElement(Check, { size: 11, className: "inline mr-1 -mt-0.5" }) : null,
+      included.includes(v.id) ? /* @__PURE__ */ import_react76.default.createElement(Check, { size: 11, className: "inline mr-1 -mt-0.5" }) : null,
       v.label
-    )))), /* @__PURE__ */ import_react75.default.createElement(Card2, { className: "mb-5" }, /* @__PURE__ */ import_react75.default.createElement("div", { className: "flex items-center justify-between mb-1" }, /* @__PURE__ */ import_react75.default.createElement("div", { className: "flex items-center gap-2" }, /* @__PURE__ */ import_react75.default.createElement(WandSparkles, { size: 16, style: { color: GOLD4 } }), /* @__PURE__ */ import_react75.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY5 } }, "Suggestions de Claude")), /* @__PURE__ */ import_react75.default.createElement(
+    )))), /* @__PURE__ */ import_react76.default.createElement(Card2, { className: "mb-5" }, /* @__PURE__ */ import_react76.default.createElement("div", { className: "flex items-center justify-between mb-1" }, /* @__PURE__ */ import_react76.default.createElement("div", { className: "flex items-center gap-2" }, /* @__PURE__ */ import_react76.default.createElement(WandSparkles, { size: 16, style: { color: GOLD4 } }), /* @__PURE__ */ import_react76.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY5 } }, "Suggestions de Claude")), /* @__PURE__ */ import_react76.default.createElement(
       "button",
       {
         onClick: fetchSuggestions,
@@ -104708,10 +104767,10 @@ ${suffix2}`;
         className: "text-xs font-medium flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-white disabled:opacity-50",
         style: { background: NAVY5 }
       },
-      /* @__PURE__ */ import_react75.default.createElement(WandSparkles, { size: 12 }),
+      /* @__PURE__ */ import_react76.default.createElement(WandSparkles, { size: 12 }),
       " ",
       suggestLoading ? "Analyse en cours\u2026" : "Proposer des analyses"
-    )), /* @__PURE__ */ import_react75.default.createElement("p", { className: "text-xs text-gray-400 mb-3" }, dataset ? "Claude examine vos variables et le contexte de l'\xE9tude pour proposer des croisements pertinents \u2014 chaque suggestion reste \xE0 valider avant tout calcul." : "Importez d'abord une base de donn\xE9es pour activer les suggestions."), suggestError && /* @__PURE__ */ import_react75.default.createElement("div", { className: "rounded-xl px-3 py-2 mb-2 text-xs", style: { background: "#FBE7E5", color: "#B3413A" } }, suggestError), suggestions.length > 0 && /* @__PURE__ */ import_react75.default.createElement("div", { className: "space-y-2" }, suggestions.map((s2, i) => /* @__PURE__ */ import_react75.default.createElement("div", { key: i, className: "rounded-xl border border-gray-100 p-3 flex items-start justify-between gap-3", style: { background: "#FDF9F0" } }, /* @__PURE__ */ import_react75.default.createElement("div", null, /* @__PURE__ */ import_react75.default.createElement("div", { className: "text-xs font-semibold", style: { color: NAVY5 } }, s2.xId, " \xD7 ", s2.yId), /* @__PURE__ */ import_react75.default.createElement("div", { className: "text-[11px] text-gray-500 mt-0.5" }, s2.rationale)), /* @__PURE__ */ import_react75.default.createElement(
+    )), /* @__PURE__ */ import_react76.default.createElement("p", { className: "text-xs text-gray-400 mb-3" }, dataset ? "Claude examine vos variables et le contexte de l'\xE9tude pour proposer des croisements pertinents \u2014 chaque suggestion reste \xE0 valider avant tout calcul." : "Importez d'abord une base de donn\xE9es pour activer les suggestions."), suggestError && /* @__PURE__ */ import_react76.default.createElement("div", { className: "rounded-xl px-3 py-2 mb-2 text-xs", style: { background: "#FBE7E5", color: "#B3413A" } }, suggestError), suggestions.length > 0 && /* @__PURE__ */ import_react76.default.createElement("div", { className: "space-y-2" }, suggestions.map((s2, i) => /* @__PURE__ */ import_react76.default.createElement("div", { key: i, className: "rounded-xl border border-gray-100 p-3 flex items-start justify-between gap-3", style: { background: "#FDF9F0" } }, /* @__PURE__ */ import_react76.default.createElement("div", null, /* @__PURE__ */ import_react76.default.createElement("div", { className: "text-xs font-semibold", style: { color: NAVY5 } }, s2.xId, " \xD7 ", s2.yId), /* @__PURE__ */ import_react76.default.createElement("div", { className: "text-[11px] text-gray-500 mt-0.5" }, s2.rationale)), /* @__PURE__ */ import_react76.default.createElement(
       "button",
       {
         onClick: () => applySuggestion(s2),
@@ -104719,53 +104778,53 @@ ${suffix2}`;
         style: { background: "#256B45" }
       },
       "Configurer cette analyse"
-    ))))), /* @__PURE__ */ import_react75.default.createElement("div", { className: "flex gap-2 mb-5" }, /* @__PURE__ */ import_react75.default.createElement(TabButton, { label: "Univari\xE9e", icon: Sigma, active: tab === "univariee", onClick: () => setTab("univariee") }), /* @__PURE__ */ import_react75.default.createElement(TabButton, { label: "Bivari\xE9e", icon: TrendingUp, active: tab === "bivariee", onClick: () => setTab("bivariee") }), /* @__PURE__ */ import_react75.default.createElement(TabButton, { label: "Multivari\xE9e", icon: Layers, active: tab === "multivariee", onClick: () => setTab("multivariee") })), tab === "bivariee" && /* @__PURE__ */ import_react75.default.createElement(Card2, null, /* @__PURE__ */ import_react75.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY5 } }, "Analyse bivari\xE9e"), /* @__PURE__ */ import_react75.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, "S\xE9lectionnez deux variables : le test statistique adapt\xE9 est propos\xE9 automatiquement."), /* @__PURE__ */ import_react75.default.createElement("div", { className: "grid grid-cols-2 gap-4 mb-4" }, /* @__PURE__ */ import_react75.default.createElement("div", null, /* @__PURE__ */ import_react75.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Variable X (aper\xE7u d\xE9taill\xE9)"), /* @__PURE__ */ import_react75.default.createElement(Select, { value: x2, onChange: (v) => {
+    ))))), /* @__PURE__ */ import_react76.default.createElement("div", { className: "flex gap-2 mb-5" }, /* @__PURE__ */ import_react76.default.createElement(TabButton, { label: "Univari\xE9e", icon: Sigma, active: tab === "univariee", onClick: () => setTab("univariee") }), /* @__PURE__ */ import_react76.default.createElement(TabButton, { label: "Bivari\xE9e", icon: TrendingUp, active: tab === "bivariee", onClick: () => setTab("bivariee") }), /* @__PURE__ */ import_react76.default.createElement(TabButton, { label: "Multivari\xE9e", icon: Layers, active: tab === "multivariee", onClick: () => setTab("multivariee") })), tab === "bivariee" && /* @__PURE__ */ import_react76.default.createElement(Card2, null, /* @__PURE__ */ import_react76.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY5 } }, "Analyse bivari\xE9e"), /* @__PURE__ */ import_react76.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, "S\xE9lectionnez deux variables : le test statistique adapt\xE9 est propos\xE9 automatiquement."), /* @__PURE__ */ import_react76.default.createElement("div", { className: "grid grid-cols-2 gap-4 mb-4" }, /* @__PURE__ */ import_react76.default.createElement("div", null, /* @__PURE__ */ import_react76.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Variable X (aper\xE7u d\xE9taill\xE9)"), /* @__PURE__ */ import_react76.default.createElement(Select, { value: x2, onChange: (v) => {
       setX(v);
       setOverride(null);
-    }, options: availableVars, placeholder: "Choisir une variable" }), xVar && /* @__PURE__ */ import_react75.default.createElement("div", { className: "text-[11px] text-gray-400 mt-1" }, xVar.type)), /* @__PURE__ */ import_react75.default.createElement("div", null, /* @__PURE__ */ import_react75.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Variable Y (fixe pour le lancement group\xE9)"), /* @__PURE__ */ import_react75.default.createElement(Select, { value: y2, onChange: (v) => {
+    }, options: availableVars, placeholder: "Choisir une variable" }), xVar && /* @__PURE__ */ import_react76.default.createElement("div", { className: "text-[11px] text-gray-400 mt-1" }, xVar.type)), /* @__PURE__ */ import_react76.default.createElement("div", null, /* @__PURE__ */ import_react76.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Variable Y (fixe pour le lancement group\xE9)"), /* @__PURE__ */ import_react76.default.createElement(Select, { value: y2, onChange: (v) => {
       setY(v);
       setOverride(null);
-    }, options: availableVars, placeholder: "Choisir une variable" }), yVar && /* @__PURE__ */ import_react75.default.createElement("div", { className: "text-[11px] text-gray-400 mt-1" }, yVar.type))), /* @__PURE__ */ import_react75.default.createElement("div", { className: "rounded-2xl p-4 border border-gray-100 mb-5", style: { background: "#FAFBFD" } }, /* @__PURE__ */ import_react75.default.createElement("div", { className: "flex items-center justify-between mb-2" }, /* @__PURE__ */ import_react75.default.createElement("div", { className: "flex items-center gap-2" }, /* @__PURE__ */ import_react75.default.createElement(Layers, { size: 14, style: { color: NAVY5 } }), /* @__PURE__ */ import_react75.default.createElement("span", { className: "text-xs font-semibold", style: { color: NAVY5 } }, "S\xE9lection multiple de X \u2014 lancement group\xE9 face \xE0 ", yVar ? yVar.label : "Y")), selectedXs.length > 0 && /* @__PURE__ */ import_react75.default.createElement(
+    }, options: availableVars, placeholder: "Choisir une variable" }), yVar && /* @__PURE__ */ import_react76.default.createElement("div", { className: "text-[11px] text-gray-400 mt-1" }, yVar.type))), /* @__PURE__ */ import_react76.default.createElement("div", { className: "rounded-2xl p-4 border border-gray-100 mb-5", style: { background: "#FAFBFD" } }, /* @__PURE__ */ import_react76.default.createElement("div", { className: "flex items-center justify-between mb-2" }, /* @__PURE__ */ import_react76.default.createElement("div", { className: "flex items-center gap-2" }, /* @__PURE__ */ import_react76.default.createElement(Layers, { size: 14, style: { color: NAVY5 } }), /* @__PURE__ */ import_react76.default.createElement("span", { className: "text-xs font-semibold", style: { color: NAVY5 } }, "S\xE9lection multiple de X \u2014 lancement group\xE9 face \xE0 ", yVar ? yVar.label : "Y")), selectedXs.length > 0 && /* @__PURE__ */ import_react76.default.createElement(
       "button",
       {
         onClick: addBatchToQueue,
         className: "text-[11px] font-medium flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-white",
         style: { background: `linear-gradient(135deg, ${NAVY5}, #2A4A82)` }
       },
-      /* @__PURE__ */ import_react75.default.createElement(Plus, { size: 12 }),
+      /* @__PURE__ */ import_react76.default.createElement(Plus, { size: 12 }),
       " Ajouter les ",
       selectedXs.length,
       " tableau",
       selectedXs.length > 1 ? "x" : "",
       " \xE0 la file"
-    )), /* @__PURE__ */ import_react75.default.createElement("p", { className: "text-[11px] text-gray-400 mb-2" }, "Cochez plusieurs variables X pour calculer et ajouter simultan\xE9ment un tableau crois\xE9 avec ", yVar ? yVar.label : "la variable Y choisie", " pour chacune \u2014 sans repasser par la confirmation individuelle des conditions."), /* @__PURE__ */ import_react75.default.createElement("div", { className: "flex flex-wrap gap-2" }, availableVars.filter((v) => v.id !== y2).map((v) => /* @__PURE__ */ import_react75.default.createElement(
+    )), /* @__PURE__ */ import_react76.default.createElement("p", { className: "text-[11px] text-gray-400 mb-2" }, "Cochez plusieurs variables X pour calculer et ajouter simultan\xE9ment un tableau crois\xE9 avec ", yVar ? yVar.label : "la variable Y choisie", " pour chacune \u2014 sans repasser par la confirmation individuelle des conditions."), /* @__PURE__ */ import_react76.default.createElement("div", { className: "flex flex-wrap gap-2" }, availableVars.filter((v) => v.id !== y2).map((v) => /* @__PURE__ */ import_react76.default.createElement(
       "label",
       {
         key: v.id,
         className: "flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-[11px] font-medium border cursor-pointer",
         style: selectedXs.includes(v.id) ? { background: NAVY_TINT, borderColor: NAVY5, color: NAVY5 } : { background: "white", borderColor: "#D8DEE9", color: "#5A6478" }
       },
-      /* @__PURE__ */ import_react75.default.createElement("input", { type: "checkbox", className: "w-3 h-3", checked: selectedXs.includes(v.id), onChange: () => toggleSelectedX(v.id), style: { accentColor: NAVY5 } }),
+      /* @__PURE__ */ import_react76.default.createElement("input", { type: "checkbox", className: "w-3 h-3", checked: selectedXs.includes(v.id), onChange: () => toggleSelectedX(v.id), style: { accentColor: NAVY5 } }),
       v.label
-    )))), proposal && /* @__PURE__ */ import_react75.default.createElement(import_react75.default.Fragment, null, /* @__PURE__ */ import_react75.default.createElement("div", { className: "rounded-2xl p-4 border mb-4", style: { background: override ? AMBER_TINT : NAVY_TINT, borderColor: "transparent" } }, /* @__PURE__ */ import_react75.default.createElement("div", { className: "flex items-center justify-between mb-2" }, /* @__PURE__ */ import_react75.default.createElement("div", { className: "flex items-center gap-2" }, /* @__PURE__ */ import_react75.default.createElement(WandSparkles, { size: 15, style: { color: override ? AMBER : NAVY5 } }), /* @__PURE__ */ import_react75.default.createElement("span", { className: "text-sm font-semibold", style: { color: override ? AMBER : NAVY5 } }, activeTest)), /* @__PURE__ */ import_react75.default.createElement(
+    )))), proposal && /* @__PURE__ */ import_react76.default.createElement(import_react76.default.Fragment, null, /* @__PURE__ */ import_react76.default.createElement("div", { className: "rounded-2xl p-4 border mb-4", style: { background: override ? AMBER_TINT : NAVY_TINT, borderColor: "transparent" } }, /* @__PURE__ */ import_react76.default.createElement("div", { className: "flex items-center justify-between mb-2" }, /* @__PURE__ */ import_react76.default.createElement("div", { className: "flex items-center gap-2" }, /* @__PURE__ */ import_react76.default.createElement(WandSparkles, { size: 15, style: { color: override ? AMBER : NAVY5 } }), /* @__PURE__ */ import_react76.default.createElement("span", { className: "text-sm font-semibold", style: { color: override ? AMBER : NAVY5 } }, activeTest)), /* @__PURE__ */ import_react76.default.createElement(
       "span",
       {
         className: "text-[11px] font-medium px-2 py-1 rounded-full",
         style: { background: "white", color: override ? AMBER : NAVY5 }
       },
       override ? "Ajust\xE9 par l'analyste" : "Propos\xE9 automatiquement"
-    )), /* @__PURE__ */ import_react75.default.createElement("div", { className: "flex items-start gap-1.5 text-xs mb-3", style: { color: override ? AMBER : "#3A5488" } }, /* @__PURE__ */ import_react75.default.createElement(Info, { size: 13, className: "mt-0.5 shrink-0" }), /* @__PURE__ */ import_react75.default.createElement("span", null, proposal.justification)), realStat && !realStat.error && /* @__PURE__ */ import_react75.default.createElement("div", { className: "rounded-xl bg-white/70 px-3 py-2 mb-3 text-xs font-mono", style: { color: NAVY5 } }, "R\xE9sultat calcul\xE9 sur les donn\xE9es import\xE9es : ", realStat.detail), realStat?.error && /* @__PURE__ */ import_react75.default.createElement("div", { className: "rounded-xl bg-white/70 px-3 py-2 mb-3 text-xs", style: { color: "#B3413A" } }, "Calcul impossible : ", realStat.error), !dataset && /* @__PURE__ */ import_react75.default.createElement("div", { className: "rounded-xl bg-white/70 px-3 py-2 mb-3 text-xs text-gray-400 italic" }, "Aucun fichier import\xE9 \u2014 importez une base \xE0 l'\xE9tape \xAB Assistant d'import \xBB pour un calcul r\xE9el."), /* @__PURE__ */ import_react75.default.createElement("div", { className: "flex items-center gap-2" }, /* @__PURE__ */ import_react75.default.createElement(Pencil, { size: 13, className: "text-gray-400" }), /* @__PURE__ */ import_react75.default.createElement(
+    )), /* @__PURE__ */ import_react76.default.createElement("div", { className: "flex items-start gap-1.5 text-xs mb-3", style: { color: override ? AMBER : "#3A5488" } }, /* @__PURE__ */ import_react76.default.createElement(Info, { size: 13, className: "mt-0.5 shrink-0" }), /* @__PURE__ */ import_react76.default.createElement("span", null, proposal.justification)), realStat && !realStat.error && /* @__PURE__ */ import_react76.default.createElement("div", { className: "rounded-xl bg-white/70 px-3 py-2 mb-3 text-xs font-mono", style: { color: NAVY5 } }, "R\xE9sultat calcul\xE9 sur les donn\xE9es import\xE9es : ", realStat.detail), realStat?.error && /* @__PURE__ */ import_react76.default.createElement("div", { className: "rounded-xl bg-white/70 px-3 py-2 mb-3 text-xs", style: { color: "#B3413A" } }, "Calcul impossible : ", realStat.error), !dataset && /* @__PURE__ */ import_react76.default.createElement("div", { className: "rounded-xl bg-white/70 px-3 py-2 mb-3 text-xs text-gray-400 italic" }, "Aucun fichier import\xE9 \u2014 importez une base \xE0 l'\xE9tape \xAB Assistant d'import \xBB pour un calcul r\xE9el."), /* @__PURE__ */ import_react76.default.createElement("div", { className: "flex items-center gap-2" }, /* @__PURE__ */ import_react76.default.createElement(Pencil, { size: 13, className: "text-gray-400" }), /* @__PURE__ */ import_react76.default.createElement(
       "select",
       {
         value: activeTest,
         onChange: (e) => setOverride(e.target.value === proposal.test ? null : e.target.value),
         className: "text-xs rounded-lg border border-gray-200 p-1.5 bg-white focus:outline-none"
       },
-      proposal.alternatives.map((a2) => /* @__PURE__ */ import_react75.default.createElement("option", { key: a2, value: a2 }, a2))
-    ), /* @__PURE__ */ import_react75.default.createElement("span", { className: "text-[11px] text-gray-400" }, "Ajuster le test si n\xE9cessaire"))), /* @__PURE__ */ import_react75.default.createElement("div", { className: "rounded-2xl p-4 border border-gray-100" }, /* @__PURE__ */ import_react75.default.createElement("div", { className: "flex items-center gap-2 mb-3" }, /* @__PURE__ */ import_react75.default.createElement(ShieldCheck, { size: 15, style: { color: NAVY5 } }), /* @__PURE__ */ import_react75.default.createElement("span", { className: "text-sm font-semibold", style: { color: NAVY5 } }, "Conditions de validation du test")), /* @__PURE__ */ import_react75.default.createElement("div", { className: "space-y-2" }, conditions.map((c2, i) => {
+      proposal.alternatives.map((a2) => /* @__PURE__ */ import_react76.default.createElement("option", { key: a2, value: a2 }, a2))
+    ), /* @__PURE__ */ import_react76.default.createElement("span", { className: "text-[11px] text-gray-400" }, "Ajuster le test si n\xE9cessaire"))), /* @__PURE__ */ import_react76.default.createElement("div", { className: "rounded-2xl p-4 border border-gray-100" }, /* @__PURE__ */ import_react76.default.createElement("div", { className: "flex items-center gap-2 mb-3" }, /* @__PURE__ */ import_react76.default.createElement(ShieldCheck, { size: 15, style: { color: NAVY5 } }), /* @__PURE__ */ import_react76.default.createElement("span", { className: "text-sm font-semibold", style: { color: NAVY5 } }, "Conditions de validation du test")), /* @__PURE__ */ import_react76.default.createElement("div", { className: "space-y-2" }, conditions.map((c2, i) => {
       const s2 = STATUS_STYLE[c2.status];
       const Icon3 = s2.icon;
-      return /* @__PURE__ */ import_react75.default.createElement("label", { key: i, className: "flex items-start gap-3 rounded-xl p-2.5 cursor-pointer", style: { background: s2.bg } }, /* @__PURE__ */ import_react75.default.createElement(
+      return /* @__PURE__ */ import_react76.default.createElement("label", { key: i, className: "flex items-start gap-3 rounded-xl p-2.5 cursor-pointer", style: { background: s2.bg } }, /* @__PURE__ */ import_react76.default.createElement(
         "input",
         {
           type: "checkbox",
@@ -104774,8 +104833,8 @@ ${suffix2}`;
           className: "w-4 h-4 rounded mt-0.5",
           style: { accentColor: s2.color }
         }
-      ), /* @__PURE__ */ import_react75.default.createElement(Icon3, { size: 15, style: { color: s2.color }, className: "mt-0.5 shrink-0" }), /* @__PURE__ */ import_react75.default.createElement("div", { className: "flex-1" }, /* @__PURE__ */ import_react75.default.createElement("div", { className: "text-xs font-medium", style: { color: s2.color } }, c2.label), c2.detail && /* @__PURE__ */ import_react75.default.createElement("div", { className: "text-[11px] text-gray-500 mt-0.5" }, c2.detail)), /* @__PURE__ */ import_react75.default.createElement("span", { className: "text-[10px] font-semibold shrink-0", style: { color: s2.color } }, s2.text));
-    })), /* @__PURE__ */ import_react75.default.createElement("p", { className: "text-[11px] text-gray-400 mt-3" }, "La confirmation des conditions est facultative et sert de tra\xE7abilit\xE9 m\xE9thodologique \u2014 elle n'est plus requise pour poursuivre le traitement.", conditions.length > 0 && /* @__PURE__ */ import_react75.default.createElement("span", { className: "ml-1 font-medium", style: { color: allConfirmed ? GREEN : "#B0B7C6" } }, "(", conditions.filter((_, i) => confirmed[i]).length, "/", conditions.length, " confirm\xE9e", conditions.filter((_, i) => confirmed[i]).length > 1 ? "s" : "", ")")))), /* @__PURE__ */ import_react75.default.createElement(
+      ), /* @__PURE__ */ import_react76.default.createElement(Icon3, { size: 15, style: { color: s2.color }, className: "mt-0.5 shrink-0" }), /* @__PURE__ */ import_react76.default.createElement("div", { className: "flex-1" }, /* @__PURE__ */ import_react76.default.createElement("div", { className: "text-xs font-medium", style: { color: s2.color } }, c2.label), c2.detail && /* @__PURE__ */ import_react76.default.createElement("div", { className: "text-[11px] text-gray-500 mt-0.5" }, c2.detail)), /* @__PURE__ */ import_react76.default.createElement("span", { className: "text-[10px] font-semibold shrink-0", style: { color: s2.color } }, s2.text));
+    })), /* @__PURE__ */ import_react76.default.createElement("p", { className: "text-[11px] text-gray-400 mt-3" }, "La confirmation des conditions est facultative et sert de tra\xE7abilit\xE9 m\xE9thodologique \u2014 elle n'est plus requise pour poursuivre le traitement.", conditions.length > 0 && /* @__PURE__ */ import_react76.default.createElement("span", { className: "ml-1 font-medium", style: { color: allConfirmed ? GREEN : "#B0B7C6" } }, "(", conditions.filter((_, i) => confirmed[i]).length, "/", conditions.length, " confirm\xE9e", conditions.filter((_, i) => confirmed[i]).length > 1 ? "s" : "", ")")))), /* @__PURE__ */ import_react76.default.createElement(
       "button",
       {
         onClick: addToQueue,
@@ -104783,9 +104842,9 @@ ${suffix2}`;
         className: "mt-5 px-4 py-2.5 rounded-xl text-sm font-medium flex items-center gap-1.5 text-white shadow-md disabled:opacity-40 disabled:cursor-not-allowed",
         style: { background: proposal ? `linear-gradient(135deg, ${NAVY5}, #2A4A82)` : "#B0B7C6" }
       },
-      /* @__PURE__ */ import_react75.default.createElement(Plus, { size: 15 }),
+      /* @__PURE__ */ import_react76.default.createElement(Plus, { size: 15 }),
       " Ajouter \xE0 la file d'analyses"
-    )), tab === "univariee" && /* @__PURE__ */ import_react75.default.createElement(Card2, null, /* @__PURE__ */ import_react75.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY5 } }, "Analyse univari\xE9e"), /* @__PURE__ */ import_react75.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, dataset ? "Statistiques calcul\xE9es r\xE9ellement \xE0 partir du fichier import\xE9. Validez chaque variable pour qu'elle soit reprise dans les r\xE9sultats et le rapport." : "Importez un fichier pour calculer les statistiques r\xE9elles et valider les variables \xE0 inclure dans le rapport."), /* @__PURE__ */ import_react75.default.createElement("div", { className: "space-y-2" }, availableVars.map((v) => {
+    )), tab === "univariee" && /* @__PURE__ */ import_react76.default.createElement(Card2, null, /* @__PURE__ */ import_react76.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY5 } }, "Analyse univari\xE9e"), /* @__PURE__ */ import_react76.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, dataset ? "Statistiques calcul\xE9es r\xE9ellement \xE0 partir du fichier import\xE9. Validez chaque variable pour qu'elle soit reprise dans les r\xE9sultats et le rapport." : "Importez un fichier pour calculer les statistiques r\xE9elles et valider les variables \xE0 inclure dans le rapport."), /* @__PURE__ */ import_react76.default.createElement("div", { className: "space-y-2" }, availableVars.map((v) => {
       let real = null;
       if (dataset) {
         try {
@@ -104807,7 +104866,7 @@ ${suffix2}`;
         }
       };
       const outliers = real && v.isQuantitative ? real.outliers : null;
-      return /* @__PURE__ */ import_react75.default.createElement("div", { key: v.id, className: "rounded-xl border border-gray-100 p-3" }, /* @__PURE__ */ import_react75.default.createElement("div", { className: "flex items-center justify-between" }, /* @__PURE__ */ import_react75.default.createElement("label", { className: "flex items-center gap-3 cursor-pointer" }, /* @__PURE__ */ import_react75.default.createElement(
+      return /* @__PURE__ */ import_react76.default.createElement("div", { key: v.id, className: "rounded-xl border border-gray-100 p-3" }, /* @__PURE__ */ import_react76.default.createElement("div", { className: "flex items-center justify-between" }, /* @__PURE__ */ import_react76.default.createElement("label", { className: "flex items-center gap-3 cursor-pointer" }, /* @__PURE__ */ import_react76.default.createElement(
         "input",
         {
           type: "checkbox",
@@ -104817,32 +104876,32 @@ ${suffix2}`;
           className: "w-4 h-4 rounded disabled:opacity-40",
           style: { accentColor: GREEN }
         }
-      ), /* @__PURE__ */ import_react75.default.createElement("span", { className: "text-sm text-gray-800" }, v.label)), isValidated ? /* @__PURE__ */ import_react75.default.createElement("span", { className: "text-[10px] font-semibold px-2 py-0.5 rounded-full", style: { background: GREEN_TINT, color: GREEN } }, "Valid\xE9e pour le rapport") : !dataset ? /* @__PURE__ */ import_react75.default.createElement("span", { className: "text-[11px] text-gray-400" }, v.isQuantitative ? "Moyenne, m\xE9diane, \xE9cart-type, min/max" : "Fr\xE9quences, mode") : /* @__PURE__ */ import_react75.default.createElement("span", { className: "text-[11px] text-gray-400" }, "\xC0 valider")), real && v.isQuantitative && /* @__PURE__ */ import_react75.default.createElement(import_react75.default.Fragment, null, /* @__PURE__ */ import_react75.default.createElement("div", { className: "grid grid-cols-3 gap-2 mt-2 text-center" }, [["Moyenne", real.moyenne], ["M\xE9diane", real.mediane], ["\xC9cart-type", real.ecartType], ["CV (%)", real.cv], ["Min", real.min], ["Max", real.max]].map(([l, val]) => /* @__PURE__ */ import_react75.default.createElement("div", { key: l, className: "rounded-lg py-1.5", style: { background: NAVY_TINT } }, /* @__PURE__ */ import_react75.default.createElement("div", { className: "text-[10px] text-gray-500" }, l), /* @__PURE__ */ import_react75.default.createElement("div", { className: "text-xs font-bold", style: { color: NAVY5 } }, val.toFixed(2))))), outliers && outliers.count !== null && /* @__PURE__ */ import_react75.default.createElement("p", { className: "text-[11px] mt-2", style: { color: outliers.count > 0 ? AMBER : "#9CA3AF" } }, outliers.count > 0 ? `${outliers.count} valeur${outliers.count > 1 ? "s" : ""} atypique${outliers.count > 1 ? "s" : ""} d\xE9tect\xE9e${outliers.count > 1 ? "s" : ""} (m\xE9thode interquartile) \u2014 hors de l'intervalle [${outliers.lowerBound.toFixed(1)} ; ${outliers.upperBound.toFixed(1)}] (Q1=${outliers.q1.toFixed(1)}, Q3=${outliers.q3.toFixed(1)}, IQR=${outliers.iqr.toFixed(1)})` : "Aucune valeur atypique d\xE9tect\xE9e (m\xE9thode interquartile).")), real && !v.isQuantitative && /* @__PURE__ */ import_react75.default.createElement("div", { className: "flex flex-wrap gap-1.5 mt-2" }, real.map((f) => /* @__PURE__ */ import_react75.default.createElement("span", { key: f.modalite, className: "text-[10px] px-2 py-1 rounded-full", style: { background: NAVY_TINT, color: NAVY5 } }, f.modalite, " \xB7 ", f.pct.toFixed(0), "% (n=", f.n, ")"))));
-    }))), tab === "multivariee" && /* @__PURE__ */ import_react75.default.createElement(Card2, null, /* @__PURE__ */ import_react75.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY5 } }, "Analyse multivari\xE9e"), /* @__PURE__ */ import_react75.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, "Choisissez la m\xE9thode, puis les variables \xE0 inclure."), /* @__PURE__ */ import_react75.default.createElement("div", { className: "rounded-xl p-3 mb-4 text-xs", style: { background: AMBER_TINT, color: AMBER } }, "Les m\xE9thodes multivari\xE9es (ACP, AFC, CAH, r\xE9gression) n\xE9cessitent le moteur de calcul R d\xE9crit dans l'architecture technique \u2014 non encore branch\xE9 \xE0 cette maquette. L'\xE9cran ci-dessous reste illustratif."), /* @__PURE__ */ import_react75.default.createElement("div", { className: "grid grid-cols-2 gap-3 mb-5" }, ["ACP", "AFC", "Classification (CAH)", "R\xE9gression multiple"].map((m, i) => /* @__PURE__ */ import_react75.default.createElement(
+      ), /* @__PURE__ */ import_react76.default.createElement("span", { className: "text-sm text-gray-800" }, v.label)), isValidated ? /* @__PURE__ */ import_react76.default.createElement("span", { className: "text-[10px] font-semibold px-2 py-0.5 rounded-full", style: { background: GREEN_TINT, color: GREEN } }, "Valid\xE9e pour le rapport") : !dataset ? /* @__PURE__ */ import_react76.default.createElement("span", { className: "text-[11px] text-gray-400" }, v.isQuantitative ? "Moyenne, m\xE9diane, \xE9cart-type, min/max" : "Fr\xE9quences, mode") : /* @__PURE__ */ import_react76.default.createElement("span", { className: "text-[11px] text-gray-400" }, "\xC0 valider")), real && v.isQuantitative && /* @__PURE__ */ import_react76.default.createElement(import_react76.default.Fragment, null, /* @__PURE__ */ import_react76.default.createElement("div", { className: "grid grid-cols-3 gap-2 mt-2 text-center" }, [["Moyenne", real.moyenne], ["M\xE9diane", real.mediane], ["\xC9cart-type", real.ecartType], ["CV (%)", real.cv], ["Min", real.min], ["Max", real.max]].map(([l, val]) => /* @__PURE__ */ import_react76.default.createElement("div", { key: l, className: "rounded-lg py-1.5", style: { background: NAVY_TINT } }, /* @__PURE__ */ import_react76.default.createElement("div", { className: "text-[10px] text-gray-500" }, l), /* @__PURE__ */ import_react76.default.createElement("div", { className: "text-xs font-bold", style: { color: NAVY5 } }, val.toFixed(2))))), outliers && outliers.count !== null && /* @__PURE__ */ import_react76.default.createElement("p", { className: "text-[11px] mt-2", style: { color: outliers.count > 0 ? AMBER : "#9CA3AF" } }, outliers.count > 0 ? `${outliers.count} valeur${outliers.count > 1 ? "s" : ""} atypique${outliers.count > 1 ? "s" : ""} d\xE9tect\xE9e${outliers.count > 1 ? "s" : ""} (m\xE9thode interquartile) \u2014 hors de l'intervalle [${outliers.lowerBound.toFixed(1)} ; ${outliers.upperBound.toFixed(1)}] (Q1=${outliers.q1.toFixed(1)}, Q3=${outliers.q3.toFixed(1)}, IQR=${outliers.iqr.toFixed(1)})` : "Aucune valeur atypique d\xE9tect\xE9e (m\xE9thode interquartile).")), real && !v.isQuantitative && /* @__PURE__ */ import_react76.default.createElement("div", { className: "flex flex-wrap gap-1.5 mt-2" }, real.map((f) => /* @__PURE__ */ import_react76.default.createElement("span", { key: f.modalite, className: "text-[10px] px-2 py-1 rounded-full", style: { background: NAVY_TINT, color: NAVY5 } }, f.modalite, " \xB7 ", f.pct.toFixed(0), "% (n=", f.n, ")"))));
+    }))), tab === "multivariee" && /* @__PURE__ */ import_react76.default.createElement(Card2, null, /* @__PURE__ */ import_react76.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY5 } }, "Analyse multivari\xE9e"), /* @__PURE__ */ import_react76.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, "Choisissez la m\xE9thode, puis les variables \xE0 inclure."), /* @__PURE__ */ import_react76.default.createElement("div", { className: "rounded-xl p-3 mb-4 text-xs", style: { background: AMBER_TINT, color: AMBER } }, "Les m\xE9thodes multivari\xE9es (ACP, AFC, CAH, r\xE9gression) n\xE9cessitent le moteur de calcul R d\xE9crit dans l'architecture technique \u2014 non encore branch\xE9 \xE0 cette maquette. L'\xE9cran ci-dessous reste illustratif."), /* @__PURE__ */ import_react76.default.createElement("div", { className: "grid grid-cols-2 gap-3 mb-5" }, ["ACP", "AFC", "Classification (CAH)", "R\xE9gression multiple"].map((m, i) => /* @__PURE__ */ import_react76.default.createElement(
       "label",
       {
         key: m,
         className: `flex items-center gap-2 rounded-xl border p-3 cursor-pointer text-sm ${i === 3 ? "border-2" : "border-gray-100"}`,
         style: i === 3 ? { borderColor: GOLD4, background: "#FDF9F0" } : {}
       },
-      /* @__PURE__ */ import_react75.default.createElement("input", { type: "radio", name: "method", defaultChecked: i === 3, style: { accentColor: NAVY5 } }),
+      /* @__PURE__ */ import_react76.default.createElement("input", { type: "radio", name: "method", defaultChecked: i === 3, style: { accentColor: NAVY5 } }),
       m
-    ))), /* @__PURE__ */ import_react75.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Variable d\xE9pendante"), /* @__PURE__ */ import_react75.default.createElement(Select, { value: "rendement", onChange: () => {
-    }, options: availableVars, placeholder: "Choisir" }), /* @__PURE__ */ import_react75.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5 mt-4" }, "Variables explicatives"), /* @__PURE__ */ import_react75.default.createElement("div", { className: "flex flex-wrap gap-2 mb-4" }, ["Superficie sem\xE9e", "Pluviom\xE9trie d\xE9cadaire", "Acc\xE8s au cr\xE9dit", "Satisfaction intrants"].map((v) => /* @__PURE__ */ import_react75.default.createElement("span", { key: v, className: "text-xs px-3 py-1.5 rounded-full font-medium", style: { background: NAVY_TINT, color: NAVY5 } }, v))), /* @__PURE__ */ import_react75.default.createElement("div", { className: "rounded-2xl p-4 border border-gray-100" }, /* @__PURE__ */ import_react75.default.createElement("div", { className: "flex items-center gap-2 mb-2" }, /* @__PURE__ */ import_react75.default.createElement(ShieldCheck, { size: 15, style: { color: NAVY5 } }), /* @__PURE__ */ import_react75.default.createElement("span", { className: "text-sm font-semibold", style: { color: NAVY5 } }, "Conditions de validation du mod\xE8le")), /* @__PURE__ */ import_react75.default.createElement("div", { className: "space-y-2" }, [
+    ))), /* @__PURE__ */ import_react76.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Variable d\xE9pendante"), /* @__PURE__ */ import_react76.default.createElement(Select, { value: "rendement", onChange: () => {
+    }, options: availableVars, placeholder: "Choisir" }), /* @__PURE__ */ import_react76.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5 mt-4" }, "Variables explicatives"), /* @__PURE__ */ import_react76.default.createElement("div", { className: "flex flex-wrap gap-2 mb-4" }, ["Superficie sem\xE9e", "Pluviom\xE9trie d\xE9cadaire", "Acc\xE8s au cr\xE9dit", "Satisfaction intrants"].map((v) => /* @__PURE__ */ import_react76.default.createElement("span", { key: v, className: "text-xs px-3 py-1.5 rounded-full font-medium", style: { background: NAVY_TINT, color: NAVY5 } }, v))), /* @__PURE__ */ import_react76.default.createElement("div", { className: "rounded-2xl p-4 border border-gray-100" }, /* @__PURE__ */ import_react76.default.createElement("div", { className: "flex items-center gap-2 mb-2" }, /* @__PURE__ */ import_react76.default.createElement(ShieldCheck, { size: 15, style: { color: NAVY5 } }), /* @__PURE__ */ import_react76.default.createElement("span", { className: "text-sm font-semibold", style: { color: NAVY5 } }, "Conditions de validation du mod\xE8le")), /* @__PURE__ */ import_react76.default.createElement("div", { className: "space-y-2" }, [
       { label: "Absence de multicolin\xE9arit\xE9 (VIF < 5 pour chaque variable explicative)", status: "ok", detail: "VIF max = 2,1" },
       { label: "Normalit\xE9 des r\xE9sidus (Shapiro-Wilk)", status: "ok", detail: "p = 0,22" },
       { label: "Homosc\xE9dasticit\xE9 des r\xE9sidus", status: "warn", detail: "Tendance l\xE9g\xE8re \xE0 examiner" }
     ].map((c2, i) => {
       const s2 = STATUS_STYLE[c2.status];
       const Icon3 = s2.icon;
-      return /* @__PURE__ */ import_react75.default.createElement("label", { key: i, className: "flex items-start gap-3 rounded-xl p-2.5 cursor-pointer", style: { background: s2.bg } }, /* @__PURE__ */ import_react75.default.createElement("input", { type: "checkbox", className: "w-4 h-4 rounded mt-0.5", style: { accentColor: s2.color } }), /* @__PURE__ */ import_react75.default.createElement(Icon3, { size: 15, style: { color: s2.color }, className: "mt-0.5 shrink-0" }), /* @__PURE__ */ import_react75.default.createElement("div", { className: "flex-1" }, /* @__PURE__ */ import_react75.default.createElement("div", { className: "text-xs font-medium", style: { color: s2.color } }, c2.label), /* @__PURE__ */ import_react75.default.createElement("div", { className: "text-[11px] text-gray-500 mt-0.5" }, c2.detail)), /* @__PURE__ */ import_react75.default.createElement("span", { className: "text-[10px] font-semibold shrink-0", style: { color: s2.color } }, s2.text));
-    }))))), /* @__PURE__ */ import_react75.default.createElement("div", null, /* @__PURE__ */ import_react75.default.createElement(Card2, null, /* @__PURE__ */ import_react75.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY5 } }, "File d'analyses configur\xE9es"), /* @__PURE__ */ import_react75.default.createElement("p", { className: "text-xs text-gray-400 mb-4" }, queue2.length, " analyse", queue2.length > 1 ? "s" : "", " pr\xEAte", queue2.length > 1 ? "s" : "", " \xE0 ex\xE9cuter"), /* @__PURE__ */ import_react75.default.createElement("div", { className: "space-y-2 mb-5" }, queue2.map((item, i) => /* @__PURE__ */ import_react75.default.createElement("div", { key: i, className: "flex items-start gap-2 rounded-xl border border-gray-100 p-3" }, /* @__PURE__ */ import_react75.default.createElement("div", { className: "flex-1" }, /* @__PURE__ */ import_react75.default.createElement("div", { className: "text-xs font-medium text-gray-800" }, item.label), /* @__PURE__ */ import_react75.default.createElement("div", { className: "text-[11px] text-gray-500 mt-0.5" }, item.test), item.detail && /* @__PURE__ */ import_react75.default.createElement("div", { className: "text-[10px] font-mono text-gray-400 mt-0.5" }, item.detail), /* @__PURE__ */ import_react75.default.createElement(
+      return /* @__PURE__ */ import_react76.default.createElement("label", { key: i, className: "flex items-start gap-3 rounded-xl p-2.5 cursor-pointer", style: { background: s2.bg } }, /* @__PURE__ */ import_react76.default.createElement("input", { type: "checkbox", className: "w-4 h-4 rounded mt-0.5", style: { accentColor: s2.color } }), /* @__PURE__ */ import_react76.default.createElement(Icon3, { size: 15, style: { color: s2.color }, className: "mt-0.5 shrink-0" }), /* @__PURE__ */ import_react76.default.createElement("div", { className: "flex-1" }, /* @__PURE__ */ import_react76.default.createElement("div", { className: "text-xs font-medium", style: { color: s2.color } }, c2.label), /* @__PURE__ */ import_react76.default.createElement("div", { className: "text-[11px] text-gray-500 mt-0.5" }, c2.detail)), /* @__PURE__ */ import_react76.default.createElement("span", { className: "text-[10px] font-semibold shrink-0", style: { color: s2.color } }, s2.text));
+    }))))), /* @__PURE__ */ import_react76.default.createElement("div", null, /* @__PURE__ */ import_react76.default.createElement(Card2, null, /* @__PURE__ */ import_react76.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY5 } }, "File d'analyses configur\xE9es"), /* @__PURE__ */ import_react76.default.createElement("p", { className: "text-xs text-gray-400 mb-4" }, queue2.length, " analyse", queue2.length > 1 ? "s" : "", " pr\xEAte", queue2.length > 1 ? "s" : "", " \xE0 ex\xE9cuter"), /* @__PURE__ */ import_react76.default.createElement("div", { className: "space-y-2 mb-5" }, queue2.map((item, i) => /* @__PURE__ */ import_react76.default.createElement("div", { key: i, className: "flex items-start gap-2 rounded-xl border border-gray-100 p-3" }, /* @__PURE__ */ import_react76.default.createElement("div", { className: "flex-1" }, /* @__PURE__ */ import_react76.default.createElement("div", { className: "text-xs font-medium text-gray-800" }, item.label), /* @__PURE__ */ import_react76.default.createElement("div", { className: "text-[11px] text-gray-500 mt-0.5" }, item.test), item.detail && /* @__PURE__ */ import_react76.default.createElement("div", { className: "text-[10px] font-mono text-gray-400 mt-0.5" }, item.detail), /* @__PURE__ */ import_react76.default.createElement(
       "span",
       {
         className: "inline-flex items-center gap-1 text-[10px] font-medium px-1.5 py-0.5 rounded-full mt-1",
         style: item.status === "adjusted" ? { background: AMBER_TINT, color: AMBER } : { background: GREEN_TINT, color: GREEN }
       },
-      item.status === "adjusted" ? /* @__PURE__ */ import_react75.default.createElement(Pencil, { size: 9 }) : /* @__PURE__ */ import_react75.default.createElement(Check, { size: 9 }),
+      item.status === "adjusted" ? /* @__PURE__ */ import_react76.default.createElement(Pencil, { size: 9 }) : /* @__PURE__ */ import_react76.default.createElement(Check, { size: 9 }),
       item.status === "adjusted" ? "Ajust\xE9" : "Auto",
       " \xB7 ",
       item.conditionsCount,
@@ -104850,7 +104909,7 @@ ${suffix2}`;
       item.conditionsCount > 1 ? "s" : "",
       " valid\xE9e",
       item.conditionsCount > 1 ? "s" : ""
-    )), /* @__PURE__ */ import_react75.default.createElement("button", { onClick: () => setQueue(queue2.filter((_, idx) => idx !== i)), className: "text-gray-300 hover:text-red-400" }, /* @__PURE__ */ import_react75.default.createElement(X, { size: 14 })))), queue2.length === 0 && /* @__PURE__ */ import_react75.default.createElement("div", { className: "text-xs text-gray-400 italic" }, "Aucune analyse ajout\xE9e pour l'instant.")), uniQueue.length > 0 && /* @__PURE__ */ import_react75.default.createElement("p", { className: "text-[11px] text-gray-400 mb-2" }, uniQueue.length, " variable", uniQueue.length > 1 ? "s" : "", " univari\xE9e", uniQueue.length > 1 ? "s" : "", " valid\xE9e", uniQueue.length > 1 ? "s" : "", " pour le rapport."), /* @__PURE__ */ import_react75.default.createElement(
+    )), /* @__PURE__ */ import_react76.default.createElement("button", { onClick: () => setQueue(queue2.filter((_, idx) => idx !== i)), className: "text-gray-300 hover:text-red-400" }, /* @__PURE__ */ import_react76.default.createElement(X, { size: 14 })))), queue2.length === 0 && /* @__PURE__ */ import_react76.default.createElement("div", { className: "text-xs text-gray-400 italic" }, "Aucune analyse ajout\xE9e pour l'instant.")), uniQueue.length > 0 && /* @__PURE__ */ import_react76.default.createElement("p", { className: "text-[11px] text-gray-400 mb-2" }, uniQueue.length, " variable", uniQueue.length > 1 ? "s" : "", " univari\xE9e", uniQueue.length > 1 ? "s" : "", " valid\xE9e", uniQueue.length > 1 ? "s" : "", " pour le rapport."), /* @__PURE__ */ import_react76.default.createElement(
       "button",
       {
         onClick: () => onNavigate("results"),
@@ -104858,13 +104917,13 @@ ${suffix2}`;
         className: "w-full px-4 py-2.5 rounded-xl text-sm font-medium flex items-center justify-center gap-1.5 text-white shadow-md disabled:opacity-40 disabled:cursor-not-allowed",
         style: { background: `linear-gradient(135deg, #3E9C6B, ${GREEN})` }
       },
-      /* @__PURE__ */ import_react75.default.createElement(Play, { size: 14 }),
+      /* @__PURE__ */ import_react76.default.createElement(Play, { size: 14 }),
       " Lancer les analyses"
     )))))));
   }
 
   // src/ResultsReport.jsx
-  var import_react76 = __toESM(require_react());
+  var import_react77 = __toESM(require_react());
 
   // node_modules/docx/dist/index.mjs
   var __create2 = Object.create;
@@ -123086,42 +123145,43 @@ ${suffix2}`;
     return p2 < 1e-3 ? "< 0,001" : p2.toFixed(3);
   }
   function Watermark4() {
-    return /* @__PURE__ */ import_react76.default.createElement("div", { className: "fixed inset-0 overflow-hidden pointer-events-none z-0 flex items-center justify-center" }, /* @__PURE__ */ import_react76.default.createElement(
+    return /* @__PURE__ */ import_react77.default.createElement("div", { className: "fixed inset-0 overflow-hidden pointer-events-none z-0 flex items-center justify-center" }, /* @__PURE__ */ import_react77.default.createElement(
       "span",
       {
         className: "font-serif font-black whitespace-nowrap select-none",
         style: { color: NAVY7, opacity: 0.06, fontSize: "13vw", letterSpacing: "-0.02em" }
       },
       "AgriHakStat"
-    ), /* @__PURE__ */ import_react76.default.createElement("span", { className: "absolute bottom-4 right-6 text-xs font-medium select-none", style: { color: NAVY7, opacity: 0.35 } }, "Con\xE7u par Hakibou MOUSSA"));
+    ), /* @__PURE__ */ import_react77.default.createElement("span", { className: "absolute bottom-4 right-6 text-xs font-medium select-none", style: { color: NAVY7, opacity: 0.35 } }, "Con\xE7u par Hakibou MOUSSA"));
   }
   function Card3({ children, className = "" }) {
-    return /* @__PURE__ */ import_react76.default.createElement("div", { className: `bg-white rounded-2xl p-6 shadow-sm border border-black/5 ${className}` }, children);
+    return /* @__PURE__ */ import_react77.default.createElement("div", { className: `bg-white rounded-2xl p-6 shadow-sm border border-black/5 ${className}` }, children);
   }
   function StatusBadge({ status }) {
     const adjusted = status === "adjusted";
-    return /* @__PURE__ */ import_react76.default.createElement(
+    return /* @__PURE__ */ import_react77.default.createElement(
       "span",
       {
         className: "inline-flex items-center gap-1 text-[10px] font-medium px-2 py-1 rounded-full",
         style: adjusted ? { background: AMBER_TINT2, color: AMBER2 } : { background: GREEN_TINT2, color: GREEN2 }
       },
-      adjusted ? /* @__PURE__ */ import_react76.default.createElement(Pencil, { size: 9 }) : /* @__PURE__ */ import_react76.default.createElement(Check, { size: 9 }),
+      adjusted ? /* @__PURE__ */ import_react77.default.createElement(Pencil, { size: 9 }) : /* @__PURE__ */ import_react77.default.createElement(Check, { size: 9 }),
       adjusted ? "Ajust\xE9 par l'analyste" : "Propos\xE9 automatiquement"
     );
   }
   function ResultHeader({ title, subtitle, status }) {
-    return /* @__PURE__ */ import_react76.default.createElement("div", { className: "flex items-start justify-between mb-3" }, /* @__PURE__ */ import_react76.default.createElement("div", null, /* @__PURE__ */ import_react76.default.createElement("h3", { className: "font-serif font-semibold text-sm", style: { color: NAVY7 } }, title), /* @__PURE__ */ import_react76.default.createElement("p", { className: "text-[11px] text-gray-400 mt-0.5" }, subtitle)), /* @__PURE__ */ import_react76.default.createElement(StatusBadge, { status }));
+    return /* @__PURE__ */ import_react77.default.createElement("div", { className: "flex items-start justify-between mb-3" }, /* @__PURE__ */ import_react77.default.createElement("div", null, /* @__PURE__ */ import_react77.default.createElement("h3", { className: "font-serif font-semibold text-sm", style: { color: NAVY7 } }, title), /* @__PURE__ */ import_react77.default.createElement("p", { className: "text-[11px] text-gray-400 mt-0.5" }, subtitle)), /* @__PURE__ */ import_react77.default.createElement(StatusBadge, { status }));
   }
   function AnalysisResultCard({ item, dataset, index, validated, onToggleValidated }) {
-    const validationBar = /* @__PURE__ */ import_react76.default.createElement("label", { className: "flex items-center gap-2 mb-3 text-xs cursor-pointer select-none" }, /* @__PURE__ */ import_react76.default.createElement("input", { type: "checkbox", checked: !!validated, onChange: onToggleValidated, className: "w-4 h-4 rounded", style: { accentColor: "#256B45" } }), /* @__PURE__ */ import_react76.default.createElement("span", { className: validated ? "font-medium" : "text-gray-400", style: validated ? { color: "#256B45" } : {} }, validated ? "Valid\xE9 pour le rapport" : "Valider cette analyse pour l'inclure au rapport"));
+    const chartRef = (0, import_react77.useRef)(null);
+    const validationBar = /* @__PURE__ */ import_react77.default.createElement("label", { className: "flex items-center gap-2 mb-3 text-xs cursor-pointer select-none" }, /* @__PURE__ */ import_react77.default.createElement("input", { type: "checkbox", checked: !!validated, onChange: onToggleValidated, className: "w-4 h-4 rounded", style: { accentColor: "#256B45" } }), /* @__PURE__ */ import_react77.default.createElement("span", { className: validated ? "font-medium" : "text-gray-400", style: validated ? { color: "#256B45" } : {} }, validated ? "Valid\xE9 pour le rapport" : "Valider cette analyse pour l'inclure au rapport"));
     if (!dataset) {
-      return /* @__PURE__ */ import_react76.default.createElement(Card3, null, validationBar, /* @__PURE__ */ import_react76.default.createElement(ResultHeader, { title: item.label, subtitle: item.test, status: item.status }), /* @__PURE__ */ import_react76.default.createElement("div", { className: "rounded-xl bg-gray-50 px-3 py-2 text-xs text-gray-400 italic" }, "Exemple illustratif \u2014 aucune base de donn\xE9es r\xE9elle n'\xE9tait import\xE9e lors de la configuration de cette analyse."));
+      return /* @__PURE__ */ import_react77.default.createElement(Card3, null, validationBar, /* @__PURE__ */ import_react77.default.createElement(ResultHeader, { title: item.label, subtitle: item.test, status: item.status }), /* @__PURE__ */ import_react77.default.createElement("div", { className: "rounded-xl bg-gray-50 px-3 py-2 text-xs text-gray-400 italic" }, "Exemple illustratif \u2014 aucune base de donn\xE9es r\xE9elle n'\xE9tait import\xE9e lors de la configuration de cette analyse."));
     }
     const xCol = dataset.columns.find((c2) => c2.name === item.xId);
     const yCol = dataset.columns.find((c2) => c2.name === item.yId);
     if (!xCol || !yCol) {
-      return /* @__PURE__ */ import_react76.default.createElement(Card3, null, validationBar, /* @__PURE__ */ import_react76.default.createElement(ResultHeader, { title: item.label, subtitle: item.test, status: item.status }), /* @__PURE__ */ import_react76.default.createElement("div", { className: "rounded-xl px-3 py-2 text-xs", style: { background: "#FBE7E5", color: "#B3413A" } }, "Les colonnes de cette analyse ne sont plus pr\xE9sentes dans la base actuellement import\xE9e."));
+      return /* @__PURE__ */ import_react77.default.createElement(Card3, null, validationBar, /* @__PURE__ */ import_react77.default.createElement(ResultHeader, { title: item.label, subtitle: item.test, status: item.status }), /* @__PURE__ */ import_react77.default.createElement("div", { className: "rounded-xl px-3 py-2 text-xs", style: { background: "#FBE7E5", color: "#B3413A" } }, "Les colonnes de cette analyse ne sont plus pr\xE9sentes dans la base actuellement import\xE9e."));
     }
     const isXQuant = xCol.isQuantitative, isYQuant = yCol.isQuantitative;
     const test = item.test;
@@ -123130,7 +123190,7 @@ ${suffix2}`;
         const r2 = test === "Corr\xE9lation de Pearson" ? pearsonCorrelation(dataset.rows, item.xId, item.yId) : spearmanCorrelation(dataset.rows, item.xId, item.yId);
         const scatter = dataset.rows.map((row) => ({ x: Number(row[item.xId]), y: Number(row[item.yId]) })).filter((p2) => !isNaN(p2.x) && !isNaN(p2.y));
         const symbol = test === "Corr\xE9lation de Pearson" ? "r" : "\u03C1";
-        return /* @__PURE__ */ import_react76.default.createElement(Card3, null, validationBar, /* @__PURE__ */ import_react76.default.createElement(ResultHeader, { title: item.label, subtitle: `${test} \xB7 ${symbol} = ${r2.r.toFixed(3)}, n = ${r2.n}, p = ${fmtP(r2.p)}`, status: item.status }), /* @__PURE__ */ import_react76.default.createElement(ResponsiveContainer, { width: "100%", height: 190 }, /* @__PURE__ */ import_react76.default.createElement(ScatterChart, null, /* @__PURE__ */ import_react76.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react76.default.createElement(XAxis, { dataKey: "x", tick: { fontSize: 11 }, stroke: "#999", name: item.xLabel, type: "number", domain: ["dataMin", "dataMax"] }), /* @__PURE__ */ import_react76.default.createElement(YAxis, { dataKey: "y", tick: { fontSize: 11 }, stroke: "#999", name: item.yLabel, width: 55, type: "number", domain: ["dataMin", "dataMax"] }), /* @__PURE__ */ import_react76.default.createElement(Tooltip, { cursor: { strokeDasharray: "3 3" } }), /* @__PURE__ */ import_react76.default.createElement(Scatter, { data: scatter, fill: NAVY7 }))), /* @__PURE__ */ import_react76.default.createElement("p", { className: "text-xs text-gray-500 mt-2" }, Math.abs(r2.r) < 0.1 ? "Association quasi nulle" : Math.abs(r2.r) < 0.3 ? "Association faible" : Math.abs(r2.r) < 0.5 ? "Association mod\xE9r\xE9e" : "Association forte", " ", "entre ", item.xLabel, " et ", item.yLabel, ", ", r2.p < 0.05 ? "statistiquement significative (p < 0,05)" : "non significative au seuil de 5 %", "."));
+        return /* @__PURE__ */ import_react77.default.createElement(Card3, null, validationBar, /* @__PURE__ */ import_react77.default.createElement(ResultHeader, { title: item.label, subtitle: `${test} \xB7 ${symbol} = ${r2.r.toFixed(3)}, n = ${r2.n}, p = ${fmtP(r2.p)}`, status: item.status }), /* @__PURE__ */ import_react77.default.createElement("div", { className: "flex justify-end mb-1" }, /* @__PURE__ */ import_react77.default.createElement(ChartExportButton, { targetRef: chartRef, filename: item.label })), /* @__PURE__ */ import_react77.default.createElement("div", { ref: chartRef }, /* @__PURE__ */ import_react77.default.createElement(ResponsiveContainer, { width: "100%", height: 190 }, /* @__PURE__ */ import_react77.default.createElement(ScatterChart, null, /* @__PURE__ */ import_react77.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react77.default.createElement(XAxis, { dataKey: "x", tick: { fontSize: 11 }, stroke: "#999", name: item.xLabel, type: "number", domain: ["dataMin", "dataMax"] }), /* @__PURE__ */ import_react77.default.createElement(YAxis, { dataKey: "y", tick: { fontSize: 11 }, stroke: "#999", name: item.yLabel, width: 55, type: "number", domain: ["dataMin", "dataMax"] }), /* @__PURE__ */ import_react77.default.createElement(Tooltip, { cursor: { strokeDasharray: "3 3" } }), /* @__PURE__ */ import_react77.default.createElement(Scatter, { data: scatter, fill: NAVY7 })))), /* @__PURE__ */ import_react77.default.createElement("p", { className: "text-xs text-gray-500 mt-2" }, Math.abs(r2.r) < 0.1 ? "Association quasi nulle" : Math.abs(r2.r) < 0.3 ? "Association faible" : Math.abs(r2.r) < 0.5 ? "Association mod\xE9r\xE9e" : "Association forte", " ", "entre ", item.xLabel, " et ", item.yLabel, ", ", r2.p < 0.05 ? "statistiquement significative (p < 0,05)" : "non significative au seuil de 5 %", "."));
       }
       if (["Test de Student", "ANOVA \xE0 un facteur", "Test de Mann-Whitney", "Test de Kruskal-Wallis"].includes(test)) {
         const [quantCol, qualCol] = isXQuant ? [item.xId, item.yId] : [item.yId, item.xId];
@@ -123150,33 +123210,33 @@ ${suffix2}`;
             return { groupe: g, mediane: sorted[Math.floor(sorted.length / 2)], n: vals.length };
           });
           const stat = test === "Test de Mann-Whitney" ? `U = ${res.U.toFixed(1)}, z = ${res.z.toFixed(2)}` : `H(${res.df}) = ${res.H.toFixed(2)}`;
-          return /* @__PURE__ */ import_react76.default.createElement(Card3, null, validationBar, /* @__PURE__ */ import_react76.default.createElement(ResultHeader, { title: item.label, subtitle: `${test} \xB7 ${stat}, p = ${fmtP(res.p)}`, status: item.status }), /* @__PURE__ */ import_react76.default.createElement(ResponsiveContainer, { width: "100%", height: 180 }, /* @__PURE__ */ import_react76.default.createElement(BarChart, { data: chartData2 }, /* @__PURE__ */ import_react76.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react76.default.createElement(XAxis, { dataKey: "groupe", tick: { fontSize: 11 }, stroke: "#999" }), /* @__PURE__ */ import_react76.default.createElement(YAxis, { tick: { fontSize: 11 }, stroke: "#999", width: 55 }), /* @__PURE__ */ import_react76.default.createElement(Tooltip, null), /* @__PURE__ */ import_react76.default.createElement(Bar, { dataKey: "mediane", name: `M\xE9diane de ${quantLabel}`, radius: [6, 6, 0, 0] }, chartData2.map((d, i) => /* @__PURE__ */ import_react76.default.createElement(Cell, { key: d.groupe, fill: PALETTE[i % PALETTE.length] }))))), /* @__PURE__ */ import_react76.default.createElement("p", { className: "text-xs text-gray-500 mt-2" }, "Diff\xE9rence ", res.p < 0.05 ? "statistiquement significative" : "non significative", " de ", quantLabel, " selon ", qualLabel, " (test non param\xE9trique, p = ", fmtP(res.p), ")."));
+          return /* @__PURE__ */ import_react77.default.createElement(Card3, null, validationBar, /* @__PURE__ */ import_react77.default.createElement(ResultHeader, { title: item.label, subtitle: `${test} \xB7 ${stat}, p = ${fmtP(res.p)}`, status: item.status }), /* @__PURE__ */ import_react77.default.createElement("div", { className: "flex justify-end mb-1" }, /* @__PURE__ */ import_react77.default.createElement(ChartExportButton, { targetRef: chartRef, filename: item.label })), /* @__PURE__ */ import_react77.default.createElement("div", { ref: chartRef }, /* @__PURE__ */ import_react77.default.createElement(ResponsiveContainer, { width: "100%", height: 180 }, /* @__PURE__ */ import_react77.default.createElement(BarChart, { data: chartData2 }, /* @__PURE__ */ import_react77.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react77.default.createElement(XAxis, { dataKey: "groupe", tick: { fontSize: 11 }, stroke: "#999" }), /* @__PURE__ */ import_react77.default.createElement(YAxis, { tick: { fontSize: 11 }, stroke: "#999", width: 55 }), /* @__PURE__ */ import_react77.default.createElement(Tooltip, null), /* @__PURE__ */ import_react77.default.createElement(Bar, { dataKey: "mediane", name: `M\xE9diane de ${quantLabel}`, radius: [6, 6, 0, 0] }, chartData2.map((d, i) => /* @__PURE__ */ import_react77.default.createElement(Cell, { key: d.groupe, fill: PALETTE[i % PALETTE.length] })))))), /* @__PURE__ */ import_react77.default.createElement("p", { className: "text-xs text-gray-500 mt-2" }, "Diff\xE9rence ", res.p < 0.05 ? "statistiquement significative" : "non significative", " de ", quantLabel, " selon ", qualLabel, " (test non param\xE9trique, p = ", fmtP(res.p), ")."));
         }
         const a2 = oneWayAnova(dataset.rows, quantCol, qualCol);
         const chartData = a2.groupStats.map((g) => ({ groupe: g.groupe, moyenne: g.moyenne, ecart: [g.ecartType, g.ecartType], n: g.n }));
         const statLabel = test === "Test de Student" ? `t \u2248 ${Math.sqrt(a2.F).toFixed(2)}` : `F(${a2.dfBetween},${a2.dfWithin}) = ${a2.F.toFixed(2)}, \u03B7\xB2 = ${a2.etaSq.toFixed(2)}`;
-        return /* @__PURE__ */ import_react76.default.createElement(Card3, null, validationBar, /* @__PURE__ */ import_react76.default.createElement(ResultHeader, { title: item.label, subtitle: `${test} \xB7 ${statLabel}, p = ${fmtP(a2.p)}`, status: item.status }), /* @__PURE__ */ import_react76.default.createElement(ResponsiveContainer, { width: "100%", height: 190 }, /* @__PURE__ */ import_react76.default.createElement(BarChart, { data: chartData }, /* @__PURE__ */ import_react76.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react76.default.createElement(XAxis, { dataKey: "groupe", tick: { fontSize: 11 }, stroke: "#999" }), /* @__PURE__ */ import_react76.default.createElement(YAxis, { tick: { fontSize: 11 }, stroke: "#999", width: 55 }), /* @__PURE__ */ import_react76.default.createElement(Tooltip, null), /* @__PURE__ */ import_react76.default.createElement(Bar, { dataKey: "moyenne", name: `Moyenne de ${quantLabel}`, radius: [6, 6, 0, 0] }, chartData.map((d, i) => /* @__PURE__ */ import_react76.default.createElement(Cell, { key: d.groupe, fill: PALETTE[i % PALETTE.length] })), /* @__PURE__ */ import_react76.default.createElement(ErrorBar, { dataKey: "ecart", width: 4, strokeWidth: 1.5, stroke: "#7A7A7A" })))), /* @__PURE__ */ import_react76.default.createElement("p", { className: "text-xs text-gray-500 mt-2" }, "Le ", quantLabel.toLowerCase(), " moyen ", a2.p < 0.05 ? "diff\xE8re significativement" : "ne diff\xE8re pas significativement", " selon ", qualLabel.toLowerCase(), " (p = ", fmtP(a2.p), ")."));
+        return /* @__PURE__ */ import_react77.default.createElement(Card3, null, validationBar, /* @__PURE__ */ import_react77.default.createElement(ResultHeader, { title: item.label, subtitle: `${test} \xB7 ${statLabel}, p = ${fmtP(a2.p)}`, status: item.status }), /* @__PURE__ */ import_react77.default.createElement("div", { className: "flex justify-end mb-1" }, /* @__PURE__ */ import_react77.default.createElement(ChartExportButton, { targetRef: chartRef, filename: item.label })), /* @__PURE__ */ import_react77.default.createElement("div", { ref: chartRef }, /* @__PURE__ */ import_react77.default.createElement(ResponsiveContainer, { width: "100%", height: 190 }, /* @__PURE__ */ import_react77.default.createElement(BarChart, { data: chartData }, /* @__PURE__ */ import_react77.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react77.default.createElement(XAxis, { dataKey: "groupe", tick: { fontSize: 11 }, stroke: "#999" }), /* @__PURE__ */ import_react77.default.createElement(YAxis, { tick: { fontSize: 11 }, stroke: "#999", width: 55 }), /* @__PURE__ */ import_react77.default.createElement(Tooltip, null), /* @__PURE__ */ import_react77.default.createElement(Bar, { dataKey: "moyenne", name: `Moyenne de ${quantLabel}`, radius: [6, 6, 0, 0] }, chartData.map((d, i) => /* @__PURE__ */ import_react77.default.createElement(Cell, { key: d.groupe, fill: PALETTE[i % PALETTE.length] })), /* @__PURE__ */ import_react77.default.createElement(ErrorBar, { dataKey: "ecart", width: 4, strokeWidth: 1.5, stroke: "#7A7A7A" }))))), /* @__PURE__ */ import_react77.default.createElement("p", { className: "text-xs text-gray-500 mt-2" }, "Le ", quantLabel.toLowerCase(), " moyen ", a2.p < 0.05 ? "diff\xE8re significativement" : "ne diff\xE8re pas significativement", " selon ", qualLabel.toLowerCase(), " (p = ", fmtP(a2.p), ")."));
       }
       if (test === "Test du Khi\xB2 d'ind\xE9pendance" || test === "V de Cram\xE9r (mesure d'association)") {
         const c2 = chiSquareTest(dataset.rows, item.xId, item.yId);
-        return /* @__PURE__ */ import_react76.default.createElement(Card3, null, validationBar, /* @__PURE__ */ import_react76.default.createElement(ResultHeader, { title: item.label, subtitle: `${test} \xB7 \u03C7\xB2(${c2.df}) = ${c2.chi2.toFixed(2)}, p = ${fmtP(c2.p)}, V = ${c2.cramersV.toFixed(2)}`, status: item.status }), /* @__PURE__ */ import_react76.default.createElement("div", { className: "overflow-x-auto" }, /* @__PURE__ */ import_react76.default.createElement("table", { className: "text-xs w-full" }, /* @__PURE__ */ import_react76.default.createElement("thead", null, /* @__PURE__ */ import_react76.default.createElement("tr", null, /* @__PURE__ */ import_react76.default.createElement("th", { className: "text-left text-[10px] text-gray-400 uppercase pb-1 pr-3" }, item.xLabel, " \\ ", item.yLabel), c2.yList.map((y2) => /* @__PURE__ */ import_react76.default.createElement("th", { key: y2, className: "text-[10px] text-gray-400 uppercase pb-1 px-2" }, y2)))), /* @__PURE__ */ import_react76.default.createElement("tbody", null, c2.xList.map((x2) => /* @__PURE__ */ import_react76.default.createElement("tr", { key: x2, className: "border-t border-gray-50" }, /* @__PURE__ */ import_react76.default.createElement("td", { className: "py-1.5 pr-3 font-medium text-gray-700" }, x2), c2.yList.map((y2) => /* @__PURE__ */ import_react76.default.createElement("td", { key: y2, className: "py-1.5 px-2 text-center text-gray-600" }, c2.table[x2]?.[y2] || 0))))))), /* @__PURE__ */ import_react76.default.createElement("p", { className: "text-xs text-gray-500 mt-2" }, "Association ", c2.p < 0.05 ? "statistiquement significative" : "non significative", " entre ", item.xLabel, " et ", item.yLabel, " (p = ", fmtP(c2.p), ", V de Cram\xE9r = ", c2.cramersV.toFixed(2), ")."));
+        return /* @__PURE__ */ import_react77.default.createElement(Card3, null, validationBar, /* @__PURE__ */ import_react77.default.createElement(ResultHeader, { title: item.label, subtitle: `${test} \xB7 \u03C7\xB2(${c2.df}) = ${c2.chi2.toFixed(2)}, p = ${fmtP(c2.p)}, V = ${c2.cramersV.toFixed(2)}`, status: item.status }), /* @__PURE__ */ import_react77.default.createElement("div", { className: "overflow-x-auto" }, /* @__PURE__ */ import_react77.default.createElement("table", { className: "text-xs w-full" }, /* @__PURE__ */ import_react77.default.createElement("thead", null, /* @__PURE__ */ import_react77.default.createElement("tr", null, /* @__PURE__ */ import_react77.default.createElement("th", { className: "text-left text-[10px] text-gray-400 uppercase pb-1 pr-3" }, item.xLabel, " \\ ", item.yLabel), c2.yList.map((y2) => /* @__PURE__ */ import_react77.default.createElement("th", { key: y2, className: "text-[10px] text-gray-400 uppercase pb-1 px-2" }, y2)))), /* @__PURE__ */ import_react77.default.createElement("tbody", null, c2.xList.map((x2) => /* @__PURE__ */ import_react77.default.createElement("tr", { key: x2, className: "border-t border-gray-50" }, /* @__PURE__ */ import_react77.default.createElement("td", { className: "py-1.5 pr-3 font-medium text-gray-700" }, x2), c2.yList.map((y2) => /* @__PURE__ */ import_react77.default.createElement("td", { key: y2, className: "py-1.5 px-2 text-center text-gray-600" }, c2.table[x2]?.[y2] || 0))))))), /* @__PURE__ */ import_react77.default.createElement("p", { className: "text-xs text-gray-500 mt-2" }, "Association ", c2.p < 0.05 ? "statistiquement significative" : "non significative", " entre ", item.xLabel, " et ", item.yLabel, " (p = ", fmtP(c2.p), ", V de Cram\xE9r = ", c2.cramersV.toFixed(2), ")."));
       }
     } catch (e) {
-      return /* @__PURE__ */ import_react76.default.createElement(Card3, null, validationBar, /* @__PURE__ */ import_react76.default.createElement(ResultHeader, { title: item.label, subtitle: item.test, status: item.status }), /* @__PURE__ */ import_react76.default.createElement("div", { className: "rounded-xl px-3 py-2 text-xs", style: { background: "#FBE7E5", color: "#B3413A" } }, "Calcul impossible sur les donn\xE9es actuelles : ", e.message));
+      return /* @__PURE__ */ import_react77.default.createElement(Card3, null, validationBar, /* @__PURE__ */ import_react77.default.createElement(ResultHeader, { title: item.label, subtitle: item.test, status: item.status }), /* @__PURE__ */ import_react77.default.createElement("div", { className: "rounded-xl px-3 py-2 text-xs", style: { background: "#FBE7E5", color: "#B3413A" } }, "Calcul impossible sur les donn\xE9es actuelles : ", e.message));
     }
     return null;
   }
   function UnivariateResultCard({ item }) {
     const s2 = item.stats;
-    return /* @__PURE__ */ import_react76.default.createElement(Card3, null, /* @__PURE__ */ import_react76.default.createElement(ResultHeader, { title: item.variableLabel, subtitle: item.isQuantitative ? "Statistiques descriptives (univari\xE9e)" : "Fr\xE9quences (univari\xE9e)", status: "auto" }), item.isQuantitative ? /* @__PURE__ */ import_react76.default.createElement(import_react76.default.Fragment, null, /* @__PURE__ */ import_react76.default.createElement("div", { className: "grid grid-cols-3 gap-2 text-center" }, [["Moyenne", s2.moyenne], ["M\xE9diane", s2.mediane], ["\xC9cart-type", s2.ecartType], ["CV (%)", s2.cv], ["Min", s2.min], ["Max", s2.max]].map(([l, v]) => /* @__PURE__ */ import_react76.default.createElement("div", { key: l, className: "rounded-lg py-2", style: { background: NAVY_TINT2 } }, /* @__PURE__ */ import_react76.default.createElement("div", { className: "text-[10px] text-gray-500" }, l), /* @__PURE__ */ import_react76.default.createElement("div", { className: "text-xs font-bold", style: { color: NAVY7 } }, v.toFixed(2))))), /* @__PURE__ */ import_react76.default.createElement("p", { className: "text-xs mt-2", style: { color: s2.outliers?.count > 0 ? AMBER2 : "#9CA3AF" } }, s2.outliers?.count > 0 ? `${s2.outliers.count} valeur${s2.outliers.count > 1 ? "s" : ""} atypique${s2.outliers.count > 1 ? "s" : ""} d\xE9tect\xE9e${s2.outliers.count > 1 ? "s" : ""} (m\xE9thode interquartile) \u2014 hors [${s2.outliers.lowerBound.toFixed(1)} ; ${s2.outliers.upperBound.toFixed(1)}]` : "Aucune valeur atypique d\xE9tect\xE9e (m\xE9thode interquartile).")) : /* @__PURE__ */ import_react76.default.createElement("div", { className: "flex flex-wrap gap-1.5" }, (s2 || []).map((f) => /* @__PURE__ */ import_react76.default.createElement("span", { key: f.modalite, className: "text-[11px] px-2 py-1 rounded-full", style: { background: NAVY_TINT2, color: NAVY7 } }, f.modalite, " \xB7 ", f.pct.toFixed(0), "% (n=", f.n, ")"))));
+    return /* @__PURE__ */ import_react77.default.createElement(Card3, null, /* @__PURE__ */ import_react77.default.createElement(ResultHeader, { title: item.variableLabel, subtitle: item.isQuantitative ? "Statistiques descriptives (univari\xE9e)" : "Fr\xE9quences (univari\xE9e)", status: "auto" }), item.isQuantitative ? /* @__PURE__ */ import_react77.default.createElement(import_react77.default.Fragment, null, /* @__PURE__ */ import_react77.default.createElement("div", { className: "grid grid-cols-3 gap-2 text-center" }, [["Moyenne", s2.moyenne], ["M\xE9diane", s2.mediane], ["\xC9cart-type", s2.ecartType], ["CV (%)", s2.cv], ["Min", s2.min], ["Max", s2.max]].map(([l, v]) => /* @__PURE__ */ import_react77.default.createElement("div", { key: l, className: "rounded-lg py-2", style: { background: NAVY_TINT2 } }, /* @__PURE__ */ import_react77.default.createElement("div", { className: "text-[10px] text-gray-500" }, l), /* @__PURE__ */ import_react77.default.createElement("div", { className: "text-xs font-bold", style: { color: NAVY7 } }, v.toFixed(2))))), /* @__PURE__ */ import_react77.default.createElement("p", { className: "text-xs mt-2", style: { color: s2.outliers?.count > 0 ? AMBER2 : "#9CA3AF" } }, s2.outliers?.count > 0 ? `${s2.outliers.count} valeur${s2.outliers.count > 1 ? "s" : ""} atypique${s2.outliers.count > 1 ? "s" : ""} d\xE9tect\xE9e${s2.outliers.count > 1 ? "s" : ""} (m\xE9thode interquartile) \u2014 hors [${s2.outliers.lowerBound.toFixed(1)} ; ${s2.outliers.upperBound.toFixed(1)}]` : "Aucune valeur atypique d\xE9tect\xE9e (m\xE9thode interquartile).")) : /* @__PURE__ */ import_react77.default.createElement("div", { className: "flex flex-wrap gap-1.5" }, (s2 || []).map((f) => /* @__PURE__ */ import_react77.default.createElement("span", { key: f.modalite, className: "text-[11px] px-2 py-1 rounded-full", style: { background: NAVY_TINT2, color: NAVY7 } }, f.modalite, " \xB7 ", f.pct.toFixed(0), "% (n=", f.n, ")"))));
   }
   function ResultsReport({ active, onNavigate, userEmail, roleLabel, isAdmin, isGuest, onLogout, onOpenAdmin, dataset, analysisQueue, onAnalysisQueueChange, context, onContextChange, univariateQueue }) {
-    const [sections, setSections] = (0, import_react76.useState)(reportSections);
-    const [format2, setFormat] = (0, import_react76.useState)("docx");
-    const [aiLoading, setAiLoading] = (0, import_react76.useState)(false);
-    const [aiError, setAiError] = (0, import_react76.useState)("");
-    const [aiReport, setAiReport] = (0, import_react76.useState)(context?.aiReport || null);
-    const [exporting, setExporting] = (0, import_react76.useState)(false);
+    const [sections, setSections] = (0, import_react77.useState)(reportSections);
+    const [format2, setFormat] = (0, import_react77.useState)("docx");
+    const [aiLoading, setAiLoading] = (0, import_react77.useState)(false);
+    const [aiError, setAiError] = (0, import_react77.useState)("");
+    const [aiReport, setAiReport] = (0, import_react77.useState)(context?.aiReport || null);
+    const [exporting, setExporting] = (0, import_react77.useState)(false);
     const queue2 = analysisQueue || [];
     const uniQueue = univariateQueue || [];
     const toggleSection = (s2) => setSections((prev) => prev.includes(s2) ? prev.filter((i) => i !== s2) : [...prev, s2]);
@@ -123217,14 +123277,14 @@ ${suffix2}`;
         setExporting(false);
       }
     };
-    return /* @__PURE__ */ import_react76.default.createElement("div", { className: "min-h-screen relative bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans" }, /* @__PURE__ */ import_react76.default.createElement(Watermark4, null), /* @__PURE__ */ import_react76.default.createElement("div", { className: "relative z-10 flex" }, /* @__PURE__ */ import_react76.default.createElement(Sidebar, { active, onNavigate }), /* @__PURE__ */ import_react76.default.createElement("div", { className: "flex-1 min-h-screen" }, /* @__PURE__ */ import_react76.default.createElement(
+    return /* @__PURE__ */ import_react77.default.createElement("div", { className: "min-h-screen relative bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans" }, /* @__PURE__ */ import_react77.default.createElement(Watermark4, null), /* @__PURE__ */ import_react77.default.createElement("div", { className: "relative z-10 flex" }, /* @__PURE__ */ import_react77.default.createElement(Sidebar, { active, onNavigate }), /* @__PURE__ */ import_react77.default.createElement("div", { className: "flex-1 min-h-screen" }, /* @__PURE__ */ import_react77.default.createElement(
       "header",
       {
         className: "bg-white/70 backdrop-blur px-8 py-4 flex items-center justify-between",
         style: { borderBottom: `2px solid ${GOLD6}` }
       },
-      /* @__PURE__ */ import_react76.default.createElement("div", null, /* @__PURE__ */ import_react76.default.createElement("h1", { className: "font-serif text-xl font-bold", style: { color: NAVY7 } }, "R\xE9sultats & rapport final"), /* @__PURE__ */ import_react76.default.createElement("p", { className: "text-xs text-gray-500 mt-0.5" }, dataset ? `${dataset.fileName} \xB7 ` : "", queue2.length, " analyse", queue2.length > 1 ? "s" : "", " bivari\xE9e", queue2.length > 1 ? "s" : "", uniQueue.length > 0 && /* @__PURE__ */ import_react76.default.createElement(import_react76.default.Fragment, null, " \xB7 ", uniQueue.length, " variable", uniQueue.length > 1 ? "s" : "", " univari\xE9e", uniQueue.length > 1 ? "s" : "", " valid\xE9e", uniQueue.length > 1 ? "s" : ""))),
-      /* @__PURE__ */ import_react76.default.createElement("div", { className: "flex items-center gap-4" }, /* @__PURE__ */ import_react76.default.createElement(Bell, { size: 18, className: "text-gray-400" }), /* @__PURE__ */ import_react76.default.createElement(
+      /* @__PURE__ */ import_react77.default.createElement("div", null, /* @__PURE__ */ import_react77.default.createElement("h1", { className: "font-serif text-xl font-bold", style: { color: NAVY7 } }, "R\xE9sultats & rapport final"), /* @__PURE__ */ import_react77.default.createElement("p", { className: "text-xs text-gray-500 mt-0.5" }, dataset ? `${dataset.fileName} \xB7 ` : "", queue2.length, " analyse", queue2.length > 1 ? "s" : "", " bivari\xE9e", queue2.length > 1 ? "s" : "", uniQueue.length > 0 && /* @__PURE__ */ import_react77.default.createElement(import_react77.default.Fragment, null, " \xB7 ", uniQueue.length, " variable", uniQueue.length > 1 ? "s" : "", " univari\xE9e", uniQueue.length > 1 ? "s" : "", " valid\xE9e", uniQueue.length > 1 ? "s" : ""))),
+      /* @__PURE__ */ import_react77.default.createElement("div", { className: "flex items-center gap-4" }, /* @__PURE__ */ import_react77.default.createElement(Bell, { size: 18, className: "text-gray-400" }), /* @__PURE__ */ import_react77.default.createElement(
         UserMenu,
         {
           email: userEmail,
@@ -123235,7 +123295,7 @@ ${suffix2}`;
           onOpenAdmin
         }
       ))
-    ), /* @__PURE__ */ import_react76.default.createElement("main", { className: "p-8 grid grid-cols-3 gap-6" }, /* @__PURE__ */ import_react76.default.createElement("div", { className: "col-span-2 space-y-5" }, queue2.length === 0 && uniQueue.length === 0 ? /* @__PURE__ */ import_react76.default.createElement(Card3, { className: "text-center py-12" }, /* @__PURE__ */ import_react76.default.createElement(Inbox, { size: 32, className: "mx-auto text-gray-300 mb-3" }), /* @__PURE__ */ import_react76.default.createElement("p", { className: "text-sm font-medium text-gray-500" }, "Aucune analyse configur\xE9e pour l'instant"), /* @__PURE__ */ import_react76.default.createElement("p", { className: "text-xs text-gray-400 mt-1 mb-4 max-w-sm mx-auto" }, "Rendez-vous dans \xAB Configuration des analyses \xBB pour s\xE9lectionner des variables, valider un test statistique (ou une variable univari\xE9e), puis l'ajouter \xE0 la file."), /* @__PURE__ */ import_react76.default.createElement(
+    ), /* @__PURE__ */ import_react77.default.createElement("main", { className: "p-8 grid grid-cols-3 gap-6" }, /* @__PURE__ */ import_react77.default.createElement("div", { className: "col-span-2 space-y-5" }, queue2.length === 0 && uniQueue.length === 0 ? /* @__PURE__ */ import_react77.default.createElement(Card3, { className: "text-center py-12" }, /* @__PURE__ */ import_react77.default.createElement(Inbox, { size: 32, className: "mx-auto text-gray-300 mb-3" }), /* @__PURE__ */ import_react77.default.createElement("p", { className: "text-sm font-medium text-gray-500" }, "Aucune analyse configur\xE9e pour l'instant"), /* @__PURE__ */ import_react77.default.createElement("p", { className: "text-xs text-gray-400 mt-1 mb-4 max-w-sm mx-auto" }, "Rendez-vous dans \xAB Configuration des analyses \xBB pour s\xE9lectionner des variables, valider un test statistique (ou une variable univari\xE9e), puis l'ajouter \xE0 la file."), /* @__PURE__ */ import_react77.default.createElement(
       "button",
       {
         onClick: () => onNavigate("config"),
@@ -123243,7 +123303,7 @@ ${suffix2}`;
         style: { background: `linear-gradient(135deg, ${NAVY7}, #2A4A82)` }
       },
       "Aller \xE0 la configuration des analyses"
-    )) : /* @__PURE__ */ import_react76.default.createElement(import_react76.default.Fragment, null, !dataset && /* @__PURE__ */ import_react76.default.createElement("div", { className: "flex items-start gap-2 rounded-xl p-3", style: { background: AMBER_TINT2 } }, /* @__PURE__ */ import_react76.default.createElement(Info, { size: 14, style: { color: AMBER2 }, className: "mt-0.5 shrink-0" }), /* @__PURE__ */ import_react76.default.createElement("p", { className: "text-xs", style: { color: AMBER2 } }, "Aucune base de donn\xE9es r\xE9elle n'est actuellement import\xE9e : les analyses ci-dessous sont pr\xE9sent\xE9es \xE0 titre d'exemple. Importez un fichier via l'assistant d'import pour des r\xE9sultats calcul\xE9s sur vos propres donn\xE9es.")), uniQueue.length > 0 && /* @__PURE__ */ import_react76.default.createElement("div", null, /* @__PURE__ */ import_react76.default.createElement("h3", { className: "font-serif font-semibold text-sm mb-3", style: { color: NAVY7 } }, "Analyses univari\xE9es valid\xE9es"), /* @__PURE__ */ import_react76.default.createElement("div", { className: "space-y-4" }, uniQueue.map((u) => /* @__PURE__ */ import_react76.default.createElement(UnivariateResultCard, { key: u.id, item: u })))), queue2.map((item, i) => /* @__PURE__ */ import_react76.default.createElement(
+    )) : /* @__PURE__ */ import_react77.default.createElement(import_react77.default.Fragment, null, !dataset && /* @__PURE__ */ import_react77.default.createElement("div", { className: "flex items-start gap-2 rounded-xl p-3", style: { background: AMBER_TINT2 } }, /* @__PURE__ */ import_react77.default.createElement(Info, { size: 14, style: { color: AMBER2 }, className: "mt-0.5 shrink-0" }), /* @__PURE__ */ import_react77.default.createElement("p", { className: "text-xs", style: { color: AMBER2 } }, "Aucune base de donn\xE9es r\xE9elle n'est actuellement import\xE9e : les analyses ci-dessous sont pr\xE9sent\xE9es \xE0 titre d'exemple. Importez un fichier via l'assistant d'import pour des r\xE9sultats calcul\xE9s sur vos propres donn\xE9es.")), uniQueue.length > 0 && /* @__PURE__ */ import_react77.default.createElement("div", null, /* @__PURE__ */ import_react77.default.createElement("h3", { className: "font-serif font-semibold text-sm mb-3", style: { color: NAVY7 } }, "Analyses univari\xE9es valid\xE9es"), /* @__PURE__ */ import_react77.default.createElement("div", { className: "space-y-4" }, uniQueue.map((u) => /* @__PURE__ */ import_react77.default.createElement(UnivariateResultCard, { key: u.id, item: u })))), queue2.map((item, i) => /* @__PURE__ */ import_react77.default.createElement(
       AnalysisResultCard,
       {
         key: item.id || i,
@@ -123253,7 +123313,7 @@ ${suffix2}`;
         validated: item.validated,
         onToggleValidated: () => toggleValidated(i)
       }
-    )), validatedQueue.length > 0 && validatedQueue.length < queue2.length && /* @__PURE__ */ import_react76.default.createElement("div", { className: "flex items-start gap-2 rounded-xl p-3", style: { background: NAVY_TINT2 } }, /* @__PURE__ */ import_react76.default.createElement(Check, { size: 14, style: { color: NAVY7 }, className: "mt-0.5 shrink-0" }), /* @__PURE__ */ import_react76.default.createElement("p", { className: "text-xs", style: { color: NAVY7 } }, validatedQueue.length, " analyse", validatedQueue.length > 1 ? "s" : "", " sur ", queue2.length, " valid\xE9e", validatedQueue.length > 1 ? "s" : "", " \u2014 seules celles-ci seront reprises dans le rapport et l'export.")), /* @__PURE__ */ import_react76.default.createElement(Card3, { className: "border-2", style: { borderColor: GOLD6 } }, /* @__PURE__ */ import_react76.default.createElement("div", { className: "flex items-center justify-between mb-2" }, /* @__PURE__ */ import_react76.default.createElement("div", { className: "flex items-center gap-2" }, /* @__PURE__ */ import_react76.default.createElement(Sparkles, { size: 16, style: { color: GOLD6 } }), /* @__PURE__ */ import_react76.default.createElement("h3", { className: "font-serif font-semibold text-sm", style: { color: NAVY7 } }, "6. Analyse")), /* @__PURE__ */ import_react76.default.createElement(
+    )), validatedQueue.length > 0 && validatedQueue.length < queue2.length && /* @__PURE__ */ import_react77.default.createElement("div", { className: "flex items-start gap-2 rounded-xl p-3", style: { background: NAVY_TINT2 } }, /* @__PURE__ */ import_react77.default.createElement(Check, { size: 14, style: { color: NAVY7 }, className: "mt-0.5 shrink-0" }), /* @__PURE__ */ import_react77.default.createElement("p", { className: "text-xs", style: { color: NAVY7 } }, validatedQueue.length, " analyse", validatedQueue.length > 1 ? "s" : "", " sur ", queue2.length, " valid\xE9e", validatedQueue.length > 1 ? "s" : "", " \u2014 seules celles-ci seront reprises dans le rapport et l'export.")), /* @__PURE__ */ import_react77.default.createElement(Card3, { className: "border-2", style: { borderColor: GOLD6 } }, /* @__PURE__ */ import_react77.default.createElement("div", { className: "flex items-center justify-between mb-2" }, /* @__PURE__ */ import_react77.default.createElement("div", { className: "flex items-center gap-2" }, /* @__PURE__ */ import_react77.default.createElement(Sparkles, { size: 16, style: { color: GOLD6 } }), /* @__PURE__ */ import_react77.default.createElement("h3", { className: "font-serif font-semibold text-sm", style: { color: NAVY7 } }, "6. Analyse")), /* @__PURE__ */ import_react77.default.createElement(
       "button",
       {
         onClick: generateWithClaude,
@@ -123261,10 +123321,10 @@ ${suffix2}`;
         className: "text-xs font-medium flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-white disabled:opacity-50",
         style: { background: NAVY7 }
       },
-      /* @__PURE__ */ import_react76.default.createElement(Sparkles, { size: 12 }),
+      /* @__PURE__ */ import_react77.default.createElement(Sparkles, { size: 12 }),
       " ",
       aiLoading ? "R\xE9daction en cours\u2026" : aiReport ? "R\xE9g\xE9n\xE9rer avec Claude" : "R\xE9diger avec Claude"
-    )), aiError && /* @__PURE__ */ import_react76.default.createElement("div", { className: "rounded-xl px-3 py-2 mb-3 text-xs", style: { background: "#FBE7E5", color: "#B3413A" } }, aiError), aiReport ? /* @__PURE__ */ import_react76.default.createElement("div", { className: "text-xs text-gray-700 leading-relaxed whitespace-pre-line" }, aiReport.analyse) : /* @__PURE__ */ import_react76.default.createElement(import_react76.default.Fragment, null, /* @__PURE__ */ import_react76.default.createElement("p", { className: "text-xs text-gray-600 leading-relaxed mb-2" }, "Sur les ", queueForReport.length, " analyse", queueForReport.length > 1 ? "s" : "", " ", validatedQueue.length > 0 ? "valid\xE9e" + (queueForReport.length > 1 ? "s" : "") : "configur\xE9e" + (queueForReport.length > 1 ? "s" : ""), ", ", significantCount, " pr\xE9sente", significantCount > 1 ? "nt" : "", " un r\xE9sultat statistiquement significatif au seuil de 5 %.", dataset ? "" : " Ce constat porte sur des donn\xE9es d'exemple et non sur une base r\xE9ellement import\xE9e."), /* @__PURE__ */ import_react76.default.createElement("p", { className: "text-xs text-gray-500 leading-relaxed italic" }, "Cliquez \xAB R\xE9diger avec Claude \xBB pour une lecture crois\xE9e r\xE9dig\xE9e en fran\xE7ais scientifique, \xE0 partir du contexte de l'\xE9tude, des indicateurs d\xE9clar\xE9s et des r\xE9sultats ci-dessus \u2014 ou compl\xE9tez cette section vous-m\xEAme."))), /* @__PURE__ */ import_react76.default.createElement(Card3, { className: "border-2", style: { borderColor: "#3E9C6B" } }, /* @__PURE__ */ import_react76.default.createElement("div", { className: "flex items-center gap-2 mb-2" }, /* @__PURE__ */ import_react76.default.createElement(ShieldCheck, { size: 16, style: { color: GREEN2 } }), /* @__PURE__ */ import_react76.default.createElement("h3", { className: "font-serif font-semibold text-sm", style: { color: NAVY7 } }, "7. Recommandations")), aiReport ? /* @__PURE__ */ import_react76.default.createElement("div", { className: "text-xs text-gray-700 leading-relaxed whitespace-pre-line" }, aiReport.recommandations) : /* @__PURE__ */ import_react76.default.createElement("p", { className: "text-xs text-gray-500 leading-relaxed italic" }, "Section \xE0 compl\xE9ter par l'analyste, ou g\xE9n\xE9r\xE9e automatiquement avec Claude (bouton ci-dessus), sur la base des constats de la section Analyse et du contexte propre \xE0 l'\xE9tude (section 4.2 du cahier des charges).")), aiReport?.conclusion && /* @__PURE__ */ import_react76.default.createElement(Card3, null, /* @__PURE__ */ import_react76.default.createElement("div", { className: "flex items-center gap-2 mb-2" }, /* @__PURE__ */ import_react76.default.createElement(ListChecks, { size: 16, style: { color: NAVY7 } }), /* @__PURE__ */ import_react76.default.createElement("h3", { className: "font-serif font-semibold text-sm", style: { color: NAVY7 } }, "8. Conclusion")), /* @__PURE__ */ import_react76.default.createElement("div", { className: "text-xs text-gray-700 leading-relaxed whitespace-pre-line" }, aiReport.conclusion)))), /* @__PURE__ */ import_react76.default.createElement("div", { className: "space-y-4" }, /* @__PURE__ */ import_react76.default.createElement(Card3, null, /* @__PURE__ */ import_react76.default.createElement("div", { className: "flex items-center gap-2 mb-3" }, /* @__PURE__ */ import_react76.default.createElement(ListChecks, { size: 16, style: { color: NAVY7 } }), /* @__PURE__ */ import_react76.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY7 } }, "Sommaire du rapport")), /* @__PURE__ */ import_react76.default.createElement("div", { className: "space-y-1.5" }, reportSections.map((s2) => /* @__PURE__ */ import_react76.default.createElement("label", { key: s2, className: "flex items-center gap-2 text-xs text-gray-700 cursor-pointer" }, /* @__PURE__ */ import_react76.default.createElement(
+    )), aiError && /* @__PURE__ */ import_react77.default.createElement("div", { className: "rounded-xl px-3 py-2 mb-3 text-xs", style: { background: "#FBE7E5", color: "#B3413A" } }, aiError), aiReport ? /* @__PURE__ */ import_react77.default.createElement("div", { className: "text-xs text-gray-700 leading-relaxed whitespace-pre-line" }, aiReport.analyse) : /* @__PURE__ */ import_react77.default.createElement(import_react77.default.Fragment, null, /* @__PURE__ */ import_react77.default.createElement("p", { className: "text-xs text-gray-600 leading-relaxed mb-2" }, "Sur les ", queueForReport.length, " analyse", queueForReport.length > 1 ? "s" : "", " ", validatedQueue.length > 0 ? "valid\xE9e" + (queueForReport.length > 1 ? "s" : "") : "configur\xE9e" + (queueForReport.length > 1 ? "s" : ""), ", ", significantCount, " pr\xE9sente", significantCount > 1 ? "nt" : "", " un r\xE9sultat statistiquement significatif au seuil de 5 %.", dataset ? "" : " Ce constat porte sur des donn\xE9es d'exemple et non sur une base r\xE9ellement import\xE9e."), /* @__PURE__ */ import_react77.default.createElement("p", { className: "text-xs text-gray-500 leading-relaxed italic" }, "Cliquez \xAB R\xE9diger avec Claude \xBB pour une lecture crois\xE9e r\xE9dig\xE9e en fran\xE7ais scientifique, \xE0 partir du contexte de l'\xE9tude, des indicateurs d\xE9clar\xE9s et des r\xE9sultats ci-dessus \u2014 ou compl\xE9tez cette section vous-m\xEAme."))), /* @__PURE__ */ import_react77.default.createElement(Card3, { className: "border-2", style: { borderColor: "#3E9C6B" } }, /* @__PURE__ */ import_react77.default.createElement("div", { className: "flex items-center gap-2 mb-2" }, /* @__PURE__ */ import_react77.default.createElement(ShieldCheck, { size: 16, style: { color: GREEN2 } }), /* @__PURE__ */ import_react77.default.createElement("h3", { className: "font-serif font-semibold text-sm", style: { color: NAVY7 } }, "7. Recommandations")), aiReport ? /* @__PURE__ */ import_react77.default.createElement("div", { className: "text-xs text-gray-700 leading-relaxed whitespace-pre-line" }, aiReport.recommandations) : /* @__PURE__ */ import_react77.default.createElement("p", { className: "text-xs text-gray-500 leading-relaxed italic" }, "Section \xE0 compl\xE9ter par l'analyste, ou g\xE9n\xE9r\xE9e automatiquement avec Claude (bouton ci-dessus), sur la base des constats de la section Analyse et du contexte propre \xE0 l'\xE9tude (section 4.2 du cahier des charges).")), aiReport?.conclusion && /* @__PURE__ */ import_react77.default.createElement(Card3, null, /* @__PURE__ */ import_react77.default.createElement("div", { className: "flex items-center gap-2 mb-2" }, /* @__PURE__ */ import_react77.default.createElement(ListChecks, { size: 16, style: { color: NAVY7 } }), /* @__PURE__ */ import_react77.default.createElement("h3", { className: "font-serif font-semibold text-sm", style: { color: NAVY7 } }, "8. Conclusion")), /* @__PURE__ */ import_react77.default.createElement("div", { className: "text-xs text-gray-700 leading-relaxed whitespace-pre-line" }, aiReport.conclusion)))), /* @__PURE__ */ import_react77.default.createElement("div", { className: "space-y-4" }, /* @__PURE__ */ import_react77.default.createElement(Card3, null, /* @__PURE__ */ import_react77.default.createElement("div", { className: "flex items-center gap-2 mb-3" }, /* @__PURE__ */ import_react77.default.createElement(ListChecks, { size: 16, style: { color: NAVY7 } }), /* @__PURE__ */ import_react77.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY7 } }, "Sommaire du rapport")), /* @__PURE__ */ import_react77.default.createElement("div", { className: "space-y-1.5" }, reportSections.map((s2) => /* @__PURE__ */ import_react77.default.createElement("label", { key: s2, className: "flex items-center gap-2 text-xs text-gray-700 cursor-pointer" }, /* @__PURE__ */ import_react77.default.createElement(
       "input",
       {
         type: "checkbox",
@@ -123273,25 +123333,25 @@ ${suffix2}`;
         className: "w-3.5 h-3.5 rounded",
         style: { accentColor: NAVY7 }
       }
-    ), s2)))), /* @__PURE__ */ import_react76.default.createElement(Card3, null, /* @__PURE__ */ import_react76.default.createElement("div", { className: "flex items-center gap-2 mb-3" }, /* @__PURE__ */ import_react76.default.createElement(Paperclip, { size: 16, style: { color: NAVY7 } }), /* @__PURE__ */ import_react76.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY7 } }, "Annexe automatique")), /* @__PURE__ */ import_react76.default.createElement("p", { className: "text-[11px] text-gray-400 mb-3" }, "Tableaux consolid\xE9s automatiquement \xE0 partir des variables univari\xE9es valid\xE9es et de la file d'analyses bivari\xE9es."), /* @__PURE__ */ import_react76.default.createElement("div", { className: "space-y-2" }, queue2.length === 0 && uniQueue.length === 0 && /* @__PURE__ */ import_react76.default.createElement("p", { className: "text-xs text-gray-400 italic" }, "Aucun tableau pour l'instant."), uniQueue.map((u, i) => /* @__PURE__ */ import_react76.default.createElement("div", { key: u.id || i, className: "rounded-xl border border-gray-100 p-2.5" }, /* @__PURE__ */ import_react76.default.createElement("div", { className: "flex items-center justify-between" }, /* @__PURE__ */ import_react76.default.createElement("span", { className: "text-[11px] font-semibold", style: { color: NAVY7 } }, "Tableau U", i + 1)), /* @__PURE__ */ import_react76.default.createElement("div", { className: "text-[11px] text-gray-600 mt-0.5" }, u.isQuantitative ? "Statistiques descriptives" : "Fr\xE9quences", " \u2014 ", u.variableLabel))), queue2.map((item, i) => /* @__PURE__ */ import_react76.default.createElement("div", { key: item.id || i, className: "rounded-xl border border-gray-100 p-2.5" }, /* @__PURE__ */ import_react76.default.createElement("div", { className: "flex items-center justify-between" }, /* @__PURE__ */ import_react76.default.createElement("span", { className: "text-[11px] font-semibold", style: { color: NAVY7 } }, "Tableau A", i + 1)), /* @__PURE__ */ import_react76.default.createElement("div", { className: "text-[11px] text-gray-600 mt-0.5" }, item.test, " \u2014 ", item.label), /* @__PURE__ */ import_react76.default.createElement("div", { className: "flex items-center gap-1.5 mt-1.5" }, /* @__PURE__ */ import_react76.default.createElement(StatusBadge, { status: item.status })))))), /* @__PURE__ */ import_react76.default.createElement(Card3, null, /* @__PURE__ */ import_react76.default.createElement("div", { className: "flex items-center gap-2 mb-3" }, /* @__PURE__ */ import_react76.default.createElement(Sparkles, { size: 16, style: { color: GOLD6 } }), /* @__PURE__ */ import_react76.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY7 } }, "G\xE9n\xE9ration")), /* @__PURE__ */ import_react76.default.createElement("div", { className: "flex items-center gap-2 mb-3 text-xs" }, /* @__PURE__ */ import_react76.default.createElement(ShieldCheck, { size: 13, style: { color: GREEN2 } }), /* @__PURE__ */ import_react76.default.createElement("span", { className: "text-gray-500" }, "Th\xE8me : ", /* @__PURE__ */ import_react76.default.createElement("span", { className: "font-medium", style: { color: NAVY7 } }, "Ocean Depths / Terre & Moisson"))), /* @__PURE__ */ import_react76.default.createElement("div", { className: "grid grid-cols-2 gap-2 mb-4" }, /* @__PURE__ */ import_react76.default.createElement(
+    ), s2)))), /* @__PURE__ */ import_react77.default.createElement(Card3, null, /* @__PURE__ */ import_react77.default.createElement("div", { className: "flex items-center gap-2 mb-3" }, /* @__PURE__ */ import_react77.default.createElement(Paperclip, { size: 16, style: { color: NAVY7 } }), /* @__PURE__ */ import_react77.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY7 } }, "Annexe automatique")), /* @__PURE__ */ import_react77.default.createElement("p", { className: "text-[11px] text-gray-400 mb-3" }, "Tableaux consolid\xE9s automatiquement \xE0 partir des variables univari\xE9es valid\xE9es et de la file d'analyses bivari\xE9es."), /* @__PURE__ */ import_react77.default.createElement("div", { className: "space-y-2" }, queue2.length === 0 && uniQueue.length === 0 && /* @__PURE__ */ import_react77.default.createElement("p", { className: "text-xs text-gray-400 italic" }, "Aucun tableau pour l'instant."), uniQueue.map((u, i) => /* @__PURE__ */ import_react77.default.createElement("div", { key: u.id || i, className: "rounded-xl border border-gray-100 p-2.5" }, /* @__PURE__ */ import_react77.default.createElement("div", { className: "flex items-center justify-between" }, /* @__PURE__ */ import_react77.default.createElement("span", { className: "text-[11px] font-semibold", style: { color: NAVY7 } }, "Tableau U", i + 1)), /* @__PURE__ */ import_react77.default.createElement("div", { className: "text-[11px] text-gray-600 mt-0.5" }, u.isQuantitative ? "Statistiques descriptives" : "Fr\xE9quences", " \u2014 ", u.variableLabel))), queue2.map((item, i) => /* @__PURE__ */ import_react77.default.createElement("div", { key: item.id || i, className: "rounded-xl border border-gray-100 p-2.5" }, /* @__PURE__ */ import_react77.default.createElement("div", { className: "flex items-center justify-between" }, /* @__PURE__ */ import_react77.default.createElement("span", { className: "text-[11px] font-semibold", style: { color: NAVY7 } }, "Tableau A", i + 1)), /* @__PURE__ */ import_react77.default.createElement("div", { className: "text-[11px] text-gray-600 mt-0.5" }, item.test, " \u2014 ", item.label), /* @__PURE__ */ import_react77.default.createElement("div", { className: "flex items-center gap-1.5 mt-1.5" }, /* @__PURE__ */ import_react77.default.createElement(StatusBadge, { status: item.status })))))), /* @__PURE__ */ import_react77.default.createElement(Card3, null, /* @__PURE__ */ import_react77.default.createElement("div", { className: "flex items-center gap-2 mb-3" }, /* @__PURE__ */ import_react77.default.createElement(Sparkles, { size: 16, style: { color: GOLD6 } }), /* @__PURE__ */ import_react77.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY7 } }, "G\xE9n\xE9ration")), /* @__PURE__ */ import_react77.default.createElement("div", { className: "flex items-center gap-2 mb-3 text-xs" }, /* @__PURE__ */ import_react77.default.createElement(ShieldCheck, { size: 13, style: { color: GREEN2 } }), /* @__PURE__ */ import_react77.default.createElement("span", { className: "text-gray-500" }, "Th\xE8me : ", /* @__PURE__ */ import_react77.default.createElement("span", { className: "font-medium", style: { color: NAVY7 } }, "Ocean Depths / Terre & Moisson"))), /* @__PURE__ */ import_react77.default.createElement("div", { className: "grid grid-cols-2 gap-2 mb-4" }, /* @__PURE__ */ import_react77.default.createElement(
       "button",
       {
         onClick: () => setFormat("docx"),
         className: "flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-medium border",
         style: format2 === "docx" ? { background: NAVY7, color: "white", borderColor: NAVY7 } : { borderColor: "#D8DEE9", color: "#5A6478" }
       },
-      /* @__PURE__ */ import_react76.default.createElement(FileTypeCorner, { size: 13 }),
+      /* @__PURE__ */ import_react77.default.createElement(FileTypeCorner, { size: 13 }),
       " Word (.docx)"
-    ), /* @__PURE__ */ import_react76.default.createElement(
+    ), /* @__PURE__ */ import_react77.default.createElement(
       "button",
       {
         onClick: () => setFormat("pdf"),
         className: "flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-medium border",
         style: format2 === "pdf" ? { background: NAVY7, color: "white", borderColor: NAVY7 } : { borderColor: "#D8DEE9", color: "#5A6478" }
       },
-      /* @__PURE__ */ import_react76.default.createElement(FileDown, { size: 13 }),
+      /* @__PURE__ */ import_react77.default.createElement(FileDown, { size: 13 }),
       " PDF"
-    )), /* @__PURE__ */ import_react76.default.createElement(
+    )), /* @__PURE__ */ import_react77.default.createElement(
       "button",
       {
         disabled: queue2.length === 0 && uniQueue.length === 0 || exporting,
@@ -123299,14 +123359,14 @@ ${suffix2}`;
         className: "w-full px-4 py-2.5 rounded-xl text-sm font-medium flex items-center justify-center gap-1.5 text-white shadow-md disabled:opacity-40 disabled:cursor-not-allowed",
         style: { background: `linear-gradient(135deg, #3E9C6B, ${GREEN2})` }
       },
-      /* @__PURE__ */ import_react76.default.createElement(Layers, { size: 14 }),
+      /* @__PURE__ */ import_react77.default.createElement(Layers, { size: 14 }),
       " ",
       exporting ? "G\xE9n\xE9ration en cours\u2026" : format2 === "docx" ? "Exporter en Word (.docx)" : "Exporter en Word (PDF \xE0 venir)"
     )))))));
   }
 
   // src/Cartographie.jsx
-  var import_react77 = __toESM(require_react());
+  var import_react78 = __toESM(require_react());
   var NAVY8 = "#1F3864";
   var GOLD7 = "#C99A2E";
   var FILIERES2 = {
@@ -123350,33 +123410,33 @@ ${suffix2}`;
     return "#3E9C6B";
   }
   function Watermark5() {
-    return /* @__PURE__ */ import_react77.default.createElement("div", { className: "fixed inset-0 overflow-hidden pointer-events-none z-0 flex items-center justify-center" }, /* @__PURE__ */ import_react77.default.createElement(
+    return /* @__PURE__ */ import_react78.default.createElement("div", { className: "fixed inset-0 overflow-hidden pointer-events-none z-0 flex items-center justify-center" }, /* @__PURE__ */ import_react78.default.createElement(
       "span",
       {
         className: "font-serif font-black whitespace-nowrap select-none",
         style: { color: NAVY8, opacity: 0.06, fontSize: "13vw", letterSpacing: "-0.02em" }
       },
       "AgriHakStat"
-    ), /* @__PURE__ */ import_react77.default.createElement("span", { className: "absolute bottom-4 right-6 text-xs font-medium select-none", style: { color: NAVY8, opacity: 0.35 } }, "Con\xE7u par Hakibou MOUSSA"));
+    ), /* @__PURE__ */ import_react78.default.createElement("span", { className: "absolute bottom-4 right-6 text-xs font-medium select-none", style: { color: NAVY8, opacity: 0.35 } }, "Con\xE7u par Hakibou MOUSSA"));
   }
   function Card4({ children, className = "" }) {
-    return /* @__PURE__ */ import_react77.default.createElement("div", { className: `bg-white rounded-2xl p-6 shadow-sm border border-black/5 ${className}` }, children);
+    return /* @__PURE__ */ import_react78.default.createElement("div", { className: `bg-white rounded-2xl p-6 shadow-sm border border-black/5 ${className}` }, children);
   }
   function LayerButton({ label, icon: Icon3, active, onClick }) {
-    return /* @__PURE__ */ import_react77.default.createElement(
+    return /* @__PURE__ */ import_react78.default.createElement(
       "button",
       {
         onClick,
         className: "flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-colors",
         style: active ? { background: NAVY8, color: "white" } : { background: "white", color: "#5A6478", border: "1px solid #E4E6ED" }
       },
-      /* @__PURE__ */ import_react77.default.createElement(Icon3, { size: 15 }),
+      /* @__PURE__ */ import_react78.default.createElement(Icon3, { size: 15 }),
       " ",
       label
     );
   }
   function Chip2({ label, active, onClick, color: color2 }) {
-    return /* @__PURE__ */ import_react77.default.createElement(
+    return /* @__PURE__ */ import_react78.default.createElement(
       "button",
       {
         onClick,
@@ -123387,9 +123447,9 @@ ${suffix2}`;
     );
   }
   function Cartographie({ active, onNavigate, userEmail, roleLabel, isAdmin, isGuest, onLogout, onOpenAdmin, dataset }) {
-    const [layer, setLayer] = (0, import_react77.useState)("points");
-    const [indicateur, setIndicateur] = (0, import_react77.useState)("taux");
-    const [filieres, setFilieres] = (0, import_react77.useState)(Object.keys(FILIERES2));
+    const [layer, setLayer] = (0, import_react78.useState)("points");
+    const [indicateur, setIndicateur] = (0, import_react78.useState)("taux");
+    const [filieres, setFilieres] = (0, import_react78.useState)(Object.keys(FILIERES2));
     const toggleFiliere = (f) => setFilieres((prev) => prev.includes(f) ? prev.filter((x2) => x2 !== f) : [...prev, f]);
     const indicateurLabel = { taux: "Taux de r\xE9alisation (%)", rendement: "Rendement moyen (kg/ha)", anomalies: "Anomalies d\xE9tect\xE9es" }[indicateur];
     const indicateurValue = (c2) => indicateur === "taux" ? `${c2.taux}%` : indicateur === "rendement" ? `${c2.rendement}` : c2.anomalies;
@@ -123423,14 +123483,14 @@ ${suffix2}`;
         }));
       }
     }
-    return /* @__PURE__ */ import_react77.default.createElement("div", { className: "min-h-screen relative bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans" }, /* @__PURE__ */ import_react77.default.createElement(Watermark5, null), /* @__PURE__ */ import_react77.default.createElement("div", { className: "relative z-10 flex" }, /* @__PURE__ */ import_react77.default.createElement(Sidebar, { active, onNavigate }), /* @__PURE__ */ import_react77.default.createElement("div", { className: "flex-1 min-h-screen" }, /* @__PURE__ */ import_react77.default.createElement(
+    return /* @__PURE__ */ import_react78.default.createElement("div", { className: "min-h-screen relative bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans" }, /* @__PURE__ */ import_react78.default.createElement(Watermark5, null), /* @__PURE__ */ import_react78.default.createElement("div", { className: "relative z-10 flex" }, /* @__PURE__ */ import_react78.default.createElement(Sidebar, { active, onNavigate }), /* @__PURE__ */ import_react78.default.createElement("div", { className: "flex-1 min-h-screen" }, /* @__PURE__ */ import_react78.default.createElement(
       "header",
       {
         className: "bg-white/70 backdrop-blur px-8 py-4 flex items-center justify-between",
         style: { borderBottom: `2px solid ${GOLD7}` }
       },
-      /* @__PURE__ */ import_react77.default.createElement("div", null, /* @__PURE__ */ import_react77.default.createElement("h1", { className: "font-serif text-xl font-bold", style: { color: NAVY8 } }, "Cartographie"), /* @__PURE__ */ import_react77.default.createElement("p", { className: "text-xs text-gray-500 mt-0.5" }, "Module 8 \xB7 Suivi semis 2026-2027 \u2014 D\xE9cade 3, Borgou")),
-      /* @__PURE__ */ import_react77.default.createElement("div", { className: "flex items-center gap-4" }, /* @__PURE__ */ import_react77.default.createElement(Bell, { size: 18, className: "text-gray-400" }), /* @__PURE__ */ import_react77.default.createElement(
+      /* @__PURE__ */ import_react78.default.createElement("div", null, /* @__PURE__ */ import_react78.default.createElement("h1", { className: "font-serif text-xl font-bold", style: { color: NAVY8 } }, "Cartographie"), /* @__PURE__ */ import_react78.default.createElement("p", { className: "text-xs text-gray-500 mt-0.5" }, "Module 8 \xB7 Suivi semis 2026-2027 \u2014 D\xE9cade 3, Borgou")),
+      /* @__PURE__ */ import_react78.default.createElement("div", { className: "flex items-center gap-4" }, /* @__PURE__ */ import_react78.default.createElement(Bell, { size: 18, className: "text-gray-400" }), /* @__PURE__ */ import_react78.default.createElement(
         UserMenu,
         {
           email: userEmail,
@@ -123441,41 +123501,41 @@ ${suffix2}`;
           onOpenAdmin
         }
       ))
-    ), /* @__PURE__ */ import_react77.default.createElement("main", { className: "p-8 grid grid-cols-3 gap-6" }, /* @__PURE__ */ import_react77.default.createElement("div", { className: "col-span-2" }, /* @__PURE__ */ import_react77.default.createElement("div", { className: "flex gap-2 mb-4" }, /* @__PURE__ */ import_react77.default.createElement(LayerButton, { label: "Points d'enqu\xEAte", icon: MapPin, active: layer === "points", onClick: () => setLayer("points") }), /* @__PURE__ */ import_react77.default.createElement(LayerButton, { label: "Choropl\xE8the indicateurs", icon: Layers, active: layer === "choropleth", onClick: () => setLayer("choropleth") }), /* @__PURE__ */ import_react77.default.createElement(LayerButton, { label: "Isohy\xE8tes pluviom\xE9triques", icon: Droplets, active: layer === "isohyet", onClick: () => setLayer("isohyet") })), /* @__PURE__ */ import_react77.default.createElement(Card4, null, layer === "choropleth" && /* @__PURE__ */ import_react77.default.createElement("div", { className: "flex items-center gap-2 mb-4" }, /* @__PURE__ */ import_react77.default.createElement(Funnel, { size: 13, className: "text-gray-400" }), /* @__PURE__ */ import_react77.default.createElement("span", { className: "text-xs text-gray-500" }, "Indicateur :"), /* @__PURE__ */ import_react77.default.createElement(
+    ), /* @__PURE__ */ import_react78.default.createElement("main", { className: "p-8 grid grid-cols-3 gap-6" }, /* @__PURE__ */ import_react78.default.createElement("div", { className: "col-span-2" }, /* @__PURE__ */ import_react78.default.createElement("div", { className: "flex gap-2 mb-4" }, /* @__PURE__ */ import_react78.default.createElement(LayerButton, { label: "Points d'enqu\xEAte", icon: MapPin, active: layer === "points", onClick: () => setLayer("points") }), /* @__PURE__ */ import_react78.default.createElement(LayerButton, { label: "Choropl\xE8the indicateurs", icon: Layers, active: layer === "choropleth", onClick: () => setLayer("choropleth") }), /* @__PURE__ */ import_react78.default.createElement(LayerButton, { label: "Isohy\xE8tes pluviom\xE9triques", icon: Droplets, active: layer === "isohyet", onClick: () => setLayer("isohyet") })), /* @__PURE__ */ import_react78.default.createElement(Card4, null, layer === "choropleth" && /* @__PURE__ */ import_react78.default.createElement("div", { className: "flex items-center gap-2 mb-4" }, /* @__PURE__ */ import_react78.default.createElement(Funnel, { size: 13, className: "text-gray-400" }), /* @__PURE__ */ import_react78.default.createElement("span", { className: "text-xs text-gray-500" }, "Indicateur :"), /* @__PURE__ */ import_react78.default.createElement(
       "select",
       {
         value: indicateur,
         onChange: (e) => setIndicateur(e.target.value),
         className: "text-xs rounded-lg border border-gray-200 p-1.5 bg-white focus:outline-none"
       },
-      /* @__PURE__ */ import_react77.default.createElement("option", { value: "taux" }, "Taux de r\xE9alisation (%)"),
-      /* @__PURE__ */ import_react77.default.createElement("option", { value: "rendement" }, "Rendement moyen (kg/ha)"),
-      /* @__PURE__ */ import_react77.default.createElement("option", { value: "anomalies" }, "Anomalies d\xE9tect\xE9es")
-    )), /* @__PURE__ */ import_react77.default.createElement("div", { className: "relative rounded-xl bg-[#F7F9FC] border border-gray-100", style: { height: 460 } }, layer === "points" && !hasRealGeo ? /* @__PURE__ */ import_react77.default.createElement("div", { className: "w-full h-full flex flex-col items-center justify-center text-center px-8" }, /* @__PURE__ */ import_react77.default.createElement(MapPin, { size: 32, className: "text-gray-300 mb-3" }), /* @__PURE__ */ import_react77.default.createElement("p", { className: "text-sm font-medium text-gray-500" }, "Aucune donn\xE9e de g\xE9or\xE9f\xE9rencement disponible"), /* @__PURE__ */ import_react77.default.createElement("p", { className: "text-xs text-gray-400 mt-1 max-w-sm" }, dataset ? "La base import\xE9e ne contient pas de colonnes de latitude/longitude exploitables. Importez une base incluant des coordonn\xE9es GPS pour activer la cartographie des points d'enqu\xEAte." : "Importez d'abord une base de donn\xE9es via l'assistant d'import (\xE9tape \xAB Base de donn\xE9es \xBB).")) : /* @__PURE__ */ import_react77.default.createElement(import_react77.default.Fragment, null, /* @__PURE__ */ import_react77.default.createElement("svg", { viewBox: "0 0 100 100", className: "w-full h-full" }, layer === "points" && hasRealGeo && realPoints.map((pt) => /* @__PURE__ */ import_react77.default.createElement("circle", { key: pt.id, cx: pt.x, cy: pt.y, r: 1.6, fill: pt.color, opacity: 0.85, stroke: "white", strokeWidth: 0.3 })), layer === "choropleth" && COMMUNES.map((c2) => /* @__PURE__ */ import_react77.default.createElement("g", { key: c2.name }, /* @__PURE__ */ import_react77.default.createElement("circle", { cx: c2.x, cy: c2.y, r: 9, fill: indicateurColor(c2), opacity: 0.88 }), /* @__PURE__ */ import_react77.default.createElement("circle", { cx: c2.x, cy: c2.y, r: 9, fill: "none", stroke: "white", strokeWidth: 0.6 }), /* @__PURE__ */ import_react77.default.createElement("text", { x: c2.x, y: c2.y - 12, fontSize: "3.4", textAnchor: "middle", fill: "#4A5568", fontWeight: "600" }, c2.name), /* @__PURE__ */ import_react77.default.createElement("text", { x: c2.x, y: c2.y + 1.2, fontSize: "3", textAnchor: "middle", fill: "white", fontWeight: "700" }, indicateurValue(c2)))), layer === "isohyet" && COMMUNES.map((c2) => /* @__PURE__ */ import_react77.default.createElement("g", { key: c2.name }, /* @__PURE__ */ import_react77.default.createElement("circle", { cx: c2.x, cy: c2.y, r: 11, fill: rainColor(c2.mm), opacity: 0.25 }), /* @__PURE__ */ import_react77.default.createElement("circle", { cx: c2.x, cy: c2.y, r: 7, fill: rainColor(c2.mm), opacity: 0.9 }), /* @__PURE__ */ import_react77.default.createElement("circle", { cx: c2.x, cy: c2.y, r: 7, fill: "none", stroke: "white", strokeWidth: 0.6 }), /* @__PURE__ */ import_react77.default.createElement("text", { x: c2.x, y: c2.y - 13, fontSize: "3.4", textAnchor: "middle", fill: "#4A5568", fontWeight: "600" }, c2.name), /* @__PURE__ */ import_react77.default.createElement("text", { x: c2.x, y: c2.y + 1.2, fontSize: "3", textAnchor: "middle", fill: "white", fontWeight: "700" }, c2.mm)))), /* @__PURE__ */ import_react77.default.createElement("span", { className: "absolute bottom-2 right-3 text-[9px] text-gray-400 italic" }, layer === "isohyet" ? "Interpolation IDW \u2014 illustrative" : hasRealGeo ? `Projection lin\xE9aire des coordonn\xE9es r\xE9elles (${latCol.name}/${lonCol.name})` : "Position illustrative \u2014 non g\xE9or\xE9f\xE9renc\xE9e \xE0 l'\xE9chelle"))), layer === "points" && hasRealGeo && /* @__PURE__ */ import_react77.default.createElement("div", { className: "flex flex-wrap gap-3 mt-4" }, colorCol ? colorCol.modalites.map((m) => /* @__PURE__ */ import_react77.default.createElement("div", { key: m, className: "flex items-center gap-1.5 text-[11px] text-gray-600" }, /* @__PURE__ */ import_react77.default.createElement("span", { className: "w-2.5 h-2.5 rounded-full", style: { background: realColorMap[m] } }), " ", m)) : /* @__PURE__ */ import_react77.default.createElement("div", { className: "flex items-center gap-1.5 text-[11px] text-gray-600" }, /* @__PURE__ */ import_react77.default.createElement("span", { className: "w-2.5 h-2.5 rounded-full", style: { background: NAVY8 } }), " Points d'enqu\xEAte (", realPoints.length, ")")), layer === "choropleth" && /* @__PURE__ */ import_react77.default.createElement("div", { className: "flex items-center gap-4 mt-4" }, /* @__PURE__ */ import_react77.default.createElement("span", { className: "text-[11px] text-gray-500" }, indicateurLabel, " :"), /* @__PURE__ */ import_react77.default.createElement("div", { className: "flex items-center gap-1.5 text-[11px] text-gray-600" }, /* @__PURE__ */ import_react77.default.createElement("span", { className: "w-2.5 h-2.5 rounded-full", style: { background: "#C1573F" } }), " Faible"), /* @__PURE__ */ import_react77.default.createElement("div", { className: "flex items-center gap-1.5 text-[11px] text-gray-600" }, /* @__PURE__ */ import_react77.default.createElement("span", { className: "w-2.5 h-2.5 rounded-full", style: { background: "#E3A23B" } }), " Interm\xE9diaire"), /* @__PURE__ */ import_react77.default.createElement("div", { className: "flex items-center gap-1.5 text-[11px] text-gray-600" }, /* @__PURE__ */ import_react77.default.createElement("span", { className: "w-2.5 h-2.5 rounded-full", style: { background: "#3E9C6B" } }), " Satisfaisant")), layer === "isohyet" && /* @__PURE__ */ import_react77.default.createElement("div", { className: "flex items-center gap-4 mt-4 flex-wrap" }, /* @__PURE__ */ import_react77.default.createElement("span", { className: "text-[11px] text-gray-500" }, "Cumul d\xE9cadaire (mm) :"), [["#C99A2E", "< 65"], ["#8FAECB", "65\u201380"], ["#4A7AB5", "80\u201395"], ["#1F3864", "\u2265 95"]].map(([c2, l]) => /* @__PURE__ */ import_react77.default.createElement("div", { key: l, className: "flex items-center gap-1.5 text-[11px] text-gray-600" }, /* @__PURE__ */ import_react77.default.createElement("span", { className: "w-2.5 h-2.5 rounded-full", style: { background: c2 } }), " ", l))))), /* @__PURE__ */ import_react77.default.createElement("div", { className: "space-y-4" }, /* @__PURE__ */ import_react77.default.createElement(Card4, null, /* @__PURE__ */ import_react77.default.createElement("div", { className: "flex items-center gap-2 mb-3" }, /* @__PURE__ */ import_react77.default.createElement(Funnel, { size: 16, style: { color: NAVY8 } }), /* @__PURE__ */ import_react77.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY8 } }, "Filtres")), /* @__PURE__ */ import_react77.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Fili\xE8re"), /* @__PURE__ */ import_react77.default.createElement("div", { className: "flex flex-wrap gap-2 mb-4" }, Object.entries(FILIERES2).map(([f, c2]) => /* @__PURE__ */ import_react77.default.createElement(Chip2, { key: f, label: f, active: filieres.includes(f), onClick: () => toggleFiliere(f), color: c2 }))), /* @__PURE__ */ import_react77.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "P\xE9riode"), /* @__PURE__ */ import_react77.default.createElement("select", { className: "w-full text-sm rounded-xl border border-gray-200 p-2.5 focus:outline-none focus:ring-2", style: { "--tw-ring-color": GOLD7 } }, /* @__PURE__ */ import_react77.default.createElement("option", null, "D\xE9cade 3 \u2014 Juillet 2026"), /* @__PURE__ */ import_react77.default.createElement("option", null, "D\xE9cade 2 \u2014 Juillet 2026"), /* @__PURE__ */ import_react77.default.createElement("option", null, "D\xE9cade 1 \u2014 Juillet 2026"))), /* @__PURE__ */ import_react77.default.createElement(Card4, null, /* @__PURE__ */ import_react77.default.createElement("div", { className: "flex items-center gap-2 mb-1" }, /* @__PURE__ */ import_react77.default.createElement(MapPin, { size: 16, style: { color: NAVY8 } }), /* @__PURE__ */ import_react77.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY8 } }, "Communes en alerte")), /* @__PURE__ */ import_react77.default.createElement("p", { className: "text-[11px] text-gray-400 mb-3" }, "Selon l'indicateur actuellement affich\xE9"), /* @__PURE__ */ import_react77.default.createElement("div", { className: "space-y-2" }, COMMUNES.filter((c2) => c2.taux < 70 || c2.anomalies > 1).map((c2) => /* @__PURE__ */ import_react77.default.createElement("div", { key: c2.name, className: "flex items-center justify-between rounded-xl border border-gray-100 p-2.5" }, /* @__PURE__ */ import_react77.default.createElement("span", { className: "text-xs font-medium text-gray-700" }, c2.name), /* @__PURE__ */ import_react77.default.createElement("span", { className: "text-[11px] font-semibold px-2 py-0.5 rounded-full", style: { background: "#FBE7E5", color: "#B3413A" } }, c2.taux, "% r\xE9alis\xE9"))))), /* @__PURE__ */ import_react77.default.createElement(Card4, null, /* @__PURE__ */ import_react77.default.createElement("div", { className: "flex items-center gap-2 mb-3" }, /* @__PURE__ */ import_react77.default.createElement(FileOutput, { size: 16, style: { color: GOLD7 } }), /* @__PURE__ */ import_react77.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY8 } }, "Export")), /* @__PURE__ */ import_react77.default.createElement(
+      /* @__PURE__ */ import_react78.default.createElement("option", { value: "taux" }, "Taux de r\xE9alisation (%)"),
+      /* @__PURE__ */ import_react78.default.createElement("option", { value: "rendement" }, "Rendement moyen (kg/ha)"),
+      /* @__PURE__ */ import_react78.default.createElement("option", { value: "anomalies" }, "Anomalies d\xE9tect\xE9es")
+    )), /* @__PURE__ */ import_react78.default.createElement("div", { className: "relative rounded-xl bg-[#F7F9FC] border border-gray-100", style: { height: 460 } }, layer === "points" && !hasRealGeo ? /* @__PURE__ */ import_react78.default.createElement("div", { className: "w-full h-full flex flex-col items-center justify-center text-center px-8" }, /* @__PURE__ */ import_react78.default.createElement(MapPin, { size: 32, className: "text-gray-300 mb-3" }), /* @__PURE__ */ import_react78.default.createElement("p", { className: "text-sm font-medium text-gray-500" }, "Aucune donn\xE9e de g\xE9or\xE9f\xE9rencement disponible"), /* @__PURE__ */ import_react78.default.createElement("p", { className: "text-xs text-gray-400 mt-1 max-w-sm" }, dataset ? "La base import\xE9e ne contient pas de colonnes de latitude/longitude exploitables. Importez une base incluant des coordonn\xE9es GPS pour activer la cartographie des points d'enqu\xEAte." : "Importez d'abord une base de donn\xE9es via l'assistant d'import (\xE9tape \xAB Base de donn\xE9es \xBB).")) : /* @__PURE__ */ import_react78.default.createElement(import_react78.default.Fragment, null, /* @__PURE__ */ import_react78.default.createElement("svg", { viewBox: "0 0 100 100", className: "w-full h-full" }, layer === "points" && hasRealGeo && realPoints.map((pt) => /* @__PURE__ */ import_react78.default.createElement("circle", { key: pt.id, cx: pt.x, cy: pt.y, r: 1.6, fill: pt.color, opacity: 0.85, stroke: "white", strokeWidth: 0.3 })), layer === "choropleth" && COMMUNES.map((c2) => /* @__PURE__ */ import_react78.default.createElement("g", { key: c2.name }, /* @__PURE__ */ import_react78.default.createElement("circle", { cx: c2.x, cy: c2.y, r: 9, fill: indicateurColor(c2), opacity: 0.88 }), /* @__PURE__ */ import_react78.default.createElement("circle", { cx: c2.x, cy: c2.y, r: 9, fill: "none", stroke: "white", strokeWidth: 0.6 }), /* @__PURE__ */ import_react78.default.createElement("text", { x: c2.x, y: c2.y - 12, fontSize: "3.4", textAnchor: "middle", fill: "#4A5568", fontWeight: "600" }, c2.name), /* @__PURE__ */ import_react78.default.createElement("text", { x: c2.x, y: c2.y + 1.2, fontSize: "3", textAnchor: "middle", fill: "white", fontWeight: "700" }, indicateurValue(c2)))), layer === "isohyet" && COMMUNES.map((c2) => /* @__PURE__ */ import_react78.default.createElement("g", { key: c2.name }, /* @__PURE__ */ import_react78.default.createElement("circle", { cx: c2.x, cy: c2.y, r: 11, fill: rainColor(c2.mm), opacity: 0.25 }), /* @__PURE__ */ import_react78.default.createElement("circle", { cx: c2.x, cy: c2.y, r: 7, fill: rainColor(c2.mm), opacity: 0.9 }), /* @__PURE__ */ import_react78.default.createElement("circle", { cx: c2.x, cy: c2.y, r: 7, fill: "none", stroke: "white", strokeWidth: 0.6 }), /* @__PURE__ */ import_react78.default.createElement("text", { x: c2.x, y: c2.y - 13, fontSize: "3.4", textAnchor: "middle", fill: "#4A5568", fontWeight: "600" }, c2.name), /* @__PURE__ */ import_react78.default.createElement("text", { x: c2.x, y: c2.y + 1.2, fontSize: "3", textAnchor: "middle", fill: "white", fontWeight: "700" }, c2.mm)))), /* @__PURE__ */ import_react78.default.createElement("span", { className: "absolute bottom-2 right-3 text-[9px] text-gray-400 italic" }, layer === "isohyet" ? "Interpolation IDW \u2014 illustrative" : hasRealGeo ? `Projection lin\xE9aire des coordonn\xE9es r\xE9elles (${latCol.name}/${lonCol.name})` : "Position illustrative \u2014 non g\xE9or\xE9f\xE9renc\xE9e \xE0 l'\xE9chelle"))), layer === "points" && hasRealGeo && /* @__PURE__ */ import_react78.default.createElement("div", { className: "flex flex-wrap gap-3 mt-4" }, colorCol ? colorCol.modalites.map((m) => /* @__PURE__ */ import_react78.default.createElement("div", { key: m, className: "flex items-center gap-1.5 text-[11px] text-gray-600" }, /* @__PURE__ */ import_react78.default.createElement("span", { className: "w-2.5 h-2.5 rounded-full", style: { background: realColorMap[m] } }), " ", m)) : /* @__PURE__ */ import_react78.default.createElement("div", { className: "flex items-center gap-1.5 text-[11px] text-gray-600" }, /* @__PURE__ */ import_react78.default.createElement("span", { className: "w-2.5 h-2.5 rounded-full", style: { background: NAVY8 } }), " Points d'enqu\xEAte (", realPoints.length, ")")), layer === "choropleth" && /* @__PURE__ */ import_react78.default.createElement("div", { className: "flex items-center gap-4 mt-4" }, /* @__PURE__ */ import_react78.default.createElement("span", { className: "text-[11px] text-gray-500" }, indicateurLabel, " :"), /* @__PURE__ */ import_react78.default.createElement("div", { className: "flex items-center gap-1.5 text-[11px] text-gray-600" }, /* @__PURE__ */ import_react78.default.createElement("span", { className: "w-2.5 h-2.5 rounded-full", style: { background: "#C1573F" } }), " Faible"), /* @__PURE__ */ import_react78.default.createElement("div", { className: "flex items-center gap-1.5 text-[11px] text-gray-600" }, /* @__PURE__ */ import_react78.default.createElement("span", { className: "w-2.5 h-2.5 rounded-full", style: { background: "#E3A23B" } }), " Interm\xE9diaire"), /* @__PURE__ */ import_react78.default.createElement("div", { className: "flex items-center gap-1.5 text-[11px] text-gray-600" }, /* @__PURE__ */ import_react78.default.createElement("span", { className: "w-2.5 h-2.5 rounded-full", style: { background: "#3E9C6B" } }), " Satisfaisant")), layer === "isohyet" && /* @__PURE__ */ import_react78.default.createElement("div", { className: "flex items-center gap-4 mt-4 flex-wrap" }, /* @__PURE__ */ import_react78.default.createElement("span", { className: "text-[11px] text-gray-500" }, "Cumul d\xE9cadaire (mm) :"), [["#C99A2E", "< 65"], ["#8FAECB", "65\u201380"], ["#4A7AB5", "80\u201395"], ["#1F3864", "\u2265 95"]].map(([c2, l]) => /* @__PURE__ */ import_react78.default.createElement("div", { key: l, className: "flex items-center gap-1.5 text-[11px] text-gray-600" }, /* @__PURE__ */ import_react78.default.createElement("span", { className: "w-2.5 h-2.5 rounded-full", style: { background: c2 } }), " ", l))))), /* @__PURE__ */ import_react78.default.createElement("div", { className: "space-y-4" }, /* @__PURE__ */ import_react78.default.createElement(Card4, null, /* @__PURE__ */ import_react78.default.createElement("div", { className: "flex items-center gap-2 mb-3" }, /* @__PURE__ */ import_react78.default.createElement(Funnel, { size: 16, style: { color: NAVY8 } }), /* @__PURE__ */ import_react78.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY8 } }, "Filtres")), /* @__PURE__ */ import_react78.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Fili\xE8re"), /* @__PURE__ */ import_react78.default.createElement("div", { className: "flex flex-wrap gap-2 mb-4" }, Object.entries(FILIERES2).map(([f, c2]) => /* @__PURE__ */ import_react78.default.createElement(Chip2, { key: f, label: f, active: filieres.includes(f), onClick: () => toggleFiliere(f), color: c2 }))), /* @__PURE__ */ import_react78.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "P\xE9riode"), /* @__PURE__ */ import_react78.default.createElement("select", { className: "w-full text-sm rounded-xl border border-gray-200 p-2.5 focus:outline-none focus:ring-2", style: { "--tw-ring-color": GOLD7 } }, /* @__PURE__ */ import_react78.default.createElement("option", null, "D\xE9cade 3 \u2014 Juillet 2026"), /* @__PURE__ */ import_react78.default.createElement("option", null, "D\xE9cade 2 \u2014 Juillet 2026"), /* @__PURE__ */ import_react78.default.createElement("option", null, "D\xE9cade 1 \u2014 Juillet 2026"))), /* @__PURE__ */ import_react78.default.createElement(Card4, null, /* @__PURE__ */ import_react78.default.createElement("div", { className: "flex items-center gap-2 mb-1" }, /* @__PURE__ */ import_react78.default.createElement(MapPin, { size: 16, style: { color: NAVY8 } }), /* @__PURE__ */ import_react78.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY8 } }, "Communes en alerte")), /* @__PURE__ */ import_react78.default.createElement("p", { className: "text-[11px] text-gray-400 mb-3" }, "Selon l'indicateur actuellement affich\xE9"), /* @__PURE__ */ import_react78.default.createElement("div", { className: "space-y-2" }, COMMUNES.filter((c2) => c2.taux < 70 || c2.anomalies > 1).map((c2) => /* @__PURE__ */ import_react78.default.createElement("div", { key: c2.name, className: "flex items-center justify-between rounded-xl border border-gray-100 p-2.5" }, /* @__PURE__ */ import_react78.default.createElement("span", { className: "text-xs font-medium text-gray-700" }, c2.name), /* @__PURE__ */ import_react78.default.createElement("span", { className: "text-[11px] font-semibold px-2 py-0.5 rounded-full", style: { background: "#FBE7E5", color: "#B3413A" } }, c2.taux, "% r\xE9alis\xE9"))))), /* @__PURE__ */ import_react78.default.createElement(Card4, null, /* @__PURE__ */ import_react78.default.createElement("div", { className: "flex items-center gap-2 mb-3" }, /* @__PURE__ */ import_react78.default.createElement(FileOutput, { size: 16, style: { color: GOLD7 } }), /* @__PURE__ */ import_react78.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY8 } }, "Export")), /* @__PURE__ */ import_react78.default.createElement(
       "button",
       {
         className: "w-full mb-2 px-4 py-2.5 rounded-xl text-sm font-medium flex items-center justify-center gap-1.5 bg-white border",
         style: { borderColor: NAVY8, color: NAVY8 }
       },
-      /* @__PURE__ */ import_react77.default.createElement(Download, { size: 14 }),
+      /* @__PURE__ */ import_react78.default.createElement(Download, { size: 14 }),
       " Exporter la carte (PNG)"
-    ), /* @__PURE__ */ import_react77.default.createElement(
+    ), /* @__PURE__ */ import_react78.default.createElement(
       "button",
       {
         className: "w-full px-4 py-2.5 rounded-xl text-sm font-medium flex items-center justify-center gap-1.5 text-white shadow-md",
         style: { background: `linear-gradient(135deg, ${NAVY8}, #2A4A82)` }
       },
-      /* @__PURE__ */ import_react77.default.createElement(Layers, { size: 14 }),
+      /* @__PURE__ */ import_react78.default.createElement(Layers, { size: 14 }),
       " Int\xE9grer au rapport (R\xE9sultats)"
     )))))));
   }
 
   // src/auth/Landing.jsx
-  var import_react78 = __toESM(require_react());
+  var import_react79 = __toESM(require_react());
   var NAVY9 = "#1F3864";
   var GOLD8 = "#C99A2E";
   function Landing({ onGoLogin, onGoSignup, onGoDemo }) {
-    return /* @__PURE__ */ import_react78.default.createElement("div", { className: "min-h-screen bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans" }, /* @__PURE__ */ import_react78.default.createElement("header", { className: "flex items-center justify-between px-8 py-5" }, /* @__PURE__ */ import_react78.default.createElement("div", { className: "flex items-center gap-2" }, /* @__PURE__ */ import_react78.default.createElement("img", { src: "./logo-compact.png", alt: "AgriHakStat", className: "h-20 w-auto" })), /* @__PURE__ */ import_react78.default.createElement("div", { className: "flex items-center gap-3" }, /* @__PURE__ */ import_react78.default.createElement("button", { onClick: onGoLogin, className: "px-4 py-2 rounded-xl text-sm font-medium", style: { color: NAVY9 } }, "Se connecter"), /* @__PURE__ */ import_react78.default.createElement(
+    return /* @__PURE__ */ import_react79.default.createElement("div", { className: "min-h-screen bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans" }, /* @__PURE__ */ import_react79.default.createElement("header", { className: "flex items-center justify-between px-8 py-5" }, /* @__PURE__ */ import_react79.default.createElement("div", { className: "flex items-center gap-2" }, /* @__PURE__ */ import_react79.default.createElement("img", { src: "./logo-compact.png", alt: "AgriHakStat", className: "h-20 w-auto" })), /* @__PURE__ */ import_react79.default.createElement("div", { className: "flex items-center gap-3" }, /* @__PURE__ */ import_react79.default.createElement("button", { onClick: onGoLogin, className: "px-4 py-2 rounded-xl text-sm font-medium", style: { color: NAVY9 } }, "Se connecter"), /* @__PURE__ */ import_react79.default.createElement(
       "button",
       {
         onClick: onGoSignup,
@@ -123483,7 +123543,7 @@ ${suffix2}`;
         style: { background: `linear-gradient(135deg, ${NAVY9}, #2A4A82)` }
       },
       "Cr\xE9er un compte"
-    ))), /* @__PURE__ */ import_react78.default.createElement("main", { className: "max-w-4xl mx-auto px-8 pt-16 pb-24 text-center" }, /* @__PURE__ */ import_react78.default.createElement("h1", { className: "font-serif text-4xl font-bold leading-tight", style: { color: NAVY9 } }, "L'analyse statistique de vos enqu\xEAtes agricoles,", /* @__PURE__ */ import_react78.default.createElement("br", null), "automatis\xE9e et rigoureuse"), /* @__PURE__ */ import_react78.default.createElement("p", { className: "text-gray-500 mt-5 text-lg max-w-2xl mx-auto" }, "Importez votre questionnaire et votre base de donn\xE9es, laissez AgriHakStat proposer les tests statistiques adapt\xE9s, et g\xE9n\xE9rez un rapport structur\xE9, cartographi\xE9 et pr\xEAt \xE0 diffuser."), /* @__PURE__ */ import_react78.default.createElement("div", { className: "flex items-center justify-center gap-3 mt-8" }, /* @__PURE__ */ import_react78.default.createElement(
+    ))), /* @__PURE__ */ import_react79.default.createElement("main", { className: "max-w-4xl mx-auto px-8 pt-16 pb-24 text-center" }, /* @__PURE__ */ import_react79.default.createElement("h1", { className: "font-serif text-4xl font-bold leading-tight", style: { color: NAVY9 } }, "L'analyse statistique de vos enqu\xEAtes agricoles,", /* @__PURE__ */ import_react79.default.createElement("br", null), "automatis\xE9e et rigoureuse"), /* @__PURE__ */ import_react79.default.createElement("p", { className: "text-gray-500 mt-5 text-lg max-w-2xl mx-auto" }, "Importez votre questionnaire et votre base de donn\xE9es, laissez AgriHakStat proposer les tests statistiques adapt\xE9s, et g\xE9n\xE9rez un rapport structur\xE9, cartographi\xE9 et pr\xEAt \xE0 diffuser."), /* @__PURE__ */ import_react79.default.createElement("div", { className: "flex items-center justify-center gap-3 mt-8" }, /* @__PURE__ */ import_react79.default.createElement(
       "button",
       {
         onClick: onGoSignup,
@@ -123491,8 +123551,8 @@ ${suffix2}`;
         style: { background: `linear-gradient(135deg, ${NAVY9}, #2A4A82)` }
       },
       "Cr\xE9er un compte gratuitement ",
-      /* @__PURE__ */ import_react78.default.createElement(ArrowRight, { size: 16 })
-    ), /* @__PURE__ */ import_react78.default.createElement(
+      /* @__PURE__ */ import_react79.default.createElement(ArrowRight, { size: 16 })
+    ), /* @__PURE__ */ import_react79.default.createElement(
       "button",
       {
         onClick: onGoLogin,
@@ -123500,24 +123560,24 @@ ${suffix2}`;
         style: { borderColor: NAVY9, color: NAVY9 }
       },
       "J'ai d\xE9j\xE0 un compte"
-    )), /* @__PURE__ */ import_react78.default.createElement("button", { onClick: onGoDemo, className: "text-sm underline mt-4 inline-block", style: { color: "#8A93A8" } }, "Voir la d\xE9monstration sans cr\xE9er de compte"), /* @__PURE__ */ import_react78.default.createElement("div", { className: "grid grid-cols-3 gap-6 mt-20 text-left" }, [
+    )), /* @__PURE__ */ import_react79.default.createElement("button", { onClick: onGoDemo, className: "text-sm underline mt-4 inline-block", style: { color: "#8A93A8" } }, "Voir la d\xE9monstration sans cr\xE9er de compte"), /* @__PURE__ */ import_react79.default.createElement("div", { className: "grid grid-cols-3 gap-6 mt-20 text-left" }, [
       { icon: ChartColumn, title: "Tests statistiques guid\xE9s", text: "S\xE9lection automatique des tests univari\xE9s, bivari\xE9s et multivari\xE9s, valid\xE9e par vos soins avant ex\xE9cution." },
       { icon: MapPin, title: "Cartographie int\xE9gr\xE9e", text: "Localisation des enqu\xEAtes, choropl\xE8thes par commune et couches climatiques NASA POWER." },
       { icon: FileText, title: "Rapport structur\xE9", text: "Un document en huit sections, annexes statistiques consolid\xE9es automatiquement." }
-    ].map((f) => /* @__PURE__ */ import_react78.default.createElement("div", { key: f.title, className: "bg-white rounded-2xl p-6 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react78.default.createElement(f.icon, { size: 22, style: { color: GOLD8 } }), /* @__PURE__ */ import_react78.default.createElement("h3", { className: "font-serif font-semibold mt-3 mb-1", style: { color: NAVY9 } }, f.title), /* @__PURE__ */ import_react78.default.createElement("p", { className: "text-sm text-gray-500" }, f.text))))), /* @__PURE__ */ import_react78.default.createElement("footer", { className: "text-center text-xs text-gray-400 pb-8" }, "AgriHakStat \u2014 Con\xE7u par Hakibou Moussa"));
+    ].map((f) => /* @__PURE__ */ import_react79.default.createElement("div", { key: f.title, className: "bg-white rounded-2xl p-6 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react79.default.createElement(f.icon, { size: 22, style: { color: GOLD8 } }), /* @__PURE__ */ import_react79.default.createElement("h3", { className: "font-serif font-semibold mt-3 mb-1", style: { color: NAVY9 } }, f.title), /* @__PURE__ */ import_react79.default.createElement("p", { className: "text-sm text-gray-500" }, f.text))))), /* @__PURE__ */ import_react79.default.createElement("footer", { className: "text-center text-xs text-gray-400 pb-8" }, "AgriHakStat \u2014 Con\xE7u par Hakibou Moussa"));
   }
 
   // src/auth/Login.jsx
-  var import_react79 = __toESM(require_react());
+  var import_react80 = __toESM(require_react());
   var NAVY10 = "#1F3864";
   var GOLD9 = "#C99A2E";
   function Login({ onGoSignup, onGoLanding }) {
-    const [email, setEmail] = (0, import_react79.useState)("");
-    const [password, setPassword] = (0, import_react79.useState)("");
-    const [loading, setLoading] = (0, import_react79.useState)(false);
-    const [error, setError] = (0, import_react79.useState)("");
-    const [showReset, setShowReset] = (0, import_react79.useState)(false);
-    const [resetSent, setResetSent] = (0, import_react79.useState)(false);
+    const [email, setEmail] = (0, import_react80.useState)("");
+    const [password, setPassword] = (0, import_react80.useState)("");
+    const [loading, setLoading] = (0, import_react80.useState)(false);
+    const [error, setError] = (0, import_react80.useState)("");
+    const [showReset, setShowReset] = (0, import_react80.useState)(false);
+    const [resetSent, setResetSent] = (0, import_react80.useState)(false);
     const handleSubmit = async (e) => {
       e.preventDefault();
       setError("");
@@ -123545,7 +123605,7 @@ ${suffix2}`;
       if (error2) setError(error2.message);
       else setResetSent(true);
     };
-    return /* @__PURE__ */ import_react79.default.createElement("div", { className: "min-h-screen flex items-center justify-center bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans px-4 relative overflow-hidden" }, /* @__PURE__ */ import_react79.default.createElement(
+    return /* @__PURE__ */ import_react80.default.createElement("div", { className: "min-h-screen flex items-center justify-center bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans px-4 relative overflow-hidden" }, /* @__PURE__ */ import_react80.default.createElement(
       "img",
       {
         src: "./logo-full.png",
@@ -123553,10 +123613,10 @@ ${suffix2}`;
         className: "pointer-events-none select-none fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-[0.07] z-0",
         style: { width: "min(1400px, 160vw)" }
       }
-    ), /* @__PURE__ */ import_react79.default.createElement("div", { className: "w-full max-w-lg bg-white rounded-2xl shadow-sm border border-black/5 p-8 relative z-10" }, /* @__PURE__ */ import_react79.default.createElement("div", { className: "flex flex-col items-center mb-6" }, /* @__PURE__ */ import_react79.default.createElement("img", { src: "./logo-compact.png", alt: "AgriHakStat", className: "w-auto mb-2", style: { height: "280px" } }), /* @__PURE__ */ import_react79.default.createElement("h1", { className: "font-serif text-xl font-bold", style: { color: NAVY10 } }, "Se connecter")), error && /* @__PURE__ */ import_react79.default.createElement("div", { className: "flex items-start gap-2 rounded-xl p-3 mb-4 text-xs", style: { background: "#FBE7E5", color: "#B3413A" } }, /* @__PURE__ */ import_react79.default.createElement(CircleAlert, { size: 14, className: "mt-0.5 shrink-0" }), " ", error), showReset ? resetSent ? /* @__PURE__ */ import_react79.default.createElement("div", { className: "text-center py-4" }, /* @__PURE__ */ import_react79.default.createElement(CircleCheck, { size: 28, className: "mx-auto mb-2", style: { color: "#3E9C6B" } }), /* @__PURE__ */ import_react79.default.createElement("p", { className: "text-sm text-gray-600 mb-1" }, "E-mail envoy\xE9"), /* @__PURE__ */ import_react79.default.createElement("p", { className: "text-xs text-gray-400" }, "V\xE9rifiez votre bo\xEEte de r\xE9ception (", email, ") pour le lien de r\xE9initialisation."), /* @__PURE__ */ import_react79.default.createElement("button", { onClick: () => {
+    ), /* @__PURE__ */ import_react80.default.createElement("div", { className: "w-full max-w-lg bg-white rounded-2xl shadow-sm border border-black/5 p-8 relative z-10" }, /* @__PURE__ */ import_react80.default.createElement("div", { className: "flex flex-col items-center mb-6" }, /* @__PURE__ */ import_react80.default.createElement("img", { src: "./logo-compact.png", alt: "AgriHakStat", className: "w-auto mb-2", style: { height: "280px" } }), /* @__PURE__ */ import_react80.default.createElement("h1", { className: "font-serif text-xl font-bold", style: { color: NAVY10 } }, "Se connecter")), error && /* @__PURE__ */ import_react80.default.createElement("div", { className: "flex items-start gap-2 rounded-xl p-3 mb-4 text-xs", style: { background: "#FBE7E5", color: "#B3413A" } }, /* @__PURE__ */ import_react80.default.createElement(CircleAlert, { size: 14, className: "mt-0.5 shrink-0" }), " ", error), showReset ? resetSent ? /* @__PURE__ */ import_react80.default.createElement("div", { className: "text-center py-4" }, /* @__PURE__ */ import_react80.default.createElement(CircleCheck, { size: 28, className: "mx-auto mb-2", style: { color: "#3E9C6B" } }), /* @__PURE__ */ import_react80.default.createElement("p", { className: "text-sm text-gray-600 mb-1" }, "E-mail envoy\xE9"), /* @__PURE__ */ import_react80.default.createElement("p", { className: "text-xs text-gray-400" }, "V\xE9rifiez votre bo\xEEte de r\xE9ception (", email, ") pour le lien de r\xE9initialisation."), /* @__PURE__ */ import_react80.default.createElement("button", { onClick: () => {
       setShowReset(false);
       setResetSent(false);
-    }, className: "text-xs font-medium mt-4", style: { color: NAVY10 } }, "\u2190 Retour \xE0 la connexion")) : /* @__PURE__ */ import_react79.default.createElement("form", { onSubmit: handleReset, className: "space-y-3" }, /* @__PURE__ */ import_react79.default.createElement("p", { className: "text-xs text-gray-500 mb-2" }, "Indiquez votre adresse e-mail : un lien de r\xE9initialisation vous sera envoy\xE9."), /* @__PURE__ */ import_react79.default.createElement("div", null, /* @__PURE__ */ import_react79.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Adresse e-mail"), /* @__PURE__ */ import_react79.default.createElement(
+    }, className: "text-xs font-medium mt-4", style: { color: NAVY10 } }, "\u2190 Retour \xE0 la connexion")) : /* @__PURE__ */ import_react80.default.createElement("form", { onSubmit: handleReset, className: "space-y-3" }, /* @__PURE__ */ import_react80.default.createElement("p", { className: "text-xs text-gray-500 mb-2" }, "Indiquez votre adresse e-mail : un lien de r\xE9initialisation vous sera envoy\xE9."), /* @__PURE__ */ import_react80.default.createElement("div", null, /* @__PURE__ */ import_react80.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Adresse e-mail"), /* @__PURE__ */ import_react80.default.createElement(
       "input",
       {
         type: "email",
@@ -123567,7 +123627,7 @@ ${suffix2}`;
         style: { "--tw-ring-color": GOLD9 },
         placeholder: "vous@exemple.com"
       }
-    )), /* @__PURE__ */ import_react79.default.createElement(
+    )), /* @__PURE__ */ import_react80.default.createElement(
       "button",
       {
         type: "submit",
@@ -123575,9 +123635,9 @@ ${suffix2}`;
         className: "w-full mt-2 px-4 py-2.5 rounded-xl text-sm font-medium flex items-center justify-center gap-2 text-white shadow-md",
         style: { background: `linear-gradient(135deg, ${NAVY10}, #2A4A82)` }
       },
-      loading && /* @__PURE__ */ import_react79.default.createElement(LoaderCircle, { size: 15, className: "animate-spin" }),
+      loading && /* @__PURE__ */ import_react80.default.createElement(LoaderCircle, { size: 15, className: "animate-spin" }),
       " Envoyer le lien de r\xE9initialisation"
-    ), /* @__PURE__ */ import_react79.default.createElement("button", { type: "button", onClick: () => setShowReset(false), className: "w-full text-center text-xs text-gray-400 mt-1" }, "\u2190 Retour \xE0 la connexion")) : /* @__PURE__ */ import_react79.default.createElement("form", { onSubmit: handleSubmit, className: "space-y-3" }, /* @__PURE__ */ import_react79.default.createElement("div", null, /* @__PURE__ */ import_react79.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Adresse e-mail"), /* @__PURE__ */ import_react79.default.createElement(
+    ), /* @__PURE__ */ import_react80.default.createElement("button", { type: "button", onClick: () => setShowReset(false), className: "w-full text-center text-xs text-gray-400 mt-1" }, "\u2190 Retour \xE0 la connexion")) : /* @__PURE__ */ import_react80.default.createElement("form", { onSubmit: handleSubmit, className: "space-y-3" }, /* @__PURE__ */ import_react80.default.createElement("div", null, /* @__PURE__ */ import_react80.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Adresse e-mail"), /* @__PURE__ */ import_react80.default.createElement(
       "input",
       {
         type: "email",
@@ -123588,7 +123648,7 @@ ${suffix2}`;
         style: { "--tw-ring-color": GOLD9 },
         placeholder: "vous@exemple.com"
       }
-    )), /* @__PURE__ */ import_react79.default.createElement("div", null, /* @__PURE__ */ import_react79.default.createElement("div", { className: "flex items-center justify-between mb-1.5" }, /* @__PURE__ */ import_react79.default.createElement("label", { className: "text-xs font-medium text-gray-600" }, "Mot de passe"), /* @__PURE__ */ import_react79.default.createElement("button", { type: "button", onClick: () => setShowReset(true), className: "text-[11px] font-medium", style: { color: NAVY10 } }, "Mot de passe oubli\xE9 ?")), /* @__PURE__ */ import_react79.default.createElement(
+    )), /* @__PURE__ */ import_react80.default.createElement("div", null, /* @__PURE__ */ import_react80.default.createElement("div", { className: "flex items-center justify-between mb-1.5" }, /* @__PURE__ */ import_react80.default.createElement("label", { className: "text-xs font-medium text-gray-600" }, "Mot de passe"), /* @__PURE__ */ import_react80.default.createElement("button", { type: "button", onClick: () => setShowReset(true), className: "text-[11px] font-medium", style: { color: NAVY10 } }, "Mot de passe oubli\xE9 ?")), /* @__PURE__ */ import_react80.default.createElement(
       "input",
       {
         type: "password",
@@ -123599,7 +123659,7 @@ ${suffix2}`;
         style: { "--tw-ring-color": GOLD9 },
         placeholder: "\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022"
       }
-    )), /* @__PURE__ */ import_react79.default.createElement(
+    )), /* @__PURE__ */ import_react80.default.createElement(
       "button",
       {
         type: "submit",
@@ -123607,21 +123667,21 @@ ${suffix2}`;
         className: "w-full mt-2 px-4 py-2.5 rounded-xl text-sm font-medium flex items-center justify-center gap-2 text-white shadow-md",
         style: { background: `linear-gradient(135deg, ${NAVY10}, #2A4A82)` }
       },
-      loading && /* @__PURE__ */ import_react79.default.createElement(LoaderCircle, { size: 15, className: "animate-spin" }),
+      loading && /* @__PURE__ */ import_react80.default.createElement(LoaderCircle, { size: 15, className: "animate-spin" }),
       " Se connecter"
-    )), /* @__PURE__ */ import_react79.default.createElement("p", { className: "text-center text-xs text-gray-400 mt-5" }, "Pas encore de compte ?", " ", /* @__PURE__ */ import_react79.default.createElement("button", { onClick: onGoSignup, className: "font-medium", style: { color: NAVY10 } }, "Cr\xE9er un compte")), /* @__PURE__ */ import_react79.default.createElement("p", { className: "text-center text-xs text-gray-300 mt-2" }, /* @__PURE__ */ import_react79.default.createElement("button", { onClick: onGoLanding }, "\u2190 Retour \xE0 l'accueil"))));
+    )), /* @__PURE__ */ import_react80.default.createElement("p", { className: "text-center text-xs text-gray-400 mt-5" }, "Pas encore de compte ?", " ", /* @__PURE__ */ import_react80.default.createElement("button", { onClick: onGoSignup, className: "font-medium", style: { color: NAVY10 } }, "Cr\xE9er un compte")), /* @__PURE__ */ import_react80.default.createElement("p", { className: "text-center text-xs text-gray-300 mt-2" }, /* @__PURE__ */ import_react80.default.createElement("button", { onClick: onGoLanding }, "\u2190 Retour \xE0 l'accueil"))));
   }
 
   // src/auth/Signup.jsx
-  var import_react80 = __toESM(require_react());
+  var import_react81 = __toESM(require_react());
   var NAVY11 = "#1F3864";
   var GOLD10 = "#C99A2E";
   function Signup({ onGoLogin, onGoLanding }) {
-    const [email, setEmail] = (0, import_react80.useState)("");
-    const [password, setPassword] = (0, import_react80.useState)("");
-    const [loading, setLoading] = (0, import_react80.useState)(false);
-    const [error, setError] = (0, import_react80.useState)("");
-    const [done, setDone] = (0, import_react80.useState)(false);
+    const [email, setEmail] = (0, import_react81.useState)("");
+    const [password, setPassword] = (0, import_react81.useState)("");
+    const [loading, setLoading] = (0, import_react81.useState)(false);
+    const [error, setError] = (0, import_react81.useState)("");
+    const [done, setDone] = (0, import_react81.useState)(false);
     const handleSubmit = async (e) => {
       e.preventDefault();
       setError("");
@@ -123636,7 +123696,7 @@ ${suffix2}`;
       else setDone(true);
     };
     if (done) {
-      return /* @__PURE__ */ import_react80.default.createElement("div", { className: "min-h-screen flex items-center justify-center bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] px-4 relative overflow-hidden" }, /* @__PURE__ */ import_react80.default.createElement(
+      return /* @__PURE__ */ import_react81.default.createElement("div", { className: "min-h-screen flex items-center justify-center bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] px-4 relative overflow-hidden" }, /* @__PURE__ */ import_react81.default.createElement(
         "img",
         {
           src: "./logo-full.png",
@@ -123644,7 +123704,7 @@ ${suffix2}`;
           className: "pointer-events-none select-none fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-[0.07] z-0",
           style: { width: "min(1400px, 160vw)" }
         }
-      ), /* @__PURE__ */ import_react80.default.createElement("div", { className: "w-full max-w-lg bg-white rounded-2xl shadow-sm border border-black/5 p-8 text-center relative z-10" }, /* @__PURE__ */ import_react80.default.createElement(CircleCheck, { size: 32, className: "mx-auto mb-3", style: { color: "#3E9C6B" } }), /* @__PURE__ */ import_react80.default.createElement("h1", { className: "font-serif text-lg font-bold mb-2", style: { color: NAVY11 } }, "Compte cr\xE9\xE9"), /* @__PURE__ */ import_react80.default.createElement("p", { className: "text-sm text-gray-500 mb-5" }, "V\xE9rifiez votre bo\xEEte e-mail pour confirmer votre adresse, puis connectez-vous."), /* @__PURE__ */ import_react80.default.createElement(
+      ), /* @__PURE__ */ import_react81.default.createElement("div", { className: "w-full max-w-lg bg-white rounded-2xl shadow-sm border border-black/5 p-8 text-center relative z-10" }, /* @__PURE__ */ import_react81.default.createElement(CircleCheck, { size: 32, className: "mx-auto mb-3", style: { color: "#3E9C6B" } }), /* @__PURE__ */ import_react81.default.createElement("h1", { className: "font-serif text-lg font-bold mb-2", style: { color: NAVY11 } }, "Compte cr\xE9\xE9"), /* @__PURE__ */ import_react81.default.createElement("p", { className: "text-sm text-gray-500 mb-5" }, "V\xE9rifiez votre bo\xEEte e-mail pour confirmer votre adresse, puis connectez-vous."), /* @__PURE__ */ import_react81.default.createElement(
         "button",
         {
           onClick: onGoLogin,
@@ -123654,7 +123714,7 @@ ${suffix2}`;
         "Aller \xE0 la connexion"
       )));
     }
-    return /* @__PURE__ */ import_react80.default.createElement("div", { className: "min-h-screen flex items-center justify-center bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans px-4 relative overflow-hidden" }, /* @__PURE__ */ import_react80.default.createElement(
+    return /* @__PURE__ */ import_react81.default.createElement("div", { className: "min-h-screen flex items-center justify-center bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans px-4 relative overflow-hidden" }, /* @__PURE__ */ import_react81.default.createElement(
       "img",
       {
         src: "./logo-full.png",
@@ -123662,7 +123722,7 @@ ${suffix2}`;
         className: "pointer-events-none select-none fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-[0.07] z-0",
         style: { width: "min(1400px, 160vw)" }
       }
-    ), /* @__PURE__ */ import_react80.default.createElement("div", { className: "w-full max-w-lg bg-white rounded-2xl shadow-sm border border-black/5 p-8 relative z-10" }, /* @__PURE__ */ import_react80.default.createElement("div", { className: "flex flex-col items-center mb-6" }, /* @__PURE__ */ import_react80.default.createElement("img", { src: "./logo-compact.png", alt: "AgriHakStat", className: "w-auto mb-2", style: { height: "280px" } }), /* @__PURE__ */ import_react80.default.createElement("h1", { className: "font-serif text-xl font-bold", style: { color: NAVY11 } }, "Cr\xE9er un compte")), error && /* @__PURE__ */ import_react80.default.createElement("div", { className: "flex items-start gap-2 rounded-xl p-3 mb-4 text-xs", style: { background: "#FBE7E5", color: "#B3413A" } }, /* @__PURE__ */ import_react80.default.createElement(CircleAlert, { size: 14, className: "mt-0.5 shrink-0" }), " ", error), /* @__PURE__ */ import_react80.default.createElement("form", { onSubmit: handleSubmit, className: "space-y-3" }, /* @__PURE__ */ import_react80.default.createElement("div", null, /* @__PURE__ */ import_react80.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Adresse e-mail"), /* @__PURE__ */ import_react80.default.createElement(
+    ), /* @__PURE__ */ import_react81.default.createElement("div", { className: "w-full max-w-lg bg-white rounded-2xl shadow-sm border border-black/5 p-8 relative z-10" }, /* @__PURE__ */ import_react81.default.createElement("div", { className: "flex flex-col items-center mb-6" }, /* @__PURE__ */ import_react81.default.createElement("img", { src: "./logo-compact.png", alt: "AgriHakStat", className: "w-auto mb-2", style: { height: "280px" } }), /* @__PURE__ */ import_react81.default.createElement("h1", { className: "font-serif text-xl font-bold", style: { color: NAVY11 } }, "Cr\xE9er un compte")), error && /* @__PURE__ */ import_react81.default.createElement("div", { className: "flex items-start gap-2 rounded-xl p-3 mb-4 text-xs", style: { background: "#FBE7E5", color: "#B3413A" } }, /* @__PURE__ */ import_react81.default.createElement(CircleAlert, { size: 14, className: "mt-0.5 shrink-0" }), " ", error), /* @__PURE__ */ import_react81.default.createElement("form", { onSubmit: handleSubmit, className: "space-y-3" }, /* @__PURE__ */ import_react81.default.createElement("div", null, /* @__PURE__ */ import_react81.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Adresse e-mail"), /* @__PURE__ */ import_react81.default.createElement(
       "input",
       {
         type: "email",
@@ -123673,7 +123733,7 @@ ${suffix2}`;
         style: { "--tw-ring-color": GOLD10 },
         placeholder: "vous@exemple.com"
       }
-    )), /* @__PURE__ */ import_react80.default.createElement("div", null, /* @__PURE__ */ import_react80.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Mot de passe"), /* @__PURE__ */ import_react80.default.createElement(
+    )), /* @__PURE__ */ import_react81.default.createElement("div", null, /* @__PURE__ */ import_react81.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Mot de passe"), /* @__PURE__ */ import_react81.default.createElement(
       "input",
       {
         type: "password",
@@ -123685,7 +123745,7 @@ ${suffix2}`;
         style: { "--tw-ring-color": GOLD10 },
         placeholder: "6 caract\xE8res minimum"
       }
-    )), /* @__PURE__ */ import_react80.default.createElement(
+    )), /* @__PURE__ */ import_react81.default.createElement(
       "button",
       {
         type: "submit",
@@ -123693,21 +123753,21 @@ ${suffix2}`;
         className: "w-full mt-2 px-4 py-2.5 rounded-xl text-sm font-medium flex items-center justify-center gap-2 text-white shadow-md",
         style: { background: `linear-gradient(135deg, ${NAVY11}, #2A4A82)` }
       },
-      loading && /* @__PURE__ */ import_react80.default.createElement(LoaderCircle, { size: 15, className: "animate-spin" }),
+      loading && /* @__PURE__ */ import_react81.default.createElement(LoaderCircle, { size: 15, className: "animate-spin" }),
       " Cr\xE9er mon compte"
-    )), /* @__PURE__ */ import_react80.default.createElement("p", { className: "text-center text-xs text-gray-400 mt-5" }, "D\xE9j\xE0 un compte ?", " ", /* @__PURE__ */ import_react80.default.createElement("button", { onClick: onGoLogin, className: "font-medium", style: { color: NAVY11 } }, "Se connecter")), /* @__PURE__ */ import_react80.default.createElement("p", { className: "text-center text-xs text-gray-300 mt-2" }, /* @__PURE__ */ import_react80.default.createElement("button", { onClick: onGoLanding }, "\u2190 Retour \xE0 l'accueil"))));
+    )), /* @__PURE__ */ import_react81.default.createElement("p", { className: "text-center text-xs text-gray-400 mt-5" }, "D\xE9j\xE0 un compte ?", " ", /* @__PURE__ */ import_react81.default.createElement("button", { onClick: onGoLogin, className: "font-medium", style: { color: NAVY11 } }, "Se connecter")), /* @__PURE__ */ import_react81.default.createElement("p", { className: "text-center text-xs text-gray-300 mt-2" }, /* @__PURE__ */ import_react81.default.createElement("button", { onClick: onGoLanding }, "\u2190 Retour \xE0 l'accueil"))));
   }
 
   // src/auth/ResetPassword.jsx
-  var import_react81 = __toESM(require_react());
+  var import_react82 = __toESM(require_react());
   var NAVY12 = "#1F3864";
   var GOLD11 = "#C99A2E";
   function ResetPassword({ onDone }) {
-    const [password, setPassword] = (0, import_react81.useState)("");
-    const [confirm, setConfirm] = (0, import_react81.useState)("");
-    const [loading, setLoading] = (0, import_react81.useState)(false);
-    const [error, setError] = (0, import_react81.useState)("");
-    const [done, setDone] = (0, import_react81.useState)(false);
+    const [password, setPassword] = (0, import_react82.useState)("");
+    const [confirm, setConfirm] = (0, import_react82.useState)("");
+    const [loading, setLoading] = (0, import_react82.useState)(false);
+    const [error, setError] = (0, import_react82.useState)("");
+    const [done, setDone] = (0, import_react82.useState)(false);
     const handleSubmit = async (e) => {
       e.preventDefault();
       setError("");
@@ -123725,7 +123785,7 @@ ${suffix2}`;
       if (error2) setError(error2.message);
       else setDone(true);
     };
-    return /* @__PURE__ */ import_react81.default.createElement("div", { className: "min-h-screen flex items-center justify-center bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans px-4 relative overflow-hidden" }, /* @__PURE__ */ import_react81.default.createElement(
+    return /* @__PURE__ */ import_react82.default.createElement("div", { className: "min-h-screen flex items-center justify-center bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans px-4 relative overflow-hidden" }, /* @__PURE__ */ import_react82.default.createElement(
       "img",
       {
         src: "./logo-full.png",
@@ -123733,7 +123793,7 @@ ${suffix2}`;
         className: "pointer-events-none select-none fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-[0.07] z-0",
         style: { width: "min(1400px, 160vw)" }
       }
-    ), /* @__PURE__ */ import_react81.default.createElement("div", { className: "w-full max-w-lg bg-white rounded-2xl shadow-sm border border-black/5 p-8 relative z-10" }, /* @__PURE__ */ import_react81.default.createElement("div", { className: "flex flex-col items-center mb-6" }, /* @__PURE__ */ import_react81.default.createElement("img", { src: "./logo-compact.png", alt: "AgriHakStat", className: "w-auto mb-2", style: { height: "180px" } }), /* @__PURE__ */ import_react81.default.createElement("h1", { className: "font-serif text-xl font-bold", style: { color: NAVY12 } }, "Nouveau mot de passe")), done ? /* @__PURE__ */ import_react81.default.createElement("div", { className: "text-center py-4" }, /* @__PURE__ */ import_react81.default.createElement(CircleCheck, { size: 32, className: "mx-auto mb-3", style: { color: "#3E9C6B" } }), /* @__PURE__ */ import_react81.default.createElement("p", { className: "text-sm text-gray-600 mb-4" }, "Votre mot de passe a \xE9t\xE9 mis \xE0 jour avec succ\xE8s."), /* @__PURE__ */ import_react81.default.createElement(
+    ), /* @__PURE__ */ import_react82.default.createElement("div", { className: "w-full max-w-lg bg-white rounded-2xl shadow-sm border border-black/5 p-8 relative z-10" }, /* @__PURE__ */ import_react82.default.createElement("div", { className: "flex flex-col items-center mb-6" }, /* @__PURE__ */ import_react82.default.createElement("img", { src: "./logo-compact.png", alt: "AgriHakStat", className: "w-auto mb-2", style: { height: "180px" } }), /* @__PURE__ */ import_react82.default.createElement("h1", { className: "font-serif text-xl font-bold", style: { color: NAVY12 } }, "Nouveau mot de passe")), done ? /* @__PURE__ */ import_react82.default.createElement("div", { className: "text-center py-4" }, /* @__PURE__ */ import_react82.default.createElement(CircleCheck, { size: 32, className: "mx-auto mb-3", style: { color: "#3E9C6B" } }), /* @__PURE__ */ import_react82.default.createElement("p", { className: "text-sm text-gray-600 mb-4" }, "Votre mot de passe a \xE9t\xE9 mis \xE0 jour avec succ\xE8s."), /* @__PURE__ */ import_react82.default.createElement(
       "button",
       {
         onClick: onDone,
@@ -123741,7 +123801,7 @@ ${suffix2}`;
         style: { background: `linear-gradient(135deg, ${NAVY12}, #2A4A82)` }
       },
       "Continuer vers AgriHakStat"
-    )) : /* @__PURE__ */ import_react81.default.createElement(import_react81.default.Fragment, null, error && /* @__PURE__ */ import_react81.default.createElement("div", { className: "flex items-start gap-2 rounded-xl p-3 mb-4 text-xs", style: { background: "#FBE7E5", color: "#B3413A" } }, /* @__PURE__ */ import_react81.default.createElement(CircleAlert, { size: 14, className: "mt-0.5 shrink-0" }), " ", error), /* @__PURE__ */ import_react81.default.createElement("form", { onSubmit: handleSubmit, className: "space-y-3" }, /* @__PURE__ */ import_react81.default.createElement("div", null, /* @__PURE__ */ import_react81.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Nouveau mot de passe"), /* @__PURE__ */ import_react81.default.createElement(
+    )) : /* @__PURE__ */ import_react82.default.createElement(import_react82.default.Fragment, null, error && /* @__PURE__ */ import_react82.default.createElement("div", { className: "flex items-start gap-2 rounded-xl p-3 mb-4 text-xs", style: { background: "#FBE7E5", color: "#B3413A" } }, /* @__PURE__ */ import_react82.default.createElement(CircleAlert, { size: 14, className: "mt-0.5 shrink-0" }), " ", error), /* @__PURE__ */ import_react82.default.createElement("form", { onSubmit: handleSubmit, className: "space-y-3" }, /* @__PURE__ */ import_react82.default.createElement("div", null, /* @__PURE__ */ import_react82.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Nouveau mot de passe"), /* @__PURE__ */ import_react82.default.createElement(
       "input",
       {
         type: "password",
@@ -123752,7 +123812,7 @@ ${suffix2}`;
         style: { "--tw-ring-color": GOLD11 },
         placeholder: "6 caract\xE8res minimum"
       }
-    )), /* @__PURE__ */ import_react81.default.createElement("div", null, /* @__PURE__ */ import_react81.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Confirmer le mot de passe"), /* @__PURE__ */ import_react81.default.createElement(
+    )), /* @__PURE__ */ import_react82.default.createElement("div", null, /* @__PURE__ */ import_react82.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Confirmer le mot de passe"), /* @__PURE__ */ import_react82.default.createElement(
       "input",
       {
         type: "password",
@@ -123763,7 +123823,7 @@ ${suffix2}`;
         style: { "--tw-ring-color": GOLD11 },
         placeholder: "\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022"
       }
-    )), /* @__PURE__ */ import_react81.default.createElement(
+    )), /* @__PURE__ */ import_react82.default.createElement(
       "button",
       {
         type: "submit",
@@ -123771,21 +123831,21 @@ ${suffix2}`;
         className: "w-full mt-2 px-4 py-2.5 rounded-xl text-sm font-medium flex items-center justify-center gap-2 text-white shadow-md",
         style: { background: `linear-gradient(135deg, ${NAVY12}, #2A4A82)` }
       },
-      loading && /* @__PURE__ */ import_react81.default.createElement(LoaderCircle, { size: 15, className: "animate-spin" }),
+      loading && /* @__PURE__ */ import_react82.default.createElement(LoaderCircle, { size: 15, className: "animate-spin" }),
       " ",
-      /* @__PURE__ */ import_react81.default.createElement(KeyRound, { size: 15 }),
+      /* @__PURE__ */ import_react82.default.createElement(KeyRound, { size: 15 }),
       " Mettre \xE0 jour le mot de passe"
     )))));
   }
 
   // src/Settings.jsx
-  var import_react82 = __toESM(require_react());
+  var import_react83 = __toESM(require_react());
   var NAVY13 = "#1F3864";
   var GOLD12 = "#C99A2E";
   var GREEN3 = "#256B45";
   var CONTACT_EMAIL = "hakiboumoussa@gmail.com";
   function Card5({ children, className = "" }) {
-    return /* @__PURE__ */ import_react82.default.createElement("div", { className: `bg-white rounded-2xl p-6 shadow-sm border border-black/5 ${className}` }, children);
+    return /* @__PURE__ */ import_react83.default.createElement("div", { className: `bg-white rounded-2xl p-6 shadow-sm border border-black/5 ${className}` }, children);
   }
   var TABS = [
     { id: "compte", label: "Mon compte", icon: User },
@@ -123795,16 +123855,16 @@ ${suffix2}`;
     { id: "contact", label: "Contact & bugs", icon: Mail }
   ];
   function Settings3({ active, onNavigate, userEmail, userId, roleLabel, isAdmin, isGuest, onLogout, onOpenAdmin }) {
-    const [tab, setTab] = (0, import_react82.useState)("compte");
+    const [tab, setTab] = (0, import_react83.useState)("compte");
     const tabs = isAdmin ? [...TABS, { id: "admin", label: "Administration", icon: Users }] : TABS;
-    return /* @__PURE__ */ import_react82.default.createElement("div", { className: "min-h-screen bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans" }, /* @__PURE__ */ import_react82.default.createElement("div", { className: "flex" }, /* @__PURE__ */ import_react82.default.createElement(Sidebar, { active, onNavigate }), /* @__PURE__ */ import_react82.default.createElement("div", { className: "flex-1 min-h-screen" }, /* @__PURE__ */ import_react82.default.createElement(
+    return /* @__PURE__ */ import_react83.default.createElement("div", { className: "min-h-screen bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans" }, /* @__PURE__ */ import_react83.default.createElement("div", { className: "flex" }, /* @__PURE__ */ import_react83.default.createElement(Sidebar, { active, onNavigate }), /* @__PURE__ */ import_react83.default.createElement("div", { className: "flex-1 min-h-screen" }, /* @__PURE__ */ import_react83.default.createElement(
       "header",
       {
         className: "bg-white/70 backdrop-blur px-8 py-4 flex items-center justify-between",
         style: { borderBottom: `2px solid ${GOLD12}` }
       },
-      /* @__PURE__ */ import_react82.default.createElement("div", null, /* @__PURE__ */ import_react82.default.createElement("h1", { className: "font-serif text-xl font-bold", style: { color: NAVY13 } }, "Param\xE8tres"), /* @__PURE__ */ import_react82.default.createElement("p", { className: "text-xs text-gray-500 mt-0.5" }, "Compte, confidentialit\xE9 et assistance")),
-      /* @__PURE__ */ import_react82.default.createElement("div", { className: "flex items-center gap-4" }, /* @__PURE__ */ import_react82.default.createElement(Bell, { size: 18, className: "text-gray-400" }), /* @__PURE__ */ import_react82.default.createElement(
+      /* @__PURE__ */ import_react83.default.createElement("div", null, /* @__PURE__ */ import_react83.default.createElement("h1", { className: "font-serif text-xl font-bold", style: { color: NAVY13 } }, "Param\xE8tres"), /* @__PURE__ */ import_react83.default.createElement("p", { className: "text-xs text-gray-500 mt-0.5" }, "Compte, confidentialit\xE9 et assistance")),
+      /* @__PURE__ */ import_react83.default.createElement("div", { className: "flex items-center gap-4" }, /* @__PURE__ */ import_react83.default.createElement(Bell, { size: 18, className: "text-gray-400" }), /* @__PURE__ */ import_react83.default.createElement(
         UserMenu,
         {
           email: userEmail,
@@ -123815,7 +123875,7 @@ ${suffix2}`;
           onOpenAdmin
         }
       ))
-    ), /* @__PURE__ */ import_react82.default.createElement("main", { className: "p-8 grid grid-cols-4 gap-6" }, /* @__PURE__ */ import_react82.default.createElement("div", { className: "space-y-1.5" }, tabs.map((t) => /* @__PURE__ */ import_react82.default.createElement(
+    ), /* @__PURE__ */ import_react83.default.createElement("main", { className: "p-8 grid grid-cols-4 gap-6" }, /* @__PURE__ */ import_react83.default.createElement("div", { className: "space-y-1.5" }, tabs.map((t) => /* @__PURE__ */ import_react83.default.createElement(
       "button",
       {
         key: t.id,
@@ -123823,17 +123883,17 @@ ${suffix2}`;
         className: "w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm text-left transition-colors",
         style: tab === t.id ? { background: NAVY13, color: "white" } : { color: "#5A6478" }
       },
-      /* @__PURE__ */ import_react82.default.createElement(t.icon, { size: 15 }),
+      /* @__PURE__ */ import_react83.default.createElement(t.icon, { size: 15 }),
       " ",
       t.label
-    ))), /* @__PURE__ */ import_react82.default.createElement("div", { className: "col-span-3" }, tab === "compte" && /* @__PURE__ */ import_react82.default.createElement(AccountTab, { userEmail, roleLabel, isGuest }), tab === "confidentialite" && /* @__PURE__ */ import_react82.default.createElement(PrivacyTab, null), tab === "conditions" && /* @__PURE__ */ import_react82.default.createElement(TermsTab, null), tab === "guide" && /* @__PURE__ */ import_react82.default.createElement(GuideTab, null), tab === "contact" && /* @__PURE__ */ import_react82.default.createElement(ContactTab, { userEmail, userId, isGuest }), tab === "admin" && isAdmin && /* @__PURE__ */ import_react82.default.createElement("div", { className: "space-y-4" }, /* @__PURE__ */ import_react82.default.createElement(AdminSettingsTab, { currentUserId: userId }), /* @__PURE__ */ import_react82.default.createElement(AppSettingsEditor, null), /* @__PURE__ */ import_react82.default.createElement(BugReportsList, null)))))));
+    ))), /* @__PURE__ */ import_react83.default.createElement("div", { className: "col-span-3" }, tab === "compte" && /* @__PURE__ */ import_react83.default.createElement(AccountTab, { userEmail, roleLabel, isGuest }), tab === "confidentialite" && /* @__PURE__ */ import_react83.default.createElement(PrivacyTab, null), tab === "conditions" && /* @__PURE__ */ import_react83.default.createElement(TermsTab, null), tab === "guide" && /* @__PURE__ */ import_react83.default.createElement(GuideTab, null), tab === "contact" && /* @__PURE__ */ import_react83.default.createElement(ContactTab, { userEmail, userId, isGuest }), tab === "admin" && isAdmin && /* @__PURE__ */ import_react83.default.createElement("div", { className: "space-y-4" }, /* @__PURE__ */ import_react83.default.createElement(AdminSettingsTab, { currentUserId: userId }), /* @__PURE__ */ import_react83.default.createElement(AppSettingsEditor, null), /* @__PURE__ */ import_react83.default.createElement(BugReportsList, null)))))));
   }
   function AccountTab({ userEmail, roleLabel, isGuest }) {
-    const [password, setPassword] = (0, import_react82.useState)("");
-    const [confirm, setConfirm] = (0, import_react82.useState)("");
-    const [loading, setLoading] = (0, import_react82.useState)(false);
-    const [error, setError] = (0, import_react82.useState)("");
-    const [done, setDone] = (0, import_react82.useState)(false);
+    const [password, setPassword] = (0, import_react83.useState)("");
+    const [confirm, setConfirm] = (0, import_react83.useState)("");
+    const [loading, setLoading] = (0, import_react83.useState)(false);
+    const [error, setError] = (0, import_react83.useState)("");
+    const [done, setDone] = (0, import_react83.useState)(false);
     const handleChangePassword = async (e) => {
       e.preventDefault();
       setError("");
@@ -123860,7 +123920,7 @@ ${suffix2}`;
         setConfirm("");
       }
     };
-    return /* @__PURE__ */ import_react82.default.createElement(Card5, null, /* @__PURE__ */ import_react82.default.createElement("h2", { className: "font-serif font-semibold mb-4", style: { color: NAVY13 } }, "Mon compte"), /* @__PURE__ */ import_react82.default.createElement("div", { className: "grid grid-cols-2 gap-4 mb-6" }, /* @__PURE__ */ import_react82.default.createElement("div", { className: "rounded-xl p-3", style: { background: "#EBEEF7" } }, /* @__PURE__ */ import_react82.default.createElement("div", { className: "text-[10px] text-gray-500" }, "Adresse e-mail"), /* @__PURE__ */ import_react82.default.createElement("div", { className: "text-sm font-medium", style: { color: NAVY13 } }, isGuest ? "Mode d\xE9monstration" : userEmail)), /* @__PURE__ */ import_react82.default.createElement("div", { className: "rounded-xl p-3", style: { background: "#EBEEF7" } }, /* @__PURE__ */ import_react82.default.createElement("div", { className: "text-[10px] text-gray-500" }, "R\xF4le"), /* @__PURE__ */ import_react82.default.createElement("div", { className: "text-sm font-medium", style: { color: NAVY13 } }, roleLabel))), /* @__PURE__ */ import_react82.default.createElement("h3", { className: "text-sm font-semibold mb-2", style: { color: NAVY13 } }, "Changer de mot de passe"), error && /* @__PURE__ */ import_react82.default.createElement("div", { className: "flex items-start gap-2 rounded-xl p-3 mb-3 text-xs", style: { background: "#FBE7E5", color: "#B3413A" } }, /* @__PURE__ */ import_react82.default.createElement(CircleAlert, { size: 14, className: "mt-0.5 shrink-0" }), " ", error), done && /* @__PURE__ */ import_react82.default.createElement("div", { className: "flex items-center gap-2 rounded-xl p-3 mb-3 text-xs", style: { background: "#E4F5EC", color: GREEN3 } }, /* @__PURE__ */ import_react82.default.createElement(CircleCheck, { size: 14 }), " Mot de passe mis \xE0 jour avec succ\xE8s."), /* @__PURE__ */ import_react82.default.createElement("form", { onSubmit: handleChangePassword, className: "space-y-3 max-w-sm" }, /* @__PURE__ */ import_react82.default.createElement(
+    return /* @__PURE__ */ import_react83.default.createElement(Card5, null, /* @__PURE__ */ import_react83.default.createElement("h2", { className: "font-serif font-semibold mb-4", style: { color: NAVY13 } }, "Mon compte"), /* @__PURE__ */ import_react83.default.createElement("div", { className: "grid grid-cols-2 gap-4 mb-6" }, /* @__PURE__ */ import_react83.default.createElement("div", { className: "rounded-xl p-3", style: { background: "#EBEEF7" } }, /* @__PURE__ */ import_react83.default.createElement("div", { className: "text-[10px] text-gray-500" }, "Adresse e-mail"), /* @__PURE__ */ import_react83.default.createElement("div", { className: "text-sm font-medium", style: { color: NAVY13 } }, isGuest ? "Mode d\xE9monstration" : userEmail)), /* @__PURE__ */ import_react83.default.createElement("div", { className: "rounded-xl p-3", style: { background: "#EBEEF7" } }, /* @__PURE__ */ import_react83.default.createElement("div", { className: "text-[10px] text-gray-500" }, "R\xF4le"), /* @__PURE__ */ import_react83.default.createElement("div", { className: "text-sm font-medium", style: { color: NAVY13 } }, roleLabel))), /* @__PURE__ */ import_react83.default.createElement("h3", { className: "text-sm font-semibold mb-2", style: { color: NAVY13 } }, "Changer de mot de passe"), error && /* @__PURE__ */ import_react83.default.createElement("div", { className: "flex items-start gap-2 rounded-xl p-3 mb-3 text-xs", style: { background: "#FBE7E5", color: "#B3413A" } }, /* @__PURE__ */ import_react83.default.createElement(CircleAlert, { size: 14, className: "mt-0.5 shrink-0" }), " ", error), done && /* @__PURE__ */ import_react83.default.createElement("div", { className: "flex items-center gap-2 rounded-xl p-3 mb-3 text-xs", style: { background: "#E4F5EC", color: GREEN3 } }, /* @__PURE__ */ import_react83.default.createElement(CircleCheck, { size: 14 }), " Mot de passe mis \xE0 jour avec succ\xE8s."), /* @__PURE__ */ import_react83.default.createElement("form", { onSubmit: handleChangePassword, className: "space-y-3 max-w-sm" }, /* @__PURE__ */ import_react83.default.createElement(
       "input",
       {
         type: "password",
@@ -123870,7 +123930,7 @@ ${suffix2}`;
         className: "w-full text-sm rounded-xl border border-gray-200 p-2.5 focus:outline-none focus:ring-2",
         style: { "--tw-ring-color": GOLD12 }
       }
-    ), /* @__PURE__ */ import_react82.default.createElement(
+    ), /* @__PURE__ */ import_react83.default.createElement(
       "input",
       {
         type: "password",
@@ -123880,7 +123940,7 @@ ${suffix2}`;
         className: "w-full text-sm rounded-xl border border-gray-200 p-2.5 focus:outline-none focus:ring-2",
         style: { "--tw-ring-color": GOLD12 }
       }
-    ), /* @__PURE__ */ import_react82.default.createElement(
+    ), /* @__PURE__ */ import_react83.default.createElement(
       "button",
       {
         type: "submit",
@@ -123888,17 +123948,17 @@ ${suffix2}`;
         className: "px-4 py-2.5 rounded-xl text-sm font-medium flex items-center gap-2 text-white shadow-md",
         style: { background: `linear-gradient(135deg, ${NAVY13}, #2A4A82)` }
       },
-      loading && /* @__PURE__ */ import_react82.default.createElement(LoaderCircle, { size: 15, className: "animate-spin" }),
+      loading && /* @__PURE__ */ import_react83.default.createElement(LoaderCircle, { size: 15, className: "animate-spin" }),
       " ",
-      /* @__PURE__ */ import_react82.default.createElement(KeyRound, { size: 14 }),
+      /* @__PURE__ */ import_react83.default.createElement(KeyRound, { size: 14 }),
       " Mettre \xE0 jour"
     )));
   }
   function PrivacyTab() {
-    return /* @__PURE__ */ import_react82.default.createElement(Card5, null, /* @__PURE__ */ import_react82.default.createElement("h2", { className: "font-serif font-semibold mb-3", style: { color: NAVY13 } }, "Politique de confidentialit\xE9"), /* @__PURE__ */ import_react82.default.createElement("div", { className: "text-xs text-gray-600 leading-relaxed space-y-3" }, /* @__PURE__ */ import_react82.default.createElement("p", null, /* @__PURE__ */ import_react82.default.createElement("strong", null, "Donn\xE9es collect\xE9es."), " AgriHakStat collecte votre adresse e-mail (cr\xE9ation de compte), les fichiers de questionnaire et de base de donn\xE9es que vous importez volontairement, le contexte de vos \xE9tudes (objectifs, indicateurs, zones g\xE9ographiques), ainsi que des donn\xE9es d'usage anonymis\xE9es (\xE9crans consult\xE9s) \xE0 des fins d'am\xE9lioration du service."), /* @__PURE__ */ import_react82.default.createElement("p", null, /* @__PURE__ */ import_react82.default.createElement("strong", null, "H\xE9bergement et sous-traitance."), " Les comptes et donn\xE9es sont h\xE9berg\xE9s par Supabase (base de donn\xE9es PostgreSQL et authentification) et le site est servi par Vercel. Aucune donn\xE9e n'est vendue ni partag\xE9e avec des tiers \xE0 des fins commerciales."), /* @__PURE__ */ import_react82.default.createElement("p", null, /* @__PURE__ */ import_react82.default.createElement("strong", null, "Vos droits."), " Vous pouvez \xE0 tout moment demander l'acc\xE8s, la rectification ou la suppression de vos donn\xE9es en \xE9crivant \xE0 l'adresse indiqu\xE9e dans l'onglet Contact. Vous pouvez \xE9galement supprimer vos bases de donn\xE9es import\xE9es directement depuis l'assistant d'import."), /* @__PURE__ */ import_react82.default.createElement("p", null, /* @__PURE__ */ import_react82.default.createElement("strong", null, "S\xE9curit\xE9."), " L'acc\xE8s \xE0 vos propres donn\xE9es est prot\xE9g\xE9 par une politique de s\xE9curit\xE9 au niveau des lignes (Row Level Security) : seul vous-m\xEAme, et l'administrateur de votre structure pour les besoins de suivi institutionnel, pouvez consulter vos projets soumis."), /* @__PURE__ */ import_react82.default.createElement("p", { className: "text-gray-400 italic" }, "Ce document est une version de travail, destin\xE9e \xE0 \xEAtre r\xE9vis\xE9e avec un conseil juridique avant toute mise en production \xE0 grande \xE9chelle.")));
+    return /* @__PURE__ */ import_react83.default.createElement(Card5, null, /* @__PURE__ */ import_react83.default.createElement("h2", { className: "font-serif font-semibold mb-3", style: { color: NAVY13 } }, "Politique de confidentialit\xE9"), /* @__PURE__ */ import_react83.default.createElement("div", { className: "text-xs text-gray-600 leading-relaxed space-y-3" }, /* @__PURE__ */ import_react83.default.createElement("p", null, /* @__PURE__ */ import_react83.default.createElement("strong", null, "Donn\xE9es collect\xE9es."), " AgriHakStat collecte votre adresse e-mail (cr\xE9ation de compte), les fichiers de questionnaire et de base de donn\xE9es que vous importez volontairement, le contexte de vos \xE9tudes (objectifs, indicateurs, zones g\xE9ographiques), ainsi que des donn\xE9es d'usage anonymis\xE9es (\xE9crans consult\xE9s) \xE0 des fins d'am\xE9lioration du service."), /* @__PURE__ */ import_react83.default.createElement("p", null, /* @__PURE__ */ import_react83.default.createElement("strong", null, "H\xE9bergement et sous-traitance."), " Les comptes et donn\xE9es sont h\xE9berg\xE9s par Supabase (base de donn\xE9es PostgreSQL et authentification) et le site est servi par Vercel. Aucune donn\xE9e n'est vendue ni partag\xE9e avec des tiers \xE0 des fins commerciales."), /* @__PURE__ */ import_react83.default.createElement("p", null, /* @__PURE__ */ import_react83.default.createElement("strong", null, "Vos droits."), " Vous pouvez \xE0 tout moment demander l'acc\xE8s, la rectification ou la suppression de vos donn\xE9es en \xE9crivant \xE0 l'adresse indiqu\xE9e dans l'onglet Contact. Vous pouvez \xE9galement supprimer vos bases de donn\xE9es import\xE9es directement depuis l'assistant d'import."), /* @__PURE__ */ import_react83.default.createElement("p", null, /* @__PURE__ */ import_react83.default.createElement("strong", null, "S\xE9curit\xE9."), " L'acc\xE8s \xE0 vos propres donn\xE9es est prot\xE9g\xE9 par une politique de s\xE9curit\xE9 au niveau des lignes (Row Level Security) : seul vous-m\xEAme, et l'administrateur de votre structure pour les besoins de suivi institutionnel, pouvez consulter vos projets soumis."), /* @__PURE__ */ import_react83.default.createElement("p", { className: "text-gray-400 italic" }, "Ce document est une version de travail, destin\xE9e \xE0 \xEAtre r\xE9vis\xE9e avec un conseil juridique avant toute mise en production \xE0 grande \xE9chelle.")));
   }
   function TermsTab() {
-    return /* @__PURE__ */ import_react82.default.createElement(Card5, null, /* @__PURE__ */ import_react82.default.createElement("h2", { className: "font-serif font-semibold mb-3", style: { color: NAVY13 } }, "Conditions d'utilisation"), /* @__PURE__ */ import_react82.default.createElement("div", { className: "text-xs text-gray-600 leading-relaxed space-y-3" }, /* @__PURE__ */ import_react82.default.createElement("p", null, /* @__PURE__ */ import_react82.default.createElement("strong", null, "Objet."), " AgriHakStat est un outil d'aide \xE0 l'analyse statistique d'enqu\xEAtes agricoles. Les tests statistiques propos\xE9s automatiquement sont des recommandations m\xE9thodologiques ; leur validation reste sous la responsabilit\xE9 de l'analyste."), /* @__PURE__ */ import_react82.default.createElement("p", null, /* @__PURE__ */ import_react82.default.createElement("strong", null, "Propri\xE9t\xE9 des donn\xE9es."), " Les donn\xE9es que vous importez vous appartiennent. AgriHakStat ne revendique aucun droit de propri\xE9t\xE9 sur vos bases de donn\xE9es, vos r\xE9sultats ou vos rapports."), /* @__PURE__ */ import_react82.default.createElement("p", null, /* @__PURE__ */ import_react82.default.createElement("strong", null, "Usage acceptable."), " Vous vous engagez \xE0 ne pas importer de donn\xE9es \xE0 caract\xE8re personnel sensible sans base l\xE9gale appropri\xE9e, et \xE0 utiliser les r\xE9sultats g\xE9n\xE9r\xE9s avec le discernement scientifique requis avant toute d\xE9cision op\xE9rationnelle."), /* @__PURE__ */ import_react82.default.createElement("p", null, /* @__PURE__ */ import_react82.default.createElement("strong", null, "Limitation de responsabilit\xE9."), " Les analyses, y compris celles r\xE9dig\xE9es avec l'assistance d'une intelligence artificielle, sont fournies \xE0 titre d'aide \xE0 la d\xE9cision et ne sauraient se substituer au jugement professionnel de l'analyste."), /* @__PURE__ */ import_react82.default.createElement("p", { className: "text-gray-400 italic" }, "Version de travail \u2014 \xE0 faire r\xE9viser juridiquement avant diffusion publique.")));
+    return /* @__PURE__ */ import_react83.default.createElement(Card5, null, /* @__PURE__ */ import_react83.default.createElement("h2", { className: "font-serif font-semibold mb-3", style: { color: NAVY13 } }, "Conditions d'utilisation"), /* @__PURE__ */ import_react83.default.createElement("div", { className: "text-xs text-gray-600 leading-relaxed space-y-3" }, /* @__PURE__ */ import_react83.default.createElement("p", null, /* @__PURE__ */ import_react83.default.createElement("strong", null, "Objet."), " AgriHakStat est un outil d'aide \xE0 l'analyse statistique d'enqu\xEAtes agricoles. Les tests statistiques propos\xE9s automatiquement sont des recommandations m\xE9thodologiques ; leur validation reste sous la responsabilit\xE9 de l'analyste."), /* @__PURE__ */ import_react83.default.createElement("p", null, /* @__PURE__ */ import_react83.default.createElement("strong", null, "Propri\xE9t\xE9 des donn\xE9es."), " Les donn\xE9es que vous importez vous appartiennent. AgriHakStat ne revendique aucun droit de propri\xE9t\xE9 sur vos bases de donn\xE9es, vos r\xE9sultats ou vos rapports."), /* @__PURE__ */ import_react83.default.createElement("p", null, /* @__PURE__ */ import_react83.default.createElement("strong", null, "Usage acceptable."), " Vous vous engagez \xE0 ne pas importer de donn\xE9es \xE0 caract\xE8re personnel sensible sans base l\xE9gale appropri\xE9e, et \xE0 utiliser les r\xE9sultats g\xE9n\xE9r\xE9s avec le discernement scientifique requis avant toute d\xE9cision op\xE9rationnelle."), /* @__PURE__ */ import_react83.default.createElement("p", null, /* @__PURE__ */ import_react83.default.createElement("strong", null, "Limitation de responsabilit\xE9."), " Les analyses, y compris celles r\xE9dig\xE9es avec l'assistance d'une intelligence artificielle, sont fournies \xE0 titre d'aide \xE0 la d\xE9cision et ne sauraient se substituer au jugement professionnel de l'analyste."), /* @__PURE__ */ import_react83.default.createElement("p", { className: "text-gray-400 italic" }, "Version de travail \u2014 \xE0 faire r\xE9viser juridiquement avant diffusion publique.")));
   }
   function GuideTab() {
     const steps = [
@@ -123907,14 +123967,14 @@ ${suffix2}`;
       ["R\xE9sultats & rapport", "Consultez les r\xE9sultats r\xE9ellement calcul\xE9s, validez ceux \xE0 inclure, faites r\xE9diger l'analyse par Claude, puis exportez en Word."],
       ["Cartographie", "Visualisez la localisation r\xE9elle de vos donn\xE9es si des colonnes de g\xE9olocalisation sont d\xE9tect\xE9es."]
     ];
-    return /* @__PURE__ */ import_react82.default.createElement(Card5, null, /* @__PURE__ */ import_react82.default.createElement("h2", { className: "font-serif font-semibold mb-4", style: { color: NAVY13 } }, "Guide d'utilisation rapide"), /* @__PURE__ */ import_react82.default.createElement("div", { className: "space-y-4" }, steps.map(([title, text], i) => /* @__PURE__ */ import_react82.default.createElement("div", { key: title, className: "flex gap-3" }, /* @__PURE__ */ import_react82.default.createElement("div", { className: "w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold text-white shrink-0", style: { background: GOLD12 } }, i + 1), /* @__PURE__ */ import_react82.default.createElement("div", null, /* @__PURE__ */ import_react82.default.createElement("div", { className: "text-sm font-semibold", style: { color: NAVY13 } }, title), /* @__PURE__ */ import_react82.default.createElement("div", { className: "text-xs text-gray-500 mt-0.5" }, text))))));
+    return /* @__PURE__ */ import_react83.default.createElement(Card5, null, /* @__PURE__ */ import_react83.default.createElement("h2", { className: "font-serif font-semibold mb-4", style: { color: NAVY13 } }, "Guide d'utilisation rapide"), /* @__PURE__ */ import_react83.default.createElement("div", { className: "space-y-4" }, steps.map(([title, text], i) => /* @__PURE__ */ import_react83.default.createElement("div", { key: title, className: "flex gap-3" }, /* @__PURE__ */ import_react83.default.createElement("div", { className: "w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold text-white shrink-0", style: { background: GOLD12 } }, i + 1), /* @__PURE__ */ import_react83.default.createElement("div", null, /* @__PURE__ */ import_react83.default.createElement("div", { className: "text-sm font-semibold", style: { color: NAVY13 } }, title), /* @__PURE__ */ import_react83.default.createElement("div", { className: "text-xs text-gray-500 mt-0.5" }, text))))));
   }
   function ContactTab({ userEmail, userId, isGuest }) {
-    const [sujet, setSujet] = (0, import_react82.useState)("");
-    const [message, setMessage] = (0, import_react82.useState)("");
-    const [sending, setSending] = (0, import_react82.useState)(false);
-    const [sent, setSent] = (0, import_react82.useState)(false);
-    const [error, setError] = (0, import_react82.useState)("");
+    const [sujet, setSujet] = (0, import_react83.useState)("");
+    const [message, setMessage] = (0, import_react83.useState)("");
+    const [sending, setSending] = (0, import_react83.useState)(false);
+    const [sent, setSent] = (0, import_react83.useState)(false);
+    const [error, setError] = (0, import_react83.useState)("");
     const handleSubmit = async (e) => {
       e.preventDefault();
       setError("");
@@ -123937,7 +123997,7 @@ ${suffix2}`;
         setMessage("");
       }
     };
-    return /* @__PURE__ */ import_react82.default.createElement("div", { className: "space-y-4" }, /* @__PURE__ */ import_react82.default.createElement(Card5, null, /* @__PURE__ */ import_react82.default.createElement("h2", { className: "font-serif font-semibold mb-3", style: { color: NAVY13 } }, "Signaler un probl\xE8me"), /* @__PURE__ */ import_react82.default.createElement("p", { className: "text-xs text-gray-500 mb-4" }, "D\xE9crivez l'\xE9cran concern\xE9 et les \xE9tapes pour reproduire le probl\xE8me. Votre signalement est transmis directement \xE0 l'administrateur."), error && /* @__PURE__ */ import_react82.default.createElement("div", { className: "flex items-start gap-2 rounded-xl p-3 mb-3 text-xs", style: { background: "#FBE7E5", color: "#B3413A" } }, /* @__PURE__ */ import_react82.default.createElement(CircleAlert, { size: 14, className: "mt-0.5 shrink-0" }), " ", error), sent && /* @__PURE__ */ import_react82.default.createElement("div", { className: "flex items-center gap-2 rounded-xl p-3 mb-3 text-xs", style: { background: "#E4F5EC", color: GREEN3 } }, /* @__PURE__ */ import_react82.default.createElement(CircleCheck, { size: 14 }), " Signalement envoy\xE9 \u2014 merci pour votre retour."), /* @__PURE__ */ import_react82.default.createElement("form", { onSubmit: handleSubmit, className: "space-y-3 max-w-md" }, /* @__PURE__ */ import_react82.default.createElement(
+    return /* @__PURE__ */ import_react83.default.createElement("div", { className: "space-y-4" }, /* @__PURE__ */ import_react83.default.createElement(Card5, null, /* @__PURE__ */ import_react83.default.createElement("h2", { className: "font-serif font-semibold mb-3", style: { color: NAVY13 } }, "Signaler un probl\xE8me"), /* @__PURE__ */ import_react83.default.createElement("p", { className: "text-xs text-gray-500 mb-4" }, "D\xE9crivez l'\xE9cran concern\xE9 et les \xE9tapes pour reproduire le probl\xE8me. Votre signalement est transmis directement \xE0 l'administrateur."), error && /* @__PURE__ */ import_react83.default.createElement("div", { className: "flex items-start gap-2 rounded-xl p-3 mb-3 text-xs", style: { background: "#FBE7E5", color: "#B3413A" } }, /* @__PURE__ */ import_react83.default.createElement(CircleAlert, { size: 14, className: "mt-0.5 shrink-0" }), " ", error), sent && /* @__PURE__ */ import_react83.default.createElement("div", { className: "flex items-center gap-2 rounded-xl p-3 mb-3 text-xs", style: { background: "#E4F5EC", color: GREEN3 } }, /* @__PURE__ */ import_react83.default.createElement(CircleCheck, { size: 14 }), " Signalement envoy\xE9 \u2014 merci pour votre retour."), /* @__PURE__ */ import_react83.default.createElement("form", { onSubmit: handleSubmit, className: "space-y-3 max-w-md" }, /* @__PURE__ */ import_react83.default.createElement(
       "input",
       {
         placeholder: "Sujet (ex. : erreur \xE0 l'import de fichier Excel)",
@@ -123946,7 +124006,7 @@ ${suffix2}`;
         className: "w-full text-sm rounded-xl border border-gray-200 p-2.5 focus:outline-none focus:ring-2",
         style: { "--tw-ring-color": GOLD12 }
       }
-    ), /* @__PURE__ */ import_react82.default.createElement(
+    ), /* @__PURE__ */ import_react83.default.createElement(
       "textarea",
       {
         placeholder: "Description d\xE9taill\xE9e\u2026",
@@ -123956,7 +124016,7 @@ ${suffix2}`;
         className: "w-full text-sm rounded-xl border border-gray-200 p-2.5 resize-none focus:outline-none focus:ring-2",
         style: { "--tw-ring-color": GOLD12 }
       }
-    ), /* @__PURE__ */ import_react82.default.createElement(
+    ), /* @__PURE__ */ import_react83.default.createElement(
       "button",
       {
         type: "submit",
@@ -123964,28 +124024,28 @@ ${suffix2}`;
         className: "px-4 py-2.5 rounded-xl text-sm font-medium flex items-center gap-2 text-white shadow-md",
         style: { background: `linear-gradient(135deg, ${NAVY13}, #2A4A82)` }
       },
-      sending && /* @__PURE__ */ import_react82.default.createElement(LoaderCircle, { size: 15, className: "animate-spin" }),
+      sending && /* @__PURE__ */ import_react83.default.createElement(LoaderCircle, { size: 15, className: "animate-spin" }),
       " ",
-      /* @__PURE__ */ import_react82.default.createElement(Mail, { size: 14 }),
+      /* @__PURE__ */ import_react83.default.createElement(Mail, { size: 14 }),
       " Envoyer le signalement"
-    ))), /* @__PURE__ */ import_react82.default.createElement(Card5, null, /* @__PURE__ */ import_react82.default.createElement("h3", { className: "text-sm font-semibold mb-2", style: { color: NAVY13 } }, "Ou par e-mail direct"), /* @__PURE__ */ import_react82.default.createElement(
+    ))), /* @__PURE__ */ import_react83.default.createElement(Card5, null, /* @__PURE__ */ import_react83.default.createElement("h3", { className: "text-sm font-semibold mb-2", style: { color: NAVY13 } }, "Ou par e-mail direct"), /* @__PURE__ */ import_react83.default.createElement(
       "a",
       {
         href: `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent("AgriHakStat \u2014 Signalement")}${userEmail ? `&body=${encodeURIComponent("Compte concern\xE9 : " + userEmail + "\n\nDescription du probl\xE8me :\n")}` : ""}`,
         className: "inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium text-white shadow-md",
         style: { background: `linear-gradient(135deg, ${NAVY13}, #2A4A82)` }
       },
-      /* @__PURE__ */ import_react82.default.createElement(Mail, { size: 15 }),
+      /* @__PURE__ */ import_react83.default.createElement(Mail, { size: 15 }),
       " ",
       CONTACT_EMAIL
     )));
   }
   function AdminSettingsTab({ currentUserId }) {
-    const [users, setUsers] = (0, import_react82.useState)([]);
-    const [loading, setLoading] = (0, import_react82.useState)(true);
-    const [error, setError] = (0, import_react82.useState)("");
-    const [busyId, setBusyId] = (0, import_react82.useState)(null);
-    (0, import_react82.useEffect)(() => {
+    const [users, setUsers] = (0, import_react83.useState)([]);
+    const [loading, setLoading] = (0, import_react83.useState)(true);
+    const [error, setError] = (0, import_react83.useState)("");
+    const [busyId, setBusyId] = (0, import_react83.useState)(null);
+    (0, import_react83.useEffect)(() => {
       supabase.from("profiles").select("id, email, role, created_at").order("created_at", { ascending: false }).then(({ data, error: error2 }) => {
         if (error2) setError(error2.message);
         setUsers(data || []);
@@ -124003,7 +124063,7 @@ ${suffix2}`;
       }
       setUsers(users.map((x2) => x2.id === u.id ? { ...x2, role: newRole } : x2));
     };
-    return /* @__PURE__ */ import_react82.default.createElement(Card5, null, /* @__PURE__ */ import_react82.default.createElement("div", { className: "flex items-center gap-2 mb-1" }, /* @__PURE__ */ import_react82.default.createElement(Users, { size: 16, style: { color: GOLD12 } }), /* @__PURE__ */ import_react82.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY13 } }, "Administration \u2014 gestion des r\xF4les")), /* @__PURE__ */ import_react82.default.createElement("p", { className: "text-xs text-gray-400 mb-4" }, "R\xE9serv\xE9 aux administrateurs. Promouvez ou r\xE9trogradez un utilisateur sans passer par le code ou Supabase directement."), error && /* @__PURE__ */ import_react82.default.createElement("div", { className: "rounded-xl p-3 mb-3 text-xs", style: { background: "#FBE7E5", color: "#B3413A" } }, error), loading ? /* @__PURE__ */ import_react82.default.createElement("p", { className: "text-xs text-gray-400" }, "Chargement\u2026") : /* @__PURE__ */ import_react82.default.createElement("div", { className: "space-y-2" }, users.map((u) => /* @__PURE__ */ import_react82.default.createElement("div", { key: u.id, className: "flex items-center justify-between rounded-xl border border-gray-100 p-3" }, /* @__PURE__ */ import_react82.default.createElement("div", null, /* @__PURE__ */ import_react82.default.createElement("div", { className: "text-sm text-gray-800" }, u.email, u.id === currentUserId && /* @__PURE__ */ import_react82.default.createElement("span", { className: "text-[10px] text-gray-400 ml-1.5" }, "(vous)")), /* @__PURE__ */ import_react82.default.createElement("div", { className: "text-[11px] text-gray-400" }, "Inscrit le ", new Date(u.created_at).toLocaleDateString("fr-FR"))), /* @__PURE__ */ import_react82.default.createElement(
+    return /* @__PURE__ */ import_react83.default.createElement(Card5, null, /* @__PURE__ */ import_react83.default.createElement("div", { className: "flex items-center gap-2 mb-1" }, /* @__PURE__ */ import_react83.default.createElement(Users, { size: 16, style: { color: GOLD12 } }), /* @__PURE__ */ import_react83.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY13 } }, "Administration \u2014 gestion des r\xF4les")), /* @__PURE__ */ import_react83.default.createElement("p", { className: "text-xs text-gray-400 mb-4" }, "R\xE9serv\xE9 aux administrateurs. Promouvez ou r\xE9trogradez un utilisateur sans passer par le code ou Supabase directement."), error && /* @__PURE__ */ import_react83.default.createElement("div", { className: "rounded-xl p-3 mb-3 text-xs", style: { background: "#FBE7E5", color: "#B3413A" } }, error), loading ? /* @__PURE__ */ import_react83.default.createElement("p", { className: "text-xs text-gray-400" }, "Chargement\u2026") : /* @__PURE__ */ import_react83.default.createElement("div", { className: "space-y-2" }, users.map((u) => /* @__PURE__ */ import_react83.default.createElement("div", { key: u.id, className: "flex items-center justify-between rounded-xl border border-gray-100 p-3" }, /* @__PURE__ */ import_react83.default.createElement("div", null, /* @__PURE__ */ import_react83.default.createElement("div", { className: "text-sm text-gray-800" }, u.email, u.id === currentUserId && /* @__PURE__ */ import_react83.default.createElement("span", { className: "text-[10px] text-gray-400 ml-1.5" }, "(vous)")), /* @__PURE__ */ import_react83.default.createElement("div", { className: "text-[11px] text-gray-400" }, "Inscrit le ", new Date(u.created_at).toLocaleDateString("fr-FR"))), /* @__PURE__ */ import_react83.default.createElement(
       "button",
       {
         onClick: () => toggleRole(u),
@@ -124011,17 +124071,17 @@ ${suffix2}`;
         className: "flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full disabled:opacity-40",
         style: u.role === "admin" ? { background: "#EBEEF7", color: NAVY13 } : { background: "#F1F1EC", color: "#6B7280" }
       },
-      u.role === "admin" ? /* @__PURE__ */ import_react82.default.createElement(ToggleRight, { size: 14 }) : /* @__PURE__ */ import_react82.default.createElement(ToggleLeft, { size: 14 }),
+      u.role === "admin" ? /* @__PURE__ */ import_react83.default.createElement(ToggleRight, { size: 14 }) : /* @__PURE__ */ import_react83.default.createElement(ToggleLeft, { size: 14 }),
       u.role === "admin" ? "Administrateur" : "Utilisateur"
     )))));
   }
   function AppSettingsEditor() {
-    const [settings, setSettings] = (0, import_react82.useState)([]);
-    const [loading, setLoading] = (0, import_react82.useState)(true);
-    const [error, setError] = (0, import_react82.useState)("");
-    const [savingKey, setSavingKey] = (0, import_react82.useState)(null);
-    const [savedKey, setSavedKey] = (0, import_react82.useState)(null);
-    (0, import_react82.useEffect)(() => {
+    const [settings, setSettings] = (0, import_react83.useState)([]);
+    const [loading, setLoading] = (0, import_react83.useState)(true);
+    const [error, setError] = (0, import_react83.useState)("");
+    const [savingKey, setSavingKey] = (0, import_react83.useState)(null);
+    const [savedKey, setSavedKey] = (0, import_react83.useState)(null);
+    (0, import_react83.useEffect)(() => {
       supabase.from("app_settings").select("key, value, updated_at").order("key").then(({ data, error: error2 }) => {
         if (error2) setError(error2.message);
         setSettings((data || []).map((s2) => ({ ...s2, draft: typeof s2.value === "string" ? s2.value : JSON.stringify(s2.value) })));
@@ -124049,7 +124109,7 @@ ${suffix2}`;
       seuil_capacite_atypique: "Seuil de signalement \u2014 capacit\xE9 atypique (tonnes)",
       contact_support: "Adresse e-mail de support affich\xE9e"
     };
-    return /* @__PURE__ */ import_react82.default.createElement(Card5, null, /* @__PURE__ */ import_react82.default.createElement("div", { className: "flex items-center gap-2 mb-1" }, /* @__PURE__ */ import_react82.default.createElement(ToggleRight, { size: 16, style: { color: GOLD12 } }), /* @__PURE__ */ import_react82.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY13 } }, "R\xE9glages g\xE9n\xE9raux de l'application")), /* @__PURE__ */ import_react82.default.createElement("p", { className: "text-xs text-gray-400 mb-4" }, "Ces valeurs pilotent le comportement de l'application pour tous les utilisateurs \u2014 modifiables ici, sans jamais toucher au code."), error && /* @__PURE__ */ import_react82.default.createElement("div", { className: "rounded-xl p-3 mb-3 text-xs", style: { background: "#FBE7E5", color: "#B3413A" } }, error), loading ? /* @__PURE__ */ import_react82.default.createElement("p", { className: "text-xs text-gray-400" }, "Chargement\u2026") : settings.length === 0 ? /* @__PURE__ */ import_react82.default.createElement("p", { className: "text-xs text-gray-400 italic" }, "Aucun r\xE9glage trouv\xE9 \u2014 v\xE9rifiez que la table app_settings a bien \xE9t\xE9 cr\xE9\xE9e (section 8 de supabase_setup.sql).") : /* @__PURE__ */ import_react82.default.createElement("div", { className: "space-y-3" }, settings.map((s2) => /* @__PURE__ */ import_react82.default.createElement("div", { key: s2.key, className: "flex items-center gap-3 rounded-xl border border-gray-100 p-3" }, /* @__PURE__ */ import_react82.default.createElement("div", { className: "flex-1" }, /* @__PURE__ */ import_react82.default.createElement("div", { className: "text-xs font-medium text-gray-700" }, LABELS[s2.key] || s2.key), /* @__PURE__ */ import_react82.default.createElement("div", { className: "text-[10px] text-gray-400 font-mono" }, s2.key)), /* @__PURE__ */ import_react82.default.createElement(
+    return /* @__PURE__ */ import_react83.default.createElement(Card5, null, /* @__PURE__ */ import_react83.default.createElement("div", { className: "flex items-center gap-2 mb-1" }, /* @__PURE__ */ import_react83.default.createElement(ToggleRight, { size: 16, style: { color: GOLD12 } }), /* @__PURE__ */ import_react83.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY13 } }, "R\xE9glages g\xE9n\xE9raux de l'application")), /* @__PURE__ */ import_react83.default.createElement("p", { className: "text-xs text-gray-400 mb-4" }, "Ces valeurs pilotent le comportement de l'application pour tous les utilisateurs \u2014 modifiables ici, sans jamais toucher au code."), error && /* @__PURE__ */ import_react83.default.createElement("div", { className: "rounded-xl p-3 mb-3 text-xs", style: { background: "#FBE7E5", color: "#B3413A" } }, error), loading ? /* @__PURE__ */ import_react83.default.createElement("p", { className: "text-xs text-gray-400" }, "Chargement\u2026") : settings.length === 0 ? /* @__PURE__ */ import_react83.default.createElement("p", { className: "text-xs text-gray-400 italic" }, "Aucun r\xE9glage trouv\xE9 \u2014 v\xE9rifiez que la table app_settings a bien \xE9t\xE9 cr\xE9\xE9e (section 8 de supabase_setup.sql).") : /* @__PURE__ */ import_react83.default.createElement("div", { className: "space-y-3" }, settings.map((s2) => /* @__PURE__ */ import_react83.default.createElement("div", { key: s2.key, className: "flex items-center gap-3 rounded-xl border border-gray-100 p-3" }, /* @__PURE__ */ import_react83.default.createElement("div", { className: "flex-1" }, /* @__PURE__ */ import_react83.default.createElement("div", { className: "text-xs font-medium text-gray-700" }, LABELS[s2.key] || s2.key), /* @__PURE__ */ import_react83.default.createElement("div", { className: "text-[10px] text-gray-400 font-mono" }, s2.key)), /* @__PURE__ */ import_react83.default.createElement(
       "input",
       {
         value: s2.draft,
@@ -124057,7 +124117,7 @@ ${suffix2}`;
         className: "text-sm rounded-lg border border-gray-200 p-2 w-48 focus:outline-none focus:ring-2",
         style: { "--tw-ring-color": GOLD12 }
       }
-    ), /* @__PURE__ */ import_react82.default.createElement(
+    ), /* @__PURE__ */ import_react83.default.createElement(
       "button",
       {
         onClick: () => saveSetting(s2),
@@ -124065,14 +124125,14 @@ ${suffix2}`;
         className: "text-xs font-medium px-3 py-2 rounded-lg text-white shrink-0",
         style: { background: savedKey === s2.key ? "#3E9C6B" : NAVY13 }
       },
-      savingKey === s2.key ? "\u2026" : savedKey === s2.key ? /* @__PURE__ */ import_react82.default.createElement(CircleCheck, { size: 13 }) : "Enregistrer"
+      savingKey === s2.key ? "\u2026" : savedKey === s2.key ? /* @__PURE__ */ import_react83.default.createElement(CircleCheck, { size: 13 }) : "Enregistrer"
     )))));
   }
   function BugReportsList() {
-    const [reports, setReports] = (0, import_react82.useState)([]);
-    const [loading, setLoading] = (0, import_react82.useState)(true);
-    const [error, setError] = (0, import_react82.useState)("");
-    (0, import_react82.useEffect)(() => {
+    const [reports, setReports] = (0, import_react83.useState)([]);
+    const [loading, setLoading] = (0, import_react83.useState)(true);
+    const [error, setError] = (0, import_react83.useState)("");
+    (0, import_react83.useEffect)(() => {
       supabase.from("bug_reports").select("*").order("created_at", { ascending: false }).then(({ data, error: error2 }) => {
         if (error2) setError(error2.message);
         setReports(data || []);
@@ -124083,11 +124143,11 @@ ${suffix2}`;
       const { error: error2 } = await supabase.from("bug_reports").update({ statut: "r\xE9solu" }).eq("id", r2.id);
       if (!error2) setReports(reports.map((x2) => x2.id === r2.id ? { ...x2, statut: "r\xE9solu" } : x2));
     };
-    return /* @__PURE__ */ import_react82.default.createElement(Card5, null, /* @__PURE__ */ import_react82.default.createElement("div", { className: "flex items-center gap-2 mb-1" }, /* @__PURE__ */ import_react82.default.createElement(Mail, { size: 16, style: { color: GOLD12 } }), /* @__PURE__ */ import_react82.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY13 } }, "Signalements re\xE7us")), /* @__PURE__ */ import_react82.default.createElement("p", { className: "text-xs text-gray-400 mb-4" }, "Messages envoy\xE9s par les utilisateurs depuis l'onglet Contact."), error && /* @__PURE__ */ import_react82.default.createElement("div", { className: "rounded-xl p-3 mb-3 text-xs", style: { background: "#FBE7E5", color: "#B3413A" } }, error), loading ? /* @__PURE__ */ import_react82.default.createElement("p", { className: "text-xs text-gray-400" }, "Chargement\u2026") : reports.length === 0 ? /* @__PURE__ */ import_react82.default.createElement("p", { className: "text-xs text-gray-400 italic" }, "Aucun signalement pour l'instant.") : /* @__PURE__ */ import_react82.default.createElement("div", { className: "space-y-2 max-h-80 overflow-y-auto" }, reports.map((r2) => /* @__PURE__ */ import_react82.default.createElement("div", { key: r2.id, className: "rounded-xl border border-gray-100 p-3" }, /* @__PURE__ */ import_react82.default.createElement("div", { className: "flex items-start justify-between gap-2" }, /* @__PURE__ */ import_react82.default.createElement("div", null, /* @__PURE__ */ import_react82.default.createElement("div", { className: "text-xs font-semibold text-gray-800" }, r2.sujet), /* @__PURE__ */ import_react82.default.createElement("div", { className: "text-[11px] text-gray-500 mt-0.5" }, r2.message), /* @__PURE__ */ import_react82.default.createElement("div", { className: "text-[10px] text-gray-400 mt-1" }, r2.user_email, " \xB7 ", new Date(r2.created_at).toLocaleDateString("fr-FR"))), r2.statut === "r\xE9solu" ? /* @__PURE__ */ import_react82.default.createElement("span", { className: "text-[10px] font-medium px-2 py-1 rounded-full shrink-0", style: { background: "#E4F5EC", color: GREEN3 } }, "R\xE9solu") : /* @__PURE__ */ import_react82.default.createElement("button", { onClick: () => markResolved(r2), className: "text-[10px] font-medium px-2 py-1 rounded-full shrink-0", style: { background: "#FDF1DA", color: "#8A5A00" } }, "Marquer r\xE9solu"))))));
+    return /* @__PURE__ */ import_react83.default.createElement(Card5, null, /* @__PURE__ */ import_react83.default.createElement("div", { className: "flex items-center gap-2 mb-1" }, /* @__PURE__ */ import_react83.default.createElement(Mail, { size: 16, style: { color: GOLD12 } }), /* @__PURE__ */ import_react83.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY13 } }, "Signalements re\xE7us")), /* @__PURE__ */ import_react83.default.createElement("p", { className: "text-xs text-gray-400 mb-4" }, "Messages envoy\xE9s par les utilisateurs depuis l'onglet Contact."), error && /* @__PURE__ */ import_react83.default.createElement("div", { className: "rounded-xl p-3 mb-3 text-xs", style: { background: "#FBE7E5", color: "#B3413A" } }, error), loading ? /* @__PURE__ */ import_react83.default.createElement("p", { className: "text-xs text-gray-400" }, "Chargement\u2026") : reports.length === 0 ? /* @__PURE__ */ import_react83.default.createElement("p", { className: "text-xs text-gray-400 italic" }, "Aucun signalement pour l'instant.") : /* @__PURE__ */ import_react83.default.createElement("div", { className: "space-y-2 max-h-80 overflow-y-auto" }, reports.map((r2) => /* @__PURE__ */ import_react83.default.createElement("div", { key: r2.id, className: "rounded-xl border border-gray-100 p-3" }, /* @__PURE__ */ import_react83.default.createElement("div", { className: "flex items-start justify-between gap-2" }, /* @__PURE__ */ import_react83.default.createElement("div", null, /* @__PURE__ */ import_react83.default.createElement("div", { className: "text-xs font-semibold text-gray-800" }, r2.sujet), /* @__PURE__ */ import_react83.default.createElement("div", { className: "text-[11px] text-gray-500 mt-0.5" }, r2.message), /* @__PURE__ */ import_react83.default.createElement("div", { className: "text-[10px] text-gray-400 mt-1" }, r2.user_email, " \xB7 ", new Date(r2.created_at).toLocaleDateString("fr-FR"))), r2.statut === "r\xE9solu" ? /* @__PURE__ */ import_react83.default.createElement("span", { className: "text-[10px] font-medium px-2 py-1 rounded-full shrink-0", style: { background: "#E4F5EC", color: GREEN3 } }, "R\xE9solu") : /* @__PURE__ */ import_react83.default.createElement("button", { onClick: () => markResolved(r2), className: "text-[10px] font-medium px-2 py-1 rounded-full shrink-0", style: { background: "#FDF1DA", color: "#8A5A00" } }, "Marquer r\xE9solu"))))));
   }
 
   // src/Climate.jsx
-  var import_react83 = __toESM(require_react());
+  var import_react84 = __toESM(require_react());
 
   // src/communeCoords.js
   var COMMUNE_COORDS = {
@@ -124183,6 +124243,7 @@ ${suffix2}`;
   };
 
   // src/agroClimate.js
+  var RAIN_DAY_THRESHOLD_MM = 5;
   var CROP_KC_TABLE = {
     mais: {
       label: "Ma\xEFs (cycle moyen)",
@@ -124334,11 +124395,11 @@ ${suffix2}`;
       periodesStress: decadesResult.filter((d) => d.ise !== null && d.ise < 1)
     };
   }
-  function detectDrySpells(daily, threshold2 = 1, minLength = 7) {
+  function detectDrySpells(daily, threshold2 = RAIN_DAY_THRESHOLD_MM, minLength = 7) {
     const spells = [];
     let run = null;
     daily.forEach((d, i) => {
-      const isDry = d.pluie !== null && d.pluie !== void 0 && d.pluie < threshold2;
+      const isDry = d.pluie !== null && d.pluie !== void 0 && d.pluie <= threshold2;
       if (isDry) {
         if (!run) run = { startIndex: i, start: d.date, startISO: d.dateISO, length: 0 };
         run.length += 1;
@@ -124372,7 +124433,7 @@ ${suffix2}`;
       const g = groups.get(key);
       if (d.pluie !== null && d.pluie !== void 0) {
         g.pluie += d.pluie;
-        if (d.pluie >= 1) g.joursPluie += 1;
+        if (d.pluie > RAIN_DAY_THRESHOLD_MM) g.joursPluie += 1;
       }
       if (d.et0 !== null && d.et0 !== void 0) g.et0 += d.et0;
       if (d.tmax !== null && d.tmax !== void 0) g.tmaxSum += d.tmax;
@@ -124400,10 +124461,10 @@ ${suffix2}`;
   var RED_TINT = "#FBE7E5";
   var NAVY_TINT3 = "#EBEEF7";
   function Card6({ children, className = "" }) {
-    return /* @__PURE__ */ import_react83.default.createElement("div", { className: `bg-white rounded-2xl p-6 shadow-sm border border-black/5 ${className}` }, children);
+    return /* @__PURE__ */ import_react84.default.createElement("div", { className: `bg-white rounded-2xl p-6 shadow-sm border border-black/5 ${className}` }, children);
   }
   function Chip3({ label, active, onClick, color: color2 }) {
-    return /* @__PURE__ */ import_react83.default.createElement(
+    return /* @__PURE__ */ import_react84.default.createElement(
       "button",
       {
         onClick,
@@ -124453,22 +124514,22 @@ ${suffix2}`;
       "Donn\xE9es insuffisantes": { bg: "#F1F2F6", color: "#8891A5" }
     };
     const s2 = map2[statut] || map2["Donn\xE9es insuffisantes"];
-    return /* @__PURE__ */ import_react83.default.createElement("span", { className: "text-[10px] font-semibold px-2 py-0.5 rounded-full", style: { background: s2.bg, color: s2.color } }, statut);
+    return /* @__PURE__ */ import_react84.default.createElement("span", { className: "text-[10px] font-semibold px-2 py-0.5 rounded-full", style: { background: s2.bg, color: s2.color } }, statut);
   }
   function Climate({ active, onNavigate, userEmail, roleLabel, isAdmin, isGuest, onLogout, onOpenAdmin }) {
     const defaults = defaultDates();
-    const [departements, setDepartements] = (0, import_react83.useState)(["Borgou"]);
-    const [communes, setCommunes] = (0, import_react83.useState)(["Parakou"]);
-    const [startDate, setStartDate] = (0, import_react83.useState)(defaults.start);
-    const [endDate, setEndDate] = (0, import_react83.useState)(defaults.end);
-    const [loading, setLoading] = (0, import_react83.useState)(false);
-    const [error, setError] = (0, import_react83.useState)("");
-    const [et0Error, setEt0Error] = (0, import_react83.useState)("");
-    const [result, setResult] = (0, import_react83.useState)(null);
-    const [view, setView] = (0, import_react83.useState)("jour");
-    const [cropKey, setCropKey] = (0, import_react83.useState)("mais");
-    const [sowingDate, setSowingDate] = (0, import_react83.useState)("");
-    const [drySpellMinLength, setDrySpellMinLength] = (0, import_react83.useState)(7);
+    const [departements, setDepartements] = (0, import_react84.useState)(["Borgou"]);
+    const [communes, setCommunes] = (0, import_react84.useState)(["Parakou"]);
+    const [startDate, setStartDate] = (0, import_react84.useState)(defaults.start);
+    const [endDate, setEndDate] = (0, import_react84.useState)(defaults.end);
+    const [loading, setLoading] = (0, import_react84.useState)(false);
+    const [error, setError] = (0, import_react84.useState)("");
+    const [et0Error, setEt0Error] = (0, import_react84.useState)("");
+    const [result, setResult] = (0, import_react84.useState)(null);
+    const [view, setView] = (0, import_react84.useState)("jour");
+    const [cropKey, setCropKey] = (0, import_react84.useState)("mais");
+    const [sowingDate, setSowingDate] = (0, import_react84.useState)("");
+    const [drySpellMinLength, setDrySpellMinLength] = (0, import_react84.useState)(7);
     const toggleDepartement = (dep) => {
       setDepartements((prev) => {
         const next = prev.includes(dep) ? prev.filter((d) => d !== dep) : [...prev, dep];
@@ -124544,13 +124605,13 @@ ${suffix2}`;
         }
         daily = computeWaterBalance(daily);
         const cumulPluie = daily.reduce((s2, d) => s2 + (d.pluie || 0), 0);
-        const joursPluie = daily.filter((d) => d.pluie >= 1).length;
+        const joursPluie = daily.filter((d) => d.pluie > RAIN_DAY_THRESHOLD_MM).length;
         const tMaxAbs = Math.max(...daily.map((d) => d.tmax).filter((v) => v !== null));
         const tMinAbs = Math.min(...daily.map((d) => d.tmin).filter((v) => v !== null));
         const tMoyenne = daily.reduce((s2, d) => s2 + (d.tmax + d.tmin) / 2, 0) / daily.length;
         const et0Cumule = daily.reduce((s2, d) => s2 + (d.et0 || 0), 0);
         const bilanNet = daily.length > 0 ? daily[daily.length - 1].bilanCumule : null;
-        const drySpells = detectDrySpells(daily, 1, Number(drySpellMinLength) || 7);
+        const drySpells = detectDrySpells(daily, RAIN_DAY_THRESHOLD_MM, Number(drySpellMinLength) || 7);
         setResult({ daily, cumulPluie, joursPluie, tMaxAbs, tMinAbs, tMoyenne, n: daily.length, et0Cumule, bilanNet, drySpells, communesUtilisees: succeeded.length });
         if (!sowingDate) setSowingDate(daily[0]?.dateISO || "");
       } catch (e) {
@@ -124563,23 +124624,27 @@ ${suffix2}`;
         setLoading(false);
       }
     };
-    const monthlyData = (0, import_react83.useMemo)(() => result ? aggregateByPeriod(result.daily, "mois") : [], [result]);
-    const quarterlyData = (0, import_react83.useMemo)(() => result ? aggregateByPeriod(result.daily, "trimestre") : [], [result]);
+    const monthlyData = (0, import_react84.useMemo)(() => result ? aggregateByPeriod(result.daily, "mois") : [], [result]);
+    const quarterlyData = (0, import_react84.useMemo)(() => result ? aggregateByPeriod(result.daily, "trimestre") : [], [result]);
     const periodData = view === "jour" ? result?.daily : view === "mois" ? monthlyData : quarterlyData;
     const periodKey = view === "jour" ? "date" : "periode";
-    const ombroMax = (0, import_react83.useMemo)(() => {
+    const ombroMax = (0, import_react84.useMemo)(() => {
       if (monthlyData.length === 0) return { temp: 40, pluie: 80 };
       const maxTemp = Math.max(...monthlyData.map((m) => m.tmoyenne || 0));
       return { temp: Math.ceil(maxTemp * 1.2 / 5) * 5, pluie: Math.ceil(maxTemp * 1.2 * 2 / 20) * 20 };
     }, [monthlyData]);
-    const cropAnalysis = (0, import_react83.useMemo)(() => {
+    const cropAnalysis = (0, import_react84.useMemo)(() => {
       if (!result || !sowingDate || !cropKey) return null;
       return computeCropWaterSatisfaction(result.daily, cropKey, sowingDate);
     }, [result, sowingDate, cropKey]);
-    const drySpellsRecalc = (0, import_react83.useMemo)(() => {
+    const drySpellsRecalc = (0, import_react84.useMemo)(() => {
       if (!result) return null;
-      return detectDrySpells(result.daily, 1, Number(drySpellMinLength) || 7);
+      return detectDrySpells(result.daily, RAIN_DAY_THRESHOLD_MM, Number(drySpellMinLength) || 7);
     }, [result, drySpellMinLength]);
+    const pluieChartRef = (0, import_react84.useRef)(null);
+    const tempChartRef = (0, import_react84.useRef)(null);
+    const ombroChartRef = (0, import_react84.useRef)(null);
+    const bilanChartRef = (0, import_react84.useRef)(null);
     const exportExcel = () => {
       if (!result) return;
       const rows = result.daily.map((d) => ({
@@ -124607,23 +124672,23 @@ ${suffix2}`;
       utils.book_append_sheet(wb, wsMeta, "M\xE9tadonn\xE9es");
       writeFileSync(wb, `AgroMeteo_${communes.length > 1 ? "zone" : communes[0]}_${startDate}_${endDate}.xlsx`);
     };
-    return /* @__PURE__ */ import_react83.default.createElement("div", { className: "min-h-screen bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans" }, /* @__PURE__ */ import_react83.default.createElement("div", { className: "flex" }, /* @__PURE__ */ import_react83.default.createElement(Sidebar, { active, onNavigate }), /* @__PURE__ */ import_react83.default.createElement("div", { className: "flex-1 min-h-screen" }, /* @__PURE__ */ import_react83.default.createElement(
+    return /* @__PURE__ */ import_react84.default.createElement("div", { className: "min-h-screen bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans" }, /* @__PURE__ */ import_react84.default.createElement("div", { className: "flex" }, /* @__PURE__ */ import_react84.default.createElement(Sidebar, { active, onNavigate }), /* @__PURE__ */ import_react84.default.createElement("div", { className: "flex-1 min-h-screen" }, /* @__PURE__ */ import_react84.default.createElement(
       "header",
       {
         className: "bg-white/70 backdrop-blur px-8 py-4 flex items-center justify-between",
         style: { borderBottom: `2px solid ${GOLD13}` }
       },
-      /* @__PURE__ */ import_react83.default.createElement("div", null, /* @__PURE__ */ import_react83.default.createElement("h1", { className: "font-serif text-xl font-bold", style: { color: NAVY14 } }, "Situation agrom\xE9t\xE9orologique"), /* @__PURE__ */ import_react83.default.createElement("p", { className: "text-xs text-gray-500 mt-0.5" }, "Donn\xE9es NASA POWER & Open-Meteo, par localit\xE9 \u2014 B\xE9nin")),
-      /* @__PURE__ */ import_react83.default.createElement("div", { className: "flex items-center gap-4" }, result && /* @__PURE__ */ import_react83.default.createElement(
+      /* @__PURE__ */ import_react84.default.createElement("div", null, /* @__PURE__ */ import_react84.default.createElement("h1", { className: "font-serif text-xl font-bold", style: { color: NAVY14 } }, "Situation agrom\xE9t\xE9orologique"), /* @__PURE__ */ import_react84.default.createElement("p", { className: "text-xs text-gray-500 mt-0.5" }, "Donn\xE9es NASA POWER & Open-Meteo, par localit\xE9 \u2014 B\xE9nin")),
+      /* @__PURE__ */ import_react84.default.createElement("div", { className: "flex items-center gap-4" }, result && /* @__PURE__ */ import_react84.default.createElement(
         "button",
         {
           onClick: exportExcel,
           className: "text-xs font-medium flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-white",
           style: { background: GREEN4 }
         },
-        /* @__PURE__ */ import_react83.default.createElement(Download, { size: 13 }),
+        /* @__PURE__ */ import_react84.default.createElement(Download, { size: 13 }),
         " Extraire les donn\xE9es (.xlsx)"
-      ), /* @__PURE__ */ import_react83.default.createElement(Bell, { size: 18, className: "text-gray-400" }), /* @__PURE__ */ import_react83.default.createElement(
+      ), /* @__PURE__ */ import_react84.default.createElement(Bell, { size: 18, className: "text-gray-400" }), /* @__PURE__ */ import_react84.default.createElement(
         UserMenu,
         {
           email: userEmail,
@@ -124634,10 +124699,10 @@ ${suffix2}`;
           onOpenAdmin
         }
       ))
-    ), /* @__PURE__ */ import_react83.default.createElement("main", { className: "p-8" }, /* @__PURE__ */ import_react83.default.createElement(Card6, { className: "mb-5" }, /* @__PURE__ */ import_react83.default.createElement("div", { className: "flex items-center justify-between mb-1" }, /* @__PURE__ */ import_react83.default.createElement("label", { className: "text-xs font-medium text-gray-600" }, "Zone d'intervention \u2014 d\xE9partement(s)"), /* @__PURE__ */ import_react83.default.createElement("span", { className: "text-[11px] text-gray-400" }, communes.length, " commune", communes.length > 1 ? "s" : "", " s\xE9lectionn\xE9e", communes.length > 1 ? "s" : "", " \u2014 la moyenne journali\xE8re de la zone sera calcul\xE9e")), /* @__PURE__ */ import_react83.default.createElement("div", { className: "flex flex-wrap gap-2 mb-3" }, BENIN_DEPARTEMENTS.map((d) => /* @__PURE__ */ import_react83.default.createElement(Chip3, { key: d.departement, label: d.departement, active: departements.includes(d.departement), onClick: () => toggleDepartement(d.departement) }))), departements.length > 0 && /* @__PURE__ */ import_react83.default.createElement("div", { className: "mb-3" }, /* @__PURE__ */ import_react83.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Communes"), departements.map((dep) => {
+    ), /* @__PURE__ */ import_react84.default.createElement("main", { className: "p-8" }, /* @__PURE__ */ import_react84.default.createElement(Card6, { className: "mb-5" }, /* @__PURE__ */ import_react84.default.createElement("div", { className: "flex items-center justify-between mb-1" }, /* @__PURE__ */ import_react84.default.createElement("label", { className: "text-xs font-medium text-gray-600" }, "Zone d'intervention \u2014 d\xE9partement(s)"), /* @__PURE__ */ import_react84.default.createElement("span", { className: "text-[11px] text-gray-400" }, communes.length, " commune", communes.length > 1 ? "s" : "", " s\xE9lectionn\xE9e", communes.length > 1 ? "s" : "", " \u2014 la moyenne journali\xE8re de la zone sera calcul\xE9e")), /* @__PURE__ */ import_react84.default.createElement("div", { className: "flex flex-wrap gap-2 mb-3" }, BENIN_DEPARTEMENTS.map((d) => /* @__PURE__ */ import_react84.default.createElement(Chip3, { key: d.departement, label: d.departement, active: departements.includes(d.departement), onClick: () => toggleDepartement(d.departement) }))), departements.length > 0 && /* @__PURE__ */ import_react84.default.createElement("div", { className: "mb-3" }, /* @__PURE__ */ import_react84.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Communes"), departements.map((dep) => {
       const communesDuDep = BENIN_DEPARTEMENTS.find((d) => d.departement === dep)?.communes || [];
-      return /* @__PURE__ */ import_react83.default.createElement("div", { key: dep, className: "mb-2" }, /* @__PURE__ */ import_react83.default.createElement("div", { className: "text-[11px] text-gray-400 mb-1" }, dep), /* @__PURE__ */ import_react83.default.createElement("div", { className: "flex flex-wrap gap-1.5" }, communesDuDep.map((c2) => /* @__PURE__ */ import_react83.default.createElement(Chip3, { key: c2, label: c2, color: GREEN4, active: communes.includes(c2), onClick: () => toggleCommune(c2) }))));
-    })), communes.length > 0 && /* @__PURE__ */ import_react83.default.createElement("div", { className: "flex flex-wrap gap-1.5 mb-4" }, communes.map((c2) => /* @__PURE__ */ import_react83.default.createElement("span", { key: c2, className: "flex items-center gap-1 text-[11px] font-medium px-2 py-1 rounded-full", style: { background: NAVY_TINT3, color: NAVY14 } }, c2, /* @__PURE__ */ import_react83.default.createElement("button", { onClick: () => toggleCommune(c2), className: "hover:text-red-500" }, /* @__PURE__ */ import_react83.default.createElement(X, { size: 11 }))))), /* @__PURE__ */ import_react83.default.createElement("div", { className: "grid grid-cols-3 gap-3 items-end" }, /* @__PURE__ */ import_react83.default.createElement("div", null, /* @__PURE__ */ import_react83.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "P\xE9riode"), /* @__PURE__ */ import_react83.default.createElement("div", { className: "flex items-center gap-1.5" }, /* @__PURE__ */ import_react83.default.createElement(
+      return /* @__PURE__ */ import_react84.default.createElement("div", { key: dep, className: "mb-2" }, /* @__PURE__ */ import_react84.default.createElement("div", { className: "text-[11px] text-gray-400 mb-1" }, dep), /* @__PURE__ */ import_react84.default.createElement("div", { className: "flex flex-wrap gap-1.5" }, communesDuDep.map((c2) => /* @__PURE__ */ import_react84.default.createElement(Chip3, { key: c2, label: c2, color: GREEN4, active: communes.includes(c2), onClick: () => toggleCommune(c2) }))));
+    })), communes.length > 0 && /* @__PURE__ */ import_react84.default.createElement("div", { className: "flex flex-wrap gap-1.5 mb-4" }, communes.map((c2) => /* @__PURE__ */ import_react84.default.createElement("span", { key: c2, className: "flex items-center gap-1 text-[11px] font-medium px-2 py-1 rounded-full", style: { background: NAVY_TINT3, color: NAVY14 } }, c2, /* @__PURE__ */ import_react84.default.createElement("button", { onClick: () => toggleCommune(c2), className: "hover:text-red-500" }, /* @__PURE__ */ import_react84.default.createElement(X, { size: 11 }))))), /* @__PURE__ */ import_react84.default.createElement("div", { className: "grid grid-cols-3 gap-3 items-end" }, /* @__PURE__ */ import_react84.default.createElement("div", null, /* @__PURE__ */ import_react84.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "P\xE9riode"), /* @__PURE__ */ import_react84.default.createElement("div", { className: "flex items-center gap-1.5" }, /* @__PURE__ */ import_react84.default.createElement(
       "input",
       {
         type: "date",
@@ -124646,7 +124711,7 @@ ${suffix2}`;
         className: "w-full text-xs rounded-xl border border-gray-200 p-2.5 focus:outline-none focus:ring-2",
         style: { "--tw-ring-color": GOLD13 }
       }
-    ), /* @__PURE__ */ import_react83.default.createElement(
+    ), /* @__PURE__ */ import_react84.default.createElement(
       "input",
       {
         type: "date",
@@ -124655,7 +124720,7 @@ ${suffix2}`;
         className: "w-full text-xs rounded-xl border border-gray-200 p-2.5 focus:outline-none focus:ring-2",
         style: { "--tw-ring-color": GOLD13 }
       }
-    ))), /* @__PURE__ */ import_react83.default.createElement("div", { className: "col-span-2" }, /* @__PURE__ */ import_react83.default.createElement(
+    ))), /* @__PURE__ */ import_react84.default.createElement("div", { className: "col-span-2" }, /* @__PURE__ */ import_react84.default.createElement(
       "button",
       {
         onClick: fetchClimate,
@@ -124663,9 +124728,9 @@ ${suffix2}`;
         className: "px-4 py-2.5 rounded-xl text-sm font-medium flex items-center justify-center gap-2 text-white shadow-md disabled:opacity-60",
         style: { background: `linear-gradient(135deg, ${NAVY14}, #2A4A82)` }
       },
-      loading ? /* @__PURE__ */ import_react83.default.createElement(LoaderCircle, { size: 15, className: "animate-spin" }) : /* @__PURE__ */ import_react83.default.createElement(RefreshCw, { size: 15 }),
+      loading ? /* @__PURE__ */ import_react84.default.createElement(LoaderCircle, { size: 15, className: "animate-spin" }) : /* @__PURE__ */ import_react84.default.createElement(RefreshCw, { size: 15 }),
       " Afficher"
-    ))), /* @__PURE__ */ import_react83.default.createElement("p", { className: "text-[11px] text-gray-400 mt-2" }, "Pluie et temp\xE9ratures : NASA POWER (communaut\xE9 agroclimatique) \xB7 \xC9vapotranspiration de r\xE9f\xE9rence (ET0) : Open-Meteo, m\xE9thode FAO-56 Penman-Monteith \u2014 moyenne journali\xE8re calcul\xE9e sur l'ensemble des communes coch\xE9es \xB7 publication diff\xE9r\xE9e de quelques jours.")), error && /* @__PURE__ */ import_react83.default.createElement("div", { className: "flex items-start gap-2 rounded-xl p-4 mb-5", style: { background: RED_TINT, color: RED } }, /* @__PURE__ */ import_react83.default.createElement(CircleAlert, { size: 16, className: "mt-0.5 shrink-0" }), /* @__PURE__ */ import_react83.default.createElement("div", { className: "text-sm" }, /* @__PURE__ */ import_react83.default.createElement("p", null, error), /* @__PURE__ */ import_react83.default.createElement(
+    ))), /* @__PURE__ */ import_react84.default.createElement("p", { className: "text-[11px] text-gray-400 mt-2" }, "Pluie et temp\xE9ratures : NASA POWER (communaut\xE9 agroclimatique) \xB7 \xC9vapotranspiration de r\xE9f\xE9rence (ET0) : Open-Meteo, m\xE9thode FAO-56 Penman-Monteith \u2014 moyenne journali\xE8re calcul\xE9e sur l'ensemble des communes coch\xE9es \xB7 publication diff\xE9r\xE9e de quelques jours.")), error && /* @__PURE__ */ import_react84.default.createElement("div", { className: "flex items-start gap-2 rounded-xl p-4 mb-5", style: { background: RED_TINT, color: RED } }, /* @__PURE__ */ import_react84.default.createElement(CircleAlert, { size: 16, className: "mt-0.5 shrink-0" }), /* @__PURE__ */ import_react84.default.createElement("div", { className: "text-sm" }, /* @__PURE__ */ import_react84.default.createElement("p", null, error), /* @__PURE__ */ import_react84.default.createElement(
       "a",
       {
         href: `https://power.larc.nasa.gov/data-access-viewer/`,
@@ -124674,7 +124739,7 @@ ${suffix2}`;
         className: "underline font-medium inline-block mt-1"
       },
       "Consulter directement le site NASA POWER"
-    ))), et0Error && /* @__PURE__ */ import_react83.default.createElement("div", { className: "flex items-start gap-2 rounded-xl p-3 mb-5", style: { background: AMBER_TINT3, color: AMBER3 } }, /* @__PURE__ */ import_react83.default.createElement(TriangleAlert, { size: 14, className: "mt-0.5 shrink-0" }), /* @__PURE__ */ import_react83.default.createElement("p", { className: "text-xs" }, et0Error)), result && /* @__PURE__ */ import_react83.default.createElement(import_react83.default.Fragment, null, /* @__PURE__ */ import_react83.default.createElement("div", { className: "grid grid-cols-3 lg:grid-cols-6 gap-4 mb-5" }, /* @__PURE__ */ import_react83.default.createElement(Card6, null, /* @__PURE__ */ import_react83.default.createElement(CloudRain, { size: 18, style: { color: GOLD13 } }), /* @__PURE__ */ import_react83.default.createElement("div", { className: "font-serif text-xl font-bold mt-2", style: { color: NAVY14 } }, result.cumulPluie.toFixed(1), " mm"), /* @__PURE__ */ import_react83.default.createElement("div", { className: "text-xs text-gray-400" }, "Cumul pluviom\xE9trique")), /* @__PURE__ */ import_react83.default.createElement(Card6, null, /* @__PURE__ */ import_react83.default.createElement(Droplets, { size: 18, style: { color: GOLD13 } }), /* @__PURE__ */ import_react83.default.createElement("div", { className: "font-serif text-xl font-bold mt-2", style: { color: NAVY14 } }, result.joursPluie, " j"), /* @__PURE__ */ import_react83.default.createElement("div", { className: "text-xs text-gray-400" }, "Jours de pluie (\u2265 1 mm) sur ", result.n)), /* @__PURE__ */ import_react83.default.createElement(Card6, null, /* @__PURE__ */ import_react83.default.createElement(Thermometer, { size: 18, style: { color: RED } }), /* @__PURE__ */ import_react83.default.createElement("div", { className: "font-serif text-xl font-bold mt-2", style: { color: NAVY14 } }, result.tMaxAbs.toFixed(1), " \xB0C"), /* @__PURE__ */ import_react83.default.createElement("div", { className: "text-xs text-gray-400" }, "Temp\xE9rature maximale")), /* @__PURE__ */ import_react83.default.createElement(Card6, null, /* @__PURE__ */ import_react83.default.createElement(Thermometer, { size: 18, style: { color: "#3592C4" } }), /* @__PURE__ */ import_react83.default.createElement("div", { className: "font-serif text-xl font-bold mt-2", style: { color: NAVY14 } }, result.tMinAbs.toFixed(1), " \xB0C"), /* @__PURE__ */ import_react83.default.createElement("div", { className: "text-xs text-gray-400" }, "Temp\xE9rature minimale")), /* @__PURE__ */ import_react83.default.createElement(Card6, null, /* @__PURE__ */ import_react83.default.createElement(Sun, { size: 18, style: { color: "#B5651D" } }), /* @__PURE__ */ import_react83.default.createElement("div", { className: "font-serif text-xl font-bold mt-2", style: { color: NAVY14 } }, result.et0Cumule > 0 ? `${result.et0Cumule.toFixed(1)} mm` : "\u2014"), /* @__PURE__ */ import_react83.default.createElement("div", { className: "text-xs text-gray-400" }, "ET0 cumul\xE9e")), /* @__PURE__ */ import_react83.default.createElement(Card6, null, /* @__PURE__ */ import_react83.default.createElement(WavesHorizontal, { size: 18, style: { color: result.bilanNet >= 0 ? GREEN4 : RED } }), /* @__PURE__ */ import_react83.default.createElement("div", { className: "font-serif text-xl font-bold mt-2", style: { color: result.bilanNet >= 0 ? GREEN4 : RED } }, result.bilanNet !== null ? `${result.bilanNet >= 0 ? "+" : ""}${result.bilanNet.toFixed(1)} mm` : "\u2014"), /* @__PURE__ */ import_react83.default.createElement("div", { className: "text-xs text-gray-400" }, "Bilan hydrique net (P \u2212 ET0)"))), /* @__PURE__ */ import_react83.default.createElement(Card6, { className: "mb-5" }, /* @__PURE__ */ import_react83.default.createElement("div", { className: "flex items-center justify-between mb-3" }, /* @__PURE__ */ import_react83.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY14 } }, "Pr\xE9cipitations et temp\xE9ratures"), /* @__PURE__ */ import_react83.default.createElement("div", { className: "flex gap-1.5" }, [["jour", "Jour"], ["mois", "Cumul mensuel"], ["trimestre", "Cumul trimestriel"]].map(([k2, l]) => /* @__PURE__ */ import_react83.default.createElement(
+    ))), et0Error && /* @__PURE__ */ import_react84.default.createElement("div", { className: "flex items-start gap-2 rounded-xl p-3 mb-5", style: { background: AMBER_TINT3, color: AMBER3 } }, /* @__PURE__ */ import_react84.default.createElement(TriangleAlert, { size: 14, className: "mt-0.5 shrink-0" }), /* @__PURE__ */ import_react84.default.createElement("p", { className: "text-xs" }, et0Error)), result && /* @__PURE__ */ import_react84.default.createElement(import_react84.default.Fragment, null, /* @__PURE__ */ import_react84.default.createElement("div", { className: "grid grid-cols-3 lg:grid-cols-6 gap-4 mb-5" }, /* @__PURE__ */ import_react84.default.createElement(Card6, null, /* @__PURE__ */ import_react84.default.createElement(CloudRain, { size: 18, style: { color: GOLD13 } }), /* @__PURE__ */ import_react84.default.createElement("div", { className: "font-serif text-xl font-bold mt-2", style: { color: NAVY14 } }, result.cumulPluie.toFixed(1), " mm"), /* @__PURE__ */ import_react84.default.createElement("div", { className: "text-xs text-gray-400" }, "Cumul pluviom\xE9trique")), /* @__PURE__ */ import_react84.default.createElement(Card6, null, /* @__PURE__ */ import_react84.default.createElement(Droplets, { size: 18, style: { color: GOLD13 } }), /* @__PURE__ */ import_react84.default.createElement("div", { className: "font-serif text-xl font-bold mt-2", style: { color: NAVY14 } }, result.joursPluie, " j"), /* @__PURE__ */ import_react84.default.createElement("div", { className: "text-xs text-gray-400" }, "Jours de pluie (> ", RAIN_DAY_THRESHOLD_MM, " mm) sur ", result.n)), /* @__PURE__ */ import_react84.default.createElement(Card6, null, /* @__PURE__ */ import_react84.default.createElement(Thermometer, { size: 18, style: { color: RED } }), /* @__PURE__ */ import_react84.default.createElement("div", { className: "font-serif text-xl font-bold mt-2", style: { color: NAVY14 } }, result.tMaxAbs.toFixed(1), " \xB0C"), /* @__PURE__ */ import_react84.default.createElement("div", { className: "text-xs text-gray-400" }, "Temp\xE9rature maximale")), /* @__PURE__ */ import_react84.default.createElement(Card6, null, /* @__PURE__ */ import_react84.default.createElement(Thermometer, { size: 18, style: { color: "#3592C4" } }), /* @__PURE__ */ import_react84.default.createElement("div", { className: "font-serif text-xl font-bold mt-2", style: { color: NAVY14 } }, result.tMinAbs.toFixed(1), " \xB0C"), /* @__PURE__ */ import_react84.default.createElement("div", { className: "text-xs text-gray-400" }, "Temp\xE9rature minimale")), /* @__PURE__ */ import_react84.default.createElement(Card6, null, /* @__PURE__ */ import_react84.default.createElement(Sun, { size: 18, style: { color: "#B5651D" } }), /* @__PURE__ */ import_react84.default.createElement("div", { className: "font-serif text-xl font-bold mt-2", style: { color: NAVY14 } }, result.et0Cumule > 0 ? `${result.et0Cumule.toFixed(1)} mm` : "\u2014"), /* @__PURE__ */ import_react84.default.createElement("div", { className: "text-xs text-gray-400" }, "ET0 cumul\xE9e")), /* @__PURE__ */ import_react84.default.createElement(Card6, null, /* @__PURE__ */ import_react84.default.createElement(WavesHorizontal, { size: 18, style: { color: result.bilanNet >= 0 ? GREEN4 : RED } }), /* @__PURE__ */ import_react84.default.createElement("div", { className: "font-serif text-xl font-bold mt-2", style: { color: result.bilanNet >= 0 ? GREEN4 : RED } }, result.bilanNet !== null ? `${result.bilanNet >= 0 ? "+" : ""}${result.bilanNet.toFixed(1)} mm` : "\u2014"), /* @__PURE__ */ import_react84.default.createElement("div", { className: "text-xs text-gray-400" }, "Bilan hydrique net (P \u2212 ET0)"))), /* @__PURE__ */ import_react84.default.createElement(Card6, { className: "mb-5" }, /* @__PURE__ */ import_react84.default.createElement("div", { className: "flex items-center justify-between mb-3" }, /* @__PURE__ */ import_react84.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY14 } }, "Pr\xE9cipitations et temp\xE9ratures"), /* @__PURE__ */ import_react84.default.createElement("div", { className: "flex gap-1.5" }, [["jour", "Jour"], ["mois", "Cumul mensuel"], ["trimestre", "Cumul trimestriel"]].map(([k2, l]) => /* @__PURE__ */ import_react84.default.createElement(
       "button",
       {
         key: k2,
@@ -124683,7 +124748,7 @@ ${suffix2}`;
         style: view === k2 ? { background: NAVY14, color: "white" } : { background: "#F1F2F6", color: "#5A6478" }
       },
       l
-    )))), /* @__PURE__ */ import_react83.default.createElement("div", { className: "grid grid-cols-2 gap-4" }, /* @__PURE__ */ import_react83.default.createElement("div", null, /* @__PURE__ */ import_react83.default.createElement("p", { className: "text-xs text-gray-400 mb-2" }, view === "jour" ? "Pluie journali\xE8re (mm)" : `Pluie cumul\xE9e par ${view} (mm)`), /* @__PURE__ */ import_react83.default.createElement(ResponsiveContainer, { width: "100%", height: 220 }, /* @__PURE__ */ import_react83.default.createElement(BarChart, { data: periodData }, /* @__PURE__ */ import_react83.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react83.default.createElement(XAxis, { dataKey: periodKey, tick: { fontSize: 10 }, interval: view === "jour" ? Math.ceil((periodData?.length || 1) / 8) : 0 }), /* @__PURE__ */ import_react83.default.createElement(YAxis, { tick: { fontSize: 11 }, unit: " mm", width: 50 }), /* @__PURE__ */ import_react83.default.createElement(Tooltip, null), /* @__PURE__ */ import_react83.default.createElement(Bar, { dataKey: "pluie", fill: "#3592C4", radius: [3, 3, 0, 0], name: "Pluie (mm)" })))), /* @__PURE__ */ import_react83.default.createElement("div", null, /* @__PURE__ */ import_react83.default.createElement("p", { className: "text-xs text-gray-400 mb-2" }, view === "jour" ? "Temp\xE9ratures journali\xE8res (\xB0C)" : `Temp\xE9rature moyenne par ${view} (\xB0C)`), /* @__PURE__ */ import_react83.default.createElement(ResponsiveContainer, { width: "100%", height: 220 }, view === "jour" ? /* @__PURE__ */ import_react83.default.createElement(LineChart, { data: periodData }, /* @__PURE__ */ import_react83.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react83.default.createElement(XAxis, { dataKey: "date", tick: { fontSize: 10 }, interval: Math.ceil((periodData?.length || 1) / 8) }), /* @__PURE__ */ import_react83.default.createElement(YAxis, { tick: { fontSize: 11 }, unit: "\xB0C", width: 45 }), /* @__PURE__ */ import_react83.default.createElement(Tooltip, null), /* @__PURE__ */ import_react83.default.createElement(Line, { type: "monotone", dataKey: "tmax", stroke: RED, strokeWidth: 2, dot: false, name: "T\xB0 max" }), /* @__PURE__ */ import_react83.default.createElement(Line, { type: "monotone", dataKey: "tmin", stroke: "#3592C4", strokeWidth: 2, dot: false, name: "T\xB0 min" })) : /* @__PURE__ */ import_react83.default.createElement(LineChart, { data: periodData }, /* @__PURE__ */ import_react83.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react83.default.createElement(XAxis, { dataKey: "periode", tick: { fontSize: 10 } }), /* @__PURE__ */ import_react83.default.createElement(YAxis, { tick: { fontSize: 11 }, unit: "\xB0C", width: 45 }), /* @__PURE__ */ import_react83.default.createElement(Tooltip, null), /* @__PURE__ */ import_react83.default.createElement(Line, { type: "monotone", dataKey: "tmoyenne", stroke: RED, strokeWidth: 2, dot: true, name: "T\xB0 moyenne" })))))), /* @__PURE__ */ import_react83.default.createElement(Card6, { className: "mb-5" }, /* @__PURE__ */ import_react83.default.createElement("div", { className: "flex items-center gap-2 mb-1" }, /* @__PURE__ */ import_react83.default.createElement(Sun, { size: 16, style: { color: GOLD13 } }), /* @__PURE__ */ import_react83.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY14 } }, "Diagramme ombrothermique (Gaussen)")), /* @__PURE__ */ import_react83.default.createElement("p", { className: "text-xs text-gray-400 mb-3" }, "Convention de Gaussen : un mois est consid\xE9r\xE9 sec lorsque le cumul pluviom\xE9trique (mm) descend sous le double de la temp\xE9rature moyenne (\xB0C) \u2014 zone gris\xE9e sur le graphique."), /* @__PURE__ */ import_react83.default.createElement(ResponsiveContainer, { width: "100%", height: 260 }, /* @__PURE__ */ import_react83.default.createElement(ComposedChart, { data: monthlyData }, /* @__PURE__ */ import_react83.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react83.default.createElement(XAxis, { dataKey: "periode", tick: { fontSize: 11 } }), /* @__PURE__ */ import_react83.default.createElement(YAxis, { yAxisId: "temp", tick: { fontSize: 11 }, unit: "\xB0C", width: 45, domain: [0, ombroMax.temp] }), /* @__PURE__ */ import_react83.default.createElement(YAxis, { yAxisId: "pluie", orientation: "right", tick: { fontSize: 11 }, unit: " mm", width: 50, domain: [0, ombroMax.pluie] }), /* @__PURE__ */ import_react83.default.createElement(Tooltip, null), /* @__PURE__ */ import_react83.default.createElement(Legend, { wrapperStyle: { fontSize: 11 } }), /* @__PURE__ */ import_react83.default.createElement(Bar, { yAxisId: "pluie", dataKey: "pluie", fill: "#A9C7E8", name: "Pluie cumul\xE9e (mm)", radius: [3, 3, 0, 0] }), /* @__PURE__ */ import_react83.default.createElement(Line, { yAxisId: "temp", type: "monotone", dataKey: "tmoyenne", stroke: RED, strokeWidth: 2.5, name: "Temp\xE9rature moyenne (\xB0C)", dot: true })))), /* @__PURE__ */ import_react83.default.createElement(Card6, { className: "mb-5" }, /* @__PURE__ */ import_react83.default.createElement("div", { className: "flex items-center gap-2 mb-1" }, /* @__PURE__ */ import_react83.default.createElement(WavesHorizontal, { size: 16, style: { color: "#3592C4" } }), /* @__PURE__ */ import_react83.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY14 } }, "Bilan hydrique s\xE9quentiel (P \u2212 ET0)")), /* @__PURE__ */ import_react83.default.createElement("p", { className: "text-xs text-gray-400 mb-3" }, "Bilan cumul\xE9 = somme courante de (pluie \u2212 ET0) depuis le d\xE9but de la p\xE9riode affich\xE9e. Une valeur positive indique un exc\xE9dent hydrique disponible, une valeur n\xE9gative un d\xE9ficit. Estimation simplifi\xE9e, sans prise en compte de la r\xE9serve utile du sol ni du ruissellement."), result.daily.some((d) => d.et0 !== null) ? /* @__PURE__ */ import_react83.default.createElement(ResponsiveContainer, { width: "100%", height: 220 }, /* @__PURE__ */ import_react83.default.createElement(LineChart, { data: result.daily }, /* @__PURE__ */ import_react83.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react83.default.createElement(XAxis, { dataKey: "date", tick: { fontSize: 10 }, interval: Math.ceil(result.daily.length / 8) }), /* @__PURE__ */ import_react83.default.createElement(YAxis, { tick: { fontSize: 11 }, unit: " mm", width: 55 }), /* @__PURE__ */ import_react83.default.createElement(Tooltip, null), /* @__PURE__ */ import_react83.default.createElement(ReferenceLine, { y: 0, stroke: "#B0B7C6", strokeDasharray: "4 4" }), /* @__PURE__ */ import_react83.default.createElement(Line, { type: "monotone", dataKey: "bilanCumule", stroke: GREEN4, strokeWidth: 2, dot: false, name: "Bilan cumul\xE9 (mm)" }))) : /* @__PURE__ */ import_react83.default.createElement("div", { className: "rounded-xl p-3 text-xs text-gray-400 italic", style: { background: "#F7F8FA" } }, "Le bilan hydrique ne peut pas \xEAtre calcul\xE9 : l'\xE9vapotranspiration de r\xE9f\xE9rence (ET0) n'a pas pu \xEAtre r\xE9cup\xE9r\xE9e pour cette p\xE9riode.")), /* @__PURE__ */ import_react83.default.createElement(Card6, { className: "mb-5" }, /* @__PURE__ */ import_react83.default.createElement("div", { className: "flex items-center justify-between mb-1" }, /* @__PURE__ */ import_react83.default.createElement("div", { className: "flex items-center gap-2" }, /* @__PURE__ */ import_react83.default.createElement(TriangleAlert, { size: 16, style: { color: AMBER3 } }), /* @__PURE__ */ import_react83.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY14 } }, "S\xE9quences s\xE8ches")), /* @__PURE__ */ import_react83.default.createElement("div", { className: "flex items-center gap-2 text-xs text-gray-500" }, "Seuil de signalement :", /* @__PURE__ */ import_react83.default.createElement(
+    )))), /* @__PURE__ */ import_react84.default.createElement("div", { className: "grid grid-cols-2 gap-4" }, /* @__PURE__ */ import_react84.default.createElement("div", null, /* @__PURE__ */ import_react84.default.createElement("div", { className: "flex items-center justify-between mb-2" }, /* @__PURE__ */ import_react84.default.createElement("p", { className: "text-xs text-gray-400" }, view === "jour" ? "Pluie journali\xE8re (mm)" : `Pluie cumul\xE9e par ${view} (mm)`), /* @__PURE__ */ import_react84.default.createElement(ChartExportButton, { targetRef: pluieChartRef, filename: `Pluie_${view}_${communes.join("-")}` })), /* @__PURE__ */ import_react84.default.createElement("div", { ref: pluieChartRef }, /* @__PURE__ */ import_react84.default.createElement(ResponsiveContainer, { width: "100%", height: 220 }, /* @__PURE__ */ import_react84.default.createElement(BarChart, { data: periodData }, /* @__PURE__ */ import_react84.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react84.default.createElement(XAxis, { dataKey: periodKey, tick: { fontSize: 10 }, interval: view === "jour" ? Math.ceil((periodData?.length || 1) / 8) : 0 }), /* @__PURE__ */ import_react84.default.createElement(YAxis, { tick: { fontSize: 11 }, unit: " mm", width: 50 }), /* @__PURE__ */ import_react84.default.createElement(Tooltip, null), /* @__PURE__ */ import_react84.default.createElement(Bar, { dataKey: "pluie", fill: "#3592C4", radius: [3, 3, 0, 0], name: "Pluie (mm)" }))))), /* @__PURE__ */ import_react84.default.createElement("div", null, /* @__PURE__ */ import_react84.default.createElement("div", { className: "flex items-center justify-between mb-2" }, /* @__PURE__ */ import_react84.default.createElement("p", { className: "text-xs text-gray-400" }, view === "jour" ? "Temp\xE9ratures journali\xE8res (\xB0C)" : `Temp\xE9rature moyenne par ${view} (\xB0C)`), /* @__PURE__ */ import_react84.default.createElement(ChartExportButton, { targetRef: tempChartRef, filename: `Temperatures_${view}_${communes.join("-")}` })), /* @__PURE__ */ import_react84.default.createElement("div", { ref: tempChartRef }, /* @__PURE__ */ import_react84.default.createElement(ResponsiveContainer, { width: "100%", height: 220 }, view === "jour" ? /* @__PURE__ */ import_react84.default.createElement(LineChart, { data: periodData }, /* @__PURE__ */ import_react84.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react84.default.createElement(XAxis, { dataKey: "date", tick: { fontSize: 10 }, interval: Math.ceil((periodData?.length || 1) / 8) }), /* @__PURE__ */ import_react84.default.createElement(YAxis, { tick: { fontSize: 11 }, unit: "\xB0C", width: 45 }), /* @__PURE__ */ import_react84.default.createElement(Tooltip, null), /* @__PURE__ */ import_react84.default.createElement(Line, { type: "monotone", dataKey: "tmax", stroke: RED, strokeWidth: 2, dot: false, name: "T\xB0 max" }), /* @__PURE__ */ import_react84.default.createElement(Line, { type: "monotone", dataKey: "tmin", stroke: "#3592C4", strokeWidth: 2, dot: false, name: "T\xB0 min" })) : /* @__PURE__ */ import_react84.default.createElement(LineChart, { data: periodData }, /* @__PURE__ */ import_react84.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react84.default.createElement(XAxis, { dataKey: "periode", tick: { fontSize: 10 } }), /* @__PURE__ */ import_react84.default.createElement(YAxis, { tick: { fontSize: 11 }, unit: "\xB0C", width: 45 }), /* @__PURE__ */ import_react84.default.createElement(Tooltip, null), /* @__PURE__ */ import_react84.default.createElement(Line, { type: "monotone", dataKey: "tmoyenne", stroke: RED, strokeWidth: 2, dot: true, name: "T\xB0 moyenne" }))))))), /* @__PURE__ */ import_react84.default.createElement(Card6, { className: "mb-5" }, /* @__PURE__ */ import_react84.default.createElement("div", { className: "flex items-center justify-between mb-1" }, /* @__PURE__ */ import_react84.default.createElement("div", { className: "flex items-center gap-2" }, /* @__PURE__ */ import_react84.default.createElement(Sun, { size: 16, style: { color: GOLD13 } }), /* @__PURE__ */ import_react84.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY14 } }, "Diagramme ombrothermique (Gaussen)")), /* @__PURE__ */ import_react84.default.createElement(ChartExportButton, { targetRef: ombroChartRef, filename: `Diagramme_ombrothermique_${communes.join("-")}` })), /* @__PURE__ */ import_react84.default.createElement("p", { className: "text-xs text-gray-400 mb-3" }, "Convention de Gaussen : un mois est consid\xE9r\xE9 sec lorsque le cumul pluviom\xE9trique (mm) descend sous le double de la temp\xE9rature moyenne (\xB0C) \u2014 zone gris\xE9e sur le graphique."), /* @__PURE__ */ import_react84.default.createElement("div", { ref: ombroChartRef }, /* @__PURE__ */ import_react84.default.createElement(ResponsiveContainer, { width: "100%", height: 260 }, /* @__PURE__ */ import_react84.default.createElement(ComposedChart, { data: monthlyData }, /* @__PURE__ */ import_react84.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react84.default.createElement(XAxis, { dataKey: "periode", tick: { fontSize: 11 } }), /* @__PURE__ */ import_react84.default.createElement(YAxis, { yAxisId: "temp", tick: { fontSize: 11 }, unit: "\xB0C", width: 45, domain: [0, ombroMax.temp] }), /* @__PURE__ */ import_react84.default.createElement(YAxis, { yAxisId: "pluie", orientation: "right", tick: { fontSize: 11 }, unit: " mm", width: 50, domain: [0, ombroMax.pluie] }), /* @__PURE__ */ import_react84.default.createElement(Tooltip, null), /* @__PURE__ */ import_react84.default.createElement(Legend, { wrapperStyle: { fontSize: 11 } }), /* @__PURE__ */ import_react84.default.createElement(Bar, { yAxisId: "pluie", dataKey: "pluie", fill: "#A9C7E8", name: "Pluie cumul\xE9e (mm)", radius: [3, 3, 0, 0] }), /* @__PURE__ */ import_react84.default.createElement(Line, { yAxisId: "temp", type: "monotone", dataKey: "tmoyenne", stroke: RED, strokeWidth: 2.5, name: "Temp\xE9rature moyenne (\xB0C)", dot: true }))))), /* @__PURE__ */ import_react84.default.createElement(Card6, { className: "mb-5" }, /* @__PURE__ */ import_react84.default.createElement("div", { className: "flex items-center justify-between mb-1" }, /* @__PURE__ */ import_react84.default.createElement("div", { className: "flex items-center gap-2" }, /* @__PURE__ */ import_react84.default.createElement(WavesHorizontal, { size: 16, style: { color: "#3592C4" } }), /* @__PURE__ */ import_react84.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY14 } }, "Bilan hydrique s\xE9quentiel (P \u2212 ET0)")), result.daily.some((d) => d.et0 !== null) && /* @__PURE__ */ import_react84.default.createElement(ChartExportButton, { targetRef: bilanChartRef, filename: `Bilan_hydrique_${communes.join("-")}` })), /* @__PURE__ */ import_react84.default.createElement("p", { className: "text-xs text-gray-400 mb-3" }, "Bilan cumul\xE9 = somme courante de (pluie \u2212 ET0) depuis le d\xE9but de la p\xE9riode affich\xE9e. Une valeur positive indique un exc\xE9dent hydrique disponible, une valeur n\xE9gative un d\xE9ficit. Estimation simplifi\xE9e, sans prise en compte de la r\xE9serve utile du sol ni du ruissellement."), result.daily.some((d) => d.et0 !== null) ? /* @__PURE__ */ import_react84.default.createElement("div", { ref: bilanChartRef }, /* @__PURE__ */ import_react84.default.createElement(ResponsiveContainer, { width: "100%", height: 220 }, /* @__PURE__ */ import_react84.default.createElement(LineChart, { data: result.daily }, /* @__PURE__ */ import_react84.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react84.default.createElement(XAxis, { dataKey: "date", tick: { fontSize: 10 }, interval: Math.ceil(result.daily.length / 8) }), /* @__PURE__ */ import_react84.default.createElement(YAxis, { tick: { fontSize: 11 }, unit: " mm", width: 55 }), /* @__PURE__ */ import_react84.default.createElement(Tooltip, null), /* @__PURE__ */ import_react84.default.createElement(ReferenceLine, { y: 0, stroke: "#B0B7C6", strokeDasharray: "4 4" }), /* @__PURE__ */ import_react84.default.createElement(Line, { type: "monotone", dataKey: "bilanCumule", stroke: GREEN4, strokeWidth: 2, dot: false, name: "Bilan cumul\xE9 (mm)" })))) : /* @__PURE__ */ import_react84.default.createElement("div", { className: "rounded-xl p-3 text-xs text-gray-400 italic", style: { background: "#F7F8FA" } }, "Le bilan hydrique ne peut pas \xEAtre calcul\xE9 : l'\xE9vapotranspiration de r\xE9f\xE9rence (ET0) n'a pas pu \xEAtre r\xE9cup\xE9r\xE9e pour cette p\xE9riode.")), /* @__PURE__ */ import_react84.default.createElement(Card6, { className: "mb-5" }, /* @__PURE__ */ import_react84.default.createElement("div", { className: "flex items-center justify-between mb-1" }, /* @__PURE__ */ import_react84.default.createElement("div", { className: "flex items-center gap-2" }, /* @__PURE__ */ import_react84.default.createElement(TriangleAlert, { size: 16, style: { color: AMBER3 } }), /* @__PURE__ */ import_react84.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY14 } }, "S\xE9quences s\xE8ches")), /* @__PURE__ */ import_react84.default.createElement("div", { className: "flex items-center gap-2 text-xs text-gray-500" }, "Seuil de signalement :", /* @__PURE__ */ import_react84.default.createElement(
       "input",
       {
         type: "number",
@@ -124693,15 +124758,15 @@ ${suffix2}`;
         onChange: (e) => setDrySpellMinLength(e.target.value),
         className: "w-16 text-xs rounded-lg border border-gray-200 p-1.5 focus:outline-none"
       }
-    ), "jours cons\xE9cutifs sans pluie utile (< 1 mm)")), drySpellsRecalc && drySpellsRecalc.significant.length > 0 ? /* @__PURE__ */ import_react83.default.createElement(import_react83.default.Fragment, null, /* @__PURE__ */ import_react83.default.createElement("p", { className: "text-xs text-gray-500 mb-3" }, drySpellsRecalc.countSignificant, " s\xE9quence", drySpellsRecalc.countSignificant > 1 ? "s" : "", " s\xE8che", drySpellsRecalc.countSignificant > 1 ? "s" : "", " significative", drySpellsRecalc.countSignificant > 1 ? "s" : "", " d\xE9tect\xE9e", drySpellsRecalc.countSignificant > 1 ? "s" : "", " sur la p\xE9riode \u2014 la plus longue dure ", drySpellsRecalc.longest?.length, " jours (", drySpellsRecalc.longest?.start, " \u2192 ", drySpellsRecalc.longest?.end, ")."), /* @__PURE__ */ import_react83.default.createElement("div", { className: "space-y-1.5" }, drySpellsRecalc.significant.slice(0, 8).map((s2, i) => /* @__PURE__ */ import_react83.default.createElement("div", { key: i, className: "flex items-center justify-between rounded-lg px-3 py-2 text-xs", style: { background: AMBER_TINT3 } }, /* @__PURE__ */ import_react83.default.createElement("span", { style: { color: AMBER3 } }, "Du ", s2.start, " au ", s2.end), /* @__PURE__ */ import_react83.default.createElement("span", { className: "font-semibold", style: { color: AMBER3 } }, s2.length, " jours"))))) : /* @__PURE__ */ import_react83.default.createElement("div", { className: "rounded-xl p-3 text-xs text-gray-400 italic", style: { background: "#F7F8FA" } }, "Aucune s\xE9quence s\xE8che d'au moins ", drySpellMinLength, " jours cons\xE9cutifs d\xE9tect\xE9e sur la p\xE9riode.")), /* @__PURE__ */ import_react83.default.createElement(Card6, null, /* @__PURE__ */ import_react83.default.createElement("div", { className: "flex items-center gap-2 mb-1" }, /* @__PURE__ */ import_react83.default.createElement(Sprout, { size: 16, style: { color: GREEN4 } }), /* @__PURE__ */ import_react83.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY14 } }, "Satisfaction des besoins en eau par culture")), /* @__PURE__ */ import_react83.default.createElement("p", { className: "text-xs text-gray-400 mb-3" }, "M\xE9thode des coefficients culturaux (Kc) \u2014 FAO Irrigation and Drainage Paper n\xB056 (Allen et al., 1998), valeurs indicatives pour la zone soudano-guin\xE9enne. ETc = Kc \xD7 ET0 ; indice de satisfaction = pluie d\xE9cadaire / ETc d\xE9cadaire."), /* @__PURE__ */ import_react83.default.createElement("div", { className: "grid grid-cols-3 gap-3 mb-4" }, /* @__PURE__ */ import_react83.default.createElement("div", null, /* @__PURE__ */ import_react83.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Culture"), /* @__PURE__ */ import_react83.default.createElement(
+    ), "jours cons\xE9cutifs sans pluie utile (\u2264 ", RAIN_DAY_THRESHOLD_MM, " mm)")), drySpellsRecalc && drySpellsRecalc.significant.length > 0 ? /* @__PURE__ */ import_react84.default.createElement(import_react84.default.Fragment, null, /* @__PURE__ */ import_react84.default.createElement("p", { className: "text-xs text-gray-500 mb-3" }, drySpellsRecalc.countSignificant, " s\xE9quence", drySpellsRecalc.countSignificant > 1 ? "s" : "", " s\xE8che", drySpellsRecalc.countSignificant > 1 ? "s" : "", " significative", drySpellsRecalc.countSignificant > 1 ? "s" : "", " d\xE9tect\xE9e", drySpellsRecalc.countSignificant > 1 ? "s" : "", " sur la p\xE9riode \u2014 la plus longue dure ", drySpellsRecalc.longest?.length, " jours (", drySpellsRecalc.longest?.start, " \u2192 ", drySpellsRecalc.longest?.end, ")."), /* @__PURE__ */ import_react84.default.createElement("div", { className: "space-y-1.5" }, drySpellsRecalc.significant.slice(0, 8).map((s2, i) => /* @__PURE__ */ import_react84.default.createElement("div", { key: i, className: "flex items-center justify-between rounded-lg px-3 py-2 text-xs", style: { background: AMBER_TINT3 } }, /* @__PURE__ */ import_react84.default.createElement("span", { style: { color: AMBER3 } }, "Du ", s2.start, " au ", s2.end), /* @__PURE__ */ import_react84.default.createElement("span", { className: "font-semibold", style: { color: AMBER3 } }, s2.length, " jours"))))) : /* @__PURE__ */ import_react84.default.createElement("div", { className: "rounded-xl p-3 text-xs text-gray-400 italic", style: { background: "#F7F8FA" } }, "Aucune s\xE9quence s\xE8che d'au moins ", drySpellMinLength, " jours cons\xE9cutifs d\xE9tect\xE9e sur la p\xE9riode.")), /* @__PURE__ */ import_react84.default.createElement(Card6, null, /* @__PURE__ */ import_react84.default.createElement("div", { className: "flex items-center gap-2 mb-1" }, /* @__PURE__ */ import_react84.default.createElement(Sprout, { size: 16, style: { color: GREEN4 } }), /* @__PURE__ */ import_react84.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY14 } }, "Satisfaction des besoins en eau par culture")), /* @__PURE__ */ import_react84.default.createElement("p", { className: "text-xs text-gray-400 mb-3" }, "M\xE9thode des coefficients culturaux (Kc) \u2014 FAO Irrigation and Drainage Paper n\xB056 (Allen et al., 1998), valeurs indicatives pour la zone soudano-guin\xE9enne. ETc = Kc \xD7 ET0 ; indice de satisfaction = pluie d\xE9cadaire / ETc d\xE9cadaire."), /* @__PURE__ */ import_react84.default.createElement("div", { className: "grid grid-cols-3 gap-3 mb-4" }, /* @__PURE__ */ import_react84.default.createElement("div", null, /* @__PURE__ */ import_react84.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Culture"), /* @__PURE__ */ import_react84.default.createElement(
       "select",
       {
         value: cropKey,
         onChange: (e) => setCropKey(e.target.value),
         className: "w-full text-sm rounded-xl border border-gray-200 p-2.5 bg-white focus:outline-none"
       },
-      Object.entries(CROP_KC_TABLE).map(([k2, c2]) => /* @__PURE__ */ import_react83.default.createElement("option", { key: k2, value: k2 }, c2.label))
-    )), /* @__PURE__ */ import_react83.default.createElement("div", null, /* @__PURE__ */ import_react83.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Date de semis"), /* @__PURE__ */ import_react83.default.createElement(
+      Object.entries(CROP_KC_TABLE).map(([k2, c2]) => /* @__PURE__ */ import_react84.default.createElement("option", { key: k2, value: k2 }, c2.label))
+    )), /* @__PURE__ */ import_react84.default.createElement("div", null, /* @__PURE__ */ import_react84.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Date de semis"), /* @__PURE__ */ import_react84.default.createElement(
       "input",
       {
         type: "date",
@@ -124709,11 +124774,11 @@ ${suffix2}`;
         onChange: (e) => setSowingDate(e.target.value),
         className: "w-full text-sm rounded-xl border border-gray-200 p-2.5 focus:outline-none"
       }
-    )), cropAnalysis && /* @__PURE__ */ import_react83.default.createElement("div", { className: "rounded-xl p-3 flex flex-col justify-center", style: { background: NAVY_TINT3 } }, /* @__PURE__ */ import_react83.default.createElement("span", { className: "text-[11px] text-gray-500" }, "Fin de cycle estim\xE9e"), /* @__PURE__ */ import_react83.default.createElement("span", { className: "text-sm font-semibold", style: { color: NAVY14 } }, cropAnalysis.dateFinCycleISO, " (", cropAnalysis.cycleLength, " j)"))), !result.daily.some((d) => d.et0 !== null) ? /* @__PURE__ */ import_react83.default.createElement("div", { className: "rounded-xl p-3 text-xs text-gray-400 italic", style: { background: "#F7F8FA" } }, "L'analyse par culture n\xE9cessite l'\xE9vapotranspiration de r\xE9f\xE9rence (ET0), indisponible pour cette p\xE9riode.") : cropAnalysis && cropAnalysis.decades.length > 0 ? /* @__PURE__ */ import_react83.default.createElement(import_react83.default.Fragment, null, /* @__PURE__ */ import_react83.default.createElement("div", { className: "rounded-xl p-3 mb-4 flex items-center gap-3", style: { background: cropAnalysis.iseGlobal >= 1 ? GREEN_TINT3 : cropAnalysis.iseGlobal >= 0.5 ? AMBER_TINT3 : RED_TINT } }, /* @__PURE__ */ import_react83.default.createElement(Info, { size: 15, style: { color: cropAnalysis.iseGlobal >= 1 ? GREEN4 : cropAnalysis.iseGlobal >= 0.5 ? AMBER3 : RED } }), /* @__PURE__ */ import_react83.default.createElement("p", { className: "text-xs", style: { color: cropAnalysis.iseGlobal >= 1 ? GREEN4 : cropAnalysis.iseGlobal >= 0.5 ? AMBER3 : RED } }, "Sur la portion du cycle couverte par les donn\xE9es disponibles : ", cropAnalysis.totalPluie.toFixed(0), " mm de pluie pour ", cropAnalysis.totalEtc.toFixed(0), " mm de besoins (ETc) \u2014 indice de satisfaction global ", cropAnalysis.iseGlobal !== null ? cropAnalysis.iseGlobal.toFixed(2) : "\u2014", ".", cropAnalysis.periodesStress.length > 0 && ` ${cropAnalysis.periodesStress.length} d\xE9cade(s) en situation de d\xE9ficit hydrique.`)), /* @__PURE__ */ import_react83.default.createElement("div", { className: "overflow-x-auto" }, /* @__PURE__ */ import_react83.default.createElement("table", { className: "text-xs w-full" }, /* @__PURE__ */ import_react83.default.createElement("thead", null, /* @__PURE__ */ import_react83.default.createElement("tr", null, /* @__PURE__ */ import_react83.default.createElement("th", { className: "text-left text-[10px] text-gray-400 uppercase pb-2" }, "P\xE9riode (d\xE9cade)"), /* @__PURE__ */ import_react83.default.createElement("th", { className: "text-left text-[10px] text-gray-400 uppercase pb-2" }, "Stade"), /* @__PURE__ */ import_react83.default.createElement("th", { className: "text-right text-[10px] text-gray-400 uppercase pb-2" }, "Pluie (mm)"), /* @__PURE__ */ import_react83.default.createElement("th", { className: "text-right text-[10px] text-gray-400 uppercase pb-2" }, "ETc (mm)"), /* @__PURE__ */ import_react83.default.createElement("th", { className: "text-right text-[10px] text-gray-400 uppercase pb-2" }, "ISE"), /* @__PURE__ */ import_react83.default.createElement("th", { className: "text-right text-[10px] text-gray-400 uppercase pb-2" }, "Statut"))), /* @__PURE__ */ import_react83.default.createElement("tbody", null, cropAnalysis.decades.map((d, i) => /* @__PURE__ */ import_react83.default.createElement("tr", { key: i, className: "border-t border-gray-50" }, /* @__PURE__ */ import_react83.default.createElement("td", { className: "py-1.5 text-gray-700" }, d.dateDebut, " \u2192 ", d.dateFin), /* @__PURE__ */ import_react83.default.createElement("td", { className: "py-1.5 text-gray-500" }, d.stage), /* @__PURE__ */ import_react83.default.createElement("td", { className: "py-1.5 text-right text-gray-700" }, d.pluieCumul.toFixed(1)), /* @__PURE__ */ import_react83.default.createElement("td", { className: "py-1.5 text-right text-gray-700" }, d.etcCumul.toFixed(1)), /* @__PURE__ */ import_react83.default.createElement("td", { className: "py-1.5 text-right font-mono text-gray-600" }, d.ise !== null ? d.ise.toFixed(2) : "\u2014"), /* @__PURE__ */ import_react83.default.createElement("td", { className: "py-1.5 text-right" }, /* @__PURE__ */ import_react83.default.createElement(StatusPill, { statut: d.statut })))))))) : /* @__PURE__ */ import_react83.default.createElement("div", { className: "rounded-xl p-3 text-xs text-gray-400 italic", style: { background: "#F7F8FA" } }, "Choisissez une date de semis comprise dans (ou proche de) la p\xE9riode import\xE9e pour lancer l'analyse."))), !result && !error && !loading && /* @__PURE__ */ import_react83.default.createElement(Card6, { className: "text-center py-12" }, /* @__PURE__ */ import_react83.default.createElement(MapPin, { size: 32, className: "mx-auto text-gray-300 mb-3" }), /* @__PURE__ */ import_react83.default.createElement("p", { className: "text-sm text-gray-500" }, "Choisissez une ou plusieurs communes et une p\xE9riode, puis cliquez \xAB Afficher \xBB."))))));
+    )), cropAnalysis && /* @__PURE__ */ import_react84.default.createElement("div", { className: "rounded-xl p-3 flex flex-col justify-center", style: { background: NAVY_TINT3 } }, /* @__PURE__ */ import_react84.default.createElement("span", { className: "text-[11px] text-gray-500" }, "Fin de cycle estim\xE9e"), /* @__PURE__ */ import_react84.default.createElement("span", { className: "text-sm font-semibold", style: { color: NAVY14 } }, cropAnalysis.dateFinCycleISO, " (", cropAnalysis.cycleLength, " j)"))), !result.daily.some((d) => d.et0 !== null) ? /* @__PURE__ */ import_react84.default.createElement("div", { className: "rounded-xl p-3 text-xs text-gray-400 italic", style: { background: "#F7F8FA" } }, "L'analyse par culture n\xE9cessite l'\xE9vapotranspiration de r\xE9f\xE9rence (ET0), indisponible pour cette p\xE9riode.") : cropAnalysis && cropAnalysis.decades.length > 0 ? /* @__PURE__ */ import_react84.default.createElement(import_react84.default.Fragment, null, /* @__PURE__ */ import_react84.default.createElement("div", { className: "rounded-xl p-3 mb-4 flex items-center gap-3", style: { background: cropAnalysis.iseGlobal >= 1 ? GREEN_TINT3 : cropAnalysis.iseGlobal >= 0.5 ? AMBER_TINT3 : RED_TINT } }, /* @__PURE__ */ import_react84.default.createElement(Info, { size: 15, style: { color: cropAnalysis.iseGlobal >= 1 ? GREEN4 : cropAnalysis.iseGlobal >= 0.5 ? AMBER3 : RED } }), /* @__PURE__ */ import_react84.default.createElement("p", { className: "text-xs", style: { color: cropAnalysis.iseGlobal >= 1 ? GREEN4 : cropAnalysis.iseGlobal >= 0.5 ? AMBER3 : RED } }, "Sur la portion du cycle couverte par les donn\xE9es disponibles : ", cropAnalysis.totalPluie.toFixed(0), " mm de pluie pour ", cropAnalysis.totalEtc.toFixed(0), " mm de besoins (ETc) \u2014 indice de satisfaction global ", cropAnalysis.iseGlobal !== null ? cropAnalysis.iseGlobal.toFixed(2) : "\u2014", ".", cropAnalysis.periodesStress.length > 0 && ` ${cropAnalysis.periodesStress.length} d\xE9cade(s) en situation de d\xE9ficit hydrique.`)), /* @__PURE__ */ import_react84.default.createElement("div", { className: "overflow-x-auto" }, /* @__PURE__ */ import_react84.default.createElement("table", { className: "text-xs w-full" }, /* @__PURE__ */ import_react84.default.createElement("thead", null, /* @__PURE__ */ import_react84.default.createElement("tr", null, /* @__PURE__ */ import_react84.default.createElement("th", { className: "text-left text-[10px] text-gray-400 uppercase pb-2" }, "P\xE9riode (d\xE9cade)"), /* @__PURE__ */ import_react84.default.createElement("th", { className: "text-left text-[10px] text-gray-400 uppercase pb-2" }, "Stade"), /* @__PURE__ */ import_react84.default.createElement("th", { className: "text-right text-[10px] text-gray-400 uppercase pb-2" }, "Pluie (mm)"), /* @__PURE__ */ import_react84.default.createElement("th", { className: "text-right text-[10px] text-gray-400 uppercase pb-2" }, "ETc (mm)"), /* @__PURE__ */ import_react84.default.createElement("th", { className: "text-right text-[10px] text-gray-400 uppercase pb-2" }, "ISE"), /* @__PURE__ */ import_react84.default.createElement("th", { className: "text-right text-[10px] text-gray-400 uppercase pb-2" }, "Statut"))), /* @__PURE__ */ import_react84.default.createElement("tbody", null, cropAnalysis.decades.map((d, i) => /* @__PURE__ */ import_react84.default.createElement("tr", { key: i, className: "border-t border-gray-50" }, /* @__PURE__ */ import_react84.default.createElement("td", { className: "py-1.5 text-gray-700" }, d.dateDebut, " \u2192 ", d.dateFin), /* @__PURE__ */ import_react84.default.createElement("td", { className: "py-1.5 text-gray-500" }, d.stage), /* @__PURE__ */ import_react84.default.createElement("td", { className: "py-1.5 text-right text-gray-700" }, d.pluieCumul.toFixed(1)), /* @__PURE__ */ import_react84.default.createElement("td", { className: "py-1.5 text-right text-gray-700" }, d.etcCumul.toFixed(1)), /* @__PURE__ */ import_react84.default.createElement("td", { className: "py-1.5 text-right font-mono text-gray-600" }, d.ise !== null ? d.ise.toFixed(2) : "\u2014"), /* @__PURE__ */ import_react84.default.createElement("td", { className: "py-1.5 text-right" }, /* @__PURE__ */ import_react84.default.createElement(StatusPill, { statut: d.statut })))))))) : /* @__PURE__ */ import_react84.default.createElement("div", { className: "rounded-xl p-3 text-xs text-gray-400 italic", style: { background: "#F7F8FA" } }, "Choisissez une date de semis comprise dans (ou proche de) la p\xE9riode import\xE9e pour lancer l'analyse."))), !result && !error && !loading && /* @__PURE__ */ import_react84.default.createElement(Card6, { className: "text-center py-12" }, /* @__PURE__ */ import_react84.default.createElement(MapPin, { size: 32, className: "mx-auto text-gray-300 mb-3" }), /* @__PURE__ */ import_react84.default.createElement("p", { className: "text-sm text-gray-500" }, "Choisissez une ou plusieurs communes et une p\xE9riode, puis cliquez \xAB Afficher \xBB."))))));
   }
 
   // src/admin/AdminDashboard.jsx
-  var import_react84 = __toESM(require_react());
+  var import_react85 = __toESM(require_react());
   var NAVY15 = "#1F3864";
   var GOLD14 = "#C99A2E";
   var GREEN5 = "#256B45";
@@ -124731,13 +124796,13 @@ ${suffix2}`;
     return THEME_COLORS[i % THEME_COLORS.length];
   }
   function AdminDashboard({ onBack }) {
-    const [users, setUsers] = (0, import_react84.useState)([]);
-    const [activity, setActivity] = (0, import_react84.useState)([]);
-    const [projets, setProjets] = (0, import_react84.useState)([]);
-    const [loading, setLoading] = (0, import_react84.useState)(true);
-    const [error, setError] = (0, import_react84.useState)("");
-    const [selectedTheme, setSelectedTheme] = (0, import_react84.useState)(null);
-    (0, import_react84.useEffect)(() => {
+    const [users, setUsers] = (0, import_react85.useState)([]);
+    const [activity, setActivity] = (0, import_react85.useState)([]);
+    const [projets, setProjets] = (0, import_react85.useState)([]);
+    const [loading, setLoading] = (0, import_react85.useState)(true);
+    const [error, setError] = (0, import_react85.useState)("");
+    const [selectedTheme, setSelectedTheme] = (0, import_react85.useState)(null);
+    (0, import_react85.useEffect)(() => {
       async function load() {
         const { data: profiles, error: e1 } = await supabase.from("profiles").select("email, role, created_at").order("created_at", { ascending: false });
         const { data: logs, error: e22 } = await supabase.from("activity_log").select("screen");
@@ -124766,14 +124831,14 @@ ${suffix2}`;
     const themeProjects = selectedTheme ? themeMap[selectedTheme] || [] : [];
     const themeUsers = new Set(themeProjects.map((p2) => p2.user_email)).size;
     const themeLastDate = themeProjects[0]?.created_at;
-    return /* @__PURE__ */ import_react84.default.createElement("div", { className: "min-h-screen bg-[#F4F6FB] font-sans p-8" }, /* @__PURE__ */ import_react84.default.createElement("button", { onClick: selectedTheme ? () => setSelectedTheme(null) : onBack, className: "flex items-center gap-2 text-sm mb-6", style: { color: NAVY15 } }, /* @__PURE__ */ import_react84.default.createElement(ArrowLeft, { size: 15 }), " ", selectedTheme ? "Retour aux th\xE9matiques" : "Retour \xE0 l'application"), error && /* @__PURE__ */ import_react84.default.createElement("div", { className: "rounded-xl p-4 mb-6 text-sm", style: { background: "#FBE7E5", color: "#B3413A" } }, error, ". V\xE9rifiez que le script supabase_setup.sql a bien \xE9t\xE9 ex\xE9cut\xE9 (y compris la table \xAB projets \xBB) et que votre compte a le r\xF4le \xAB admin \xBB."), loading ? /* @__PURE__ */ import_react84.default.createElement("p", { className: "text-sm text-gray-400" }, "Chargement\u2026") : selectedTheme ? (
+    return /* @__PURE__ */ import_react85.default.createElement("div", { className: "min-h-screen bg-[#F4F6FB] font-sans p-8" }, /* @__PURE__ */ import_react85.default.createElement("button", { onClick: selectedTheme ? () => setSelectedTheme(null) : onBack, className: "flex items-center gap-2 text-sm mb-6", style: { color: NAVY15 } }, /* @__PURE__ */ import_react85.default.createElement(ArrowLeft, { size: 15 }), " ", selectedTheme ? "Retour aux th\xE9matiques" : "Retour \xE0 l'application"), error && /* @__PURE__ */ import_react85.default.createElement("div", { className: "rounded-xl p-4 mb-6 text-sm", style: { background: "#FBE7E5", color: "#B3413A" } }, error, ". V\xE9rifiez que le script supabase_setup.sql a bien \xE9t\xE9 ex\xE9cut\xE9 (y compris la table \xAB projets \xBB) et que votre compte a le r\xF4le \xAB admin \xBB."), loading ? /* @__PURE__ */ import_react85.default.createElement("p", { className: "text-sm text-gray-400" }, "Chargement\u2026") : selectedTheme ? (
       /* ---------- VUE DÉTAIL D'UNE THÉMATIQUE ---------- */
-      /* @__PURE__ */ import_react84.default.createElement(import_react84.default.Fragment, null, /* @__PURE__ */ import_react84.default.createElement("div", { className: "flex items-center gap-2 mb-1" }, /* @__PURE__ */ import_react84.default.createElement("span", { className: "w-3 h-3 rounded-full", style: { background: themeColor(themes.findIndex(([t]) => t === selectedTheme)) } }), /* @__PURE__ */ import_react84.default.createElement("h1", { className: "font-serif text-2xl font-bold", style: { color: NAVY15 } }, "Th\xE9matique : ", selectedTheme)), /* @__PURE__ */ import_react84.default.createElement("p", { className: "text-sm text-gray-500 mb-6" }, "Point des projets soumis par les utilisateurs sur cette th\xE9matique"), /* @__PURE__ */ import_react84.default.createElement("div", { className: "grid grid-cols-3 gap-4 mb-6" }, /* @__PURE__ */ import_react84.default.createElement("div", { className: "bg-white rounded-2xl p-5 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react84.default.createElement(FolderKanban, { size: 18, style: { color: GOLD14 } }), /* @__PURE__ */ import_react84.default.createElement("div", { className: "font-serif text-2xl font-bold mt-2", style: { color: NAVY15 } }, themeProjects.length), /* @__PURE__ */ import_react84.default.createElement("div", { className: "text-xs text-gray-400" }, "Projets soumis")), /* @__PURE__ */ import_react84.default.createElement("div", { className: "bg-white rounded-2xl p-5 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react84.default.createElement(Users, { size: 18, style: { color: GOLD14 } }), /* @__PURE__ */ import_react84.default.createElement("div", { className: "font-serif text-2xl font-bold mt-2", style: { color: NAVY15 } }, themeUsers), /* @__PURE__ */ import_react84.default.createElement("div", { className: "text-xs text-gray-400" }, "Utilisateurs distincts")), /* @__PURE__ */ import_react84.default.createElement("div", { className: "bg-white rounded-2xl p-5 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react84.default.createElement(Clock, { size: 18, style: { color: GOLD14 } }), /* @__PURE__ */ import_react84.default.createElement("div", { className: "font-serif text-2xl font-bold mt-2", style: { color: NAVY15 } }, themeLastDate ? new Date(themeLastDate).toLocaleDateString("fr-FR") : "\u2014"), /* @__PURE__ */ import_react84.default.createElement("div", { className: "text-xs text-gray-400" }, "Dernier d\xE9p\xF4t"))), /* @__PURE__ */ import_react84.default.createElement("div", { className: "bg-white rounded-2xl shadow-sm border border-black/5 overflow-hidden" }, /* @__PURE__ */ import_react84.default.createElement("div", { className: "px-5 py-4" }, /* @__PURE__ */ import_react84.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY15 } }, "Projets soumis sur cette th\xE9matique")), /* @__PURE__ */ import_react84.default.createElement("table", { className: "w-full text-sm" }, /* @__PURE__ */ import_react84.default.createElement("thead", null, /* @__PURE__ */ import_react84.default.createElement("tr", { className: "text-left text-[11px] text-gray-400 uppercase border-t border-b border-gray-100" }, /* @__PURE__ */ import_react84.default.createElement("th", { className: "px-5 py-2 font-medium" }, "Objectif / Titre"), /* @__PURE__ */ import_react84.default.createElement("th", { className: "px-5 py-2 font-medium" }, "Soumis par"), /* @__PURE__ */ import_react84.default.createElement("th", { className: "px-5 py-2 font-medium" }, "Communes"), /* @__PURE__ */ import_react84.default.createElement("th", { className: "px-5 py-2 font-medium" }, "Statut"), /* @__PURE__ */ import_react84.default.createElement("th", { className: "px-5 py-2 font-medium" }, "Date"))), /* @__PURE__ */ import_react84.default.createElement("tbody", null, themeProjects.map((p2) => /* @__PURE__ */ import_react84.default.createElement("tr", { key: p2.id, className: "border-b border-gray-50 last:border-0" }, /* @__PURE__ */ import_react84.default.createElement("td", { className: "px-5 py-3 text-gray-800 max-w-xs" }, p2.titre), /* @__PURE__ */ import_react84.default.createElement("td", { className: "px-5 py-3 text-gray-500" }, p2.user_email), /* @__PURE__ */ import_react84.default.createElement("td", { className: "px-5 py-3 text-gray-500" }, (p2.communes || []).join(", ") || "\u2014"), /* @__PURE__ */ import_react84.default.createElement("td", { className: "px-5 py-3" }, /* @__PURE__ */ import_react84.default.createElement("span", { className: "px-2 py-1 rounded-full text-[11px] font-medium", style: { background: GREEN_TINT4, color: GREEN5 } }, p2.statut)), /* @__PURE__ */ import_react84.default.createElement("td", { className: "px-5 py-3 text-gray-400" }, new Date(p2.created_at).toLocaleDateString("fr-FR")))), themeProjects.length === 0 && /* @__PURE__ */ import_react84.default.createElement("tr", null, /* @__PURE__ */ import_react84.default.createElement("td", { colSpan: 5, className: "px-5 py-6 text-center text-gray-400 text-xs" }, "Aucun projet sur cette th\xE9matique."))))))
+      /* @__PURE__ */ import_react85.default.createElement(import_react85.default.Fragment, null, /* @__PURE__ */ import_react85.default.createElement("div", { className: "flex items-center gap-2 mb-1" }, /* @__PURE__ */ import_react85.default.createElement("span", { className: "w-3 h-3 rounded-full", style: { background: themeColor(themes.findIndex(([t]) => t === selectedTheme)) } }), /* @__PURE__ */ import_react85.default.createElement("h1", { className: "font-serif text-2xl font-bold", style: { color: NAVY15 } }, "Th\xE9matique : ", selectedTheme)), /* @__PURE__ */ import_react85.default.createElement("p", { className: "text-sm text-gray-500 mb-6" }, "Point des projets soumis par les utilisateurs sur cette th\xE9matique"), /* @__PURE__ */ import_react85.default.createElement("div", { className: "grid grid-cols-3 gap-4 mb-6" }, /* @__PURE__ */ import_react85.default.createElement("div", { className: "bg-white rounded-2xl p-5 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react85.default.createElement(FolderKanban, { size: 18, style: { color: GOLD14 } }), /* @__PURE__ */ import_react85.default.createElement("div", { className: "font-serif text-2xl font-bold mt-2", style: { color: NAVY15 } }, themeProjects.length), /* @__PURE__ */ import_react85.default.createElement("div", { className: "text-xs text-gray-400" }, "Projets soumis")), /* @__PURE__ */ import_react85.default.createElement("div", { className: "bg-white rounded-2xl p-5 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react85.default.createElement(Users, { size: 18, style: { color: GOLD14 } }), /* @__PURE__ */ import_react85.default.createElement("div", { className: "font-serif text-2xl font-bold mt-2", style: { color: NAVY15 } }, themeUsers), /* @__PURE__ */ import_react85.default.createElement("div", { className: "text-xs text-gray-400" }, "Utilisateurs distincts")), /* @__PURE__ */ import_react85.default.createElement("div", { className: "bg-white rounded-2xl p-5 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react85.default.createElement(Clock, { size: 18, style: { color: GOLD14 } }), /* @__PURE__ */ import_react85.default.createElement("div", { className: "font-serif text-2xl font-bold mt-2", style: { color: NAVY15 } }, themeLastDate ? new Date(themeLastDate).toLocaleDateString("fr-FR") : "\u2014"), /* @__PURE__ */ import_react85.default.createElement("div", { className: "text-xs text-gray-400" }, "Dernier d\xE9p\xF4t"))), /* @__PURE__ */ import_react85.default.createElement("div", { className: "bg-white rounded-2xl shadow-sm border border-black/5 overflow-hidden" }, /* @__PURE__ */ import_react85.default.createElement("div", { className: "px-5 py-4" }, /* @__PURE__ */ import_react85.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY15 } }, "Projets soumis sur cette th\xE9matique")), /* @__PURE__ */ import_react85.default.createElement("table", { className: "w-full text-sm" }, /* @__PURE__ */ import_react85.default.createElement("thead", null, /* @__PURE__ */ import_react85.default.createElement("tr", { className: "text-left text-[11px] text-gray-400 uppercase border-t border-b border-gray-100" }, /* @__PURE__ */ import_react85.default.createElement("th", { className: "px-5 py-2 font-medium" }, "Objectif / Titre"), /* @__PURE__ */ import_react85.default.createElement("th", { className: "px-5 py-2 font-medium" }, "Soumis par"), /* @__PURE__ */ import_react85.default.createElement("th", { className: "px-5 py-2 font-medium" }, "Communes"), /* @__PURE__ */ import_react85.default.createElement("th", { className: "px-5 py-2 font-medium" }, "Statut"), /* @__PURE__ */ import_react85.default.createElement("th", { className: "px-5 py-2 font-medium" }, "Date"))), /* @__PURE__ */ import_react85.default.createElement("tbody", null, themeProjects.map((p2) => /* @__PURE__ */ import_react85.default.createElement("tr", { key: p2.id, className: "border-b border-gray-50 last:border-0" }, /* @__PURE__ */ import_react85.default.createElement("td", { className: "px-5 py-3 text-gray-800 max-w-xs" }, p2.titre), /* @__PURE__ */ import_react85.default.createElement("td", { className: "px-5 py-3 text-gray-500" }, p2.user_email), /* @__PURE__ */ import_react85.default.createElement("td", { className: "px-5 py-3 text-gray-500" }, (p2.communes || []).join(", ") || "\u2014"), /* @__PURE__ */ import_react85.default.createElement("td", { className: "px-5 py-3" }, /* @__PURE__ */ import_react85.default.createElement("span", { className: "px-2 py-1 rounded-full text-[11px] font-medium", style: { background: GREEN_TINT4, color: GREEN5 } }, p2.statut)), /* @__PURE__ */ import_react85.default.createElement("td", { className: "px-5 py-3 text-gray-400" }, new Date(p2.created_at).toLocaleDateString("fr-FR")))), themeProjects.length === 0 && /* @__PURE__ */ import_react85.default.createElement("tr", null, /* @__PURE__ */ import_react85.default.createElement("td", { colSpan: 5, className: "px-5 py-6 text-center text-gray-400 text-xs" }, "Aucun projet sur cette th\xE9matique."))))))
     ) : (
       /* ---------- VUE D'ENSEMBLE ---------- */
-      /* @__PURE__ */ import_react84.default.createElement(import_react84.default.Fragment, null, /* @__PURE__ */ import_react84.default.createElement("h1", { className: "font-serif text-2xl font-bold mb-1", style: { color: NAVY15 } }, "Panneau d'administration"), /* @__PURE__ */ import_react84.default.createElement("p", { className: "text-sm text-gray-500 mb-6" }, "Utilisateurs inscrits, fr\xE9quentation, et projets soumis par th\xE9matique"), /* @__PURE__ */ import_react84.default.createElement("div", { className: "grid grid-cols-3 gap-4 mb-6" }, /* @__PURE__ */ import_react84.default.createElement("div", { className: "bg-white rounded-2xl p-5 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react84.default.createElement(Users, { size: 18, style: { color: GOLD14 } }), /* @__PURE__ */ import_react84.default.createElement("div", { className: "font-serif text-2xl font-bold mt-2", style: { color: NAVY15 } }, users.length), /* @__PURE__ */ import_react84.default.createElement("div", { className: "text-xs text-gray-400" }, "Utilisateurs inscrits")), /* @__PURE__ */ import_react84.default.createElement("div", { className: "bg-white rounded-2xl p-5 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react84.default.createElement(FolderKanban, { size: 18, style: { color: GOLD14 } }), /* @__PURE__ */ import_react84.default.createElement("div", { className: "font-serif text-2xl font-bold mt-2", style: { color: NAVY15 } }, projets.length), /* @__PURE__ */ import_react84.default.createElement("div", { className: "text-xs text-gray-400" }, "Projets soumis au total")), /* @__PURE__ */ import_react84.default.createElement("div", { className: "bg-white rounded-2xl p-5 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react84.default.createElement(Clock, { size: 18, style: { color: GOLD14 } }), /* @__PURE__ */ import_react84.default.createElement("div", { className: "font-serif text-2xl font-bold mt-2", style: { color: NAVY15 } }, users[0] ? new Date(users[0].created_at).toLocaleDateString("fr-FR") : "\u2014"), /* @__PURE__ */ import_react84.default.createElement("div", { className: "text-xs text-gray-400" }, "Derni\xE8re inscription"))), /* @__PURE__ */ import_react84.default.createElement("div", { className: "bg-white rounded-2xl p-5 shadow-sm border border-black/5 mb-6" }, /* @__PURE__ */ import_react84.default.createElement("div", { className: "flex items-center gap-2 mb-1" }, /* @__PURE__ */ import_react84.default.createElement(Layers, { size: 16, style: { color: NAVY15 } }), /* @__PURE__ */ import_react84.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY15 } }, "Projets soumis par th\xE9matique")), /* @__PURE__ */ import_react84.default.createElement("p", { className: "text-xs text-gray-400 mb-4" }, "Cliquez sur une th\xE9matique pour ouvrir son tableau de bord de suivi."), themes.length === 0 ? /* @__PURE__ */ import_react84.default.createElement("p", { className: "text-xs text-gray-400" }, "Aucun projet soumis pour l'instant.") : /* @__PURE__ */ import_react84.default.createElement("div", { className: "grid grid-cols-3 gap-3" }, themes.map(([theme, list], i) => {
+      /* @__PURE__ */ import_react85.default.createElement(import_react85.default.Fragment, null, /* @__PURE__ */ import_react85.default.createElement("h1", { className: "font-serif text-2xl font-bold mb-1", style: { color: NAVY15 } }, "Panneau d'administration"), /* @__PURE__ */ import_react85.default.createElement("p", { className: "text-sm text-gray-500 mb-6" }, "Utilisateurs inscrits, fr\xE9quentation, et projets soumis par th\xE9matique"), /* @__PURE__ */ import_react85.default.createElement("div", { className: "grid grid-cols-3 gap-4 mb-6" }, /* @__PURE__ */ import_react85.default.createElement("div", { className: "bg-white rounded-2xl p-5 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react85.default.createElement(Users, { size: 18, style: { color: GOLD14 } }), /* @__PURE__ */ import_react85.default.createElement("div", { className: "font-serif text-2xl font-bold mt-2", style: { color: NAVY15 } }, users.length), /* @__PURE__ */ import_react85.default.createElement("div", { className: "text-xs text-gray-400" }, "Utilisateurs inscrits")), /* @__PURE__ */ import_react85.default.createElement("div", { className: "bg-white rounded-2xl p-5 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react85.default.createElement(FolderKanban, { size: 18, style: { color: GOLD14 } }), /* @__PURE__ */ import_react85.default.createElement("div", { className: "font-serif text-2xl font-bold mt-2", style: { color: NAVY15 } }, projets.length), /* @__PURE__ */ import_react85.default.createElement("div", { className: "text-xs text-gray-400" }, "Projets soumis au total")), /* @__PURE__ */ import_react85.default.createElement("div", { className: "bg-white rounded-2xl p-5 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react85.default.createElement(Clock, { size: 18, style: { color: GOLD14 } }), /* @__PURE__ */ import_react85.default.createElement("div", { className: "font-serif text-2xl font-bold mt-2", style: { color: NAVY15 } }, users[0] ? new Date(users[0].created_at).toLocaleDateString("fr-FR") : "\u2014"), /* @__PURE__ */ import_react85.default.createElement("div", { className: "text-xs text-gray-400" }, "Derni\xE8re inscription"))), /* @__PURE__ */ import_react85.default.createElement("div", { className: "bg-white rounded-2xl p-5 shadow-sm border border-black/5 mb-6" }, /* @__PURE__ */ import_react85.default.createElement("div", { className: "flex items-center gap-2 mb-1" }, /* @__PURE__ */ import_react85.default.createElement(Layers, { size: 16, style: { color: NAVY15 } }), /* @__PURE__ */ import_react85.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY15 } }, "Projets soumis par th\xE9matique")), /* @__PURE__ */ import_react85.default.createElement("p", { className: "text-xs text-gray-400 mb-4" }, "Cliquez sur une th\xE9matique pour ouvrir son tableau de bord de suivi."), themes.length === 0 ? /* @__PURE__ */ import_react85.default.createElement("p", { className: "text-xs text-gray-400" }, "Aucun projet soumis pour l'instant.") : /* @__PURE__ */ import_react85.default.createElement("div", { className: "grid grid-cols-3 gap-3" }, themes.map(([theme, list], i) => {
         const distinctUsers = new Set(list.map((p2) => p2.user_email)).size;
-        return /* @__PURE__ */ import_react84.default.createElement(
+        return /* @__PURE__ */ import_react85.default.createElement(
           "button",
           {
             key: theme,
@@ -124781,11 +124846,11 @@ ${suffix2}`;
             className: "text-left rounded-xl border border-gray-100 p-4 hover:shadow-md transition-shadow",
             style: { background: AMBER_TINT4 }
           },
-          /* @__PURE__ */ import_react84.default.createElement("div", { className: "flex items-center justify-between mb-2" }, /* @__PURE__ */ import_react84.default.createElement("span", { className: "w-2.5 h-2.5 rounded-full", style: { background: themeColor(i) } }), /* @__PURE__ */ import_react84.default.createElement(ChevronRight, { size: 14, className: "text-gray-400" })),
-          /* @__PURE__ */ import_react84.default.createElement("div", { className: "font-serif font-semibold text-sm", style: { color: NAVY15 } }, theme),
-          /* @__PURE__ */ import_react84.default.createElement("div", { className: "text-[11px] text-gray-500 mt-1" }, list.length, " projet", list.length > 1 ? "s" : "", " \xB7 ", distinctUsers, " utilisateur", distinctUsers > 1 ? "s" : "")
+          /* @__PURE__ */ import_react85.default.createElement("div", { className: "flex items-center justify-between mb-2" }, /* @__PURE__ */ import_react85.default.createElement("span", { className: "w-2.5 h-2.5 rounded-full", style: { background: themeColor(i) } }), /* @__PURE__ */ import_react85.default.createElement(ChevronRight, { size: 14, className: "text-gray-400" })),
+          /* @__PURE__ */ import_react85.default.createElement("div", { className: "font-serif font-semibold text-sm", style: { color: NAVY15 } }, theme),
+          /* @__PURE__ */ import_react85.default.createElement("div", { className: "text-[11px] text-gray-500 mt-1" }, list.length, " projet", list.length > 1 ? "s" : "", " \xB7 ", distinctUsers, " utilisateur", distinctUsers > 1 ? "s" : "")
         );
-      }))), /* @__PURE__ */ import_react84.default.createElement("div", { className: "grid grid-cols-3 gap-4" }, /* @__PURE__ */ import_react84.default.createElement("div", { className: "col-span-2 bg-white rounded-2xl p-5 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react84.default.createElement("h2", { className: "font-serif font-semibold mb-3", style: { color: NAVY15 } }, "Fr\xE9quentation par \xE9cran"), /* @__PURE__ */ import_react84.default.createElement(ResponsiveContainer, { width: "100%", height: 220 }, /* @__PURE__ */ import_react84.default.createElement(BarChart, { data: chartData, layout: "vertical", margin: { left: 40 } }, /* @__PURE__ */ import_react84.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react84.default.createElement(XAxis, { type: "number", tick: { fontSize: 11 }, allowDecimals: false }), /* @__PURE__ */ import_react84.default.createElement(YAxis, { type: "category", dataKey: "label", tick: { fontSize: 11 }, width: 160 }), /* @__PURE__ */ import_react84.default.createElement(Tooltip, null), /* @__PURE__ */ import_react84.default.createElement(Bar, { dataKey: "visites", fill: NAVY15, radius: [0, 6, 6, 0] })))), /* @__PURE__ */ import_react84.default.createElement("div", { className: "bg-white rounded-2xl p-5 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react84.default.createElement("h2", { className: "font-serif font-semibold mb-3", style: { color: NAVY15 } }, "Derniers inscrits"), /* @__PURE__ */ import_react84.default.createElement("div", { className: "space-y-2 max-h-56 overflow-y-auto" }, users.slice(0, 8).map((u, i) => /* @__PURE__ */ import_react84.default.createElement("div", { key: i, className: "text-xs border-b border-gray-50 pb-2" }, /* @__PURE__ */ import_react84.default.createElement("div", { className: "font-medium text-gray-700" }, u.email), /* @__PURE__ */ import_react84.default.createElement("div", { className: "text-gray-400" }, new Date(u.created_at).toLocaleDateString("fr-FR"), " \xB7 ", u.role))), users.length === 0 && /* @__PURE__ */ import_react84.default.createElement("p", { className: "text-xs text-gray-400" }, "Aucun utilisateur pour l'instant.")))))
+      }))), /* @__PURE__ */ import_react85.default.createElement("div", { className: "grid grid-cols-3 gap-4" }, /* @__PURE__ */ import_react85.default.createElement("div", { className: "col-span-2 bg-white rounded-2xl p-5 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react85.default.createElement("h2", { className: "font-serif font-semibold mb-3", style: { color: NAVY15 } }, "Fr\xE9quentation par \xE9cran"), /* @__PURE__ */ import_react85.default.createElement(ResponsiveContainer, { width: "100%", height: 220 }, /* @__PURE__ */ import_react85.default.createElement(BarChart, { data: chartData, layout: "vertical", margin: { left: 40 } }, /* @__PURE__ */ import_react85.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react85.default.createElement(XAxis, { type: "number", tick: { fontSize: 11 }, allowDecimals: false }), /* @__PURE__ */ import_react85.default.createElement(YAxis, { type: "category", dataKey: "label", tick: { fontSize: 11 }, width: 160 }), /* @__PURE__ */ import_react85.default.createElement(Tooltip, null), /* @__PURE__ */ import_react85.default.createElement(Bar, { dataKey: "visites", fill: NAVY15, radius: [0, 6, 6, 0] })))), /* @__PURE__ */ import_react85.default.createElement("div", { className: "bg-white rounded-2xl p-5 shadow-sm border border-black/5" }, /* @__PURE__ */ import_react85.default.createElement("h2", { className: "font-serif font-semibold mb-3", style: { color: NAVY15 } }, "Derniers inscrits"), /* @__PURE__ */ import_react85.default.createElement("div", { className: "space-y-2 max-h-56 overflow-y-auto" }, users.slice(0, 8).map((u, i) => /* @__PURE__ */ import_react85.default.createElement("div", { key: i, className: "text-xs border-b border-gray-50 pb-2" }, /* @__PURE__ */ import_react85.default.createElement("div", { className: "font-medium text-gray-700" }, u.email), /* @__PURE__ */ import_react85.default.createElement("div", { className: "text-gray-400" }, new Date(u.created_at).toLocaleDateString("fr-FR"), " \xB7 ", u.role))), users.length === 0 && /* @__PURE__ */ import_react85.default.createElement("p", { className: "text-xs text-gray-400" }, "Aucun utilisateur pour l'instant.")))))
     ));
   }
 
@@ -124818,21 +124883,21 @@ ${suffix2}`;
   }
   function App() {
     const persisted = loadPersisted();
-    const [authView, setAuthView] = (0, import_react85.useState)("landing");
-    const [session, setSession] = (0, import_react85.useState)(void 0);
-    const [profile, setProfile] = (0, import_react85.useState)(null);
-    const [active, setActive] = (0, import_react85.useState)(persisted?.active || "dashboard");
-    const [showAdmin, setShowAdmin] = (0, import_react85.useState)(false);
-    const [guestMode, setGuestMode] = (0, import_react85.useState)(persisted?.guestMode || false);
-    const [dataset, setDataset] = (0, import_react85.useState)(persisted?.dataset || null);
-    const [analysisQueue, setAnalysisQueue] = (0, import_react85.useState)(persisted?.analysisQueue || []);
-    const [univariateQueue, setUnivariateQueue] = (0, import_react85.useState)(persisted?.univariateQueue || []);
-    const [context, setContext] = (0, import_react85.useState)(persisted?.context || null);
-    const [recoveryMode, setRecoveryMode] = (0, import_react85.useState)(false);
-    (0, import_react85.useEffect)(() => {
+    const [authView, setAuthView] = (0, import_react86.useState)("landing");
+    const [session, setSession] = (0, import_react86.useState)(void 0);
+    const [profile, setProfile] = (0, import_react86.useState)(null);
+    const [active, setActive] = (0, import_react86.useState)(persisted?.active || "dashboard");
+    const [showAdmin, setShowAdmin] = (0, import_react86.useState)(false);
+    const [guestMode, setGuestMode] = (0, import_react86.useState)(persisted?.guestMode || false);
+    const [dataset, setDataset] = (0, import_react86.useState)(persisted?.dataset || null);
+    const [analysisQueue, setAnalysisQueue] = (0, import_react86.useState)(persisted?.analysisQueue || []);
+    const [univariateQueue, setUnivariateQueue] = (0, import_react86.useState)(persisted?.univariateQueue || []);
+    const [context, setContext] = (0, import_react86.useState)(persisted?.context || null);
+    const [recoveryMode, setRecoveryMode] = (0, import_react86.useState)(false);
+    (0, import_react86.useEffect)(() => {
       savePersisted({ active, dataset, analysisQueue, univariateQueue, context, guestMode });
     }, [active, dataset, analysisQueue, univariateQueue, context, guestMode]);
-    (0, import_react85.useEffect)(() => {
+    (0, import_react86.useEffect)(() => {
       if (!isSupabaseConfigured) {
         setSession(null);
         return;
@@ -124844,7 +124909,7 @@ ${suffix2}`;
       });
       return () => sub.subscription.unsubscribe();
     }, []);
-    (0, import_react85.useEffect)(() => {
+    (0, import_react86.useEffect)(() => {
       if (!session || !isSupabaseConfigured) {
         setProfile(null);
         return;
@@ -124872,16 +124937,16 @@ ${suffix2}`;
       setAuthView("landing");
     };
     if (recoveryMode) {
-      return /* @__PURE__ */ import_react85.default.createElement(ResetPassword, { onDone: () => setRecoveryMode(false) });
+      return /* @__PURE__ */ import_react86.default.createElement(ResetPassword, { onDone: () => setRecoveryMode(false) });
     }
     if (!session && !guestMode) {
       if (authView === "login") {
-        return /* @__PURE__ */ import_react85.default.createElement(Login, { onGoSignup: () => setAuthView("signup"), onGoLanding: () => setAuthView("landing") });
+        return /* @__PURE__ */ import_react86.default.createElement(Login, { onGoSignup: () => setAuthView("signup"), onGoLanding: () => setAuthView("landing") });
       }
       if (authView === "signup") {
-        return /* @__PURE__ */ import_react85.default.createElement(Signup, { onGoLogin: () => setAuthView("login"), onGoLanding: () => setAuthView("landing") });
+        return /* @__PURE__ */ import_react86.default.createElement(Signup, { onGoLogin: () => setAuthView("login"), onGoLanding: () => setAuthView("landing") });
       }
-      return /* @__PURE__ */ import_react85.default.createElement(Landing, { onGoLogin: () => setAuthView("login"), onGoSignup: () => setAuthView("signup"), onGoDemo: () => setGuestMode(true) });
+      return /* @__PURE__ */ import_react86.default.createElement(Landing, { onGoLogin: () => setAuthView("login"), onGoSignup: () => setAuthView("signup"), onGoDemo: () => setGuestMode(true) });
     }
     const Active = SCREENS[active];
     const isAdmin = profile?.role === "admin";
@@ -124889,10 +124954,10 @@ ${suffix2}`;
     const userEmail = session?.user?.email || "";
     const roleLabel = isGuest ? "D\xE9monstration" : isAdmin ? "Administrateur" : "Utilisateur";
     const handleTopRightLogout = isGuest ? () => setGuestMode(false) : handleLogout;
-    return /* @__PURE__ */ import_react85.default.createElement("div", { className: "relative" }, isGuest && /* @__PURE__ */ import_react85.default.createElement("div", { className: "sticky top-0 z-[70] bg-[#C99A2E] text-[#1F3864] text-xs font-medium text-center py-1.5" }, "Mode d\xE9monstration \u2014 aucune donn\xE9e n'est enregistr\xE9e.", " ", /* @__PURE__ */ import_react85.default.createElement("button", { onClick: () => {
+    return /* @__PURE__ */ import_react86.default.createElement("div", { className: "relative" }, isGuest && /* @__PURE__ */ import_react86.default.createElement("div", { className: "sticky top-0 z-[70] bg-[#C99A2E] text-[#1F3864] text-xs font-medium text-center py-1.5" }, "Mode d\xE9monstration \u2014 aucune donn\xE9e n'est enregistr\xE9e.", " ", /* @__PURE__ */ import_react86.default.createElement("button", { onClick: () => {
       setGuestMode(false);
       setAuthView("signup");
-    }, className: "underline font-semibold" }, "Cr\xE9er un compte")), showAdmin ? /* @__PURE__ */ import_react85.default.createElement(AdminDashboard, { onBack: () => setShowAdmin(false) }) : /* @__PURE__ */ import_react85.default.createElement(
+    }, className: "underline font-semibold" }, "Cr\xE9er un compte")), showAdmin ? /* @__PURE__ */ import_react86.default.createElement(AdminDashboard, { onBack: () => setShowAdmin(false) }) : /* @__PURE__ */ import_react86.default.createElement(
       Active,
       {
         active,
@@ -124918,7 +124983,7 @@ ${suffix2}`;
 
   // src/entry.jsx
   var root = (0, import_client.createRoot)(document.getElementById("root"));
-  root.render(/* @__PURE__ */ import_react86.default.createElement(App, null));
+  root.render(/* @__PURE__ */ import_react87.default.createElement(App, null));
 })();
 /*! Bundled license information:
 

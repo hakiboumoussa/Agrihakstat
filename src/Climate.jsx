@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useRef } from "react";
 import * as XLSX from "xlsx";
 import {
   Bell, CloudRain, Thermometer, Droplets, MapPin, Loader2, AlertCircle, RefreshCw,
@@ -14,7 +14,9 @@ import { BENIN_DEPARTEMENTS } from "./beninGeo.js";
 import { COMMUNE_COORDS } from "./communeCoords.js";
 import {
   CROP_KC_TABLE, computeWaterBalance, computeCropWaterSatisfaction, detectDrySpells, aggregateByPeriod,
+  RAIN_DAY_THRESHOLD_MM,
 } from "./agroClimate.js";
+import { ChartExportButton } from "./chartExport.js";
 
 const NAVY = "#1F3864";
 const GOLD = "#C99A2E";
@@ -197,13 +199,13 @@ export default function Climate({ active, onNavigate, userEmail, roleLabel, isAd
       daily = computeWaterBalance(daily);
 
       const cumulPluie = daily.reduce((s, d) => s + (d.pluie || 0), 0);
-      const joursPluie = daily.filter((d) => d.pluie >= 1).length;
+      const joursPluie = daily.filter((d) => d.pluie > RAIN_DAY_THRESHOLD_MM).length;
       const tMaxAbs = Math.max(...daily.map((d) => d.tmax).filter((v) => v !== null));
       const tMinAbs = Math.min(...daily.map((d) => d.tmin).filter((v) => v !== null));
       const tMoyenne = daily.reduce((s, d) => s + (d.tmax + d.tmin) / 2, 0) / daily.length;
       const et0Cumule = daily.reduce((s, d) => s + (d.et0 || 0), 0);
       const bilanNet = daily.length > 0 ? daily[daily.length - 1].bilanCumule : null;
-      const drySpells = detectDrySpells(daily, 1, Number(drySpellMinLength) || 7);
+      const drySpells = detectDrySpells(daily, RAIN_DAY_THRESHOLD_MM, Number(drySpellMinLength) || 7);
 
       setResult({ daily, cumulPluie, joursPluie, tMaxAbs, tMinAbs, tMoyenne, n: daily.length, et0Cumule, bilanNet, drySpells, communesUtilisees: succeeded.length });
       if (!sowingDate) setSowingDate(daily[0]?.dateISO || "");
@@ -236,8 +238,13 @@ export default function Climate({ active, onNavigate, userEmail, roleLabel, isAd
 
   const drySpellsRecalc = useMemo(() => {
     if (!result) return null;
-    return detectDrySpells(result.daily, 1, Number(drySpellMinLength) || 7);
+    return detectDrySpells(result.daily, RAIN_DAY_THRESHOLD_MM, Number(drySpellMinLength) || 7);
   }, [result, drySpellMinLength]);
+
+  const pluieChartRef = useRef(null);
+  const tempChartRef = useRef(null);
+  const ombroChartRef = useRef(null);
+  const bilanChartRef = useRef(null);
 
   const exportExcel = () => {
     if (!result) return;
@@ -393,7 +400,7 @@ export default function Climate({ active, onNavigate, userEmail, roleLabel, isAd
                   <Card>
                     <Droplets size={18} style={{ color: GOLD }} />
                     <div className="font-serif text-xl font-bold mt-2" style={{ color: NAVY }}>{result.joursPluie} j</div>
-                    <div className="text-xs text-gray-400">Jours de pluie (≥ 1 mm) sur {result.n}</div>
+                    <div className="text-xs text-gray-400">Jours de pluie (&gt; {RAIN_DAY_THRESHOLD_MM} mm) sur {result.n}</div>
                   </Card>
                   <Card>
                     <Thermometer size={18} style={{ color: RED }} />
@@ -437,86 +444,108 @@ export default function Climate({ active, onNavigate, userEmail, roleLabel, isAd
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <p className="text-xs text-gray-400 mb-2">{view === "jour" ? "Pluie journalière (mm)" : `Pluie cumulée par ${view} (mm)`}</p>
-                      <ResponsiveContainer width="100%" height={220}>
-                        <BarChart data={periodData}>
-                          <CartesianGrid strokeDasharray="3 3" stroke="#EDEDED" />
-                          <XAxis dataKey={periodKey} tick={{ fontSize: 10 }} interval={view === "jour" ? Math.ceil((periodData?.length || 1) / 8) : 0} />
-                          <YAxis tick={{ fontSize: 11 }} unit=" mm" width={50} />
-                          <Tooltip />
-                          <Bar dataKey="pluie" fill="#3592C4" radius={[3, 3, 0, 0]} name="Pluie (mm)" />
-                        </BarChart>
-                      </ResponsiveContainer>
+                      <div className="flex items-center justify-between mb-2">
+                        <p className="text-xs text-gray-400">{view === "jour" ? "Pluie journalière (mm)" : `Pluie cumulée par ${view} (mm)`}</p>
+                        <ChartExportButton targetRef={pluieChartRef} filename={`Pluie_${view}_${communes.join("-")}`} />
+                      </div>
+                      <div ref={pluieChartRef}>
+                        <ResponsiveContainer width="100%" height={220}>
+                          <BarChart data={periodData}>
+                            <CartesianGrid strokeDasharray="3 3" stroke="#EDEDED" />
+                            <XAxis dataKey={periodKey} tick={{ fontSize: 10 }} interval={view === "jour" ? Math.ceil((periodData?.length || 1) / 8) : 0} />
+                            <YAxis tick={{ fontSize: 11 }} unit=" mm" width={50} />
+                            <Tooltip />
+                            <Bar dataKey="pluie" fill="#3592C4" radius={[3, 3, 0, 0]} name="Pluie (mm)" />
+                          </BarChart>
+                        </ResponsiveContainer>
+                      </div>
                     </div>
                     <div>
-                      <p className="text-xs text-gray-400 mb-2">{view === "jour" ? "Températures journalières (°C)" : `Température moyenne par ${view} (°C)`}</p>
-                      <ResponsiveContainer width="100%" height={220}>
-                        {view === "jour" ? (
-                          <LineChart data={periodData}>
-                            <CartesianGrid strokeDasharray="3 3" stroke="#EDEDED" />
-                            <XAxis dataKey="date" tick={{ fontSize: 10 }} interval={Math.ceil((periodData?.length || 1) / 8)} />
-                            <YAxis tick={{ fontSize: 11 }} unit="°C" width={45} />
-                            <Tooltip />
-                            <Line type="monotone" dataKey="tmax" stroke={RED} strokeWidth={2} dot={false} name="T° max" />
-                            <Line type="monotone" dataKey="tmin" stroke="#3592C4" strokeWidth={2} dot={false} name="T° min" />
-                          </LineChart>
-                        ) : (
-                          <LineChart data={periodData}>
-                            <CartesianGrid strokeDasharray="3 3" stroke="#EDEDED" />
-                            <XAxis dataKey="periode" tick={{ fontSize: 10 }} />
-                            <YAxis tick={{ fontSize: 11 }} unit="°C" width={45} />
-                            <Tooltip />
-                            <Line type="monotone" dataKey="tmoyenne" stroke={RED} strokeWidth={2} dot name="T° moyenne" />
-                          </LineChart>
-                        )}
-                      </ResponsiveContainer>
+                      <div className="flex items-center justify-between mb-2">
+                        <p className="text-xs text-gray-400">{view === "jour" ? "Températures journalières (°C)" : `Température moyenne par ${view} (°C)`}</p>
+                        <ChartExportButton targetRef={tempChartRef} filename={`Temperatures_${view}_${communes.join("-")}`} />
+                      </div>
+                      <div ref={tempChartRef}>
+                        <ResponsiveContainer width="100%" height={220}>
+                          {view === "jour" ? (
+                            <LineChart data={periodData}>
+                              <CartesianGrid strokeDasharray="3 3" stroke="#EDEDED" />
+                              <XAxis dataKey="date" tick={{ fontSize: 10 }} interval={Math.ceil((periodData?.length || 1) / 8)} />
+                              <YAxis tick={{ fontSize: 11 }} unit="°C" width={45} />
+                              <Tooltip />
+                              <Line type="monotone" dataKey="tmax" stroke={RED} strokeWidth={2} dot={false} name="T° max" />
+                              <Line type="monotone" dataKey="tmin" stroke="#3592C4" strokeWidth={2} dot={false} name="T° min" />
+                            </LineChart>
+                          ) : (
+                            <LineChart data={periodData}>
+                              <CartesianGrid strokeDasharray="3 3" stroke="#EDEDED" />
+                              <XAxis dataKey="periode" tick={{ fontSize: 10 }} />
+                              <YAxis tick={{ fontSize: 11 }} unit="°C" width={45} />
+                              <Tooltip />
+                              <Line type="monotone" dataKey="tmoyenne" stroke={RED} strokeWidth={2} dot name="T° moyenne" />
+                            </LineChart>
+                          )}
+                        </ResponsiveContainer>
+                      </div>
                     </div>
                   </div>
                 </Card>
 
                 {/* Diagramme ombrothermique */}
                 <Card className="mb-5">
-                  <div className="flex items-center gap-2 mb-1">
-                    <Sun size={16} style={{ color: GOLD }} />
-                    <h2 className="font-serif font-semibold" style={{ color: NAVY }}>Diagramme ombrothermique (Gaussen)</h2>
+                  <div className="flex items-center justify-between mb-1">
+                    <div className="flex items-center gap-2">
+                      <Sun size={16} style={{ color: GOLD }} />
+                      <h2 className="font-serif font-semibold" style={{ color: NAVY }}>Diagramme ombrothermique (Gaussen)</h2>
+                    </div>
+                    <ChartExportButton targetRef={ombroChartRef} filename={`Diagramme_ombrothermique_${communes.join("-")}`} />
                   </div>
                   <p className="text-xs text-gray-400 mb-3">
                     Convention de Gaussen : un mois est considéré sec lorsque le cumul pluviométrique (mm) descend sous le double de la température moyenne (°C) — zone grisée sur le graphique.
                   </p>
-                  <ResponsiveContainer width="100%" height={260}>
-                    <ComposedChart data={monthlyData}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#EDEDED" />
-                      <XAxis dataKey="periode" tick={{ fontSize: 11 }} />
-                      <YAxis yAxisId="temp" tick={{ fontSize: 11 }} unit="°C" width={45} domain={[0, ombroMax.temp]} />
-                      <YAxis yAxisId="pluie" orientation="right" tick={{ fontSize: 11 }} unit=" mm" width={50} domain={[0, ombroMax.pluie]} />
-                      <Tooltip />
-                      <Legend wrapperStyle={{ fontSize: 11 }} />
-                      <Bar yAxisId="pluie" dataKey="pluie" fill="#A9C7E8" name="Pluie cumulée (mm)" radius={[3, 3, 0, 0]} />
-                      <Line yAxisId="temp" type="monotone" dataKey="tmoyenne" stroke={RED} strokeWidth={2.5} name="Température moyenne (°C)" dot />
-                    </ComposedChart>
-                  </ResponsiveContainer>
+                  <div ref={ombroChartRef}>
+                    <ResponsiveContainer width="100%" height={260}>
+                      <ComposedChart data={monthlyData}>
+                        <CartesianGrid strokeDasharray="3 3" stroke="#EDEDED" />
+                        <XAxis dataKey="periode" tick={{ fontSize: 11 }} />
+                        <YAxis yAxisId="temp" tick={{ fontSize: 11 }} unit="°C" width={45} domain={[0, ombroMax.temp]} />
+                        <YAxis yAxisId="pluie" orientation="right" tick={{ fontSize: 11 }} unit=" mm" width={50} domain={[0, ombroMax.pluie]} />
+                        <Tooltip />
+                        <Legend wrapperStyle={{ fontSize: 11 }} />
+                        <Bar yAxisId="pluie" dataKey="pluie" fill="#A9C7E8" name="Pluie cumulée (mm)" radius={[3, 3, 0, 0]} />
+                        <Line yAxisId="temp" type="monotone" dataKey="tmoyenne" stroke={RED} strokeWidth={2.5} name="Température moyenne (°C)" dot />
+                      </ComposedChart>
+                    </ResponsiveContainer>
+                  </div>
                 </Card>
 
                 {/* Bilan hydrique */}
                 <Card className="mb-5">
-                  <div className="flex items-center gap-2 mb-1">
-                    <Waves size={16} style={{ color: "#3592C4" }} />
-                    <h2 className="font-serif font-semibold" style={{ color: NAVY }}>Bilan hydrique séquentiel (P − ET0)</h2>
+                  <div className="flex items-center justify-between mb-1">
+                    <div className="flex items-center gap-2">
+                      <Waves size={16} style={{ color: "#3592C4" }} />
+                      <h2 className="font-serif font-semibold" style={{ color: NAVY }}>Bilan hydrique séquentiel (P − ET0)</h2>
+                    </div>
+                    {result.daily.some((d) => d.et0 !== null) && (
+                      <ChartExportButton targetRef={bilanChartRef} filename={`Bilan_hydrique_${communes.join("-")}`} />
+                    )}
                   </div>
                   <p className="text-xs text-gray-400 mb-3">
                     Bilan cumulé = somme courante de (pluie − ET0) depuis le début de la période affichée. Une valeur positive indique un excédent hydrique disponible, une valeur négative un déficit. Estimation simplifiée, sans prise en compte de la réserve utile du sol ni du ruissellement.
                   </p>
                   {result.daily.some((d) => d.et0 !== null) ? (
-                    <ResponsiveContainer width="100%" height={220}>
-                      <LineChart data={result.daily}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="#EDEDED" />
-                        <XAxis dataKey="date" tick={{ fontSize: 10 }} interval={Math.ceil(result.daily.length / 8)} />
-                        <YAxis tick={{ fontSize: 11 }} unit=" mm" width={55} />
-                        <Tooltip />
-                        <ReferenceLine y={0} stroke="#B0B7C6" strokeDasharray="4 4" />
-                        <Line type="monotone" dataKey="bilanCumule" stroke={GREEN} strokeWidth={2} dot={false} name="Bilan cumulé (mm)" />
-                      </LineChart>
-                    </ResponsiveContainer>
+                    <div ref={bilanChartRef}>
+                      <ResponsiveContainer width="100%" height={220}>
+                        <LineChart data={result.daily}>
+                          <CartesianGrid strokeDasharray="3 3" stroke="#EDEDED" />
+                          <XAxis dataKey="date" tick={{ fontSize: 10 }} interval={Math.ceil(result.daily.length / 8)} />
+                          <YAxis tick={{ fontSize: 11 }} unit=" mm" width={55} />
+                          <Tooltip />
+                          <ReferenceLine y={0} stroke="#B0B7C6" strokeDasharray="4 4" />
+                          <Line type="monotone" dataKey="bilanCumule" stroke={GREEN} strokeWidth={2} dot={false} name="Bilan cumulé (mm)" />
+                        </LineChart>
+                      </ResponsiveContainer>
+                    </div>
                   ) : (
                     <div className="rounded-xl p-3 text-xs text-gray-400 italic" style={{ background: "#F7F8FA" }}>
                       Le bilan hydrique ne peut pas être calculé : l'évapotranspiration de référence (ET0) n'a pas pu être récupérée pour cette période.
@@ -536,7 +565,7 @@ export default function Climate({ active, onNavigate, userEmail, roleLabel, isAd
                       <input type="number" min={2} max={30} value={drySpellMinLength}
                         onChange={(e) => setDrySpellMinLength(e.target.value)}
                         className="w-16 text-xs rounded-lg border border-gray-200 p-1.5 focus:outline-none" />
-                      jours consécutifs sans pluie utile (&lt; 1 mm)
+                      jours consécutifs sans pluie utile (≤ {RAIN_DAY_THRESHOLD_MM} mm)
                     </div>
                   </div>
                   {drySpellsRecalc && drySpellsRecalc.significant.length > 0 ? (
