@@ -4,10 +4,12 @@ import {
   LayoutDashboard, ClipboardList, BarChart3, FileText, Settings, Sprout,
   Bell, ChevronDown, MapPin, Layers, Droplets, Download, FileOutput, Filter,
   Waves, Route as RouteIcon, Home, Satellite, Mountain, Map as MapIcon, Loader2, AlertCircle,
+  Crosshair, Search, X, RotateCcw,
 } from "lucide-react";
 import UserMenu from "./UserMenu.jsx";
 import Sidebar from "./Sidebar.jsx";
 import { COMMUNE_COORDS } from "./communeCoords.js";
+import { exportMapAsPNG } from "./mapExport.js";
 
 const NAVY = "#1F3864";
 const GOLD = "#C99A2E";
@@ -43,33 +45,35 @@ const COMMUNES = [
 // réelle), en l'absence d'un service de classification d'occupation du sol (NDVI/land-cover)
 // accessible sans clé d'API dans cet environnement — à ne pas confondre avec une classification
 // scientifique de l'occupation des sols.
+// Les tuiles transitent par /api/tile-proxy (fonction serverless du projet) plutôt que par les
+// domaines d'origine : ce proxy ajoute l'en-tête Access-Control-Allow-Origin absent chez ces
+// fournisseurs publics, condition nécessaire pour que l'export d'image (html2canvas) puisse lire
+// les pixels du canevas sans le « tacher » (SecurityError). Voir api/tile-proxy.js pour le détail
+// des fournisseurs relayés et la justification complète.
 const BASE_LAYERS = {
   clair: {
     label: "Fond clair", icon: MapIcon,
-    // CARTO exige désormais une clé API sur ses tuiles basemaps.cartocdn.com pour tout usage hors
-    // compte enregistré (voir "API key required" sur les tuiles) : on utilise à la place le fond
-    // Wikimedia Maps, un rendu clair équivalent, sans clé requise.
-    url: "https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png",
+    url: "/api/tile-proxy?p=clair&z={z}&x={x}&y={y}",
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | Rendu : Wikimedia Maps',
     subdomains: "", maxZoom: 19,
   },
   osm: {
     label: "Plan (OpenStreetMap)", icon: RouteIcon,
-    url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    url: "/api/tile-proxy?p=osm&z={z}&x={x}&y={y}",
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    subdomains: "abc", maxZoom: 19,
+    subdomains: "", maxZoom: 19,
   },
   satellite: {
     label: "Satellite (couverture végétale)", icon: Satellite,
-    url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+    url: "/api/tile-proxy?p=satellite&z={z}&x={x}&y={y}",
     attribution: "Tiles &copy; Esri — Source : Esri, Maxar, Earthstar Geographics",
     subdomains: "", maxZoom: 19,
   },
   relief: {
     label: "Relief", icon: Mountain,
-    url: "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png",
+    url: "/api/tile-proxy?p=relief&z={z}&x={x}&y={y}",
     attribution: 'Données : &copy; OpenStreetMap contributors, SRTM — Rendu : &copy; OpenTopoMap (CC-BY-SA)',
-    subdomains: "abc", maxZoom: 17,
+    subdomains: "", maxZoom: 17,
   },
 };
 
@@ -163,6 +167,59 @@ export default function Cartographie({ active, onNavigate, userEmail, roleLabel,
   const [riversStatus, setRiversStatus] = useState(null);
   const [roadsStatus, setRoadsStatus] = useState(null);
 
+  // ---------- Extraction cartographique par commune / groupe de communes ----------
+  const [extractionMode, setExtractionMode] = useState("single"); // "single" | "group"
+  const [extractionSelection, setExtractionSelection] = useState([]);
+  const [extractionActive, setExtractionActive] = useState(false);
+  const [extractionSearch, setExtractionSearch] = useState("");
+  const [exportError, setExportError] = useState(null);
+  const [exporting, setExporting] = useState(false);
+
+  const borgouNames = COMMUNES.map((c) => c.name);
+  const otherCommuneNames = Object.keys(COMMUNE_COORDS)
+    .filter((n) => !borgouNames.includes(n))
+    .sort((a, b) => a.localeCompare(b, "fr"));
+  const filteredOtherCommunes = extractionSearch
+    ? otherCommuneNames.filter((n) => n.toLowerCase().includes(extractionSearch.toLowerCase()))
+    : otherCommuneNames;
+
+  const toggleExtractionCommune = (name) => {
+    setExtractionSelection((prev) => {
+      if (extractionMode === "single") return prev.includes(name) ? [] : [name];
+      return prev.includes(name) ? prev.filter((x) => x !== name) : [...prev, name];
+    });
+  };
+
+  const applyExtraction = () => {
+    if (extractionSelection.length === 0) return;
+    setExtractionActive(true);
+    setExportError(null);
+  };
+
+  const resetExtraction = () => {
+    setExtractionActive(false);
+    setExtractionSelection([]);
+    setExportError(null);
+    const map = mapRef.current;
+    if (map) map.setView([9.5, 2.3], 7);
+  };
+
+  const exportTitle = extractionActive && extractionSelection.length > 0
+    ? (extractionSelection.length === 1 ? `Commune de ${extractionSelection[0]}` : `Groupe de communes : ${extractionSelection.join(", ")}`)
+    : "Département du Borgou — vue d'ensemble";
+
+  const handleExportMap = async () => {
+    setExporting(true);
+    setExportError(null);
+    const dateStr = new Date().toLocaleDateString("fr-FR", { day: "2-digit", month: "long", year: "numeric" });
+    const slug = extractionActive && extractionSelection.length > 0
+      ? extractionSelection.join("_")
+      : "Borgou_vue_ensemble";
+    const result = await exportMapAsPNG(mapExportRef.current, `AgriHakStat_carte_${slug}_${dateStr.replace(/\s+/g, "-")}`);
+    if (!result.ok) setExportError(result.error);
+    setExporting(false);
+  };
+
   const toggleFiliere = (f) =>
     setFilieres((prev) => (prev.includes(f) ? prev.filter((x) => x !== f) : [...prev, f]));
 
@@ -196,6 +253,7 @@ export default function Cartographie({ active, onNavigate, userEmail, roleLabel,
 
   // ---------- Carte Leaflet (monde, scrollable/zoomable) ----------
   const mapDivRef = useRef(null);
+  const mapExportRef = useRef(null);
   const mapRef = useRef(null);
   const baseTileRef = useRef(null);
   const groupsRef = useRef({});
@@ -218,7 +276,7 @@ export default function Cartographie({ active, onNavigate, userEmail, roleLabel,
     if (!map) return;
     if (baseTileRef.current) map.removeLayer(baseTileRef.current);
     const cfg = BASE_LAYERS[baseLayerKey];
-    const tile = L.tileLayer(cfg.url, { attribution: cfg.attribution, subdomains: cfg.subdomains, maxZoom: cfg.maxZoom });
+    const tile = L.tileLayer(cfg.url, { attribution: cfg.attribution, subdomains: cfg.subdomains, maxZoom: cfg.maxZoom, crossOrigin: true });
     tile.addTo(map);
     baseTileRef.current = tile;
   }, [baseLayerKey]);
@@ -229,7 +287,10 @@ export default function Cartographie({ active, onNavigate, userEmail, roleLabel,
     const group = groupsRef.current.habitats;
     group.clearLayers();
     if (showHabitats) {
-      Object.entries(COMMUNE_COORDS).forEach(([name, c]) => {
+      const entries = extractionActive && extractionSelection.length > 0
+        ? Object.entries(COMMUNE_COORDS).filter(([name]) => extractionSelection.includes(name))
+        : Object.entries(COMMUNE_COORDS);
+      entries.forEach(([name, c]) => {
         L.circleMarker([c.lat, c.lon], { radius: 3, weight: 1, color: "#5A6478", fillColor: "#8891A5", fillOpacity: 0.9 })
           .bindTooltip(name, { direction: "top", offset: [0, -4] })
           .addTo(group);
@@ -238,7 +299,7 @@ export default function Cartographie({ active, onNavigate, userEmail, roleLabel,
     } else if (map.hasLayer(group)) {
       map.removeLayer(group);
     }
-  }, [showHabitats]);
+  }, [showHabitats, extractionActive, extractionSelection]);
 
   // Couche « Suivi agricole interne » — communes du Borgou, colorées selon l'indicateur choisi
   useEffect(() => {
@@ -246,7 +307,10 @@ export default function Cartographie({ active, onNavigate, userEmail, roleLabel,
     const group = groupsRef.current.suivi;
     group.clearLayers();
     if (showSuivi) {
-      COMMUNES.forEach((c) => {
+      const list = extractionActive && extractionSelection.length > 0
+        ? COMMUNES.filter((c) => extractionSelection.includes(c.name))
+        : COMMUNES;
+      list.forEach((c) => {
         const coords = COMMUNE_COORDS[c.name];
         if (!coords) return;
         const color = indicateurColor(c);
@@ -259,7 +323,22 @@ export default function Cartographie({ active, onNavigate, userEmail, roleLabel,
       map.removeLayer(group);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [showSuivi, indicateur]);
+  }, [showSuivi, indicateur, extractionActive, extractionSelection]);
+
+  // Recadrage automatique de la carte lors de l'activation/mise à jour d'une extraction :
+  // une seule commune → zoom communal centré ; un groupe → ajustement sur l'emprise du groupe.
+  useEffect(() => {
+    const map = mapRef.current; if (!map) return;
+    if (!extractionActive || extractionSelection.length === 0) return;
+    const coords = extractionSelection.map((n) => COMMUNE_COORDS[n]).filter(Boolean);
+    if (coords.length === 0) return;
+    if (coords.length === 1) {
+      map.setView([coords[0].lat, coords[0].lon], 11);
+    } else {
+      map.fitBounds(L.latLngBounds(coords.map((c) => [c.lat, c.lon])), { padding: [50, 50], maxZoom: 12 });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [extractionActive, extractionSelection]);
 
   // Couche « Points d'enquête importés » — coordonnées réelles de la base importée, si disponibles
   useEffect(() => {
@@ -373,8 +452,39 @@ export default function Cartographie({ active, onNavigate, userEmail, roleLabel,
                 ))}
               </div>
 
+              {extractionActive && extractionSelection.length > 0 && (
+                <div className="flex items-center justify-between mb-3 px-4 py-2.5 rounded-xl" style={{ background: "#EBEEF7", border: `1px solid ${NAVY}` }}>
+                  <div className="flex items-center gap-2 text-sm font-medium" style={{ color: NAVY }}>
+                    <Crosshair size={15} />
+                    Extraction active — {exportTitle}
+                  </div>
+                  <button onClick={resetExtraction} className="flex items-center gap-1 text-xs font-medium px-2.5 py-1 rounded-lg hover:bg-white/60" style={{ color: NAVY }}>
+                    <RotateCcw size={12} /> Revenir à la vue d'ensemble
+                  </button>
+                </div>
+              )}
+
               <Card>
-                <div ref={mapDivRef} className="rounded-xl overflow-hidden border border-gray-100" style={{ height: 520, width: "100%" }} />
+                {/* Cartouche capturé avec la carte lors de l'export image : titre, date, source */}
+                <div ref={mapExportRef} className="bg-white">
+                  <div className="flex items-center justify-between mb-2 px-1">
+                    <div>
+                      <p className="font-serif font-semibold text-sm" style={{ color: NAVY }}>{exportTitle}</p>
+                      <p className="text-[10px] text-gray-400">
+                        AgriHakStat — DDAEP-Borgou · {new Date().toLocaleDateString("fr-FR", { day: "2-digit", month: "long", year: "numeric" })}
+                        {showSuivi && ` · Indicateur : ${indicateurLabel}`}
+                      </p>
+                    </div>
+                    {showSuivi && (
+                      <div className="flex items-center gap-2 text-[10px] text-gray-500">
+                        <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full inline-block" style={{ background: "#3E9C6B" }} />Satisfaisant</span>
+                        <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full inline-block" style={{ background: "#E3A23B" }} />Modéré</span>
+                        <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full inline-block" style={{ background: "#C1573F" }} />Critique</span>
+                      </div>
+                    )}
+                  </div>
+                  <div ref={mapDivRef} className="rounded-xl overflow-hidden border border-gray-100" style={{ height: 520, width: "100%" }} />
+                </div>
                 <p className="text-[10px] text-gray-400 italic mt-2">
                   Défilement à la molette ou pincement pour zoomer, cliquer-glisser pour déplacer — depuis la vue mondiale jusqu'à l'échelle communale. Fond « Satellite » : imagerie réelle utilisée comme approximation visuelle de la couverture végétale (et non une classification scientifique d'occupation du sol). Cours d'eau et routes : base collaborative OpenStreetMap (Overpass API), chargés à partir du niveau de zoom régional et actualisés au déplacement de la carte.
                 </p>
@@ -432,6 +542,83 @@ export default function Cartographie({ active, onNavigate, userEmail, roleLabel,
               </Card>
 
               <Card>
+                <div className="flex items-center gap-2 mb-3">
+                  <Crosshair size={16} style={{ color: NAVY }} />
+                  <h2 className="font-serif font-semibold" style={{ color: NAVY }}>Extraction cartographique</h2>
+                </div>
+                <p className="text-[11px] text-gray-400 mb-3">Isoler une commune ou un groupe de communes sur la carte, pour analyse ou export dédié.</p>
+
+                <div className="flex rounded-xl border border-gray-200 p-1 mb-3">
+                  <button onClick={() => { setExtractionMode("single"); setExtractionSelection((s) => s.slice(0, 1)); }}
+                    className="flex-1 text-xs font-medium py-1.5 rounded-lg transition-colors"
+                    style={extractionMode === "single" ? { background: NAVY, color: "white" } : { color: "#5A6478" }}>
+                    Une commune
+                  </button>
+                  <button onClick={() => setExtractionMode("group")}
+                    className="flex-1 text-xs font-medium py-1.5 rounded-lg transition-colors"
+                    style={extractionMode === "group" ? { background: NAVY, color: "white" } : { color: "#5A6478" }}>
+                    Groupe de communes
+                  </button>
+                </div>
+
+                <div className="relative mb-2">
+                  <Search size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-300" />
+                  <input type="text" value={extractionSearch} onChange={(e) => setExtractionSearch(e.target.value)}
+                    placeholder="Rechercher une commune…"
+                    className="w-full text-xs rounded-lg border border-gray-200 pl-7 pr-2 py-1.5 focus:outline-none" />
+                </div>
+
+                <div className="max-h-44 overflow-y-auto rounded-xl border border-gray-100 divide-y divide-gray-50 mb-3">
+                  {(!extractionSearch || "borgou".includes(extractionSearch.toLowerCase()) || borgouNames.some((n) => n.toLowerCase().includes(extractionSearch.toLowerCase()))) && (
+                    <>
+                      <div className="px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-gray-400 bg-gray-50">Borgou — suivi agro-climatique</div>
+                      {borgouNames
+                        .filter((n) => !extractionSearch || n.toLowerCase().includes(extractionSearch.toLowerCase()))
+                        .map((n) => (
+                          <label key={n} className="flex items-center gap-2 px-2.5 py-1.5 text-xs cursor-pointer hover:bg-gray-50">
+                            <input type={extractionMode === "single" ? "radio" : "checkbox"} checked={extractionSelection.includes(n)}
+                              onChange={() => toggleExtractionCommune(n)} className="w-3.5 h-3.5" style={{ accentColor: NAVY }} />
+                            {n}
+                          </label>
+                        ))}
+                    </>
+                  )}
+                  <div className="px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-gray-400 bg-gray-50">Autres communes du Bénin</div>
+                  {filteredOtherCommunes.slice(0, 200).map((n) => (
+                    <label key={n} className="flex items-center gap-2 px-2.5 py-1.5 text-xs cursor-pointer hover:bg-gray-50">
+                      <input type={extractionMode === "single" ? "radio" : "checkbox"} checked={extractionSelection.includes(n)}
+                        onChange={() => toggleExtractionCommune(n)} className="w-3.5 h-3.5" style={{ accentColor: NAVY }} />
+                      {n}
+                    </label>
+                  ))}
+                </div>
+
+                {extractionSelection.length > 0 && (
+                  <div className="flex flex-wrap gap-1.5 mb-3">
+                    {extractionSelection.map((n) => (
+                      <span key={n} className="flex items-center gap-1 text-[11px] font-medium pl-2.5 pr-1.5 py-1 rounded-full" style={{ background: "#EBEEF7", color: NAVY }}>
+                        {n}
+                        <button onClick={() => toggleExtractionCommune(n)}><X size={11} /></button>
+                      </span>
+                    ))}
+                  </div>
+                )}
+
+                <div className="flex gap-2">
+                  <button onClick={applyExtraction} disabled={extractionSelection.length === 0}
+                    className="flex-1 px-3 py-2 rounded-xl text-xs font-medium flex items-center justify-center gap-1.5 text-white shadow-sm disabled:opacity-40 disabled:cursor-not-allowed"
+                    style={{ background: NAVY }}>
+                    <Crosshair size={13} /> Isoler sur la carte
+                  </button>
+                  {extractionActive && (
+                    <button onClick={resetExtraction} className="px-3 py-2 rounded-xl text-xs font-medium border" style={{ borderColor: "#D8DEE9", color: "#5A6478" }}>
+                      <RotateCcw size={13} />
+                    </button>
+                  )}
+                </div>
+              </Card>
+
+              <Card>
                 <div className="flex items-center gap-2 mb-1">
                   <MapPin size={16} style={{ color: NAVY }} />
                   <h2 className="font-serif font-semibold" style={{ color: NAVY }}>Communes en alerte</h2>
@@ -454,10 +641,15 @@ export default function Cartographie({ active, onNavigate, userEmail, roleLabel,
                   <FileOutput size={16} style={{ color: GOLD }} />
                   <h2 className="font-serif font-semibold" style={{ color: NAVY }}>Export</h2>
                 </div>
-                <button className="w-full mb-2 px-4 py-2.5 rounded-xl text-sm font-medium flex items-center justify-center gap-1.5 bg-white border"
+                <button onClick={handleExportMap} disabled={exporting}
+                  className="w-full mb-2 px-4 py-2.5 rounded-xl text-sm font-medium flex items-center justify-center gap-1.5 bg-white border disabled:opacity-50"
                   style={{ borderColor: NAVY, color: NAVY }}>
-                  <Download size={14} /> Exporter la carte (PNG)
+                  {exporting ? <Loader2 size={14} className="animate-spin" /> : <Download size={14} />}
+                  {exporting ? "Génération de l'image…" : `Exporter ${extractionActive && extractionSelection.length > 0 ? "cette vue" : "la carte"} (PNG)`}
                 </button>
+                {exportError && (
+                  <p className="text-[11px] mb-2" style={{ color: "#B3413A" }}>{exportError}</p>
+                )}
                 <button className="w-full px-4 py-2.5 rounded-xl text-sm font-medium flex items-center justify-center gap-1.5 text-white shadow-md"
                   style={{ background: `linear-gradient(135deg, ${NAVY}, #2A4A82)` }}>
                   <Layers size={14} /> Intégrer au rapport (Résultats)

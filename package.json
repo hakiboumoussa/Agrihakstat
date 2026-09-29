@@ -19,6 +19,7 @@
     "@supabase/supabase-js": "^2.112.3",
     "docx": "^9.7.1",
     "esbuild": "^0.28.1",
+    "html2canvas": "^1.4.1",
     "leaflet": "^1.9.4",
     "lucide-react": "^1.28.0",
     "papaparse": "^5.6.0",
