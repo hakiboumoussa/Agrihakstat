@@ -133104,9 +133104,12 @@ ${suffix2}`;
     clair: {
       label: "Fond clair",
       icon: Map2,
-      url: "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-      subdomains: "abcd",
+      // CARTO exige désormais une clé API sur ses tuiles basemaps.cartocdn.com pour tout usage hors
+      // compte enregistré (voir "API key required" sur les tuiles) : on utilise à la place le fond
+      // Wikimedia Maps, un rendu clair équivalent, sans clé requise.
+      url: "https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png",
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | Rendu : Wikimedia Maps',
+      subdomains: "",
       maxZoom: 19
     },
     osm: {
@@ -133200,7 +133203,7 @@ ${suffix2}`;
     return data.elements || [];
   }
   function Cartographie({ active, onNavigate, userEmail, roleLabel, isAdmin, isGuest, onLogout, onOpenAdmin, dataset }) {
-    const [baseLayerKey, setBaseLayerKey] = (0, import_react78.useState)("clair");
+    const [baseLayerKey, setBaseLayerKey] = (0, import_react78.useState)("osm");
     const [showRivers, setShowRivers] = (0, import_react78.useState)(false);
     const [showRoads, setShowRoads] = (0, import_react78.useState)(false);
     const [showHabitats, setShowHabitats] = (0, import_react78.useState)(true);
