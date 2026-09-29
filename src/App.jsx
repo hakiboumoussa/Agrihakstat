@@ -48,7 +48,7 @@ export default function App() {
   const [showAdmin, setShowAdmin] = useState(false);
   const [guestMode, setGuestMode] = useState(persisted?.guestMode || false);
   const [dataset, setDataset] = useState(persisted?.dataset || null); // { rows, columns, fileName } — données réellement importées
-  const [analysisQueue, setAnalysisQueue] = useState(persisted?.analysisQueue || []); // analyses réellement configurées et calculées
+  const [analysisQueue, setAnalysisQueue] = useState(persisted?.analysisQueue || []); // analyses bivariées réellement configurées et calculées
   const [univariateQueue, setUnivariateQueue] = useState(persisted?.univariateQueue || []); // variables univariées validées pour le rapport
   const [context, setContext] = useState(persisted?.context || null); // contexte de l'étude (objectif, communes, filières, période, indicateurs)
   const [recoveryMode, setRecoveryMode] = useState(false);
@@ -90,7 +90,6 @@ export default function App() {
     localStorage.removeItem(STORAGE_KEY);
     setDataset(null);
     setAnalysisQueue([]);
-    setUnivariateQueue([]);
     setContext(null);
     setAuthView("landing");
   };

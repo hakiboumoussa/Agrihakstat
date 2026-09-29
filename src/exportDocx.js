@@ -38,24 +38,9 @@ function table(rows) {
   });
 }
 
-export async function exportReportToDocx({ context, queue, uniQueue, aiReport, dataset }) {
+export async function exportReportToDocx({ context, queue, aiReport, dataset }) {
   const ctx = context || {};
   const indicateurs = ctx.indicateurs || [];
-
-  const univariateParagraphs = (uniQueue || []).flatMap((u) => {
-    const s = u.stats;
-    const detail = u.isQuantitative
-      ? `Moyenne = ${s.moyenne.toFixed(2)}, médiane = ${s.mediane.toFixed(2)}, écart-type = ${s.ecartType.toFixed(2)}, min = ${s.min.toFixed(2)}, max = ${s.max.toFixed(2)}` +
-        (s.outliers?.count > 0 ? `, ${s.outliers.count} valeur(s) atypique(s) détectée(s) (méthode interquartile)` : ", aucune valeur atypique détectée (méthode interquartile)")
-      : (s || []).map((f) => `${f.modalite} : ${f.pct.toFixed(0)}% (n=${f.n})`).join(" ; ");
-    return [
-      new Paragraph({
-        spacing: { before: 160, after: 40 },
-        children: [new TextRun({ text: `${u.variableLabel} — ${u.isQuantitative ? "Statistiques descriptives" : "Fréquences"} (univariée)`, bold: true, color: NAVY, size: 22 })],
-      }),
-      p(detail),
-    ];
-  });
 
   const resultParagraphs = (queue || []).flatMap((item) => [
     new Paragraph({
@@ -95,9 +80,7 @@ export async function exportReportToDocx({ context, queue, uniQueue, aiReport, d
             : p("Aucun indicateur déclaré."),
 
           h1("3. Résultats"),
-          (uniQueue && uniQueue.length > 0) ? univariateParagraphs : [],
-          (queue && queue.length > 0) ? resultParagraphs : [],
-          (!queue || queue.length === 0) && (!uniQueue || uniQueue.length === 0) ? [p("Aucune analyse validée pour ce rapport.")] : [],
+          queue && queue.length > 0 ? resultParagraphs : [p("Aucune analyse validée pour ce rapport.")],
 
           h1("4. Analyse"),
           p(aiReport?.analyse || "Section à compléter par l'analyste."),
