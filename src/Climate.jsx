@@ -2,7 +2,7 @@ import React, { useState, useMemo } from "react";
 import * as XLSX from "xlsx";
 import {
   Bell, CloudRain, Thermometer, Droplets, MapPin, Loader2, AlertCircle, RefreshCw,
-  Download, Sprout, Waves, Sun, TriangleAlert, Info,
+  Download, Sprout, Waves, Sun, TriangleAlert, Info, X,
 } from "lucide-react";
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Line, LineChart,
@@ -28,6 +28,46 @@ const NAVY_TINT = "#EBEEF7";
 
 function Card({ children, className = "" }) {
   return <div className={`bg-white rounded-2xl p-6 shadow-sm border border-black/5 ${className}`}>{children}</div>;
+}
+
+function Chip({ label, active, onClick, color }) {
+  return (
+    <button
+      onClick={onClick}
+      className="px-3 py-1.5 rounded-full text-xs font-medium border transition-colors"
+      style={
+        active
+          ? { background: color || NAVY, borderColor: color || NAVY, color: "white" }
+          : { background: "white", borderColor: "#D8DEE9", color: "#5A6478" }
+      }
+    >
+      {label}
+    </button>
+  );
+}
+
+// Moyenne, jour par jour, les séries climatiques de plusieurs communes (zone d'intervention).
+// Chaque champ est moyenné indépendamment sur les seules communes disposant d'une valeur ce
+// jour-là, pour dégrader proprement en cas de donnée manquante ponctuelle sur une commune.
+function averageDailyAcrossCommunes(perCommuneDaily) {
+  const byDate = new Map();
+  perCommuneDaily.forEach((daily) => {
+    daily.forEach((d) => {
+      if (!byDate.has(d.dateISO)) byDate.set(d.dateISO, { dateISO: d.dateISO, date: d.date, pluie: [], tmax: [], tmin: [], et0: [] });
+      const g = byDate.get(d.dateISO);
+      if (d.pluie !== null && d.pluie !== undefined) g.pluie.push(d.pluie);
+      if (d.tmax !== null && d.tmax !== undefined) g.tmax.push(d.tmax);
+      if (d.tmin !== null && d.tmin !== undefined) g.tmin.push(d.tmin);
+      if (d.et0 !== null && d.et0 !== undefined) g.et0.push(d.et0);
+    });
+  });
+  const avg = (arr) => (arr.length > 0 ? arr.reduce((s, v) => s + v, 0) / arr.length : null);
+  return [...byDate.values()]
+    .sort((a, b) => (a.dateISO > b.dateISO ? 1 : -1))
+    .map((g) => ({
+      dateISO: g.dateISO, date: g.date,
+      pluie: avg(g.pluie), tmax: avg(g.tmax), tmin: avg(g.tmin), et0: avg(g.et0),
+    }));
 }
 
 function toYYYYMMDD(d) {
@@ -60,8 +100,8 @@ function StatusPill({ statut }) {
 
 export default function Climate({ active, onNavigate, userEmail, roleLabel, isAdmin, isGuest, onLogout, onOpenAdmin }) {
   const defaults = defaultDates();
-  const [departement, setDepartement] = useState("Borgou");
-  const [commune, setCommune] = useState("Parakou");
+  const [departements, setDepartements] = useState(["Borgou"]);
+  const [communes, setCommunes] = useState(["Parakou"]);
   const [startDate, setStartDate] = useState(defaults.start);
   const [endDate, setEndDate] = useState(defaults.end);
   const [loading, setLoading] = useState(false);
@@ -73,22 +113,42 @@ export default function Climate({ active, onNavigate, userEmail, roleLabel, isAd
   const [sowingDate, setSowingDate] = useState("");
   const [drySpellMinLength, setDrySpellMinLength] = useState(7);
 
-  const communesDuDepartement = BENIN_DEPARTEMENTS.find((d) => d.departement === departement)?.communes || [];
+  const toggleDepartement = (dep) => {
+    setDepartements((prev) => {
+      const next = prev.includes(dep) ? prev.filter((d) => d !== dep) : [...prev, dep];
+      // Retire les communes du département désélectionné
+      if (prev.includes(dep)) {
+        const communesDuDep = BENIN_DEPARTEMENTS.find((d) => d.departement === dep)?.communes || [];
+        setCommunes((c) => c.filter((cc) => !communesDuDep.includes(cc)));
+      }
+      return next;
+    });
+  };
+  const toggleCommune = (c) => setCommunes((prev) => (prev.includes(c) ? prev.filter((x) => x !== c) : [...prev, c]));
 
   const fetchClimate = async () => {
-    const coords = COMMUNE_COORDS[commune];
-    if (!coords) { setError("Coordonnées non disponibles pour cette commune."); return; }
+    if (communes.length === 0) { setError("Sélectionnez au moins une commune."); return; }
+    const validCommunes = communes.filter((c) => COMMUNE_COORDS[c]);
+    if (validCommunes.length === 0) { setError("Coordonnées non disponibles pour les communes sélectionnées."); return; }
     setLoading(true);
     setError("");
     setEt0Error("");
     setResult(null);
-    try {
+
+    const isoStart = `${startDate.slice(0, 4)}-${startDate.slice(4, 6)}-${startDate.slice(6, 8)}`;
+    const isoEnd = `${endDate.slice(0, 4)}-${endDate.slice(4, 6)}-${endDate.slice(6, 8)}`;
+
+    // Récupération, pour chaque commune de la zone d'intervention, de la pluie/température
+    // (NASA POWER) et de l'évapotranspiration de référence (Open-Meteo). Les échecs par
+    // commune ou par source sont isolés pour ne pas bloquer les autres.
+    const fetchOneCommune = async (c) => {
+      const coords = COMMUNE_COORDS[c];
       const url = `https://power.larc.nasa.gov/api/temporal/daily/point?parameters=PRECTOTCORR,T2M_MAX,T2M_MIN,T2M&community=AG&longitude=${coords.lon}&latitude=${coords.lat}&start=${startDate}&end=${endDate}&format=JSON`;
       const res = await fetch(url);
-      if (!res.ok) throw new Error(`Le service NASA POWER a répondu avec le code ${res.status}.`);
+      if (!res.ok) throw new Error(`NASA POWER a répondu avec le code ${res.status} pour ${c}.`);
       const data = await res.json();
       const params = data?.properties?.parameter;
-      if (!params) throw new Error(data?.messages?.[0] || "Réponse inattendue du service NASA POWER.");
+      if (!params) throw new Error(data?.messages?.[0] || `Réponse inattendue du service NASA POWER pour ${c}.`);
 
       const dates = Object.keys(params.PRECTOTCORR || {}).sort();
       let daily = dates.map((d) => ({
@@ -100,24 +160,38 @@ export default function Climate({ active, onNavigate, userEmail, roleLabel, isAd
         et0: null,
       })).filter((d) => d.pluie !== null);
 
-      if (daily.length === 0) throw new Error("Aucune donnée exploitable sur la période demandée (essayez une période plus ancienne).");
-
-      // Évapotranspiration de référence (ET0, méthode FAO-56 Penman-Monteith) — Open-Meteo Archive API.
-      // Récupérée séparément : un échec sur cette source ne doit pas empêcher l'affichage de la pluie et
-      // des températures, qui restent la donnée principale.
       try {
-        const isoStart = `${startDate.slice(0, 4)}-${startDate.slice(4, 6)}-${startDate.slice(6, 8)}`;
-        const isoEnd = `${endDate.slice(0, 4)}-${endDate.slice(4, 6)}-${endDate.slice(6, 8)}`;
         const omUrl = `https://archive-api.open-meteo.com/v1/archive?latitude=${coords.lat}&longitude=${coords.lon}&start_date=${isoStart}&end_date=${isoEnd}&daily=et0_fao_evapotranspiration&timezone=UTC`;
         const omRes = await fetch(omUrl);
-        if (!omRes.ok) throw new Error(`Le service Open-Meteo a répondu avec le code ${omRes.status}.`);
+        if (!omRes.ok) throw new Error(`code ${omRes.status}`);
         const omData = await omRes.json();
         const omDates = omData?.daily?.time || [];
         const omEt0 = omData?.daily?.et0_fao_evapotranspiration || [];
         const et0ByDate = new Map(omDates.map((d, i) => [d, omEt0[i]]));
         daily = daily.map((d) => ({ ...d, et0: et0ByDate.has(d.dateISO) && et0ByDate.get(d.dateISO) !== null ? et0ByDate.get(d.dateISO) : null }));
       } catch (e) {
-        setEt0Error("Évapotranspiration (ET0) indisponible pour cette période/localité (service Open-Meteo) : " + e.message + " — le bilan hydrique et l'analyse par culture ne peuvent pas être calculés tant que cette donnée manque.");
+        // dégradation silencieuse par commune ; signalé globalement plus bas si aucune commune n'a d'ET0
+      }
+      return daily;
+    };
+
+    try {
+      const outcomes = await Promise.allSettled(validCommunes.map(fetchOneCommune));
+      const succeeded = outcomes.filter((o) => o.status === "fulfilled").map((o) => o.value);
+      if (succeeded.length === 0) {
+        const firstErrorDetail = outcomes.find((o) => o.status === "rejected")?.reason?.message;
+        throw new Error(firstErrorDetail || "Impossible de récupérer des données pour aucune des communes sélectionnées.");
+      }
+
+      let daily = averageDailyAcrossCommunes(succeeded);
+      if (daily.length === 0) throw new Error("Aucune donnée exploitable sur la période demandée (essayez une période plus ancienne).");
+
+      if (!daily.some((d) => d.et0 !== null)) {
+        setEt0Error("Évapotranspiration (ET0) indisponible pour cette période/zone (service Open-Meteo) — le bilan hydrique et l'analyse par culture ne peuvent pas être calculés tant que cette donnée manque.");
+      }
+      const nEchec = validCommunes.length - succeeded.length;
+      if (nEchec > 0) {
+        setEt0Error((prev) => (prev ? prev + " " : "") + `${nEchec} commune(s) sur ${validCommunes.length} n'ont pas pu être récupérées et sont exclues de la moyenne de zone.`);
       }
 
       daily = computeWaterBalance(daily);
@@ -131,7 +205,7 @@ export default function Climate({ active, onNavigate, userEmail, roleLabel, isAd
       const bilanNet = daily.length > 0 ? daily[daily.length - 1].bilanCumule : null;
       const drySpells = detectDrySpells(daily, 1, Number(drySpellMinLength) || 7);
 
-      setResult({ daily, cumulPluie, joursPluie, tMaxAbs, tMinAbs, tMoyenne, n: daily.length, et0Cumule, bilanNet, drySpells });
+      setResult({ daily, cumulPluie, joursPluie, tMaxAbs, tMinAbs, tMoyenne, n: daily.length, et0Cumule, bilanNet, drySpells, communesUtilisees: succeeded.length });
       if (!sowingDate) setSowingDate(daily[0]?.dateISO || "");
     } catch (e) {
       if (e instanceof TypeError) {
@@ -181,16 +255,17 @@ export default function Climate({ active, onNavigate, userEmail, roleLabel, isAd
     XLSX.utils.book_append_sheet(wb, ws, "Données journalières");
 
     const wsMeta = XLSX.utils.json_to_sheet([{
-      Commune: commune, Département: departement,
-      Latitude: COMMUNE_COORDS[commune]?.lat, Longitude: COMMUNE_COORDS[commune]?.lon,
+      "Zone d'intervention (communes)": communes.join(", "),
+      "Département(s)": departements.join(", "),
+      "Communes effectivement moyennées": result.communesUtilisees,
       "Période de début": startDate, "Période de fin": endDate,
-      "Cumul pluviométrique (mm)": Number(result.cumulPluie.toFixed(1)),
-      "ET0 cumulée (mm)": Number(result.et0Cumule.toFixed(1)),
-      "Sources": "NASA POWER (pluie, températures) · Open-Meteo Archive API (ET0, FAO-56 Penman-Monteith)",
+      "Cumul pluviométrique moyen (mm)": Number(result.cumulPluie.toFixed(1)),
+      "ET0 cumulée moyenne (mm)": Number(result.et0Cumule.toFixed(1)),
+      "Sources": "NASA POWER (pluie, températures) · Open-Meteo Archive API (ET0, FAO-56 Penman-Monteith) — moyenne journalière des communes de la zone d'intervention",
     }]);
     XLSX.utils.book_append_sheet(wb, wsMeta, "Métadonnées");
 
-    XLSX.writeFile(wb, `AgroMeteo_${commune}_${startDate}_${endDate}.xlsx`);
+    XLSX.writeFile(wb, `AgroMeteo_${communes.length > 1 ? "zone" : communes[0]}_${startDate}_${endDate}.xlsx`);
   };
 
   return (
@@ -221,21 +296,47 @@ export default function Climate({ active, onNavigate, userEmail, roleLabel, isAd
 
           <main className="p-8">
             <Card className="mb-5">
-              <div className="grid grid-cols-4 gap-3 items-end">
-                <div>
-                  <label className="text-xs font-medium text-gray-600 block mb-1.5">Département</label>
-                  <select value={departement} onChange={(e) => { setDepartement(e.target.value); setCommune(BENIN_DEPARTEMENTS.find((d) => d.departement === e.target.value).communes[0]); }}
-                    className="w-full text-sm rounded-xl border border-gray-200 p-2.5 bg-white focus:outline-none focus:ring-2" style={{ "--tw-ring-color": GOLD }}>
-                    {BENIN_DEPARTEMENTS.map((d) => <option key={d.departement} value={d.departement}>{d.departement}</option>)}
-                  </select>
+              <div className="flex items-center justify-between mb-1">
+                <label className="text-xs font-medium text-gray-600">Zone d'intervention — département(s)</label>
+                <span className="text-[11px] text-gray-400">{communes.length} commune{communes.length > 1 ? "s" : ""} sélectionnée{communes.length > 1 ? "s" : ""} — la moyenne journalière de la zone sera calculée</span>
+              </div>
+              <div className="flex flex-wrap gap-2 mb-3">
+                {BENIN_DEPARTEMENTS.map((d) => (
+                  <Chip key={d.departement} label={d.departement} active={departements.includes(d.departement)} onClick={() => toggleDepartement(d.departement)} />
+                ))}
+              </div>
+
+              {departements.length > 0 && (
+                <div className="mb-3">
+                  <label className="text-xs font-medium text-gray-600 block mb-1.5">Communes</label>
+                  {departements.map((dep) => {
+                    const communesDuDep = BENIN_DEPARTEMENTS.find((d) => d.departement === dep)?.communes || [];
+                    return (
+                      <div key={dep} className="mb-2">
+                        <div className="text-[11px] text-gray-400 mb-1">{dep}</div>
+                        <div className="flex flex-wrap gap-1.5">
+                          {communesDuDep.map((c) => (
+                            <Chip key={c} label={c} color={GREEN} active={communes.includes(c)} onClick={() => toggleCommune(c)} />
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
-                <div>
-                  <label className="text-xs font-medium text-gray-600 block mb-1.5">Commune</label>
-                  <select value={commune} onChange={(e) => setCommune(e.target.value)}
-                    className="w-full text-sm rounded-xl border border-gray-200 p-2.5 bg-white focus:outline-none focus:ring-2" style={{ "--tw-ring-color": GOLD }}>
-                    {communesDuDepartement.map((c) => <option key={c} value={c}>{c}</option>)}
-                  </select>
+              )}
+
+              {communes.length > 0 && (
+                <div className="flex flex-wrap gap-1.5 mb-4">
+                  {communes.map((c) => (
+                    <span key={c} className="flex items-center gap-1 text-[11px] font-medium px-2 py-1 rounded-full" style={{ background: NAVY_TINT, color: NAVY }}>
+                      {c}
+                      <button onClick={() => toggleCommune(c)} className="hover:text-red-500"><X size={11} /></button>
+                    </span>
+                  ))}
                 </div>
+              )}
+
+              <div className="grid grid-cols-3 gap-3 items-end">
                 <div>
                   <label className="text-xs font-medium text-gray-600 block mb-1.5">Période</label>
                   <div className="flex items-center gap-1.5">
@@ -247,14 +348,16 @@ export default function Climate({ active, onNavigate, userEmail, roleLabel, isAd
                       className="w-full text-xs rounded-xl border border-gray-200 p-2.5 focus:outline-none focus:ring-2" style={{ "--tw-ring-color": GOLD }} />
                   </div>
                 </div>
-                <button onClick={fetchClimate} disabled={loading}
-                  className="px-4 py-2.5 rounded-xl text-sm font-medium flex items-center justify-center gap-2 text-white shadow-md disabled:opacity-60"
-                  style={{ background: `linear-gradient(135deg, ${NAVY}, #2A4A82)` }}>
-                  {loading ? <Loader2 size={15} className="animate-spin" /> : <RefreshCw size={15} />} Afficher
-                </button>
+                <div className="col-span-2">
+                  <button onClick={fetchClimate} disabled={loading || communes.length === 0}
+                    className="px-4 py-2.5 rounded-xl text-sm font-medium flex items-center justify-center gap-2 text-white shadow-md disabled:opacity-60"
+                    style={{ background: `linear-gradient(135deg, ${NAVY}, #2A4A82)` }}>
+                    {loading ? <Loader2 size={15} className="animate-spin" /> : <RefreshCw size={15} />} Afficher
+                  </button>
+                </div>
               </div>
               <p className="text-[11px] text-gray-400 mt-2">
-                Coordonnées approximatives du centre de la commune ({COMMUNE_COORDS[commune]?.lat.toFixed(2)}, {COMMUNE_COORDS[commune]?.lon.toFixed(2)}) · Pluie et températures : NASA POWER (communauté agroclimatique) · Évapotranspiration de référence (ET0) : Open-Meteo, méthode FAO-56 Penman-Monteith — publication différée de quelques jours.
+                Pluie et températures : NASA POWER (communauté agroclimatique) · Évapotranspiration de référence (ET0) : Open-Meteo, méthode FAO-56 Penman-Monteith — moyenne journalière calculée sur l'ensemble des communes cochées · publication différée de quelques jours.
               </p>
             </Card>
 
@@ -539,7 +642,7 @@ export default function Climate({ active, onNavigate, userEmail, roleLabel, isAd
             {!result && !error && !loading && (
               <Card className="text-center py-12">
                 <MapPin size={32} className="mx-auto text-gray-300 mb-3" />
-                <p className="text-sm text-gray-500">Choisissez une commune et une période, puis cliquez « Afficher ».</p>
+                <p className="text-sm text-gray-500">Choisissez une ou plusieurs communes et une période, puis cliquez « Afficher ».</p>
               </Card>
             )}
           </main>

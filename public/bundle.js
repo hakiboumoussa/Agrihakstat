@@ -126,8 +126,6 @@
               return "SuspenseList";
             case REACT_ACTIVITY_TYPE:
               return "Activity";
-            case REACT_VIEW_TRANSITION_TYPE:
-              return "ViewTransition";
           }
           if ("object" === typeof type)
             switch ("number" === typeof type.tag && console.error(
@@ -377,18 +375,15 @@
         function mapChildren(children, func, context) {
           if (null == children) return children;
           var result = [], count = 0;
-          mapIntoArray(children, result, "", "", function(child2) {
-            return func.call(context, child2, count++);
+          mapIntoArray(children, result, "", "", function(child) {
+            return func.call(context, child, count++);
           });
           return result;
         }
         function lazyInitializer(payload) {
           if (-1 === payload._status) {
-            var resolveDebugValue = null, rejectDebugValue = null, ioInfo = payload._ioInfo;
-            null != ioInfo && (ioInfo.start = ioInfo.end = performance.now(), ioInfo.value = new Promise(function(resolve, reject) {
-              resolveDebugValue = resolve;
-              rejectDebugValue = reject;
-            }));
+            var ioInfo = payload._ioInfo;
+            null != ioInfo && (ioInfo.start = ioInfo.end = performance.now());
             ioInfo = payload._result;
             var thenable = ioInfo();
             thenable.then(
@@ -397,13 +392,7 @@
                   payload._status = 1;
                   payload._result = moduleObject;
                   var _ioInfo = payload._ioInfo;
-                  if (null != _ioInfo) {
-                    _ioInfo.end = performance.now();
-                    var debugValue = null == moduleObject ? void 0 : moduleObject.default;
-                    resolveDebugValue(debugValue);
-                    _ioInfo.value.status = "fulfilled";
-                    _ioInfo.value.value = debugValue;
-                  }
+                  null != _ioInfo && (_ioInfo.end = performance.now());
                   void 0 === thenable.status && (thenable.status = "fulfilled", thenable.value = moduleObject);
                 }
               },
@@ -412,13 +401,14 @@
                   payload._status = 2;
                   payload._result = error;
                   var _ioInfo2 = payload._ioInfo;
-                  null != _ioInfo2 && (_ioInfo2.end = performance.now(), _ioInfo2.value.then(noop7, noop7), rejectDebugValue(error), _ioInfo2.value.status = "rejected", _ioInfo2.value.reason = error);
+                  null != _ioInfo2 && (_ioInfo2.end = performance.now());
                   void 0 === thenable.status && (thenable.status = "rejected", thenable.reason = error);
                 }
               }
             );
             ioInfo = payload._ioInfo;
             if (null != ioInfo) {
+              ioInfo.value = thenable;
               var displayName = thenable.displayName;
               "string" === typeof displayName && (ioInfo.name = displayName);
             }
@@ -443,35 +433,6 @@
         }
         function releaseAsyncTransition() {
           ReactSharedInternals.asyncTransitions--;
-        }
-        function startTransition(scope) {
-          var prevTransition = ReactSharedInternals.T, currentTransition = {};
-          currentTransition.types = null !== prevTransition ? prevTransition.types : null;
-          currentTransition._updatedFibers = /* @__PURE__ */ new Set();
-          ReactSharedInternals.T = currentTransition;
-          try {
-            var returnValue = scope(), onStartTransitionFinish = ReactSharedInternals.S;
-            null !== onStartTransitionFinish && onStartTransitionFinish(currentTransition, returnValue);
-            "object" === typeof returnValue && null !== returnValue && "function" === typeof returnValue.then && (ReactSharedInternals.asyncTransitions++, returnValue.then(releaseAsyncTransition, releaseAsyncTransition), returnValue.then(noop7, reportGlobalError));
-          } catch (error) {
-            reportGlobalError(error);
-          } finally {
-            null === prevTransition && currentTransition._updatedFibers && (scope = currentTransition._updatedFibers.size, currentTransition._updatedFibers.clear(), 10 < scope && console.warn(
-              "Detected a large number of updates inside startTransition. If this is due to a subscription please re-write it to use React provided hooks. Otherwise concurrent mode guarantees are off the table."
-            )), null !== prevTransition && null !== currentTransition.types && (null !== prevTransition.types && prevTransition.types !== currentTransition.types && console.error(
-              "We expected inner Transitions to have transferred the outer types set and that you cannot add to the outer Transition while inside the inner.This is a bug in React."
-            ), prevTransition.types = currentTransition.types), ReactSharedInternals.T = prevTransition;
-          }
-        }
-        function addTransitionType(type) {
-          var transition = ReactSharedInternals.T;
-          if (null !== transition) {
-            var transitionTypes = transition.types;
-            null === transitionTypes ? transition.types = [type] : -1 === transitionTypes.indexOf(type) && transitionTypes.push(type);
-          } else
-            0 === ReactSharedInternals.asyncTransitions && console.error(
-              "addTransitionType can only be called inside a `startTransition()` callback. It must be associated with a specific Transition."
-            ), startTransition(addTransitionType.bind(null, type));
         }
         function enqueueTask(task2) {
           if (null === enqueueTaskImpl)
@@ -547,7 +508,7 @@
           }
         }
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-        var REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = /* @__PURE__ */ Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = /* @__PURE__ */ Symbol.for("react.profiler"), REACT_CONSUMER_TYPE = /* @__PURE__ */ Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.context"), REACT_FORWARD_REF_TYPE2 = /* @__PURE__ */ Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = /* @__PURE__ */ Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = /* @__PURE__ */ Symbol.for("react.suspense_list"), REACT_MEMO_TYPE2 = /* @__PURE__ */ Symbol.for("react.memo"), REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy"), REACT_ACTIVITY_TYPE = /* @__PURE__ */ Symbol.for("react.activity"), REACT_VIEW_TRANSITION_TYPE = /* @__PURE__ */ Symbol.for("react.view_transition"), MAYBE_ITERATOR_SYMBOL = Symbol.iterator, didWarnStateUpdateForUnmountedComponent = {}, ReactNoopUpdateQueue = {
+        var REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = /* @__PURE__ */ Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = /* @__PURE__ */ Symbol.for("react.profiler"), REACT_CONSUMER_TYPE = /* @__PURE__ */ Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.context"), REACT_FORWARD_REF_TYPE2 = /* @__PURE__ */ Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = /* @__PURE__ */ Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = /* @__PURE__ */ Symbol.for("react.suspense_list"), REACT_MEMO_TYPE2 = /* @__PURE__ */ Symbol.for("react.memo"), REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy"), REACT_ACTIVITY_TYPE = /* @__PURE__ */ Symbol.for("react.activity"), MAYBE_ITERATOR_SYMBOL = Symbol.iterator, didWarnStateUpdateForUnmountedComponent = {}, ReactNoopUpdateQueue = {
           isMounted: function() {
             return false;
           },
@@ -662,8 +623,8 @@
             return n;
           },
           toArray: function(children) {
-            return mapChildren(children, function(child2) {
-              return child2;
+            return mapChildren(children, function(child) {
+              return child;
             }) || [];
           },
           only: function(children) {
@@ -682,7 +643,6 @@
         exports.PureComponent = PureComponent2;
         exports.StrictMode = REACT_STRICT_MODE_TYPE;
         exports.Suspense = REACT_SUSPENSE_TYPE;
-        exports.ViewTransition = REACT_VIEW_TRANSITION_TYPE;
         exports.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE = ReactSharedInternals;
         exports.__COMPILER_RUNTIME = deprecatedAPIs;
         exports.act = function(callback) {
@@ -762,7 +722,6 @@
             }
           };
         };
-        exports.addTransitionType = addTransitionType;
         exports.cache = function(fn) {
           return function() {
             return fn.apply(null, arguments);
@@ -839,7 +798,6 @@
         exports.createElement = function(type, config, children) {
           for (var i = 2; i < arguments.length; i++)
             validateChildKeys(arguments[i]);
-          var propName;
           i = {};
           var key = null;
           if (null != config)
@@ -862,13 +820,13 @@
             i,
             "function" === typeof type ? type.displayName || type.name || "Unknown" : type
           );
-          (propName = 1e4 > ReactSharedInternals.recentlyCreatedOwnerStacks++) ? (childArray = Error.stackTraceLimit, Error.stackTraceLimit = 10, childrenLength = Error("react-stack-top-frame"), Error.stackTraceLimit = childArray) : childrenLength = unknownOwnerDebugStack;
+          var propName = 1e4 > ReactSharedInternals.recentlyCreatedOwnerStacks++;
           return ReactElement(
             type,
             key,
             i,
             getOwner(),
-            childrenLength,
+            propName ? Error("react-stack-top-frame") : unknownOwnerDebugStack,
             propName ? createTask(getTaskName(type)) : unknownOwnerDebugTask
           );
         };
@@ -948,7 +906,24 @@
           });
           return compare;
         };
-        exports.startTransition = startTransition;
+        exports.startTransition = function(scope) {
+          var prevTransition = ReactSharedInternals.T, currentTransition = {};
+          currentTransition._updatedFibers = /* @__PURE__ */ new Set();
+          ReactSharedInternals.T = currentTransition;
+          try {
+            var returnValue = scope(), onStartTransitionFinish = ReactSharedInternals.S;
+            null !== onStartTransitionFinish && onStartTransitionFinish(currentTransition, returnValue);
+            "object" === typeof returnValue && null !== returnValue && "function" === typeof returnValue.then && (ReactSharedInternals.asyncTransitions++, returnValue.then(releaseAsyncTransition, releaseAsyncTransition), returnValue.then(noop7, reportGlobalError));
+          } catch (error) {
+            reportGlobalError(error);
+          } finally {
+            null === prevTransition && currentTransition._updatedFibers && (scope = currentTransition._updatedFibers.size, currentTransition._updatedFibers.clear(), 10 < scope && console.warn(
+              "Detected a large number of updates inside startTransition. If this is due to a subscription please re-write it to use React provided hooks. Otherwise concurrent mode guarantees are off the table."
+            )), null !== prevTransition && null !== currentTransition.types && (null !== prevTransition.types && prevTransition.types !== currentTransition.types && console.error(
+              "We expected inner Transitions to have transferred the outer types set and that you cannot add to the outer Transition while inside the inner.This is a bug in React."
+            ), prevTransition.types = currentTransition.types), ReactSharedInternals.T = prevTransition;
+          }
+        };
         exports.unstable_useCacheRefresh = function() {
           return resolveDispatcher().useCacheRefresh();
         };
@@ -1030,7 +1005,7 @@
         exports.useTransition = function() {
           return resolveDispatcher().useTransition();
         };
-        exports.version = "19.3.0";
+        exports.version = "19.2.8";
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop(Error());
       })();
     }
@@ -1331,24 +1306,19 @@
         }
         function createPortal$1(children, containerInfo, implementation) {
           var key = 3 < arguments.length && void 0 !== arguments[3] ? arguments[3] : null;
-          if (null == key) key = null;
-          else if (key === REACT_OPTIMISTIC_KEY) key = REACT_OPTIMISTIC_KEY;
-          else {
-            try {
-              testStringCoercion(key);
-              var JSCompiler_inline_result = false;
-            } catch (e) {
-              JSCompiler_inline_result = true;
-            }
-            JSCompiler_inline_result && (console.error(
-              "The provided key is an unsupported type %s. This value must be coerced to a string before using it here.",
-              "function" === typeof Symbol && Symbol.toStringTag && key[Symbol.toStringTag] || key.constructor.name || "Object"
-            ), testStringCoercion(key));
-            key = "" + key;
+          try {
+            testStringCoercion(key);
+            var JSCompiler_inline_result = false;
+          } catch (e) {
+            JSCompiler_inline_result = true;
           }
+          JSCompiler_inline_result && (console.error(
+            "The provided key is an unsupported type %s. This value must be coerced to a string before using it here.",
+            "function" === typeof Symbol && Symbol.toStringTag && key[Symbol.toStringTag] || key.constructor.name || "Object"
+          ), testStringCoercion(key));
           return {
             $$typeof: REACT_PORTAL_TYPE,
-            key,
+            key: null == key ? null : "" + key,
             children,
             containerInfo,
             implementation
@@ -1391,14 +1361,11 @@
           },
           p: 0,
           findDOMNode: null
-        }, REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), REACT_RECOVERABLE_TYPE = /* @__PURE__ */ Symbol.for("react.recoverable"), REACT_OPTIMISTIC_KEY = /* @__PURE__ */ Symbol.for("react.optimistic_key"), ReactSharedInternals = React72.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
+        }, REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), ReactSharedInternals = React72.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
         "function" === typeof Map && null != Map.prototype && "function" === typeof Map.prototype.forEach && "function" === typeof Set && null != Set.prototype && "function" === typeof Set.prototype.clear && "function" === typeof Set.prototype.forEach || console.error(
           "React depends on Map and Set built-in types. Make sure that you load a polyfill in older browsers. https://reactjs.org/link/react-polyfills"
         );
         exports.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE = Internals;
-        exports.browser = function(reason) {
-          return { $$typeof: REACT_RECOVERABLE_TYPE, _reason: reason };
-        };
         exports.createPortal = function(children, container) {
           var key = 2 < arguments.length && void 0 !== arguments[2] ? arguments[2] : null;
           if (!container || 1 !== container.nodeType && 9 !== container.nodeType && 11 !== container.nodeType)
@@ -1505,8 +1472,7 @@
                 ), Internals.d.M(href, {
                   crossOrigin: encountered,
                   integrity: "string" === typeof options.integrity ? options.integrity : void 0,
-                  nonce: "string" === typeof options.nonce ? options.nonce : void 0,
-                  fetchPriority: "string" === typeof options.fetchPriority ? options.fetchPriority : void 0
+                  nonce: "string" === typeof options.nonce ? options.nonce : void 0
                 });
             } else null == options && Internals.d.M(href);
         };
@@ -1551,9 +1517,7 @@
           ), Internals.d.m(href, {
             as: "string" === typeof options.as && "script" !== options.as ? options.as : void 0,
             crossOrigin: encountered,
-            integrity: "string" === typeof options.integrity ? options.integrity : void 0,
-            nonce: "string" === typeof options.nonce ? options.nonce : void 0,
-            fetchPriority: "string" === typeof options.fetchPriority ? options.fetchPriority : void 0
+            integrity: "string" === typeof options.integrity ? options.integrity : void 0
           })) : Internals.d.m(href));
         };
         exports.requestFormReset = function(form) {
@@ -1568,7 +1532,7 @@
         exports.useFormStatus = function() {
           return resolveDispatcher().useHostTransitionStatus();
         };
-        exports.version = "19.3.0";
+        exports.version = "19.2.8";
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop(Error());
       })();
     }
@@ -1687,10 +1651,15 @@
           return !(!node || 1 !== node.nodeType && 9 !== node.nodeType && 11 !== node.nodeType);
         }
         function getNearestMountedFiber(fiber) {
-          for (var node = fiber, nextNode = node; nextNode && !nextNode.alternate; )
-            node = nextNode, 0 !== (node.flags & 4098) && (fiber = node.return), nextNode = node.return;
-          for (; node.return; ) node = node.return;
-          return 3 === node.tag ? fiber : null;
+          var node = fiber, nearestMounted = fiber;
+          if (fiber.alternate) for (; node.return; ) node = node.return;
+          else {
+            fiber = node;
+            do
+              node = fiber, 0 !== (node.flags & 4098) && (nearestMounted = node.return), fiber = node.return;
+            while (fiber);
+          }
+          return 3 === node.tag ? nearestMounted : null;
         }
         function getSuspenseInstanceFromFiber(fiber) {
           if (13 === fiber.tag) {
@@ -1798,116 +1767,6 @@
           }
           return null;
         }
-        function traverseFragmentInstancesAndTextInstances(fragmentFiber, fn, a2, b, c2) {
-          traverseVisibleInstancesAndTextInstances(
-            fragmentFiber.child,
-            false,
-            fn,
-            a2,
-            b,
-            c2
-          );
-        }
-        function traverseVisibleInstancesAndTextInstances(child2, searchWithinHosts, fn, a2, b, c2) {
-          for (; null !== child2; ) {
-            if ((5 === child2.tag || 27 === child2.tag || 6 === child2.tag) && fn(child2, a2, b, c2) || (22 !== child2.tag || null === child2.memoizedState) && (searchWithinHosts || 5 !== child2.tag && 27 !== child2.tag) && traverseVisibleInstancesAndTextInstances(
-              child2.child,
-              searchWithinHosts,
-              fn,
-              a2,
-              b,
-              c2
-            ))
-              return true;
-            child2 = child2.sibling;
-          }
-          return false;
-        }
-        function getFragmentParentInstanceOrContainerFiber(fiber) {
-          for (fiber = fiber.return; null !== fiber; ) {
-            if (3 === fiber.tag || 5 === fiber.tag || 27 === fiber.tag)
-              return fiber;
-            fiber = fiber.return;
-          }
-          return null;
-        }
-        function fiberIsPortaledIntoHost(fiber) {
-          var foundPortalParent = false;
-          for (fiber = fiber.return; null !== fiber; ) {
-            4 === fiber.tag && (foundPortalParent = true);
-            if (3 === fiber.tag || 5 === fiber.tag || 27 === fiber.tag) break;
-            fiber = fiber.return;
-          }
-          return foundPortalParent;
-        }
-        function getFragmentInstanceOrTextInstanceSiblings(fiber) {
-          var result = [null, null], parentHostFiber = getFragmentParentInstanceOrContainerFiber(fiber);
-          if (null === parentHostFiber) return result;
-          findFragmentInstanceOrTextInstanceSiblings(
-            result,
-            fiber,
-            parentHostFiber.child,
-            { foundSelf: false }
-          );
-          return result;
-        }
-        function findFragmentInstanceOrTextInstanceSiblings(result, self2, child2, state) {
-          for (; null !== child2; ) {
-            if (child2 === self2) state.foundSelf = true;
-            else if (5 === child2.tag || 27 === child2.tag || 6 === child2.tag) {
-              if (state.foundSelf) return result[1] = child2, true;
-              result[0] = child2;
-            } else if ((22 !== child2.tag || null === child2.memoizedState) && findFragmentInstanceOrTextInstanceSiblings(
-              result,
-              self2,
-              child2.child,
-              state
-            ))
-              return true;
-            child2 = child2.sibling;
-          }
-          return false;
-        }
-        function getInstanceFromHostFiber(fiber) {
-          switch (fiber.tag) {
-            case 5:
-            case 27:
-            case 6:
-              return fiber.stateNode;
-            case 3:
-              return fiber.stateNode.containerInfo;
-            default:
-              throw Error("Expected to find a host node. This is a bug in React.");
-          }
-        }
-        function isFiberPrecedingCheck(child2, target, boundary) {
-          return child2 === boundary ? true : child2 === target ? (searchTarget = child2, true) : false;
-        }
-        function isFiberFollowingCheck(child2, target, boundary) {
-          return child2 === boundary ? (searchBoundary = child2, false) : child2 === target ? (null !== searchBoundary && (searchTarget = child2), true) : false;
-        }
-        function getParentForFragmentAncestors(inst) {
-          if (null === inst) return null;
-          do
-            inst = null === inst ? null : inst.return;
-          while (inst && 5 !== inst.tag && 27 !== inst.tag && 3 !== inst.tag);
-          return inst ? inst : null;
-        }
-        function getLowestCommonAncestor(instA, instB, getParent2) {
-          for (var depthA = 0, tempA = instA; tempA; tempA = getParent2(tempA))
-            depthA++;
-          tempA = 0;
-          for (var tempB = instB; tempB; tempB = getParent2(tempB)) tempA++;
-          for (; 0 < depthA - tempA; ) instA = getParent2(instA), depthA--;
-          for (; 0 < tempA - depthA; ) instB = getParent2(instB), tempA--;
-          for (; depthA--; ) {
-            if (instA === instB || null !== instB && instA === instB.alternate)
-              return instA;
-            instA = getParent2(instA);
-            instB = getParent2(instB);
-          }
-          return null;
-        }
         function getIteratorFn(maybeIterable) {
           if (null === maybeIterable || "object" !== typeof maybeIterable)
             return null;
@@ -1932,8 +1791,6 @@
               return "SuspenseList";
             case REACT_ACTIVITY_TYPE:
               return "Activity";
-            case REACT_VIEW_TRANSITION_TYPE:
-              return "ViewTransition";
           }
           if ("object" === typeof type)
             switch ("number" === typeof type.tag && console.error(
@@ -1997,9 +1854,7 @@
             case 8:
               return type === REACT_STRICT_MODE_TYPE ? "StrictMode" : "Mode";
             case 22:
-              if (null !== fiber.return)
-                return getComponentNameFromFiber(fiber.return);
-              break;
+              return "Offscreen";
             case 12:
               return "Profiler";
             case 21:
@@ -2010,8 +1865,6 @@
               return "SuspenseList";
             case 25:
               return "TracingMarker";
-            case 30:
-              return "ViewTransition";
             case 1:
             case 0:
             case 14:
@@ -2096,14 +1949,13 @@
           return requiredContext(contextStackCursor.current);
         }
         function pushHostContext(fiber) {
-          var stateHook = fiber.memoizedState;
-          null !== stateHook && (HostTransitionContext._currentValue = stateHook.memoizedState, push(hostTransitionProviderCursor, fiber, fiber));
-          stateHook = requiredContext(contextStackCursor.current);
+          null !== fiber.memoizedState && push(hostTransitionProviderCursor, fiber, fiber);
+          var context = requiredContext(contextStackCursor.current);
           var type = fiber.type;
-          var nextContext = getChildHostContextProd(stateHook.context, type);
-          type = updatedAncestorInfoDev(stateHook.ancestorInfo, type);
+          var nextContext = getChildHostContextProd(context.context, type);
+          type = updatedAncestorInfoDev(context.ancestorInfo, type);
           nextContext = { context: nextContext, ancestorInfo: type };
-          stateHook !== nextContext && (push(contextFiberStackCursor, fiber, fiber), push(contextStackCursor, nextContext, fiber));
+          context !== nextContext && (push(contextFiberStackCursor, fiber, fiber), push(contextStackCursor, nextContext, fiber));
         }
         function popHostContext(fiber) {
           contextFiberStackCursor.current === fiber && (pop(contextStackCursor, fiber), pop(contextFiberStackCursor, fiber));
@@ -2222,27 +2074,7 @@
                       } catch (x$0) {
                         control = x$0;
                       }
-                      Fake = false;
-                      try {
-                        var prevProps = Object.getOwnPropertyDescriptor(
-                          fn.prototype,
-                          "props"
-                        );
-                        Object.defineProperty(fn.prototype, "props", {
-                          configurable: true,
-                          set: function() {
-                            throw Error();
-                          }
-                        });
-                        Fake = true;
-                        new fn();
-                      } finally {
-                        Fake && (void 0 !== prevProps ? Object.defineProperty(
-                          fn.prototype,
-                          "props",
-                          prevProps
-                        ) : delete fn.prototype.props);
-                      }
+                      fn.call(Fake.prototype);
                     }
                   } else {
                     try {
@@ -2330,8 +2162,6 @@
               return describeNativeComponentFrame(fiber.type, true);
             case 31:
               return describeBuiltInComponentFrame("Activity");
-            case 30:
-              return describeBuiltInComponentFrame("ViewTransition");
             default:
               return "";
           }
@@ -2401,8 +2231,6 @@
                 info += describeBuiltInComponentFrame("Activity");
                 break;
               case 30:
-                info += describeBuiltInComponentFrame("ViewTransition");
-                break;
               case 0:
               case 15:
               case 1:
@@ -2550,7 +2378,7 @@
             case 32768:
             case 65536:
             case 131072:
-              return lanes & -lanes;
+              return lanes & 261888;
             case 262144:
             case 524288:
             case 1048576:
@@ -2588,17 +2416,6 @@
         }
         function checkIfRootIsPrerendering(root3, renderLanes2) {
           return 0 === (root3.pendingLanes & ~(root3.suspendedLanes & ~root3.pingedLanes) & renderLanes2);
-        }
-        function getEntangledLanes(root3, renderLanes2) {
-          0 !== (renderLanes2 & 8) && (renderLanes2 |= renderLanes2 & 32);
-          var allEntangledLanes = root3.entangledLanes;
-          if (0 !== allEntangledLanes)
-            for (root3 = root3.entanglements, allEntangledLanes &= renderLanes2; 0 < allEntangledLanes; ) {
-              var index = 31 - clz32(allEntangledLanes), lane = 1 << index;
-              renderLanes2 |= root3[index];
-              allEntangledLanes &= ~lane;
-            }
-          return renderLanes2;
         }
         function computeExpirationTime(lane, currentTime) {
           switch (lane) {
@@ -2784,12 +2601,13 @@
         function detachDeletedInstance(node) {
           delete node[internalInstanceKey];
           delete node[internalPropsKey];
+          delete node[internalEventHandlersKey];
           delete node[internalEventHandlerListenersKey];
           delete node[internalEventHandlesSetKey];
         }
         function getClosestInstanceFromNode(targetNode) {
-          var targetInst;
-          if (targetInst = targetNode[internalInstanceKey]) return targetInst;
+          var targetInst = targetNode[internalInstanceKey];
+          if (targetInst) return targetInst;
           for (var parentNode = targetNode.parentNode; parentNode; ) {
             if (targetInst = parentNode[internalContainerInstanceKey] || parentNode[internalInstanceKey]) {
               parentNode = targetInst.alternate;
@@ -2828,9 +2646,6 @@
         function markNodeAsHoistable(node) {
           node[internalHoistableMarker] = true;
         }
-        function clearPendingLoadOnNode(node) {
-          node[internalLoadPendingKey] = void 0;
-        }
         function registerTwoPhaseEvent(registrationName, dependencies) {
           registerDirectEvent(registrationName, dependencies);
           registerDirectEvent(registrationName + "Capture", dependencies);
@@ -2868,11 +2683,6 @@
           console.error("Invalid attribute name: `%s`", attributeName);
           return false;
         }
-        function pushMutationContext() {
-          var prev = viewTransitionMutationContext;
-          viewTransitionMutationContext = false;
-          return prev;
-        }
         function getValueForAttributeOnCustomComponent(node, name, expected) {
           if (isAttributeNameSafe(name)) {
             if (!node.hasAttribute(name)) {
@@ -2887,7 +2697,7 @@
               }
               return void 0 === expected ? void 0 : null;
             }
-            node = "nonce" === name.toLowerCase() ? node.nonce : node.getAttribute(name);
+            node = node.getAttribute(name);
             if ("" === node && true === expected) return true;
             checkAttributeStringCoercion(expected, name);
             return node === "" + expected ? expected : node;
@@ -2911,7 +2721,7 @@
                   }
               }
               checkAttributeStringCoercion(value, name);
-              node.setAttribute(name, value);
+              node.setAttribute(name, "" + value);
             }
         }
         function setValueForKnownAttribute(node, name, value) {
@@ -2926,7 +2736,7 @@
                 return;
             }
             checkAttributeStringCoercion(value, name);
-            node.setAttribute(name, value);
+            node.setAttribute(name, "" + value);
           }
         }
         function setValueForNamespacedAttribute(node, namespace, name, value) {
@@ -2941,7 +2751,7 @@
                 return;
             }
             checkAttributeStringCoercion(value, name);
-            node.setAttributeNS(namespace, name, value);
+            node.setAttributeNS(namespace, name, "" + value);
           }
         }
         function getToStringValue(value) {
@@ -3018,6 +2828,15 @@
           node = value;
           return node !== lastValue ? (tracker.setValue(node), true) : false;
         }
+        function getActiveElement(doc) {
+          doc = doc || ("undefined" !== typeof document ? document : void 0);
+          if ("undefined" === typeof doc) return null;
+          try {
+            return doc.activeElement || doc.body;
+          } catch (e) {
+            return doc.body;
+          }
+        }
         function escapeSelectorAttributeValueInsideDoubleQuotes(value) {
           return value.replace(
             escapeSelectorAttributeValueInsideDoubleQuotesRegex,
@@ -3049,7 +2868,7 @@
               element.value !== "" + getToStringValue(value) && (element.value = "" + getToStringValue(value));
           else
             "submit" !== type && "reset" !== type || element.removeAttribute("value");
-          null != value ? "number" === type && element.value == value ? setDefaultValue(element, getToStringValue(element.value)) : setDefaultValue(element, getToStringValue(value)) : null != defaultValue ? setDefaultValue(element, getToStringValue(defaultValue)) : null != lastDefaultValue && element.removeAttribute("value");
+          null != value ? setDefaultValue(element, type, getToStringValue(value)) : null != defaultValue ? setDefaultValue(element, type, getToStringValue(defaultValue)) : null != lastDefaultValue && element.removeAttribute("value");
           null == checked && null != defaultChecked && (element.defaultChecked = !!defaultChecked);
           null != checked && (element.checked = checked && "function" !== typeof checked && "symbol" !== typeof checked);
           null != name && "function" !== typeof name && "symbol" !== typeof name && "boolean" !== typeof name ? (checkAttributeStringCoercion(name, "name"), element.name = "" + getToStringValue(name)) : element.removeAttribute("name");
@@ -3073,12 +2892,12 @@
           null != name && "function" !== typeof name && "symbol" !== typeof name && "boolean" !== typeof name && (checkAttributeStringCoercion(name, "name"), element.name = name);
           track(element);
         }
-        function setDefaultValue(node, value) {
-          node.defaultValue !== "" + value && (node.defaultValue = "" + value);
+        function setDefaultValue(node, type, value) {
+          "number" === type && getActiveElement(node.ownerDocument) === node || node.defaultValue === "" + value || (node.defaultValue = "" + value);
         }
         function validateOptionProps(element, props) {
-          null == props.value && ("object" === typeof props.children && null !== props.children ? React72.Children.forEach(props.children, function(child2) {
-            null == child2 || "string" === typeof child2 || "number" === typeof child2 || "bigint" === typeof child2 || didWarnInvalidChild || (didWarnInvalidChild = true, console.error(
+          null == props.value && ("object" === typeof props.children && null !== props.children ? React72.Children.forEach(props.children, function(child) {
+            null == child || "string" === typeof child || "number" === typeof child || "bigint" === typeof child || didWarnInvalidChild || (didWarnInvalidChild = true, console.error(
               "Cannot infer the option value of complex children. Pass a `value` prop or use a plain string as children to <option>."
             ));
           }) : null == props.dangerouslySetInnerHTML || didWarnInvalidInnerHTML || (didWarnInvalidInnerHTML = true, console.error(
@@ -3430,12 +3249,12 @@
             return "";
           }
         }
-        function describeAncestors(ancestor, child2, props) {
-          for (var fiber = child2, node = null, distanceFromLeaf = 0; fiber; )
+        function describeAncestors(ancestor, child, props) {
+          for (var fiber = child, node = null, distanceFromLeaf = 0; fiber; )
             fiber === ancestor && (distanceFromLeaf = 0), node = {
               fiber,
               children: null !== node ? [node] : [],
-              serverProps: fiber === child2 ? props : fiber === ancestor ? null : void 0,
+              serverProps: fiber === child ? props : fiber === ancestor ? null : void 0,
               serverTail: [],
               distanceFromLeaf
             }, distanceFromLeaf++, fiber = fiber.return;
@@ -3461,6 +3280,12 @@
         }
         function isTagValidWithParent(tag, parentTag, implicitRootScope) {
           switch (parentTag) {
+            case "select":
+              return "hr" === tag || "option" === tag || "optgroup" === tag || "script" === tag || "template" === tag || "#text" === tag;
+            case "optgroup":
+              return "option" === tag || "#text" === tag;
+            case "option":
+              return "#text" === tag;
             case "tr":
               return "th" === tag || "td" === tag || "style" === tag || "script" === tag || "template" === tag;
             case "tbody":
@@ -3495,8 +3320,6 @@
             case "caption":
             case "col":
             case "colgroup":
-            case "input":
-              return "select" !== parentTag;
             case "frameset":
             case "frame":
             case "tbody":
@@ -3718,9 +3541,9 @@
                 }
             }
             for (var styleName in prevStyles)
-              !prevStyles.hasOwnProperty(styleName) || null != styles && styles.hasOwnProperty(styleName) || (0 === styleName.indexOf("--") ? node.setProperty(styleName, "") : "float" === styleName ? node.cssFloat = "" : node[styleName] = "", viewTransitionMutationContext = true);
+              !prevStyles.hasOwnProperty(styleName) || null != styles && styles.hasOwnProperty(styleName) || (0 === styleName.indexOf("--") ? node.setProperty(styleName, "") : "float" === styleName ? node.cssFloat = "" : node[styleName] = "");
             for (var _styleName in styles)
-              _key2 = styles[_styleName], styles.hasOwnProperty(_styleName) && prevStyles[_styleName] !== _key2 && (setValueForStyle(node, _styleName, _key2), viewTransitionMutationContext = true);
+              _key2 = styles[_styleName], styles.hasOwnProperty(_styleName) && prevStyles[_styleName] !== _key2 && setValueForStyle(node, _styleName, _key2);
           } else
             for (expandedUpdates in styles)
               styles.hasOwnProperty(expandedUpdates) && setValueForStyle(node, expandedUpdates, styles[expandedUpdates]);
@@ -3889,7 +3712,6 @@
                 case "async":
                 case "autoPlay":
                 case "controls":
-                case "credentialless":
                 case "default":
                 case "defer":
                 case "disabled":
@@ -3949,7 +3771,6 @@
                   case "async":
                   case "autoPlay":
                   case "controls":
-                  case "credentialless":
                   case "default":
                   case "defer":
                   case "disabled":
@@ -4006,7 +3827,7 @@
         function sanitizeURL(url) {
           return isJavaScriptProtocol.test("" + url) ? "javascript:throw new Error('React has blocked a javascript: URL as a security precaution.')" : url;
         }
-        function noop$12() {
+        function noop$1() {
         }
         function getEventTarget(nativeEvent) {
           nativeEvent = nativeEvent.target || nativeEvent.srcElement || window;
@@ -4300,15 +4121,6 @@
           }
           return true;
         }
-        function getActiveElement(doc) {
-          doc = doc || ("undefined" !== typeof document ? document : void 0);
-          if ("undefined" === typeof doc) return null;
-          try {
-            return doc.activeElement || doc.body;
-          } catch (e$2) {
-            return doc.body;
-          }
-        }
         function getLeafNode(node) {
           for (; node && node.firstChild; ) node = node.firstChild;
           return node;
@@ -4392,35 +4204,8 @@
           topLevelEventsToReactNames.set(domEventName, reactName);
           registerTwoPhaseEvent(reactName, [domEventName]);
         }
-        function getViewTransitionName(props, instance) {
-          if (null != props.name && "auto" !== props.name) return props.name;
-          if (null !== instance.autoName) return instance.autoName;
-          props = pendingEffectsRoot.identifierPrefix;
-          var globalClientId = globalClientIdCounter$1++;
-          props = "_" + props + "t_" + globalClientId.toString(32) + "_";
-          return instance.autoName = props;
-        }
-        function getClassNameByType(classByType) {
-          if (null == classByType || "string" === typeof classByType)
-            return classByType;
-          var className = null, activeTypes = pendingTransitionTypes;
-          if (null !== activeTypes)
-            for (var i = 0; i < activeTypes.length; i++) {
-              var match = classByType[activeTypes[i]];
-              if (null != match) {
-                if ("none" === match) return "none";
-                className = null == className ? match : className + (" " + match);
-              }
-            }
-          return null == className ? classByType.default : className;
-        }
-        function getViewTransitionClassName(defaultClass, eventClass) {
-          defaultClass = getClassNameByType(defaultClass);
-          eventClass = getClassNameByType(eventClass);
-          return null == eventClass ? "auto" === defaultClass ? null : defaultClass : "auto" === eventClass ? null : eventClass;
-        }
         function getArrayKind(array) {
-          for (var kind = EMPTY_ARRAY, i = 0; i < array.length && i < OBJECT_WIDTH_LIMIT; i++) {
+          for (var kind = EMPTY_ARRAY, i = 0; i < array.length; i++) {
             var value = array[i];
             if ("object" === typeof value && null !== value)
               if (isArrayImpl(value) && 2 === value.length && "string" === typeof value[0]) {
@@ -4429,7 +4214,7 @@
                 kind = ENTRIES_ARRAY;
               } else return COMPLEX_ARRAY;
             else {
-              if ("function" === typeof value || "string" === typeof value && 50 < value.length || kind !== EMPTY_ARRAY && kind !== PRIMITIVE_ARRAY || "bigint" === typeof value)
+              if ("function" === typeof value || "string" === typeof value && 50 < value.length || kind !== EMPTY_ARRAY && kind !== PRIMITIVE_ARRAY)
                 return COMPLEX_ARRAY;
               kind = PRIMITIVE_ARRAY;
             }
@@ -4437,20 +4222,8 @@
           return kind;
         }
         function addObjectToProperties(object, properties, indent, prefix3) {
-          if (!ArrayBuffer.isView(object)) {
-            var addedProperties = 0, key;
-            for (key in object)
-              if (hasOwnProperty.call(object, key) && "_" !== key[0] && (addedProperties++, addValueToProperties(key, object[key], properties, indent, prefix3), addedProperties >= OBJECT_WIDTH_LIMIT)) {
-                properties.push([
-                  prefix3 + "\xA0\xA0".repeat(indent) + "Only " + OBJECT_WIDTH_LIMIT + " properties are shown. React will not log more properties of this object.",
-                  ""
-                ]);
-                break;
-              }
-          }
-        }
-        function readReactElementTypeof(value) {
-          return "$$typeof" in value && hasOwnProperty.call(value, "$$typeof") ? value.$$typeof : void 0;
+          for (var key in object)
+            hasOwnProperty.call(object, key) && "_" !== key[0] && addValueToProperties(key, object[key], properties, indent, prefix3);
         }
         function addValueToProperties(propertyName, value, properties, indent, prefix3) {
           switch (typeof value) {
@@ -4459,7 +4232,7 @@
                 value = "null";
                 break;
               } else {
-                if (readReactElementTypeof(value) === REACT_ELEMENT_TYPE) {
+                if (value.$$typeof === REACT_ELEMENT_TYPE) {
                   var typeName2 = getComponentNameFromType(value.type) || "\u2026", key = value.key;
                   value = value.props;
                   var propsKeys = Object.keys(value), propsLength = propsKeys.length;
@@ -4483,16 +4256,14 @@
                     prefix3
                   );
                   propertyName = false;
-                  key = 0;
                   for (var propKey in value)
-                    if (key++, "children" === propKey ? null != value.children && (!isArrayImpl(value.children) || 0 < value.children.length) && (propertyName = true) : hasOwnProperty.call(value, propKey) && "_" !== propKey[0] && addValueToProperties(
+                    "children" === propKey ? null != value.children && (!isArrayImpl(value.children) || 0 < value.children.length) && (propertyName = true) : hasOwnProperty.call(value, propKey) && "_" !== propKey[0] && addValueToProperties(
                       propKey,
                       value[propKey],
                       properties,
                       indent + 1,
                       prefix3
-                    ), key >= OBJECT_WIDTH_LIMIT)
-                      break;
+                    );
                   properties.push([
                     "",
                     propertyName ? ">\u2026</" + typeName2 + ">" : "/>"
@@ -4501,23 +4272,16 @@
                 }
                 typeName2 = Object.prototype.toString.call(value);
                 typeName2 = typeName2.slice(8, typeName2.length - 1);
-                if (ArrayBuffer.isView(value)) {
-                  value = value.length;
-                  value = "number" === typeof value ? typeName2 + "(" + value + ")" : typeName2;
-                  break;
-                }
                 if ("Array" === typeName2) {
-                  if (propKey = value.length > OBJECT_WIDTH_LIMIT, key = getArrayKind(value), key === PRIMITIVE_ARRAY || key === EMPTY_ARRAY) {
-                    value = JSON.stringify(
-                      propKey ? value.slice(0, OBJECT_WIDTH_LIMIT).concat("\u2026") : value
-                    );
+                  if (propKey = getArrayKind(value), propKey === PRIMITIVE_ARRAY || propKey === EMPTY_ARRAY) {
+                    value = JSON.stringify(value);
                     break;
-                  } else if (key === ENTRIES_ARRAY) {
+                  } else if (propKey === ENTRIES_ARRAY) {
                     properties.push([
                       prefix3 + "\xA0\xA0".repeat(indent) + propertyName,
                       ""
                     ]);
-                    for (propertyName = 0; propertyName < value.length && propertyName < OBJECT_WIDTH_LIMIT; propertyName++)
+                    for (propertyName = 0; propertyName < value.length; propertyName++)
                       typeName2 = value[propertyName], addValueToProperties(
                         typeName2[0],
                         typeName2[1],
@@ -4525,13 +4289,6 @@
                         indent + 1,
                         prefix3
                       );
-                    propKey && addValueToProperties(
-                      OBJECT_WIDTH_LIMIT.toString(),
-                      "\u2026",
-                      properties,
-                      indent + 1,
-                      prefix3
-                    );
                     return;
                   }
                 }
@@ -4574,13 +4331,10 @@
                 return;
               }
             case "function":
-              value = value.name;
-              value = "" === value || "string" !== typeof value ? "() => {}" : value + "() {}";
+              value = "" === value.name ? "() => {}" : value.name + "() {}";
               break;
             case "string":
-              value = value === OMITTED_PROP_ERROR ? "\u2026" : JSON.stringify(
-                1024 <= value.length ? value.slice(0, 1023) + "\u2026" : value
-              );
+              value = value === OMITTED_PROP_ERROR ? "\u2026" : JSON.stringify(value);
               break;
             case "undefined":
               value = "undefined";
@@ -4597,88 +4351,67 @@
           ]);
         }
         function addObjectDiffToProperties(prev, next, properties, indent) {
-          var isDeeplyEqual = true, prevPropertiesChecked = 0;
-          for (key in prev) {
-            if (prevPropertiesChecked > OBJECT_WIDTH_LIMIT) {
-              properties.push([
-                "Previous object has more than " + OBJECT_WIDTH_LIMIT + " properties. React will not attempt to diff objects with too many properties.",
-                ""
-              ]);
-              isDeeplyEqual = false;
-              break;
-            }
+          var isDeeplyEqual = true;
+          for (key in prev)
             key in next || (properties.push([
               REMOVED + "\xA0\xA0".repeat(indent) + key,
               "\u2026"
             ]), isDeeplyEqual = false);
-            prevPropertiesChecked++;
-          }
-          prevPropertiesChecked = 0;
-          for (var _key in next) {
-            if (prevPropertiesChecked > OBJECT_WIDTH_LIMIT) {
-              properties.push([
-                "Next object has more than " + OBJECT_WIDTH_LIMIT + " properties. React will not attempt to diff objects with too many properties.",
-                ""
-              ]);
-              isDeeplyEqual = false;
-              break;
-            }
+          for (var _key in next)
             if (_key in prev) {
               var key = prev[_key];
               var nextValue = next[_key];
               if (key !== nextValue) {
-                if (0 === indent && "children" === _key) {
-                  isDeeplyEqual = "\xA0\xA0".repeat(indent) + _key;
-                  properties.push(
+                if (0 === indent && "children" === _key)
+                  isDeeplyEqual = "\xA0\xA0".repeat(indent) + _key, properties.push(
                     [REMOVED + isDeeplyEqual, "\u2026"],
                     [ADDED + isDeeplyEqual, "\u2026"]
                   );
-                  isDeeplyEqual = false;
-                  continue;
-                }
-                if (!(3 <= indent)) {
-                  if ("object" === typeof key && "object" === typeof nextValue && null !== key && null !== nextValue && readReactElementTypeof(key) === readReactElementTypeof(nextValue))
-                    if (readReactElementTypeof(nextValue) === REACT_ELEMENT_TYPE) {
-                      if (key.type === nextValue.type && key.key === nextValue.key) {
-                        key = getComponentNameFromType(nextValue.type) || "\u2026";
-                        isDeeplyEqual = "\xA0\xA0".repeat(indent) + _key;
-                        key = "<" + key + " \u2026 />";
-                        properties.push(
-                          [REMOVED + isDeeplyEqual, key],
-                          [ADDED + isDeeplyEqual, key]
-                        );
-                        isDeeplyEqual = false;
-                        continue;
+                else {
+                  if (!(3 <= indent)) {
+                    if ("object" === typeof key && "object" === typeof nextValue && null !== key && null !== nextValue && key.$$typeof === nextValue.$$typeof)
+                      if (nextValue.$$typeof === REACT_ELEMENT_TYPE) {
+                        if (key.type === nextValue.type && key.key === nextValue.key) {
+                          key = getComponentNameFromType(nextValue.type) || "\u2026";
+                          isDeeplyEqual = "\xA0\xA0".repeat(indent) + _key;
+                          key = "<" + key + " \u2026 />";
+                          properties.push(
+                            [REMOVED + isDeeplyEqual, key],
+                            [ADDED + isDeeplyEqual, key]
+                          );
+                          isDeeplyEqual = false;
+                          continue;
+                        }
+                      } else {
+                        var prevKind = Object.prototype.toString.call(key), nextKind = Object.prototype.toString.call(nextValue);
+                        if (prevKind === nextKind && ("[object Object]" === nextKind || "[object Array]" === nextKind)) {
+                          prevKind = [
+                            UNCHANGED + "\xA0\xA0".repeat(indent) + _key,
+                            "[object Array]" === nextKind ? "Array" : ""
+                          ];
+                          properties.push(prevKind);
+                          nextKind = properties.length;
+                          addObjectDiffToProperties(
+                            key,
+                            nextValue,
+                            properties,
+                            indent + 1
+                          ) ? nextKind === properties.length && (prevKind[1] = "Referentially unequal but deeply equal objects. Consider memoization.") : isDeeplyEqual = false;
+                          continue;
+                        }
                       }
-                    } else {
-                      var prevKind = Object.prototype.toString.call(key), nextKind = Object.prototype.toString.call(nextValue);
-                      if (prevKind === nextKind && ("[object Object]" === nextKind || "[object Array]" === nextKind)) {
-                        prevKind = [
-                          UNCHANGED + "\xA0\xA0".repeat(indent) + _key,
-                          "[object Array]" === nextKind ? "Array" : ""
-                        ];
-                        properties.push(prevKind);
-                        nextKind = properties.length;
-                        addObjectDiffToProperties(
-                          key,
-                          nextValue,
-                          properties,
-                          indent + 1
-                        ) ? nextKind === properties.length && (prevKind[1] = "Referentially unequal but deeply equal objects. Consider memoization.") : isDeeplyEqual = false;
-                        continue;
-                      }
+                    else if ("function" === typeof key && "function" === typeof nextValue && key.name === nextValue.name && key.length === nextValue.length && (prevKind = Function.prototype.toString.call(key), nextKind = Function.prototype.toString.call(nextValue), prevKind === nextKind)) {
+                      key = "" === nextValue.name ? "() => {}" : nextValue.name + "() {}";
+                      properties.push([
+                        UNCHANGED + "\xA0\xA0".repeat(indent) + _key,
+                        key + " Referentially unequal function closure. Consider memoization."
+                      ]);
+                      continue;
                     }
-                  else if ("function" === typeof key && "function" === typeof nextValue && key.name === nextValue.name && key.length === nextValue.length && (prevKind = Function.prototype.toString.call(key), nextKind = Function.prototype.toString.call(nextValue), prevKind === nextKind)) {
-                    key = "" === nextValue.name ? "() => {}" : nextValue.name + "() {}";
-                    properties.push([
-                      UNCHANGED + "\xA0\xA0".repeat(indent) + _key,
-                      key + " Referentially unequal function closure. Consider memoization."
-                    ]);
-                    continue;
                   }
+                  addValueToProperties(_key, key, properties, indent, REMOVED);
+                  addValueToProperties(_key, nextValue, properties, indent, ADDED);
                 }
-                addValueToProperties(_key, key, properties, indent, REMOVED);
-                addValueToProperties(_key, nextValue, properties, indent, ADDED);
                 isDeeplyEqual = false;
               }
             } else
@@ -4686,8 +4419,6 @@
                 ADDED + "\xA0\xA0".repeat(indent) + _key,
                 "\u2026"
               ]), isDeeplyEqual = false;
-            prevPropertiesChecked++;
-          }
           return isDeeplyEqual;
         }
         function setCurrentTrackFromLanes(lanes) {
@@ -4700,7 +4431,7 @@
               trigger,
               reusableComponentOptions
             )
-          ) : performance.measure(trigger, reusableComponentOptions), performance.clearMeasures(trigger));
+          ) : performance.measure(trigger, reusableComponentOptions));
         }
         function logComponentReappeared(fiber, startTime, endTime) {
           logComponentTrigger(fiber, startTime, endTime, "Reconnect");
@@ -4710,23 +4441,26 @@
           if (null !== name && supportsUserTiming) {
             var alternate = fiber.alternate, selfTime = fiber.actualDuration;
             if (null === alternate || alternate.child !== fiber.child)
-              for (var child2 = fiber.child; null !== child2; child2 = child2.sibling)
-                selfTime -= child2.actualDuration;
-            selfTime = 0.5 > selfTime ? wasHydrated ? "tertiary-light" : "primary-light" : 10 > selfTime ? wasHydrated ? "tertiary" : "primary" : 100 > selfTime ? wasHydrated ? "tertiary-dark" : "primary-dark" : "error";
+              for (var child = fiber.child; null !== child; child = child.sibling)
+                selfTime -= child.actualDuration;
+            wasHydrated = 0.5 > selfTime ? wasHydrated ? "tertiary-light" : "primary-light" : 10 > selfTime ? wasHydrated ? "tertiary" : "primary" : 100 > selfTime ? wasHydrated ? "tertiary-dark" : "primary-dark" : "error";
             var props = fiber.memoizedProps;
-            wasHydrated = fiber._debugTask;
-            null !== props && null !== alternate && alternate.memoizedProps !== props ? (child2 = [reusableChangedPropsEntry], props = addObjectDiffToProperties(
+            selfTime = fiber._debugTask;
+            null !== props && null !== alternate && alternate.memoizedProps !== props ? (child = [resuableChangedPropsEntry], props = addObjectDiffToProperties(
               alternate.memoizedProps,
               props,
-              child2,
+              child,
               0
-            ), 1 < child2.length ? (props && !alreadyWarnedForDeepEquality && 0 === (alternate.lanes & committedLanes) && 100 < fiber.actualDuration ? (alreadyWarnedForDeepEquality = true, child2[0] = reusableDeeplyEqualPropsEntry, reusableComponentDevToolDetails.color = "warning", reusableComponentDevToolDetails.tooltipText = DEEP_EQUALITY_WARNING) : (reusableComponentDevToolDetails.color = selfTime, reusableComponentDevToolDetails.tooltipText = name), reusableComponentDevToolDetails.properties = child2, reusableComponentOptions.start = startTime, reusableComponentOptions.end = endTime, fiber = "\u200B" + name, null != wasHydrated ? wasHydrated.run(
+            ), 1 < child.length && (props && !alreadyWarnedForDeepEquality && 0 === (alternate.lanes & committedLanes) && 100 < fiber.actualDuration ? (alreadyWarnedForDeepEquality = true, child[0] = reusableDeeplyEqualPropsEntry, reusableComponentDevToolDetails.color = "warning", reusableComponentDevToolDetails.tooltipText = DEEP_EQUALITY_WARNING) : (reusableComponentDevToolDetails.color = wasHydrated, reusableComponentDevToolDetails.tooltipText = name), reusableComponentDevToolDetails.properties = child, reusableComponentOptions.start = startTime, reusableComponentOptions.end = endTime, null != selfTime ? selfTime.run(
               performance.measure.bind(
                 performance,
-                fiber,
+                "\u200B" + name,
                 reusableComponentOptions
               )
-            ) : performance.measure(fiber, reusableComponentOptions), performance.clearMeasures(fiber)) : null != wasHydrated ? wasHydrated.run(
+            ) : performance.measure(
+              "\u200B" + name,
+              reusableComponentOptions
+            ))) : null != selfTime ? selfTime.run(
               console.timeStamp.bind(
                 console,
                 name,
@@ -4734,7 +4468,7 @@
                 endTime,
                 COMPONENTS_TRACK,
                 void 0,
-                selfTime
+                wasHydrated
               )
             ) : console.timeStamp(
               name,
@@ -4742,24 +4476,7 @@
               endTime,
               COMPONENTS_TRACK,
               void 0,
-              selfTime
-            )) : null != wasHydrated ? wasHydrated.run(
-              console.timeStamp.bind(
-                console,
-                name,
-                startTime,
-                endTime,
-                COMPONENTS_TRACK,
-                void 0,
-                selfTime
-              )
-            ) : console.timeStamp(
-              name,
-              startTime,
-              endTime,
-              COMPONENTS_TRACK,
-              void 0,
-              selfTime
+              wasHydrated
             );
           }
         }
@@ -4791,9 +4508,9 @@
                   }
                 }
               };
-              name = "\u200B" + name;
-              debugTask ? debugTask.run(performance.measure.bind(performance, name, fiber)) : performance.measure(name, fiber);
-              performance.clearMeasures(name);
+              debugTask ? debugTask.run(
+                performance.measure.bind(performance, "\u200B" + name, fiber)
+              ) : performance.measure("\u200B" + name, fiber);
             }
           }
         }
@@ -4824,12 +4541,13 @@
                     }
                   }
                 };
-                fiber = fiber._debugTask;
-                endTime = "\u200B" + name;
-                fiber ? fiber.run(
-                  performance.measure.bind(performance, endTime, startTime)
-                ) : performance.measure(endTime, startTime);
-                performance.clearMeasures(endTime);
+                (fiber = fiber._debugTask) ? fiber.run(
+                  performance.measure.bind(
+                    performance,
+                    "\u200B" + name,
+                    startTime
+                  )
+                ) : performance.measure("\u200B" + name, startTime);
               }
             }
           } else
@@ -4851,6 +4569,30 @@
               void 0,
               errors2
             ));
+        }
+        function logRenderPhase(startTime, endTime, lanes, debugTask) {
+          if (supportsUserTiming && !(endTime <= startTime)) {
+            var color2 = (lanes & 738197653) === lanes ? "tertiary-dark" : "primary-dark";
+            lanes = (lanes & 536870912) === lanes ? "Prepared" : (lanes & 201326741) === lanes ? "Hydrated" : "Render";
+            debugTask ? debugTask.run(
+              console.timeStamp.bind(
+                console,
+                lanes,
+                startTime,
+                endTime,
+                currentTrack,
+                LANES_TRACK_GROUP,
+                color2
+              )
+            ) : console.timeStamp(
+              lanes,
+              startTime,
+              endTime,
+              currentTrack,
+              LANES_TRACK_GROUP,
+              color2
+            );
+          }
         }
         function logSuspendedRenderPhase(startTime, endTime, lanes, debugTask) {
           !supportsUserTiming || endTime <= startTime || (lanes = (lanes & 738197653) === lanes ? "tertiary-dark" : "primary-dark", debugTask ? debugTask.run(
@@ -4891,6 +4633,34 @@
             LANES_TRACK_GROUP,
             lanes
           ));
+        }
+        function logRecoveredRenderPhase(startTime, endTime, lanes, recoverableErrors, hydrationFailed, debugTask) {
+          if (supportsUserTiming && !(endTime <= startTime)) {
+            lanes = [];
+            for (var i = 0; i < recoverableErrors.length; i++) {
+              var error = recoverableErrors[i].value;
+              lanes.push([
+                "Recoverable Error",
+                "object" === typeof error && null !== error && "string" === typeof error.message ? String(error.message) : String(error)
+              ]);
+            }
+            startTime = {
+              start: startTime,
+              end: endTime,
+              detail: {
+                devtools: {
+                  color: "primary-dark",
+                  track: currentTrack,
+                  trackGroup: LANES_TRACK_GROUP,
+                  tooltipText: hydrationFailed ? "Hydration Failed" : "Recovered after Error",
+                  properties: lanes
+                }
+              }
+            };
+            debugTask ? debugTask.run(
+              performance.measure.bind(performance, "Recovered", startTime)
+            ) : performance.measure("Recovered", startTime);
+          }
         }
         function logErroredRenderPhase(startTime, endTime, lanes, debugTask) {
           !supportsUserTiming || endTime <= startTime || (debugTask ? debugTask.run(
@@ -4957,28 +4727,7 @@
             debugTask ? debugTask.run(
               performance.measure.bind(performance, "Errored", startTime)
             ) : performance.measure("Errored", startTime);
-            performance.clearMeasures("Errored");
           }
-        }
-        function logCommitPhase(startTime, endTime, errors2, abortedViewTransition, debugTask) {
-          null !== errors2 ? logCommitErrored(startTime, endTime, errors2, false, debugTask) : !supportsUserTiming || endTime <= startTime || (debugTask ? debugTask.run(
-            console.timeStamp.bind(
-              console,
-              abortedViewTransition ? "Commit Interrupted View Transition" : "Commit",
-              startTime,
-              endTime,
-              currentTrack,
-              LANES_TRACK_GROUP,
-              abortedViewTransition ? "error" : "secondary-dark"
-            )
-          ) : console.timeStamp(
-            abortedViewTransition ? "Commit Interrupted View Transition" : "Commit",
-            startTime,
-            endTime,
-            currentTrack,
-            LANES_TRACK_GROUP,
-            abortedViewTransition ? "error" : "secondary-dark"
-          ));
         }
         function logAnimatingPhase(startTime, endTime, debugTask) {
           !supportsUserTiming || endTime <= startTime || (debugTask ? debugTask.run(
@@ -5057,14 +4806,19 @@
             null === node.alternate && 0 !== (node.flags & 4098) && warnAboutUpdateOnNotYetMountedFiberInDEV(sourceFiber), node = parent, parent = node.return;
           return 3 === node.tag ? node.stateNode : null;
         }
-        function resolveTypeForHotReloading(type) {
+        function resolveFunctionForHotReloading(type) {
           if (null === resolveFamily) return type;
           var family = resolveFamily(type);
           return void 0 === family ? type : family.current;
         }
+        function resolveForwardRefForHotReloading(type) {
+          if (null === resolveFamily) return type;
+          var family = resolveFamily(type);
+          return void 0 === family ? null !== type && void 0 !== type && "function" === typeof type.render && (family = resolveFunctionForHotReloading(type.render), type.render !== family) ? (family = { $$typeof: REACT_FORWARD_REF_TYPE2, render: family }, void 0 !== type.displayName && (family.displayName = type.displayName), family) : type : family.current;
+        }
         function isCompatibleFamilyForHotReloading(fiber, element) {
           if (null === resolveFamily) return false;
-          var resolve = resolveFamily, prevType = fiber.elementType;
+          var prevType = fiber.elementType;
           element = element.type;
           var needsCompareFamilies = false, $$typeofNextType = "object" === typeof element && null !== element ? element.$$typeof : null;
           switch (fiber.tag) {
@@ -5084,42 +4838,36 @@
             default:
               return false;
           }
-          return needsCompareFamilies && (fiber = resolve(prevType), void 0 !== fiber && fiber === resolve(element)) ? true : false;
+          return needsCompareFamilies && (fiber = resolveFamily(prevType), void 0 !== fiber && fiber === resolveFamily(element)) ? true : false;
         }
         function markFailedErrorBoundaryForHotReloading(fiber) {
           null !== resolveFamily && "function" === typeof WeakSet && (null === failedBoundaries && (failedBoundaries = /* @__PURE__ */ new WeakSet()), failedBoundaries.add(fiber));
         }
         function scheduleFibersWithFamiliesRecursively(fiber, updatedFamilies, staleFamilies) {
           do {
-            var _fiber = fiber, alternate = _fiber.alternate, child2 = _fiber.child, sibling = _fiber.sibling, tag = _fiber.tag, type = _fiber.type, elementType = _fiber.elementType, candidateType = null;
-            _fiber = null;
+            var _fiber = fiber, alternate = _fiber.alternate, child = _fiber.child, sibling = _fiber.sibling, tag = _fiber.tag;
+            _fiber = _fiber.type;
+            var candidateType = null;
             switch (tag) {
               case 0:
-              case 1:
-                candidateType = type;
-                break;
               case 15:
-                candidateType = type;
-                _fiber = elementType;
-                break;
-              case 14:
-                _fiber = elementType;
+              case 1:
+                candidateType = _fiber;
                 break;
               case 11:
-                candidateType = type.render, _fiber = elementType;
+                candidateType = _fiber.render;
             }
             if (null === resolveFamily)
               throw Error("Expected resolveFamily to be set during hot reload.");
-            var resolve = resolveFamily;
-            type = elementType = false;
-            null !== candidateType && (candidateType = resolve(candidateType), void 0 !== candidateType && (staleFamilies.has(candidateType) ? type = true : updatedFamilies.has(candidateType) && (1 === tag ? type = true : elementType = true)));
-            type || null === _fiber || (tag = resolve(_fiber), void 0 !== tag && staleFamilies.has(tag) ? type = true : "object" === typeof _fiber && _fiber.$$typeof === REACT_LAZY_TYPE && (tag = _fiber._payload, 1 === tag._status && (tag = resolve(tag._result.default), void 0 !== tag && staleFamilies.has(tag) && (type = true))));
-            null !== failedBoundaries && (failedBoundaries.has(fiber) || null !== alternate && failedBoundaries.has(alternate)) && (type = true);
-            type && (fiber._debugNeedsRemount = true);
-            if (type || elementType)
+            var needsRender = false;
+            _fiber = false;
+            null !== candidateType && (candidateType = resolveFamily(candidateType), void 0 !== candidateType && (staleFamilies.has(candidateType) ? _fiber = true : updatedFamilies.has(candidateType) && (1 === tag ? _fiber = true : needsRender = true)));
+            null !== failedBoundaries && (failedBoundaries.has(fiber) || null !== alternate && failedBoundaries.has(alternate)) && (_fiber = true);
+            _fiber && (fiber._debugNeedsRemount = true);
+            if (_fiber || needsRender)
               alternate = enqueueConcurrentRenderForLane(fiber, 2), null !== alternate && scheduleUpdateOnFiber(alternate, fiber, 2);
-            null === child2 || type || scheduleFibersWithFamiliesRecursively(
-              child2,
+            null === child || _fiber || scheduleFibersWithFamiliesRecursively(
+              child,
               updatedFamilies,
               staleFamilies
             );
@@ -5160,7 +4908,7 @@
             current3.key,
             current3.mode
           ), workInProgress2.elementType = current3.elementType, workInProgress2.type = current3.type, workInProgress2.stateNode = current3.stateNode, workInProgress2._debugOwner = current3._debugOwner, workInProgress2._debugStack = current3._debugStack, workInProgress2._debugTask = current3._debugTask, workInProgress2._debugHookTypes = current3._debugHookTypes, workInProgress2.alternate = current3, current3.alternate = workInProgress2) : (workInProgress2.pendingProps = pendingProps, workInProgress2.type = current3.type, workInProgress2.flags = 0, workInProgress2.subtreeFlags = 0, workInProgress2.deletions = null, workInProgress2.actualDuration = -0, workInProgress2.actualStartTime = -1.1);
-          workInProgress2.flags = current3.flags & 1206910976;
+          workInProgress2.flags = current3.flags & 65011712;
           workInProgress2.childLanes = current3.childLanes;
           workInProgress2.lanes = current3.lanes;
           workInProgress2.child = current3.child;
@@ -5184,15 +4932,18 @@
           switch (workInProgress2.tag) {
             case 0:
             case 15:
-            case 14:
+              workInProgress2.type = resolveFunctionForHotReloading(current3.type);
+              break;
             case 1:
+              workInProgress2.type = resolveFunctionForHotReloading(current3.type);
+              break;
             case 11:
-              workInProgress2.type = resolveTypeForHotReloading(current3.type);
+              workInProgress2.type = resolveForwardRefForHotReloading(current3.type);
           }
           return workInProgress2;
         }
         function resetWorkInProgress(workInProgress2, renderLanes2) {
-          workInProgress2.flags &= 1206910978;
+          workInProgress2.flags &= 65011714;
           var current3 = workInProgress2.alternate;
           null === current3 ? (workInProgress2.childLanes = 0, workInProgress2.lanes = renderLanes2, workInProgress2.child = null, workInProgress2.subtreeFlags = 0, workInProgress2.memoizedProps = null, workInProgress2.memoizedState = null, workInProgress2.updateQueue = null, workInProgress2.dependencies = null, workInProgress2.stateNode = null, workInProgress2.selfBaseDuration = 0, workInProgress2.treeBaseDuration = 0) : (workInProgress2.childLanes = current3.childLanes, workInProgress2.lanes = current3.lanes, workInProgress2.child = current3.child, workInProgress2.subtreeFlags = 0, workInProgress2.deletions = null, workInProgress2.memoizedProps = current3.memoizedProps, workInProgress2.memoizedState = current3.memoizedState, workInProgress2.updateQueue = current3.updateQueue, workInProgress2.type = current3.type, renderLanes2 = current3.dependencies, workInProgress2.dependencies = null === renderLanes2 ? null : {
             lanes: renderLanes2.lanes,
@@ -5202,14 +4953,13 @@
           return workInProgress2;
         }
         function createFiberFromTypeAndProps(type, key, pendingProps, owner, mode, lanes) {
-          var fiberTag = 0;
-          var resolvedType = resolveTypeForHotReloading(type);
-          if ("function" === typeof resolvedType)
-            shouldConstruct(resolvedType) && (fiberTag = 1);
-          else if ("string" === typeof resolvedType)
+          var fiberTag = 0, resolvedType = type;
+          if ("function" === typeof type)
+            shouldConstruct(type) && (fiberTag = 1), resolvedType = resolveFunctionForHotReloading(resolvedType);
+          else if ("string" === typeof type)
             fiberTag = getHostContext(), fiberTag = isHostHoistableType(type, pendingProps, fiberTag) ? 26 : "html" === type || "head" === type || "body" === type ? 27 : 5;
           else
-            a: switch (resolvedType) {
+            a: switch (type) {
               case REACT_ACTIVITY_TYPE:
                 return key = createFiber(31, pendingProps, key, mode), key.elementType = REACT_ACTIVITY_TYPE, key.lanes = lanes, key;
               case REACT_FRAGMENT_TYPE:
@@ -5233,17 +4983,9 @@
                 return key = createFiber(13, pendingProps, key, mode), key.elementType = REACT_SUSPENSE_TYPE, key.lanes = lanes, key;
               case REACT_SUSPENSE_LIST_TYPE:
                 return key = createFiber(19, pendingProps, key, mode), key.elementType = REACT_SUSPENSE_LIST_TYPE, key.lanes = lanes, key;
-              case REACT_LEGACY_HIDDEN_TYPE:
-              case REACT_VIEW_TRANSITION_TYPE:
-                return type = mode | SuspenseyImagesMode, key = createFiber(30, pendingProps, key, type), key.elementType = REACT_VIEW_TRANSITION_TYPE, key.lanes = lanes, key.stateNode = {
-                  autoName: null,
-                  paired: null,
-                  clones: null,
-                  ref: null
-                }, key;
               default:
-                if ("object" === typeof resolvedType && null !== resolvedType)
-                  switch (resolvedType.$$typeof) {
+                if ("object" === typeof type && null !== type)
+                  switch (type.$$typeof) {
                     case REACT_CONTEXT_TYPE:
                       fiberTag = 10;
                       break a;
@@ -5252,6 +4994,7 @@
                       break a;
                     case REACT_FORWARD_REF_TYPE2:
                       fiberTag = 11;
+                      resolvedType = resolveForwardRefForHotReloading(resolvedType);
                       break a;
                     case REACT_MEMO_TYPE2:
                       fiberTag = 14;
@@ -5261,14 +5004,14 @@
                       resolvedType = null;
                       break a;
                   }
-                pendingProps = "";
+                resolvedType = "";
                 if (void 0 === type || "object" === typeof type && null !== type && 0 === Object.keys(type).length)
-                  pendingProps += " You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.";
-                null === type ? resolvedType = "null" : isArrayImpl(type) ? resolvedType = "array" : void 0 !== type && type.$$typeof === REACT_ELEMENT_TYPE ? (resolvedType = "<" + (getComponentNameFromType(type.type) || "Unknown") + " />", pendingProps = " Did you accidentally export a JSX literal instead of a component?") : resolvedType = typeof type;
-                (fiberTag = owner ? getComponentNameFromOwner(owner) : null) && (pendingProps += "\n\nCheck the render method of `" + fiberTag + "`.");
+                  resolvedType += " You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.";
+                null === type ? pendingProps = "null" : isArrayImpl(type) ? pendingProps = "array" : void 0 !== type && type.$$typeof === REACT_ELEMENT_TYPE ? (pendingProps = "<" + (getComponentNameFromType(type.type) || "Unknown") + " />", resolvedType = " Did you accidentally export a JSX literal instead of a component?") : pendingProps = typeof type;
+                (fiberTag = owner ? getComponentNameFromOwner(owner) : null) && (resolvedType += "\n\nCheck the render method of `" + fiberTag + "`.");
                 fiberTag = 29;
                 pendingProps = Error(
-                  "Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: " + (resolvedType + "." + pendingProps)
+                  "Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: " + (pendingProps + "." + resolvedType)
                 );
                 resolvedType = null;
             }
@@ -5519,7 +5262,7 @@
               );
           }
           type = props.children;
-          "string" !== typeof type && "number" !== typeof type && "bigint" !== typeof type || didHydrate.textContent === "" + type || true === props.suppressHydrationWarning || checkForUnmatchedText(didHydrate.textContent, type) ? (null != props.popover && (listenToNonDelegatedEvent("beforetoggle", didHydrate), listenToNonDelegatedEvent("toggle", didHydrate)), null != props.onScroll && listenToNonDelegatedEvent("scroll", didHydrate), null != props.onScrollEnd && listenToNonDelegatedEvent("scrollend", didHydrate), null != props.onClick && (didHydrate.onclick = noop$12), didHydrate = true) : didHydrate = false;
+          "string" !== typeof type && "number" !== typeof type && "bigint" !== typeof type || didHydrate.textContent === "" + type || true === props.suppressHydrationWarning || checkForUnmatchedText(didHydrate.textContent, type) ? (null != props.popover && (listenToNonDelegatedEvent("beforetoggle", didHydrate), listenToNonDelegatedEvent("toggle", didHydrate)), null != props.onScroll && listenToNonDelegatedEvent("scroll", didHydrate), null != props.onScrollEnd && listenToNonDelegatedEvent("scrollend", didHydrate), null != props.onClick && (didHydrate.onclick = noop$1), didHydrate = true) : didHydrate = false;
           didHydrate || throwOnHydrationMismatch(fiber, true);
         }
         function popToNextHostParent(fiber) {
@@ -5679,12 +5422,7 @@
                 workInProgress2
               );
               nextFiber = null;
-            } else
-              13 === fiber.tag && null !== fiber.memoizedState && null === fiber.memoizedState.dehydrated ? (fiber.lanes |= renderLanes2, nextFiber = fiber.alternate, null !== nextFiber && (nextFiber.lanes |= renderLanes2), scheduleContextWorkOnParentPath(
-                fiber.return,
-                renderLanes2,
-                workInProgress2
-              ), nextFiber = fiber.child, nextFiber = null !== nextFiber ? nextFiber.sibling : null) : nextFiber = fiber.child;
+            } else nextFiber = fiber.child;
             if (null !== nextFiber) nextFiber.return = fiber;
             else
               for (nextFiber = fiber; null !== nextFiber; ) {
@@ -5734,7 +5472,6 @@
             forcePropagateEntireTree
           );
           workInProgress2.flags |= 262144;
-          return null !== current3;
         }
         function checkIfContextChanged(currentDependencies) {
           for (currentDependencies = currentDependencies.firstContext; null !== currentDependencies; ) {
@@ -5802,21 +5539,6 @@
           0 === cache.refCount && scheduleCallback$2(NormalPriority, function() {
             cache.controller.abort();
           });
-        }
-        function queueTransitionTypes(root3, transitionTypes) {
-          if (0 !== (root3.pendingLanes & 4194048)) {
-            var queued = root3.transitionTypes;
-            null === queued && (queued = root3.transitionTypes = []);
-            for (root3 = 0; root3 < transitionTypes.length; root3++) {
-              var transitionType = transitionTypes[root3];
-              -1 === queued.indexOf(transitionType) && queued.push(transitionType);
-            }
-          }
-        }
-        function claimQueuedTransitionTypes(root3) {
-          var claimed = root3.transitionTypes;
-          root3.transitionTypes = null;
-          return claimed;
         }
         function startUpdateTimerByLane(lane, method, fiber) {
           if (0 !== (lane & 127))
@@ -5932,8 +5654,8 @@
           0 > componentEffectStartTime && (componentEffectStartTime = profilerStartTime);
         }
         function transferActualDuration(fiber) {
-          for (var child2 = fiber.child; child2; )
-            fiber.actualDuration += child2.actualDuration, child2 = child2.sibling;
+          for (var child = fiber.child; child; )
+            fiber.actualDuration += child.actualDuration, child = child.sibling;
         }
         function entangleAsyncAction(transition, thenable) {
           if (null === currentEntangledListeners) {
@@ -5953,7 +5675,7 @@
           return thenable;
         }
         function pingEngtangledActionScope() {
-          if (0 === --currentEntangledPendingCount && (-1 < transitionUpdateTime || (transitionStartTime = -1.1), entangledTransitionTypes = null, null !== currentEntangledListeners)) {
+          if (0 === --currentEntangledPendingCount && (-1 < transitionUpdateTime || (transitionStartTime = -1.1), null !== currentEntangledListeners)) {
             null !== currentEntangledActionThenable && (currentEntangledActionThenable.status = "fulfilled");
             var listeners = currentEntangledListeners;
             currentEntangledListeners = null;
@@ -6004,13 +5726,13 @@
           thenable = thenable.status;
           return "fulfilled" === thenable || "rejected" === thenable;
         }
-        function trackUsedThenable(thenableState2, thenable, index, fiber) {
+        function trackUsedThenable(thenableState2, thenable, index) {
           null !== ReactSharedInternals.actQueue && (ReactSharedInternals.didUsePromise = true);
           var trackedThenables = thenableState2.thenables;
           index = trackedThenables[index];
           void 0 === index ? trackedThenables.push(thenable) : index !== thenable && (thenableState2.didWarnAboutUncachedPromise || (thenableState2.didWarnAboutUncachedPromise = true, console.error(
             "A component was suspended by an uncached promise. Creating promises inside a Client Component or hook is not yet supported, except via a Suspense-compatible library or framework."
-          )), thenable.then(noop$12, noop$12), thenable = index);
+          )), thenable.then(noop$1, noop$1), thenable = index);
           if (void 0 === thenable._debugInfo) {
             thenableState2 = performance.now();
             trackedThenables = thenable.displayName;
@@ -6029,16 +5751,10 @@
             case "fulfilled":
               return thenable.value;
             case "rejected":
-              fiber = thenable.reason;
-              checkIfUseWrappedInAsyncCatch(fiber);
-              if (void 0 === fiber && !("reason" in thenable))
-                throw Error(
-                  "A rejected Promise was passed to React without a `reason` property. React threw a generic error from where the Promise was used to assist in identifying the problematic Promise. Make sure that instrumented Promises correctly set the `reason` property when setting `status` to `'rejected'`."
-                );
-              throw fiber;
+              throw thenableState2 = thenable.reason, checkIfUseWrappedInAsyncCatch(thenableState2), thenableState2;
             default:
               if ("string" === typeof thenable.status)
-                thenable.then(noop$12, noop$12);
+                thenable.then(noop$1, noop$1);
               else {
                 thenableState2 = workInProgressRoot;
                 if (null !== thenableState2 && 100 < thenableState2.shellSuspendCounter)
@@ -6068,13 +5784,10 @@
                 case "fulfilled":
                   return thenable.value;
                 case "rejected":
-                  throw fiber = thenable.reason, checkIfUseWrappedInAsyncCatch(fiber), fiber;
+                  throw thenableState2 = thenable.reason, checkIfUseWrappedInAsyncCatch(thenableState2), thenableState2;
               }
               suspendedThenable = thenable;
               needsToResetSuspendedThenableDEV = true;
-              didIssueUseWarning || null === fiber || null !== fiber.alternate || (lastSuspendedFiber = fiber, lastSuspendedStack = Error(
-                "This library called use() to suspend in a previous render but did not call use() when it finished. This indicates an incorrect use of use(). Learn more: https://react.dev/warnings/conditional-use-of-use"
-              ));
               throw SuspenseException;
           }
         }
@@ -6103,9 +5816,6 @@
               "Hooks are not supported inside an async component. This error is often caused by accidentally adding `'use client'` to a module that was originally written for the server."
             );
         }
-        function areSameKeyPath(a2, b) {
-          return a2 === b ? true : a2.tag !== b.tag || a2.type !== b.type || a2.key !== b.key || a2.index !== b.index || 3 === a2.tag && a2.stateNode !== b.stateNode || null === a2.return || null === b.return ? false : areSameKeyPath(a2.return, b.return);
-        }
         function pushDebugInfo(debugInfo) {
           var previousDebugInfo = currentDebugInfo;
           null != debugInfo && (currentDebugInfo = null === previousDebugInfo ? debugInfo : previousDebugInfo.concat(debugInfo));
@@ -6125,13 +5835,13 @@
         function validateFragmentProps(element, fiber, returnFiber) {
           for (var keys2 = Object.keys(element.props), i = 0; i < keys2.length; i++) {
             var key = keys2[i];
-            if ("children" !== key && "key" !== key && "ref" !== key) {
+            if ("children" !== key && "key" !== key) {
               null === fiber && (fiber = createFiberFromElement(element, returnFiber.mode, 0), fiber._debugInfo = currentDebugInfo, fiber.return = returnFiber);
               runWithFiberInDEV(
                 fiber,
                 function(erroredKey) {
                   console.error(
-                    "Invalid prop `%s` supplied to `React.Fragment`. React.Fragment can only have `key`, `ref`, and `children` props.",
+                    "Invalid prop `%s` supplied to `React.Fragment`. React.Fragment can only have `key` and `children` props.",
                     erroredKey
                   );
                 },
@@ -6145,7 +5855,7 @@
           var index = thenableIndexCounter$1;
           thenableIndexCounter$1 += 1;
           null === thenableState$1 && (thenableState$1 = createThenableState());
-          return trackUsedThenable(thenableState$1, thenable, index, null);
+          return trackUsedThenable(thenableState$1, thenable, index);
         }
         function coerceRef(workInProgress2, element) {
           element = element.props.ref;
@@ -6222,7 +5932,7 @@
           }
           function mapRemainingChildren(currentFirstChild) {
             for (var existingChildren = /* @__PURE__ */ new Map(); null !== currentFirstChild; )
-              null === currentFirstChild.key ? existingChildren.set(currentFirstChild.index, currentFirstChild) : existingChildren.set(currentFirstChild.key, currentFirstChild), currentFirstChild = currentFirstChild.sibling;
+              null !== currentFirstChild.key ? existingChildren.set(currentFirstChild.key, currentFirstChild) : existingChildren.set(currentFirstChild.index, currentFirstChild), currentFirstChild = currentFirstChild.sibling;
             return existingChildren;
           }
           function useFiber(fiber, pendingProps) {
@@ -6237,12 +5947,12 @@
               return newFiber.flags |= 1048576, lastPlacedIndex;
             newIndex = newFiber.alternate;
             if (null !== newIndex)
-              return newIndex = newIndex.index, newIndex < lastPlacedIndex ? (newFiber.flags |= 2, lastPlacedIndex) : newIndex;
-            newFiber.flags |= 134217730;
+              return newIndex = newIndex.index, newIndex < lastPlacedIndex ? (newFiber.flags |= 67108866, lastPlacedIndex) : newIndex;
+            newFiber.flags |= 67108866;
             return lastPlacedIndex;
           }
           function placeSingleChild(newFiber) {
-            shouldTrackSideEffects && null === newFiber.alternate && (newFiber.flags |= 134217730);
+            shouldTrackSideEffects && null === newFiber.alternate && (newFiber.flags |= 67108866);
             return newFiber;
           }
           function updateTextNode(returnFiber, current3, textContent, lanes) {
@@ -6266,7 +5976,7 @@
                 element.props.children,
                 lanes,
                 element.key
-              ), coerceRef(current3, element), validateFragmentProps(element, current3, returnFiber), current3;
+              ), validateFragmentProps(element, current3, returnFiber), current3;
             if (null !== current3 && (current3.elementType === elementType || isCompatibleFamilyForHotReloading(current3, element) || "object" === typeof elementType && null !== elementType && elementType.$$typeof === REACT_LAZY_TYPE && resolveLazy(elementType) === current3.type))
               return current3 = useFiber(current3, element.props), coerceRef(current3, element), current3.return = returnFiber, current3._debugOwner = element._owner, current3._debugInfo = currentDebugInfo, current3;
             current3 = createFiberFromElement(element, returnFiber.mode, lanes);
@@ -6466,13 +6176,13 @@
             "symbol" === typeof newChild && warnOnSymbolType(returnFiber, newChild);
             return null;
           }
-          function warnOnInvalidKey(returnFiber, workInProgress2, child2, knownKeys) {
-            if ("object" !== typeof child2 || null === child2) return knownKeys;
-            switch (child2.$$typeof) {
+          function warnOnInvalidKey(returnFiber, workInProgress2, child, knownKeys) {
+            if ("object" !== typeof child || null === child) return knownKeys;
+            switch (child.$$typeof) {
               case REACT_ELEMENT_TYPE:
               case REACT_PORTAL_TYPE:
-                warnForMissingKey(returnFiber, workInProgress2, child2);
-                var key = child2.key;
+                warnForMissingKey(returnFiber, workInProgress2, child);
+                var key = child.key;
                 if ("string" !== typeof key) break;
                 if (null === knownKeys) {
                   knownKeys = /* @__PURE__ */ new Set();
@@ -6491,7 +6201,7 @@
                 });
                 break;
               case REACT_LAZY_TYPE:
-                child2 = resolveLazy(child2), warnOnInvalidKey(returnFiber, workInProgress2, child2, knownKeys);
+                child = resolveLazy(child), warnOnInvalidKey(returnFiber, workInProgress2, child, knownKeys);
             }
             return knownKeys;
           }
@@ -6549,15 +6259,15 @@
                 nextOldFiber,
                 newChildren[newIdx],
                 knownKeys
-              ), shouldTrackSideEffects && (newFiber = nextOldFiber.alternate, null !== newFiber && oldFiber.delete(
-                null === newFiber.key ? newIdx : newFiber.key
-              )), currentFirstChild = placeChild(
+              ), shouldTrackSideEffects && null !== nextOldFiber.alternate && oldFiber.delete(
+                null === nextOldFiber.key ? newIdx : nextOldFiber.key
+              ), currentFirstChild = placeChild(
                 nextOldFiber,
                 currentFirstChild,
                 newIdx
               ), null === previousNewFiber ? resultingFirstChild = nextOldFiber : previousNewFiber.sibling = nextOldFiber, previousNewFiber = nextOldFiber);
-            shouldTrackSideEffects && oldFiber.forEach(function(child2) {
-              return deleteChild(returnFiber, child2);
+            shouldTrackSideEffects && oldFiber.forEach(function(child) {
+              return deleteChild(returnFiber, child);
             });
             isHydrating && pushTreeFork(returnFiber, newIdx);
             return resultingFirstChild;
@@ -6613,19 +6323,21 @@
                 nextOldFiber,
                 step.value,
                 knownKeys
-              ), shouldTrackSideEffects && (step = nextOldFiber.alternate, null !== step && oldFiber.delete(null === step.key ? newIdx : step.key)), currentFirstChild = placeChild(
+              ), shouldTrackSideEffects && null !== nextOldFiber.alternate && oldFiber.delete(
+                null === nextOldFiber.key ? newIdx : nextOldFiber.key
+              ), currentFirstChild = placeChild(
                 nextOldFiber,
                 currentFirstChild,
                 newIdx
               ), null === previousNewFiber ? resultingFirstChild = nextOldFiber : previousNewFiber.sibling = nextOldFiber, previousNewFiber = nextOldFiber);
-            shouldTrackSideEffects && oldFiber.forEach(function(child2) {
-              return deleteChild(returnFiber, child2);
+            shouldTrackSideEffects && oldFiber.forEach(function(child) {
+              return deleteChild(returnFiber, child);
             });
             isHydrating && pushTreeFork(returnFiber, newIdx);
             return resultingFirstChild;
           }
           function reconcileChildFibersImpl(returnFiber, currentFirstChild, newChild, lanes) {
-            "object" === typeof newChild && null !== newChild && newChild.type === REACT_FRAGMENT_TYPE && null === newChild.key && void 0 === newChild.props.ref && (validateFragmentProps(newChild, null, returnFiber), newChild = newChild.props.children);
+            "object" === typeof newChild && null !== newChild && newChild.type === REACT_FRAGMENT_TYPE && null === newChild.key && (validateFragmentProps(newChild, null, returnFiber), newChild = newChild.props.children);
             if ("object" === typeof newChild && null !== newChild) {
               switch (newChild.$$typeof) {
                 case REACT_ELEMENT_TYPE:
@@ -6644,7 +6356,6 @@
                               currentFirstChild,
                               newChild.props.children
                             );
-                            coerceRef(lanes, newChild);
                             lanes.return = returnFiber;
                             lanes._debugOwner = newChild._owner;
                             lanes._debugInfo = currentDebugInfo;
@@ -6678,7 +6389,7 @@
                       returnFiber.mode,
                       lanes,
                       newChild.key
-                    ), coerceRef(lanes, newChild), lanes.return = returnFiber, lanes._debugOwner = returnFiber, lanes._debugTask = returnFiber._debugTask, lanes._debugInfo = currentDebugInfo, validateFragmentProps(newChild, lanes, returnFiber), returnFiber = lanes) : (lanes = createFiberFromElement(
+                    ), lanes.return = returnFiber, lanes._debugOwner = returnFiber, lanes._debugTask = returnFiber._debugTask, lanes._debugInfo = currentDebugInfo, validateFragmentProps(newChild, lanes, returnFiber), returnFiber = lanes) : (lanes = createFiberFromElement(
                       newChild,
                       returnFiber.mode,
                       lanes
@@ -6729,35 +6440,37 @@
                   ), currentDebugInfo = prevDebugInfo, returnFiber;
               }
               if (isArrayImpl(newChild))
-                return reconcileChildrenArray(
+                return prevDebugInfo = pushDebugInfo(newChild._debugInfo), returnFiber = reconcileChildrenArray(
                   returnFiber,
                   currentFirstChild,
                   newChild,
                   lanes
-                );
+                ), currentDebugInfo = prevDebugInfo, returnFiber;
               if (getIteratorFn(newChild)) {
-                prevDebugInfo = newChild;
-                newChild = getIteratorFn(prevDebugInfo);
-                if ("function" !== typeof newChild)
+                prevDebugInfo = pushDebugInfo(newChild._debugInfo);
+                key = getIteratorFn(newChild);
+                if ("function" !== typeof key)
                   throw Error(
                     "An object is not an iterable. This error is likely caused by a bug in React. Please file an issue."
                   );
-                key = newChild.call(prevDebugInfo);
-                if (key === prevDebugInfo) {
-                  if (0 !== returnFiber.tag || "[object GeneratorFunction]" !== Object.prototype.toString.call(returnFiber.type) || "[object Generator]" !== Object.prototype.toString.call(key))
+                var newChildren = key.call(newChild);
+                if (newChildren === newChild) {
+                  if (0 !== returnFiber.tag || "[object GeneratorFunction]" !== Object.prototype.toString.call(returnFiber.type) || "[object Generator]" !== Object.prototype.toString.call(newChildren))
                     didWarnAboutGenerators || console.error(
                       "Using Iterators as children is unsupported and will likely yield unexpected results because enumerating a generator mutates it. You may convert it to an array with `Array.from()` or the `[...spread]` operator before rendering. You can also use an Iterable that can iterate multiple times over the same items."
                     ), didWarnAboutGenerators = true;
                 } else
-                  prevDebugInfo.entries !== newChild || didWarnAboutMaps || (console.error(
+                  newChild.entries !== key || didWarnAboutMaps || (console.error(
                     "Using Maps as children is not supported. Use an array of keyed ReactElements instead."
                   ), didWarnAboutMaps = true);
-                return reconcileChildrenIterator(
+                returnFiber = reconcileChildrenIterator(
                   returnFiber,
                   currentFirstChild,
-                  key,
+                  newChildren,
                   lanes
                 );
+                currentDebugInfo = prevDebugInfo;
+                return returnFiber;
               }
               if ("function" === typeof newChild.then)
                 return prevDebugInfo = pushDebugInfo(newChild._debugInfo), returnFiber = reconcileChildFibersImpl(
@@ -7111,26 +6824,13 @@
           shellBoundary === fiber && (shellBoundary = null);
           pop(suspenseStackCursor, fiber);
         }
-        function pushSuspenseListContext(fiber, newContext) {
-          push(
-            suspenseHandlerStackCursor,
-            suspenseHandlerStackCursor.current,
-            fiber
-          );
-          push(suspenseStackCursor, newContext, fiber);
-        }
-        function popSuspenseListContext(fiber) {
-          pop(suspenseStackCursor, fiber);
-          pop(suspenseHandlerStackCursor, fiber);
-          shellBoundary === fiber && (shellBoundary = null);
-        }
         function findFirstSuspended(row) {
           for (var node = row; null !== node; ) {
             if (13 === node.tag) {
               var state = node.memoizedState;
               if (null !== state && (state = state.dehydrated, null === state || isSuspenseInstancePending(state) || isSuspenseInstanceFallback(state)))
                 return node;
-            } else if (19 === node.tag && "independent" !== node.memoizedProps.revealOrder) {
+            } else if (19 === node.tag && ("forwards" === node.memoizedProps.revealOrder || "backwards" === node.memoizedProps.revealOrder || "unstable_legacy-backwards" === node.memoizedProps.revealOrder || "together" === node.memoizedProps.revealOrder)) {
               if (0 !== (node.flags & 128)) return node;
             } else if (null !== node.child) {
               node.child.return = node;
@@ -7254,20 +6954,18 @@
             firstContext: null,
             _debugThenableState: thenableState
           }) : workInProgress2.dependencies._debugThenableState = thenableState;
-          var thenableState$jscomp$0 = thenableState;
-          null !== lastSuspendedFiber && areSameKeyPath(lastSuspendedFiber, workInProgress2) && (null !== thenableState$jscomp$0 || null === lastSuspendedStack || didIssueUseWarning || (didIssueUseWarning = true, console.error(lastSuspendedStack)), lastSuspendedStack = lastSuspendedFiber = null);
           ReactSharedInternals.H = ContextOnlyDispatcher;
-          thenableState$jscomp$0 = null !== currentHook && null !== currentHook.next;
+          var didRenderTooFewHooks = null !== currentHook && null !== currentHook.next;
           renderLanes = 0;
           hookTypesDev = currentHookNameInDev = workInProgressHook = currentHook = currentlyRenderingFiber = null;
           hookTypesUpdateIndexDev = -1;
-          null !== current3 && (current3.flags & 1206910976) !== (workInProgress2.flags & 1206910976) && console.error(
+          null !== current3 && (current3.flags & 65011712) !== (workInProgress2.flags & 65011712) && console.error(
             "Internal React error: Expected static flag was missing. Please notify the React team."
           );
           didScheduleRenderPhaseUpdate = false;
           thenableIndexCounter = 0;
           thenableState = null;
-          if (thenableState$jscomp$0)
+          if (didRenderTooFewHooks)
             throw Error(
               "Rendered fewer hooks than expected. This may be caused by an accidental early return statement."
             );
@@ -7318,7 +7016,7 @@
         }
         function bailoutHooks(current3, workInProgress2, lanes) {
           workInProgress2.updateQueue = current3.updateQueue;
-          workInProgress2.flags = (workInProgress2.mode & StrictEffectsMode) !== NoMode ? workInProgress2.flags & -805308421 : workInProgress2.flags & -2053;
+          workInProgress2.flags = (workInProgress2.mode & StrictEffectsMode) !== NoMode ? workInProgress2.flags & -402655237 : workInProgress2.flags & -2053;
           current3.lanes &= ~lanes;
         }
         function resetHooksOnUnwind(workInProgress2) {
@@ -7384,12 +7082,7 @@
           var index = thenableIndexCounter;
           thenableIndexCounter += 1;
           null === thenableState && (thenableState = createThenableState());
-          thenable = trackUsedThenable(
-            thenableState,
-            thenable,
-            index,
-            currentlyRenderingFiber
-          );
+          thenable = trackUsedThenable(thenableState, thenable, index);
           index = currentlyRenderingFiber;
           null === (null === workInProgressHook ? index.memoizedState : workInProgressHook.next) && (index = index.alternate, ReactSharedInternals.H = null !== index && null !== index.memoizedState ? HooksDispatcherOnUpdateInDEV : HooksDispatcherOnMountInDEV);
           return thenable;
@@ -7397,7 +7090,6 @@
         function use(usable) {
           if (null !== usable && "object" === typeof usable) {
             if ("function" === typeof usable.then) return useThenable(usable);
-            if (usable.$$typeof === REACT_RECOVERABLE_TYPE) return;
             if (usable.$$typeof === REACT_CONTEXT_TYPE) return readContext(usable);
           }
           throw Error("An unsupported type was passed to use(): " + String(usable));
@@ -7632,21 +7324,20 @@
           hook = hook.queue;
           var create = subscribeToStore.bind(null, fiber, hook, subscribe);
           updateEffectImpl(2048, Passive, create, [subscribe]);
-          subscribe = hook.getSnapshot !== getSnapshot || cachedSnapshot || null !== workInProgressHook && (workInProgressHook.memoizedState.tag & HasEffect) !== NoFlags;
-          pushSimpleEffect(
-            subscribe ? HasEffect | Passive : Passive,
-            { destroy: void 0 },
-            updateStoreInstance.bind(
-              null,
-              fiber,
-              hook,
-              getServerSnapshot,
-              getSnapshot
-            ),
-            null
-          );
-          if (subscribe) {
+          if (hook.getSnapshot !== getSnapshot || cachedSnapshot || null !== workInProgressHook && workInProgressHook.memoizedState.tag & HasEffect) {
             fiber.flags |= 2048;
+            pushSimpleEffect(
+              HasEffect | Passive,
+              { destroy: void 0 },
+              updateStoreInstance.bind(
+                null,
+                fiber,
+                hook,
+                getServerSnapshot,
+                getSnapshot
+              ),
+              null
+            );
             if (null === workInProgressRoot)
               throw Error(
                 "Expected a work-in-progress root. This is a bug in React. Please file an issue."
@@ -7756,7 +7447,7 @@
         }
         function dispatchActionState(fiber, actionQueue, setPendingState, setState, payload) {
           if (isRenderPhaseUpdate(fiber))
-            throw Error("Cannot update action state while rendering.");
+            throw Error("Cannot update form state while rendering.");
           fiber = actionQueue.action;
           if (null !== fiber) {
             var actionNode = {
@@ -7782,7 +7473,6 @@
           var action = node.action, payload = node.payload, prevState = actionQueue.state;
           if (node.isTransition) {
             var prevTransition = ReactSharedInternals.T, currentTransition = {};
-            currentTransition.types = null !== prevTransition ? prevTransition.types : null;
             currentTransition._updatedFibers = /* @__PURE__ */ new Set();
             ReactSharedInternals.T = currentTransition;
             try {
@@ -7801,8 +7491,8 @@
           } else
             try {
               currentTransition = action(prevState, payload), handleActionReturnValue(actionQueue, node, currentTransition);
-            } catch (error$5) {
-              onActionError(actionQueue, node, error$5);
+            } catch (error$4) {
+              onActionError(actionQueue, node, error$4);
             }
         }
         function handleActionReturnValue(actionQueue, node, returnValue) {
@@ -8004,7 +7694,7 @@
           ));
         }
         function mountEffect(create, deps) {
-          (currentlyRenderingFiber.mode & StrictEffectsMode) !== NoMode ? mountEffectImpl(545261568, Passive, create, deps) : mountEffectImpl(8390656, Passive, create, deps);
+          (currentlyRenderingFiber.mode & StrictEffectsMode) !== NoMode ? mountEffectImpl(276826112, Passive, create, deps) : mountEffectImpl(8390656, Passive, create, deps);
         }
         function useEffectEventImpl(payload) {
           currentlyRenderingFiber.flags |= 4;
@@ -8040,7 +7730,7 @@
         }
         function mountLayoutEffect(create, deps) {
           var fiberFlags = 4194308;
-          (currentlyRenderingFiber.mode & StrictEffectsMode) !== NoMode && (fiberFlags |= 268435456);
+          (currentlyRenderingFiber.mode & StrictEffectsMode) !== NoMode && (fiberFlags |= 134217728);
           return mountEffectImpl(fiberFlags, Layout, create, deps);
         }
         function imperativeHandleEffect(create, ref) {
@@ -8066,7 +7756,7 @@
           );
           deps = null !== deps && void 0 !== deps ? deps.concat([ref]) : null;
           var fiberFlags = 4194308;
-          (currentlyRenderingFiber.mode & StrictEffectsMode) !== NoMode && (fiberFlags |= 268435456);
+          (currentlyRenderingFiber.mode & StrictEffectsMode) !== NoMode && (fiberFlags |= 134217728);
           mountEffectImpl(
             fiberFlags,
             Layout,
@@ -8171,7 +7861,7 @@
           if (objectIs(value, prevValue)) return value;
           if (null !== currentTreeHiddenStackCursor.current)
             return hook = mountDeferredValueImpl(hook, value, initialValue), objectIs(hook, prevValue) || (didReceiveUpdate = true), hook;
-          if (0 === (renderLanes & 106) || 0 !== (renderLanes & 1073741824) && 0 === (workInProgressRootRenderLanes & 261930))
+          if (0 === (renderLanes & 42) || 0 !== (renderLanes & 1073741824) && 0 === (workInProgressRootRenderLanes & 261930))
             return didReceiveUpdate = true, hook.memoizedState = value;
           hook = requestDeferredLane();
           currentlyRenderingFiber.lanes |= hook;
@@ -8185,7 +7875,6 @@
           var previousPriority = ReactDOMSharedInternals.p;
           ReactDOMSharedInternals.p = 0 !== previousPriority && previousPriority < ContinuousEventPriority ? previousPriority : ContinuousEventPriority;
           var prevTransition = ReactSharedInternals.T, currentTransition = {};
-          currentTransition.types = null !== prevTransition ? prevTransition.types : null;
           currentTransition._updatedFibers = /* @__PURE__ */ new Set();
           ReactSharedInternals.T = currentTransition;
           dispatchOptimisticSetState(fiber, false, queue2, pendingState);
@@ -8602,9 +8291,9 @@
               var onUncaughtError = root3.onUncaughtError;
               onUncaughtError(error, { componentStack: errorInfo.stack });
             }
-          } catch (e$6) {
+          } catch (e$5) {
             setTimeout(function() {
-              throw e$6;
+              throw e$5;
             });
           }
         }
@@ -8617,9 +8306,9 @@
               componentStack: errorInfo.stack,
               errorBoundary: 1 === boundary.tag ? boundary.stateNode : null
             });
-          } catch (e$7) {
+          } catch (e$6) {
             setTimeout(function() {
-              throw e$7;
+              throw e$6;
             });
           }
         }
@@ -8690,7 +8379,6 @@
               switch (sourceFiber.tag) {
                 case 31:
                 case 13:
-                case 19:
                   return null === shellBoundary ? renderDidSuspendDelayIfPossible() : null === sourceFiber.alternate && workInProgressRootExitStatus === RootInProgress && (workInProgressRootExitStatus = RootSuspended), sourceFiber.flags &= -257, sourceFiber.flags |= 65536, sourceFiber.lanes = rootRenderLanes, value === noopSuspenseyCommitThenable ? sourceFiber.flags |= 16384 : (returnFiber = sourceFiber.updateQueue, null === returnFiber ? sourceFiber.updateQueue = /* @__PURE__ */ new Set([value]) : returnFiber.add(value), attachPingListener(root3, value, rootRenderLanes)), false;
                 case 22:
                   return sourceFiber.flags |= 65536, value === noopSuspenseyCommitThenable ? sourceFiber.flags |= 16384 : (returnFiber = sourceFiber.updateQueue, null === returnFiber ? (returnFiber = {
@@ -8708,9 +8396,7 @@
             return false;
           }
           if (isHydrating)
-            return didSuspendOrErrorDEV = true, returnFiber = suspenseHandlerStackCursor.current, null !== returnFiber ? (19 === returnFiber.tag && console.error(
-              "SuspenseList should never catch while hydrating. This is a bug in React."
-            ), 0 === (returnFiber.flags & 65536) && (returnFiber.flags |= 256), returnFiber.flags |= 65536, returnFiber.lanes = rootRenderLanes, value !== HydrationMismatchException && queueHydrationError(
+            return didSuspendOrErrorDEV = true, returnFiber = suspenseHandlerStackCursor.current, null !== returnFiber ? (0 === (returnFiber.flags & 65536) && (returnFiber.flags |= 256), returnFiber.flags |= 65536, returnFiber.lanes = rootRenderLanes, value !== HydrationMismatchException && queueHydrationError(
               createCapturedValueAtFiber(
                 Error(
                   "There was an error while hydrating but React was able to recover by instead client rendering from the nearest Suspense boundary.",
@@ -8752,19 +8438,13 @@
                   root3
                 ), enqueueCapturedUpdate(sourceFiber, root3), false;
               case 1:
-                returnFiber = sourceFiber.type;
-                error = sourceFiber.stateNode;
-                if (0 === (sourceFiber.flags & 128) && ("function" === typeof returnFiber.getDerivedStateFromError || null !== error && "function" === typeof error.componentDidCatch && (null === legacyErrorBoundariesThatAlreadyFailed || !legacyErrorBoundariesThatAlreadyFailed.has(error))))
+                if (returnFiber = sourceFiber.type, error = sourceFiber.stateNode, 0 === (sourceFiber.flags & 128) && ("function" === typeof returnFiber.getDerivedStateFromError || null !== error && "function" === typeof error.componentDidCatch && (null === legacyErrorBoundariesThatAlreadyFailed || !legacyErrorBoundariesThatAlreadyFailed.has(error))))
                   return sourceFiber.flags |= 65536, rootRenderLanes &= -rootRenderLanes, sourceFiber.lanes |= rootRenderLanes, rootRenderLanes = createClassErrorUpdate(rootRenderLanes), initializeClassErrorUpdate(
                     rootRenderLanes,
                     root3,
                     sourceFiber,
                     value
                   ), enqueueCapturedUpdate(sourceFiber, rootRenderLanes), false;
-                break;
-              case 22:
-                if (null !== sourceFiber.memoizedState)
-                  return sourceFiber.flags |= 65536, false;
             }
             sourceFiber = sourceFiber.return;
           } while (null !== sourceFiber);
@@ -8780,9 +8460,7 @@
         }
         function updateForwardRef(current3, workInProgress2, Component2, nextProps, renderLanes2) {
           Component2 = Component2.render;
-          var resolvedRender = resolveTypeForHotReloading(Component2);
-          resolvedRender !== Component2 && (Component2 = resolvedRender, null !== current3 && (didReceiveUpdate = true));
-          resolvedRender = workInProgress2.ref;
+          var ref = workInProgress2.ref;
           if ("ref" in nextProps) {
             var propsWithoutRef = {};
             for (var key in nextProps)
@@ -8794,7 +8472,7 @@
             workInProgress2,
             Component2,
             propsWithoutRef,
-            resolvedRender,
+            ref,
             renderLanes2
           );
           key = checkDidRenderIdHook();
@@ -8809,7 +8487,7 @@
           if (null === current3) {
             var type = Component2.type;
             if ("function" === typeof type && !shouldConstruct(type) && void 0 === type.defaultProps && null === Component2.compare)
-              return Component2 = resolveTypeForHotReloading(type), workInProgress2.tag = 15, workInProgress2.type = Component2, validateFunctionComponentInDev(workInProgress2, type), updateSimpleMemoComponent(
+              return Component2 = resolveFunctionForHotReloading(type), workInProgress2.tag = 15, workInProgress2.type = Component2, validateFunctionComponentInDev(workInProgress2, type), updateSimpleMemoComponent(
                 current3,
                 workInProgress2,
                 Component2,
@@ -8967,7 +8645,7 @@
           if (null === current3) {
             if (isHydrating) {
               if ("hidden" === nextProps.mode)
-                return current3 = mountActivityChildren(workInProgress2, nextProps), workInProgress2.lanes = 536870912, current3.memoizedState = { baseLanes: 0, cachePool: null }, bailoutOffscreenComponent(null, current3);
+                return current3 = mountActivityChildren(workInProgress2, nextProps), workInProgress2.lanes = 536870912, bailoutOffscreenComponent(null, current3);
               pushDehydratedActivitySuspenseHandler(workInProgress2);
               (current3 = nextHydratableInstance) ? (renderLanes2 = canHydrateHydrationBoundary(
                 current3,
@@ -9008,15 +8686,13 @@
               renderLanes2,
               false
             ), didSuspend = 0 !== (renderLanes2 & current3.childLanes), didReceiveUpdate || didSuspend) {
-              if (null === currentTreeHiddenStackCursor.current) {
-                nextProps = workInProgressRoot;
-                if (null !== nextProps && (activityInstance = getBumpedLaneForHydration(
-                  nextProps,
-                  renderLanes2
-                ), 0 !== activityInstance && activityInstance !== prevState.retryLane))
-                  throw prevState.retryLane = activityInstance, enqueueConcurrentRenderForLane(current3, activityInstance), scheduleUpdateOnFiber(nextProps, current3, activityInstance), SelectiveHydrationException;
-                renderDidSuspendDelayIfPossible();
-              }
+              nextProps = workInProgressRoot;
+              if (null !== nextProps && (activityInstance = getBumpedLaneForHydration(
+                nextProps,
+                renderLanes2
+              ), 0 !== activityInstance && activityInstance !== prevState.retryLane))
+                throw prevState.retryLane = activityInstance, enqueueConcurrentRenderForLane(current3, activityInstance), scheduleUpdateOnFiber(nextProps, current3, activityInstance), SelectiveHydrationException;
+              renderDidSuspendDelayIfPossible();
               workInProgress2 = retryActivityComponentWithoutHydrating(
                 current3,
                 workInProgress2,
@@ -9025,7 +8701,7 @@
             } else
               current3 = prevState.treeContext, nextHydratableInstance = getNextHydratable(
                 activityInstance.nextSibling
-              ), hydrationParentFiber = workInProgress2, isHydrating = true, hydrationErrors = null, didSuspendOrErrorDEV = false, hydrationDiffRootDEV = null, rootOrSingletonContext = false, null !== current3 && restoreSuspendedTreeContext(workInProgress2, current3), workInProgress2 = mountActivityChildren(workInProgress2, nextProps), workInProgress2.flags |= 134221824;
+              ), hydrationParentFiber = workInProgress2, isHydrating = true, hydrationErrors = null, didSuspendOrErrorDEV = false, hydrationDiffRootDEV = null, rootOrSingletonContext = false, null !== current3 && restoreSuspendedTreeContext(workInProgress2, current3), workInProgress2 = mountActivityChildren(workInProgress2, nextProps), workInProgress2.flags |= 4096;
             return workInProgress2;
           }
           prevState = current3.child;
@@ -9301,7 +8977,7 @@
               null
             )), processUpdateQueue(workInProgress2, nextProps, _instance, renderLanes2), suspendIfUpdateReadFromEntangledAsyncAction(), _instance.state = workInProgress2.memoizedState);
             "function" === typeof _instance.componentDidMount && (workInProgress2.flags |= 4194308);
-            (workInProgress2.mode & StrictEffectsMode) !== NoMode && (workInProgress2.flags |= 268435456);
+            (workInProgress2.mode & StrictEffectsMode) !== NoMode && (workInProgress2.flags |= 134217728);
             _instance = true;
           } else if (null === current3) {
             _instance = workInProgress2.stateNode;
@@ -9340,7 +9016,7 @@
               oldState,
               oldContext,
               state
-            )) ? (foundWillUpdateName || "function" !== typeof _instance.UNSAFE_componentWillMount && "function" !== typeof _instance.componentWillMount || ("function" === typeof _instance.componentWillMount && _instance.componentWillMount(), "function" === typeof _instance.UNSAFE_componentWillMount && _instance.UNSAFE_componentWillMount()), "function" === typeof _instance.componentDidMount && (workInProgress2.flags |= 4194308), (workInProgress2.mode & StrictEffectsMode) !== NoMode && (workInProgress2.flags |= 268435456)) : ("function" === typeof _instance.componentDidMount && (workInProgress2.flags |= 4194308), (workInProgress2.mode & StrictEffectsMode) !== NoMode && (workInProgress2.flags |= 268435456), workInProgress2.memoizedProps = nextProps, workInProgress2.memoizedState = oldContext), _instance.props = nextProps, _instance.state = oldContext, _instance.context = state, _instance = lane) : ("function" === typeof _instance.componentDidMount && (workInProgress2.flags |= 4194308), (workInProgress2.mode & StrictEffectsMode) !== NoMode && (workInProgress2.flags |= 268435456), _instance = false);
+            )) ? (foundWillUpdateName || "function" !== typeof _instance.UNSAFE_componentWillMount && "function" !== typeof _instance.componentWillMount || ("function" === typeof _instance.componentWillMount && _instance.componentWillMount(), "function" === typeof _instance.UNSAFE_componentWillMount && _instance.UNSAFE_componentWillMount()), "function" === typeof _instance.componentDidMount && (workInProgress2.flags |= 4194308), (workInProgress2.mode & StrictEffectsMode) !== NoMode && (workInProgress2.flags |= 134217728)) : ("function" === typeof _instance.componentDidMount && (workInProgress2.flags |= 4194308), (workInProgress2.mode & StrictEffectsMode) !== NoMode && (workInProgress2.flags |= 134217728), workInProgress2.memoizedProps = nextProps, workInProgress2.memoizedState = oldContext), _instance.props = nextProps, _instance.state = oldContext, _instance.context = state, _instance = lane) : ("function" === typeof _instance.componentDidMount && (workInProgress2.flags |= 4194308), (workInProgress2.mode & StrictEffectsMode) !== NoMode && (workInProgress2.flags |= 134217728), _instance = false);
           } else {
             _instance = workInProgress2.stateNode;
             cloneUpdateQueue(current3, workInProgress2);
@@ -9456,92 +9132,216 @@
           return current3;
         }
         function updateSuspenseComponent(current3, workInProgress2, renderLanes2) {
-          var nextProps = workInProgress2.pendingProps;
+          var JSCompiler_object_inline_digest_2724;
+          var JSCompiler_object_inline_stack_2725 = workInProgress2.pendingProps;
           shouldSuspendImpl(workInProgress2) && (workInProgress2.flags |= 128);
-          var showFallback = false, didSuspend = 0 !== (workInProgress2.flags & 128), JSCompiler_temp;
-          (JSCompiler_temp = didSuspend) || (JSCompiler_temp = null !== current3 && null === current3.memoizedState ? false : 0 !== (suspenseStackCursor.current & ForceSuspenseFallback));
-          JSCompiler_temp && (showFallback = true, workInProgress2.flags &= -129);
-          JSCompiler_temp = 0 !== (workInProgress2.flags & 32);
+          var JSCompiler_object_inline_message_2723 = false;
+          var didSuspend = 0 !== (workInProgress2.flags & 128);
+          (JSCompiler_object_inline_digest_2724 = didSuspend) || (JSCompiler_object_inline_digest_2724 = null !== current3 && null === current3.memoizedState ? false : 0 !== (suspenseStackCursor.current & ForceSuspenseFallback));
+          JSCompiler_object_inline_digest_2724 && (JSCompiler_object_inline_message_2723 = true, workInProgress2.flags &= -129);
+          JSCompiler_object_inline_digest_2724 = 0 !== (workInProgress2.flags & 32);
           workInProgress2.flags &= -33;
           if (null === current3) {
             if (isHydrating) {
-              showFallback ? pushPrimaryTreeSuspenseHandler(workInProgress2) : reuseSuspenseHandlerOnStack(workInProgress2);
+              JSCompiler_object_inline_message_2723 ? pushPrimaryTreeSuspenseHandler(workInProgress2) : reuseSuspenseHandlerOnStack(workInProgress2);
               (current3 = nextHydratableInstance) ? (renderLanes2 = canHydrateHydrationBoundary(
                 current3,
                 rootOrSingletonContext
-              ), renderLanes2 = null !== renderLanes2 && renderLanes2.data !== ACTIVITY_START_DATA ? renderLanes2 : null, null !== renderLanes2 && (JSCompiler_temp = {
+              ), renderLanes2 = null !== renderLanes2 && renderLanes2.data !== ACTIVITY_START_DATA ? renderLanes2 : null, null !== renderLanes2 && (JSCompiler_object_inline_digest_2724 = {
                 dehydrated: renderLanes2,
                 treeContext: getSuspendedTreeContext(),
                 retryLane: 536870912,
                 hydrationErrors: null
-              }, workInProgress2.memoizedState = JSCompiler_temp, JSCompiler_temp = createFiberFromDehydratedFragment(renderLanes2), JSCompiler_temp.return = workInProgress2, workInProgress2.child = JSCompiler_temp, hydrationParentFiber = workInProgress2, nextHydratableInstance = null)) : renderLanes2 = null;
+              }, workInProgress2.memoizedState = JSCompiler_object_inline_digest_2724, JSCompiler_object_inline_digest_2724 = createFiberFromDehydratedFragment(renderLanes2), JSCompiler_object_inline_digest_2724.return = workInProgress2, workInProgress2.child = JSCompiler_object_inline_digest_2724, hydrationParentFiber = workInProgress2, nextHydratableInstance = null)) : renderLanes2 = null;
               if (null === renderLanes2)
                 throw warnNonHydratedInstance(workInProgress2, current3), throwOnHydrationMismatch(workInProgress2);
               isSuspenseInstanceFallback(renderLanes2) ? workInProgress2.lanes = 32 : workInProgress2.lanes = 536870912;
               return null;
             }
-            didSuspend = nextProps.children;
-            nextProps = nextProps.fallback;
-            if (showFallback)
-              return reuseSuspenseHandlerOnStack(workInProgress2), showFallback = workInProgress2.mode, didSuspend = mountWorkInProgressOffscreenFiber(
-                { mode: "hidden", children: didSuspend },
-                showFallback
-              ), nextProps = createFiberFromFragment(
-                nextProps,
-                showFallback,
+            var nextPrimaryChildren = JSCompiler_object_inline_stack_2725.children;
+            JSCompiler_object_inline_stack_2725 = JSCompiler_object_inline_stack_2725.fallback;
+            if (JSCompiler_object_inline_message_2723) {
+              reuseSuspenseHandlerOnStack(workInProgress2);
+              var mode = workInProgress2.mode;
+              nextPrimaryChildren = mountWorkInProgressOffscreenFiber(
+                { mode: "hidden", children: nextPrimaryChildren },
+                mode
+              );
+              JSCompiler_object_inline_stack_2725 = createFiberFromFragment(
+                JSCompiler_object_inline_stack_2725,
+                mode,
                 renderLanes2,
                 null
-              ), didSuspend.return = workInProgress2, nextProps.return = workInProgress2, didSuspend.sibling = nextProps, workInProgress2.child = didSuspend, nextProps = workInProgress2.child, nextProps.memoizedState = mountSuspenseOffscreenState(renderLanes2), nextProps.childLanes = getRemainingWorkInPrimaryTree(
+              );
+              nextPrimaryChildren.return = workInProgress2;
+              JSCompiler_object_inline_stack_2725.return = workInProgress2;
+              nextPrimaryChildren.sibling = JSCompiler_object_inline_stack_2725;
+              workInProgress2.child = nextPrimaryChildren;
+              JSCompiler_object_inline_stack_2725 = workInProgress2.child;
+              JSCompiler_object_inline_stack_2725.memoizedState = mountSuspenseOffscreenState(renderLanes2);
+              JSCompiler_object_inline_stack_2725.childLanes = getRemainingWorkInPrimaryTree(
                 current3,
-                JSCompiler_temp,
+                JSCompiler_object_inline_digest_2724,
                 renderLanes2
-              ), workInProgress2.memoizedState = SUSPENDED_MARKER, bailoutOffscreenComponent(null, nextProps);
+              );
+              workInProgress2.memoizedState = SUSPENDED_MARKER;
+              return bailoutOffscreenComponent(
+                null,
+                JSCompiler_object_inline_stack_2725
+              );
+            }
             pushPrimaryTreeSuspenseHandler(workInProgress2);
-            return mountSuspensePrimaryChildren(workInProgress2, didSuspend);
+            return mountSuspensePrimaryChildren(
+              workInProgress2,
+              nextPrimaryChildren
+            );
           }
           var prevState = current3.memoizedState;
           if (null !== prevState) {
-            var _dehydrated2 = prevState.dehydrated;
-            if (null !== _dehydrated2)
-              return updateDehydratedSuspenseComponent(
+            var JSCompiler_object_inline_componentStack_2726 = prevState.dehydrated;
+            if (null !== JSCompiler_object_inline_componentStack_2726) {
+              if (didSuspend)
+                workInProgress2.flags & 256 ? (pushPrimaryTreeSuspenseHandler(workInProgress2), workInProgress2.flags &= -257, workInProgress2 = retrySuspenseComponentWithoutHydrating(
+                  current3,
+                  workInProgress2,
+                  renderLanes2
+                )) : null !== workInProgress2.memoizedState ? (reuseSuspenseHandlerOnStack(workInProgress2), workInProgress2.child = current3.child, workInProgress2.flags |= 128, workInProgress2 = null) : (reuseSuspenseHandlerOnStack(workInProgress2), nextPrimaryChildren = JSCompiler_object_inline_stack_2725.fallback, mode = workInProgress2.mode, JSCompiler_object_inline_stack_2725 = mountWorkInProgressOffscreenFiber(
+                  {
+                    mode: "visible",
+                    children: JSCompiler_object_inline_stack_2725.children
+                  },
+                  mode
+                ), nextPrimaryChildren = createFiberFromFragment(
+                  nextPrimaryChildren,
+                  mode,
+                  renderLanes2,
+                  null
+                ), nextPrimaryChildren.flags |= 2, JSCompiler_object_inline_stack_2725.return = workInProgress2, nextPrimaryChildren.return = workInProgress2, JSCompiler_object_inline_stack_2725.sibling = nextPrimaryChildren, workInProgress2.child = JSCompiler_object_inline_stack_2725, reconcileChildFibers(
+                  workInProgress2,
+                  current3.child,
+                  null,
+                  renderLanes2
+                ), JSCompiler_object_inline_stack_2725 = workInProgress2.child, JSCompiler_object_inline_stack_2725.memoizedState = mountSuspenseOffscreenState(renderLanes2), JSCompiler_object_inline_stack_2725.childLanes = getRemainingWorkInPrimaryTree(
+                  current3,
+                  JSCompiler_object_inline_digest_2724,
+                  renderLanes2
+                ), workInProgress2.memoizedState = SUSPENDED_MARKER, workInProgress2 = bailoutOffscreenComponent(
+                  null,
+                  JSCompiler_object_inline_stack_2725
+                ));
+              else if (pushPrimaryTreeSuspenseHandler(workInProgress2), warnIfHydrating(), 0 !== (renderLanes2 & 536870912) && markRenderDerivedCause(workInProgress2), isSuspenseInstanceFallback(
+                JSCompiler_object_inline_componentStack_2726
+              )) {
+                JSCompiler_object_inline_digest_2724 = JSCompiler_object_inline_componentStack_2726.nextSibling && JSCompiler_object_inline_componentStack_2726.nextSibling.dataset;
+                if (JSCompiler_object_inline_digest_2724) {
+                  nextPrimaryChildren = JSCompiler_object_inline_digest_2724.dgst;
+                  var message = JSCompiler_object_inline_digest_2724.msg;
+                  mode = JSCompiler_object_inline_digest_2724.stck;
+                  var componentStack = JSCompiler_object_inline_digest_2724.cstck;
+                }
+                JSCompiler_object_inline_message_2723 = message;
+                JSCompiler_object_inline_digest_2724 = nextPrimaryChildren;
+                JSCompiler_object_inline_stack_2725 = mode;
+                JSCompiler_object_inline_componentStack_2726 = componentStack;
+                nextPrimaryChildren = JSCompiler_object_inline_message_2723;
+                mode = JSCompiler_object_inline_componentStack_2726;
+                nextPrimaryChildren = nextPrimaryChildren ? Error(nextPrimaryChildren) : Error(
+                  "The server could not finish this Suspense boundary, likely due to an error during server rendering. Switched to client rendering."
+                );
+                nextPrimaryChildren.stack = JSCompiler_object_inline_stack_2725 || "";
+                nextPrimaryChildren.digest = JSCompiler_object_inline_digest_2724;
+                JSCompiler_object_inline_digest_2724 = void 0 === mode ? null : mode;
+                JSCompiler_object_inline_stack_2725 = {
+                  value: nextPrimaryChildren,
+                  source: null,
+                  stack: JSCompiler_object_inline_digest_2724
+                };
+                "string" === typeof JSCompiler_object_inline_digest_2724 && CapturedStacks.set(
+                  nextPrimaryChildren,
+                  JSCompiler_object_inline_stack_2725
+                );
+                queueHydrationError(JSCompiler_object_inline_stack_2725);
+                workInProgress2 = retrySuspenseComponentWithoutHydrating(
+                  current3,
+                  workInProgress2,
+                  renderLanes2
+                );
+              } else if (didReceiveUpdate || propagateParentContextChanges(
                 current3,
                 workInProgress2,
-                didSuspend,
-                JSCompiler_temp,
-                nextProps,
-                _dehydrated2,
-                prevState,
-                renderLanes2
-              );
+                renderLanes2,
+                false
+              ), JSCompiler_object_inline_digest_2724 = 0 !== (renderLanes2 & current3.childLanes), didReceiveUpdate || JSCompiler_object_inline_digest_2724) {
+                JSCompiler_object_inline_digest_2724 = workInProgressRoot;
+                if (null !== JSCompiler_object_inline_digest_2724 && (JSCompiler_object_inline_stack_2725 = getBumpedLaneForHydration(
+                  JSCompiler_object_inline_digest_2724,
+                  renderLanes2
+                ), 0 !== JSCompiler_object_inline_stack_2725 && JSCompiler_object_inline_stack_2725 !== prevState.retryLane))
+                  throw prevState.retryLane = JSCompiler_object_inline_stack_2725, enqueueConcurrentRenderForLane(
+                    current3,
+                    JSCompiler_object_inline_stack_2725
+                  ), scheduleUpdateOnFiber(
+                    JSCompiler_object_inline_digest_2724,
+                    current3,
+                    JSCompiler_object_inline_stack_2725
+                  ), SelectiveHydrationException;
+                isSuspenseInstancePending(
+                  JSCompiler_object_inline_componentStack_2726
+                ) || renderDidSuspendDelayIfPossible();
+                workInProgress2 = retrySuspenseComponentWithoutHydrating(
+                  current3,
+                  workInProgress2,
+                  renderLanes2
+                );
+              } else
+                isSuspenseInstancePending(
+                  JSCompiler_object_inline_componentStack_2726
+                ) ? (workInProgress2.flags |= 192, workInProgress2.child = current3.child, workInProgress2 = null) : (current3 = prevState.treeContext, nextHydratableInstance = getNextHydratable(
+                  JSCompiler_object_inline_componentStack_2726.nextSibling
+                ), hydrationParentFiber = workInProgress2, isHydrating = true, hydrationErrors = null, didSuspendOrErrorDEV = false, hydrationDiffRootDEV = null, rootOrSingletonContext = false, null !== current3 && restoreSuspendedTreeContext(workInProgress2, current3), workInProgress2 = mountSuspensePrimaryChildren(
+                  workInProgress2,
+                  JSCompiler_object_inline_stack_2725.children
+                ), workInProgress2.flags |= 4096);
+              return workInProgress2;
+            }
           }
-          if (showFallback)
-            return reuseSuspenseHandlerOnStack(workInProgress2), showFallback = nextProps.fallback, didSuspend = workInProgress2.mode, prevState = current3.child, _dehydrated2 = prevState.sibling, nextProps = createWorkInProgress(prevState, {
-              mode: "hidden",
-              children: nextProps.children
-            }), nextProps.subtreeFlags = prevState.subtreeFlags & 1206910976, null !== _dehydrated2 ? showFallback = createWorkInProgress(_dehydrated2, showFallback) : (showFallback = createFiberFromFragment(
-              showFallback,
-              didSuspend,
+          if (JSCompiler_object_inline_message_2723)
+            return reuseSuspenseHandlerOnStack(workInProgress2), nextPrimaryChildren = JSCompiler_object_inline_stack_2725.fallback, mode = workInProgress2.mode, componentStack = current3.child, JSCompiler_object_inline_componentStack_2726 = componentStack.sibling, JSCompiler_object_inline_stack_2725 = createWorkInProgress(
+              componentStack,
+              {
+                mode: "hidden",
+                children: JSCompiler_object_inline_stack_2725.children
+              }
+            ), JSCompiler_object_inline_stack_2725.subtreeFlags = componentStack.subtreeFlags & 65011712, null !== JSCompiler_object_inline_componentStack_2726 ? nextPrimaryChildren = createWorkInProgress(
+              JSCompiler_object_inline_componentStack_2726,
+              nextPrimaryChildren
+            ) : (nextPrimaryChildren = createFiberFromFragment(
+              nextPrimaryChildren,
+              mode,
               renderLanes2,
               null
-            ), showFallback.flags |= 2), showFallback.return = workInProgress2, nextProps.return = workInProgress2, nextProps.sibling = showFallback, workInProgress2.child = nextProps, bailoutOffscreenComponent(null, nextProps), nextProps = workInProgress2.child, showFallback = current3.child.memoizedState, null === showFallback ? showFallback = mountSuspenseOffscreenState(renderLanes2) : (didSuspend = showFallback.cachePool, null !== didSuspend ? (prevState = CacheContext._currentValue, didSuspend = didSuspend.parent !== prevState ? { parent: prevState, pool: prevState } : didSuspend) : didSuspend = getSuspendedCache(), showFallback = {
-              baseLanes: showFallback.baseLanes | renderLanes2,
-              cachePool: didSuspend
-            }), nextProps.memoizedState = showFallback, nextProps.childLanes = getRemainingWorkInPrimaryTree(
+            ), nextPrimaryChildren.flags |= 2), nextPrimaryChildren.return = workInProgress2, JSCompiler_object_inline_stack_2725.return = workInProgress2, JSCompiler_object_inline_stack_2725.sibling = nextPrimaryChildren, workInProgress2.child = JSCompiler_object_inline_stack_2725, bailoutOffscreenComponent(null, JSCompiler_object_inline_stack_2725), JSCompiler_object_inline_stack_2725 = workInProgress2.child, nextPrimaryChildren = current3.child.memoizedState, null === nextPrimaryChildren ? nextPrimaryChildren = mountSuspenseOffscreenState(renderLanes2) : (mode = nextPrimaryChildren.cachePool, null !== mode ? (componentStack = CacheContext._currentValue, mode = mode.parent !== componentStack ? { parent: componentStack, pool: componentStack } : mode) : mode = getSuspendedCache(), nextPrimaryChildren = {
+              baseLanes: nextPrimaryChildren.baseLanes | renderLanes2,
+              cachePool: mode
+            }), JSCompiler_object_inline_stack_2725.memoizedState = nextPrimaryChildren, JSCompiler_object_inline_stack_2725.childLanes = getRemainingWorkInPrimaryTree(
               current3,
-              JSCompiler_temp,
+              JSCompiler_object_inline_digest_2724,
               renderLanes2
-            ), workInProgress2.memoizedState = SUSPENDED_MARKER, bailoutOffscreenComponent(current3.child, nextProps);
+            ), workInProgress2.memoizedState = SUSPENDED_MARKER, bailoutOffscreenComponent(
+              current3.child,
+              JSCompiler_object_inline_stack_2725
+            );
           null !== prevState && (renderLanes2 & 62914560) === renderLanes2 && 0 !== (renderLanes2 & current3.lanes) && markRenderDerivedCause(workInProgress2);
           pushPrimaryTreeSuspenseHandler(workInProgress2);
           renderLanes2 = current3.child;
           current3 = renderLanes2.sibling;
           renderLanes2 = createWorkInProgress(renderLanes2, {
             mode: "visible",
-            children: nextProps.children
+            children: JSCompiler_object_inline_stack_2725.children
           });
           renderLanes2.return = workInProgress2;
           renderLanes2.sibling = null;
-          null !== current3 && (JSCompiler_temp = workInProgress2.deletions, null === JSCompiler_temp ? (workInProgress2.deletions = [current3], workInProgress2.flags |= 16) : JSCompiler_temp.push(current3));
+          null !== current3 && (JSCompiler_object_inline_digest_2724 = workInProgress2.deletions, null === JSCompiler_object_inline_digest_2724 ? (workInProgress2.deletions = [current3], workInProgress2.flags |= 16) : JSCompiler_object_inline_digest_2724.push(current3));
           workInProgress2.child = renderLanes2;
           workInProgress2.memoizedState = null;
           return renderLanes2;
@@ -9569,119 +9369,6 @@
           workInProgress2.memoizedState = null;
           return current3;
         }
-        function updateDehydratedSuspenseComponent(current3, workInProgress2, didSuspend, didPrimaryChildrenDefer, nextProps, suspenseInstance, suspenseState, renderLanes2) {
-          if (didSuspend) {
-            if (workInProgress2.flags & 256)
-              return pushPrimaryTreeSuspenseHandler(workInProgress2), workInProgress2.flags &= -257, retrySuspenseComponentWithoutHydrating(
-                current3,
-                workInProgress2,
-                renderLanes2
-              );
-            if (null !== workInProgress2.memoizedState)
-              return reuseSuspenseHandlerOnStack(workInProgress2), workInProgress2.child = current3.child, workInProgress2.flags |= 128, null;
-            reuseSuspenseHandlerOnStack(workInProgress2);
-            var fallbackChildren = nextProps.fallback, fiberMode = workInProgress2.mode, primaryChildFragment = mountWorkInProgressOffscreenFiber(
-              { mode: "visible", children: nextProps.children },
-              fiberMode
-            );
-            fallbackChildren = createFiberFromFragment(
-              fallbackChildren,
-              fiberMode,
-              renderLanes2,
-              null
-            );
-            fallbackChildren.flags |= 2;
-            primaryChildFragment.return = workInProgress2;
-            fallbackChildren.return = workInProgress2;
-            primaryChildFragment.sibling = fallbackChildren;
-            workInProgress2.child = primaryChildFragment;
-            reconcileChildFibers(workInProgress2, current3.child, null, renderLanes2);
-            fallbackChildren = workInProgress2.child;
-            fallbackChildren.memoizedState = mountSuspenseOffscreenState(renderLanes2);
-            fallbackChildren.childLanes = getRemainingWorkInPrimaryTree(
-              current3,
-              didPrimaryChildrenDefer,
-              renderLanes2
-            );
-            workInProgress2.memoizedState = SUSPENDED_MARKER;
-            return bailoutOffscreenComponent(null, fallbackChildren);
-          }
-          pushPrimaryTreeSuspenseHandler(workInProgress2);
-          warnIfHydrating();
-          0 !== (renderLanes2 & 536870912) && markRenderDerivedCause(workInProgress2);
-          if (isSuspenseInstanceFallback(suspenseInstance)) {
-            didPrimaryChildrenDefer = suspenseInstance.nextSibling && suspenseInstance.nextSibling.dataset;
-            if (didPrimaryChildrenDefer) {
-              fallbackChildren = didPrimaryChildrenDefer.dgst;
-              var message = didPrimaryChildrenDefer.msg;
-              fiberMode = didPrimaryChildrenDefer.stck;
-              primaryChildFragment = didPrimaryChildrenDefer.cstck;
-            }
-            suspenseInstance = message;
-            suspenseState = fallbackChildren;
-            nextProps = fiberMode;
-            didPrimaryChildrenDefer = primaryChildFragment;
-            fallbackChildren = suspenseState;
-            fiberMode = suspenseInstance;
-            primaryChildFragment = nextProps;
-            nextProps = didPrimaryChildrenDefer;
-            fallbackChildren !== REACT_RECOVERABLE_DIGEST && (didPrimaryChildrenDefer = fiberMode ? Error(fiberMode) : Error(
-              "The server could not finish this Suspense boundary, likely due to an error during server rendering. Switched to client rendering."
-            ), didPrimaryChildrenDefer.stack = primaryChildFragment || "", didPrimaryChildrenDefer.digest = fallbackChildren, fallbackChildren = void 0 === nextProps ? null : nextProps, fiberMode = {
-              value: didPrimaryChildrenDefer,
-              source: null,
-              stack: fallbackChildren
-            }, "string" === typeof fallbackChildren && CapturedStacks.set(didPrimaryChildrenDefer, fiberMode), queueHydrationError(fiberMode));
-            return retrySuspenseComponentWithoutHydrating(
-              current3,
-              workInProgress2,
-              renderLanes2
-            );
-          }
-          didReceiveUpdate || propagateParentContextChanges(current3, workInProgress2, renderLanes2, false);
-          didPrimaryChildrenDefer = 0 !== (renderLanes2 & current3.childLanes);
-          if (didReceiveUpdate || didPrimaryChildrenDefer) {
-            if (null !== currentTreeHiddenStackCursor.current)
-              return retrySuspenseComponentWithoutHydrating(
-                current3,
-                workInProgress2,
-                renderLanes2
-              );
-            didPrimaryChildrenDefer = workInProgressRoot;
-            if (null !== didPrimaryChildrenDefer && (fallbackChildren = getBumpedLaneForHydration(
-              didPrimaryChildrenDefer,
-              renderLanes2
-            ), 0 !== fallbackChildren && fallbackChildren !== suspenseState.retryLane))
-              throw suspenseState.retryLane = fallbackChildren, enqueueConcurrentRenderForLane(current3, fallbackChildren), scheduleUpdateOnFiber(
-                didPrimaryChildrenDefer,
-                current3,
-                fallbackChildren
-              ), SelectiveHydrationException;
-            isSuspenseInstancePending(suspenseInstance) || renderDidSuspendDelayIfPossible();
-            return retrySuspenseComponentWithoutHydrating(
-              current3,
-              workInProgress2,
-              renderLanes2
-            );
-          }
-          if (isSuspenseInstancePending(suspenseInstance))
-            return workInProgress2.flags |= 192, workInProgress2.child = current3.child, null;
-          current3 = suspenseState.treeContext;
-          nextHydratableInstance = getNextHydratable(suspenseInstance.nextSibling);
-          hydrationParentFiber = workInProgress2;
-          isHydrating = true;
-          hydrationErrors = null;
-          didSuspendOrErrorDEV = false;
-          hydrationDiffRootDEV = null;
-          rootOrSingletonContext = false;
-          null !== current3 && restoreSuspendedTreeContext(workInProgress2, current3);
-          workInProgress2 = mountSuspensePrimaryChildren(
-            workInProgress2,
-            nextProps.children
-          );
-          workInProgress2.flags |= 134221824;
-          return workInProgress2;
-        }
         function scheduleSuspenseWorkOnFiber(fiber, renderLanes2, propagationRoot) {
           fiber.lanes |= renderLanes2;
           var alternate = fiber.alternate;
@@ -9691,14 +9378,6 @@
             renderLanes2,
             propagationRoot
           );
-        }
-        function findLastContentRow(firstChild) {
-          for (var lastContentRow = null; null !== firstChild; ) {
-            var currentRow = firstChild.alternate;
-            null !== currentRow && null === findFirstSuspended(currentRow) && (lastContentRow = firstChild);
-            firstChild = firstChild.sibling;
-          }
-          return lastContentRow;
         }
         function initSuspenseListRenderState(workInProgress2, isBackwards, tail, lastContentRow, tailMode, treeForkCount2) {
           var renderState = workInProgress2.memoizedState;
@@ -9712,24 +9391,21 @@
             treeForkCount: treeForkCount2
           } : (renderState.isBackwards = isBackwards, renderState.rendering = null, renderState.renderingStartTime = 0, renderState.last = lastContentRow, renderState.tail = tail, renderState.tailMode = tailMode, renderState.treeForkCount = treeForkCount2);
         }
-        function reverseChildren(fiber) {
-          var row = fiber.child;
-          for (fiber.child = null; null !== row; ) {
-            var nextRow = row.sibling;
-            row.sibling = fiber.child;
-            fiber.child = row;
-            row = nextRow;
-          }
-        }
         function updateSuspenseListComponent(current3, workInProgress2, renderLanes2) {
           var nextProps = workInProgress2.pendingProps, revealOrder = nextProps.revealOrder, tailMode = nextProps.tail, newChildren = nextProps.children, suspenseContext = suspenseStackCursor.current;
-          if (workInProgress2.flags & 128)
-            return pushSuspenseListContext(workInProgress2, suspenseContext), null;
           (nextProps = 0 !== (suspenseContext & ForceSuspenseFallback)) ? (suspenseContext = suspenseContext & SubtreeSuspenseContextMask | ForceSuspenseFallback, workInProgress2.flags |= 128) : suspenseContext &= SubtreeSuspenseContextMask;
-          pushSuspenseListContext(workInProgress2, suspenseContext);
+          push(suspenseStackCursor, suspenseContext, workInProgress2);
           suspenseContext = null == revealOrder ? "null" : revealOrder;
-          if (null != revealOrder && "forwards" !== revealOrder && "backwards" !== revealOrder && "unstable_legacy-backwards" !== revealOrder && "together" !== revealOrder && "independent" !== revealOrder && !didWarnAboutRevealOrder[suspenseContext])
-            if (didWarnAboutRevealOrder[suspenseContext] = true, "string" === typeof revealOrder)
+          if ("forwards" !== revealOrder && "unstable_legacy-backwards" !== revealOrder && "together" !== revealOrder && "independent" !== revealOrder && !didWarnAboutRevealOrder[suspenseContext])
+            if (didWarnAboutRevealOrder[suspenseContext] = true, null == revealOrder)
+              console.error(
+                'The default for the <SuspenseList revealOrder="..."> prop is changing. To be future compatible you must explictly specify either "independent" (the current default), "together", "forwards" or "legacy_unstable-backwards".'
+              );
+            else if ("backwards" === revealOrder)
+              console.error(
+                'The rendering order of <SuspenseList revealOrder="backwards"> is changing. To be future compatible you must specify revealOrder="legacy_unstable-backwards" instead.'
+              );
+            else if ("string" === typeof revealOrder)
               switch (revealOrder.toLowerCase()) {
                 case "together":
                 case "forwards":
@@ -9761,14 +9437,21 @@
                 revealOrder
               );
           suspenseContext = null == tailMode ? "null" : tailMode;
-          didWarnAboutTailOptions[suspenseContext] || null == tailMode || ("visible" !== tailMode && "collapsed" !== tailMode && "hidden" !== tailMode ? (didWarnAboutTailOptions[suspenseContext] = true, console.error(
-            '"%s" is not a supported value for tail on <SuspenseList />. Did you mean "visible", "collapsed" or "hidden"?',
-            tailMode
-          )) : null != revealOrder && "forwards" !== revealOrder && "backwards" !== revealOrder && "unstable_legacy-backwards" !== revealOrder && (didWarnAboutTailOptions[suspenseContext] = true, console.error(
-            '<SuspenseList tail="%s" /> is only valid if revealOrder is "forwards" (default) or "backwards". Did you mean to specify revealOrder="forwards"?',
-            tailMode
-          )));
-          a: if ((null == revealOrder || "forwards" === revealOrder || "backwards" === revealOrder || "unstable_legacy-backwards" === revealOrder) && void 0 !== newChildren && null !== newChildren && false !== newChildren)
+          if (!didWarnAboutTailOptions[suspenseContext])
+            if (null == tailMode) {
+              if ("forwards" === revealOrder || "backwards" === revealOrder || "unstable_legacy-backwards" === revealOrder)
+                didWarnAboutTailOptions[suspenseContext] = true, console.error(
+                  'The default for the <SuspenseList tail="..."> prop is changing. To be future compatible you must explictly specify either "visible" (the current default), "collapsed" or "hidden".'
+                );
+            } else
+              "visible" !== tailMode && "collapsed" !== tailMode && "hidden" !== tailMode ? (didWarnAboutTailOptions[suspenseContext] = true, console.error(
+                '"%s" is not a supported value for tail on <SuspenseList />. Did you mean "visible", "collapsed" or "hidden"?',
+                tailMode
+              )) : "forwards" !== revealOrder && "backwards" !== revealOrder && "unstable_legacy-backwards" !== revealOrder && (didWarnAboutTailOptions[suspenseContext] = true, console.error(
+                '<SuspenseList tail="%s" /> is only valid if revealOrder is "forwards" or "backwards". Did you mean to specify revealOrder="forwards"?',
+                tailMode
+              ));
+          a: if (("forwards" === revealOrder || "backwards" === revealOrder || "unstable_legacy-backwards" === revealOrder) && void 0 !== newChildren && null !== newChildren && false !== newChildren)
             if (isArrayImpl(newChildren))
               for (suspenseContext = 0; suspenseContext < newChildren.length; suspenseContext++) {
                 if (!validateSuspenseListNestedChild(
@@ -9788,7 +9471,7 @@
                 'A single row was passed to a <SuspenseList revealOrder="%s" />. This is not useful since it needs multiple rows. Did you mean to pass multiple children or an array?',
                 revealOrder
               );
-          "backwards" === revealOrder && null !== current3 ? (reverseChildren(current3), reconcileChildren(current3, workInProgress2, newChildren, renderLanes2), reverseChildren(current3)) : reconcileChildren(current3, workInProgress2, newChildren, renderLanes2);
+          reconcileChildren(current3, workInProgress2, newChildren, renderLanes2);
           isHydrating ? (warnIfNotHydrating(), newChildren = treeForkCount) : newChildren = 0;
           if (!nextProps && null !== current3 && 0 !== (current3.flags & 128))
             a: for (current3 = workInProgress2.child; null !== current3; ) {
@@ -9811,18 +9494,22 @@
               current3 = current3.sibling;
             }
           switch (revealOrder) {
-            case "backwards":
-              renderLanes2 = findLastContentRow(workInProgress2.child);
-              null === renderLanes2 ? (revealOrder = workInProgress2.child, workInProgress2.child = null) : (revealOrder = renderLanes2.sibling, renderLanes2.sibling = null, reverseChildren(workInProgress2));
+            case "forwards":
+              renderLanes2 = workInProgress2.child;
+              for (revealOrder = null; null !== renderLanes2; )
+                current3 = renderLanes2.alternate, null !== current3 && null === findFirstSuspended(current3) && (revealOrder = renderLanes2), renderLanes2 = renderLanes2.sibling;
+              renderLanes2 = revealOrder;
+              null === renderLanes2 ? (revealOrder = workInProgress2.child, workInProgress2.child = null) : (revealOrder = renderLanes2.sibling, renderLanes2.sibling = null);
               initSuspenseListRenderState(
                 workInProgress2,
-                true,
+                false,
                 revealOrder,
-                null,
+                renderLanes2,
                 tailMode,
                 newChildren
               );
               break;
+            case "backwards":
             case "unstable_legacy-backwards":
               renderLanes2 = null;
               revealOrder = workInProgress2.child;
@@ -9856,33 +9543,9 @@
                 newChildren
               );
               break;
-            case "independent":
-              workInProgress2.memoizedState = null;
-              break;
             default:
-              renderLanes2 = findLastContentRow(workInProgress2.child), null === renderLanes2 ? (revealOrder = workInProgress2.child, workInProgress2.child = null) : (revealOrder = renderLanes2.sibling, renderLanes2.sibling = null), initSuspenseListRenderState(
-                workInProgress2,
-                false,
-                revealOrder,
-                renderLanes2,
-                tailMode,
-                newChildren
-              );
+              workInProgress2.memoizedState = null;
           }
-          return workInProgress2.child;
-        }
-        function updateContextProvider(current3, workInProgress2, renderLanes2) {
-          var context = workInProgress2.type, newProps = workInProgress2.pendingProps, newValue = newProps.value;
-          "value" in newProps || hasWarnedAboutUsingNoValuePropOnContextProvider || (hasWarnedAboutUsingNoValuePropOnContextProvider = true, console.error(
-            "The `value` prop is required for the `<Context.Provider>`. Did you misspell it or forget to pass it?"
-          ));
-          pushProvider(workInProgress2, context, newValue);
-          reconcileChildren(
-            current3,
-            workInProgress2,
-            newProps.children,
-            renderLanes2
-          );
           return workInProgress2.child;
         }
         function bailoutOnAlreadyFinishedWork(current3, workInProgress2, renderLanes2) {
@@ -9963,14 +9626,7 @@
               if (null !== stateNode) {
                 if (null !== stateNode.dehydrated)
                   return pushPrimaryTreeSuspenseHandler(workInProgress2), workInProgress2.flags |= 128, null;
-                stateNode = propagateParentContextChanges(
-                  current3,
-                  workInProgress2,
-                  renderLanes2,
-                  false
-                );
-                var primaryChildLanes = workInProgress2.child.childLanes;
-                if (stateNode || 0 !== (renderLanes2 & primaryChildLanes))
+                if (0 !== (renderLanes2 & workInProgress2.child.childLanes))
                   return updateSuspenseComponent(
                     current3,
                     workInProgress2,
@@ -9987,13 +9643,7 @@
               pushPrimaryTreeSuspenseHandler(workInProgress2);
               break;
             case 19:
-              if (workInProgress2.flags & 128)
-                return updateSuspenseListComponent(
-                  current3,
-                  workInProgress2,
-                  renderLanes2
-                );
-              primaryChildLanes = 0 !== (current3.flags & 128);
+              var didSuspendBefore = 0 !== (current3.flags & 128);
               stateNode = 0 !== (renderLanes2 & workInProgress2.childLanes);
               stateNode || (propagateParentContextChanges(
                 current3,
@@ -10001,7 +9651,7 @@
                 renderLanes2,
                 false
               ), stateNode = 0 !== (renderLanes2 & workInProgress2.childLanes));
-              if (primaryChildLanes) {
+              if (didSuspendBefore) {
                 if (stateNode)
                   return updateSuspenseListComponent(
                     current3,
@@ -10010,9 +9660,13 @@
                   );
                 workInProgress2.flags |= 128;
               }
-              primaryChildLanes = workInProgress2.memoizedState;
-              null !== primaryChildLanes && (primaryChildLanes.rendering = null, primaryChildLanes.tail = null, primaryChildLanes.lastEffect = null);
-              pushSuspenseListContext(workInProgress2, suspenseStackCursor.current);
+              didSuspendBefore = workInProgress2.memoizedState;
+              null !== didSuspendBefore && (didSuspendBefore.rendering = null, didSuspendBefore.tail = null, didSuspendBefore.lastEffect = null);
+              push(
+                suspenseStackCursor,
+                suspenseStackCursor.current,
+                workInProgress2
+              );
               if (stateNode) break;
               else return null;
             case 22:
@@ -10034,7 +9688,7 @@
         function beginWork(current3, workInProgress2, renderLanes2) {
           if (workInProgress2._debugNeedsRemount && null !== current3) {
             renderLanes2 = createFiberFromTypeAndProps(
-              resolveTypeForHotReloading(workInProgress2.elementType),
+              workInProgress2.type,
               workInProgress2.key,
               workInProgress2.pendingProps,
               workInProgress2._debugOwner || null,
@@ -10065,7 +9719,7 @@
             }
             workInProgress2 = returnFiber.deletions;
             null === workInProgress2 ? (returnFiber.deletions = [current3], returnFiber.flags |= 16) : workInProgress2.push(current3);
-            renderLanes2.flags |= 134217730;
+            renderLanes2.flags |= 2;
             return renderLanes2;
           }
           if (null !== current3)
@@ -10089,17 +9743,17 @@
           workInProgress2.lanes = 0;
           switch (workInProgress2.tag) {
             case 16:
-              a: if (returnFiber = workInProgress2.pendingProps, current3 = resolveLazy(workInProgress2.elementType), current3 = resolveTypeForHotReloading(current3), workInProgress2.type = current3, "function" === typeof current3)
+              a: if (returnFiber = workInProgress2.pendingProps, current3 = resolveLazy(workInProgress2.elementType), workInProgress2.type = current3, "function" === typeof current3)
                 shouldConstruct(current3) ? (returnFiber = resolveClassComponentProps(
                   current3,
                   returnFiber
-                ), workInProgress2.tag = 1, workInProgress2 = updateClassComponent(
+                ), workInProgress2.tag = 1, workInProgress2.type = current3 = resolveFunctionForHotReloading(current3), workInProgress2 = updateClassComponent(
                   null,
                   workInProgress2,
                   current3,
                   returnFiber,
                   renderLanes2
-                )) : (workInProgress2.tag = 0, validateFunctionComponentInDev(workInProgress2, current3), workInProgress2 = updateFunctionComponent(
+                )) : (workInProgress2.tag = 0, validateFunctionComponentInDev(workInProgress2, current3), workInProgress2.type = current3 = resolveFunctionForHotReloading(current3), workInProgress2 = updateFunctionComponent(
                   null,
                   workInProgress2,
                   current3,
@@ -10110,6 +9764,7 @@
                 if (void 0 !== current3 && null !== current3) {
                   if (prevSibling = current3.$$typeof, prevSibling === REACT_FORWARD_REF_TYPE2) {
                     workInProgress2.tag = 11;
+                    workInProgress2.type = current3 = resolveForwardRefForHotReloading(current3);
                     workInProgress2 = updateForwardRef(
                       null,
                       workInProgress2,
@@ -10125,15 +9780,6 @@
                       workInProgress2,
                       current3,
                       returnFiber,
-                      renderLanes2
-                    );
-                    break a;
-                  } else if (prevSibling === REACT_CONTEXT_TYPE) {
-                    workInProgress2.tag = 10;
-                    workInProgress2.type = current3;
-                    workInProgress2 = updateContextProvider(
-                      null,
-                      workInProgress2,
                       renderLanes2
                     );
                     break a;
@@ -10243,7 +9889,7 @@
                       renderLanes2
                     );
                     for (workInProgress2.child = renderLanes2; renderLanes2; )
-                      renderLanes2.flags = renderLanes2.flags & -3 | 134221824, renderLanes2 = renderLanes2.sibling;
+                      renderLanes2.flags = renderLanes2.flags & -3 | 4096, renderLanes2 = renderLanes2.sibling;
                   }
                 else {
                   resetHydrationState();
@@ -10271,12 +9917,11 @@
                 null,
                 workInProgress2.pendingProps,
                 null
-              )) ? workInProgress2.memoizedState = renderLanes2 : isHydrating || (workInProgress2.stateNode = createHoistableInstance(
-                workInProgress2.type,
-                workInProgress2.pendingProps,
-                requiredContext(rootInstanceStackCursor.current),
-                workInProgress2
-              )) : workInProgress2.memoizedState = getResource(
+              )) ? workInProgress2.memoizedState = renderLanes2 : isHydrating || (renderLanes2 = workInProgress2.type, current3 = workInProgress2.pendingProps, returnFiber = requiredContext(
+                rootInstanceStackCursor.current
+              ), returnFiber = getOwnerDocumentFromRootContainer(
+                returnFiber
+              ).createElement(renderLanes2), returnFiber[internalInstanceKey] = workInProgress2, returnFiber[internalPropsKey] = current3, setInitialProperties(returnFiber, renderLanes2, current3), markNodeAsHoistable(returnFiber), workInProgress2.stateNode = returnFiber) : workInProgress2.memoizedState = getResource(
                 workInProgress2.type,
                 current3.memoizedProps,
                 workInProgress2.pendingProps,
@@ -10367,10 +10012,10 @@
                 renderLanes2
               );
             case 7:
-              return returnFiber = workInProgress2.pendingProps, markRef(current3, workInProgress2), reconcileChildren(
+              return reconcileChildren(
                 current3,
                 workInProgress2,
-                returnFiber,
+                workInProgress2.pendingProps,
                 renderLanes2
               ), workInProgress2.child;
             case 8:
@@ -10388,7 +10033,14 @@
                 renderLanes2
               ), workInProgress2.child;
             case 10:
-              return updateContextProvider(current3, workInProgress2, renderLanes2);
+              return returnFiber = workInProgress2.type, prevSibling = workInProgress2.pendingProps, prevState = prevSibling.value, "value" in prevSibling || hasWarnedAboutUsingNoValuePropOnContextProvider || (hasWarnedAboutUsingNoValuePropOnContextProvider = true, console.error(
+                "The `value` prop is required for the `<Context.Provider>`. Did you misspell it or forget to pass it?"
+              )), pushProvider(workInProgress2, returnFiber, prevState), reconcileChildren(
+                current3,
+                workInProgress2,
+                prevSibling.children,
+                renderLanes2
+              ), workInProgress2.child;
             case 9:
               return prevSibling = workInProgress2.type._context, returnFiber = workInProgress2.pendingProps.children, "function" !== typeof returnFiber && console.error(
                 "A context consumer was rendered with multiple children, or a child that isn't a function. A context consumer expects a single child that is a function. If you did pass a function, make sure there is no trailing or leading whitespace around it."
@@ -10451,24 +10103,6 @@
                 workInProgress2.pendingProps.children,
                 renderLanes2
               ), workInProgress2.child;
-            case 30:
-              return null === workInProgress2.stateNode && (workInProgress2.stateNode = {
-                autoName: null,
-                paired: null,
-                clones: null,
-                ref: null
-              }), returnFiber = workInProgress2.pendingProps, null != returnFiber.name && "auto" !== returnFiber.name ? workInProgress2.flags |= null === current3 ? 18882560 : 18874368 : isHydrating && pushMaterializedTreeId(workInProgress2), void 0 !== returnFiber.className && (prevSibling = "string" === typeof returnFiber.className ? JSON.stringify(returnFiber.className) : "{...}", didWarnAboutClassNameOnViewTransition[prevSibling] || (didWarnAboutClassNameOnViewTransition[prevSibling] = true, console.error(
-                `<ViewTransition> doesn't accept a "className" prop. It has been renamed to "default".
--   <ViewTransition className=%s>
-+   <ViewTransition default=%s>`,
-                prevSibling,
-                prevSibling
-              ))), null !== current3 && current3.memoizedProps.name !== returnFiber.name ? workInProgress2.flags |= 4194816 : markRef(current3, workInProgress2), reconcileChildren(
-                current3,
-                workInProgress2,
-                returnFiber.children,
-                renderLanes2
-              ), workInProgress2.child;
             case 29:
               throw workInProgress2.pendingProps;
           }
@@ -10480,10 +10114,9 @@
           workInProgress2.flags |= 4;
         }
         function preloadInstanceAndSuspendIfNeeded(workInProgress2, type, oldProps, newProps, renderLanes2) {
-          var JSCompiler_temp;
-          if (JSCompiler_temp = (workInProgress2.mode & SuspenseyImagesMode) !== NoMode)
-            JSCompiler_temp = null === oldProps ? maySuspendCommit(type, newProps) : maySuspendCommit(type, newProps) && (newProps.src !== oldProps.src || newProps.srcSet !== oldProps.srcSet);
-          if (JSCompiler_temp) {
+          if (type = (workInProgress2.mode & SuspenseyImagesMode) !== NoMode)
+            type = false;
+          if (type) {
             if (workInProgress2.flags |= 16777216, (renderLanes2 & 335544128) === renderLanes2)
               if (workInProgress2.stateNode.complete) workInProgress2.flags |= 8192;
               else if (shouldRemainOnPreviousScreen()) workInProgress2.flags |= 8192;
@@ -10506,18 +10139,17 @@
         function cutOffTailIfNeeded(renderState, hasRenderedATailFallback) {
           if (!isHydrating)
             switch (renderState.tailMode) {
-              case "visible":
+              case "hidden":
+                hasRenderedATailFallback = renderState.tail;
+                for (var lastTailNode = null; null !== hasRenderedATailFallback; )
+                  null !== hasRenderedATailFallback.alternate && (lastTailNode = hasRenderedATailFallback), hasRenderedATailFallback = hasRenderedATailFallback.sibling;
+                null === lastTailNode ? renderState.tail = null : lastTailNode.sibling = null;
                 break;
               case "collapsed":
-                for (var tailNode = renderState.tail, lastTailNode = null; null !== tailNode; )
-                  null !== tailNode.alternate && (lastTailNode = tailNode), tailNode = tailNode.sibling;
-                null === lastTailNode ? hasRenderedATailFallback || null === renderState.tail ? renderState.tail = null : renderState.tail.sibling = null : lastTailNode.sibling = null;
-                break;
-              default:
-                hasRenderedATailFallback = renderState.tail;
-                for (tailNode = null; null !== hasRenderedATailFallback; )
-                  null !== hasRenderedATailFallback.alternate && (tailNode = hasRenderedATailFallback), hasRenderedATailFallback = hasRenderedATailFallback.sibling;
-                null === tailNode ? renderState.tail = null : tailNode.sibling = null;
+                lastTailNode = renderState.tail;
+                for (var _lastTailNode = null; null !== lastTailNode; )
+                  null !== lastTailNode.alternate && (_lastTailNode = lastTailNode), lastTailNode = lastTailNode.sibling;
+                null === _lastTailNode ? hasRenderedATailFallback || null === renderState.tail ? renderState.tail = null : renderState.tail.sibling = null : _lastTailNode.sibling = null;
             }
         }
         function bubbleProperties(completedWork) {
@@ -10525,16 +10157,16 @@
           if (didBailout)
             if ((completedWork.mode & ProfileMode) !== NoMode) {
               for (var _treeBaseDuration = completedWork.selfBaseDuration, _child2 = completedWork.child; null !== _child2; )
-                newChildLanes |= _child2.lanes | _child2.childLanes, subtreeFlags |= _child2.subtreeFlags & 1206910976, subtreeFlags |= _child2.flags & 1206910976, _treeBaseDuration += _child2.treeBaseDuration, _child2 = _child2.sibling;
+                newChildLanes |= _child2.lanes | _child2.childLanes, subtreeFlags |= _child2.subtreeFlags & 65011712, subtreeFlags |= _child2.flags & 65011712, _treeBaseDuration += _child2.treeBaseDuration, _child2 = _child2.sibling;
               completedWork.treeBaseDuration = _treeBaseDuration;
             } else
               for (_treeBaseDuration = completedWork.child; null !== _treeBaseDuration; )
-                newChildLanes |= _treeBaseDuration.lanes | _treeBaseDuration.childLanes, subtreeFlags |= _treeBaseDuration.subtreeFlags & 1206910976, subtreeFlags |= _treeBaseDuration.flags & 1206910976, _treeBaseDuration.return = completedWork, _treeBaseDuration = _treeBaseDuration.sibling;
+                newChildLanes |= _treeBaseDuration.lanes | _treeBaseDuration.childLanes, subtreeFlags |= _treeBaseDuration.subtreeFlags & 65011712, subtreeFlags |= _treeBaseDuration.flags & 65011712, _treeBaseDuration.return = completedWork, _treeBaseDuration = _treeBaseDuration.sibling;
           else if ((completedWork.mode & ProfileMode) !== NoMode) {
             _treeBaseDuration = completedWork.actualDuration;
             _child2 = completedWork.selfBaseDuration;
-            for (var child2 = completedWork.child; null !== child2; )
-              newChildLanes |= child2.lanes | child2.childLanes, subtreeFlags |= child2.subtreeFlags, subtreeFlags |= child2.flags, _treeBaseDuration += child2.actualDuration, _child2 += child2.treeBaseDuration, child2 = child2.sibling;
+            for (var child = completedWork.child; null !== child; )
+              newChildLanes |= child.lanes | child.childLanes, subtreeFlags |= child.subtreeFlags, subtreeFlags |= child.flags, _treeBaseDuration += child.actualDuration, _child2 += child.treeBaseDuration, child = child.sibling;
             completedWork.actualDuration = _treeBaseDuration;
             completedWork.treeBaseDuration = _child2;
           } else
@@ -10607,7 +10239,6 @@
                       "We must have new props for new mounts. This error is likely caused by a bug in React. Please file an issue."
                     );
                   bubbleProperties(workInProgress2);
-                  workInProgress2.subtreeFlags &= -33554433;
                   return null;
                 }
                 current3 = getHostContext();
@@ -10620,7 +10251,6 @@
                 ), workInProgress2.stateNode = current3, markUpdate(workInProgress2));
               }
               bubbleProperties(workInProgress2);
-              workInProgress2.subtreeFlags &= -33554433;
               return null;
             case 5:
               popHostContext(workInProgress2);
@@ -10634,7 +10264,6 @@
                       "We must have new props for new mounts. This error is likely caused by a bug in React. Please file an issue."
                     );
                   bubbleProperties(workInProgress2);
-                  workInProgress2.subtreeFlags &= -33554433;
                   return null;
                 }
                 var _currentHostContext = getHostContext();
@@ -10674,9 +10303,6 @@
                           break;
                         case "script":
                           nextResource = nextResource.createElement("div");
-                          didWarnScriptTags || isScriptDataBlock(newProps) || (console.error(
-                            "Encountered a script tag while rendering React component. Scripts inside React components are never executed when rendering on the client. Consider using template tag instead (https://developer.mozilla.org/en-US/docs/Web/HTML/Element/template)."
-                          ), didWarnScriptTags = true);
                           nextResource.innerHTML = "<script><\/script>";
                           nextResource = nextResource.removeChild(
                             nextResource.firstChild
@@ -10737,7 +10363,6 @@
                 }
               }
               bubbleProperties(workInProgress2);
-              workInProgress2.subtreeFlags &= -33554433;
               preloadInstanceAndSuspendIfNeeded(
                 workInProgress2,
                 workInProgress2.type,
@@ -10879,11 +10504,11 @@
             case 4:
               return popHostContainer(workInProgress2), null === current3 && listenToAllSupportedEvents(
                 workInProgress2.stateNode.containerInfo
-              ), workInProgress2.flags |= 67108864, bubbleProperties(workInProgress2), null;
+              ), bubbleProperties(workInProgress2), null;
             case 10:
               return popProvider(workInProgress2.type, workInProgress2), bubbleProperties(workInProgress2), null;
             case 19:
-              popSuspenseListContext(workInProgress2);
+              pop(suspenseStackCursor, workInProgress2);
               newProps = workInProgress2.memoizedState;
               if (null === newProps) return bubbleProperties(workInProgress2), null;
               type = 0 !== (workInProgress2.flags & 128);
@@ -10904,9 +10529,10 @@
                         current3 = renderLanes2;
                         for (renderLanes2 = workInProgress2.child; null !== renderLanes2; )
                           resetWorkInProgress(renderLanes2, current3), renderLanes2 = renderLanes2.sibling;
-                        pushSuspenseListContext(
-                          workInProgress2,
-                          suspenseStackCursor.current & SubtreeSuspenseContextMask | ForceSuspenseFallback
+                        push(
+                          suspenseStackCursor,
+                          suspenseStackCursor.current & SubtreeSuspenseContextMask | ForceSuspenseFallback,
+                          workInProgress2
                         );
                         isHydrating && pushTreeFork(workInProgress2, newProps.treeForkCount);
                         return workInProgress2.child;
@@ -10918,38 +10544,14 @@
               else {
                 if (!type)
                   if (current3 = findFirstSuspended(nextResource), null !== current3) {
-                    if (workInProgress2.flags |= 128, type = true, current3 = current3.updateQueue, workInProgress2.updateQueue = current3, scheduleRetryEffect(workInProgress2, current3), cutOffTailIfNeeded(newProps, true), null === newProps.tail && "collapsed" !== newProps.tailMode && "visible" !== newProps.tailMode && !nextResource.alternate && !isHydrating)
+                    if (workInProgress2.flags |= 128, type = true, current3 = current3.updateQueue, workInProgress2.updateQueue = current3, scheduleRetryEffect(workInProgress2, current3), cutOffTailIfNeeded(newProps, true), null === newProps.tail && "hidden" === newProps.tailMode && !nextResource.alternate && !isHydrating)
                       return bubbleProperties(workInProgress2), null;
                   } else
                     2 * now$1() - newProps.renderingStartTime > workInProgressRootRenderTargetTime && 536870912 !== renderLanes2 && (workInProgress2.flags |= 128, type = true, cutOffTailIfNeeded(newProps, false), workInProgress2.lanes = 4194304);
                 newProps.isBackwards ? (nextResource.sibling = workInProgress2.child, workInProgress2.child = nextResource) : (current3 = newProps.last, null !== current3 ? current3.sibling = nextResource : workInProgress2.child = nextResource, newProps.last = nextResource);
               }
-              if (null !== newProps.tail) {
-                current3 = newProps.tail;
-                a: {
-                  for (renderLanes2 = current3; null !== renderLanes2; ) {
-                    if (null !== renderLanes2.alternate) {
-                      renderLanes2 = false;
-                      break a;
-                    }
-                    renderLanes2 = renderLanes2.sibling;
-                  }
-                  renderLanes2 = true;
-                }
-                newProps.rendering = current3;
-                newProps.tail = current3.sibling;
-                newProps.renderingStartTime = now$1();
-                current3.sibling = null;
-                nextResource = suspenseStackCursor.current;
-                nextResource = type ? nextResource & SubtreeSuspenseContextMask | ForceSuspenseFallback : nextResource & SubtreeSuspenseContextMask;
-                "visible" === newProps.tailMode || "collapsed" === newProps.tailMode || !renderLanes2 || isHydrating ? pushSuspenseListContext(workInProgress2, nextResource) : (renderLanes2 = nextResource, push(
-                  suspenseHandlerStackCursor,
-                  workInProgress2,
-                  workInProgress2
-                ), push(suspenseStackCursor, renderLanes2, workInProgress2), null === shellBoundary && (shellBoundary = workInProgress2));
-                isHydrating && pushTreeFork(workInProgress2, newProps.treeForkCount);
-                return current3;
-              }
+              if (null !== newProps.tail)
+                return current3 = newProps.tail, newProps.rendering = current3, newProps.tail = current3.sibling, newProps.renderingStartTime = now$1(), current3.sibling = null, renderLanes2 = suspenseStackCursor.current, renderLanes2 = type ? renderLanes2 & SubtreeSuspenseContextMask | ForceSuspenseFallback : renderLanes2 & SubtreeSuspenseContextMask, push(suspenseStackCursor, renderLanes2, workInProgress2), isHydrating && pushTreeFork(workInProgress2, newProps.treeForkCount), current3;
               bubbleProperties(workInProgress2);
               return null;
             case 22:
@@ -10960,7 +10562,7 @@
             case 25:
               return null;
             case 30:
-              return workInProgress2.flags |= 33554432, bubbleProperties(workInProgress2), null;
+              return null;
           }
           throw Error(
             "Unknown unit of work tag (" + workInProgress2.tag + "). This error is likely caused by a bug in React. Please file an issue."
@@ -11001,7 +10603,7 @@
               current3 = workInProgress2.flags;
               return current3 & 65536 ? (workInProgress2.flags = current3 & -65537 | 128, (workInProgress2.mode & ProfileMode) !== NoMode && transferActualDuration(workInProgress2), workInProgress2) : null;
             case 19:
-              return popSuspenseListContext(workInProgress2), current3 = workInProgress2.flags, current3 & 65536 ? (workInProgress2.flags = current3 & -65537 | 128, current3 = workInProgress2.memoizedState, null !== current3 && (current3.rendering = null, current3.tail = null), workInProgress2.flags |= 4, workInProgress2) : null;
+              return pop(suspenseStackCursor, workInProgress2), null;
             case 4:
               return popHostContainer(workInProgress2), null;
             case 10:
@@ -11039,7 +10641,7 @@
               popSuspenseHandler(interruptedWork);
               break;
             case 19:
-              popSuspenseListContext(interruptedWork);
+              pop(suspenseStackCursor, interruptedWork);
               break;
             case 10:
               popProvider(interruptedWork.type, interruptedWork);
@@ -11236,21 +10838,6 @@
                 break;
               case 30:
                 instanceToUse = finishedWork.stateNode;
-                var name = getViewTransitionName(
-                  finishedWork.memoizedProps,
-                  instanceToUse
-                );
-                if (null === instanceToUse.ref || instanceToUse.ref.name !== name)
-                  instanceToUse.ref = createViewTransitionInstance(name);
-                instanceToUse = instanceToUse.ref;
-                break;
-              case 7:
-                null === finishedWork.stateNode && (instanceToUse = new FragmentInstance(finishedWork), traverseFragmentInstancesAndTextInstances(
-                  finishedWork,
-                  addFragmentHandleToFiber,
-                  instanceToUse
-                ), finishedWork.stateNode = instanceToUse);
-                instanceToUse = finishedWork.stateNode;
                 break;
               default:
                 instanceToUse = finishedWork.stateNode;
@@ -11303,8 +10890,8 @@
                     recordEffectDuration(current3);
                   }
                 else runWithFiberInDEV(current3, ref, null);
-              } catch (error$8) {
-                captureCommitPhaseError(current3, nearestMountedAncestor, error$8);
+              } catch (error$7) {
+                captureCommitPhaseError(current3, nearestMountedAncestor, error$7);
               }
             else ref.current = null;
         }
@@ -11335,34 +10922,6 @@
             passiveEffectDuration,
             commitStartTime2
           );
-        }
-        function commitNewChildToFragmentInstances(fiber, parentFragmentInstances) {
-          if ((5 === fiber.tag || 27 === fiber.tag || 6 === fiber.tag) && null === fiber.alternate && null !== parentFragmentInstances)
-            for (var i = 0; i < parentFragmentInstances.length; i++)
-              commitNewChildToFragmentInstance(
-                fiber.stateNode,
-                parentFragmentInstances[i]
-              );
-        }
-        function commitFragmentInstanceInsertionEffects(fiber) {
-          for (var parent = fiber.return; null !== parent; ) {
-            isFragmentInstanceParent(parent) && commitNewChildToFragmentInstance(fiber.stateNode, parent.stateNode);
-            if (isFragmentInstanceHostBoundary(parent)) break;
-            parent = parent.return;
-          }
-        }
-        function commitFragmentInstanceDeletionEffects(fiber) {
-          for (var parent = fiber.return; null !== parent; ) {
-            isFragmentInstanceParent(parent) && deleteChildFromFragmentInstance(fiber.stateNode, parent.stateNode);
-            if (isFragmentInstanceHostBoundary(parent)) break;
-            parent = parent.return;
-          }
-        }
-        function isFragmentInstanceHostBoundary(fiber) {
-          return 5 === fiber.tag || 3 === fiber.tag || 27 === fiber.tag;
-        }
-        function isFragmentInstanceParent(fiber) {
-          return fiber && 7 === fiber.tag && null !== fiber.stateNode;
         }
         function commitHostMount(finishedWork) {
           var type = finishedWork.type, props = finishedWork.memoizedProps, instance = finishedWork.stateNode;
@@ -11413,41 +10972,21 @@
             if (!(fiber.flags & 2)) return fiber.stateNode;
           }
         }
-        function insertOrAppendPlacementNodeIntoContainer(node, before, parent, parentFragmentInstances) {
+        function insertOrAppendPlacementNodeIntoContainer(node, before, parent) {
           var tag = node.tag;
           if (5 === tag || 6 === tag)
-            tag = node.stateNode, before ? (warnForReactChildrenConflict(parent), (9 === parent.nodeType ? parent.body : "HTML" === parent.nodeName ? parent.ownerDocument.body : parent).insertBefore(tag, before)) : (warnForReactChildrenConflict(parent), before = 9 === parent.nodeType ? parent.body : "HTML" === parent.nodeName ? parent.ownerDocument.body : parent, before.appendChild(tag), tag = parent._reactRootContainer, null !== tag && void 0 !== tag || null !== before.onclick || (before.onclick = noop$12)), commitNewChildToFragmentInstances(node, parentFragmentInstances), viewTransitionMutationContext = true;
-          else if (4 !== tag && (27 === tag && (commitNewChildToFragmentInstances(node, parentFragmentInstances), parentFragmentInstances = null, isSingletonScope(node.type) && (parent = node.stateNode, before = null)), node = node.child, null !== node))
-            for (insertOrAppendPlacementNodeIntoContainer(
-              node,
-              before,
-              parent,
-              parentFragmentInstances
-            ), node = node.sibling; null !== node; )
-              insertOrAppendPlacementNodeIntoContainer(
-                node,
-                before,
-                parent,
-                parentFragmentInstances
-              ), node = node.sibling;
+            node = node.stateNode, before ? (warnForReactChildrenConflict(parent), (9 === parent.nodeType ? parent.body : "HTML" === parent.nodeName ? parent.ownerDocument.body : parent).insertBefore(node, before)) : (warnForReactChildrenConflict(parent), before = 9 === parent.nodeType ? parent.body : "HTML" === parent.nodeName ? parent.ownerDocument.body : parent, before.appendChild(node), parent = parent._reactRootContainer, null !== parent && void 0 !== parent || null !== before.onclick || (before.onclick = noop$1));
+          else if (4 !== tag && (27 === tag && isSingletonScope(node.type) && (parent = node.stateNode, before = null), node = node.child, null !== node))
+            for (insertOrAppendPlacementNodeIntoContainer(node, before, parent), node = node.sibling; null !== node; )
+              insertOrAppendPlacementNodeIntoContainer(node, before, parent), node = node.sibling;
         }
-        function insertOrAppendPlacementNode(node, before, parent, parentFragmentInstances) {
+        function insertOrAppendPlacementNode(node, before, parent) {
           var tag = node.tag;
           if (5 === tag || 6 === tag)
-            tag = node.stateNode, before ? parent.insertBefore(tag, before) : parent.appendChild(tag), commitNewChildToFragmentInstances(node, parentFragmentInstances), viewTransitionMutationContext = true;
-          else if (4 !== tag && (27 === tag && (commitNewChildToFragmentInstances(node, parentFragmentInstances), parentFragmentInstances = null, isSingletonScope(node.type) && (parent = node.stateNode)), node = node.child, null !== node))
-            for (insertOrAppendPlacementNode(
-              node,
-              before,
-              parent,
-              parentFragmentInstances
-            ), node = node.sibling; null !== node; )
-              insertOrAppendPlacementNode(
-                node,
-                before,
-                parent,
-                parentFragmentInstances
-              ), node = node.sibling;
+            node = node.stateNode, before ? parent.insertBefore(node, before) : parent.appendChild(node);
+          else if (4 !== tag && (27 === tag && isSingletonScope(node.type) && (parent = node.stateNode), node = node.child, null !== node))
+            for (insertOrAppendPlacementNode(node, before, parent), node = node.sibling; null !== node; )
+              insertOrAppendPlacementNode(node, before, parent), node = node.sibling;
         }
         function commitPlacement(finishedWork) {
           for (var hostParentFiber, parentFiber = finishedWork.return; null !== parentFiber; ) {
@@ -11457,15 +10996,6 @@
             }
             parentFiber = parentFiber.return;
           }
-          parentFiber = null;
-          for (var parent = finishedWork.return; null !== parent; ) {
-            if (isFragmentInstanceParent(parent)) {
-              var fragmentInstance = parent.stateNode;
-              null === parentFiber ? parentFiber = [fragmentInstance] : parentFiber.push(fragmentInstance);
-            }
-            if (isFragmentInstanceHostBoundary(parent)) break;
-            parent = parent.return;
-          }
           if (null == hostParentFiber)
             throw Error(
               "Expected to find a host parent. This error is likely caused by a bug in React. Please file an issue."
@@ -11473,34 +11003,31 @@
           switch (hostParentFiber.tag) {
             case 27:
               hostParentFiber = hostParentFiber.stateNode;
-              parent = getHostSibling(finishedWork);
+              parentFiber = getHostSibling(finishedWork);
               insertOrAppendPlacementNode(
                 finishedWork,
-                parent,
-                hostParentFiber,
-                parentFiber
+                parentFiber,
+                hostParentFiber
               );
               break;
             case 5:
-              parent = hostParentFiber.stateNode;
-              hostParentFiber.flags & 32 && (resetTextContent(parent), hostParentFiber.flags &= -33);
+              parentFiber = hostParentFiber.stateNode;
+              hostParentFiber.flags & 32 && (resetTextContent(parentFiber), hostParentFiber.flags &= -33);
               hostParentFiber = getHostSibling(finishedWork);
               insertOrAppendPlacementNode(
                 finishedWork,
                 hostParentFiber,
-                parent,
                 parentFiber
               );
               break;
             case 3:
             case 4:
               hostParentFiber = hostParentFiber.stateNode.containerInfo;
-              parent = getHostSibling(finishedWork);
+              parentFiber = getHostSibling(finishedWork);
               insertOrAppendPlacementNodeIntoContainer(
                 finishedWork,
-                parent,
-                hostParentFiber,
-                parentFiber
+                parentFiber,
+                hostParentFiber
               );
               break;
             default:
@@ -11524,315 +11051,10 @@
             captureCommitPhaseError(finishedWork, finishedWork.return, error);
           }
         }
-        function trackEnterViewTransitions(placement) {
-          if (30 === placement.tag || 0 !== (placement.subtreeFlags & 33554432))
-            shouldStartViewTransition = true;
-        }
-        function pushViewTransitionCancelableScope() {
-          var prevChildren = viewTransitionCancelableChildren;
-          viewTransitionCancelableChildren = null;
-          return prevChildren;
-        }
-        function applyViewTransitionToHostInstances(fiber, name, className, collectMeasurements, stopAtNestedViewTransitions) {
-          viewTransitionHostInstanceIdx = 0;
-          (name = applyViewTransitionToHostInstancesRecursive(
-            fiber.child,
-            name,
-            className,
-            collectMeasurements,
-            stopAtNestedViewTransitions
-          )) && null != fiber._debugTask && null === animatingTask && (animatingTask = fiber._debugTask);
-          return name;
-        }
-        function applyViewTransitionToHostInstancesRecursive(child2, name, className, collectMeasurements, stopAtNestedViewTransitions) {
-          for (var inViewport = false; null !== child2; ) {
-            if (5 === child2.tag) {
-              var _instance = child2.stateNode;
-              if (null !== collectMeasurements) {
-                var measurement = measureInstance(_instance);
-                collectMeasurements.push(measurement);
-                measurement.view && (inViewport = true);
-              } else
-                inViewport || measureInstance(_instance).view && (inViewport = true);
-              shouldStartViewTransition = true;
-              applyViewTransitionName(
-                _instance,
-                0 === viewTransitionHostInstanceIdx ? name : name + "_" + viewTransitionHostInstanceIdx,
-                className
-              );
-              viewTransitionHostInstanceIdx++;
-            } else if (22 !== child2.tag || null === child2.memoizedState)
-              30 === child2.tag && stopAtNestedViewTransitions || applyViewTransitionToHostInstancesRecursive(
-                child2.child,
-                name,
-                className,
-                collectMeasurements,
-                stopAtNestedViewTransitions
-              ) && (inViewport = true);
-            child2 = child2.sibling;
-          }
-          return inViewport;
-        }
-        function restoreViewTransitionOnHostInstances(child2, stopAtNestedViewTransitions) {
-          for (; null !== child2; ) {
-            if (5 === child2.tag)
-              restoreViewTransitionName(child2.stateNode, child2.memoizedProps);
-            else if (22 !== child2.tag || null === child2.memoizedState)
-              30 === child2.tag && stopAtNestedViewTransitions || restoreViewTransitionOnHostInstances(
-                child2.child,
-                stopAtNestedViewTransitions
-              );
-            child2 = child2.sibling;
-          }
-        }
-        function commitAppearingPairViewTransitions(placement) {
-          if (0 !== (placement.subtreeFlags & 18874368))
-            for (placement = placement.child; null !== placement; ) {
-              if (22 !== placement.tag || null === placement.memoizedState) {
-                if (commitAppearingPairViewTransitions(placement), 30 === placement.tag && 0 !== (placement.flags & 18874368) && placement.stateNode.paired) {
-                  var props = placement.memoizedProps;
-                  if (null == props.name || "auto" === props.name)
-                    throw Error(
-                      "Found a pair with an auto name. This is a bug in React."
-                    );
-                  var name = props.name;
-                  props = getViewTransitionClassName(props.default, props.share);
-                  "none" !== props && (applyViewTransitionToHostInstances(
-                    placement,
-                    name,
-                    props,
-                    null,
-                    false
-                  ) || restoreViewTransitionOnHostInstances(placement.child, false));
-                }
-              }
-              placement = placement.sibling;
-            }
-        }
-        function commitEnterViewTransitions(placement, gesture) {
-          if (30 === placement.tag) {
-            var state = placement.stateNode, props = placement.memoizedProps, name = getViewTransitionName(props, state), className = getViewTransitionClassName(
-              props.default,
-              state.paired ? props.share : props.enter
-            );
-            "none" !== className ? applyViewTransitionToHostInstances(
-              placement,
-              name,
-              className,
-              null,
-              false
-            ) ? (commitAppearingPairViewTransitions(placement), state.paired || gesture || scheduleViewTransitionEvent(placement, props.onEnter)) : restoreViewTransitionOnHostInstances(placement.child, false) : commitAppearingPairViewTransitions(placement);
-          } else if (0 !== (placement.subtreeFlags & 33554432))
-            for (placement = placement.child; null !== placement; )
-              commitEnterViewTransitions(placement, gesture), placement = placement.sibling;
-          else commitAppearingPairViewTransitions(placement);
-        }
-        function commitDeletedPairViewTransitions(deletion) {
-          if (null !== appearingViewTransitions && 0 !== appearingViewTransitions.size) {
-            var pairs = appearingViewTransitions;
-            if (0 !== (deletion.subtreeFlags & 18874368))
-              for (deletion = deletion.child; null !== deletion; ) {
-                if (22 !== deletion.tag || null === deletion.memoizedState) {
-                  if (30 === deletion.tag && 0 !== (deletion.flags & 18874368)) {
-                    var props = deletion.memoizedProps, name = props.name;
-                    if (null != name && "auto" !== name) {
-                      var pair = pairs.get(name);
-                      if (void 0 !== pair) {
-                        var className = getViewTransitionClassName(
-                          props.default,
-                          props.share
-                        );
-                        "none" !== className && (applyViewTransitionToHostInstances(
-                          deletion,
-                          name,
-                          className,
-                          null,
-                          false
-                        ) ? (className = deletion.stateNode, pair.paired = className, className.paired = pair, scheduleViewTransitionEvent(deletion, props.onShare)) : restoreViewTransitionOnHostInstances(
-                          deletion.child,
-                          false
-                        ));
-                        pairs.delete(name);
-                        if (0 === pairs.size) break;
-                      }
-                    }
-                  }
-                  commitDeletedPairViewTransitions(deletion);
-                }
-                deletion = deletion.sibling;
-              }
-          }
-        }
-        function commitExitViewTransitions(deletion) {
-          if (30 === deletion.tag) {
-            var props = deletion.memoizedProps, name = getViewTransitionName(props, deletion.stateNode), pair = null !== appearingViewTransitions ? appearingViewTransitions.get(name) : void 0, className = getViewTransitionClassName(
-              props.default,
-              void 0 !== pair ? props.share : props.exit
-            );
-            "none" !== className && (applyViewTransitionToHostInstances(
-              deletion,
-              name,
-              className,
-              null,
-              false
-            ) ? void 0 !== pair ? (className = deletion.stateNode, pair.paired = className, className.paired = pair, appearingViewTransitions.delete(name), scheduleViewTransitionEvent(deletion, props.onShare)) : scheduleViewTransitionEvent(deletion, props.onExit) : restoreViewTransitionOnHostInstances(deletion.child, false));
-            null !== appearingViewTransitions && commitDeletedPairViewTransitions(deletion);
-          } else if (0 !== (deletion.subtreeFlags & 33554432))
-            for (deletion = deletion.child; null !== deletion; )
-              commitExitViewTransitions(deletion), deletion = deletion.sibling;
-          else
-            null !== appearingViewTransitions && commitDeletedPairViewTransitions(deletion);
-        }
-        function commitNestedViewTransitions(changedParent) {
-          for (changedParent = changedParent.child; null !== changedParent; ) {
-            if (30 === changedParent.tag) {
-              var props = changedParent.memoizedProps, name = getViewTransitionName(props, changedParent.stateNode);
-              props = getViewTransitionClassName(props.default, props.update);
-              changedParent.flags &= -5;
-              "none" !== props && applyViewTransitionToHostInstances(
-                changedParent,
-                name,
-                props,
-                changedParent.memoizedState = [],
-                false
-              );
-            } else
-              0 !== (changedParent.subtreeFlags & 33554432) && commitNestedViewTransitions(changedParent);
-            changedParent = changedParent.sibling;
-          }
-        }
-        function restorePairedViewTransitions(parent) {
-          if (0 !== (parent.subtreeFlags & 18874368))
-            for (parent = parent.child; null !== parent; ) {
-              if (22 !== parent.tag || null === parent.memoizedState) {
-                if (30 === parent.tag && 0 !== (parent.flags & 18874368)) {
-                  var instance = parent.stateNode;
-                  null !== instance.paired && (instance.paired = null, restoreViewTransitionOnHostInstances(parent.child, false));
-                }
-                restorePairedViewTransitions(parent);
-              }
-              parent = parent.sibling;
-            }
-        }
-        function restoreEnterOrExitViewTransitions(fiber) {
-          if (30 === fiber.tag)
-            fiber.stateNode.paired = null, restoreViewTransitionOnHostInstances(fiber.child, false), restorePairedViewTransitions(fiber);
-          else if (0 !== (fiber.subtreeFlags & 33554432))
-            for (fiber = fiber.child; null !== fiber; )
-              restoreEnterOrExitViewTransitions(fiber), fiber = fiber.sibling;
-          else restorePairedViewTransitions(fiber);
-        }
-        function restoreNestedViewTransitions(changedParent) {
-          for (changedParent = changedParent.child; null !== changedParent; )
-            30 === changedParent.tag ? restoreViewTransitionOnHostInstances(changedParent.child, false) : 0 !== (changedParent.subtreeFlags & 33554432) && restoreNestedViewTransitions(changedParent), changedParent = changedParent.sibling;
-        }
-        function measureViewTransitionHostInstancesRecursive(parentViewTransition, child2, newName, oldName, className, previousMeasurements, stopAtNestedViewTransitions) {
-          for (var inViewport = false; null !== child2; ) {
-            if (5 === child2.tag) {
-              var _instance2 = child2.stateNode;
-              if (null !== previousMeasurements && viewTransitionHostInstanceIdx < previousMeasurements.length) {
-                var previousMeasurement = previousMeasurements[viewTransitionHostInstanceIdx], nextMeasurement = measureInstance(_instance2);
-                if (previousMeasurement.view || nextMeasurement.view)
-                  inViewport = true;
-                var JSCompiler_temp;
-                if (JSCompiler_temp = 0 === (parentViewTransition.flags & 4))
-                  if (nextMeasurement.clip) JSCompiler_temp = true;
-                  else {
-                    JSCompiler_temp = previousMeasurement.rect;
-                    var newRect = nextMeasurement.rect;
-                    JSCompiler_temp = JSCompiler_temp.y !== newRect.y || JSCompiler_temp.x !== newRect.x || JSCompiler_temp.height !== newRect.height || JSCompiler_temp.width !== newRect.width;
-                  }
-                JSCompiler_temp && (parentViewTransition.flags |= 4);
-                nextMeasurement.abs ? nextMeasurement = !previousMeasurement.abs : (previousMeasurement = previousMeasurement.rect, nextMeasurement = nextMeasurement.rect, nextMeasurement = previousMeasurement.height !== nextMeasurement.height || previousMeasurement.width !== nextMeasurement.width);
-                nextMeasurement && (parentViewTransition.flags |= 32);
-              } else parentViewTransition.flags |= 32;
-              0 !== (parentViewTransition.flags & 4) && applyViewTransitionName(
-                _instance2,
-                0 === viewTransitionHostInstanceIdx ? newName : newName + "_" + viewTransitionHostInstanceIdx,
-                className
-              );
-              inViewport && 0 !== (parentViewTransition.flags & 4) || (null === viewTransitionCancelableChildren && (viewTransitionCancelableChildren = []), viewTransitionCancelableChildren.push(
-                _instance2,
-                0 === viewTransitionHostInstanceIdx ? oldName : oldName + "_" + viewTransitionHostInstanceIdx,
-                child2.memoizedProps
-              ));
-              viewTransitionHostInstanceIdx++;
-            } else if (22 !== child2.tag || null === child2.memoizedState)
-              30 === child2.tag && stopAtNestedViewTransitions ? parentViewTransition.flags |= child2.flags & 32 : measureViewTransitionHostInstancesRecursive(
-                parentViewTransition,
-                child2.child,
-                newName,
-                oldName,
-                className,
-                previousMeasurements,
-                stopAtNestedViewTransitions
-              ) && (inViewport = true);
-            child2 = child2.sibling;
-          }
-          return inViewport;
-        }
-        function measureNestedViewTransitions(changedParent, gesture) {
-          for (changedParent = changedParent.child; null !== changedParent; ) {
-            if (30 === changedParent.tag) {
-              var props = changedParent.memoizedProps, state = changedParent.stateNode, name = getViewTransitionName(props, state), className = getViewTransitionClassName(props.default, props.update);
-              if (gesture) {
-                state = state.clones;
-                var previousMeasurements = null === state ? null : state.map(measureClonedInstance);
-              } else
-                previousMeasurements = changedParent.memoizedState, changedParent.memoizedState = null;
-              state = changedParent;
-              var child2 = changedParent.child, newName = name;
-              viewTransitionHostInstanceIdx = 0;
-              className = measureViewTransitionHostInstancesRecursive(
-                state,
-                child2,
-                newName,
-                name,
-                className,
-                previousMeasurements,
-                false
-              );
-              0 !== (changedParent.flags & 4) && className && (gesture || scheduleViewTransitionEvent(changedParent, props.onUpdate));
-            } else
-              0 !== (changedParent.subtreeFlags & 33554432) && measureNestedViewTransitions(changedParent, gesture);
-            changedParent = changedParent.sibling;
-          }
-        }
-        function trackNamedViewTransition(fiber) {
-          var name = fiber.memoizedProps.name;
-          if (null != name && "auto" !== name) {
-            var existing = mountedNamedViewTransitions.get(name);
-            if (void 0 !== existing) {
-              if (existing !== fiber && existing !== fiber.alternate && !didWarnAboutName[name]) {
-                didWarnAboutName[name] = true;
-                var stringifiedName = JSON.stringify(name);
-                runWithFiberInDEV(fiber, function() {
-                  console.error(
-                    "There are two <ViewTransition name=%s> components with the same name mounted at the same time. This is not supported and will cause View Transitions to error. Try to use a more unique name e.g. by using a namespace prefix and adding the id of an item to the name.",
-                    stringifiedName
-                  );
-                });
-                runWithFiberInDEV(existing, function() {
-                  console.error(
-                    "The existing <ViewTransition name=%s> duplicate has this stack trace.",
-                    stringifiedName
-                  );
-                });
-              }
-            } else mountedNamedViewTransitions.set(name, fiber);
-          }
-        }
-        function untrackNamedViewTransition(fiber) {
-          var name = fiber.memoizedProps.name;
-          if (null != name && "auto" !== name) {
-            var existing = mountedNamedViewTransitions.get(name);
-            void 0 === existing || existing !== fiber && existing !== fiber.alternate || mountedNamedViewTransitions.delete(name);
-          }
-        }
         function isHydratingParent(current3, finishedWork) {
           return 31 === finishedWork.tag ? (finishedWork = finishedWork.memoizedState, null !== current3.memoizedState && null === finishedWork) : 13 === finishedWork.tag ? (current3 = current3.memoizedState, finishedWork = finishedWork.memoizedState, null !== current3 && null !== current3.dehydrated && (null === finishedWork || null === finishedWork.dehydrated)) : 3 === finishedWork.tag ? current3.memoizedState.isDehydrated && 0 === (finishedWork.flags & 256) : false;
         }
-        function commitBeforeMutationEffects(root3, firstChild, committedLanes) {
+        function commitBeforeMutationEffects(root3, firstChild) {
           root3 = root3.containerInfo;
           eventsEnabled = _enabled;
           root3 = getActiveElementDeep(root3);
@@ -11852,7 +11074,7 @@
                   selection = selection.focusOffset;
                   try {
                     JSCompiler_temp.nodeType, focusNode.nodeType;
-                  } catch (e$3) {
+                  } catch (e$2) {
                     JSCompiler_temp = null;
                     break a;
                   }
@@ -11886,96 +11108,63 @@
             selectionRange: JSCompiler_temp
           };
           _enabled = false;
-          committedLanes = (committedLanes & 335544064) === committedLanes;
-          nextEffect = firstChild;
-          for (firstChild = committedLanes ? 9270 : 1024; null !== nextEffect; ) {
-            root3 = nextEffect;
-            if (committedLanes && (JSCompiler_temp = root3.deletions, null !== JSCompiler_temp))
-              for (anchorOffset = 0; anchorOffset < JSCompiler_temp.length; anchorOffset++)
-                committedLanes && commitExitViewTransitions(JSCompiler_temp[anchorOffset]);
-            if (null === root3.alternate && 0 !== (root3.flags & 2))
-              committedLanes && trackEnterViewTransitions(root3), commitBeforeMutationEffects_complete(committedLanes);
-            else {
-              if (22 === root3.tag) {
-                if (JSCompiler_temp = root3.alternate, null !== root3.memoizedState) {
-                  null !== JSCompiler_temp && null === JSCompiler_temp.memoizedState && committedLanes && commitExitViewTransitions(JSCompiler_temp);
-                  commitBeforeMutationEffects_complete(committedLanes);
-                  continue;
-                } else if (null !== JSCompiler_temp && null !== JSCompiler_temp.memoizedState) {
-                  committedLanes && trackEnterViewTransitions(root3);
-                  commitBeforeMutationEffects_complete(committedLanes);
-                  continue;
-                }
-              }
-              JSCompiler_temp = root3.child;
-              0 !== (root3.subtreeFlags & firstChild) && null !== JSCompiler_temp ? (JSCompiler_temp.return = root3, nextEffect = JSCompiler_temp) : (committedLanes && commitNestedViewTransitions(root3), commitBeforeMutationEffects_complete(committedLanes));
-            }
-          }
-          appearingViewTransitions = null;
-        }
-        function commitBeforeMutationEffects_complete(isViewTransitionEligible$jscomp$0) {
-          for (; null !== nextEffect; ) {
-            var fiber = nextEffect, finishedWork = fiber, isViewTransitionEligible = isViewTransitionEligible$jscomp$0, current3 = finishedWork.alternate, flags = finishedWork.flags;
-            switch (finishedWork.tag) {
-              case 0:
-              case 11:
-              case 15:
-                break;
-              case 1:
-                0 !== (flags & 1024) && null !== current3 && commitClassSnapshot(finishedWork, current3);
-                break;
-              case 3:
-                if (0 !== (flags & 1024)) {
-                  if (isViewTransitionEligible = finishedWork.stateNode.containerInfo, finishedWork = isViewTransitionEligible.nodeType, 9 === finishedWork)
-                    clearContainerSparingly(isViewTransitionEligible);
-                  else if (1 === finishedWork)
-                    switch (isViewTransitionEligible.nodeName) {
-                      case "HEAD":
-                      case "HTML":
-                      case "BODY":
-                        clearContainerSparingly(isViewTransitionEligible);
-                        break;
-                      default:
-                        isViewTransitionEligible.textContent = "";
+          for (nextEffect = firstChild; null !== nextEffect; )
+            if (firstChild = nextEffect, root3 = firstChild.child, 0 !== (firstChild.subtreeFlags & 1028) && null !== root3)
+              root3.return = firstChild, nextEffect = root3;
+            else
+              for (; null !== nextEffect; ) {
+                root3 = firstChild = nextEffect;
+                JSCompiler_temp = root3.alternate;
+                anchorOffset = root3.flags;
+                switch (root3.tag) {
+                  case 0:
+                    if (0 !== (anchorOffset & 4) && (root3 = root3.updateQueue, root3 = null !== root3 ? root3.events : null, null !== root3))
+                      for (JSCompiler_temp = 0; JSCompiler_temp < root3.length; JSCompiler_temp++)
+                        anchorOffset = root3[JSCompiler_temp], anchorOffset.ref.impl = anchorOffset.nextImpl;
+                    break;
+                  case 11:
+                  case 15:
+                    break;
+                  case 1:
+                    0 !== (anchorOffset & 1024) && null !== JSCompiler_temp && commitClassSnapshot(root3, JSCompiler_temp);
+                    break;
+                  case 3:
+                    if (0 !== (anchorOffset & 1024)) {
+                      if (root3 = root3.stateNode.containerInfo, JSCompiler_temp = root3.nodeType, 9 === JSCompiler_temp)
+                        clearContainerSparingly(root3);
+                      else if (1 === JSCompiler_temp)
+                        switch (root3.nodeName) {
+                          case "HEAD":
+                          case "HTML":
+                          case "BODY":
+                            clearContainerSparingly(root3);
+                            break;
+                          default:
+                            root3.textContent = "";
+                        }
                     }
+                    break;
+                  case 5:
+                  case 26:
+                  case 27:
+                  case 6:
+                  case 4:
+                  case 17:
+                    break;
+                  default:
+                    if (0 !== (anchorOffset & 1024))
+                      throw Error(
+                        "This unit of work tag should not have side-effects. This error is likely caused by a bug in React. Please file an issue."
+                      );
                 }
-                break;
-              case 5:
-              case 26:
-              case 27:
-              case 6:
-              case 4:
-              case 17:
-                break;
-              case 30:
-                isViewTransitionEligible && null !== current3 && (isViewTransitionEligible = current3, current3 = finishedWork, finishedWork = getViewTransitionName(
-                  isViewTransitionEligible.memoizedProps,
-                  isViewTransitionEligible.stateNode
-                ), current3 = current3.memoizedProps, current3 = getViewTransitionClassName(
-                  current3.default,
-                  current3.update
-                ), "none" !== current3 && applyViewTransitionToHostInstances(
-                  isViewTransitionEligible,
-                  finishedWork,
-                  current3,
-                  isViewTransitionEligible.memoizedState = [],
-                  true
-                ));
-                break;
-              default:
-                if (0 !== (flags & 1024))
-                  throw Error(
-                    "This unit of work tag should not have side-effects. This error is likely caused by a bug in React. Please file an issue."
-                  );
-            }
-            isViewTransitionEligible = fiber.sibling;
-            if (null !== isViewTransitionEligible) {
-              isViewTransitionEligible.return = fiber.return;
-              nextEffect = isViewTransitionEligible;
-              break;
-            }
-            nextEffect = fiber.return;
-          }
+                root3 = firstChild.sibling;
+                if (null !== root3) {
+                  root3.return = firstChild.return;
+                  nextEffect = root3;
+                  break;
+                }
+                nextEffect = firstChild.return;
+              }
         }
         function commitLayoutEffectOnFiber(finishedRoot, current3, finishedWork) {
           var prevEffectStart = pushComponentEffectStart(), prevEffectDuration = pushComponentEffectDuration(), prevEffectErrors = pushComponentEffectErrors(), prevEffectDidSpawnUpdate = pushComponentEffectDidSpawnUpdate(), flags = finishedWork.flags;
@@ -12134,30 +11323,25 @@
             case 22:
               flags = null !== finishedWork.memoizedState || offscreenSubtreeIsHidden;
               if (!flags) {
-                var newOffscreenSubtreeWasHidden = null !== current3 && null !== current3.memoizedState || offscreenSubtreeWasHidden;
-                current3 = offscreenSubtreeIsHidden;
-                prevProps = offscreenSubtreeWasHidden;
+                current3 = null !== current3 && null !== current3.memoizedState || offscreenSubtreeWasHidden;
+                prevProps = offscreenSubtreeIsHidden;
+                var prevOffscreenSubtreeWasHidden = offscreenSubtreeWasHidden;
                 offscreenSubtreeIsHidden = flags;
-                (offscreenSubtreeWasHidden = newOffscreenSubtreeWasHidden) && !prevProps ? (flags = IncludeHostSingletons, 0 !== (finishedWork.subtreeFlags & 8772) && (flags |= IncludeWorkInProgressEffects), recursivelyTraverseReappearLayoutEffects(
+                (offscreenSubtreeWasHidden = current3) && !prevOffscreenSubtreeWasHidden ? (recursivelyTraverseReappearLayoutEffects(
                   finishedRoot,
                   finishedWork,
-                  flags
+                  0 !== (finishedWork.subtreeFlags & 8772)
                 ), (finishedWork.mode & ProfileMode) !== NoMode && 0 <= componentEffectStartTime && 0 <= componentEffectEndTime && 0.05 < componentEffectEndTime - componentEffectStartTime && logComponentReappeared(
                   finishedWork,
                   componentEffectStartTime,
                   componentEffectEndTime
                 )) : recursivelyTraverseLayoutEffects(finishedRoot, finishedWork);
-                offscreenSubtreeIsHidden = current3;
-                offscreenSubtreeWasHidden = prevProps;
+                offscreenSubtreeIsHidden = prevProps;
+                offscreenSubtreeWasHidden = prevOffscreenSubtreeWasHidden;
               }
               break;
             case 30:
-              flags & 18874368 && trackNamedViewTransition(finishedWork);
-              recursivelyTraverseLayoutEffects(finishedRoot, finishedWork);
-              flags & 512 && safelyAttachRef(finishedWork, finishedWork.return);
               break;
-            case 7:
-              flags & 512 && safelyAttachRef(finishedWork, finishedWork.return);
             default:
               recursivelyTraverseLayoutEffects(finishedRoot, finishedWork);
           }
@@ -12180,84 +11364,6 @@
           popComponentEffectDuration(prevEffectDuration);
           componentEffectErrors = prevEffectErrors;
           componentEffectSpawnedUpdate = prevEffectDidSpawnUpdate;
-        }
-        function hideOrUnhideAllChildren(parentFiber, isHidden) {
-          for (parentFiber = parentFiber.child; null !== parentFiber; )
-            hideOrUnhideAllChildrenOnFiber(parentFiber, isHidden), parentFiber = parentFiber.sibling;
-        }
-        function hideOrUnhideAllChildrenOnFiber(fiber, isHidden) {
-          switch (fiber.tag) {
-            case 5:
-            case 26:
-              try {
-                var instance = fiber.stateNode;
-                isHidden ? runWithFiberInDEV(fiber, hideInstance, instance) : runWithFiberInDEV(
-                  fiber,
-                  unhideInstance,
-                  fiber.stateNode,
-                  fiber.memoizedProps
-                );
-              } catch (error) {
-                captureCommitPhaseError(fiber, fiber.return, error);
-              }
-              hideOrUnhideNearestPortals(fiber, isHidden);
-              break;
-            case 6:
-              try {
-                var instance$jscomp$0 = fiber.stateNode;
-                isHidden ? runWithFiberInDEV(fiber, hideTextInstance, instance$jscomp$0) : runWithFiberInDEV(
-                  fiber,
-                  unhideTextInstance,
-                  instance$jscomp$0,
-                  fiber.memoizedProps
-                );
-                viewTransitionMutationContext = true;
-              } catch (error) {
-                captureCommitPhaseError(fiber, fiber.return, error);
-              }
-              break;
-            case 18:
-              try {
-                var instance$jscomp$1 = fiber.stateNode;
-                isHidden ? runWithFiberInDEV(
-                  fiber,
-                  hideDehydratedBoundary,
-                  instance$jscomp$1
-                ) : runWithFiberInDEV(
-                  fiber,
-                  unhideDehydratedBoundary,
-                  fiber.stateNode
-                );
-              } catch (error) {
-                captureCommitPhaseError(fiber, fiber.return, error);
-              }
-              break;
-            case 22:
-            case 23:
-              null === fiber.memoizedState && hideOrUnhideAllChildren(fiber, isHidden);
-              break;
-            default:
-              hideOrUnhideAllChildren(fiber, isHidden);
-          }
-        }
-        function hideOrUnhideNearestPortals(parentFiber, isHidden$jscomp$0) {
-          if (parentFiber.subtreeFlags & 67108864)
-            for (parentFiber = parentFiber.child; null !== parentFiber; ) {
-              a: {
-                var fiber = parentFiber, isHidden = isHidden$jscomp$0;
-                switch (fiber.tag) {
-                  case 4:
-                    hideOrUnhideAllChildrenOnFiber(fiber, isHidden);
-                    break a;
-                  case 22:
-                    null === fiber.memoizedState && hideOrUnhideNearestPortals(fiber, isHidden);
-                    break a;
-                  default:
-                    hideOrUnhideNearestPortals(fiber, isHidden);
-                }
-              }
-              parentFiber = parentFiber.sibling;
-            }
         }
         function detachFiberAfterEffects(fiber) {
           var alternate = fiber.alternate;
@@ -12303,11 +11409,10 @@
                 nearestMountedAncestor,
                 deletedFiber
               );
-              deletedFiber.memoizedState ? deletedFiber.memoizedState.count-- : deletedFiber.stateNode && !offscreenSubtreeWasHidden && (finishedRoot = deletedFiber.stateNode, finishedRoot.parentNode.removeChild(finishedRoot));
+              deletedFiber.memoizedState ? deletedFiber.memoizedState.count-- : deletedFiber.stateNode && (finishedRoot = deletedFiber.stateNode, finishedRoot.parentNode.removeChild(finishedRoot));
               break;
             case 27:
               offscreenSubtreeWasHidden || safelyDetachRef(deletedFiber, nearestMountedAncestor);
-              commitFragmentInstanceDeletionEffects(deletedFiber);
               var prevHostParent = hostParent, prevHostParentIsContainer = hostParentIsContainer;
               isSingletonScope(deletedFiber.type) && (hostParent = deletedFiber.stateNode, hostParentIsContainer = false);
               recursivelyTraverseDeletionEffects(
@@ -12318,17 +11423,14 @@
               runWithFiberInDEV(
                 deletedFiber,
                 releaseSingletonInstance,
-                deletedFiber.stateNode,
-                deletedFiber.type,
-                deletedFiber.memoizedProps
+                deletedFiber.stateNode
               );
               hostParent = prevHostParent;
               hostParentIsContainer = prevHostParentIsContainer;
               break;
             case 5:
-              offscreenSubtreeWasHidden || safelyDetachRef(deletedFiber, nearestMountedAncestor), commitFragmentInstanceDeletionEffects(deletedFiber);
+              offscreenSubtreeWasHidden || safelyDetachRef(deletedFiber, nearestMountedAncestor);
             case 6:
-              6 === deletedFiber.tag && commitFragmentInstanceDeletionEffects(deletedFiber);
               prevHostParent = hostParent;
               prevHostParentIsContainer = hostParentIsContainer;
               hostParent = null;
@@ -12347,7 +11449,7 @@
                       removeChildFromContainer,
                       hostParent,
                       deletedFiber.stateNode
-                    ), viewTransitionMutationContext = true;
+                    );
                   } catch (error) {
                     captureCommitPhaseError(
                       deletedFiber,
@@ -12362,7 +11464,7 @@
                       removeChild,
                       hostParent,
                       deletedFiber.stateNode
-                    ), viewTransitionMutationContext = true;
+                    );
                   } catch (error) {
                     captureCommitPhaseError(
                       deletedFiber,
@@ -12437,23 +11539,6 @@
                 deletedFiber
               );
               offscreenSubtreeWasHidden = prevHostParent;
-              break;
-            case 30:
-              deletedFiber.flags & 18874368 && untrackNamedViewTransition(deletedFiber);
-              safelyDetachRef(deletedFiber, nearestMountedAncestor);
-              recursivelyTraverseDeletionEffects(
-                finishedRoot,
-                nearestMountedAncestor,
-                deletedFiber
-              );
-              break;
-            case 7:
-              offscreenSubtreeWasHidden || safelyDetachRef(deletedFiber, nearestMountedAncestor);
-              recursivelyTraverseDeletionEffects(
-                finishedRoot,
-                nearestMountedAncestor,
-                deletedFiber
-              );
               break;
             default:
               recursivelyTraverseDeletionEffects(
@@ -12533,7 +11618,7 @@
             }
           });
         }
-        function recursivelyTraverseMutationEffects(root$jscomp$0, parentFiber, lanes) {
+        function recursivelyTraverseMutationEffects(root$jscomp$0, parentFiber) {
           var deletions = parentFiber.deletions;
           if (null !== deletions)
             for (var i = 0; i < deletions.length; i++) {
@@ -12580,21 +11665,16 @@
             }
           if (parentFiber.subtreeFlags & 13886)
             for (parentFiber = parentFiber.child; null !== parentFiber; )
-              commitMutationEffectsOnFiber(parentFiber, root$jscomp$0, lanes), parentFiber = parentFiber.sibling;
+              commitMutationEffectsOnFiber(parentFiber, root$jscomp$0), parentFiber = parentFiber.sibling;
         }
-        function commitMutationEffectsOnFiber(finishedWork, root3, lanes) {
+        function commitMutationEffectsOnFiber(finishedWork, root3) {
           var prevEffectStart = pushComponentEffectStart(), prevEffectDuration = pushComponentEffectDuration(), prevEffectErrors = pushComponentEffectErrors(), prevEffectDidSpawnUpdate = pushComponentEffectDidSpawnUpdate(), current3 = finishedWork.alternate, flags = finishedWork.flags;
           switch (finishedWork.tag) {
             case 0:
             case 11:
             case 14:
             case 15:
-              if (flags & 4 && (current3 = finishedWork.updateQueue, current3 = null !== current3 ? current3.events : null, null !== current3))
-                for (var ii = 0; ii < current3.length; ii++) {
-                  var _eventPayloads$ii2 = current3[ii];
-                  _eventPayloads$ii2.ref.impl = _eventPayloads$ii2.nextImpl;
-                }
-              recursivelyTraverseMutationEffects(root3, finishedWork, lanes);
+              recursivelyTraverseMutationEffects(root3, finishedWork);
               commitReconciliationEffects(finishedWork);
               flags & 4 && (commitHookEffectListUnmount(
                 Insertion | HasEffect,
@@ -12607,116 +11687,126 @@
               ));
               break;
             case 1:
-              recursivelyTraverseMutationEffects(root3, finishedWork, lanes);
+              recursivelyTraverseMutationEffects(root3, finishedWork);
               commitReconciliationEffects(finishedWork);
               flags & 512 && (offscreenSubtreeWasHidden || null === current3 || safelyDetachRef(current3, current3.return));
-              flags & 64 && offscreenSubtreeIsHidden && (root3 = finishedWork.updateQueue, null !== root3 && (lanes = root3.callbacks, null !== lanes && (flags = root3.shared.hiddenCallbacks, root3.shared.hiddenCallbacks = null === flags ? lanes : flags.concat(lanes))));
+              if (flags & 64 && offscreenSubtreeIsHidden && (flags = finishedWork.updateQueue, null !== flags && (current3 = flags.callbacks, null !== current3))) {
+                var existingHiddenCallbacks = flags.shared.hiddenCallbacks;
+                flags.shared.hiddenCallbacks = null === existingHiddenCallbacks ? current3 : existingHiddenCallbacks.concat(current3);
+              }
               break;
             case 26:
-              ii = currentHoistableRoot;
-              recursivelyTraverseMutationEffects(root3, finishedWork, lanes);
+              existingHiddenCallbacks = currentHoistableRoot;
+              recursivelyTraverseMutationEffects(root3, finishedWork);
               commitReconciliationEffects(finishedWork);
               flags & 512 && (offscreenSubtreeWasHidden || null === current3 || safelyDetachRef(current3, current3.return));
-              if (flags & 4)
-                if (flags = null !== current3 ? current3.memoizedState : null, lanes = finishedWork.memoizedState, null === current3)
-                  if (null === lanes)
-                    if (null === finishedWork.stateNode)
-                      if (offscreenSubtreeIsHidden)
-                        finishedWork.stateNode = createHoistableInstance(
-                          finishedWork.type,
-                          finishedWork.memoizedProps,
-                          root3.containerInfo,
-                          finishedWork
-                        );
-                      else {
-                        a: {
-                          root3 = finishedWork.type;
-                          lanes = finishedWork.memoizedProps;
-                          flags = ii.ownerDocument || ii;
-                          b: switch (root3) {
-                            case "title":
-                              current3 = flags.getElementsByTagName("title")[0];
-                              if (!current3 || current3[internalHoistableMarker] || current3[internalInstanceKey] || current3.namespaceURI === SVG_NAMESPACE || current3.hasAttribute("itemprop"))
-                                current3 = flags.createElement(root3), flags.head.insertBefore(
-                                  current3,
-                                  flags.querySelector("head > title")
-                                );
-                              setInitialProperties(current3, root3, lanes);
-                              current3[internalInstanceKey] = finishedWork;
-                              markNodeAsHoistable(current3);
-                              root3 = current3;
-                              break a;
-                            case "link":
-                              if (ii = getHydratableHoistableCache(
-                                "link",
-                                "href",
-                                flags
-                              ).get(root3 + (lanes.href || ""))) {
-                                for (_eventPayloads$ii2 = 0; _eventPayloads$ii2 < ii.length; _eventPayloads$ii2++)
-                                  if (current3 = ii[_eventPayloads$ii2], current3.getAttribute("href") === (null == lanes.href || "" === lanes.href ? null : lanes.href) && current3.getAttribute("rel") === (null == lanes.rel ? null : lanes.rel) && current3.getAttribute("title") === (null == lanes.title ? null : lanes.title) && current3.getAttribute("crossorigin") === (null == lanes.crossOrigin ? null : lanes.crossOrigin)) {
-                                    ii.splice(_eventPayloads$ii2, 1);
-                                    break b;
-                                  }
-                              }
-                              current3 = flags.createElement(root3);
-                              setInitialProperties(current3, root3, lanes);
-                              flags.head.appendChild(current3);
-                              break;
-                            case "meta":
-                              if (ii = getHydratableHoistableCache(
-                                "meta",
-                                "content",
-                                flags
-                              ).get(root3 + (lanes.content || ""))) {
-                                for (_eventPayloads$ii2 = 0; _eventPayloads$ii2 < ii.length; _eventPayloads$ii2++)
-                                  if (current3 = ii[_eventPayloads$ii2], checkAttributeStringCoercion(
-                                    lanes.content,
-                                    "content"
-                                  ), current3.getAttribute("content") === (null == lanes.content ? null : "" + lanes.content) && current3.getAttribute("name") === (null == lanes.name ? null : lanes.name) && current3.getAttribute("property") === (null == lanes.property ? null : lanes.property) && current3.getAttribute("http-equiv") === (null == lanes.httpEquiv ? null : lanes.httpEquiv) && current3.getAttribute("charset") === (null == lanes.charSet ? null : lanes.charSet)) {
-                                    ii.splice(_eventPayloads$ii2, 1);
-                                    break b;
-                                  }
-                              }
-                              current3 = flags.createElement(root3);
-                              setInitialProperties(current3, root3, lanes);
-                              flags.head.appendChild(current3);
-                              break;
-                            default:
-                              throw Error(
-                                'getNodesForType encountered a type it did not expect: "' + root3 + '". This is a bug in React.'
+              if (flags & 4) {
+                var currentResource = null !== current3 ? current3.memoizedState : null;
+                flags = finishedWork.memoizedState;
+                if (null === current3)
+                  if (null === flags)
+                    if (null === finishedWork.stateNode) {
+                      a: {
+                        flags = finishedWork.type;
+                        current3 = finishedWork.memoizedProps;
+                        existingHiddenCallbacks = existingHiddenCallbacks.ownerDocument || existingHiddenCallbacks;
+                        b: switch (flags) {
+                          case "title":
+                            currentResource = existingHiddenCallbacks.getElementsByTagName(
+                              "title"
+                            )[0];
+                            if (!currentResource || currentResource[internalHoistableMarker] || currentResource[internalInstanceKey] || currentResource.namespaceURI === SVG_NAMESPACE || currentResource.hasAttribute("itemprop"))
+                              currentResource = existingHiddenCallbacks.createElement(flags), existingHiddenCallbacks.head.insertBefore(
+                                currentResource,
+                                existingHiddenCallbacks.querySelector(
+                                  "head > title"
+                                )
                               );
-                          }
-                          current3[internalInstanceKey] = finishedWork;
-                          markNodeAsHoistable(current3);
-                          root3 = current3;
+                            setInitialProperties(currentResource, flags, current3);
+                            currentResource[internalInstanceKey] = finishedWork;
+                            markNodeAsHoistable(currentResource);
+                            flags = currentResource;
+                            break a;
+                          case "link":
+                            var maybeNodes = getHydratableHoistableCache(
+                              "link",
+                              "href",
+                              existingHiddenCallbacks
+                            ).get(flags + (current3.href || ""));
+                            if (maybeNodes) {
+                              for (var i = 0; i < maybeNodes.length; i++)
+                                if (currentResource = maybeNodes[i], currentResource.getAttribute("href") === (null == current3.href || "" === current3.href ? null : current3.href) && currentResource.getAttribute("rel") === (null == current3.rel ? null : current3.rel) && currentResource.getAttribute("title") === (null == current3.title ? null : current3.title) && currentResource.getAttribute("crossorigin") === (null == current3.crossOrigin ? null : current3.crossOrigin)) {
+                                  maybeNodes.splice(i, 1);
+                                  break b;
+                                }
+                            }
+                            currentResource = existingHiddenCallbacks.createElement(flags);
+                            setInitialProperties(currentResource, flags, current3);
+                            existingHiddenCallbacks.head.appendChild(
+                              currentResource
+                            );
+                            break;
+                          case "meta":
+                            if (maybeNodes = getHydratableHoistableCache(
+                              "meta",
+                              "content",
+                              existingHiddenCallbacks
+                            ).get(flags + (current3.content || ""))) {
+                              for (i = 0; i < maybeNodes.length; i++)
+                                if (currentResource = maybeNodes[i], checkAttributeStringCoercion(
+                                  current3.content,
+                                  "content"
+                                ), currentResource.getAttribute("content") === (null == current3.content ? null : "" + current3.content) && currentResource.getAttribute("name") === (null == current3.name ? null : current3.name) && currentResource.getAttribute("property") === (null == current3.property ? null : current3.property) && currentResource.getAttribute("http-equiv") === (null == current3.httpEquiv ? null : current3.httpEquiv) && currentResource.getAttribute("charset") === (null == current3.charSet ? null : current3.charSet)) {
+                                  maybeNodes.splice(i, 1);
+                                  break b;
+                                }
+                            }
+                            currentResource = existingHiddenCallbacks.createElement(flags);
+                            setInitialProperties(currentResource, flags, current3);
+                            existingHiddenCallbacks.head.appendChild(
+                              currentResource
+                            );
+                            break;
+                          default:
+                            throw Error(
+                              'getNodesForType encountered a type it did not expect: "' + flags + '". This is a bug in React.'
+                            );
                         }
-                        finishedWork.stateNode = root3;
+                        currentResource[internalInstanceKey] = finishedWork;
+                        markNodeAsHoistable(currentResource);
+                        flags = currentResource;
                       }
-                    else
-                      offscreenSubtreeIsHidden || mountHoistable(
-                        ii,
+                      finishedWork.stateNode = flags;
+                    } else
+                      mountHoistable(
+                        existingHiddenCallbacks,
                         finishedWork.type,
                         finishedWork.stateNode
                       );
                   else
                     finishedWork.stateNode = acquireResource(
-                      ii,
-                      lanes,
+                      existingHiddenCallbacks,
+                      flags,
                       finishedWork.memoizedProps
                     );
                 else
-                  flags !== lanes ? (null === flags ? (root3 = current3.stateNode, null === root3 || offscreenSubtreeWasHidden || root3.parentNode.removeChild(root3)) : flags.count--, null === lanes ? offscreenSubtreeIsHidden || mountHoistable(
-                    ii,
+                  currentResource !== flags ? (null === currentResource ? null !== current3.stateNode && (current3 = current3.stateNode, current3.parentNode.removeChild(current3)) : currentResource.count--, null === flags ? mountHoistable(
+                    existingHiddenCallbacks,
                     finishedWork.type,
                     finishedWork.stateNode
-                  ) : acquireResource(ii, lanes, finishedWork.memoizedProps)) : null === lanes && null !== finishedWork.stateNode && commitHostUpdate(
+                  ) : acquireResource(
+                    existingHiddenCallbacks,
+                    flags,
+                    finishedWork.memoizedProps
+                  )) : null === flags && null !== finishedWork.stateNode && commitHostUpdate(
                     finishedWork,
                     finishedWork.memoizedProps,
                     current3.memoizedProps
                   );
+              }
               break;
             case 27:
-              recursivelyTraverseMutationEffects(root3, finishedWork, lanes);
+              recursivelyTraverseMutationEffects(root3, finishedWork);
               commitReconciliationEffects(finishedWork);
               flags & 512 && (offscreenSubtreeWasHidden || null === current3 || safelyDetachRef(current3, current3.return));
               null !== current3 && flags & 4 && commitHostUpdate(
@@ -12726,61 +11816,61 @@
               );
               break;
             case 5:
-              ii = offscreenDirectParentIsHidden;
-              offscreenDirectParentIsHidden = false;
-              recursivelyTraverseMutationEffects(root3, finishedWork, lanes);
-              offscreenDirectParentIsHidden = ii;
+              recursivelyTraverseMutationEffects(root3, finishedWork);
               commitReconciliationEffects(finishedWork);
               flags & 512 && (offscreenSubtreeWasHidden || null === current3 || safelyDetachRef(current3, current3.return));
               if (finishedWork.flags & 32) {
-                root3 = finishedWork.stateNode;
+                existingHiddenCallbacks = finishedWork.stateNode;
                 try {
-                  runWithFiberInDEV(finishedWork, resetTextContent, root3), viewTransitionMutationContext = true;
+                  runWithFiberInDEV(
+                    finishedWork,
+                    resetTextContent,
+                    existingHiddenCallbacks
+                  );
                 } catch (error) {
                   captureCommitPhaseError(finishedWork, finishedWork.return, error);
                 }
               }
-              flags & 4 && null != finishedWork.stateNode && (root3 = finishedWork.memoizedProps, commitHostUpdate(
+              flags & 4 && null != finishedWork.stateNode && (existingHiddenCallbacks = finishedWork.memoizedProps, commitHostUpdate(
                 finishedWork,
-                root3,
-                null !== current3 ? current3.memoizedProps : root3
+                existingHiddenCallbacks,
+                null !== current3 ? current3.memoizedProps : existingHiddenCallbacks
               ));
               flags & 1024 && (needsFormReset = true, "form" !== finishedWork.type && console.error(
                 "Unexpected host component type. Expected a form. This is a bug in React."
               ));
               break;
             case 6:
-              recursivelyTraverseMutationEffects(root3, finishedWork, lanes);
+              recursivelyTraverseMutationEffects(root3, finishedWork);
               commitReconciliationEffects(finishedWork);
               if (flags & 4) {
                 if (null === finishedWork.stateNode)
                   throw Error(
                     "This should have a text node initialized. This error is likely caused by a bug in React. Please file an issue."
                   );
-                root3 = finishedWork.memoizedProps;
-                lanes = null !== current3 ? current3.memoizedProps : root3;
-                flags = finishedWork.stateNode;
+                flags = finishedWork.memoizedProps;
+                current3 = null !== current3 ? current3.memoizedProps : flags;
+                existingHiddenCallbacks = finishedWork.stateNode;
                 try {
                   runWithFiberInDEV(
                     finishedWork,
                     commitTextUpdate,
-                    flags,
-                    lanes,
-                    root3
-                  ), viewTransitionMutationContext = true;
+                    existingHiddenCallbacks,
+                    current3,
+                    flags
+                  );
                 } catch (error) {
                   captureCommitPhaseError(finishedWork, finishedWork.return, error);
                 }
               }
               break;
             case 3:
-              ii = pushNestedEffectDurations();
-              viewTransitionMutationContext = false;
+              existingHiddenCallbacks = pushNestedEffectDurations();
               tagCaches = null;
-              _eventPayloads$ii2 = currentHoistableRoot;
+              currentResource = currentHoistableRoot;
               currentHoistableRoot = getHoistableRoot(root3.containerInfo);
-              recursivelyTraverseMutationEffects(root3, finishedWork, lanes);
-              currentHoistableRoot = _eventPayloads$ii2;
+              recursivelyTraverseMutationEffects(root3, finishedWork);
+              currentHoistableRoot = currentResource;
               commitReconciliationEffects(finishedWork);
               if (flags & 4 && null !== current3 && current3.memoizedState.isDehydrated)
                 try {
@@ -12793,93 +11883,139 @@
                   captureCommitPhaseError(finishedWork, finishedWork.return, error);
                 }
               needsFormReset && (needsFormReset = false, recursivelyResetForms(finishedWork));
-              root3.effectDuration += popNestedEffectDurations(ii);
-              viewTransitionMutationContext = false;
+              root3.effectDuration += popNestedEffectDurations(
+                existingHiddenCallbacks
+              );
               break;
             case 4:
-              flags = offscreenDirectParentIsHidden;
-              offscreenDirectParentIsHidden = offscreenSubtreeIsHidden;
-              current3 = pushMutationContext();
-              ii = currentHoistableRoot;
+              flags = currentHoistableRoot;
               currentHoistableRoot = getHoistableRoot(
                 finishedWork.stateNode.containerInfo
               );
-              recursivelyTraverseMutationEffects(root3, finishedWork, lanes);
+              recursivelyTraverseMutationEffects(root3, finishedWork);
               commitReconciliationEffects(finishedWork);
-              currentHoistableRoot = ii;
-              viewTransitionMutationContext && inUpdateViewTransition && (rootViewTransitionAffected = true);
-              viewTransitionMutationContext = current3;
-              offscreenDirectParentIsHidden = flags;
+              currentHoistableRoot = flags;
               break;
             case 12:
               flags = pushNestedEffectDurations();
-              recursivelyTraverseMutationEffects(root3, finishedWork, lanes);
+              recursivelyTraverseMutationEffects(root3, finishedWork);
               commitReconciliationEffects(finishedWork);
               finishedWork.stateNode.effectDuration += bubbleNestedEffectDurations(flags);
               break;
             case 31:
-              recursivelyTraverseMutationEffects(root3, finishedWork, lanes);
+              recursivelyTraverseMutationEffects(root3, finishedWork);
               commitReconciliationEffects(finishedWork);
-              flags & 4 && (root3 = finishedWork.updateQueue, null !== root3 && (finishedWork.updateQueue = null, attachSuspenseRetryListeners(finishedWork, root3)));
+              flags & 4 && (flags = finishedWork.updateQueue, null !== flags && (finishedWork.updateQueue = null, attachSuspenseRetryListeners(finishedWork, flags)));
               break;
             case 13:
-              recursivelyTraverseMutationEffects(root3, finishedWork, lanes);
+              recursivelyTraverseMutationEffects(root3, finishedWork);
               commitReconciliationEffects(finishedWork);
               finishedWork.child.flags & 8192 && null !== finishedWork.memoizedState !== (null !== current3 && null !== current3.memoizedState) && (globalMostRecentFallbackTime = now$1());
-              flags & 4 && (root3 = finishedWork.updateQueue, null !== root3 && (finishedWork.updateQueue = null, attachSuspenseRetryListeners(finishedWork, root3)));
+              flags & 4 && (flags = finishedWork.updateQueue, null !== flags && (finishedWork.updateQueue = null, attachSuspenseRetryListeners(finishedWork, flags)));
               break;
             case 22:
-              ii = null !== finishedWork.memoizedState;
-              _eventPayloads$ii2 = null !== current3 && null !== current3.memoizedState;
-              var prevOffscreenSubtreeIsHidden = offscreenSubtreeIsHidden, prevOffscreenSubtreeWasHidden = offscreenSubtreeWasHidden, _prevOffscreenDirectParentIsHidden2 = offscreenDirectParentIsHidden;
-              offscreenSubtreeIsHidden = prevOffscreenSubtreeIsHidden || ii;
-              offscreenDirectParentIsHidden = _prevOffscreenDirectParentIsHidden2 || ii;
-              offscreenSubtreeWasHidden = prevOffscreenSubtreeWasHidden || _eventPayloads$ii2;
-              recursivelyTraverseMutationEffects(root3, finishedWork, lanes);
+              existingHiddenCallbacks = null !== finishedWork.memoizedState;
+              var wasHidden = null !== current3 && null !== current3.memoizedState, prevOffscreenSubtreeIsHidden = offscreenSubtreeIsHidden, prevOffscreenSubtreeWasHidden = offscreenSubtreeWasHidden;
+              offscreenSubtreeIsHidden = prevOffscreenSubtreeIsHidden || existingHiddenCallbacks;
+              offscreenSubtreeWasHidden = prevOffscreenSubtreeWasHidden || wasHidden;
+              recursivelyTraverseMutationEffects(root3, finishedWork);
               offscreenSubtreeWasHidden = prevOffscreenSubtreeWasHidden;
-              offscreenDirectParentIsHidden = _prevOffscreenDirectParentIsHidden2;
               offscreenSubtreeIsHidden = prevOffscreenSubtreeIsHidden;
-              _eventPayloads$ii2 && !ii && !prevOffscreenSubtreeIsHidden && !prevOffscreenSubtreeWasHidden && (finishedWork.mode & ProfileMode) !== NoMode && 0 <= componentEffectStartTime && 0 <= componentEffectEndTime && 0.05 < componentEffectEndTime - componentEffectStartTime && logComponentReappeared(
+              wasHidden && !existingHiddenCallbacks && !prevOffscreenSubtreeIsHidden && !prevOffscreenSubtreeWasHidden && (finishedWork.mode & ProfileMode) !== NoMode && 0 <= componentEffectStartTime && 0 <= componentEffectEndTime && 0.05 < componentEffectEndTime - componentEffectStartTime && logComponentReappeared(
                 finishedWork,
                 componentEffectStartTime,
                 componentEffectEndTime
               );
               commitReconciliationEffects(finishedWork);
-              flags & 8192 && (root3 = finishedWork.stateNode, root3._visibility = ii ? root3._visibility & ~OffscreenVisible : root3._visibility | OffscreenVisible, !ii || null === current3 || _eventPayloads$ii2 || offscreenSubtreeIsHidden || offscreenSubtreeWasHidden || (root3 = IncludeHostSingletons, lanes = _eventPayloads$ii2 || offscreenSubtreeWasHidden, current3 = offscreenSubtreeIsHidden, _eventPayloads$ii2 = offscreenSubtreeWasHidden, offscreenSubtreeIsHidden = ii || offscreenSubtreeIsHidden, offscreenSubtreeWasHidden = lanes, recursivelyTraverseDisappearLayoutEffects(finishedWork, root3), (finishedWork.mode & ProfileMode) !== NoMode && 0 <= componentEffectStartTime && 0 <= componentEffectEndTime && 0.05 < componentEffectEndTime - componentEffectStartTime && logComponentTrigger(
-                finishedWork,
-                componentEffectStartTime,
-                componentEffectEndTime,
-                "Disconnect"
-              ), offscreenSubtreeIsHidden = current3, offscreenSubtreeWasHidden = _eventPayloads$ii2), !ii && offscreenDirectParentIsHidden || hideOrUnhideAllChildren(finishedWork, ii));
-              flags & 4 && (root3 = finishedWork.updateQueue, null !== root3 && (lanes = root3.retryQueue, null !== lanes && (root3.retryQueue = null, attachSuspenseRetryListeners(finishedWork, lanes))));
+              if (flags & 8192)
+                a: for (root3 = finishedWork.stateNode, root3._visibility = existingHiddenCallbacks ? root3._visibility & ~OffscreenVisible : root3._visibility | OffscreenVisible, !existingHiddenCallbacks || null === current3 || wasHidden || offscreenSubtreeIsHidden || offscreenSubtreeWasHidden || (recursivelyTraverseDisappearLayoutEffects(finishedWork), (finishedWork.mode & ProfileMode) !== NoMode && 0 <= componentEffectStartTime && 0 <= componentEffectEndTime && 0.05 < componentEffectEndTime - componentEffectStartTime && logComponentTrigger(
+                  finishedWork,
+                  componentEffectStartTime,
+                  componentEffectEndTime,
+                  "Disconnect"
+                )), current3 = null, root3 = finishedWork; ; ) {
+                  if (5 === root3.tag || 26 === root3.tag) {
+                    if (null === current3) {
+                      wasHidden = current3 = root3;
+                      try {
+                        currentResource = wasHidden.stateNode, existingHiddenCallbacks ? runWithFiberInDEV(
+                          wasHidden,
+                          hideInstance,
+                          currentResource
+                        ) : runWithFiberInDEV(
+                          wasHidden,
+                          unhideInstance,
+                          wasHidden.stateNode,
+                          wasHidden.memoizedProps
+                        );
+                      } catch (error) {
+                        captureCommitPhaseError(wasHidden, wasHidden.return, error);
+                      }
+                    }
+                  } else if (6 === root3.tag) {
+                    if (null === current3) {
+                      wasHidden = root3;
+                      try {
+                        maybeNodes = wasHidden.stateNode, existingHiddenCallbacks ? runWithFiberInDEV(
+                          wasHidden,
+                          hideTextInstance,
+                          maybeNodes
+                        ) : runWithFiberInDEV(
+                          wasHidden,
+                          unhideTextInstance,
+                          maybeNodes,
+                          wasHidden.memoizedProps
+                        );
+                      } catch (error) {
+                        captureCommitPhaseError(wasHidden, wasHidden.return, error);
+                      }
+                    }
+                  } else if (18 === root3.tag) {
+                    if (null === current3) {
+                      wasHidden = root3;
+                      try {
+                        i = wasHidden.stateNode, existingHiddenCallbacks ? runWithFiberInDEV(
+                          wasHidden,
+                          hideDehydratedBoundary,
+                          i
+                        ) : runWithFiberInDEV(
+                          wasHidden,
+                          unhideDehydratedBoundary,
+                          wasHidden.stateNode
+                        );
+                      } catch (error) {
+                        captureCommitPhaseError(wasHidden, wasHidden.return, error);
+                      }
+                    }
+                  } else if ((22 !== root3.tag && 23 !== root3.tag || null === root3.memoizedState || root3 === finishedWork) && null !== root3.child) {
+                    root3.child.return = root3;
+                    root3 = root3.child;
+                    continue;
+                  }
+                  if (root3 === finishedWork) break a;
+                  for (; null === root3.sibling; ) {
+                    if (null === root3.return || root3.return === finishedWork)
+                      break a;
+                    current3 === root3 && (current3 = null);
+                    root3 = root3.return;
+                  }
+                  current3 === root3 && (current3 = null);
+                  root3.sibling.return = root3.return;
+                  root3 = root3.sibling;
+                }
+              flags & 4 && (flags = finishedWork.updateQueue, null !== flags && (current3 = flags.retryQueue, null !== current3 && (flags.retryQueue = null, attachSuspenseRetryListeners(finishedWork, current3))));
               break;
             case 19:
-              recursivelyTraverseMutationEffects(root3, finishedWork, lanes);
+              recursivelyTraverseMutationEffects(root3, finishedWork);
               commitReconciliationEffects(finishedWork);
-              flags & 4 && (root3 = finishedWork.updateQueue, null !== root3 && (finishedWork.updateQueue = null, attachSuspenseRetryListeners(finishedWork, root3)));
+              flags & 4 && (flags = finishedWork.updateQueue, null !== flags && (finishedWork.updateQueue = null, attachSuspenseRetryListeners(finishedWork, flags)));
               break;
             case 30:
-              flags & 512 && (offscreenSubtreeWasHidden || null === current3 || safelyDetachRef(current3, current3.return));
-              flags = pushMutationContext();
-              ii = inUpdateViewTransition;
-              _eventPayloads$ii2 = (lanes & 335544064) === lanes;
-              prevOffscreenSubtreeIsHidden = finishedWork.memoizedProps;
-              inUpdateViewTransition = _eventPayloads$ii2 && "none" !== getViewTransitionClassName(
-                prevOffscreenSubtreeIsHidden.default,
-                prevOffscreenSubtreeIsHidden.update
-              );
-              recursivelyTraverseMutationEffects(root3, finishedWork, lanes);
-              commitReconciliationEffects(finishedWork);
-              _eventPayloads$ii2 && null !== current3 && viewTransitionMutationContext && (finishedWork.flags |= 4);
-              inUpdateViewTransition = ii;
-              viewTransitionMutationContext = flags;
               break;
             case 21:
               break;
-            case 7:
-              flags & 512 && (offscreenSubtreeWasHidden || null === current3 || safelyDetachRef(current3, current3.return)), current3 && null !== current3.stateNode && (current3.stateNode._fragmentFiber = finishedWork);
             default:
-              recursivelyTraverseMutationEffects(root3, finishedWork, lanes), commitReconciliationEffects(finishedWork);
+              recursivelyTraverseMutationEffects(root3, finishedWork), commitReconciliationEffects(finishedWork);
           }
           (finishedWork.mode & ProfileMode) !== NoMode && 0 <= componentEffectStartTime && 0 <= componentEffectEndTime && ((componentEffectSpawnedUpdate || 0.05 < componentEffectDuration) && logComponentEffect(
             finishedWork,
@@ -12918,106 +12054,8 @@
             for (parentFiber = parentFiber.child; null !== parentFiber; ) {
               var fiber = parentFiber;
               recursivelyResetForms(fiber);
-              5 === fiber.tag && fiber.flags & 1024 && (fiber = fiber.stateNode, _enabled = true, fiber.reset(), _enabled = false);
+              5 === fiber.tag && fiber.flags & 1024 && fiber.stateNode.reset();
               parentFiber = parentFiber.sibling;
-            }
-        }
-        function recursivelyTraverseAfterMutationEffects(root3, parentFiber) {
-          if (parentFiber.subtreeFlags & 9270)
-            for (parentFiber = parentFiber.child; null !== parentFiber; )
-              commitAfterMutationEffectsOnFiber(parentFiber, root3), parentFiber = parentFiber.sibling;
-          else measureNestedViewTransitions(parentFiber, false);
-        }
-        function commitAfterMutationEffectsOnFiber(finishedWork, root3) {
-          var current3 = finishedWork.alternate;
-          if (null === current3) commitEnterViewTransitions(finishedWork, false);
-          else
-            switch (finishedWork.tag) {
-              case 3:
-                rootViewTransitionNameCanceled = viewTransitionContextChanged = false;
-                pushViewTransitionCancelableScope();
-                recursivelyTraverseAfterMutationEffects(root3, finishedWork);
-                if (!viewTransitionContextChanged && !rootViewTransitionAffected) {
-                  finishedWork = viewTransitionCancelableChildren;
-                  if (null !== finishedWork)
-                    for (var i = 0; i < finishedWork.length; i += 3) {
-                      current3 = finishedWork[i];
-                      var oldName = finishedWork[i + 1];
-                      restoreViewTransitionName(current3, finishedWork[i + 2]);
-                      current3 = current3.ownerDocument.documentElement;
-                      null !== current3 && current3.animate(
-                        { opacity: [0, 0], pointerEvents: ["none", "none"] },
-                        {
-                          duration: 0,
-                          fill: "forwards",
-                          pseudoElement: "::view-transition-group(" + oldName + ")"
-                        }
-                      );
-                    }
-                  finishedWork = root3.containerInfo;
-                  finishedWork = 9 === finishedWork.nodeType ? finishedWork.documentElement : finishedWork.ownerDocument.documentElement;
-                  null !== finishedWork && "" === finishedWork.style.viewTransitionName && (finishedWork.style.viewTransitionName = "none", finishedWork.animate(
-                    { opacity: [0, 0], pointerEvents: ["none", "none"] },
-                    {
-                      duration: 0,
-                      fill: "forwards",
-                      pseudoElement: "::view-transition-group(root)"
-                    }
-                  ), finishedWork.animate(
-                    { width: [0, 0], height: [0, 0] },
-                    {
-                      duration: 0,
-                      fill: "forwards",
-                      pseudoElement: "::view-transition"
-                    }
-                  ));
-                  rootViewTransitionNameCanceled = true;
-                }
-                viewTransitionCancelableChildren = null;
-                break;
-              case 5:
-                recursivelyTraverseAfterMutationEffects(root3, finishedWork);
-                break;
-              case 4:
-                i = viewTransitionContextChanged;
-                viewTransitionContextChanged = false;
-                recursivelyTraverseAfterMutationEffects(root3, finishedWork);
-                viewTransitionContextChanged && (rootViewTransitionAffected = true);
-                viewTransitionContextChanged = i;
-                break;
-              case 22:
-                null === finishedWork.memoizedState && (null !== current3.memoizedState ? commitEnterViewTransitions(finishedWork, false) : recursivelyTraverseAfterMutationEffects(root3, finishedWork));
-                break;
-              case 30:
-                i = viewTransitionContextChanged;
-                oldName = pushViewTransitionCancelableScope();
-                viewTransitionContextChanged = false;
-                recursivelyTraverseAfterMutationEffects(root3, finishedWork);
-                viewTransitionContextChanged && (finishedWork.flags |= 4);
-                var props = finishedWork.memoizedProps, state = finishedWork.stateNode;
-                root3 = getViewTransitionName(props, state);
-                state = getViewTransitionName(current3.memoizedProps, state);
-                var className = getViewTransitionClassName(
-                  props.default,
-                  props.update
-                );
-                "none" === className ? root3 = false : (props = current3.memoizedState, current3.memoizedState = null, current3 = finishedWork.child, viewTransitionHostInstanceIdx = 0, root3 = measureViewTransitionHostInstancesRecursive(
-                  finishedWork,
-                  current3,
-                  root3,
-                  state,
-                  className,
-                  props,
-                  true
-                ), viewTransitionHostInstanceIdx !== (null === props ? 0 : props.length) && (finishedWork.flags |= 32));
-                0 !== (finishedWork.flags & 4) && root3 ? (scheduleViewTransitionEvent(
-                  finishedWork,
-                  finishedWork.memoizedProps.onUpdate
-                ), viewTransitionCancelableChildren = oldName) : null !== oldName && (oldName.push.apply(oldName, viewTransitionCancelableChildren), viewTransitionCancelableChildren = oldName);
-                viewTransitionContextChanged = 0 !== (finishedWork.flags & 32) ? true : i;
-                break;
-              default:
-                recursivelyTraverseAfterMutationEffects(root3, finishedWork);
             }
         }
         function recursivelyTraverseLayoutEffects(root3, parentFiber) {
@@ -13025,7 +12063,7 @@
             for (parentFiber = parentFiber.child; null !== parentFiber; )
               commitLayoutEffectOnFiber(root3, parentFiber.alternate, parentFiber), parentFiber = parentFiber.sibling;
         }
-        function disappearLayoutEffects(finishedWork, layoutEffectTraversalFlags) {
+        function disappearLayoutEffects(finishedWork) {
           var prevEffectStart = pushComponentEffectStart(), prevEffectDuration = pushComponentEffectDuration(), prevEffectErrors = pushComponentEffectErrors(), prevEffectDidSpawnUpdate = pushComponentEffectDidSpawnUpdate();
           switch (finishedWork.tag) {
             case 0:
@@ -13037,10 +12075,7 @@
                 finishedWork.return,
                 Layout
               );
-              recursivelyTraverseDisappearLayoutEffects(
-                finishedWork,
-                layoutEffectTraversalFlags
-              );
+              recursivelyTraverseDisappearLayoutEffects(finishedWork);
               break;
             case 1:
               safelyDetachRef(finishedWork, finishedWork.return);
@@ -13050,60 +12085,27 @@
                 finishedWork.return,
                 instance
               );
-              recursivelyTraverseDisappearLayoutEffects(
-                finishedWork,
-                layoutEffectTraversalFlags
-              );
+              recursivelyTraverseDisappearLayoutEffects(finishedWork);
               break;
             case 27:
-              (layoutEffectTraversalFlags & IncludeHostSingletons) !== NoLayoutEffectTraversalFlags && runWithFiberInDEV(
+              runWithFiberInDEV(
                 finishedWork,
                 releaseSingletonInstance,
-                finishedWork.stateNode,
-                finishedWork.type,
-                finishedWork.memoizedProps
+                finishedWork.stateNode
               );
+            case 26:
             case 5:
               safelyDetachRef(finishedWork, finishedWork.return);
-              5 !== finishedWork.tag && 27 !== finishedWork.tag || commitFragmentInstanceDeletionEffects(finishedWork);
-              recursivelyTraverseDisappearLayoutEffects(
-                finishedWork,
-                layoutEffectTraversalFlags
-              );
-              break;
-            case 6:
-              commitFragmentInstanceDeletionEffects(finishedWork);
-              break;
-            case 26:
-              safelyDetachRef(finishedWork, finishedWork.return);
-              instance = finishedWork.stateNode;
-              null !== finishedWork.memoizedState || null === instance || offscreenSubtreeWasHidden || instance.parentNode.removeChild(instance);
-              recursivelyTraverseDisappearLayoutEffects(
-                finishedWork,
-                layoutEffectTraversalFlags
-              );
+              recursivelyTraverseDisappearLayoutEffects(finishedWork);
               break;
             case 22:
-              null === finishedWork.memoizedState && recursivelyTraverseDisappearLayoutEffects(
-                finishedWork,
-                layoutEffectTraversalFlags
-              );
+              null === finishedWork.memoizedState && recursivelyTraverseDisappearLayoutEffects(finishedWork);
               break;
             case 30:
-              finishedWork.flags & 18874368 && untrackNamedViewTransition(finishedWork);
-              safelyDetachRef(finishedWork, finishedWork.return);
-              recursivelyTraverseDisappearLayoutEffects(
-                finishedWork,
-                layoutEffectTraversalFlags
-              );
+              recursivelyTraverseDisappearLayoutEffects(finishedWork);
               break;
-            case 7:
-              safelyDetachRef(finishedWork, finishedWork.return);
             default:
-              recursivelyTraverseDisappearLayoutEffects(
-                finishedWork,
-                layoutEffectTraversalFlags
-              );
+              recursivelyTraverseDisappearLayoutEffects(finishedWork);
           }
           (finishedWork.mode & ProfileMode) !== NoMode && 0 <= componentEffectStartTime && 0 <= componentEffectEndTime && (componentEffectSpawnedUpdate || 0.05 < componentEffectDuration) && logComponentEffect(
             finishedWork,
@@ -13117,12 +12119,12 @@
           componentEffectErrors = prevEffectErrors;
           componentEffectSpawnedUpdate = prevEffectDidSpawnUpdate;
         }
-        function recursivelyTraverseDisappearLayoutEffects(parentFiber, layoutEffectTraversalFlags) {
+        function recursivelyTraverseDisappearLayoutEffects(parentFiber) {
           for (parentFiber = parentFiber.child; null !== parentFiber; )
-            disappearLayoutEffects(parentFiber, layoutEffectTraversalFlags), parentFiber = parentFiber.sibling;
+            disappearLayoutEffects(parentFiber), parentFiber = parentFiber.sibling;
         }
-        function reappearLayoutEffects(finishedRoot, current3, finishedWork, layoutEffectTraversalFlags) {
-          var prevEffectStart = pushComponentEffectStart(), prevEffectDuration = pushComponentEffectDuration(), prevEffectErrors = pushComponentEffectErrors(), prevEffectDidSpawnUpdate = pushComponentEffectDidSpawnUpdate(), flags = finishedWork.flags, includeWorkInProgressEffects = (layoutEffectTraversalFlags & IncludeWorkInProgressEffects) !== NoLayoutEffectTraversalFlags;
+        function reappearLayoutEffects(finishedRoot, current3, finishedWork, includeWorkInProgressEffects) {
+          var prevEffectStart = pushComponentEffectStart(), prevEffectDuration = pushComponentEffectDuration(), prevEffectErrors = pushComponentEffectErrors(), prevEffectDidSpawnUpdate = pushComponentEffectDidSpawnUpdate(), flags = finishedWork.flags;
           switch (finishedWork.tag) {
             case 0:
             case 11:
@@ -13130,7 +12132,7 @@
               recursivelyTraverseReappearLayoutEffects(
                 finishedRoot,
                 finishedWork,
-                layoutEffectTraversalFlags
+                includeWorkInProgressEffects
               );
               commitHookLayoutEffects(finishedWork, Layout);
               break;
@@ -13138,7 +12140,7 @@
               recursivelyTraverseReappearLayoutEffects(
                 finishedRoot,
                 finishedWork,
-                layoutEffectTraversalFlags
+                includeWorkInProgressEffects
               );
               current3 = finishedWork.stateNode;
               "function" === typeof current3.componentDidMount && runWithFiberInDEV(
@@ -13165,31 +12167,13 @@
               safelyAttachRef(finishedWork, finishedWork.return);
               break;
             case 27:
-              (layoutEffectTraversalFlags & IncludeHostSingletons) !== NoLayoutEffectTraversalFlags && commitHostSingletonAcquisition(finishedWork);
-            case 5:
-              5 !== finishedWork.tag && 27 !== finishedWork.tag || commitFragmentInstanceInsertionEffects(finishedWork);
-              recursivelyTraverseReappearLayoutEffects(
-                finishedRoot,
-                finishedWork,
-                layoutEffectTraversalFlags
-              );
-              includeWorkInProgressEffects && null === current3 && flags & 4 && commitHostMount(finishedWork);
-              safelyAttachRef(finishedWork, finishedWork.return);
-              break;
-            case 6:
-              commitFragmentInstanceInsertionEffects(finishedWork);
-              break;
+              commitHostSingletonAcquisition(finishedWork);
             case 26:
-              var instance = finishedWork.stateNode;
-              null !== finishedWork.memoizedState || null === instance || offscreenSubtreeIsHidden || mountHoistable(
-                getHoistableRoot(instance.ownerDocument),
-                finishedWork.type,
-                instance
-              );
+            case 5:
               recursivelyTraverseReappearLayoutEffects(
                 finishedRoot,
                 finishedWork,
-                layoutEffectTraversalFlags
+                includeWorkInProgressEffects
               );
               includeWorkInProgressEffects && null === current3 && flags & 4 && commitHostMount(finishedWork);
               safelyAttachRef(finishedWork, finishedWork.return);
@@ -13200,7 +12184,7 @@
                 recursivelyTraverseReappearLayoutEffects(
                   finishedRoot,
                   finishedWork,
-                  layoutEffectTraversalFlags
+                  includeWorkInProgressEffects
                 );
                 includeWorkInProgressEffects = finishedWork.stateNode;
                 includeWorkInProgressEffects.effectDuration += bubbleNestedEffectDurations(flags);
@@ -13220,14 +12204,14 @@
                 recursivelyTraverseReappearLayoutEffects(
                   finishedRoot,
                   finishedWork,
-                  layoutEffectTraversalFlags
+                  includeWorkInProgressEffects
                 );
               break;
             case 31:
               recursivelyTraverseReappearLayoutEffects(
                 finishedRoot,
                 finishedWork,
-                layoutEffectTraversalFlags
+                includeWorkInProgressEffects
               );
               includeWorkInProgressEffects && flags & 4 && commitActivityHydrationCallbacks(finishedRoot, finishedWork);
               break;
@@ -13235,7 +12219,7 @@
               recursivelyTraverseReappearLayoutEffects(
                 finishedRoot,
                 finishedWork,
-                layoutEffectTraversalFlags
+                includeWorkInProgressEffects
               );
               includeWorkInProgressEffects && flags & 4 && commitSuspenseHydrationCallbacks(finishedRoot, finishedWork);
               break;
@@ -13243,26 +12227,17 @@
               null === finishedWork.memoizedState && recursivelyTraverseReappearLayoutEffects(
                 finishedRoot,
                 finishedWork,
-                layoutEffectTraversalFlags
+                includeWorkInProgressEffects
               );
               safelyAttachRef(finishedWork, finishedWork.return);
               break;
             case 30:
-              recursivelyTraverseReappearLayoutEffects(
-                finishedRoot,
-                finishedWork,
-                layoutEffectTraversalFlags
-              );
-              flags & 18874368 && trackNamedViewTransition(finishedWork);
-              safelyAttachRef(finishedWork, finishedWork.return);
               break;
-            case 7:
-              safelyAttachRef(finishedWork, finishedWork.return);
             default:
               recursivelyTraverseReappearLayoutEffects(
                 finishedRoot,
                 finishedWork,
-                layoutEffectTraversalFlags
+                includeWorkInProgressEffects
               );
           }
           (finishedWork.mode & ProfileMode) !== NoMode && 0 <= componentEffectStartTime && 0 <= componentEffectEndTime && (componentEffectSpawnedUpdate || 0.05 < componentEffectDuration) && logComponentEffect(
@@ -13277,14 +12252,14 @@
           componentEffectErrors = prevEffectErrors;
           componentEffectSpawnedUpdate = prevEffectDidSpawnUpdate;
         }
-        function recursivelyTraverseReappearLayoutEffects(finishedRoot, parentFiber, layoutEffectTraversalFlags) {
-          layoutEffectTraversalFlags = 0 !== (parentFiber.subtreeFlags & 8772) ? layoutEffectTraversalFlags : layoutEffectTraversalFlags & ~IncludeWorkInProgressEffects;
+        function recursivelyTraverseReappearLayoutEffects(finishedRoot, parentFiber, includeWorkInProgressEffects) {
+          includeWorkInProgressEffects = includeWorkInProgressEffects && 0 !== (parentFiber.subtreeFlags & 8772);
           for (parentFiber = parentFiber.child; null !== parentFiber; )
             reappearLayoutEffects(
               finishedRoot,
               parentFiber.alternate,
               parentFiber,
-              layoutEffectTraversalFlags
+              includeWorkInProgressEffects
             ), parentFiber = parentFiber.sibling;
         }
         function commitOffscreenPassiveMountEffects(current3, finishedWork) {
@@ -13301,23 +12276,21 @@
           finishedWork !== current3 && (retainCache(finishedWork), null != current3 && releaseCache(current3));
         }
         function recursivelyTraversePassiveMountEffects(root3, parentFiber, committedLanes, committedTransitions, endTime) {
-          var isViewTransitionEligible = (committedLanes & 335544064) === committedLanes;
-          if (parentFiber.subtreeFlags & (isViewTransitionEligible ? 10262 : 10256) || 0 !== parentFiber.actualDuration && (null === parentFiber.alternate || parentFiber.alternate.child !== parentFiber.child))
-            for (parentFiber = parentFiber.child; null !== parentFiber; )
-              isViewTransitionEligible = parentFiber.sibling, commitPassiveMountOnFiber(
+          if (parentFiber.subtreeFlags & 10256 || 0 !== parentFiber.actualDuration && (null === parentFiber.alternate || parentFiber.alternate.child !== parentFiber.child))
+            for (parentFiber = parentFiber.child; null !== parentFiber; ) {
+              var nextSibling = parentFiber.sibling;
+              commitPassiveMountOnFiber(
                 root3,
                 parentFiber,
                 committedLanes,
                 committedTransitions,
-                null !== isViewTransitionEligible ? isViewTransitionEligible.actualStartTime : endTime
-              ), parentFiber = isViewTransitionEligible;
-          else
-            isViewTransitionEligible && restoreNestedViewTransitions(parentFiber);
+                null !== nextSibling ? nextSibling.actualStartTime : endTime
+              );
+              parentFiber = nextSibling;
+            }
         }
         function commitPassiveMountOnFiber(finishedRoot, finishedWork, committedLanes, committedTransitions, endTime) {
-          var prevEffectStart = pushComponentEffectStart(), prevEffectDuration = pushComponentEffectDuration(), prevEffectErrors = pushComponentEffectErrors(), prevEffectDidSpawnUpdate = pushComponentEffectDidSpawnUpdate(), prevDeepEquality = alreadyWarnedForDeepEquality, isViewTransitionEligible = (committedLanes & 335544064) === committedLanes;
-          isViewTransitionEligible && null === finishedWork.alternate && null !== finishedWork.return && null !== finishedWork.return.alternate && restoreEnterOrExitViewTransitions(finishedWork);
-          var flags = finishedWork.flags;
+          var prevEffectStart = pushComponentEffectStart(), prevEffectDuration = pushComponentEffectDuration(), prevEffectErrors = pushComponentEffectErrors(), prevEffectDidSpawnUpdate = pushComponentEffectDidSpawnUpdate(), prevDeepEquality = alreadyWarnedForDeepEquality, flags = finishedWork.flags;
           switch (finishedWork.tag) {
             case 0:
             case 11:
@@ -13370,7 +12343,6 @@
                 endTime
               );
               inHydratedSubtree = wasInHydratedSubtree;
-              isViewTransitionEligible && rootViewTransitionNameCanceled && (committedLanes = finishedRoot.containerInfo, committedLanes = 9 === committedLanes.nodeType ? committedLanes.body : "HTML" === committedLanes.nodeName ? committedLanes.ownerDocument.body : committedLanes, "root" === committedLanes.style.viewTransitionName && (committedLanes.style.viewTransitionName = ""), committedLanes = committedLanes.ownerDocument.documentElement, null !== committedLanes && "none" === committedLanes.style.viewTransitionName && (committedLanes.style.viewTransitionName = ""));
               flags & 2048 && (committedLanes = null, null !== finishedWork.alternate && (committedLanes = finishedWork.alternate.memoizedState.cache), committedTransitions = finishedWork.memoizedState.cache, committedTransitions !== committedLanes && (retainCache(committedTransitions), null != committedLanes && releaseCache(committedLanes)));
               finishedRoot.passiveEffectDuration += popNestedEffectDurations(
                 prevProfilerEffectDuration
@@ -13412,8 +12384,8 @@
             case 31:
               flags = inHydratedSubtree;
               prevProfilerEffectDuration = null !== finishedWork.alternate ? finishedWork.alternate.memoizedState : null;
-              isViewTransitionEligible = finishedWork.memoizedState;
-              null !== prevProfilerEffectDuration && null === isViewTransitionEligible ? (isViewTransitionEligible = finishedWork.deletions, null !== isViewTransitionEligible && 0 < isViewTransitionEligible.length && 18 === isViewTransitionEligible[0].tag ? (inHydratedSubtree = false, prevProfilerEffectDuration = prevProfilerEffectDuration.hydrationErrors, null !== prevProfilerEffectDuration && logComponentErrored(
+              wasInHydratedSubtree = finishedWork.memoizedState;
+              null !== prevProfilerEffectDuration && null === wasInHydratedSubtree ? (wasInHydratedSubtree = finishedWork.deletions, null !== wasInHydratedSubtree && 0 < wasInHydratedSubtree.length && 18 === wasInHydratedSubtree[0].tag ? (inHydratedSubtree = false, prevProfilerEffectDuration = prevProfilerEffectDuration.hydrationErrors, null !== prevProfilerEffectDuration && logComponentErrored(
                 finishedWork,
                 finishedWork.actualStartTime,
                 endTime,
@@ -13431,8 +12403,8 @@
             case 13:
               flags = inHydratedSubtree;
               prevProfilerEffectDuration = null !== finishedWork.alternate ? finishedWork.alternate.memoizedState : null;
-              isViewTransitionEligible = finishedWork.memoizedState;
-              null === prevProfilerEffectDuration || null === prevProfilerEffectDuration.dehydrated || null !== isViewTransitionEligible && null !== isViewTransitionEligible.dehydrated ? inHydratedSubtree = false : (isViewTransitionEligible = finishedWork.deletions, null !== isViewTransitionEligible && 0 < isViewTransitionEligible.length && 18 === isViewTransitionEligible[0].tag ? (inHydratedSubtree = false, prevProfilerEffectDuration = prevProfilerEffectDuration.hydrationErrors, null !== prevProfilerEffectDuration && logComponentErrored(
+              wasInHydratedSubtree = finishedWork.memoizedState;
+              null === prevProfilerEffectDuration || null === prevProfilerEffectDuration.dehydrated || null !== wasInHydratedSubtree && null !== wasInHydratedSubtree.dehydrated ? inHydratedSubtree = false : (wasInHydratedSubtree = finishedWork.deletions, null !== wasInHydratedSubtree && 0 < wasInHydratedSubtree.length && 18 === wasInHydratedSubtree[0].tag ? (inHydratedSubtree = false, prevProfilerEffectDuration = prevProfilerEffectDuration.hydrationErrors, null !== prevProfilerEffectDuration && logComponentErrored(
                 finishedWork,
                 finishedWork.actualStartTime,
                 endTime,
@@ -13452,7 +12424,7 @@
             case 22:
               wasInHydratedSubtree = finishedWork.stateNode;
               prevProfilerEffectDuration = finishedWork.alternate;
-              null !== finishedWork.memoizedState ? (isViewTransitionEligible && null !== prevProfilerEffectDuration && null === prevProfilerEffectDuration.memoizedState && restoreEnterOrExitViewTransitions(prevProfilerEffectDuration), wasInHydratedSubtree._visibility & OffscreenPassiveEffectsConnected ? recursivelyTraversePassiveMountEffects(
+              null !== finishedWork.memoizedState ? wasInHydratedSubtree._visibility & OffscreenPassiveEffectsConnected ? recursivelyTraversePassiveMountEffects(
                 finishedRoot,
                 finishedWork,
                 committedLanes,
@@ -13464,7 +12436,7 @@
                 committedLanes,
                 committedTransitions,
                 endTime
-              )) : (isViewTransitionEligible && null !== prevProfilerEffectDuration && null !== prevProfilerEffectDuration.memoizedState && restoreEnterOrExitViewTransitions(finishedWork), wasInHydratedSubtree._visibility & OffscreenPassiveEffectsConnected ? recursivelyTraversePassiveMountEffects(
+              ) : wasInHydratedSubtree._visibility & OffscreenPassiveEffectsConnected ? recursivelyTraversePassiveMountEffects(
                 finishedRoot,
                 finishedWork,
                 committedLanes,
@@ -13477,15 +12449,11 @@
                 committedTransitions,
                 0 !== (finishedWork.subtreeFlags & 10256) || 0 !== finishedWork.actualDuration && (null === finishedWork.alternate || finishedWork.alternate.child !== finishedWork.child),
                 endTime
-              ), (finishedWork.mode & ProfileMode) === NoMode || inHydratedSubtree || (finishedRoot = finishedWork.actualStartTime, 0 <= finishedRoot && 0.05 < endTime - finishedRoot && logComponentReappeared(
-                finishedWork,
-                finishedRoot,
-                endTime
-              ), 0 <= componentEffectStartTime && 0 <= componentEffectEndTime && 0.05 < componentEffectEndTime - componentEffectStartTime && logComponentReappeared(
+              ), (finishedWork.mode & ProfileMode) === NoMode || inHydratedSubtree || (finishedRoot = finishedWork.actualStartTime, 0 <= finishedRoot && 0.05 < endTime - finishedRoot && logComponentReappeared(finishedWork, finishedRoot, endTime), 0 <= componentEffectStartTime && 0 <= componentEffectEndTime && 0.05 < componentEffectEndTime - componentEffectStartTime && logComponentReappeared(
                 finishedWork,
                 componentEffectStartTime,
                 componentEffectEndTime
-              ))));
+              )));
               flags & 2048 && commitOffscreenPassiveMountEffects(
                 prevProfilerEffectDuration,
                 finishedWork
@@ -13500,16 +12468,6 @@
                 endTime
               );
               flags & 2048 && commitCachePassiveMountEffect(finishedWork.alternate, finishedWork);
-              break;
-            case 30:
-              isViewTransitionEligible && (flags = finishedWork.alternate, null !== flags && (restoreViewTransitionOnHostInstances(flags.child, true), restoreViewTransitionOnHostInstances(finishedWork.child, true)));
-              recursivelyTraversePassiveMountEffects(
-                finishedRoot,
-                finishedWork,
-                committedLanes,
-                committedTransitions,
-                endTime
-              );
               break;
             default:
               recursivelyTraversePassiveMountEffects(
@@ -13589,8 +12547,8 @@
             case 23:
               break;
             case 22:
-              var _instance4 = finishedWork.stateNode;
-              null !== finishedWork.memoizedState ? _instance4._visibility & OffscreenPassiveEffectsConnected ? recursivelyTraverseReconnectPassiveEffects(
+              var _instance2 = finishedWork.stateNode;
+              null !== finishedWork.memoizedState ? _instance2._visibility & OffscreenPassiveEffectsConnected ? recursivelyTraverseReconnectPassiveEffects(
                 finishedRoot,
                 finishedWork,
                 committedLanes,
@@ -13603,7 +12561,7 @@
                 committedLanes,
                 committedTransitions,
                 endTime
-              ) : (_instance4._visibility |= OffscreenPassiveEffectsConnected, recursivelyTraverseReconnectPassiveEffects(
+              ) : (_instance2._visibility |= OffscreenPassiveEffectsConnected, recursivelyTraverseReconnectPassiveEffects(
                 finishedRoot,
                 finishedWork,
                 committedLanes,
@@ -13652,49 +12610,49 @@
         }
         function recursivelyTraverseAtomicPassiveEffects(finishedRoot$jscomp$0, parentFiber, committedLanes$jscomp$0, committedTransitions$jscomp$0, endTime$jscomp$0) {
           if (parentFiber.subtreeFlags & 10256 || 0 !== parentFiber.actualDuration && (null === parentFiber.alternate || parentFiber.alternate.child !== parentFiber.child))
-            for (var child2 = parentFiber.child; null !== child2; ) {
-              parentFiber = child2.sibling;
+            for (var child = parentFiber.child; null !== child; ) {
+              parentFiber = child.sibling;
               var finishedRoot = finishedRoot$jscomp$0, committedLanes = committedLanes$jscomp$0, committedTransitions = committedTransitions$jscomp$0, endTime = null !== parentFiber ? parentFiber.actualStartTime : endTime$jscomp$0, prevDeepEquality = alreadyWarnedForDeepEquality;
-              (child2.mode & ProfileMode) !== NoMode && 0 < child2.actualStartTime && 0 !== (child2.flags & 1) && logComponentRender(
-                child2,
-                child2.actualStartTime,
+              (child.mode & ProfileMode) !== NoMode && 0 < child.actualStartTime && 0 !== (child.flags & 1) && logComponentRender(
+                child,
+                child.actualStartTime,
                 endTime,
                 inHydratedSubtree,
                 committedLanes
               );
-              var flags = child2.flags;
-              switch (child2.tag) {
+              var flags = child.flags;
+              switch (child.tag) {
                 case 22:
                   recursivelyTraverseAtomicPassiveEffects(
                     finishedRoot,
-                    child2,
+                    child,
                     committedLanes,
                     committedTransitions,
                     endTime
                   );
-                  flags & 2048 && commitOffscreenPassiveMountEffects(child2.alternate, child2);
+                  flags & 2048 && commitOffscreenPassiveMountEffects(child.alternate, child);
                   break;
                 case 24:
                   recursivelyTraverseAtomicPassiveEffects(
                     finishedRoot,
-                    child2,
+                    child,
                     committedLanes,
                     committedTransitions,
                     endTime
                   );
-                  flags & 2048 && commitCachePassiveMountEffect(child2.alternate, child2);
+                  flags & 2048 && commitCachePassiveMountEffect(child.alternate, child);
                   break;
                 default:
                   recursivelyTraverseAtomicPassiveEffects(
                     finishedRoot,
-                    child2,
+                    child,
                     committedLanes,
                     committedTransitions,
                     endTime
                   );
               }
               alreadyWarnedForDeepEquality = prevDeepEquality;
-              child2 = parentFiber;
+              child = parentFiber;
             }
         }
         function recursivelyAccumulateSuspenseyCommit(parentFiber, committedLanes, suspendedState) {
@@ -13714,12 +12672,12 @@
                 committedLanes,
                 suspendedState
               );
-              fiber.flags & suspenseyCommitFlag && (null !== fiber.memoizedState ? suspendResource(
+              fiber.flags & suspenseyCommitFlag && null !== fiber.memoizedState && suspendResource(
                 suspendedState,
                 currentHoistableRoot,
                 fiber.memoizedState,
                 fiber.memoizedProps
-              ) : (fiber = fiber.stateNode, (committedLanes & 335544128) === committedLanes && suspendInstance(suspendedState, fiber)));
+              );
               break;
             case 5:
               recursivelyAccumulateSuspenseyCommit(
@@ -13727,7 +12685,6 @@
                 committedLanes,
                 suspendedState
               );
-              fiber.flags & suspenseyCommitFlag && (fiber = fiber.stateNode, (committedLanes & 335544128) === committedLanes && suspendInstance(suspendedState, fiber));
               break;
             case 3:
             case 4:
@@ -13752,19 +12709,6 @@
                 committedLanes,
                 suspendedState
               ));
-              break;
-            case 30:
-              if (0 !== (fiber.flags & suspenseyCommitFlag) && (previousHoistableRoot = fiber.memoizedProps.name, null != previousHoistableRoot && "auto" !== previousHoistableRoot)) {
-                var state = fiber.stateNode;
-                state.paired = null;
-                null === appearingViewTransitions && (appearingViewTransitions = /* @__PURE__ */ new Map());
-                appearingViewTransitions.set(previousHoistableRoot, state);
-              }
-              recursivelyAccumulateSuspenseyCommit(
-                fiber,
-                committedLanes,
-                suspendedState
-              );
               break;
             default:
               recursivelyAccumulateSuspenseyCommit(
@@ -13979,11 +12923,7 @@
           if ((executionContext & RenderContext) !== NoContext && 0 !== workInProgressRootRenderLanes)
             return workInProgressRootRenderLanes & -workInProgressRootRenderLanes;
           var transition = ReactSharedInternals.T;
-          if (null !== transition)
-            return transition._updatedFibers || (transition._updatedFibers = /* @__PURE__ */ new Set()), transition._updatedFibers.add(fiber), null !== lastSuspendedFiber && resolveUpdatePriority() === DiscreteEventPriority && (lastSuspendedFiber = null), requestTransitionLane();
-          fiber = resolveUpdatePriority();
-          fiber === DiscreteEventPriority && (lastSuspendedFiber = null);
-          return fiber;
+          return null !== transition ? (transition._updatedFibers || (transition._updatedFibers = /* @__PURE__ */ new Set()), transition._updatedFibers.add(fiber), requestTransitionLane()) : resolveUpdatePriority();
         }
         function requestDeferredLane() {
           if (0 === workInProgressDeferredLane)
@@ -13996,16 +12936,6 @@
           lane = suspenseHandlerStackCursor.current;
           null !== lane && (lane.flags |= 32);
           return workInProgressDeferredLane;
-        }
-        function scheduleViewTransitionEvent(fiber, callback) {
-          if (null != callback) {
-            var state = fiber.stateNode, instance = state.ref;
-            null === instance && (instance = state.ref = createViewTransitionInstance(
-              getViewTransitionName(fiber.memoizedProps, state)
-            ));
-            null === pendingViewTransitionEvents && (pendingViewTransitionEvents = []);
-            pendingViewTransitionEvents.push(callback.bind(null, instance));
-          }
         }
         function scheduleUpdateOnFiber(root3, fiber, lane) {
           isRunningInsertionEffect && console.error("useInsertionEffect must not schedule updates.");
@@ -14171,7 +13101,7 @@
                       errorRetryLanes,
                       false
                     );
-                    if (errorRetryLanes !== RootErrored && errorRetryLanes !== RootSuspendedAtTheShell) {
+                    if (errorRetryLanes !== RootErrored) {
                       if (workInProgressRootDidAttachPingListener && !wasRootDehydrated) {
                         yieldedFiber.errorRecoveryDisabledLanes |= startTime;
                         workInProgressRootInterleavedUpdatedLanes |= startTime;
@@ -14212,8 +13142,7 @@
                   case RootFatalErrored:
                     throw Error("Root did not complete. This is a bug in React.");
                   case RootSuspendedWithDelay:
-                    if ((lanes & 4194048) !== lanes && (lanes & 62914560) !== lanes)
-                      break;
+                    if ((lanes & 4194048) !== lanes) break;
                   case RootSuspendedAtTheShell:
                     setCurrentTrackFromLanes(lanes);
                     logSuspendedRenderPhase(
@@ -14242,7 +13171,7 @@
                     throw Error("Unknown root exit status.");
                 }
                 if (null !== ReactSharedInternals.actQueue)
-                  completeRoot(
+                  commitRoot(
                     forceSync,
                     yieldEndTime,
                     lanes,
@@ -14252,7 +13181,6 @@
                     workInProgressDeferredLane,
                     workInProgressRootInterleavedUpdatedLanes,
                     workInProgressSuspendedRetryLanes,
-                    workInProgressRootDidSkipSuspendedSiblings,
                     startTime,
                     null,
                     null,
@@ -14270,7 +13198,7 @@
                     if (0 !== getNextLanes(forceSync, 0, true)) break a;
                     pendingEffectsLanes = lanes;
                     forceSync.timeoutHandle = scheduleTimeout(
-                      completeRootWhenReady.bind(
+                      commitRootWhenReady.bind(
                         null,
                         forceSync,
                         yieldEndTime,
@@ -14291,7 +13219,7 @@
                     );
                     break a;
                   }
-                  completeRootWhenReady(
+                  commitRootWhenReady(
                     forceSync,
                     yieldEndTime,
                     workInProgressRootRecoverableErrors,
@@ -14314,10 +13242,10 @@
           } while (1);
           ensureRootIsScheduled(root3);
         }
-        function completeRootWhenReady(root3, finishedWork, recoverableErrors, transitions, didIncludeRenderPhaseUpdate, lanes, spawnedLane, updatedLanes, suspendedRetryLanes, didSkipSuspendedSiblings, exitStatus, suspendedCommitReason, completedRenderStartTime, completedRenderEndTime) {
+        function commitRootWhenReady(root3, finishedWork, recoverableErrors, transitions, didIncludeRenderPhaseUpdate, lanes, spawnedLane, updatedLanes, suspendedRetryLanes, didSkipSuspendedSiblings, exitStatus, suspendedCommitReason, completedRenderStartTime, completedRenderEndTime) {
           root3.timeoutHandle = noTimeout;
-          var subtreeFlags = finishedWork.subtreeFlags, isViewTransitionEligible = (lanes & 335544064) === lanes, suspendedState = null;
-          if (isViewTransitionEligible || subtreeFlags & 8192 || 16785408 === (subtreeFlags & 16785408)) {
+          var subtreeFlags = finishedWork.subtreeFlags, suspendedState = null;
+          if (subtreeFlags & 8192 || 16785408 === (subtreeFlags & 16785408)) {
             if (suspendedState = {
               stylesheets: null,
               count: 0,
@@ -14326,14 +13254,11 @@
               suspenseyImages: [],
               waitingForImages: true,
               waitingForViewTransition: false,
-              unsuspend: noop$12
-            }, appearingViewTransitions = null, accumulateSuspenseyCommitOnFiber(finishedWork, lanes, suspendedState), isViewTransitionEligible && (subtreeFlags = suspendedState, isViewTransitionEligible = root3.containerInfo, isViewTransitionEligible = (9 === isViewTransitionEligible.nodeType ? isViewTransitionEligible : isViewTransitionEligible.ownerDocument).__reactViewTransition, null != isViewTransitionEligible && (subtreeFlags.count++, subtreeFlags.waitingForViewTransition = true, subtreeFlags = onUnsuspend.bind(subtreeFlags), isViewTransitionEligible.finished.then(
-              subtreeFlags,
-              subtreeFlags
-            ))), subtreeFlags = (lanes & 62914560) === lanes ? globalMostRecentFallbackTime - now$1() : (lanes & 4194048) === lanes ? globalMostRecentTransitionTime - now$1() : 0, subtreeFlags = waitForCommitToBeReady(suspendedState, subtreeFlags), null !== subtreeFlags) {
+              unsuspend: noop$1
+            }, accumulateSuspenseyCommitOnFiber(finishedWork, lanes, suspendedState), subtreeFlags = (lanes & 62914560) === lanes ? globalMostRecentFallbackTime - now$1() : (lanes & 4194048) === lanes ? globalMostRecentTransitionTime - now$1() : 0, subtreeFlags = waitForCommitToBeReady(suspendedState, subtreeFlags), null !== subtreeFlags) {
               pendingEffectsLanes = lanes;
               root3.cancelPendingCommit = subtreeFlags(
-                completeRoot.bind(
+                commitRoot.bind(
                   null,
                   root3,
                   finishedWork,
@@ -14344,7 +13269,6 @@
                   spawnedLane,
                   updatedLanes,
                   suspendedRetryLanes,
-                  didSkipSuspendedSiblings,
                   exitStatus,
                   suspendedState,
                   suspendedState.waitingForViewTransition ? "Waiting for the previous Animation" : 0 < suspendedState.count ? 0 < suspendedState.imgCount ? "Suspended on CSS and Images" : "Suspended on CSS" : 1 === suspendedState.imgCount ? "Suspended on an Image" : 0 < suspendedState.imgCount ? "Suspended on Images" : null,
@@ -14361,7 +13285,7 @@
               return;
             }
           }
-          completeRoot(
+          commitRoot(
             root3,
             finishedWork,
             lanes,
@@ -14371,7 +13295,6 @@
             spawnedLane,
             updatedLanes,
             suspendedRetryLanes,
-            didSkipSuspendedSiblings,
             exitStatus,
             suspendedState,
             suspendedCommitReason,
@@ -14408,7 +13331,6 @@
           return true;
         }
         function markRootSuspended(root3, suspendedLanes, spawnedLane, didAttemptEntireTree) {
-          suspendedLanes = getEntangledLanes(root3, suspendedLanes);
           suspendedLanes &= ~workInProgressRootPingedLanes;
           suspendedLanes &= ~workInProgressRootInterleavedUpdatedLanes;
           root3.suspendedLanes |= suspendedLanes;
@@ -14570,7 +13492,7 @@
                   isSpawnedUpdate,
                   previousRenderStartTime
                 )
-              ) : performance.measure(isSpawnedUpdate, previousRenderStartTime), performance.clearMeasures(isSpawnedUpdate));
+              ) : performance.measure(isSpawnedUpdate, previousRenderStartTime));
             }
             blockingUpdateTime = -1.1;
             blockingUpdateType = 0;
@@ -14636,7 +13558,7 @@
               debugTask,
               previousRenderStartTime
             )
-          ) : performance.measure(debugTask, previousRenderStartTime), performance.clearMeasures(debugTask))), transitionUpdateTime = transitionStartTime = -1.1, transitionUpdateType = 0, transitionSuspendedTime = -1.1, transitionEventRepeatTime = transitionEventTime, transitionEventTime = -1.1, transitionClampTime = now());
+          ) : performance.measure(debugTask, previousRenderStartTime))), transitionUpdateTime = transitionStartTime = -1.1, transitionUpdateType = 0, transitionSuspendedTime = -1.1, transitionEventRepeatTime = transitionEventTime, transitionEventTime = -1.1, transitionClampTime = now());
           0 !== (lanes & 62914560) && 0 !== (animatingLanes & 62914560) && (setCurrentTrackFromLanes(4194304), logAnimatingPhase(retryClampTime, renderStartTime, animatingTask));
           0 !== (lanes & 2080374784) && 0 !== (animatingLanes & 2080374784) && (setCurrentTrackFromLanes(268435456), logAnimatingPhase(idleClampTime, renderStartTime, animatingTask));
           previousRenderStartTime = root3.timeoutHandle;
@@ -14660,7 +13582,12 @@
           workInProgressSuspendedRetryLanes = workInProgressDeferredLane = workInProgressRootPingedLanes = workInProgressRootInterleavedUpdatedLanes = workInProgressRootSkippedLanes = 0;
           workInProgressRootRecoverableErrors = workInProgressRootConcurrentErrors = null;
           workInProgressRootDidIncludeRecursiveRenderUpdate = false;
-          entangledRenderLanes = getEntangledLanes(root3, lanes);
+          0 !== (lanes & 8) && (lanes |= lanes & 32);
+          endTime = root3.entangledLanes;
+          if (0 !== endTime)
+            for (root3 = root3.entanglements, endTime &= lanes; 0 < endTime; )
+              debugTask = 31 - clz32(endTime), color2 = 1 << debugTask, lanes |= root3[debugTask], endTime &= ~color2;
+          entangledRenderLanes = lanes;
           finishQueueingConcurrentUpdates();
           root3 = getCurrentTime();
           1e3 < root3 - lastResetTime && (ReactSharedInternals.recentlyCreatedOwnerStacks = 0, lastResetTime = root3);
@@ -14753,8 +13680,8 @@
               workLoopSync();
               memoizedUpdaters = workInProgressRootExitStatus;
               break;
-            } catch (thrownValue$9) {
-              handleThrow(root3, thrownValue$9);
+            } catch (thrownValue$8) {
+              handleThrow(root3, thrownValue$8);
             }
           while (1);
           lanes && root3.shellSuspendCounter++;
@@ -14883,8 +13810,8 @@
                 }
               null !== ReactSharedInternals.actQueue ? workLoopSync() : workLoopConcurrentByScheduler();
               break;
-            } catch (thrownValue$10) {
-              handleThrow(root3, thrownValue$10);
+            } catch (thrownValue$9) {
+              handleThrow(root3, thrownValue$9);
             }
           while (1);
           resetContextDependencies();
@@ -14951,8 +13878,6 @@
               break;
             case 5:
               resetHooksOnUnwind(unitOfWork);
-              var fiber = unitOfWork;
-              fiber === hydrationParentFiber && (isHydrating ? (popToNextHostParent(fiber), 5 === fiber.tag && null != fiber.stateNode && (nextHydratableInstance = fiber.stateNode)) : (popToNextHostParent(fiber), isHydrating = true));
             default:
               unwindInterruptedWork(current3, unitOfWork), unitOfWork = workInProgress = resetWorkInProgress(unitOfWork, entangledRenderLanes), current3 = beginWork(current3, unitOfWork, entangledRenderLanes);
           }
@@ -15045,8 +13970,8 @@
             if ((unitOfWork.mode & ProfileMode) !== NoMode) {
               stopProfilerTimerIfRunningAndRecordIncompleteDuration(unitOfWork);
               next = unitOfWork.actualDuration;
-              for (var child2 = unitOfWork.child; null !== child2; )
-                next += child2.actualDuration, child2 = child2.sibling;
+              for (var child = unitOfWork.child; null !== child; )
+                next += child.actualDuration, child = child.sibling;
               unitOfWork.actualDuration = next;
             }
             next = unitOfWork.return;
@@ -15060,7 +13985,7 @@
           workInProgressRootExitStatus = RootSuspendedAtTheShell;
           workInProgress = null;
         }
-        function completeRoot(root3, finishedWork, lanes, recoverableErrors, transitions, didIncludeRenderPhaseUpdate, spawnedLane, updatedLanes, suspendedRetryLanes, didSkipSuspendedSiblings, exitStatus, suspendedState, suspendedCommitReason, completedRenderStartTime, completedRenderEndTime) {
+        function commitRoot(root3, finishedWork, lanes, recoverableErrors, transitions, didIncludeRenderPhaseUpdate, spawnedLane, updatedLanes, suspendedRetryLanes, exitStatus, suspendedState, suspendedCommitReason, completedRenderStartTime, completedRenderEndTime) {
           root3.cancelPendingCommit = null;
           do
             flushPendingEffects();
@@ -15070,64 +13995,24 @@
           if ((executionContext & (RenderContext | CommitContext)) !== NoContext)
             throw Error("Should not already be working.");
           setCurrentTrackFromLanes(lanes);
-          if (exitStatus === RootErrored)
-            logErroredRenderPhase(
-              completedRenderStartTime,
-              completedRenderEndTime,
-              lanes,
-              workInProgressUpdateTask
-            );
-          else if (null !== recoverableErrors) {
-            if (didSkipSuspendedSiblings = null !== finishedWork && null !== finishedWork.alternate && finishedWork.alternate.memoizedState.isDehydrated && 0 !== (finishedWork.flags & 256), didIncludeRenderPhaseUpdate = workInProgressUpdateTask, supportsUserTiming && !(completedRenderEndTime <= completedRenderStartTime)) {
-              exitStatus = [];
-              for (var i = 0; i < recoverableErrors.length; i++) {
-                var error = recoverableErrors[i].value;
-                exitStatus.push([
-                  "Recoverable Error",
-                  "object" === typeof error && null !== error && "string" === typeof error.message ? String(error.message) : String(error)
-                ]);
-              }
-              completedRenderStartTime = {
-                start: completedRenderStartTime,
-                end: completedRenderEndTime,
-                detail: {
-                  devtools: {
-                    color: "primary-dark",
-                    track: currentTrack,
-                    trackGroup: LANES_TRACK_GROUP,
-                    tooltipText: didSkipSuspendedSiblings ? "Hydration Failed" : "Recovered after Error",
-                    properties: exitStatus
-                  }
-                }
-              };
-              didIncludeRenderPhaseUpdate ? didIncludeRenderPhaseUpdate.run(
-                performance.measure.bind(
-                  performance,
-                  "Recovered",
-                  completedRenderStartTime
-                )
-              ) : performance.measure("Recovered", completedRenderStartTime);
-              performance.clearMeasures("Recovered");
-            }
-          } else
-            didIncludeRenderPhaseUpdate = workInProgressUpdateTask, !supportsUserTiming || completedRenderEndTime <= completedRenderStartTime || (didSkipSuspendedSiblings = (lanes & 738197653) === lanes ? "tertiary-dark" : "primary-dark", exitStatus = (lanes & 536870912) === lanes ? "Prepared" : (lanes & 201326741) === lanes ? "Hydrated" : "Render", didIncludeRenderPhaseUpdate ? didIncludeRenderPhaseUpdate.run(
-              console.timeStamp.bind(
-                console,
-                exitStatus,
-                completedRenderStartTime,
-                completedRenderEndTime,
-                currentTrack,
-                LANES_TRACK_GROUP,
-                didSkipSuspendedSiblings
-              )
-            ) : console.timeStamp(
-              exitStatus,
-              completedRenderStartTime,
-              completedRenderEndTime,
-              currentTrack,
-              LANES_TRACK_GROUP,
-              didSkipSuspendedSiblings
-            ));
+          exitStatus === RootErrored ? logErroredRenderPhase(
+            completedRenderStartTime,
+            completedRenderEndTime,
+            lanes,
+            workInProgressUpdateTask
+          ) : null !== recoverableErrors ? logRecoveredRenderPhase(
+            completedRenderStartTime,
+            completedRenderEndTime,
+            lanes,
+            recoverableErrors,
+            null !== finishedWork && null !== finishedWork.alternate && finishedWork.alternate.memoizedState.isDehydrated && 0 !== (finishedWork.flags & 256),
+            workInProgressUpdateTask
+          ) : logRenderPhase(
+            completedRenderStartTime,
+            completedRenderEndTime,
+            lanes,
+            workInProgressUpdateTask
+          );
           if (null !== finishedWork) {
             0 === lanes && console.error(
               "finishedLanes should not be empty during a commit. This is a bug in React."
@@ -15136,119 +14021,60 @@
               throw Error(
                 "Cannot commit the same tree as before. This error is likely caused by a bug in React. Please file an issue."
               );
+            didIncludeRenderPhaseUpdate = finishedWork.lanes | finishedWork.childLanes;
+            didIncludeRenderPhaseUpdate |= concurrentlyUpdatedLanes;
+            markRootFinished(
+              root3,
+              lanes,
+              didIncludeRenderPhaseUpdate,
+              spawnedLane,
+              updatedLanes,
+              suspendedRetryLanes
+            );
             root3 === workInProgressRoot && (workInProgress = workInProgressRoot = null, workInProgressRootRenderLanes = 0);
             pendingFinishedWork = finishedWork;
             pendingEffectsRoot = root3;
             pendingEffectsLanes = lanes;
+            pendingEffectsRemainingLanes = didIncludeRenderPhaseUpdate;
             pendingPassiveTransitions = transitions;
             pendingRecoverableErrors = recoverableErrors;
             pendingEffectsRenderEndTime = completedRenderEndTime;
             pendingSuspendedCommitReason = suspendedCommitReason;
             pendingDelayedCommitReason = IMMEDIATE_COMMIT;
             pendingSuspendedViewTransitionReason = null;
-            commitRoot(
-              root3,
-              finishedWork,
-              lanes,
-              spawnedLane,
-              updatedLanes,
-              suspendedRetryLanes,
-              suspendedState,
+            0 !== finishedWork.actualDuration || 0 !== (finishedWork.subtreeFlags & 10256) || 0 !== (finishedWork.flags & 10256) ? (root3.callbackNode = null, root3.callbackPriority = 0, scheduleCallback$1(NormalPriority$1, function() {
+              schedulerEvent = window.event;
+              pendingDelayedCommitReason === IMMEDIATE_COMMIT && (pendingDelayedCommitReason = DELAYED_PASSIVE_COMMIT);
+              flushPassiveEffects();
+              return null;
+            })) : (root3.callbackNode = null, root3.callbackPriority = 0);
+            commitErrors = null;
+            commitStartTime = now();
+            null !== suspendedCommitReason && logSuspendedCommitPhase(
+              completedRenderEndTime,
+              commitStartTime,
               suspendedCommitReason,
-              completedRenderEndTime
+              workInProgressUpdateTask
             );
-          }
-        }
-        function commitRoot(root3, finishedWork, lanes, spawnedLane, updatedLanes, suspendedRetryLanes, suspendedState, suspendedCommitReason, completedRenderEndTime) {
-          var remainingLanes = finishedWork.lanes | finishedWork.childLanes;
-          pendingEffectsRemainingLanes = remainingLanes;
-          remainingLanes |= concurrentlyUpdatedLanes;
-          markRootFinished(
-            root3,
-            lanes,
-            remainingLanes,
-            spawnedLane,
-            updatedLanes,
-            suspendedRetryLanes
-          );
-          pendingViewTransitionEvents = null;
-          (lanes & 335544064) === lanes ? (pendingTransitionTypes = claimQueuedTransitionTypes(root3), spawnedLane = 10262) : (pendingTransitionTypes = null, spawnedLane = 10256);
-          0 !== finishedWork.actualDuration || 0 !== (finishedWork.subtreeFlags & spawnedLane) || 0 !== (finishedWork.flags & spawnedLane) ? (root3.callbackNode = null, root3.callbackPriority = 0, scheduleCallback$1(NormalPriority$1, function() {
-            schedulerEvent = window.event;
-            pendingDelayedCommitReason === IMMEDIATE_COMMIT && (pendingDelayedCommitReason = DELAYED_PASSIVE_COMMIT);
-            flushPassiveEffects();
-            return null;
-          })) : (root3.callbackNode = null, root3.callbackPriority = 0);
-          commitErrors = null;
-          commitStartTime = now();
-          null !== suspendedCommitReason && logSuspendedCommitPhase(
-            completedRenderEndTime,
-            commitStartTime,
-            suspendedCommitReason,
-            workInProgressUpdateTask
-          );
-          shouldStartViewTransition = false;
-          suspendedCommitReason = 0 !== (finishedWork.flags & 13878);
-          if (0 !== (finishedWork.subtreeFlags & 13878) || suspendedCommitReason) {
-            suspendedCommitReason = ReactSharedInternals.T;
-            ReactSharedInternals.T = null;
-            completedRenderEndTime = ReactDOMSharedInternals.p;
-            ReactDOMSharedInternals.p = DiscreteEventPriority;
-            spawnedLane = executionContext;
-            executionContext |= CommitContext;
-            try {
-              commitBeforeMutationEffects(root3, finishedWork, lanes);
-            } finally {
-              executionContext = spawnedLane, ReactDOMSharedInternals.p = completedRenderEndTime, ReactSharedInternals.T = suspendedCommitReason;
+            recoverableErrors = 0 !== (finishedWork.flags & 13878);
+            if (0 !== (finishedWork.subtreeFlags & 13878) || recoverableErrors) {
+              recoverableErrors = ReactSharedInternals.T;
+              ReactSharedInternals.T = null;
+              transitions = ReactDOMSharedInternals.p;
+              ReactDOMSharedInternals.p = DiscreteEventPriority;
+              spawnedLane = executionContext;
+              executionContext |= CommitContext;
+              try {
+                commitBeforeMutationEffects(root3, finishedWork, lanes);
+              } finally {
+                executionContext = spawnedLane, ReactDOMSharedInternals.p = transitions, ReactSharedInternals.T = recoverableErrors;
+              }
             }
+            pendingEffectsStatus = PENDING_MUTATION_PHASE;
+            flushMutationEffects();
+            flushLayoutEffects();
+            flushSpawnedWork();
           }
-          pendingEffectsStatus = PENDING_MUTATION_PHASE;
-          shouldStartViewTransition ? (animatingLanes |= lanes, animatingTask = null, pendingViewTransition = startViewTransition(
-            suspendedState,
-            root3.containerInfo,
-            pendingTransitionTypes,
-            flushMutationEffects,
-            flushLayoutEffects,
-            flushAfterMutationEffects,
-            flushSpawnedWork,
-            flushPassiveEffects,
-            reportViewTransitionError,
-            suspendedViewTransition,
-            finishedViewTransition.bind(null, lanes)
-          )) : (flushMutationEffects(), flushLayoutEffects(), flushSpawnedWork());
-        }
-        function reportViewTransitionError(error) {
-          if (pendingEffectsStatus !== NO_PENDING_EFFECTS) {
-            var onRecoverableError = pendingEffectsRoot.onRecoverableError;
-            onRecoverableError(error, makeErrorInfo(null));
-          }
-        }
-        function suspendedViewTransition(reason) {
-          commitEndTime = now();
-          logCommitPhase(
-            null === pendingSuspendedCommitReason ? pendingEffectsRenderEndTime : commitStartTime,
-            commitEndTime,
-            commitErrors,
-            pendingDelayedCommitReason === ABORTED_VIEW_TRANSITION_COMMIT,
-            workInProgressUpdateTask
-          );
-          pendingSuspendedCommitReason = pendingSuspendedViewTransitionReason = reason;
-        }
-        function finishedViewTransition(lanes) {
-          if (0 !== (animatingLanes & lanes)) {
-            var task2 = animatingTask;
-            animatingLanes &= ~lanes;
-            animatingTask = null;
-            0 !== (lanes & 4194048) && 0 === (workInProgressRootRenderLanes & 4194048) && 0 === (pendingEffectsLanes & 4194048) && (setCurrentTrackFromLanes(256), logAnimatingPhase(transitionClampTime, now$1(), task2));
-            0 !== (lanes & 62914560) && 0 === (workInProgressRootRenderLanes & 62914560) && 0 === (pendingEffectsLanes & 62914560) && (setCurrentTrackFromLanes(4194304), logAnimatingPhase(retryClampTime, now$1(), task2));
-            0 !== (lanes & 2080374784) && 0 === (workInProgressRootRenderLanes & 2080374784) && 0 === (pendingEffectsLanes & 2080374784) && (setCurrentTrackFromLanes(268435456), logAnimatingPhase(idleClampTime, now$1(), task2));
-          }
-        }
-        function flushAfterMutationEffects() {
-          pendingEffectsStatus === PENDING_AFTER_MUTATION_PHASE && (pendingEffectsStatus = NO_PENDING_EFFECTS, commitAfterMutationEffectsOnFiber(
-            pendingFinishedWork,
-            pendingEffectsRoot
-          ), pendingEffectsStatus = PENDING_SPAWNED_WORK);
         }
         function flushMutationEffects() {
           if (pendingEffectsStatus === PENDING_MUTATION_PHASE) {
@@ -15264,9 +14090,8 @@
               try {
                 inProgressLanes = lanes;
                 inProgressRoot = root3;
-                inUpdateViewTransition = rootViewTransitionAffected = false;
                 resetComponentEffectTimers();
-                commitMutationEffectsOnFiber(finishedWork, root3, lanes);
+                commitMutationEffectsOnFiber(finishedWork, root3);
                 inProgressRoot = inProgressLanes = null;
                 lanes = selectionInformation;
                 var curFocusedElem = getActiveElementDeep(root3.containerInfo), priorFocusedElem = lanes.focusedElem, priorSelectionRange = lanes.selectionRange;
@@ -15380,13 +14205,34 @@
             suspendedViewTransitionReason = pendingEffectsRenderEndTime;
             startTime = pendingSuspendedCommitReason;
             commitEndTime = now();
-            logCommitPhase(
-              null === startTime ? suspendedViewTransitionReason : commitStartTime,
-              commitEndTime,
+            suspendedViewTransitionReason = null === startTime ? suspendedViewTransitionReason : commitStartTime;
+            startTime = commitEndTime;
+            endTime = pendingDelayedCommitReason === ABORTED_VIEW_TRANSITION_COMMIT;
+            rootHasLayoutEffect = workInProgressUpdateTask;
+            null !== commitErrors ? logCommitErrored(
+              suspendedViewTransitionReason,
+              startTime,
               commitErrors,
-              pendingDelayedCommitReason === ABORTED_VIEW_TRANSITION_COMMIT,
-              workInProgressUpdateTask
-            );
+              false,
+              rootHasLayoutEffect
+            ) : !supportsUserTiming || startTime <= suspendedViewTransitionReason || (rootHasLayoutEffect ? rootHasLayoutEffect.run(
+              console.timeStamp.bind(
+                console,
+                endTime ? "Commit Interrupted View Transition" : "Commit",
+                suspendedViewTransitionReason,
+                startTime,
+                currentTrack,
+                LANES_TRACK_GROUP,
+                endTime ? "error" : "secondary-dark"
+              )
+            ) : console.timeStamp(
+              endTime ? "Commit Interrupted View Transition" : "Commit",
+              suspendedViewTransitionReason,
+              startTime,
+              currentTrack,
+              LANES_TRACK_GROUP,
+              endTime ? "error" : "secondary-dark"
+            ));
             pendingEffectsStatus = PENDING_AFTER_MUTATION_PHASE;
           }
         }
@@ -15417,18 +14263,20 @@
               pendingDelayedCommitReason !== ABORTED_VIEW_TRANSITION_COMMIT && (pendingDelayedCommitReason = ANIMATION_STARTED_COMMIT);
             }
             pendingEffectsStatus = NO_PENDING_EFFECTS;
-            startViewTransitionStartTime = pendingViewTransition;
-            pendingViewTransition = null;
             requestPaint();
-            endTime = pendingEffectsRoot;
+            startViewTransitionStartTime = pendingEffectsRoot;
             var finishedWork = pendingFinishedWork;
-            abortedViewTransition = pendingEffectsLanes;
-            var recoverableErrors = pendingRecoverableErrors, passiveSubtreeMask = (abortedViewTransition & 335544064) === abortedViewTransition ? 10262 : 10256;
-            (passiveSubtreeMask = 0 !== finishedWork.actualDuration || 0 !== (finishedWork.subtreeFlags & passiveSubtreeMask) || 0 !== (finishedWork.flags & passiveSubtreeMask)) ? pendingEffectsStatus = PENDING_PASSIVE_PHASE : (pendingEffectsStatus = NO_PENDING_EFFECTS, pendingFinishedWork = pendingEffectsRoot = null, releaseRootPooledCache(endTime, endTime.pendingLanes), nestedPassiveUpdateCount = 0, rootWithPassiveNestedUpdates = null);
-            var remainingLanes = endTime.pendingLanes;
+            endTime = pendingEffectsLanes;
+            abortedViewTransition = pendingRecoverableErrors;
+            var rootDidHavePassiveEffects = 0 !== finishedWork.actualDuration || 0 !== (finishedWork.subtreeFlags & 10256) || 0 !== (finishedWork.flags & 10256);
+            rootDidHavePassiveEffects ? pendingEffectsStatus = PENDING_PASSIVE_PHASE : (pendingEffectsStatus = NO_PENDING_EFFECTS, pendingFinishedWork = pendingEffectsRoot = null, releaseRootPooledCache(
+              startViewTransitionStartTime,
+              startViewTransitionStartTime.pendingLanes
+            ), nestedPassiveUpdateCount = 0, rootWithPassiveNestedUpdates = null);
+            var remainingLanes = startViewTransitionStartTime.pendingLanes;
             0 === remainingLanes && (legacyErrorBoundariesThatAlreadyFailed = null);
-            passiveSubtreeMask || commitDoubleInvokeEffectsInDEV(endTime);
-            remainingLanes = lanesToEventPriority(abortedViewTransition);
+            rootDidHavePassiveEffects || commitDoubleInvokeEffectsInDEV(startViewTransitionStartTime);
+            remainingLanes = lanesToEventPriority(endTime);
             finishedWork = finishedWork.stateNode;
             if (injectedHook && "function" === typeof injectedHook.onCommitFiberRoot)
               try {
@@ -15461,17 +14309,17 @@
                   err
                 ));
               }
-            isDevToolsPresent && endTime.memoizedUpdaters.clear();
+            isDevToolsPresent && startViewTransitionStartTime.memoizedUpdaters.clear();
             onCommitRoot();
-            if (null !== recoverableErrors) {
+            if (null !== abortedViewTransition) {
               didError = ReactSharedInternals.T;
               schedulerPriority = ReactDOMSharedInternals.p;
               ReactDOMSharedInternals.p = DiscreteEventPriority;
               ReactSharedInternals.T = null;
               try {
-                var onRecoverableError = endTime.onRecoverableError;
-                for (finishedWork = 0; finishedWork < recoverableErrors.length; finishedWork++) {
-                  var recoverableError = recoverableErrors[finishedWork], errorInfo = makeErrorInfo(recoverableError.stack);
+                var onRecoverableError = startViewTransitionStartTime.onRecoverableError;
+                for (finishedWork = 0; finishedWork < abortedViewTransition.length; finishedWork++) {
+                  var recoverableError = abortedViewTransition[finishedWork], errorInfo = makeErrorInfo(recoverableError.stack);
                   runWithFiberInDEV(
                     recoverableError.source,
                     onRecoverableError,
@@ -15483,21 +14331,11 @@
                 ReactSharedInternals.T = didError, ReactDOMSharedInternals.p = schedulerPriority;
               }
             }
-            onRecoverableError = pendingViewTransitionEvents;
-            recoverableError = pendingTransitionTypes;
-            pendingTransitionTypes = null;
-            if (null !== onRecoverableError && (pendingViewTransitionEvents = null, null === recoverableError && (recoverableError = []), null !== startViewTransitionStartTime))
-              for (errorInfo = 0; errorInfo < onRecoverableError.length; errorInfo++)
-                recoverableErrors = (0, onRecoverableError[errorInfo])(
-                  recoverableError
-                ), void 0 !== recoverableErrors && startViewTransitionStartTime.finished.finally(
-                  recoverableErrors
-                );
             0 !== (pendingEffectsLanes & 3) && flushPendingEffects();
-            ensureRootIsScheduled(endTime);
-            remainingLanes = endTime.pendingLanes;
-            0 !== (abortedViewTransition & 261930) && 0 !== (remainingLanes & 42) ? (nestedUpdateScheduled = true, endTime === rootWithNestedUpdates ? nestedUpdateCount++ : (nestedUpdateCount = 0, rootWithNestedUpdates = endTime)) : (nestedUpdateCount = 0, rootWithNestedUpdates = null);
-            passiveSubtreeMask || finalizeRender(abortedViewTransition, commitEndTime);
+            ensureRootIsScheduled(startViewTransitionStartTime);
+            remainingLanes = startViewTransitionStartTime.pendingLanes;
+            0 !== (endTime & 261930) && 0 !== (remainingLanes & 42) ? (nestedUpdateScheduled = true, startViewTransitionStartTime === rootWithNestedUpdates ? nestedUpdateCount++ : (nestedUpdateCount = 0, rootWithNestedUpdates = startViewTransitionStartTime)) : nestedUpdateCount = 0;
+            rootDidHavePassiveEffects || finalizeRender(endTime, commitEndTime);
             flushSyncWorkAcrossRoots_impl(0, false);
           }
         }
@@ -15516,9 +14354,6 @@
           0 === (root3.pooledCacheLanes &= remainingLanes) && (remainingLanes = root3.pooledCache, null != remainingLanes && (root3.pooledCache = null, releaseCache(remainingLanes)));
         }
         function flushPendingEffects() {
-          null !== pendingViewTransition && (pendingViewTransition.skipTransition(), didWarnAboutInterruptedViewTransitions || (didWarnAboutInterruptedViewTransitions = true, console.warn(
-            "A flushSync update cancelled a View Transition because it was called while the View Transition was still preparing. To preserve the synchronous semantics, React had to skip the View Transition. If you can, try to avoid flushSync() in a scenario that's likely to interfere."
-          )), pendingViewTransition = null, pendingDelayedCommitReason = ABORTED_VIEW_TRANSITION_COMMIT);
           flushMutationEffects();
           flushLayoutEffects();
           flushSpawnedWork();
@@ -15705,7 +14540,7 @@
           isConcurrentActEnvironment() && null === ReactSharedInternals.actQueue && console.error(
             "A suspended resource finished loading inside a test, but the event was not wrapped in act(...).\n\nWhen testing, code that resolves suspended data should be wrapped into act(...):\n\nact(() => {\n  /* finish loading suspended data */\n});\n/* assert on the output */\n\nThis ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act"
           );
-          workInProgressRoot === root3 && (workInProgressRootRenderLanes & pingedLanes) === pingedLanes && (workInProgressRootExitStatus === RootSuspendedWithDelay || workInProgressRootExitStatus === RootSuspended && (workInProgressRootRenderLanes & 62914560) === workInProgressRootRenderLanes && now$1() - globalMostRecentFallbackTime < FALLBACK_THROTTLE_MS ? (executionContext & RenderContext) === NoContext ? prepareFreshStack(root3, 0) : workInProgressRootPingedLanes |= pingedLanes : workInProgressRootPingedLanes |= pingedLanes, workInProgressSuspendedRetryLanes === workInProgressRootRenderLanes && (workInProgressSuspendedRetryLanes = 0));
+          workInProgressRoot === root3 && (workInProgressRootRenderLanes & pingedLanes) === pingedLanes && (workInProgressRootExitStatus === RootSuspendedWithDelay || workInProgressRootExitStatus === RootSuspended && (workInProgressRootRenderLanes & 62914560) === workInProgressRootRenderLanes && now$1() - globalMostRecentFallbackTime < FALLBACK_THROTTLE_MS ? (executionContext & RenderContext) === NoContext && prepareFreshStack(root3, 0) : workInProgressRootPingedLanes |= pingedLanes, workInProgressSuspendedRetryLanes === workInProgressRootRenderLanes && (workInProgressSuspendedRetryLanes = 0));
           ensureRootIsScheduled(root3);
         }
         function retryTimedOutBoundary(boundaryFiber, retryLane) {
@@ -15742,11 +14577,11 @@
           retryTimedOutBoundary(boundaryFiber, retryLane);
         }
         function recursivelyTraverseAndDoubleInvokeEffectsInDEV(root$jscomp$0, parentFiber, isInStrictMode) {
-          if (0 !== (parentFiber.subtreeFlags & 134225920))
+          if (0 !== (parentFiber.subtreeFlags & 67117056))
             for (parentFiber = parentFiber.child; null !== parentFiber; ) {
               var root3 = root$jscomp$0, fiber = parentFiber, isStrictModeFiber = fiber.type === REACT_STRICT_MODE_TYPE;
               isStrictModeFiber = isInStrictMode || isStrictModeFiber;
-              22 !== fiber.tag ? fiber.flags & 134217728 ? isStrictModeFiber && runWithFiberInDEV(
+              22 !== fiber.tag ? fiber.flags & 67108864 ? isStrictModeFiber && runWithFiberInDEV(
                 fiber,
                 doubleInvokeEffectsOnFiber,
                 root3,
@@ -15755,12 +14590,12 @@
                 root3,
                 fiber,
                 isStrictModeFiber
-              ) : null === fiber.memoizedState && (isStrictModeFiber && fiber.flags & 134225920 ? runWithFiberInDEV(
+              ) : null === fiber.memoizedState && (isStrictModeFiber && fiber.flags & 8192 ? runWithFiberInDEV(
                 fiber,
                 doubleInvokeEffectsOnFiber,
                 root3,
                 fiber
-              ) : fiber.subtreeFlags & 134217728 && runWithFiberInDEV(
+              ) : fiber.subtreeFlags & 67108864 && runWithFiberInDEV(
                 fiber,
                 recursivelyTraverseAndDoubleInvokeEffectsInDEV,
                 root3,
@@ -15773,12 +14608,7 @@
         function doubleInvokeEffectsOnFiber(root3, fiber) {
           setIsStrictModeForDevtools(true);
           try {
-            disappearLayoutEffects(fiber, NoLayoutEffectTraversalFlags), disconnectPassiveEffect(fiber), reappearLayoutEffects(
-              root3,
-              fiber.alternate,
-              fiber,
-              NoLayoutEffectTraversalFlags
-            ), reconnectPassiveEffects(root3, fiber, 0, null, false, 0);
+            disappearLayoutEffects(fiber), disconnectPassiveEffect(fiber), reappearLayoutEffects(root3, fiber.alternate, fiber, false), reconnectPassiveEffects(root3, fiber, 0, null, false, 0);
           } finally {
             setIsStrictModeForDevtools(false);
           }
@@ -15986,7 +14816,17 @@
             return null;
           if ("function" === typeof actionProp) return actionProp;
           checkAttributeStringCoercion(actionProp, "action");
-          return sanitizeURL(actionProp);
+          return sanitizeURL("" + actionProp);
+        }
+        function createFormDataWithSubmitter(form, submitter) {
+          var temp = submitter.ownerDocument.createElement("input");
+          temp.name = submitter.name;
+          temp.value = submitter.value;
+          form.id && temp.setAttribute("form", form.id);
+          submitter.parentNode.insertBefore(temp, submitter);
+          form = new FormData(form);
+          temp.parentNode.removeChild(temp);
+          return form;
         }
         function extractEvents$1(dispatchQueue, domEventName, maybeTargetInst, nativeEvent, nativeEventTarget) {
           if ("submit" === domEventName && maybeTargetInst && maybeTargetInst.stateNode === nativeEventTarget) {
@@ -16009,7 +14849,10 @@
                   listener: function() {
                     if (nativeEvent.defaultPrevented) {
                       if (0 !== currentEventTransitionLane) {
-                        var formData = new FormData(nativeEventTarget, submitter), pendingState = {
+                        var formData = submitter ? createFormDataWithSubmitter(
+                          nativeEventTarget,
+                          submitter
+                        ) : new FormData(nativeEventTarget), pendingState = {
                           pending: true,
                           data: formData,
                           method: nativeEventTarget.method,
@@ -16024,7 +14867,10 @@
                         );
                       }
                     } else
-                      "function" === typeof action && (event.preventDefault(), formData = new FormData(nativeEventTarget, submitter), pendingState = {
+                      "function" === typeof action && (event.preventDefault(), formData = submitter ? createFormDataWithSubmitter(
+                        nativeEventTarget,
+                        submitter
+                      ) : new FormData(nativeEventTarget), pendingState = {
                         pending: true,
                         data: formData,
                         method: nativeEventTarget.method,
@@ -16269,9 +15115,6 @@
                   case "pointerup":
                     SyntheticEventCtor = SyntheticPointerEvent;
                     break;
-                  case "submit":
-                    SyntheticEventCtor = SyntheticSubmitEvent;
-                    break;
                   case "toggle":
                   case "beforetoggle":
                     SyntheticEventCtor = SyntheticToggleEvent;
@@ -16306,59 +15149,80 @@
             }
             if (0 === (eventSystemFlags & 7)) {
               a: {
-                SyntheticEventCtor = "mouseover" === domEventName || "pointerover" === domEventName;
-                reactName = "mouseout" === domEventName || "pointerout" === domEventName;
-                if (SyntheticEventCtor && nativeEvent !== currentReplayingEvent && (reactEventType = nativeEvent.relatedTarget || nativeEvent.fromElement) && (getClosestInstanceFromNode(reactEventType) || reactEventType[internalContainerInstanceKey]))
+                reactName = "mouseover" === domEventName || "pointerover" === domEventName;
+                SyntheticEventCtor = "mouseout" === domEventName || "pointerout" === domEventName;
+                if (reactName && nativeEvent !== currentReplayingEvent && (reactEventType = nativeEvent.relatedTarget || nativeEvent.fromElement) && (getClosestInstanceFromNode(reactEventType) || reactEventType[internalContainerInstanceKey]))
                   break a;
-                if (reactName || SyntheticEventCtor) {
-                  reactEventType = nativeEventTarget.window === nativeEventTarget ? nativeEventTarget : (SyntheticEventCtor = nativeEventTarget.ownerDocument) ? SyntheticEventCtor.defaultView || SyntheticEventCtor.parentWindow : window;
-                  if (reactName) {
-                    if (SyntheticEventCtor = nativeEvent.relatedTarget || nativeEvent.toElement, reactName = targetInst, SyntheticEventCtor = SyntheticEventCtor ? getClosestInstanceFromNode(SyntheticEventCtor) : null, null !== SyntheticEventCtor && (accumulateTargetOnly = getNearestMountedFiber(SyntheticEventCtor), inCapturePhase = SyntheticEventCtor.tag, SyntheticEventCtor !== accumulateTargetOnly || 5 !== inCapturePhase && 27 !== inCapturePhase && 6 !== inCapturePhase))
-                      SyntheticEventCtor = null;
-                  } else reactName = null, SyntheticEventCtor = targetInst;
-                  if (reactName !== SyntheticEventCtor) {
+                if (SyntheticEventCtor || reactName) {
+                  reactName = nativeEventTarget.window === nativeEventTarget ? nativeEventTarget : (reactName = nativeEventTarget.ownerDocument) ? reactName.defaultView || reactName.parentWindow : window;
+                  if (SyntheticEventCtor) {
+                    if (reactEventType = nativeEvent.relatedTarget || nativeEvent.toElement, SyntheticEventCtor = targetInst, reactEventType = reactEventType ? getClosestInstanceFromNode(reactEventType) : null, null !== reactEventType && (accumulateTargetOnly = getNearestMountedFiber(reactEventType), inCapturePhase = reactEventType.tag, reactEventType !== accumulateTargetOnly || 5 !== inCapturePhase && 27 !== inCapturePhase && 6 !== inCapturePhase))
+                      reactEventType = null;
+                  } else SyntheticEventCtor = null, reactEventType = targetInst;
+                  if (SyntheticEventCtor !== reactEventType) {
                     inCapturePhase = SyntheticMouseEvent;
                     _instance2 = "onMouseLeave";
                     reactEventName = "onMouseEnter";
                     instance = "mouse";
                     if ("pointerout" === domEventName || "pointerover" === domEventName)
                       inCapturePhase = SyntheticPointerEvent, _instance2 = "onPointerLeave", reactEventName = "onPointerEnter", instance = "pointer";
-                    accumulateTargetOnly = null == reactName ? reactEventType : getNodeFromInstance(reactName);
-                    lastHostComponent = null == SyntheticEventCtor ? reactEventType : getNodeFromInstance(SyntheticEventCtor);
-                    reactEventType = new inCapturePhase(
+                    accumulateTargetOnly = null == SyntheticEventCtor ? reactName : getNodeFromInstance(SyntheticEventCtor);
+                    lastHostComponent = null == reactEventType ? reactName : getNodeFromInstance(reactEventType);
+                    reactName = new inCapturePhase(
                       _instance2,
                       instance + "leave",
-                      reactName,
+                      SyntheticEventCtor,
                       nativeEvent,
                       nativeEventTarget
                     );
-                    reactEventType.target = accumulateTargetOnly;
-                    reactEventType.relatedTarget = lastHostComponent;
+                    reactName.target = accumulateTargetOnly;
+                    reactName.relatedTarget = lastHostComponent;
                     _instance2 = null;
                     getClosestInstanceFromNode(nativeEventTarget) === targetInst && (inCapturePhase = new inCapturePhase(
                       reactEventName,
                       instance + "enter",
-                      SyntheticEventCtor,
+                      reactEventType,
                       nativeEvent,
                       nativeEventTarget
                     ), inCapturePhase.target = lastHostComponent, inCapturePhase.relatedTarget = accumulateTargetOnly, _instance2 = inCapturePhase);
                     accumulateTargetOnly = _instance2;
-                    inCapturePhase = reactName && SyntheticEventCtor ? getLowestCommonAncestor(
+                    if (SyntheticEventCtor && reactEventType)
+                      b: {
+                        inCapturePhase = getParent;
+                        reactEventName = SyntheticEventCtor;
+                        instance = reactEventType;
+                        lastHostComponent = 0;
+                        for (_instance2 = reactEventName; _instance2; _instance2 = inCapturePhase(_instance2))
+                          lastHostComponent++;
+                        _instance2 = 0;
+                        for (var tempB = instance; tempB; tempB = inCapturePhase(tempB))
+                          _instance2++;
+                        for (; 0 < lastHostComponent - _instance2; )
+                          reactEventName = inCapturePhase(reactEventName), lastHostComponent--;
+                        for (; 0 < _instance2 - lastHostComponent; )
+                          instance = inCapturePhase(instance), _instance2--;
+                        for (; lastHostComponent--; ) {
+                          if (reactEventName === instance || null !== instance && reactEventName === instance.alternate) {
+                            inCapturePhase = reactEventName;
+                            break b;
+                          }
+                          reactEventName = inCapturePhase(reactEventName);
+                          instance = inCapturePhase(instance);
+                        }
+                        inCapturePhase = null;
+                      }
+                    else inCapturePhase = null;
+                    null !== SyntheticEventCtor && accumulateEnterLeaveListenersForEvent(
+                      dispatchQueue,
                       reactName,
                       SyntheticEventCtor,
-                      getParent
-                    ) : null;
-                    null !== reactName && accumulateEnterLeaveListenersForEvent(
-                      dispatchQueue,
-                      reactEventType,
-                      reactName,
                       inCapturePhase,
                       false
                     );
-                    null !== SyntheticEventCtor && null !== accumulateTargetOnly && accumulateEnterLeaveListenersForEvent(
+                    null !== reactEventType && null !== accumulateTargetOnly && accumulateEnterLeaveListenersForEvent(
                       dispatchQueue,
                       accumulateTargetOnly,
-                      SyntheticEventCtor,
+                      reactEventType,
                       inCapturePhase,
                       true
                     );
@@ -16389,6 +15253,7 @@
                   break a;
                 }
                 handleEventFunc && handleEventFunc(domEventName, reactName, targetInst);
+                "focusout" === domEventName && targetInst && "number" === reactName.type && null != targetInst.memoizedProps.value && setDefaultValue(reactName, "number", reactName.value);
               }
               handleEventFunc = targetInst ? getNodeFromInstance(targetInst) : window;
               switch (domEventName) {
@@ -16541,18 +15406,9 @@
         function warnForPropDifference(propName, serverValue, clientValue, serverDifferences) {
           serverValue !== clientValue && (clientValue = normalizeMarkupForTextOrAttribute(clientValue), normalizeMarkupForTextOrAttribute(serverValue) !== clientValue && (serverDifferences[propName] = serverValue));
         }
-        function hasViewTransition(htmlElement) {
-          return !!(htmlElement.getAttribute("vt-share") || htmlElement.getAttribute("vt-exit") || htmlElement.getAttribute("vt-enter") || htmlElement.getAttribute("vt-update"));
-        }
-        function isExpectedViewTransitionName(htmlElement) {
-          if (!hasViewTransition(htmlElement)) return false;
-          var expectedVtName = htmlElement.getAttribute("vt-name");
-          htmlElement = htmlElement.style["view-transition-name"];
-          return expectedVtName ? expectedVtName === htmlElement : htmlElement.startsWith("_T_");
-        }
         function warnForExtraAttributes(domElement, attributeNames, serverDifferences) {
           attributeNames.forEach(function(attributeName) {
-            "style" === attributeName ? "" !== domElement.getAttribute(attributeName) && (attributeName = domElement.style, (1 === attributeName.length && "view-transition-name" === attributeName[0] || 2 === attributeName.length && "view-transition-class" === attributeName[0] && "view-transition-name" === attributeName[1]) && isExpectedViewTransitionName(domElement) || (serverDifferences.style = getStylesObjectFromElement(domElement))) : serverDifferences[getPropNameFromAttributeName(attributeName)] = domElement.getAttribute(attributeName);
+            serverDifferences[getPropNameFromAttributeName(attributeName)] = "style" === attributeName ? getStylesObjectFromElement(domElement) : domElement.getAttribute(attributeName);
           });
         }
         function warnForInvalidEventListener(registrationName, listener2) {
@@ -16593,7 +15449,6 @@
                 validateTextNesting(value, tag, false), "body" === tag || "textarea" === tag && "" === value || setTextContent(domElement, value);
               else if ("number" === typeof value || "bigint" === typeof value)
                 validateTextNesting("" + value, tag, false), "body" !== tag && setTextContent(domElement, "" + value);
-              else return;
               break;
             case "className":
               setValueForKnownAttribute(domElement, "class", value);
@@ -16610,7 +15465,7 @@
               break;
             case "style":
               setValueForStyles(domElement, value, prevValue);
-              return;
+              break;
             case "data":
               if ("object" !== tag) {
                 setValueForKnownAttribute(domElement, "data", value);
@@ -16636,7 +15491,7 @@
                 break;
               }
               checkAttributeStringCoercion(value, key);
-              value = sanitizeURL(value);
+              value = sanitizeURL("" + value);
               domElement.setAttribute(key, value);
               break;
             case "action":
@@ -16712,18 +15567,18 @@
                 break;
               }
               checkAttributeStringCoercion(value, key);
-              value = sanitizeURL(value);
+              value = sanitizeURL("" + value);
               domElement.setAttribute(key, value);
               break;
             case "onClick":
-              null != value && ("function" !== typeof value && warnForInvalidEventListener(key, value), domElement.onclick = noop$12);
-              return;
+              null != value && ("function" !== typeof value && warnForInvalidEventListener(key, value), domElement.onclick = noop$1);
+              break;
             case "onScroll":
               null != value && ("function" !== typeof value && warnForInvalidEventListener(key, value), listenToNonDelegatedEvent("scroll", domElement));
-              return;
+              break;
             case "onScrollEnd":
               null != value && ("function" !== typeof value && warnForInvalidEventListener(key, value), listenToNonDelegatedEvent("scrollend", domElement));
-              return;
+              break;
             case "dangerouslySetInnerHTML":
               if (null != value) {
                 if ("object" !== typeof value || !("__html" in value))
@@ -16736,7 +15591,7 @@
                     throw Error(
                       "Can only set one of `children` or `props.dangerouslySetInnerHTML`."
                     );
-                  (null != prevValue ? prevValue.__html : void 0) !== key && (domElement.innerHTML = key);
+                  domElement.innerHTML = key;
                 }
               }
               break;
@@ -16761,7 +15616,7 @@
                 break;
               }
               checkAttributeStringCoercion(value, key);
-              key = sanitizeURL(value);
+              key = sanitizeURL("" + value);
               domElement.setAttributeNS(xlinkNamespace, "xlink:href", key);
               break;
             case "contentEditable":
@@ -16772,7 +15627,7 @@
             case "externalResourcesRequired":
             case "focusable":
             case "preserveAlpha":
-              null != value && "function" !== typeof value && "symbol" !== typeof value ? (checkAttributeStringCoercion(value, key), domElement.setAttribute(key, value)) : domElement.removeAttribute(key);
+              null != value && "function" !== typeof value && "symbol" !== typeof value ? (checkAttributeStringCoercion(value, key), domElement.setAttribute(key, "" + value)) : domElement.removeAttribute(key);
               break;
             case "inert":
               "" !== value || didWarnForNewBooleanPropsWithEmptyValue[key] || (didWarnForNewBooleanPropsWithEmptyValue[key] = true, console.error(
@@ -16783,7 +15638,6 @@
             case "async":
             case "autoPlay":
             case "controls":
-            case "credentialless":
             case "default":
             case "defer":
             case "disabled":
@@ -16903,27 +15757,21 @@
               break;
             case "innerText":
             case "textContent":
-              return;
+              break;
             case "popoverTarget":
               didWarnPopoverTargetObject || null == value || "object" !== typeof value || (didWarnPopoverTargetObject = true, console.error(
                 "The `popoverTarget` prop expects the ID of an Element as a string. Received %s instead.",
                 value
               ));
             default:
-              if (!(2 < key.length) || "o" !== key[0] && "O" !== key[0] || "n" !== key[1] && "N" !== key[1])
-                key = getAttributeAlias(key), setValueForAttribute(domElement, key, value);
-              else {
-                registrationNameDependencies.hasOwnProperty(key) && null != value && "function" !== typeof value && warnForInvalidEventListener(key, value);
-                return;
-              }
+              !(2 < key.length) || "o" !== key[0] && "O" !== key[0] || "n" !== key[1] && "N" !== key[1] ? (key = getAttributeAlias(key), setValueForAttribute(domElement, key, value)) : registrationNameDependencies.hasOwnProperty(key) && null != value && "function" !== typeof value && warnForInvalidEventListener(key, value);
           }
-          viewTransitionMutationContext = true;
         }
         function setPropOnCustomElement(domElement, tag, key, value, props, prevValue) {
           switch (key) {
             case "style":
               setValueForStyles(domElement, value, prevValue);
-              return;
+              break;
             case "dangerouslySetInnerHTML":
               if (null != value) {
                 if ("object" !== typeof value || !("__html" in value))
@@ -16936,49 +15784,43 @@
                     throw Error(
                       "Can only set one of `children` or `props.dangerouslySetInnerHTML`."
                     );
-                  (null != prevValue ? prevValue.__html : void 0) !== key && (domElement.innerHTML = key);
+                  domElement.innerHTML = key;
                 }
               }
               break;
             case "children":
-              if ("string" === typeof value) setTextContent(domElement, value);
-              else if ("number" === typeof value || "bigint" === typeof value)
-                setTextContent(domElement, "" + value);
-              else return;
+              "string" === typeof value ? setTextContent(domElement, value) : ("number" === typeof value || "bigint" === typeof value) && setTextContent(domElement, "" + value);
               break;
             case "onScroll":
               null != value && ("function" !== typeof value && warnForInvalidEventListener(key, value), listenToNonDelegatedEvent("scroll", domElement));
-              return;
+              break;
             case "onScrollEnd":
               null != value && ("function" !== typeof value && warnForInvalidEventListener(key, value), listenToNonDelegatedEvent("scrollend", domElement));
-              return;
+              break;
             case "onClick":
-              null != value && ("function" !== typeof value && warnForInvalidEventListener(key, value), domElement.onclick = noop$12);
-              return;
+              null != value && ("function" !== typeof value && warnForInvalidEventListener(key, value), domElement.onclick = noop$1);
+              break;
             case "suppressContentEditableWarning":
             case "suppressHydrationWarning":
             case "innerHTML":
             case "ref":
-              return;
+              break;
             case "innerText":
             case "textContent":
-              return;
+              break;
             default:
               if (registrationNameDependencies.hasOwnProperty(key))
                 null != value && "function" !== typeof value && warnForInvalidEventListener(key, value);
               else
                 a: {
-                  if ("o" === key[0] && "n" === key[1] && (props = key.endsWith("Capture"), prevValue = key.slice(2, props ? key.length - 7 : void 0), tag = domElement[internalPropsKey] || null, tag = null != tag ? tag[key] : null, "function" === typeof tag && domElement.removeEventListener(prevValue, tag, props), "function" === typeof value)) {
-                    "function" !== typeof tag && null !== tag && (key in domElement ? domElement[key] = null : domElement.hasAttribute(key) && domElement.removeAttribute(key));
-                    domElement.addEventListener(prevValue, value, props);
+                  if ("o" === key[0] && "n" === key[1] && (props = key.endsWith("Capture"), tag = key.slice(2, props ? key.length - 7 : void 0), prevValue = domElement[internalPropsKey] || null, prevValue = null != prevValue ? prevValue[key] : null, "function" === typeof prevValue && domElement.removeEventListener(tag, prevValue, props), "function" === typeof value)) {
+                    "function" !== typeof prevValue && null !== prevValue && (key in domElement ? domElement[key] = null : domElement.hasAttribute(key) && domElement.removeAttribute(key));
+                    domElement.addEventListener(tag, value, props);
                     break a;
                   }
-                  viewTransitionMutationContext = true;
                   key in domElement ? domElement[key] = value : true === value ? domElement.setAttribute(key, "") : setValueForAttribute(domElement, key, value);
                 }
-              return;
           }
-          viewTransitionMutationContext = true;
         }
         function setInitialProperties(domElement, tag, props) {
           validatePropertiesInDevelopment(tag, props);
@@ -17254,27 +16096,21 @@
                 if (nextProps.hasOwnProperty(_propKey8) && (null != propKey || null != lastProp))
                   switch (_propKey8) {
                     case "type":
-                      propKey !== lastProp && (viewTransitionMutationContext = true);
                       type = propKey;
                       break;
                     case "name":
-                      propKey !== lastProp && (viewTransitionMutationContext = true);
                       name = propKey;
                       break;
                     case "checked":
-                      propKey !== lastProp && (viewTransitionMutationContext = true);
                       checked = propKey;
                       break;
                     case "defaultChecked":
-                      propKey !== lastProp && (viewTransitionMutationContext = true);
                       defaultChecked = propKey;
                       break;
                     case "value":
-                      propKey !== lastProp && (viewTransitionMutationContext = true);
                       value = propKey;
                       break;
                     case "defaultValue":
-                      propKey !== lastProp && (viewTransitionMutationContext = true);
                       defaultValue = propKey;
                       break;
                     case "children":
@@ -17337,15 +16173,13 @@
                 if (type = nextProps[name], lastDefaultValue = lastProps[name], nextProps.hasOwnProperty(name) && (null != type || null != lastDefaultValue))
                   switch (name) {
                     case "value":
-                      type !== lastDefaultValue && (viewTransitionMutationContext = true);
                       _propKey8 = type;
                       break;
                     case "defaultValue":
-                      type !== lastDefaultValue && (viewTransitionMutationContext = true);
                       defaultValue = type;
                       break;
                     case "multiple":
-                      type !== lastDefaultValue && (viewTransitionMutationContext = true), value = type;
+                      value = type;
                     default:
                       type !== lastDefaultValue && setProp(
                         domElement,
@@ -17377,11 +16211,9 @@
                 if (name = nextProps[value], type = lastProps[value], nextProps.hasOwnProperty(value) && (null != name || null != type))
                   switch (value) {
                     case "value":
-                      name !== type && (viewTransitionMutationContext = true);
                       _propKey8 = name;
                       break;
                     case "defaultValue":
-                      name !== type && (viewTransitionMutationContext = true);
                       propKey = name;
                       break;
                     case "children":
@@ -17418,7 +16250,6 @@
                 if (_propKey8 = nextProps[lastDefaultValue], propKey = lastProps[lastDefaultValue], nextProps.hasOwnProperty(lastDefaultValue) && _propKey8 !== propKey && (null != _propKey8 || null != propKey))
                   switch (lastDefaultValue) {
                     case "selected":
-                      _propKey8 !== propKey && (viewTransitionMutationContext = true);
                       domElement.selected = _propKey8 && "function" !== typeof _propKey8 && "symbol" !== typeof _propKey8;
                       break;
                     default:
@@ -17516,9 +16347,11 @@
           }
         }
         function getStylesObjectFromElement(domElement) {
-          for (var serverValueInObjectForm = {}, style2 = domElement.style, i = 0; i < style2.length; i++) {
-            var styleName = style2[i];
-            "view-transition-name" === styleName && isExpectedViewTransitionName(domElement) || (serverValueInObjectForm[styleName] = style2.getPropertyValue(styleName));
+          var serverValueInObjectForm = {};
+          domElement = domElement.style;
+          for (var i = 0; i < domElement.length; i++) {
+            var styleName = domElement[i];
+            serverValueInObjectForm[styleName] = domElement.getPropertyValue(styleName);
           }
           return serverValueInObjectForm;
         }
@@ -17537,7 +16370,7 @@
               }
             clientValue = clientValue || null;
             value$jscomp$0 = domElement.getAttribute("style");
-            value$jscomp$0 !== clientValue && (clientValue = normalizeMarkupForTextOrAttribute(clientValue), value$jscomp$0 = normalizeMarkupForTextOrAttribute(value$jscomp$0), value$jscomp$0 === clientValue || ";" === value$jscomp$0[value$jscomp$0.length - 1] && hasViewTransition(domElement) || (serverDifferences.style = getStylesObjectFromElement(domElement)));
+            value$jscomp$0 !== clientValue && (clientValue = normalizeMarkupForTextOrAttribute(clientValue), normalizeMarkupForTextOrAttribute(value$jscomp$0) !== clientValue && (serverDifferences.style = getStylesObjectFromElement(domElement)));
           }
         }
         function hydrateAttribute(domElement, propKey, attributeName, value, extraAttributes, serverDifferences) {
@@ -17660,14 +16493,6 @@
               case "checked":
                 break;
               case "selected":
-                break;
-              case "vt-name":
-              case "vt-update":
-              case "vt-enter":
-              case "vt-exit":
-              case "vt-share":
-              case "vt-parent-enter":
-              case "vt-parent-exit":
                 break;
               default:
                 extraAttributes.add(attributes[i].name);
@@ -17943,7 +16768,6 @@
                     case "async":
                     case "autoPlay":
                     case "controls":
-                    case "credentialless":
                     case "default":
                     case "defer":
                     case "disabled":
@@ -18188,7 +17012,7 @@
                         ) ? possibleStandardNames[attributeName] || null : null, null !== attributeName && attributeName !== value && (attributes = true, extraAttributes.delete(attributeName)), extraAttributes.delete(i));
                         a: if (attributeName = domElement, serverDifferences$jscomp$0 = i, i = propKey, isAttributeNameSafe(serverDifferences$jscomp$0))
                           if (attributeName.hasAttribute(serverDifferences$jscomp$0))
-                            attributeName = "nonce" === serverDifferences$jscomp$0.toLowerCase() ? attributeName.nonce : attributeName.getAttribute(
+                            attributeName = attributeName.getAttribute(
                               serverDifferences$jscomp$0
                             ), checkAttributeStringCoercion(
                               i,
@@ -18292,43 +17116,6 @@
             }
           return parentNamespace === HostContextNamespaceSvg && "foreignObject" === type ? HostContextNamespaceNone : parentNamespace;
         }
-        function createHoistableInstance(type, props, rootContainerInstance, internalInstanceHandle) {
-          rootContainerInstance = getOwnerDocumentFromRootContainer(
-            rootContainerInstance
-          ).createElement(type);
-          rootContainerInstance[internalInstanceKey] = internalInstanceHandle;
-          rootContainerInstance[internalPropsKey] = props;
-          setInitialProperties(rootContainerInstance, type, props);
-          markNodeAsHoistable(rootContainerInstance);
-          return rootContainerInstance;
-        }
-        function isScriptDataBlock(props) {
-          props = props.type;
-          if ("string" !== typeof props || "" === props) return false;
-          props = props.toLowerCase();
-          if ("module" === props || "importmap" === props || "speculationrules" === props)
-            return false;
-          switch (props) {
-            case "application/ecmascript":
-            case "application/javascript":
-            case "application/x-ecmascript":
-            case "application/x-javascript":
-            case "text/ecmascript":
-            case "text/javascript":
-            case "text/javascript1.0":
-            case "text/javascript1.1":
-            case "text/javascript1.2":
-            case "text/javascript1.3":
-            case "text/javascript1.4":
-            case "text/javascript1.5":
-            case "text/jscript":
-            case "text/livescript":
-            case "text/x-ecmascript":
-            case "text/x-javascript":
-              return false;
-          }
-          return true;
-        }
         function shouldSetTextContent(type, props) {
           return "textarea" === type || "noscript" === type || "string" === typeof props.children || "number" === typeof props.children || "bigint" === typeof props.children || "object" === typeof props.dangerouslySetInnerHTML && null !== props.dangerouslySetInnerHTML && null != props.dangerouslySetInnerHTML.__html;
         }
@@ -18399,11 +17186,11 @@
         function isSingletonScope(type) {
           return "head" === type;
         }
-        function removeChild(parentInstance, child2) {
-          parentInstance.removeChild(child2);
+        function removeChild(parentInstance, child) {
+          parentInstance.removeChild(child);
         }
-        function removeChildFromContainer(container, child2) {
-          (9 === container.nodeType ? container.body : "HTML" === container.nodeName ? container.ownerDocument.body : container).removeChild(child2);
+        function removeChildFromContainer(container, child) {
+          (9 === container.nodeType ? container.body : "HTML" === container.nodeName ? container.ownerDocument.body : container).removeChild(child);
         }
         function clearHydrationBoundary(parentInstance, hydrationInstance) {
           var node = hydrationInstance, depth = 0;
@@ -18421,21 +17208,19 @@
               } else if (node === SUSPENSE_START_DATA || node === SUSPENSE_PENDING_START_DATA || node === SUSPENSE_QUEUED_START_DATA || node === SUSPENSE_FALLBACK_START_DATA || node === ACTIVITY_START_DATA)
                 depth++;
               else if (node === PREAMBLE_CONTRIBUTION_HTML)
-                clearSingletonPreambleContribution(
+                releaseSingletonInstance(
                   parentInstance.ownerDocument.documentElement
                 );
               else if (node === PREAMBLE_CONTRIBUTION_HEAD) {
                 node = parentInstance.ownerDocument.head;
-                clearSingletonPreambleContribution(node);
+                releaseSingletonInstance(node);
                 for (var node$jscomp$0 = node.firstChild; node$jscomp$0; ) {
                   var nextNode$jscomp$0 = node$jscomp$0.nextSibling, nodeName = node$jscomp$0.nodeName;
                   node$jscomp$0[internalHoistableMarker] || "SCRIPT" === nodeName || "STYLE" === nodeName || "LINK" === nodeName && "stylesheet" === node$jscomp$0.rel.toLowerCase() || node.removeChild(node$jscomp$0);
                   node$jscomp$0 = nextNode$jscomp$0;
                 }
               } else
-                node === PREAMBLE_CONTRIBUTION_BODY && clearSingletonPreambleContribution(
-                  parentInstance.ownerDocument.body
-                );
+                node === PREAMBLE_CONTRIBUTION_BODY && releaseSingletonInstance(parentInstance.ownerDocument.body);
             node = nextNode;
           } while (node);
           retryIfBlockedOn(hydrationInstance);
@@ -18475,431 +17260,6 @@
         }
         function unhideTextInstance(textInstance, text) {
           textInstance.nodeValue = text;
-        }
-        function warnForBlockInsideInline(instance) {
-          for (var nextNode = instance.firstChild; null != nextNode; ) {
-            if (1 === nextNode.nodeType && "block" === getComputedStyle(nextNode).display) {
-              var fiber = getInstanceFromNode(nextNode) || getInstanceFromNode(instance);
-              runWithFiberInDEV(
-                fiber,
-                function(parentTag, childTag) {
-                  console.error(
-                    "You're about to start a <ViewTransition> around a display: inline element <%s>, which itself has a display: block element <%s> inside it. This might trigger a bug in Safari which causes the View Transition to be skipped with a duplicate name error.\nhttps://bugs.webkit.org/show_bug.cgi?id=290923",
-                    parentTag.toLocaleLowerCase(),
-                    childTag.toLocaleLowerCase()
-                  );
-                },
-                instance.tagName,
-                nextNode.tagName
-              );
-              break;
-            }
-            if (null != nextNode.firstChild) nextNode = nextNode.firstChild;
-            else {
-              if (nextNode === instance) break;
-              for (; null == nextNode.nextSibling && null != nextNode.parentNode && nextNode.parentNode !== instance; )
-                nextNode = nextNode.parentNode;
-              nextNode = nextNode.nextSibling;
-            }
-          }
-        }
-        function applyViewTransitionName(instance, name, className) {
-          name = CSS.escape(name) !== name ? "r-" + btoa(name).replace(/=/g, "") : name;
-          instance.style.viewTransitionName = name;
-          null != className && (instance.style.viewTransitionClass = className);
-          className = getComputedStyle(instance);
-          if ("inline" === className.display) {
-            name = instance.getClientRects();
-            if (1 === name.length) var JSCompiler_inline_result = 1;
-            else
-              for (var i = JSCompiler_inline_result = 0; i < name.length; i++) {
-                var rect = name[i];
-                0 < rect.width && 0 < rect.height && JSCompiler_inline_result++;
-              }
-            1 === JSCompiler_inline_result ? (instance = instance.style, instance.display = 1 === name.length ? "inline-block" : "block", instance.marginTop = "-" + className.paddingTop, instance.marginBottom = "-" + className.paddingBottom) : warnForBlockInsideInline(instance);
-          }
-        }
-        function restoreViewTransitionName(instance, props) {
-          instance = instance.style;
-          props = props[STYLE];
-          var viewTransitionName = null != props ? props.hasOwnProperty("viewTransitionName") ? props.viewTransitionName : props.hasOwnProperty("view-transition-name") ? props["view-transition-name"] : null : null;
-          instance.viewTransitionName = null == viewTransitionName || "boolean" === typeof viewTransitionName ? "" : ("" + viewTransitionName).trim();
-          viewTransitionName = null != props ? props.hasOwnProperty("viewTransitionClass") ? props.viewTransitionClass : props.hasOwnProperty("view-transition-class") ? props["view-transition-class"] : null : null;
-          instance.viewTransitionClass = null == viewTransitionName || "boolean" === typeof viewTransitionName ? "" : ("" + viewTransitionName).trim();
-          "inline-block" === instance.display && (null == props ? instance.display = instance.margin = "" : (viewTransitionName = props.display, instance.display = null == viewTransitionName || "boolean" === typeof viewTransitionName ? "" : viewTransitionName, viewTransitionName = props.margin, null != viewTransitionName ? instance.margin = viewTransitionName : (viewTransitionName = props.hasOwnProperty("marginTop") ? props.marginTop : props["margin-top"], instance.marginTop = null == viewTransitionName || "boolean" === typeof viewTransitionName ? "" : viewTransitionName, props = props.hasOwnProperty("marginBottom") ? props.marginBottom : props["margin-bottom"], instance.marginBottom = null == props || "boolean" === typeof props ? "" : props)));
-        }
-        function createMeasurement(rect, computedStyle, element) {
-          element = element.ownerDocument.defaultView;
-          return {
-            rect,
-            abs: "absolute" === computedStyle.position || "fixed" === computedStyle.position,
-            clip: "none" !== computedStyle.clipPath || "visible" !== computedStyle.overflow || "none" !== computedStyle.filter || "none" !== computedStyle.mask || "none" !== computedStyle.mask || "0px" !== computedStyle.borderRadius,
-            view: 0 <= rect.bottom && 0 <= rect.right && rect.top <= element.innerHeight && rect.left <= element.innerWidth
-          };
-        }
-        function measureInstance(instance) {
-          var rect = instance.getBoundingClientRect(), computedStyle = getComputedStyle(instance);
-          return createMeasurement(rect, computedStyle, instance);
-        }
-        function measureClonedInstance(instance) {
-          var measuredRect = instance.getBoundingClientRect();
-          measuredRect = new DOMRect(
-            measuredRect.x + 2e4,
-            measuredRect.y + 2e4,
-            measuredRect.width,
-            measuredRect.height
-          );
-          var computedStyle = getComputedStyle(instance);
-          return createMeasurement(measuredRect, computedStyle, instance);
-        }
-        function customizeViewTransitionError(error, ignoreAbort) {
-          if ("object" === typeof error && null !== error)
-            switch (error.name) {
-              case "TimeoutError":
-                return Error(
-                  "A ViewTransition timed out because a Navigation stalled. This can happen if a Navigation is blocked on React itself. Such as if it's resolved inside useEffect. This can be solved by moving the resolution to useLayoutEffect.",
-                  { cause: error }
-                );
-              case "AbortError":
-                return ignoreAbort ? null : Error(
-                  "A ViewTransition was aborted early. This might be because you have other View Transition libraries on the page and only one can run at a time. To avoid this, use only React's built-in <ViewTransition> to coordinate.",
-                  { cause: error }
-                );
-              case "InvalidStateError":
-                if ("View transition was skipped because document visibility state is hidden." === error.message || "Skipping view transition because document visibility state has become hidden." === error.message || "Skipping view transition because viewport size changed." === error.message || "Transition was aborted because of invalid state" === error.message)
-                  return null;
-            }
-          return error;
-        }
-        function forceLayout(ownerDocument) {
-          return ownerDocument.documentElement.clientHeight;
-        }
-        function waitForImageToLoad(resolve) {
-          this.addEventListener("load", resolve);
-          this.addEventListener("error", resolve);
-        }
-        function startViewTransition(suspendedState, rootContainer, transitionTypes, mutationCallback, layoutCallback, afterMutationCallback, spawnedWorkCallback, passiveCallback, errorCallback, blockedCallback, finishedAnimation) {
-          var ownerDocument = 9 === rootContainer.nodeType ? rootContainer : rootContainer.ownerDocument;
-          try {
-            var transition = ownerDocument.startViewTransition({
-              update: function() {
-                var ownerWindow = ownerDocument.defaultView, pendingNavigation = ownerWindow.navigation && ownerWindow.navigation.transition, previousFontLoadingStatus = ownerDocument.fonts.status;
-                mutationCallback();
-                var blockingPromises = [];
-                "loaded" === previousFontLoadingStatus && (forceLayout(ownerDocument), "loading" === ownerDocument.fonts.status && blockingPromises.push(ownerDocument.fonts.ready));
-                previousFontLoadingStatus = blockingPromises.length;
-                if (null !== suspendedState)
-                  for (var suspenseyImages = suspendedState.suspenseyImages, imgBytes = 0, i = 0; i < suspenseyImages.length; i++) {
-                    var suspenseyImage = suspenseyImages[i];
-                    if (!suspenseyImage.complete) {
-                      var rect = suspenseyImage.getBoundingClientRect();
-                      if (0 < rect.bottom && 0 < rect.right && rect.top < ownerWindow.innerHeight && rect.left < ownerWindow.innerWidth) {
-                        imgBytes += estimateImageBytes(suspenseyImage);
-                        if (imgBytes > estimatedBytesWithinLimit) {
-                          blockingPromises.length = previousFontLoadingStatus;
-                          break;
-                        }
-                        suspenseyImage = new Promise(
-                          waitForImageToLoad.bind(suspenseyImage)
-                        );
-                        blockingPromises.push(suspenseyImage);
-                      }
-                    }
-                  }
-                if (0 < blockingPromises.length)
-                  return blockedCallback(
-                    0 < previousFontLoadingStatus ? blockingPromises.length > previousFontLoadingStatus ? "Waiting on Fonts and Images" : "Waiting on Fonts" : "Waiting on Images"
-                  ), ownerWindow = Promise.race([
-                    Promise.all(blockingPromises),
-                    new Promise(function(resolve) {
-                      return setTimeout(
-                        resolve,
-                        SUSPENSEY_FONT_AND_IMAGE_TIMEOUT
-                      );
-                    })
-                  ]).then(layoutCallback, layoutCallback), (pendingNavigation ? Promise.allSettled([
-                    pendingNavigation.finished,
-                    ownerWindow
-                  ]) : ownerWindow).then(afterMutationCallback, afterMutationCallback);
-                layoutCallback();
-                if (pendingNavigation)
-                  return pendingNavigation.finished.then(
-                    afterMutationCallback,
-                    afterMutationCallback
-                  );
-                afterMutationCallback();
-              },
-              types: transitionTypes
-            });
-            ownerDocument.__reactViewTransition = transition;
-            var viewTransitionAnimations = [];
-            transition.ready.then(
-              function() {
-                for (var animations = ownerDocument.documentElement.getAnimations({
-                  subtree: true
-                }), i = 0; i < animations.length; i++) {
-                  var animation = animations[i], effect = animation.effect, pseudoElement = effect.pseudoElement;
-                  if (null != pseudoElement && pseudoElement.startsWith("::view-transition")) {
-                    viewTransitionAnimations.push(animation);
-                    animation = effect.getKeyframes();
-                    for (var height = pseudoElement = void 0, unchangedDimensions = true, j = 0; j < animation.length; j++) {
-                      var keyframe = animation[j], w = keyframe.width;
-                      if (void 0 === pseudoElement) pseudoElement = w;
-                      else if (pseudoElement !== w) {
-                        unchangedDimensions = false;
-                        break;
-                      }
-                      w = keyframe.height;
-                      if (void 0 === height) height = w;
-                      else if (height !== w) {
-                        unchangedDimensions = false;
-                        break;
-                      }
-                      delete keyframe.width;
-                      delete keyframe.height;
-                      "none" === keyframe.transform && delete keyframe.transform;
-                    }
-                    unchangedDimensions && void 0 !== pseudoElement && void 0 !== height && (effect.setKeyframes(animation), unchangedDimensions = getComputedStyle(
-                      effect.target,
-                      effect.pseudoElement
-                    ), unchangedDimensions.width !== pseudoElement || unchangedDimensions.height !== height) && (unchangedDimensions = animation[0], unchangedDimensions.width = pseudoElement, unchangedDimensions.height = height, unchangedDimensions = animation[animation.length - 1], unchangedDimensions.width = pseudoElement, unchangedDimensions.height = height, effect.setKeyframes(animation));
-                  }
-                }
-                spawnedWorkCallback();
-              },
-              function(error) {
-                ownerDocument.__reactViewTransition === transition && (ownerDocument.__reactViewTransition = null);
-                try {
-                  error = customizeViewTransitionError(error, false), null !== error && errorCallback(error);
-                } finally {
-                  mutationCallback(), layoutCallback(), spawnedWorkCallback(), finishedAnimation();
-                }
-              }
-            );
-            transition.finished.finally(function() {
-              for (var i = 0; i < viewTransitionAnimations.length; i++)
-                viewTransitionAnimations[i].cancel();
-              ownerDocument.__reactViewTransition === transition && (ownerDocument.__reactViewTransition = null);
-              finishedAnimation();
-              passiveCallback();
-            });
-            return transition;
-          } catch (x2) {
-            return mutationCallback(), layoutCallback(), finishedAnimation(), spawnedWorkCallback(), null;
-          }
-        }
-        function ViewTransitionPseudoElement(pseudo, name) {
-          this._scope = document.documentElement;
-          this._selector = "::view-transition-" + pseudo + "(" + name + ")";
-        }
-        function createViewTransitionInstance(name) {
-          return {
-            name,
-            group: new ViewTransitionPseudoElement("group", name),
-            imagePair: new ViewTransitionPseudoElement("image-pair", name),
-            old: new ViewTransitionPseudoElement("old", name),
-            new: new ViewTransitionPseudoElement("new", name)
-          };
-        }
-        function FragmentInstance(fragmentFiber) {
-          this._fragmentFiber = fragmentFiber;
-          this._observers = this._eventListeners = null;
-        }
-        function addEventListenerToChild(child2, type, listener2, optionsOrUseCapture) {
-          getInstanceFromHostFiber(child2).addEventListener(
-            type,
-            listener2,
-            optionsOrUseCapture
-          );
-          return false;
-        }
-        function removeEventListenerFromChild(child2, type, listener2, optionsOrUseCapture) {
-          getInstanceFromHostFiber(child2).removeEventListener(
-            type,
-            listener2,
-            optionsOrUseCapture
-          );
-          return false;
-        }
-        function getAttachOptions(opts) {
-          return null != opts && "boolean" !== typeof opts && (true === opts.once || opts.signal instanceof AbortSignal) ? { capture: opts.capture, passive: opts.passive } : opts;
-        }
-        function normalizeListenerOptions(opts) {
-          return null == opts ? "c=0" : "boolean" === typeof opts ? "c=" + (opts ? "1" : "0") : "c=" + (opts.capture ? "1" : "0");
-        }
-        function indexOfEventListener(eventListeners, type, listener2, optionsOrUseCapture) {
-          if (0 === eventListeners.length) return -1;
-          optionsOrUseCapture = normalizeListenerOptions(optionsOrUseCapture);
-          for (var i = 0; i < eventListeners.length; i++) {
-            var item = eventListeners[i];
-            if (item.type === type && item.listener === listener2 && normalizeListenerOptions(item.optionsOrUseCapture) === optionsOrUseCapture)
-              return i;
-          }
-          return -1;
-        }
-        function setFocusOnFiberIfFocusable(fiber, focusOptions) {
-          if (6 === fiber.tag) return false;
-          fiber = getInstanceFromHostFiber(fiber);
-          return setFocusIfFocusable(fiber, focusOptions);
-        }
-        function collectChildren(child2, collection) {
-          collection.push(child2);
-          return false;
-        }
-        function blurActiveElementWithinFragment(child2, activeElement2) {
-          if (6 === child2.tag) return false;
-          child2 = getInstanceFromHostFiber(child2);
-          return child2 === activeElement2 || child2.contains(activeElement2) ? (activeElement2.blur(), true) : false;
-        }
-        function observeChild(child2, observer) {
-          if (6 === child2.tag) return false;
-          child2 = getInstanceFromHostFiber(child2);
-          observer.observe(child2);
-          return false;
-        }
-        function unobserveChild(child2, observer) {
-          if (6 === child2.tag) return false;
-          child2 = getInstanceFromHostFiber(child2);
-          observer.unobserve(child2);
-          return false;
-        }
-        function schedulePendingIntersectionUnobserve(fragmentInstance, observer, instance) {
-          pendingIntersectionUnobserves.push({
-            fragmentInstance,
-            observer,
-            instance
-          });
-          intersectionUnobserveScheduled || (intersectionUnobserveScheduled = true, requestPostPaintCallback(function() {
-            intersectionUnobserveScheduled = false;
-            var pending = pendingIntersectionUnobserves;
-            pendingIntersectionUnobserves = [];
-            for (var i = 0; i < pending.length; i++) {
-              var item = pending[i];
-              item.observer.unobserve(item.instance);
-            }
-          }));
-        }
-        function collectClientRects(child2, rects) {
-          if (6 === child2.tag) {
-            child2 = child2.stateNode;
-            var range3 = child2.ownerDocument.createRange();
-            range3.selectNodeContents(child2);
-            rects.push.apply(rects, range3.getClientRects());
-          } else
-            child2 = getInstanceFromHostFiber(child2), rects.push.apply(rects, child2.getClientRects());
-          return false;
-        }
-        function validateDocumentPositionWithFiberTree(documentPosition, fragmentFiber, precedingBoundaryFiber, followingBoundaryFiber, otherNode) {
-          var otherFiber = getClosestInstanceFromNode(otherNode);
-          if (documentPosition & Node.DOCUMENT_POSITION_CONTAINED_BY) {
-            if (precedingBoundaryFiber = !!otherFiber)
-              a: {
-                for (; null !== otherFiber; ) {
-                  if (7 === otherFiber.tag && (otherFiber === fragmentFiber || otherFiber.alternate === fragmentFiber)) {
-                    precedingBoundaryFiber = true;
-                    break a;
-                  }
-                  otherFiber = otherFiber.return;
-                }
-                precedingBoundaryFiber = false;
-              }
-            return precedingBoundaryFiber;
-          }
-          if (documentPosition & Node.DOCUMENT_POSITION_CONTAINS) {
-            if (null === otherFiber)
-              return otherFiber = otherNode.ownerDocument, otherNode === otherFiber || otherNode === otherFiber.documentElement || otherNode === otherFiber.body;
-            a: {
-              otherFiber = fragmentFiber;
-              for (fragmentFiber = getFragmentParentInstanceOrContainerFiber(fragmentFiber); null !== otherFiber; ) {
-                if (!(5 !== otherFiber.tag && 3 !== otherFiber.tag && 27 !== otherFiber.tag || otherFiber !== fragmentFiber && otherFiber.alternate !== fragmentFiber)) {
-                  otherFiber = true;
-                  break a;
-                }
-                otherFiber = otherFiber.return;
-              }
-              otherFiber = false;
-            }
-            return otherFiber;
-          }
-          return documentPosition & Node.DOCUMENT_POSITION_PRECEDING ? ((fragmentFiber = !!otherFiber) && !(fragmentFiber = otherFiber === precedingBoundaryFiber) && (fragmentFiber = getLowestCommonAncestor(
-            precedingBoundaryFiber,
-            otherFiber,
-            getParentForFragmentAncestors
-          ), null === fragmentFiber ? fragmentFiber = false : (traverseVisibleInstancesAndTextInstances(
-            fragmentFiber,
-            true,
-            isFiberPrecedingCheck,
-            otherFiber,
-            precedingBoundaryFiber
-          ), otherFiber = searchTarget, searchTarget = null, fragmentFiber = null !== otherFiber)), fragmentFiber) : documentPosition & Node.DOCUMENT_POSITION_FOLLOWING ? ((fragmentFiber = !!otherFiber) && !(fragmentFiber = otherFiber === followingBoundaryFiber) && (fragmentFiber = getLowestCommonAncestor(
-            followingBoundaryFiber,
-            otherFiber,
-            getParentForFragmentAncestors
-          ), null === fragmentFiber ? fragmentFiber = false : (traverseVisibleInstancesAndTextInstances(
-            fragmentFiber,
-            true,
-            isFiberFollowingCheck,
-            otherFiber,
-            followingBoundaryFiber
-          ), otherFiber = searchTarget, searchBoundary = searchTarget = null, fragmentFiber = null !== otherFiber)), fragmentFiber) : false;
-        }
-        function scrollTextNodeIntoView(textNode, resolvedAlignToTop) {
-          var range3 = textNode.ownerDocument.createRange();
-          range3.selectNodeContents(textNode);
-          textNode = range3.getBoundingClientRect();
-          window.scrollTo(
-            window.scrollX + textNode.left,
-            resolvedAlignToTop ? window.scrollY + textNode.top : window.scrollY + textNode.bottom - window.innerHeight
-          );
-        }
-        function addFragmentHandleToFiber(child2, fragmentInstance) {
-          child2 = getInstanceFromHostFiber(child2);
-          addFragmentHandleToInstance(child2, fragmentInstance);
-          return false;
-        }
-        function addFragmentHandleToInstance(instance, fragmentInstance) {
-          null == instance.reactFragments && (instance.reactFragments = /* @__PURE__ */ new Set());
-          instance.reactFragments.add(fragmentInstance);
-        }
-        function commitNewChildToFragmentInstance(childInstance, fragmentInstance) {
-          var eventListeners = fragmentInstance._eventListeners;
-          if (null !== eventListeners)
-            for (var i$jscomp$0 = 0; i$jscomp$0 < eventListeners.length; i$jscomp$0++) {
-              var _eventListeners$i2 = eventListeners[i$jscomp$0];
-              childInstance.addEventListener(
-                _eventListeners$i2.type,
-                _eventListeners$i2.attachedListener,
-                getAttachOptions(_eventListeners$i2.optionsOrUseCapture)
-              );
-            }
-          3 !== childInstance.nodeType && (eventListeners = fragmentInstance._observers, null !== eventListeners && eventListeners.forEach(function(observer) {
-            for (var writeIdx = 0, i = 0; i < pendingIntersectionUnobserves.length; i++) {
-              var pending = pendingIntersectionUnobserves[i];
-              if (pending.fragmentInstance !== fragmentInstance || pending.observer !== observer || pending.instance !== childInstance)
-                pendingIntersectionUnobserves[writeIdx++] = pending;
-            }
-            pendingIntersectionUnobserves.length = writeIdx;
-            observer.observe(childInstance);
-          }), addFragmentHandleToInstance(childInstance, fragmentInstance));
-        }
-        function deleteChildFromFragmentInstance(childInstance, fragmentInstance) {
-          var eventListeners = fragmentInstance._eventListeners;
-          if (null !== eventListeners)
-            for (var i = 0; i < eventListeners.length; i++) {
-              var _eventListeners$i3 = eventListeners[i];
-              childInstance.removeEventListener(
-                _eventListeners$i3.type,
-                _eventListeners$i3.attachedListener,
-                getAttachOptions(_eventListeners$i3.optionsOrUseCapture)
-              );
-            }
-          3 !== childInstance.nodeType && (eventListeners = fragmentInstance._observers, null !== eventListeners && eventListeners.forEach(function(observer) {
-            "string" === typeof observer.rootMargin ? schedulePendingIntersectionUnobserve(
-              fragmentInstance,
-              observer,
-              childInstance
-            ) : observer.unobserve(childInstance);
-          }), null != childInstance.reactFragments && childInstance.reactFragments.delete(fragmentInstance));
         }
         function clearContainerSparingly(container) {
           var nextNode = container.firstChild;
@@ -19071,26 +17431,6 @@
         function commitHydratedSuspenseInstance(suspenseInstance) {
           retryIfBlockedOn(suspenseInstance);
         }
-        function setFocusIfFocusable(node, focusOptions) {
-          function handleFocus() {
-            didFocus = true;
-          }
-          if (node.ownerDocument.activeElement === node) return true;
-          var didFocus = false;
-          try {
-            node.ownerDocument.addEventListener("focus", handleFocus, true), (node.focus || HTMLElement.prototype.focus).call(node, focusOptions);
-          } finally {
-            node.ownerDocument.removeEventListener("focus", handleFocus, true);
-          }
-          return didFocus;
-        }
-        function requestPostPaintCallback(callback) {
-          localRequestAnimationFrame(function() {
-            localRequestAnimationFrame(function(time2) {
-              return callback(time2);
-            });
-          });
-        }
         function resolveSingletonInstance(type, props, rootContainerInstance, hostContext, validateDOMNestingDev) {
           validateDOMNestingDev && validateDOMNesting(type, hostContext.ancestorInfo);
           props = getOwnerDocumentFromRootContainer(rootContainerInstance);
@@ -19148,27 +17488,13 @@
           instance[internalInstanceKey] = internalInstanceHandle;
           instance[internalPropsKey] = props;
         }
-        function releaseSingletonInstance(instance, type, props) {
-          for (var propKey in props) {
-            var propValue = props[propKey];
-            props.hasOwnProperty(propKey) && null != propValue && setProp(instance, type, propKey, null, emptyProps, propValue);
-          }
-          null != props.dangerouslySetInnerHTML && (instance.textContent = "");
-          instance.onclick === noop$12 && (instance.onclick = null);
-          detachDeletedInstance(instance);
-        }
-        function clearSingletonPreambleContribution(instance) {
+        function releaseSingletonInstance(instance) {
           for (var attributes = instance.attributes; attributes.length; )
             instance.removeAttributeNode(attributes[0]);
           detachDeletedInstance(instance);
         }
         function getHoistableRoot(container) {
-          if ("function" === typeof container.getRootNode) {
-            var rootNode = container.getRootNode();
-            if (9 === rootNode.nodeType || 11 === rootNode.nodeType)
-              return rootNode;
-          }
-          return 9 === container.nodeType ? container : container.ownerDocument;
+          return "function" === typeof container.getRootNode ? container.getRootNode() : 9 === container.nodeType ? container : container.ownerDocument;
         }
         function preconnectAs(rel, href, crossOrigin) {
           var ownerDocument = globalDocument;
@@ -19200,28 +17526,32 @@
               if ("stylesheet" === pendingProps.rel && "string" === typeof pendingProps.href && "string" === typeof pendingProps.precedence) {
                 type = getStyleKey(pendingProps.href);
                 var _styles = getResourcesFromRoot(resourceRoot).hoistableStyles, _resource = _styles.get(type);
-                _resource || (resourceRoot = resourceRoot.ownerDocument || resourceRoot, _resource = {
+                if (!_resource && (resourceRoot = resourceRoot.ownerDocument || resourceRoot, _resource = {
                   type: "stylesheet",
                   instance: null,
                   count: 0,
                   state: { loading: NotLoaded, preload: null }
                 }, _styles.set(type, _resource), (_styles = resourceRoot.querySelector(
                   getStylesheetSelectorFromKey(type)
-                )) ? _styles._p || (_resource.instance = _styles, _resource.state.loading = Loaded | Inserted) : (_styles = preloadPropsMap.get(type), _styles || (_styles = {
-                  rel: "preload",
-                  as: "style",
-                  href: pendingProps.href,
-                  crossOrigin: pendingProps.crossOrigin,
-                  integrity: pendingProps.integrity,
-                  media: pendingProps.media,
-                  hrefLang: pendingProps.hrefLang,
-                  referrerPolicy: pendingProps.referrerPolicy
-                }, preloadPropsMap.set(type, _styles)), preloadStylesheet(
-                  resourceRoot,
-                  type,
-                  _styles,
-                  _resource.state
-                )));
+                )) && !_styles._p && (_resource.instance = _styles, _resource.state.loading = Loaded | Inserted), !preloadPropsMap.has(type))) {
+                  var preloadProps = {
+                    rel: "preload",
+                    as: "style",
+                    href: pendingProps.href,
+                    crossOrigin: pendingProps.crossOrigin,
+                    integrity: pendingProps.integrity,
+                    media: pendingProps.media,
+                    hrefLang: pendingProps.hrefLang,
+                    referrerPolicy: pendingProps.referrerPolicy
+                  };
+                  preloadPropsMap.set(type, preloadProps);
+                  _styles || preloadStylesheet(
+                    resourceRoot,
+                    type,
+                    preloadProps,
+                    _resource.state
+                  );
+                }
                 if (currentProps && null === currentResource)
                   throw pendingProps = "\n\n  - " + describeLinkForResourceErrorDEV(currentProps) + "\n  + " + describeLinkForResourceErrorDEV(pendingProps), Error(
                     "Expected <link> not to update to be updated to a stylesheet with precedence. Check the `rel`, `href`, and `precedence` props of this component. Alternatively, check whether two different <link> components render in the same slot or share the same key." + pendingProps
@@ -19267,22 +17597,13 @@
           });
         }
         function preloadStylesheet(ownerDocument, key, preloadProps, state) {
-          if (key = ownerDocument.querySelector(
+          ownerDocument.querySelector(
             'link[rel="preload"][as="style"][' + key + "]"
-          )) {
-            if (true !== key[internalLoadPendingKey]) {
-              state.loading = Loaded;
-              return;
-            }
-          } else
-            key = ownerDocument.createElement("link"), key[internalLoadPendingKey] = true, key.onload = key.onerror = clearPendingLoadOnNode.bind(null, key), setInitialProperties(key, "link", preloadProps), markNodeAsHoistable(key), ownerDocument.head.appendChild(key);
-          state.preload = key;
-          key.addEventListener("load", function() {
+          ) ? state.loading = Loaded : (key = ownerDocument.createElement("link"), state.preload = key, key.addEventListener("load", function() {
             return state.loading |= Loaded;
-          });
-          key.addEventListener("error", function() {
+          }), key.addEventListener("error", function() {
             return state.loading |= Errored;
-          });
+          }), setInitialProperties(key, "link", preloadProps), markNodeAsHoistable(key), ownerDocument.head.appendChild(key));
         }
         function getScriptKey(src) {
           return '[src="' + escapeSelectorAttributeValueInsideDoubleQuotes(src) + '"]';
@@ -19481,17 +17802,8 @@
           }
           return false;
         }
-        function maySuspendCommit(type, props) {
-          return "img" === type && null != props.src && "" !== props.src && null == props.onLoad && "lazy" !== props.loading;
-        }
         function preloadResource(resource) {
           return "stylesheet" === resource.type && (resource.state.loading & Settled) === NotLoaded ? false : true;
-        }
-        function estimateImageBytes(instance) {
-          return (instance.width || 100) * (instance.height || 100) * ("number" === typeof devicePixelRatio ? devicePixelRatio : 1) * 0.25;
-        }
-        function suspendInstance(state, instance) {
-          "function" === typeof instance.decode && (state.imgCount++, instance.complete || (state.imgBytes += estimateImageBytes(instance), state.suspenseyImages.push(instance)), state = onUnsuspendImg.bind(state), instance.decode().then(state, state));
         }
         function suspendResource(state, hoistableRoot, resource, props) {
           if ("stylesheet" === resource.type && ("string" !== typeof props.media || false !== matchMedia(props.media).matches) && (resource.state.loading & Inserted) === NotLoaded) {
@@ -19556,24 +17868,17 @@
             };
           } : null;
         }
-        function checkIfFullyUnsuspended(state) {
-          if (0 === state.count && (0 === state.imgCount || !state.waitingForImages)) {
-            if (state.stylesheets)
-              insertSuspendedStylesheets(state, state.stylesheets);
-            else if (state.unsuspend) {
-              var unsuspend = state.unsuspend;
-              state.unsuspend = null;
+        function onUnsuspend() {
+          this.count--;
+          if (0 === this.count && (0 === this.imgCount || !this.waitingForImages)) {
+            if (this.stylesheets)
+              insertSuspendedStylesheets(this, this.stylesheets);
+            else if (this.unsuspend) {
+              var unsuspend = this.unsuspend;
+              this.unsuspend = null;
               unsuspend();
             }
           }
-        }
-        function onUnsuspend() {
-          this.count--;
-          checkIfFullyUnsuspended(this);
-        }
-        function onUnsuspendImg() {
-          this.imgCount--;
-          checkIfFullyUnsuspended(this);
         }
         function insertSuspendedStylesheets(state, resources) {
           state.stylesheets = null;
@@ -19626,7 +17931,6 @@
           this.pooledCache = null;
           this.pooledCacheLanes = 0;
           this.formState = formState;
-          this.transitionTypes = null;
           this.incompleteTransitions = /* @__PURE__ */ new Map();
           this.passiveEffectDuration = this.effectDuration = -0;
           this.memoizedUpdaters = /* @__PURE__ */ new Set();
@@ -19873,6 +18177,7 @@
             case "pointerup":
             case "ratechange":
             case "reset":
+            case "resize":
             case "seeked":
             case "submit":
             case "toggle":
@@ -19891,7 +18196,6 @@
             case "beforeinput":
             case "blur":
             case "fullscreenchange":
-            case "fullscreenerror":
             case "focus":
             case "hashchange":
             case "popstate":
@@ -19909,7 +18213,6 @@
             case "pointermove":
             case "pointerout":
             case "pointerover":
-            case "resize":
             case "scroll":
             case "touchmove":
             case "wheel":
@@ -20225,11 +18528,14 @@
           ));
         }
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-        var Scheduler = require_scheduler(), React72 = require_react(), ReactDOM = require_react_dom(), searchTarget = null, searchBoundary = null, assign2 = Object.assign, REACT_LEGACY_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.element"), REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = /* @__PURE__ */ Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = /* @__PURE__ */ Symbol.for("react.profiler"), REACT_CONSUMER_TYPE = /* @__PURE__ */ Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.context"), REACT_FORWARD_REF_TYPE2 = /* @__PURE__ */ Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = /* @__PURE__ */ Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = /* @__PURE__ */ Symbol.for("react.suspense_list"), REACT_MEMO_TYPE2 = /* @__PURE__ */ Symbol.for("react.memo"), REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy");
+        var Scheduler = require_scheduler(), React72 = require_react(), ReactDOM = require_react_dom(), assign2 = Object.assign, REACT_LEGACY_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.element"), REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = /* @__PURE__ */ Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = /* @__PURE__ */ Symbol.for("react.profiler"), REACT_CONSUMER_TYPE = /* @__PURE__ */ Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.context"), REACT_FORWARD_REF_TYPE2 = /* @__PURE__ */ Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = /* @__PURE__ */ Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = /* @__PURE__ */ Symbol.for("react.suspense_list"), REACT_MEMO_TYPE2 = /* @__PURE__ */ Symbol.for("react.memo"), REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy");
         /* @__PURE__ */ Symbol.for("react.scope");
-        var REACT_ACTIVITY_TYPE = /* @__PURE__ */ Symbol.for("react.activity"), REACT_LEGACY_HIDDEN_TYPE = /* @__PURE__ */ Symbol.for("react.legacy_hidden");
+        var REACT_ACTIVITY_TYPE = /* @__PURE__ */ Symbol.for("react.activity");
+        /* @__PURE__ */ Symbol.for("react.legacy_hidden");
         /* @__PURE__ */ Symbol.for("react.tracing_marker");
-        var REACT_MEMO_CACHE_SENTINEL = /* @__PURE__ */ Symbol.for("react.memo_cache_sentinel"), REACT_VIEW_TRANSITION_TYPE = /* @__PURE__ */ Symbol.for("react.view_transition"), REACT_RECOVERABLE_TYPE = /* @__PURE__ */ Symbol.for("react.recoverable"), MAYBE_ITERATOR_SYMBOL = Symbol.iterator, REACT_CLIENT_REFERENCE = /* @__PURE__ */ Symbol.for("react.client.reference"), isArrayImpl = Array.isArray, ReactSharedInternals = React72.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, ReactDOMSharedInternals = ReactDOM.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, NotPending = Object.freeze({
+        var REACT_MEMO_CACHE_SENTINEL = /* @__PURE__ */ Symbol.for("react.memo_cache_sentinel");
+        /* @__PURE__ */ Symbol.for("react.view_transition");
+        var MAYBE_ITERATOR_SYMBOL = Symbol.iterator, REACT_CLIENT_REFERENCE = /* @__PURE__ */ Symbol.for("react.client.reference"), isArrayImpl = Array.isArray, ReactSharedInternals = React72.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, ReactDOMSharedInternals = ReactDOM.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, NotPending = Object.freeze({
           pending: false,
           data: null,
           method: null,
@@ -20240,7 +18546,7 @@
         disabledLog.__reactDisabledLog = true;
         var prefix2, suffix2, reentry = false;
         var componentFrameCache = new ("function" === typeof WeakMap ? WeakMap : Map)();
-        var current2 = null, isRendering = false, hasOwnProperty = Object.prototype.hasOwnProperty, scheduleCallback$3 = Scheduler.unstable_scheduleCallback, cancelCallback$1 = Scheduler.unstable_cancelCallback, shouldYield = Scheduler.unstable_shouldYield, requestPaint = Scheduler.unstable_requestPaint, now$1 = Scheduler.unstable_now, getCurrentPriorityLevel = Scheduler.unstable_getCurrentPriorityLevel, ImmediatePriority = Scheduler.unstable_ImmediatePriority, UserBlockingPriority = Scheduler.unstable_UserBlockingPriority, NormalPriority$1 = Scheduler.unstable_NormalPriority, LowPriority = Scheduler.unstable_LowPriority, IdlePriority = Scheduler.unstable_IdlePriority, log$1 = Scheduler.log, unstable_setDisableYieldValue = Scheduler.unstable_setDisableYieldValue, rendererID = null, injectedHook = null, hasLoggedError = false, isDevToolsPresent = "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__, clz32 = Math.clz32 ? Math.clz32 : clz32Fallback, log2 = Math.log, LN2 = Math.LN2, nextTransitionUpdateLane = 256, nextTransitionDeferredLane = 262144, nextRetryLane = 4194304, DiscreteEventPriority = 2, ContinuousEventPriority = 8, DefaultEventPriority = 32, IdleEventPriority = 268435456, randomKey = Math.random().toString(36).slice(2), internalInstanceKey = "__reactFiber$" + randomKey, internalPropsKey = "__reactProps$" + randomKey, internalContainerInstanceKey = "__reactContainer$" + randomKey, internalEventHandlersKey = "__reactEvents$" + randomKey, internalEventHandlerListenersKey = "__reactListeners$" + randomKey, internalEventHandlesSetKey = "__reactHandles$" + randomKey, internalRootNodeResourcesKey = "__reactResources$" + randomKey, internalHoistableMarker = "__reactMarker$" + randomKey, internalLoadPendingKey = "__reactLoad$" + randomKey, allNativeEvents = /* @__PURE__ */ new Set(), registrationNameDependencies = {}, possibleRegistrationNames = {}, hasReadOnlyValue = {
+        var current2 = null, isRendering = false, hasOwnProperty = Object.prototype.hasOwnProperty, scheduleCallback$3 = Scheduler.unstable_scheduleCallback, cancelCallback$1 = Scheduler.unstable_cancelCallback, shouldYield = Scheduler.unstable_shouldYield, requestPaint = Scheduler.unstable_requestPaint, now$1 = Scheduler.unstable_now, getCurrentPriorityLevel = Scheduler.unstable_getCurrentPriorityLevel, ImmediatePriority = Scheduler.unstable_ImmediatePriority, UserBlockingPriority = Scheduler.unstable_UserBlockingPriority, NormalPriority$1 = Scheduler.unstable_NormalPriority, LowPriority = Scheduler.unstable_LowPriority, IdlePriority = Scheduler.unstable_IdlePriority, log$1 = Scheduler.log, unstable_setDisableYieldValue = Scheduler.unstable_setDisableYieldValue, rendererID = null, injectedHook = null, hasLoggedError = false, isDevToolsPresent = "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__, clz32 = Math.clz32 ? Math.clz32 : clz32Fallback, log2 = Math.log, LN2 = Math.LN2, nextTransitionUpdateLane = 256, nextTransitionDeferredLane = 262144, nextRetryLane = 4194304, DiscreteEventPriority = 2, ContinuousEventPriority = 8, DefaultEventPriority = 32, IdleEventPriority = 268435456, randomKey = Math.random().toString(36).slice(2), internalInstanceKey = "__reactFiber$" + randomKey, internalPropsKey = "__reactProps$" + randomKey, internalContainerInstanceKey = "__reactContainer$" + randomKey, internalEventHandlersKey = "__reactEvents$" + randomKey, internalEventHandlerListenersKey = "__reactListeners$" + randomKey, internalEventHandlesSetKey = "__reactHandles$" + randomKey, internalRootNodeResourcesKey = "__reactResources$" + randomKey, internalHoistableMarker = "__reactMarker$" + randomKey, allNativeEvents = /* @__PURE__ */ new Set(), registrationNameDependencies = {}, possibleRegistrationNames = {}, hasReadOnlyValue = {
           button: true,
           checkbox: true,
           image: true,
@@ -20250,11 +18556,11 @@
           submit: true
         }, VALID_ATTRIBUTE_NAME_REGEX = RegExp(
           "^[:A-Z_a-z\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD][:A-Z_a-z\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD\\-.0-9\\u00B7\\u0300-\\u036F\\u203F-\\u2040]*$"
-        ), illegalAttributeNameCache = {}, validatedAttributeNameCache = {}, viewTransitionMutationContext = false, escapeSelectorAttributeValueInsideDoubleQuotesRegex = /[\n"\\]/g, didWarnValueDefaultValue$1 = false, didWarnCheckedDefaultChecked = false, didWarnSelectedSetOnOption = false, didWarnInvalidChild = false, didWarnInvalidInnerHTML = false;
+        ), illegalAttributeNameCache = {}, validatedAttributeNameCache = {}, escapeSelectorAttributeValueInsideDoubleQuotesRegex = /[\n"\\]/g, didWarnValueDefaultValue$1 = false, didWarnCheckedDefaultChecked = false, didWarnSelectedSetOnOption = false, didWarnInvalidChild = false, didWarnInvalidInnerHTML = false;
         var didWarnValueDefaultValue = false;
         var valuePropNames = ["value", "defaultValue"], didWarnValDefaultVal = false, needsEscaping = /["'&<>\n\t]|^\s|\s$/, specialTags = "address applet area article aside base basefont bgsound blockquote body br button caption center col colgroup dd details dir div dl dt embed fieldset figcaption figure footer form frame frameset h1 h2 h3 h4 h5 h6 head header hgroup hr html iframe img input isindex li link listing main marquee menu menuitem meta nav noembed noframes noscript object ol p param plaintext pre script section select source style summary table tbody td template textarea tfoot th thead title tr track ul wbr xmp".split(
           " "
-        ), inScopeTags = "applet caption html table td th marquee object select template foreignObject desc title".split(
+        ), inScopeTags = "applet caption html table td th marquee object template foreignObject desc title".split(
           " "
         ), buttonScopeTags = inScopeTags.concat(["button"]), impliedEndTags = "dd dt li option optgroup p rp rt".split(" "), emptyAncestorInfoDev = {
           current: null,
@@ -20278,10 +18584,6 @@
           border: "borderBottomColor borderBottomStyle borderBottomWidth borderImageOutset borderImageRepeat borderImageSlice borderImageSource borderImageWidth borderLeftColor borderLeftStyle borderLeftWidth borderRightColor borderRightStyle borderRightWidth borderTopColor borderTopStyle borderTopWidth".split(
             " "
           ),
-          borderBlock: "borderBlockEndColor borderBlockEndStyle borderBlockEndWidth borderBlockStartColor borderBlockStartStyle borderBlockStartWidth".split(
-            " "
-          ),
-          borderBlockColor: ["borderBlockEndColor", "borderBlockStartColor"],
           borderBlockEnd: [
             "borderBlockEndColor",
             "borderBlockEndStyle",
@@ -20292,8 +18594,6 @@
             "borderBlockStartStyle",
             "borderBlockStartWidth"
           ],
-          borderBlockStyle: ["borderBlockEndStyle", "borderBlockStartStyle"],
-          borderBlockWidth: ["borderBlockEndWidth", "borderBlockStartWidth"],
           borderBottom: [
             "borderBottomColor",
             "borderBottomStyle",
@@ -20312,10 +18612,6 @@
             "borderImageSource",
             "borderImageWidth"
           ],
-          borderInline: "borderInlineEndColor borderInlineEndStyle borderInlineEndWidth borderInlineStartColor borderInlineStartStyle borderInlineStartWidth".split(
-            " "
-          ),
-          borderInlineColor: ["borderInlineEndColor", "borderInlineStartColor"],
           borderInlineEnd: [
             "borderInlineEndColor",
             "borderInlineEndStyle",
@@ -20326,8 +18622,6 @@
             "borderInlineStartStyle",
             "borderInlineStartWidth"
           ],
-          borderInlineStyle: ["borderInlineEndStyle", "borderInlineStartStyle"],
-          borderInlineWidth: ["borderInlineEndWidth", "borderInlineStartWidth"],
           borderLeft: ["borderLeftColor", "borderLeftStyle", "borderLeftWidth"],
           borderRadius: [
             "borderBottomLeftRadius",
@@ -20353,25 +18647,13 @@
             "borderRightWidth",
             "borderTopWidth"
           ],
-          colorAdjust: ["printColorAdjust"],
           columnRule: ["columnRuleColor", "columnRuleStyle", "columnRuleWidth"],
           columns: ["columnCount", "columnWidth"],
-          containIntrinsicSize: [
-            "containIntrinsicHeight",
-            "containIntrinsicWidth"
-          ],
-          container: ["containerName", "containerType"],
           flex: ["flexBasis", "flexGrow", "flexShrink"],
           flexFlow: ["flexDirection", "flexWrap"],
           font: "fontFamily fontFeatureSettings fontKerning fontLanguageOverride fontSize fontSizeAdjust fontStretch fontStyle fontVariant fontVariantAlternates fontVariantCaps fontVariantEastAsian fontVariantLigatures fontVariantNumeric fontVariantPosition fontWeight lineHeight".split(
             " "
           ),
-          fontSynthesis: [
-            "fontSynthesisPosition",
-            "fontSynthesisSmallCaps",
-            "fontSynthesisStyle",
-            "fontSynthesisWeight"
-          ],
           fontVariant: "fontVariantAlternates fontVariantCaps fontVariantEastAsian fontVariantLigatures fontVariantNumeric fontVariantPosition".split(
             " "
           ),
@@ -20395,79 +18677,31 @@
             "gridTemplateColumns",
             "gridTemplateRows"
           ],
-          inset: ["bottom", "left", "right", "top"],
-          insetBlock: ["insetBlockEnd", "insetBlockStart"],
-          insetInline: ["insetInlineEnd", "insetInlineStart"],
           listStyle: ["listStyleImage", "listStylePosition", "listStyleType"],
           margin: ["marginBottom", "marginLeft", "marginRight", "marginTop"],
-          marginBlock: ["marginBlockEnd", "marginBlockStart"],
-          marginInline: ["marginInlineEnd", "marginInlineStart"],
           marker: ["markerEnd", "markerMid", "markerStart"],
           mask: "maskClip maskComposite maskImage maskMode maskOrigin maskPositionX maskPositionY maskRepeat maskSize".split(
             " "
           ),
           maskPosition: ["maskPositionX", "maskPositionY"],
-          offset: [
-            "offsetAnchor",
-            "offsetDistance",
-            "offsetPath",
-            "offsetPosition",
-            "offsetRotate"
-          ],
           outline: ["outlineColor", "outlineStyle", "outlineWidth"],
           overflow: ["overflowX", "overflowY"],
-          overscrollBehavior: ["overscrollBehaviorX", "overscrollBehaviorY"],
           padding: ["paddingBottom", "paddingLeft", "paddingRight", "paddingTop"],
-          paddingBlock: ["paddingBlockEnd", "paddingBlockStart"],
-          paddingInline: ["paddingInlineEnd", "paddingInlineStart"],
-          pageBreakAfter: ["breakAfter"],
-          pageBreakBefore: ["breakBefore"],
-          pageBreakInside: ["breakInside"],
           placeContent: ["alignContent", "justifyContent"],
           placeItems: ["alignItems", "justifyItems"],
           placeSelf: ["alignSelf", "justifySelf"],
-          scrollMargin: [
-            "scrollMarginBottom",
-            "scrollMarginLeft",
-            "scrollMarginRight",
-            "scrollMarginTop"
-          ],
-          scrollMarginBlock: ["scrollMarginBlockEnd", "scrollMarginBlockStart"],
-          scrollMarginInline: [
-            "scrollMarginInlineEnd",
-            "scrollMarginInlineStart"
-          ],
-          scrollPadding: [
-            "scrollPaddingBottom",
-            "scrollPaddingLeft",
-            "scrollPaddingRight",
-            "scrollPaddingTop"
-          ],
-          scrollPaddingBlock: [
-            "scrollPaddingBlockEnd",
-            "scrollPaddingBlockStart"
-          ],
-          scrollPaddingInline: [
-            "scrollPaddingInlineEnd",
-            "scrollPaddingInlineStart"
-          ],
           textDecoration: [
             "textDecorationColor",
             "textDecorationLine",
-            "textDecorationStyle",
-            "textDecorationThickness"
+            "textDecorationStyle"
           ],
           textEmphasis: ["textEmphasisColor", "textEmphasisStyle"],
-          textWrap: ["textWrapMode", "textWrapStyle"],
           transition: [
-            "transitionBehavior",
             "transitionDelay",
             "transitionDuration",
             "transitionProperty",
             "transitionTimingFunction"
           ],
-          verticalAlign: ["alignmentBaseline", "baselineShift", "baselineSource"],
-          whiteSpace: ["textWrapMode", "whiteSpaceCollapse"],
           wordWrap: ["overflowWrap"]
         }, uppercasePattern = /([A-Z])/g, msPattern$1 = /^ms-/, badVendoredStyleNamePattern = /^(?:webkit|moz|o)[A-Z]/, msPattern = /^-ms-/, hyphenPattern = /-(.)/g, badStyleValueWithSemicolonPattern = /;\s*$/, warnedStyleNames = {}, warnedStyleValues = {}, warnedForNaNValue = false, warnedForInfinityValue = false, unitlessNumbers = new Set(
           "animationIterationCount aspectRatio borderImageOutset borderImageSlice borderImageWidth boxFlex boxFlexGroup boxOrdinalGroup columnCount columns flex flexGrow flexPositive flexShrink flexNegative flexOrder gridArea gridRow gridRowEnd gridRowSpan gridRowStart gridColumn gridColumnEnd gridColumnSpan gridColumnStart fontWeight lineClamp lineHeight opacity order orphans scale tabSize widows zIndex zoom fillOpacity floodOpacity stopOpacity strokeDasharray strokeDashoffset strokeMiterlimit strokeOpacity strokeWidth MozAnimationIterationCount MozBoxFlex MozBoxFlexGroup MozLineClamp msAnimationIterationCount msFlex msZoom msFlexGrow msFlexNegative msFlexOrder msFlexPositive msFlexShrink msGridColumn msGridColumnSpan msGridRow msGridRowSpan WebkitAnimationIterationCount WebkitBoxFlex WebKitBoxFlexGroup WebkitBoxOrdinalGroup WebkitColumnCount WebkitColumns WebkitFlex WebkitFlexGrow WebkitFlexPositive WebkitFlexShrink WebkitLineClamp".split(
@@ -20513,7 +18747,6 @@
           ["markerEnd", "marker-end"],
           ["markerMid", "marker-mid"],
           ["markerStart", "marker-start"],
-          ["maskType", "mask-type"],
           ["overlinePosition", "overline-position"],
           ["overlineThickness", "overline-thickness"],
           ["paintOrder", "paint-order"],
@@ -20588,7 +18821,6 @@
           controls: "controls",
           controlslist: "controlsList",
           coords: "coords",
-          credentialless: "credentialless",
           crossorigin: "crossOrigin",
           dangerouslysetinnerhtml: "dangerouslySetInnerHTML",
           data: "data",
@@ -20857,7 +19089,6 @@
           markerwidth: "markerWidth",
           mask: "mask",
           maskcontentunits: "maskContentUnits",
-          masktype: "maskType",
           maskunits: "maskUnits",
           mathematical: "mathematical",
           mode: "mode",
@@ -21260,7 +19491,7 @@
           twist: 0,
           pointerType: 0,
           isPrimary: 0
-        }), SyntheticPointerEvent = createSyntheticEvent(PointerEventInterface), SubmitEventInterface = assign2({}, EventInterface, { submitter: 0 }), SyntheticSubmitEvent = createSyntheticEvent(SubmitEventInterface), TouchEventInterface = assign2({}, UIEventInterface, {
+        }), SyntheticPointerEvent = createSyntheticEvent(PointerEventInterface), TouchEventInterface = assign2({}, UIEventInterface, {
           touches: 0,
           targetTouches: 0,
           changedTouches: 0,
@@ -21284,8 +19515,7 @@
           deltaMode: 0
         }), SyntheticWheelEvent = createSyntheticEvent(WheelEventInterface), ToggleEventInterface = assign2({}, EventInterface, {
           newState: 0,
-          oldState: 0,
-          source: 0
+          oldState: 0
         }), SyntheticToggleEvent = createSyntheticEvent(ToggleEventInterface), END_KEYCODES = [9, 13, 27, 32], START_KEYCODE = 229, canUseCompositionEvent = canUseDOM2 && "CompositionEvent" in window, documentMode = null;
         canUseDOM2 && "documentMode" in document && (documentMode = document.documentMode);
         var canUseTextInputEvent = canUseDOM2 && "TextEvent" in window && !documentMode, useFallbackCompositionData = canUseDOM2 && (!canUseCompositionEvent || documentMode && 8 < documentMode && 11 >= documentMode), SPACEBAR_CODE = 32, SPACEBAR_CHAR = String.fromCharCode(SPACEBAR_CODE), hasSpaceKeypress = false, isComposing = false, supportedInputTypes = {
@@ -21316,11 +19546,11 @@
           transitionend: makePrefixMap("Transition", "TransitionEnd")
         }, prefixedEventNames = {}, style = {};
         canUseDOM2 && (style = document.createElement("div").style, "AnimationEvent" in window || (delete vendorPrefixes.animationend.animation, delete vendorPrefixes.animationiteration.animation, delete vendorPrefixes.animationstart.animation), "TransitionEvent" in window || delete vendorPrefixes.transitionend.transition);
-        var ANIMATION_END = getVendorPrefixedEventName("animationend"), ANIMATION_ITERATION = getVendorPrefixedEventName("animationiteration"), ANIMATION_START = getVendorPrefixedEventName("animationstart"), TRANSITION_RUN = getVendorPrefixedEventName("transitionrun"), TRANSITION_START = getVendorPrefixedEventName("transitionstart"), TRANSITION_CANCEL = getVendorPrefixedEventName("transitioncancel"), TRANSITION_END = getVendorPrefixedEventName("transitionend"), topLevelEventsToReactNames = /* @__PURE__ */ new Map(), simpleEventPluginEvents = "abort auxClick beforeToggle cancel canPlay canPlayThrough click close contextMenu copy cut drag dragEnd dragEnter dragExit dragLeave dragOver dragStart drop durationChange emptied encrypted ended error fullscreenChange fullscreenError gotPointerCapture input invalid keyDown keyPress keyUp load loadedData loadedMetadata loadStart lostPointerCapture mouseDown mouseMove mouseOut mouseOver mouseUp paste pause play playing pointerCancel pointerDown pointerMove pointerOut pointerOver pointerUp progress rateChange reset resize seeked seeking stalled submit suspend timeUpdate touchCancel touchEnd touchStart volumeChange scroll toggle touchMove waiting wheel".split(
+        var ANIMATION_END = getVendorPrefixedEventName("animationend"), ANIMATION_ITERATION = getVendorPrefixedEventName("animationiteration"), ANIMATION_START = getVendorPrefixedEventName("animationstart"), TRANSITION_RUN = getVendorPrefixedEventName("transitionrun"), TRANSITION_START = getVendorPrefixedEventName("transitionstart"), TRANSITION_CANCEL = getVendorPrefixedEventName("transitioncancel"), TRANSITION_END = getVendorPrefixedEventName("transitionend"), topLevelEventsToReactNames = /* @__PURE__ */ new Map(), simpleEventPluginEvents = "abort auxClick beforeToggle cancel canPlay canPlayThrough click close contextMenu copy cut drag dragEnd dragEnter dragExit dragLeave dragOver dragStart drop durationChange emptied encrypted ended error gotPointerCapture input invalid keyDown keyPress keyUp load loadedData loadedMetadata loadStart lostPointerCapture mouseDown mouseMove mouseOut mouseOver mouseUp paste pause play playing pointerCancel pointerDown pointerMove pointerOut pointerOver pointerUp progress rateChange reset resize seeked seeking stalled submit suspend timeUpdate touchCancel touchEnd touchStart volumeChange scroll toggle touchMove waiting wheel".split(
           " "
         );
         simpleEventPluginEvents.push("scrollEnd");
-        var globalClientIdCounter$1 = 0, lastResetTime = 0;
+        var lastResetTime = 0;
         if ("object" === typeof performance && "function" === typeof performance.now) {
           var localPerformance = performance;
           var getCurrentTime = function() {
@@ -21346,7 +19576,7 @@
             return;
           }
           console.error(error);
-        }, OMITTED_PROP_ERROR = "This object has been omitted by React in the console log to avoid sending too much data from the server. Try logging smaller or more specific objects.", EMPTY_ARRAY = 0, COMPLEX_ARRAY = 1, PRIMITIVE_ARRAY = 2, ENTRIES_ARRAY = 3, OBJECT_WIDTH_LIMIT = 100, REMOVED = "-\xA0", ADDED = "+\xA0", UNCHANGED = "\u2007\xA0", supportsUserTiming = "undefined" !== typeof console && "function" === typeof console.timeStamp && "undefined" !== typeof performance && "function" === typeof performance.measure, COMPONENTS_TRACK = "Components \u269B", LANES_TRACK_GROUP = "Scheduler \u269B", currentTrack = "Blocking", alreadyWarnedForDeepEquality = false, reusableComponentDevToolDetails = {
+        }, OMITTED_PROP_ERROR = "This object has been omitted by React in the console log to avoid sending too much data from the server. Try logging smaller or more specific objects.", EMPTY_ARRAY = 0, COMPLEX_ARRAY = 1, PRIMITIVE_ARRAY = 2, ENTRIES_ARRAY = 3, REMOVED = "\u2013\xA0", ADDED = "+\xA0", UNCHANGED = "\u2007\xA0", supportsUserTiming = "undefined" !== typeof console && "function" === typeof console.timeStamp && "undefined" !== typeof performance && "function" === typeof performance.measure, COMPONENTS_TRACK = "Components \u269B", LANES_TRACK_GROUP = "Scheduler \u269B", currentTrack = "Blocking", alreadyWarnedForDeepEquality = false, reusableComponentDevToolDetails = {
           color: "primary",
           properties: null,
           tooltipText: "",
@@ -21355,7 +19585,7 @@
           start: -0,
           end: -0,
           detail: { devtools: reusableComponentDevToolDetails }
-        }, reusableChangedPropsEntry = ["Changed Props", ""], DEEP_EQUALITY_WARNING = "This component received deeply equal props. It might benefit from useMemo or the React Compiler in its owner.", reusableDeeplyEqualPropsEntry = ["Changed Props", DEEP_EQUALITY_WARNING], OffscreenVisible = 1, OffscreenPassiveEffectsConnected = 2, concurrentQueues = [], concurrentQueuesIndex = 0, concurrentlyUpdatedLanes = 0, emptyContextObject = {};
+        }, resuableChangedPropsEntry = ["Changed Props", ""], DEEP_EQUALITY_WARNING = "This component received deeply equal props. It might benefit from useMemo or the React Compiler in its owner.", reusableDeeplyEqualPropsEntry = ["Changed Props", DEEP_EQUALITY_WARNING], OffscreenVisible = 1, OffscreenPassiveEffectsConnected = 2, concurrentQueues = [], concurrentQueuesIndex = 0, concurrentlyUpdatedLanes = 0, emptyContextObject = {};
         Object.freeze(emptyContextObject);
         var resolveFamily = null, failedBoundaries = null, NoMode = 0, ConcurrentMode = 1, ProfileMode = 2, StrictLegacyMode = 8, StrictEffectsMode = 16, SuspenseyImagesMode = 32;
         var hasBadMapPolyfill = false;
@@ -21363,7 +19593,7 @@
           var nonExtensibleObject = Object.preventExtensions({});
           /* @__PURE__ */ new Map([[nonExtensibleObject, null]]);
           /* @__PURE__ */ new Set([nonExtensibleObject]);
-        } catch (e$4) {
+        } catch (e$3) {
           hasBadMapPolyfill = true;
         }
         var CapturedStacks = /* @__PURE__ */ new WeakMap(), forkStack = [], forkStackIndex = 0, treeForkProvider = null, treeForkCount = 0, idStack = [], idStackIndex = 0, treeContextProvider = null, treeContextId = 1, treeContextOverflow = "", hydrationParentFiber = null, nextHydratableInstance = null, isHydrating = false, didSuspendOrErrorDEV = false, hydrationDiffRootDEV = null, hydrationErrors = null, rootOrSingletonContext = false, HydrationMismatchException = Error(
@@ -21393,7 +19623,7 @@
           _threadCount: 0,
           _currentRenderer: null,
           _currentRenderer2: null
-        }, entangledTransitionTypes = null, now = Scheduler.unstable_now, createTask = console.createTask ? console.createTask : function() {
+        }, now = Scheduler.unstable_now, createTask = console.createTask ? console.createTask : function() {
           return null;
         }, SPAWNED_UPDATE = 1, PINGED_UPDATE = 2, renderStartTime = -0, commitStartTime = -0, commitEndTime = -0, commitErrors = null, profilerStartTime = -1.1, profilerEffectDuration = -0, componentEffectDuration = -0, componentEffectStartTime = -1.1, componentEffectEndTime = -1.1, componentEffectErrors = null, componentEffectSpawnedUpdate = false, blockingClampTime = -0, blockingUpdateTime = -1.1, blockingUpdateTask = null, blockingUpdateType = 0, blockingUpdateMethodName = null, blockingUpdateComponentName = null, blockingEventTime = -1.1, blockingEventType = null, blockingEventRepeatTime = -1.1, blockingSuspendedTime = -1.1, transitionClampTime = -0, transitionStartTime = -1.1, transitionUpdateTime = -1.1, transitionUpdateType = 0, transitionUpdateTask = null, transitionUpdateMethodName = null, transitionUpdateComponentName = null, transitionEventTime = -1.1, transitionEventType = null, transitionEventRepeatTime = -1.1, transitionSuspendedTime = -1.1, retryClampTime = -0, idleClampTime = -0, animatingLanes = 0, animatingTask = null, yieldReason = 0, yieldStartTime = -1.1, currentUpdateIsNested = false, nestedUpdateScheduled = false, currentEntangledListeners = null, currentEntangledPendingCount = 0, currentEntangledLane = 0, currentEntangledActionThenable = null, prevOnStartTransitionFinish = ReactSharedInternals.S;
         ReactSharedInternals.S = function(transition, returnValue) {
@@ -21408,22 +19638,6 @@
               transitionEventType = newEventType;
             }
             entangleAsyncAction(transition, returnValue);
-          }
-          if (null !== entangledTransitionTypes)
-            for (newEventTime = firstScheduledRoot; null !== newEventTime; )
-              queueTransitionTypes(newEventTime, entangledTransitionTypes), newEventTime = newEventTime.next;
-          newEventTime = transition.types;
-          if (null !== newEventTime) {
-            for (newEventType = firstScheduledRoot; null !== newEventType; )
-              queueTransitionTypes(newEventType, newEventTime), newEventType = newEventType.next;
-            if (0 !== currentEntangledLane) {
-              newEventType = entangledTransitionTypes;
-              null === newEventType && (newEventType = entangledTransitionTypes = []);
-              for (var i = 0; i < newEventTime.length; i++) {
-                var transitionType = newEventTime[i];
-                -1 === newEventType.indexOf(transitionType) && newEventType.push(transitionType);
-              }
-            }
           }
           null !== prevOnStartTransitionFinish && prevOnStartTransitionFinish(transition, returnValue);
         };
@@ -21559,7 +19773,7 @@
           pendingUNSAFE_ComponentWillUpdateWarnings = [];
           pendingLegacyContextWarning = /* @__PURE__ */ new Map();
         };
-        var REACT_RECOVERABLE_DIGEST = "", callComponent = {
+        var callComponent = {
           react_stack_bottom_frame: function(Component2, props, secondArg) {
             var wasRendering = isRendering;
             isRendering = true;
@@ -21650,28 +19864,28 @@
               'Internal React error: A listener was unexpectedly attached to a "noop" thenable. This is a bug in React. Please file an issue.'
             );
           }
-        }, lastSuspendedFiber = null, lastSuspendedStack = null, didIssueUseWarning = false, suspendedThenable = null, needsToResetSuspendedThenableDEV = false, thenableState$1 = null, thenableIndexCounter$1 = 0, currentDebugInfo = null, didWarnAboutMaps;
+        }, suspendedThenable = null, needsToResetSuspendedThenableDEV = false, thenableState$1 = null, thenableIndexCounter$1 = 0, currentDebugInfo = null, didWarnAboutMaps;
         var didWarnAboutGenerators = didWarnAboutMaps = false;
         var ownerHasKeyUseWarning = {};
         var ownerHasFunctionTypeWarning = {};
         var ownerHasSymbolTypeWarning = {};
-        warnForMissingKey = function(returnFiber, workInProgress2, child2) {
-          if (null !== child2 && "object" === typeof child2 && child2._store && (!child2._store.validated && null == child2.key || 2 === child2._store.validated)) {
-            if ("object" !== typeof child2._store)
+        warnForMissingKey = function(returnFiber, workInProgress2, child) {
+          if (null !== child && "object" === typeof child && child._store && (!child._store.validated && null == child.key || 2 === child._store.validated)) {
+            if ("object" !== typeof child._store)
               throw Error(
                 "React Component in warnForMissingKey should have a _store. This error is likely caused by a bug in React. Please file an issue."
               );
-            child2._store.validated = 1;
+            child._store.validated = 1;
             var componentName2 = getComponentNameFromFiber(returnFiber), componentKey = componentName2 || "null";
             if (!ownerHasKeyUseWarning[componentKey]) {
               ownerHasKeyUseWarning[componentKey] = true;
-              child2 = child2._owner;
+              child = child._owner;
               returnFiber = returnFiber._debugOwner;
               var currentComponentErrorInfo = "";
               returnFiber && "number" === typeof returnFiber.tag && (componentKey = getComponentNameFromFiber(returnFiber)) && (currentComponentErrorInfo = "\n\nCheck the render method of `" + componentKey + "`.");
               currentComponentErrorInfo || componentName2 && (currentComponentErrorInfo = "\n\nCheck the top-level render call using <" + componentName2 + ">.");
               var childOwnerAppendix = "";
-              null != child2 && returnFiber !== child2 && (componentName2 = null, "number" === typeof child2.tag ? componentName2 = getComponentNameFromFiber(child2) : "string" === typeof child2.name && (componentName2 = child2.name), componentName2 && (childOwnerAppendix = " It was passed a child from " + componentName2 + "."));
+              null != child && returnFiber !== child && (componentName2 = null, "number" === typeof child.tag ? componentName2 = getComponentNameFromFiber(child) : "string" === typeof child.name && (componentName2 = child.name), componentName2 && (childOwnerAppendix = " It was passed a child from " + componentName2 + "."));
               runWithFiberInDEV(workInProgress2, function() {
                 console.error(
                   'Each child in a list should have a unique "key" prop.%s%s See https://react.dev/link/warning-keys for more information.',
@@ -21713,9 +19927,10 @@
           useActionState: throwInvalidHookError,
           useOptimistic: throwInvalidHookError,
           useMemoCache: throwInvalidHookError,
-          useCacheRefresh: throwInvalidHookError,
-          useEffectEvent: throwInvalidHookError
-        }, HooksDispatcherOnMountInDEV = null, HooksDispatcherOnMountWithHookTypesInDEV = null, HooksDispatcherOnUpdateInDEV = null, HooksDispatcherOnRerenderInDEV = null, InvalidNestedHooksDispatcherOnMountInDEV = null, InvalidNestedHooksDispatcherOnUpdateInDEV = null, InvalidNestedHooksDispatcherOnRerenderInDEV = null;
+          useCacheRefresh: throwInvalidHookError
+        };
+        ContextOnlyDispatcher.useEffectEvent = throwInvalidHookError;
+        var HooksDispatcherOnMountInDEV = null, HooksDispatcherOnMountWithHookTypesInDEV = null, HooksDispatcherOnUpdateInDEV = null, HooksDispatcherOnRerenderInDEV = null, InvalidNestedHooksDispatcherOnMountInDEV = null, InvalidNestedHooksDispatcherOnUpdateInDEV = null, InvalidNestedHooksDispatcherOnRerenderInDEV = null;
         HooksDispatcherOnMountInDEV = {
           readContext: function(context) {
             return readContext(context);
@@ -22755,7 +20970,6 @@
         var didWarnAboutReassigningProps = false;
         var didWarnAboutRevealOrder = {};
         var didWarnAboutTailOptions = {};
-        var didWarnAboutClassNameOnViewTransition = {};
         var SUSPENDED_MARKER = {
           dehydrated: null,
           treeContext: null,
@@ -22763,7 +20977,7 @@
           hydrationErrors: null
         }, hasWarnedAboutUsingNoValuePropOnContextProvider = false, didWarnAboutUndefinedSnapshotBeforeUpdate = null;
         didWarnAboutUndefinedSnapshotBeforeUpdate = /* @__PURE__ */ new Set();
-        var shouldStartViewTransition = false, appearingViewTransitions = null, viewTransitionCancelableChildren = null, viewTransitionHostInstanceIdx = 0, mountedNamedViewTransitions = /* @__PURE__ */ new Map(), didWarnAboutName = {}, NoLayoutEffectTraversalFlags = 0, IncludeWorkInProgressEffects = 1, IncludeHostSingletons = 2, offscreenSubtreeIsHidden = false, offscreenSubtreeWasHidden = false, offscreenDirectParentIsHidden = false, needsFormReset = false, PossiblyWeakSet = "function" === typeof WeakSet ? WeakSet : Set, nextEffect = null, inProgressLanes = null, inProgressRoot = null, viewTransitionContextChanged = false, inUpdateViewTransition = false, rootViewTransitionAffected = false, rootViewTransitionNameCanceled = false, hostParent = null, hostParentIsContainer = false, currentHoistableRoot = null, inHydratedSubtree = false, suspenseyCommitFlag = 8192, DefaultAsyncDispatcher = {
+        var offscreenSubtreeIsHidden = false, offscreenSubtreeWasHidden = false, needsFormReset = false, PossiblyWeakSet = "function" === typeof WeakSet ? WeakSet : Set, nextEffect = null, inProgressLanes = null, inProgressRoot = null, hostParent = null, hostParentIsContainer = false, currentHoistableRoot = null, inHydratedSubtree = false, suspenseyCommitFlag = 8192, DefaultAsyncDispatcher = {
           getCacheForType: function(resourceType) {
             var cache = readContext(CacheContext), cacheForType = cache.data.get(resourceType);
             void 0 === cacheForType && (cacheForType = resourceType(), cache.data.set(resourceType, cacheForType));
@@ -22784,7 +20998,7 @@
           symbolFor("selector.test_id");
           symbolFor("selector.text");
         }
-        var commitHooks = [], PossiblyWeakMap = "function" === typeof WeakMap ? WeakMap : Map, NoContext = 0, RenderContext = 2, CommitContext = 4, RootInProgress = 0, RootFatalErrored = 1, RootErrored = 2, RootSuspended = 3, RootSuspendedWithDelay = 4, RootSuspendedAtTheShell = 6, RootCompleted = 5, executionContext = NoContext, workInProgressRoot = null, workInProgress = null, workInProgressRootRenderLanes = 0, NotSuspended = 0, SuspendedOnError = 1, SuspendedOnData = 2, SuspendedOnImmediate = 3, SuspendedOnInstance = 4, SuspendedOnInstanceAndReadyToContinue = 5, SuspendedOnDeprecatedThrowPromise = 6, SuspendedAndReadyToContinue = 7, SuspendedOnHydration = 8, SuspendedOnAction = 9, workInProgressSuspendedReason = NotSuspended, workInProgressThrownValue = null, workInProgressRootDidSkipSuspendedSiblings = false, workInProgressRootIsPrerendering = false, workInProgressRootDidAttachPingListener = false, entangledRenderLanes = 0, workInProgressRootExitStatus = RootInProgress, workInProgressRootSkippedLanes = 0, workInProgressRootInterleavedUpdatedLanes = 0, workInProgressRootPingedLanes = 0, workInProgressDeferredLane = 0, workInProgressSuspendedRetryLanes = 0, workInProgressRootConcurrentErrors = null, workInProgressRootRecoverableErrors = null, workInProgressRootDidIncludeRecursiveRenderUpdate = false, globalMostRecentFallbackTime = 0, globalMostRecentTransitionTime = 0, FALLBACK_THROTTLE_MS = 300, workInProgressRootRenderTargetTime = Infinity, RENDER_TIMEOUT_MS = 500, workInProgressTransitions = null, workInProgressUpdateTask = null, legacyErrorBoundariesThatAlreadyFailed = null, IMMEDIATE_COMMIT = 0, ABORTED_VIEW_TRANSITION_COMMIT = 1, DELAYED_PASSIVE_COMMIT = 2, ANIMATION_STARTED_COMMIT = 3, NO_PENDING_EFFECTS = 0, PENDING_MUTATION_PHASE = 1, PENDING_LAYOUT_PHASE = 2, PENDING_AFTER_MUTATION_PHASE = 3, PENDING_SPAWNED_WORK = 4, PENDING_PASSIVE_PHASE = 5, pendingEffectsStatus = 0, pendingEffectsRoot = null, pendingFinishedWork = null, pendingEffectsLanes = 0, pendingEffectsRemainingLanes = 0, pendingEffectsRenderEndTime = -0, pendingPassiveTransitions = null, pendingRecoverableErrors = null, pendingViewTransition = null, pendingViewTransitionEvents = null, pendingTransitionTypes = null, pendingSuspendedCommitReason = null, pendingDelayedCommitReason = IMMEDIATE_COMMIT, pendingSuspendedViewTransitionReason = null, NESTED_UPDATE_LIMIT = 50, nestedUpdateCount = 0, rootWithNestedUpdates = null, isFlushingPassiveEffects = false, didScheduleUpdateDuringPassiveEffects = false, NESTED_PASSIVE_UPDATE_LIMIT = 50, nestedPassiveUpdateCount = 0, rootWithPassiveNestedUpdates = null, isRunningInsertionEffect = false, didWarnAboutInterruptedViewTransitions = false, didWarnStateUpdateForNotYetMountedComponent = null, didWarnAboutUpdateInRender = false;
+        var commitHooks = [], PossiblyWeakMap = "function" === typeof WeakMap ? WeakMap : Map, NoContext = 0, RenderContext = 2, CommitContext = 4, RootInProgress = 0, RootFatalErrored = 1, RootErrored = 2, RootSuspended = 3, RootSuspendedWithDelay = 4, RootSuspendedAtTheShell = 6, RootCompleted = 5, executionContext = NoContext, workInProgressRoot = null, workInProgress = null, workInProgressRootRenderLanes = 0, NotSuspended = 0, SuspendedOnError = 1, SuspendedOnData = 2, SuspendedOnImmediate = 3, SuspendedOnInstance = 4, SuspendedOnInstanceAndReadyToContinue = 5, SuspendedOnDeprecatedThrowPromise = 6, SuspendedAndReadyToContinue = 7, SuspendedOnHydration = 8, SuspendedOnAction = 9, workInProgressSuspendedReason = NotSuspended, workInProgressThrownValue = null, workInProgressRootDidSkipSuspendedSiblings = false, workInProgressRootIsPrerendering = false, workInProgressRootDidAttachPingListener = false, entangledRenderLanes = 0, workInProgressRootExitStatus = RootInProgress, workInProgressRootSkippedLanes = 0, workInProgressRootInterleavedUpdatedLanes = 0, workInProgressRootPingedLanes = 0, workInProgressDeferredLane = 0, workInProgressSuspendedRetryLanes = 0, workInProgressRootConcurrentErrors = null, workInProgressRootRecoverableErrors = null, workInProgressRootDidIncludeRecursiveRenderUpdate = false, globalMostRecentFallbackTime = 0, globalMostRecentTransitionTime = 0, FALLBACK_THROTTLE_MS = 300, workInProgressRootRenderTargetTime = Infinity, RENDER_TIMEOUT_MS = 500, workInProgressTransitions = null, workInProgressUpdateTask = null, legacyErrorBoundariesThatAlreadyFailed = null, IMMEDIATE_COMMIT = 0, ABORTED_VIEW_TRANSITION_COMMIT = 1, DELAYED_PASSIVE_COMMIT = 2, ANIMATION_STARTED_COMMIT = 3, NO_PENDING_EFFECTS = 0, PENDING_MUTATION_PHASE = 1, PENDING_LAYOUT_PHASE = 2, PENDING_AFTER_MUTATION_PHASE = 3, PENDING_SPAWNED_WORK = 4, PENDING_PASSIVE_PHASE = 5, pendingEffectsStatus = 0, pendingEffectsRoot = null, pendingFinishedWork = null, pendingEffectsLanes = 0, pendingEffectsRemainingLanes = 0, pendingEffectsRenderEndTime = -0, pendingPassiveTransitions = null, pendingRecoverableErrors = null, pendingSuspendedCommitReason = null, pendingDelayedCommitReason = IMMEDIATE_COMMIT, pendingSuspendedViewTransitionReason = null, NESTED_UPDATE_LIMIT = 50, nestedUpdateCount = 0, rootWithNestedUpdates = null, isFlushingPassiveEffects = false, didScheduleUpdateDuringPassiveEffects = false, NESTED_PASSIVE_UPDATE_LIMIT = 50, nestedPassiveUpdateCount = 0, rootWithPassiveNestedUpdates = null, isRunningInsertionEffect = false, didWarnStateUpdateForNotYetMountedComponent = null, didWarnAboutUpdateInRender = false;
         var didWarnAboutUpdateInRenderForAnotherComponent = /* @__PURE__ */ new Set();
         var fakeActCallbackNode$1 = {}, firstScheduledRoot = null, lastScheduledRoot = null, didScheduleMicrotask = false, didScheduleMicrotask_act = false, mightHavePendingSyncWork = false, isFlushingWork = false, currentEventTransitionLane = 0, fakeActCallbackNode = {};
         (function() {
@@ -22844,313 +21058,9 @@
           "beforetoggle cancel close invalid load scroll scrollend toggle".split(" ").concat(mediaEventTypes)
         ), listeningMarker = "_reactListening" + Math.random().toString(36).slice(2), didWarnControlledToUncontrolled = false, didWarnUncontrolledToControlled = false, didWarnFormActionType = false, didWarnFormActionName = false, didWarnFormActionTarget = false, didWarnFormActionMethod = false, didWarnPopoverTargetObject = false;
         var didWarnForNewBooleanPropsWithEmptyValue = {};
-        var NORMALIZE_NEWLINES_REGEX = /\r\n?/g, NORMALIZE_NULL_AND_REPLACEMENT_REGEX = /\u0000|\uFFFD/g, xlinkNamespace = "http://www.w3.org/1999/xlink", xmlNamespace = "http://www.w3.org/XML/1998/namespace", emptyProps = {}, EXPECTED_FORM_ACTION_URL = "javascript:throw new Error('React form unexpectedly submitted.')", SUPPRESS_HYDRATION_WARNING = "suppressHydrationWarning", ACTIVITY_START_DATA = "&", ACTIVITY_END_DATA = "/&", SUSPENSE_START_DATA = "$", SUSPENSE_END_DATA = "/$", SUSPENSE_PENDING_START_DATA = "$?", SUSPENSE_QUEUED_START_DATA = "$~", SUSPENSE_FALLBACK_START_DATA = "$!", PREAMBLE_CONTRIBUTION_HTML = "html", PREAMBLE_CONTRIBUTION_BODY = "body", PREAMBLE_CONTRIBUTION_HEAD = "head", FORM_STATE_IS_MATCHING = "F!", FORM_STATE_IS_NOT_MATCHING = "F", DOCUMENT_READY_STATE_LOADING = "loading", STYLE = "style", HostContextNamespaceNone = 0, HostContextNamespaceSvg = 1, HostContextNamespaceMath = 2, eventsEnabled = null, selectionInformation = null, didWarnScriptTags = false, warnedUnknownTags = { dialog: true, webview: true }, currentPopstateTransitionEvent = null, schedulerEvent = void 0, scheduleTimeout = "function" === typeof setTimeout ? setTimeout : void 0, cancelTimeout = "function" === typeof clearTimeout ? clearTimeout : void 0, noTimeout = -1, localPromise = "function" === typeof Promise ? Promise : void 0, localRequestAnimationFrame = "function" === typeof requestAnimationFrame ? requestAnimationFrame : scheduleTimeout, scheduleMicrotask = "function" === typeof queueMicrotask ? queueMicrotask : "undefined" !== typeof localPromise ? function(callback) {
+        var NORMALIZE_NEWLINES_REGEX = /\r\n?/g, NORMALIZE_NULL_AND_REPLACEMENT_REGEX = /\u0000|\uFFFD/g, xlinkNamespace = "http://www.w3.org/1999/xlink", xmlNamespace = "http://www.w3.org/XML/1998/namespace", EXPECTED_FORM_ACTION_URL = "javascript:throw new Error('React form unexpectedly submitted.')", SUPPRESS_HYDRATION_WARNING = "suppressHydrationWarning", ACTIVITY_START_DATA = "&", ACTIVITY_END_DATA = "/&", SUSPENSE_START_DATA = "$", SUSPENSE_END_DATA = "/$", SUSPENSE_PENDING_START_DATA = "$?", SUSPENSE_QUEUED_START_DATA = "$~", SUSPENSE_FALLBACK_START_DATA = "$!", PREAMBLE_CONTRIBUTION_HTML = "html", PREAMBLE_CONTRIBUTION_BODY = "body", PREAMBLE_CONTRIBUTION_HEAD = "head", FORM_STATE_IS_MATCHING = "F!", FORM_STATE_IS_NOT_MATCHING = "F", DOCUMENT_READY_STATE_LOADING = "loading", STYLE = "style", HostContextNamespaceNone = 0, HostContextNamespaceSvg = 1, HostContextNamespaceMath = 2, eventsEnabled = null, selectionInformation = null, warnedUnknownTags = { dialog: true, webview: true }, currentPopstateTransitionEvent = null, schedulerEvent = void 0, scheduleTimeout = "function" === typeof setTimeout ? setTimeout : void 0, cancelTimeout = "function" === typeof clearTimeout ? clearTimeout : void 0, noTimeout = -1, localPromise = "function" === typeof Promise ? Promise : void 0, scheduleMicrotask = "function" === typeof queueMicrotask ? queueMicrotask : "undefined" !== typeof localPromise ? function(callback) {
           return localPromise.resolve(null).then(callback).catch(handleErrorInNextTick);
-        } : scheduleTimeout, SUSPENSEY_FONT_AND_IMAGE_TIMEOUT = 500;
-        ViewTransitionPseudoElement.prototype.animate = function(keyframes, options) {
-          options = "number" === typeof options ? { duration: options } : assign2({}, options);
-          options.pseudoElement = this._selector;
-          return this._scope.animate(keyframes, options);
-        };
-        ViewTransitionPseudoElement.prototype.getAnimations = function() {
-          for (var scope = this._scope, selector = this._selector, animations = scope.getAnimations({ subtree: true }), result = [], i = 0; i < animations.length; i++) {
-            var effect = animations[i].effect;
-            null !== effect && effect.target === scope && effect.pseudoElement === selector && result.push(animations[i]);
-          }
-          return result;
-        };
-        ViewTransitionPseudoElement.prototype.getComputedStyle = function() {
-          return getComputedStyle(this._scope, this._selector);
-        };
-        FragmentInstance.prototype.addEventListener = function(type, listener2, optionsOrUseCapture) {
-          var signal = null, cleanup = null;
-          if (null != optionsOrUseCapture && "boolean" !== typeof optionsOrUseCapture && (signal = optionsOrUseCapture.signal || null, null !== signal && signal.aborted))
-            return;
-          null === this._eventListeners && (this._eventListeners = []);
-          var listeners = this._eventListeners;
-          if (-1 === indexOfEventListener(listeners, type, listener2, optionsOrUseCapture)) {
-            var fragmentInstance = this, attachedListener = listener2;
-            null != optionsOrUseCapture && "boolean" !== typeof optionsOrUseCapture && true === optionsOrUseCapture.once && (attachedListener = function(event) {
-              fragmentInstance.removeEventListener(
-                type,
-                listener2,
-                optionsOrUseCapture
-              );
-              "function" === typeof listener2 ? listener2.call(this, event) : listener2.handleEvent(event);
-            });
-            null !== signal && (cleanup = fragmentInstance.removeEventListener.bind(
-              fragmentInstance,
-              type,
-              listener2,
-              optionsOrUseCapture
-            ), signal.addEventListener("abort", cleanup, { once: true }), cleanup = signal.removeEventListener.bind(
-              signal,
-              "abort",
-              cleanup
-            ));
-            signal = getAttachOptions(optionsOrUseCapture);
-            listeners.push({
-              type,
-              listener: listener2,
-              optionsOrUseCapture,
-              attachedListener,
-              cleanup
-            });
-            traverseFragmentInstancesAndTextInstances(
-              this._fragmentFiber,
-              addEventListenerToChild,
-              type,
-              attachedListener,
-              signal
-            );
-          }
-          this._eventListeners = listeners;
-        };
-        FragmentInstance.prototype.removeEventListener = function(type, listener2, optionsOrUseCapture) {
-          var listeners = this._eventListeners;
-          if (null !== listeners && (listener2 = indexOfEventListener(
-            listeners,
-            type,
-            listener2,
-            optionsOrUseCapture
-          ), -1 !== listener2)) {
-            var _listeners$index = listeners[listener2];
-            optionsOrUseCapture = _listeners$index.attachedListener;
-            var cleanup = _listeners$index.cleanup;
-            _listeners$index = getAttachOptions(
-              _listeners$index.optionsOrUseCapture
-            );
-            traverseFragmentInstancesAndTextInstances(
-              this._fragmentFiber,
-              removeEventListenerFromChild,
-              type,
-              optionsOrUseCapture,
-              _listeners$index
-            );
-            listeners.splice(listener2, 1);
-            null !== cleanup && cleanup();
-          }
-        };
-        FragmentInstance.prototype.dispatchEvent = function(event) {
-          var parentHostFiber = getFragmentParentInstanceOrContainerFiber(
-            this._fragmentFiber
-          );
-          if (null === parentHostFiber) return true;
-          parentHostFiber = getInstanceFromHostFiber(parentHostFiber);
-          var eventListeners = this._eventListeners;
-          if (null !== eventListeners && 0 < eventListeners.length || !event.bubbles) {
-            var temp = 9 === parentHostFiber.nodeType ? parentHostFiber.createComment("") : document.createTextNode("");
-            if (eventListeners)
-              for (var i = 0; i < eventListeners.length; i++) {
-                var _eventListeners$i = eventListeners[i];
-                temp.addEventListener(
-                  _eventListeners$i.type,
-                  _eventListeners$i.attachedListener,
-                  getAttachOptions(_eventListeners$i.optionsOrUseCapture)
-                );
-              }
-            parentHostFiber.appendChild(temp);
-            event = temp.dispatchEvent(event);
-            if (eventListeners)
-              for (i = 0; i < eventListeners.length; i++)
-                _eventListeners$i = eventListeners[i], temp.removeEventListener(
-                  _eventListeners$i.type,
-                  _eventListeners$i.attachedListener,
-                  getAttachOptions(_eventListeners$i.optionsOrUseCapture)
-                );
-            parentHostFiber.removeChild(temp);
-            return event;
-          }
-          return parentHostFiber.dispatchEvent(event);
-        };
-        FragmentInstance.prototype.focus = function(focusOptions) {
-          traverseVisibleInstancesAndTextInstances(
-            this._fragmentFiber.child,
-            true,
-            setFocusOnFiberIfFocusable,
-            focusOptions,
-            void 0,
-            void 0
-          );
-        };
-        FragmentInstance.prototype.focusLast = function(focusOptions) {
-          var children = [];
-          traverseVisibleInstancesAndTextInstances(
-            this._fragmentFiber.child,
-            true,
-            collectChildren,
-            children,
-            void 0,
-            void 0
-          );
-          for (var i = children.length - 1; 0 <= i && !setFocusOnFiberIfFocusable(children[i], focusOptions); i--) ;
-        };
-        FragmentInstance.prototype.blur = function() {
-          var parentHostFiber = getFragmentParentInstanceOrContainerFiber(
-            this._fragmentFiber
-          );
-          null !== parentHostFiber && (parentHostFiber = getInstanceFromHostFiber(parentHostFiber), parentHostFiber = getOwnerDocumentFromRootContainer(parentHostFiber).activeElement, null !== parentHostFiber && traverseFragmentInstancesAndTextInstances(
-            this._fragmentFiber,
-            blurActiveElementWithinFragment,
-            parentHostFiber
-          ));
-        };
-        FragmentInstance.prototype.observeUsing = function(observer) {
-          var hasText = false, hasElement = false;
-          traverseFragmentInstancesAndTextInstances(
-            this._fragmentFiber,
-            function(child2) {
-              if (6 === child2.tag) hasText = true;
-              else return hasElement = true;
-              return false;
-            }
-          );
-          hasText && !hasElement && console.error(
-            "observeUsing() was called on a FragmentInstance with only text children. Observers do not work on text nodes."
-          );
-          null === this._observers && (this._observers = /* @__PURE__ */ new Set());
-          this._observers.add(observer);
-          traverseFragmentInstancesAndTextInstances(
-            this._fragmentFiber,
-            observeChild,
-            observer
-          );
-        };
-        FragmentInstance.prototype.unobserveUsing = function(observer) {
-          var observers = this._observers;
-          if (null !== observers && observers.has(observer)) {
-            observers.delete(observer);
-            traverseFragmentInstancesAndTextInstances(
-              this._fragmentFiber,
-              unobserveChild,
-              observer
-            );
-            for (var i = observers = 0; i < pendingIntersectionUnobserves.length; i++) {
-              var pending = pendingIntersectionUnobserves[i];
-              pending.fragmentInstance === this && pending.observer === observer ? observer.unobserve(pending.instance) : pendingIntersectionUnobserves[observers++] = pending;
-            }
-            pendingIntersectionUnobserves.length = observers;
-          } else
-            console.error(
-              "You are calling unobserveUsing() with an observer that is not being observed with this fragment instance. First attach the observer with observeUsing()"
-            );
-        };
-        var pendingIntersectionUnobserves = [], intersectionUnobserveScheduled = false;
-        FragmentInstance.prototype.getClientRects = function() {
-          var rects = [];
-          traverseFragmentInstancesAndTextInstances(
-            this._fragmentFiber,
-            collectClientRects,
-            rects
-          );
-          return rects;
-        };
-        FragmentInstance.prototype.getRootNode = function(getRootNodeOptions) {
-          var parentHostFiber = getFragmentParentInstanceOrContainerFiber(
-            this._fragmentFiber
-          );
-          return null === parentHostFiber ? this : getInstanceFromHostFiber(parentHostFiber).getRootNode(
-            getRootNodeOptions
-          );
-        };
-        FragmentInstance.prototype.compareDocumentPosition = function(otherNode) {
-          var parentHostFiber = getFragmentParentInstanceOrContainerFiber(
-            this._fragmentFiber
-          );
-          if (null === parentHostFiber) return Node.DOCUMENT_POSITION_DISCONNECTED;
-          var children = [];
-          traverseFragmentInstancesAndTextInstances(
-            this._fragmentFiber,
-            collectChildren,
-            children
-          );
-          var parentHostInstance = getInstanceFromHostFiber(parentHostFiber);
-          if (0 === children.length) {
-            parentHostFiber = parentHostInstance;
-            if (fiberIsPortaledIntoHost(this._fragmentFiber)) {
-              a: {
-                for (children = this._fragmentFiber.return; null !== children; ) {
-                  if (4 === children.tag) {
-                    children = children.stateNode.containerInfo;
-                    break a;
-                  }
-                  if (3 === children.tag || 5 === children.tag || 27 === children.tag)
-                    break;
-                  children = children.return;
-                }
-                children = null;
-              }
-              null != children && (parentHostFiber = children);
-            }
-            children = this._fragmentFiber;
-            var result = parentHostInstance = parentHostFiber.compareDocumentPosition(otherNode);
-            parentHostFiber === otherNode ? result = Node.DOCUMENT_POSITION_CONTAINS : parentHostInstance & Node.DOCUMENT_POSITION_CONTAINED_BY && (children = getFragmentInstanceOrTextInstanceSiblings(children)[1], null === children ? result = Node.DOCUMENT_POSITION_PRECEDING : (otherNode = getInstanceFromHostFiber(children).compareDocumentPosition(
-              otherNode
-            ), result = 0 === otherNode || otherNode & Node.DOCUMENT_POSITION_FOLLOWING ? Node.DOCUMENT_POSITION_FOLLOWING : Node.DOCUMENT_POSITION_PRECEDING));
-            return result |= Node.DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC;
-          }
-          parentHostFiber = getInstanceFromHostFiber(children[0]);
-          result = getInstanceFromHostFiber(children[children.length - 1]);
-          var parentHostInstanceFromDOM = fiberIsPortaledIntoHost(
-            this._fragmentFiber
-          ) ? parentHostFiber.parentElement : parentHostInstance;
-          if (null == parentHostInstanceFromDOM)
-            return Node.DOCUMENT_POSITION_DISCONNECTED;
-          parentHostInstance = parentHostInstanceFromDOM.compareDocumentPosition(parentHostFiber) & Node.DOCUMENT_POSITION_CONTAINED_BY;
-          parentHostInstanceFromDOM = parentHostInstanceFromDOM.compareDocumentPosition(result) & Node.DOCUMENT_POSITION_CONTAINED_BY;
-          var firstResult = parentHostFiber.compareDocumentPosition(otherNode), lastResult2 = result.compareDocumentPosition(otherNode), otherNodeIsWithinFirstOrLastChild = firstResult & Node.DOCUMENT_POSITION_CONTAINED_BY || lastResult2 & Node.DOCUMENT_POSITION_CONTAINED_BY;
-          lastResult2 = parentHostInstance && parentHostInstanceFromDOM && firstResult & Node.DOCUMENT_POSITION_FOLLOWING && lastResult2 & Node.DOCUMENT_POSITION_PRECEDING;
-          parentHostFiber = parentHostInstance && parentHostFiber === otherNode || parentHostInstanceFromDOM && result === otherNode || otherNodeIsWithinFirstOrLastChild || lastResult2 ? Node.DOCUMENT_POSITION_CONTAINED_BY : !parentHostInstance && parentHostFiber === otherNode || !parentHostInstanceFromDOM && result === otherNode ? Node.DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC : firstResult;
-          return parentHostFiber & Node.DOCUMENT_POSITION_DISCONNECTED || parentHostFiber & Node.DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC || validateDocumentPositionWithFiberTree(
-            parentHostFiber,
-            this._fragmentFiber,
-            children[0],
-            children[children.length - 1],
-            otherNode
-          ) ? parentHostFiber : Node.DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC;
-        };
-        FragmentInstance.prototype.scrollIntoView = function(alignToTop) {
-          if ("object" === typeof alignToTop)
-            throw Error(
-              "FragmentInstance.scrollIntoView() does not support scrollIntoViewOptions. Use the alignToTop boolean instead."
-            );
-          var children = [];
-          traverseFragmentInstancesAndTextInstances(
-            this._fragmentFiber,
-            collectChildren,
-            children
-          );
-          var resolvedAlignToTop = false !== alignToTop;
-          if (0 === children.length) {
-            var hostSiblings = getFragmentInstanceOrTextInstanceSiblings(
-              this._fragmentFiber
-            );
-            hostSiblings = resolvedAlignToTop ? hostSiblings[1] || hostSiblings[0] || getFragmentParentInstanceOrContainerFiber(this._fragmentFiber) : hostSiblings[0] || hostSiblings[1];
-            if (null === hostSiblings) return;
-            if (6 === hostSiblings.tag) {
-              alignToTop = getInstanceFromHostFiber(hostSiblings);
-              scrollTextNodeIntoView(alignToTop, resolvedAlignToTop);
-              return;
-            }
-            hostSiblings = getInstanceFromHostFiber(hostSiblings);
-            if (9 !== hostSiblings.nodeType) {
-              if (11 === hostSiblings.nodeType) {
-                resolvedAlignToTop = "host" in hostSiblings ? hostSiblings.host : null;
-                null !== resolvedAlignToTop ? resolvedAlignToTop.scrollIntoView(alignToTop) : console.warn(
-                  "You are attempting to scroll a FragmentInstance that is only mounted inside a detached DocumentFragment. No scroll was performed."
-                );
-                return;
-              }
-              hostSiblings.scrollIntoView(alignToTop);
-            }
-          }
-          for (hostSiblings = resolvedAlignToTop ? children.length - 1 : 0; hostSiblings !== (resolvedAlignToTop ? -1 : children.length); ) {
-            var child2 = children[hostSiblings];
-            6 === child2.tag ? (child2 = getInstanceFromHostFiber(child2), scrollTextNodeIntoView(child2, resolvedAlignToTop)) : getInstanceFromHostFiber(child2).scrollIntoView(alignToTop);
-            hostSiblings += resolvedAlignToTop ? -1 : 1;
-          }
-        };
-        var previousHydratableOnEnteringScopedSingleton = null, NotLoaded = 0, Loaded = 1, Errored = 2, Settled = 3, Inserted = 4, preloadPropsMap = /* @__PURE__ */ new Map(), preconnectsSet = /* @__PURE__ */ new Set(), previousDispatcher = ReactDOMSharedInternals.d;
+        } : scheduleTimeout, previousHydratableOnEnteringScopedSingleton = null, NotLoaded = 0, Loaded = 1, Errored = 2, Settled = 3, Inserted = 4, preloadPropsMap = /* @__PURE__ */ new Map(), preconnectsSet = /* @__PURE__ */ new Set(), previousDispatcher = ReactDOMSharedInternals.d;
         ReactDOMSharedInternals.d = {
           f: function() {
             var previousWasRendering = previousDispatcher.f(), wasRendering = flushSyncWork$1();
@@ -23186,7 +21096,7 @@
                 case "script":
                   key = getScriptKey(href);
               }
-              if (!(preloadPropsMap.has(key) || (href = assign2(
+              preloadPropsMap.has(key) || (href = assign2(
                 {
                   rel: "preload",
                   href: "image" === as && options && options.imageSrcSet ? void 0 : href,
@@ -23195,15 +21105,7 @@
                 options
               ), preloadPropsMap.set(key, href), null !== ownerDocument.querySelector(preloadSelector) || "style" === as && ownerDocument.querySelector(
                 getStylesheetSelectorFromKey(key)
-              ) || "script" === as && ownerDocument.querySelector(getScriptSelectorFromKey(key))))) {
-                var instance = ownerDocument.createElement("link");
-                setInitialProperties(instance, "link", href);
-                "style" === as && (instance[internalLoadPendingKey] = true, instance.onload = instance.onerror = function() {
-                  clearPendingLoadOnNode(instance);
-                });
-                markNodeAsHoistable(instance);
-                ownerDocument.head.appendChild(instance);
-              }
+              ) || "script" === as && ownerDocument.querySelector(getScriptSelectorFromKey(key)) || (as = ownerDocument.createElement("link"), setInitialProperties(as, "link", href), markNodeAsHoistable(as), ownerDocument.head.appendChild(as)));
             }
           },
           m: function(href, options) {
@@ -23422,9 +21324,9 @@
         };
         (function() {
           var isomorphicReactPackageVersion = React72.version;
-          if ("19.3.0" !== isomorphicReactPackageVersion)
+          if ("19.2.8" !== isomorphicReactPackageVersion)
             throw Error(
-              'Incompatible React versions: The "react" and "react-dom" packages must have the exact same version. Instead got:\n  - react:      ' + (isomorphicReactPackageVersion + "\n  - react-dom:  19.3.0\nLearn more: https://react.dev/warnings/version-mismatch")
+              'Incompatible React versions: The "react" and "react-dom" packages must have the exact same version. Instead got:\n  - react:      ' + (isomorphicReactPackageVersion + "\n  - react-dom:  19.2.8\nLearn more: https://react.dev/warnings/version-mismatch")
             );
         })();
         "function" === typeof Map && null != Map.prototype && "function" === typeof Map.prototype.forEach && "function" === typeof Set && null != Set.prototype && "function" === typeof Set.prototype.clear && "function" === typeof Set.prototype.forEach || console.error(
@@ -23448,10 +21350,10 @@
         if (!(function() {
           var internals2 = {
             bundleType: 1,
-            version: "19.3.0",
+            version: "19.2.8",
             rendererPackageName: "react-dom",
             currentDispatcherRef: ReactSharedInternals,
-            reconcilerVersion: "19.3.0"
+            reconcilerVersion: "19.2.8"
           };
           internals2.overrideHookState = overrideHookState;
           internals2.overrideHookStateDeletePath = overrideHookStateDeletePath;
@@ -23542,7 +21444,7 @@
           listenToAllSupportedEvents(container);
           return new ReactDOMHydrationRoot(initialChildren);
         };
-        exports.version = "19.3.0";
+        exports.version = "19.2.8";
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop(Error());
       })();
     }
@@ -25029,7 +22931,7 @@
           return typeOf(object) === REACT_SUSPENSE_LIST_TYPE;
         };
         exports.isValidElementType = function(type) {
-          return "string" === typeof type || "function" === typeof type || type === REACT_FRAGMENT_TYPE || type === REACT_PROFILER_TYPE || type === REACT_STRICT_MODE_TYPE || type === REACT_SUSPENSE_TYPE || type === REACT_SUSPENSE_LIST_TYPE || type === REACT_VIEW_TRANSITION_TYPE || "object" === typeof type && null !== type && (type.$$typeof === REACT_LAZY_TYPE || type.$$typeof === REACT_MEMO_TYPE2 || type.$$typeof === REACT_CONTEXT_TYPE || type.$$typeof === REACT_CONSUMER_TYPE || type.$$typeof === REACT_FORWARD_REF_TYPE2 || type.$$typeof === REACT_CLIENT_REFERENCE || void 0 !== type.getModuleId) ? true : false;
+          return "string" === typeof type || "function" === typeof type || type === REACT_FRAGMENT_TYPE || type === REACT_PROFILER_TYPE || type === REACT_STRICT_MODE_TYPE || type === REACT_SUSPENSE_TYPE || type === REACT_SUSPENSE_LIST_TYPE || "object" === typeof type && null !== type && (type.$$typeof === REACT_LAZY_TYPE || type.$$typeof === REACT_MEMO_TYPE2 || type.$$typeof === REACT_CONTEXT_TYPE || type.$$typeof === REACT_CONSUMER_TYPE || type.$$typeof === REACT_FORWARD_REF_TYPE2 || type.$$typeof === REACT_CLIENT_REFERENCE || void 0 !== type.getModuleId) ? true : false;
         };
         exports.typeOf = typeOf;
       })();
@@ -25056,12 +22958,12 @@
       })(exports, function r2() {
         var n = "undefined" != typeof self ? self : "undefined" != typeof window ? window : void 0 !== n ? n : {};
         var s2 = !n.document && !!n.postMessage, a2 = n.IS_PAPA_WORKER || false, o = {}, h = 0, w = {};
-        function q(e) {
+        function P(e) {
           return 65279 === e.charCodeAt(0) ? e.slice(1) : e;
         }
         function u(e) {
           this._handle = null, this._finished = false, this._completed = false, this._halted = false, this._input = null, this._baseIndex = 0, this._partialLine = "", this._rowCount = 0, this._start = 0, this._nextChunk = null, this.isFirstChunk = true, this._completeResults = { data: [], errors: [], meta: {} }, function(e3) {
-            var t = v(e3);
+            var t = b(e3);
             t.chunkSize = parseInt(t.chunkSize), e3.step || e3.chunk || (t.chunkSize = null);
             this._handle = new i(t), (this._handle.streamer = this)._config = t;
           }.call(this, e), this.parseChunk = function(t, e3) {
@@ -25097,7 +22999,7 @@
           }, this._readChunk = function() {
             if (this._finished) this._chunkLoaded();
             else {
-              if (r3 = new XMLHttpRequest(), this._config.withCredentials && (r3.withCredentials = this._config.withCredentials), s2 || (r3.onload = m(this._chunkLoaded, this), r3.onerror = m(this._chunkError, this)), r3.ontimeout = m(this._chunkTimeout, this), r3.open(this._config.downloadRequestBody ? "POST" : "GET", this._input, !s2), this._config.downloadTimeout && !s2 && (r3.timeout = this._config.downloadTimeout), this._config.downloadRequestHeaders) {
+              if (r3 = new XMLHttpRequest(), this._config.withCredentials && (r3.withCredentials = this._config.withCredentials), s2 || (r3.onload = m(this._chunkLoaded, this), r3.onerror = m(this._chunkError, this)), r3.open(this._config.downloadRequestBody ? "POST" : "GET", this._input, !s2), this._config.downloadRequestHeaders) {
                 var e3, t = this._config.downloadRequestHeaders;
                 for (e3 in t) r3.setRequestHeader(e3, t[e3]);
               }
@@ -25115,8 +23017,6 @@
           }, this._chunkError = function(e3) {
             e3 = r3.statusText || e3;
             this._sendError(new Error(e3));
-          }, this._chunkTimeout = function() {
-            this._chunkError("Request timed out after " + this._config.downloadTimeout + "ms");
           };
         }
         function l(e) {
@@ -25180,8 +23080,8 @@
             if (p3 && a3 && (k2("Delimiter", "UndetectableDelimiter", "Unable to auto-detect delimiting character; defaulted to '" + w.DefaultDelimiter + "'"), a3 = false), m2.skipEmptyLines && (p3.data = p3.data.filter(function(e4) {
               return !y2(e4);
             })), g2()) {
-              let t3 = function(e4) {
-                c3.push(e4);
+              let t3 = function(e4, t4) {
+                e4 = P(e4), U(m2.transformHeader) && (e4 = m2.transformHeader(e4, t4)), c3.push(e4);
               };
               var t2 = t3;
               if (p3) if (Array.isArray(p3.data[0])) {
@@ -25222,8 +23122,8 @@
                 0 < _3.data.length && (c4 /= _3.data.length - p4), 1.99 < c4 && (void 0 === a4 || f3 < a4 || f3 === a4 && h3 < c4) && (a4 = f3, s4 = l3, h3 = c4);
               }
               return { successful: !!(m2.delimiter = s4), bestDelimiter: s4 };
-            })(e3, m2.newline, m2.skipEmptyLines, m2.comments, m2.delimitersToGuess)).successful ? m2.delimiter = r4.bestDelimiter : (a3 = true, m2.delimiter = w.DefaultDelimiter), p3.meta.delimiter = m2.delimiter), v(m2));
-            return r4.header = g2(), m2.preview && m2.header && r4.preview++, n2 = e3, s3 = new E(r4), p3 = s3.parse(n2, t2, i3), _2(), f2 ? { meta: { paused: true } } : p3 || { meta: { paused: false } };
+            })(e3, m2.newline, m2.skipEmptyLines, m2.comments, m2.delimitersToGuess)).successful ? m2.delimiter = r4.bestDelimiter : (a3 = true, m2.delimiter = w.DefaultDelimiter), p3.meta.delimiter = m2.delimiter), b(m2));
+            return m2.preview && m2.header && r4.preview++, n2 = e3, s3 = new E(r4), p3 = s3.parse(n2, t2, i3), _2(), f2 ? { meta: { paused: true } } : p3 || { meta: { paused: false } };
           }, this.paused = function() {
             return f2;
           }, this.pause = function() {
@@ -25236,38 +23136,38 @@
             e = true, s3.abort(), p3.meta.aborted = true, U(m2.complete) && m2.complete(p3), n2 = "";
           }, this.guessLineEndings = function(e3, t2) {
             e3 = e3.substring(0, 1048576);
-            var t2 = new RegExp(P(t2) + "([^]*?)" + P(t2), "gm"), i3 = (e3 = e3.replace(t2, "")).split("\r"), t2 = e3.split("\n"), e3 = 1 < t2.length && t2[0].length < i3[0].length;
+            var t2 = new RegExp(q(t2) + "([^]*?)" + q(t2), "gm"), i3 = (e3 = e3.replace(t2, "")).split("\r"), t2 = e3.split("\n"), e3 = 1 < t2.length && t2[0].length < i3[0].length;
             if (1 === i3.length || e3) return "\n";
             for (var r4 = 0, n3 = 0; n3 < i3.length; n3++) "\n" === i3[n3][0] && r4++;
             return r4 >= i3.length / 2 ? "\r\n" : "\r";
           };
         }
-        function P(e) {
+        function q(e) {
           return e.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
         }
         function E(C) {
-          var S = (C = C || {}).delimiter, O2 = C.newline, x2 = C.comments, T = C.step, I = C.preview, A = C.fastMode, D = null, L = false, F = null == C.quoteChar ? '"' : C.quoteChar, z = F;
+          var S = (C = C || {}).delimiter, O2 = C.newline, x2 = C.comments, I = C.step, A = C.preview, T = C.fastMode, D = null, L = false, F = null == C.quoteChar ? '"' : C.quoteChar, z = F;
           if (void 0 !== C.escapeChar && (z = C.escapeChar), ("string" != typeof S || -1 < w.BAD_DELIMITERS.indexOf(S)) && (S = ","), x2 === S) throw new Error("Comment character same as delimiter");
           true === x2 ? x2 = "#" : ("string" != typeof x2 || -1 < w.BAD_DELIMITERS.indexOf(x2)) && (x2 = false), "\n" !== O2 && "\r" !== O2 && "\r\n" !== O2 && (O2 = "\n");
           var M = 0, j = false;
           this.parse = function(i2, t, r3) {
             if ("string" != typeof i2) throw new Error("Input must be a string");
-            var n2 = i2.length, e = S.length, s3 = O2.length, a3 = x2.length, o2 = U(T), h2 = [], u2 = [], d2 = [], l2 = M = 0;
-            if (!i2) return b();
-            if (A || false !== A && -1 === i2.indexOf(F)) {
+            var n2 = i2.length, e = S.length, s3 = O2.length, a3 = x2.length, o2 = U(I), h2 = [], u2 = [], d2 = [], l2 = M = 0;
+            if (!i2) return v();
+            if (T || false !== T && -1 === i2.indexOf(F)) {
               for (var f2 = i2.split(O2), c3 = 0; c3 < f2.length; c3++) {
                 if (d2 = f2[c3], M += d2.length, c3 !== f2.length - 1) M += O2.length;
-                else if (r3) return b();
+                else if (r3) return v();
                 if (!x2 || d2.substring(0, a3) !== x2) {
                   if (o2) {
-                    if (h2 = [], k2(d2.split(S)), R(), j) return b();
+                    if (h2 = [], k2(d2.split(S)), R(), j) return v();
                   } else k2(d2.split(S));
-                  if (I && I <= c3) return h2 = h2.slice(0, I), b(true);
+                  if (A && A <= c3) return h2 = h2.slice(0, A), v(true);
                 }
               }
-              return b();
+              return v();
             }
-            for (var p3 = i2.indexOf(S, M), _2 = i2.indexOf(O2, M), g2 = new RegExp(P(z) + P(F), "g"), m2 = i2.indexOf(F, M); ; ) if (i2[M] === F) for (m2 = M, M++; ; ) {
+            for (var p3 = i2.indexOf(S, M), _2 = i2.indexOf(O2, M), g2 = new RegExp(q(z) + q(F), "g"), m2 = i2.indexOf(F, M); ; ) if (i2[M] === F) for (m2 = M, M++; ; ) {
               if (-1 === (m2 = i2.indexOf(F, m2 + 1))) return r3 || u2.push({ type: "Quotes", code: "MissingQuotes", message: "Quoted field unterminated", row: h2.length, index: M }), E2();
               if (m2 === n2 - 1) return E2(i2.substring(M, m2).replace(g2, F));
               if (F === z && i2[m2 + 1] === z) m2++;
@@ -25280,21 +23180,21 @@
                 }
                 y2 = w2(_2);
                 if (i2.substring(m2 + 1 + y2, m2 + 1 + y2 + s3) === O2) {
-                  if (d2.push(i2.substring(M, m2).replace(g2, F)), v2(m2 + 1 + y2 + s3), p3 = i2.indexOf(S, M), m2 = i2.indexOf(F, M), o2 && (R(), j)) return b();
-                  if (I && h2.length >= I) return b(true);
+                  if (d2.push(i2.substring(M, m2).replace(g2, F)), b2(m2 + 1 + y2 + s3), p3 = i2.indexOf(S, M), m2 = i2.indexOf(F, M), o2 && (R(), j)) return v();
+                  if (A && h2.length >= A) return v(true);
                   break;
                 }
                 u2.push({ type: "Quotes", code: "InvalidQuotes", message: "Trailing quote on quoted field is malformed", row: h2.length, index: M }), m2++;
               }
             }
             else if (x2 && 0 === d2.length && i2.substring(M, M + a3) === x2) {
-              if (-1 === _2) return b();
+              if (-1 === _2) return v();
               M = _2 + s3, _2 = i2.indexOf(O2, M), p3 = i2.indexOf(S, M);
             } else if (-1 !== p3 && (p3 < _2 || -1 === _2)) d2.push(i2.substring(M, p3)), M = p3 + e, p3 = i2.indexOf(S, M);
             else {
               if (-1 === _2) break;
-              if (d2.push(i2.substring(M, _2)), v2(_2 + s3), o2 && (R(), j)) return b();
-              if (I && h2.length >= I) return b(true);
+              if (d2.push(i2.substring(M, _2)), b2(_2 + s3), o2 && (R(), j)) return v();
+              if (A && h2.length >= A) return v(true);
             }
             return E2();
             function k2(e3) {
@@ -25305,17 +23205,17 @@
               return t2 = -1 !== e3 && (e3 = i2.substring(m2 + 1, e3)) && "" === e3.trim() ? e3.length : t2;
             }
             function E2(e3) {
-              return r3 || (void 0 === e3 && (e3 = i2.substring(M)), d2.push(e3), M = n2, k2(d2), o2 && R()), b();
+              return r3 || (void 0 === e3 && (e3 = i2.substring(M)), d2.push(e3), M = n2, k2(d2), o2 && R()), v();
             }
-            function v2(e3) {
+            function b2(e3) {
               M = e3, k2(d2), d2 = [], _2 = i2.indexOf(O2, M);
             }
-            function b(e3) {
+            function v(e3) {
               if (C.header && !t && h2.length && !L) {
                 var s4 = h2[0], a4 = /* @__PURE__ */ Object.create(null), o3 = new Set(s4);
                 let n3 = false;
                 for (let r4 = 0; r4 < s4.length; r4++) {
-                  let i3 = q(s4[r4]);
+                  let i3 = P(s4[r4]);
                   if (a4[i3 = U(C.transformHeader) ? C.transformHeader(i3, r4) : i3]) {
                     let e4, t2 = a4[i3];
                     for (; e4 = i3 + "_" + t2, t2++, o3.has(e4); ) ;
@@ -25328,7 +23228,7 @@
               return { data: h2, errors: u2, meta: { delimiter: S, linebreak: O2, aborted: j, truncated: !!e3, cursor: l2 + (t || 0), renamedHeaders: D } };
             }
             function R() {
-              T(b()), h2 = [], u2 = [];
+              I(v()), h2 = [], u2 = [];
             }
           }, this.abort = function() {
             j = true;
@@ -25357,10 +23257,10 @@
         function g() {
           throw new Error("Not implemented.");
         }
-        function v(e) {
+        function b(e) {
           if ("object" != typeof e || null === e) return e;
           var t, i2 = Array.isArray(e) ? [] : {};
-          for (t in e) i2[t] = v(e[t]);
+          for (t in e) i2[t] = b(e[t]);
           return i2;
         }
         function m(e, t) {
@@ -25374,12 +23274,7 @@
         return w.parse = function(e, t) {
           var i2 = (t = t || {}).dynamicTyping || false;
           U(i2) && (t.dynamicTypingFunction = i2, i2 = {});
-          if (t.dynamicTyping = i2, t.transform = !!U(t.transform) && t.transform, void 0 !== t.downloadTimeout) {
-            var i2 = parseInt(t.downloadTimeout);
-            if (isNaN(i2)) throw new Error("Config downloadTimeout value (" + t.downloadTimeout + ") not parsable by parseInt(val).");
-            t.downloadTimeout = i2;
-          }
-          if (!t.worker || !w.WORKERS_SUPPORTED) return i2 = null, w.NODE_STREAM_INPUT, "string" == typeof e ? (e = q(e), i2 = new (t.download ? d : f)(t)) : true === e.readable && U(e.read) && U(e.on) ? i2 = new c2(t) : (n.File && e instanceof File || e instanceof Object) && (i2 = new l(t)), i2.stream(e);
+          if (t.dynamicTyping = i2, t.transform = !!U(t.transform) && t.transform, !t.worker || !w.WORKERS_SUPPORTED) return i2 = null, w.NODE_STREAM_INPUT, "string" == typeof e ? (e = P(e), i2 = new (t.download ? d : f)(t)) : true === e.readable && U(e.read) && U(e.on) ? i2 = new c2(t) : (n.File && e instanceof File || e instanceof Object) && (i2 = new l(t)), i2.stream(e);
           (i2 = (() => {
             var e3;
             return !!w.WORKERS_SUPPORTED && (e3 = (() => {
@@ -25398,7 +23293,7 @@
               }
               void 0 !== t.escapeChar && (o2 = t.escapeChar + a3), t.escapeFormulae instanceof RegExp ? h2 = t.escapeFormulae : "boolean" == typeof t.escapeFormulae && t.escapeFormulae && (h2 = /^[=+\-@\t\r].*$/);
             }
-          })(), new RegExp(P(a3), "g"));
+          })(), new RegExp(q(a3), "g"));
           "string" == typeof e && (e = JSON.parse(e));
           if (Array.isArray(e)) {
             if (!e.length || Array.isArray(e[0])) return n2(null, e, i2);
@@ -25457,40 +23352,19 @@
   // node_modules/lucide-react/dist/esm/createLucideIcon.mjs
   var import_react3 = __toESM(require_react(), 1);
 
-  // node_modules/lucide-react/dist/esm/shared/src/utils/toKebabCase.mjs
-  var toKebabCase = (string) => string?.replace(/([a-z0-9])([A-Z])/g, "$1-$2").toLowerCase();
+  // node_modules/lucide-react/dist/esm/shared/src/utils/mergeClasses.mjs
+  var mergeClasses = (...classes) => classes.filter((className, index, array) => {
+    return Boolean(className) && className.trim() !== "" && array.indexOf(className) === index;
+  }).join(" ").trim();
 
-  // node_modules/lucide-react/dist/esm/shared/src/utils/toLucideIconData.mjs
-  function toLucideIconData(iconName, iconNode, aliases = []) {
-    if (iconNode == null) {
-      throw new Error("[lucide]: iconNode is required when icon name is used");
-    }
-    return {
-      name: toKebabCase(iconName),
-      size: 24,
-      node: iconNode,
-      ...aliases.length > 0 ? { aliases } : {}
-    };
-  }
+  // node_modules/lucide-react/dist/esm/shared/src/utils/toKebabCase.mjs
+  var toKebabCase = (string) => string.replace(/([a-z0-9])([A-Z])/g, "$1-$2").toLowerCase();
 
   // node_modules/lucide-react/dist/esm/shared/src/utils/toCamelCase.mjs
-  var toCamelCase = (string) => {
-    let out = "";
-    let upperNext = false;
-    for (const ch of string) {
-      if (ch === "-" || ch === "_" || ch <= " ") {
-        upperNext = out.length > 0;
-        continue;
-      }
-      if (out.length === 0) {
-        out += ch.toLowerCase();
-      } else {
-        out += upperNext ? ch.toUpperCase() : ch;
-      }
-      upperNext = false;
-    }
-    return out;
-  };
+  var toCamelCase = (string) => string.replace(
+    /^([A-Z])|[\s-_]+(\w)/g,
+    (match, p1, p2) => p2 ? p2.toUpperCase() : p1.toLowerCase()
+  );
 
   // node_modules/lucide-react/dist/esm/shared/src/utils/toPascalCase.mjs
   var toPascalCase = (string) => {
@@ -25501,12 +23375,7 @@
   // node_modules/lucide-react/dist/esm/Icon.mjs
   var import_react2 = __toESM(require_react(), 1);
 
-  // node_modules/lucide-react/dist/esm/shared/src/utils/mergeClasses.mjs
-  var mergeClasses = (...classes) => classes.filter((className, index, array) => {
-    return Boolean(className) && className.trim() !== "" && array.indexOf(className) === index;
-  }).join(" ").trim();
-
-  // node_modules/lucide-react/dist/esm/shared/src/build/defaultAttributes.mjs
+  // node_modules/lucide-react/dist/esm/defaultAttributes.mjs
   var defaultAttributes = {
     xmlns: "http://www.w3.org/2000/svg",
     width: 24,
@@ -25514,78 +23383,10 @@
     viewBox: "0 0 24 24",
     fill: "none",
     stroke: "currentColor",
-    "stroke-width": 2,
-    "stroke-linecap": "round",
-    "stroke-linejoin": "round"
+    strokeWidth: 2,
+    strokeLinecap: "round",
+    strokeLinejoin: "round"
   };
-
-  // node_modules/lucide-react/dist/esm/shared/src/build/buildLucideIconNode.mjs
-  function isDefined(value) {
-    return value !== null && value !== void 0;
-  }
-  function buildLucideIconNode(icon, params = {}) {
-    const attributeNames = params.attributeNames ?? {};
-    const getAttributeName = (attributeName) => attributeNames[attributeName] ?? attributeName;
-    const viewBoxWidth = icon.size ?? icon.width ?? defaultAttributes["width"];
-    const viewBoxHeight = icon.size ?? icon.height ?? defaultAttributes["height"];
-    const aliasClassNames = icon.aliases?.filter((alias) => typeof alias === "string" && alias.trim() !== "").map((alias) => `lucide-${alias}`) ?? [];
-    const iconClassNames = [...icon.name ? [`lucide-${icon.name}`] : [], ...aliasClassNames];
-    const classNamesFromClassName = params.className?.split(" ").filter(Boolean) ?? [];
-    const className = params.includeDefaultClasses === false ? mergeClasses(...classNamesFromClassName) : mergeClasses("lucide", ...iconClassNames, ...classNamesFromClassName);
-    const calculatedStrokeWidth = params.absoluteStrokeWidth ? Number(params.strokeWidth ?? defaultAttributes["stroke-width"]) * Number(icon.size ?? icon.width ?? defaultAttributes["width"]) / Number(params.size ?? params.width ?? defaultAttributes["width"]) : params.strokeWidth ?? defaultAttributes["stroke-width"];
-    const attributes = {
-      ...Object.entries(defaultAttributes).reduce((attrs, [attrName, value]) => {
-        attrs[getAttributeName(attrName)] = value;
-        return attrs;
-      }, {}),
-      ..."color" in params && params.color && {
-        [getAttributeName("stroke")]: params.color
-      },
-      ..."size" in params && isDefined(params.size) && {
-        [getAttributeName("width")]: params.size,
-        [getAttributeName("height")]: params.size
-      },
-      ..."width" in params && isDefined(params.width) && {
-        [getAttributeName("width")]: params.width
-      },
-      ..."height" in params && isDefined(params.height) && {
-        [getAttributeName("height")]: params.height
-      },
-      [getAttributeName("stroke-width")]: calculatedStrokeWidth,
-      ...className && {
-        [getAttributeName("class")]: className
-      },
-      [getAttributeName("viewBox")]: `0 0 ${viewBoxWidth} ${viewBoxHeight}`,
-      ...params.hasA11yProp === false ? {
-        [getAttributeName("aria-hidden")]: "true"
-      } : {},
-      ..."attributes" in params && params.attributes
-    };
-    return [
-      "svg",
-      attributes,
-      icon.node.map((child2) => {
-        const [name, attrs, children] = child2;
-        const nextAttrs = params.nonScalingStroke ? { [getAttributeName("vector-effect")]: "non-scaling-stroke", ...attrs } : attrs;
-        return children ? [name, nextAttrs, children] : [name, nextAttrs];
-      })
-    ];
-  }
-
-  // node_modules/lucide-react/dist/esm/shared/src/build/buildLucideIconForReact.mjs
-  function buildLucideIconForReact(icon, params = {}) {
-    return buildLucideIconNode(icon, {
-      ...params,
-      attributeNames: {
-        ...params.attributeNames,
-        class: "className",
-        "stroke-width": "strokeWidth",
-        "stroke-linecap": "strokeLinecap",
-        "stroke-linejoin": "strokeLinejoin",
-        "vector-effect": "vectorEffect"
-      }
-    });
-  }
 
   // node_modules/lucide-react/dist/esm/shared/src/utils/hasA11yProp.mjs
   var hasA11yProp = (props) => {
@@ -25604,52 +23405,30 @@
 
   // node_modules/lucide-react/dist/esm/Icon.mjs
   var Icon = (0, import_react2.forwardRef)(
-    ({
-      color: color2,
-      size,
-      width,
-      height,
-      strokeWidth,
-      absoluteStrokeWidth,
-      nonScalingStroke,
-      className = "",
-      children,
-      iconNode = [],
-      icon = {
-        node: iconNode,
-        aliases: [],
-        size: 24
-      },
-      ...rest
-    }, ref) => {
+    ({ color: color2, size, strokeWidth, absoluteStrokeWidth, className = "", children, iconNode, ...rest }, ref) => {
       const {
         size: contextSize = 24,
         strokeWidth: contextStrokeWidth = 2,
         absoluteStrokeWidth: contextAbsoluteStrokeWidth = false,
-        nonScalingStroke: contextNonScalingStroke = false,
         color: contextColor = "currentColor",
         className: contextClass = ""
       } = useLucideContext() ?? {};
-      const hasAccessibleProp = Boolean(children) || hasA11yProp(rest);
-      const [name, svgAttributes, builtIconNode = []] = buildLucideIconForReact(icon, {
-        color: color2 ?? contextColor,
-        width: width ?? size ?? contextSize,
-        height: height ?? size ?? contextSize,
-        strokeWidth: strokeWidth ?? contextStrokeWidth,
-        absoluteStrokeWidth: absoluteStrokeWidth ?? contextAbsoluteStrokeWidth,
-        nonScalingStroke: nonScalingStroke ?? contextNonScalingStroke,
-        className: mergeClasses(contextClass, className),
-        hasA11yProp: hasAccessibleProp,
-        attributes: rest
-      });
+      const calculatedStrokeWidth = absoluteStrokeWidth ?? contextAbsoluteStrokeWidth ? Number(strokeWidth ?? contextStrokeWidth) * 24 / Number(size ?? contextSize) : strokeWidth ?? contextStrokeWidth;
       return (0, import_react2.createElement)(
-        name,
+        "svg",
         {
           ref,
-          ...svgAttributes
+          ...defaultAttributes,
+          width: size ?? contextSize ?? defaultAttributes.width,
+          height: size ?? contextSize ?? defaultAttributes.height,
+          stroke: color2 ?? contextColor,
+          strokeWidth: calculatedStrokeWidth,
+          className: mergeClasses("lucide", contextClass, className),
+          ...!children && !hasA11yProp(rest) && { "aria-hidden": "true" },
+          ...rest
         },
         [
-          ...builtIconNode.map(([tag, attrs]) => (0, import_react2.createElement)(tag, attrs)),
+          ...iconNode.map(([tag, attrs]) => (0, import_react2.createElement)(tag, attrs)),
           ...Array.isArray(children) ? children : [children]
         ]
       );
@@ -25657,968 +23436,655 @@
   );
 
   // node_modules/lucide-react/dist/esm/createLucideIcon.mjs
-  function createLucideIcon(iconDataOrName, iconNode = [], aliases = []) {
-    const iconData = typeof iconDataOrName === "string" ? toLucideIconData(iconDataOrName, iconNode, aliases) : iconDataOrName;
+  var createLucideIcon = (iconName, iconNode) => {
     const Component2 = (0, import_react3.forwardRef)(
       ({ className, ...props }, ref) => (0, import_react3.createElement)(Icon, {
         ref,
-        icon: iconData,
-        className,
+        iconNode,
+        className: mergeClasses(
+          `lucide-${toKebabCase(toPascalCase(iconName))}`,
+          `lucide-${iconName}`,
+          className
+        ),
         ...props
       })
     );
-    if (iconData.name) {
-      Component2.displayName = toPascalCase(iconData.name);
-    }
+    Component2.displayName = toPascalCase(iconName);
     return Component2;
-  }
+  };
 
   // node_modules/lucide-react/dist/esm/icons/arrow-left.mjs
-  var __iconData = {
-    name: "arrow-left",
-    size: 24,
-    node: [
-      ["path", { d: "m12 19-7-7 7-7", key: "1l729n" }],
-      ["path", { d: "M19 12H5", key: "x3x0zl" }]
-    ]
-  };
-  __iconData.node;
-  var ArrowLeft = createLucideIcon(__iconData);
+  var __iconNode = [
+    ["path", { d: "m12 19-7-7 7-7", key: "1l729n" }],
+    ["path", { d: "M19 12H5", key: "x3x0zl" }]
+  ];
+  var ArrowLeft = createLucideIcon("arrow-left", __iconNode);
 
   // node_modules/lucide-react/dist/esm/icons/arrow-right.mjs
-  var __iconData2 = {
-    name: "arrow-right",
-    size: 24,
-    node: [
-      ["path", { d: "M5 12h14", key: "1ays0h" }],
-      ["path", { d: "m12 5 7 7-7 7", key: "xquz4c" }]
-    ]
-  };
-  __iconData2.node;
-  var ArrowRight = createLucideIcon(__iconData2);
+  var __iconNode2 = [
+    ["path", { d: "M5 12h14", key: "1ays0h" }],
+    ["path", { d: "m12 5 7 7-7 7", key: "xquz4c" }]
+  ];
+  var ArrowRight = createLucideIcon("arrow-right", __iconNode2);
 
   // node_modules/lucide-react/dist/esm/icons/bell.mjs
-  var __iconData3 = {
-    name: "bell",
-    size: 24,
-    node: [
-      ["path", { d: "M10.268 21a2 2 0 0 0 3.464 0", key: "vwvbt9" }],
-      [
-        "path",
-        {
-          d: "M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326",
-          key: "11g9vi"
-        }
-      ]
+  var __iconNode3 = [
+    ["path", { d: "M10.268 21a2 2 0 0 0 3.464 0", key: "vwvbt9" }],
+    [
+      "path",
+      {
+        d: "M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326",
+        key: "11g9vi"
+      }
     ]
-  };
-  __iconData3.node;
-  var Bell = createLucideIcon(__iconData3);
+  ];
+  var Bell = createLucideIcon("bell", __iconNode3);
 
   // node_modules/lucide-react/dist/esm/icons/chart-column.mjs
-  var __iconData4 = {
-    name: "chart-column",
-    size: 24,
-    node: [
-      ["path", { d: "M3 3v16a2 2 0 0 0 2 2h16", key: "c24i48" }],
-      ["path", { d: "M18 17V9", key: "2bz60n" }],
-      ["path", { d: "M13 17V5", key: "1frdt8" }],
-      ["path", { d: "M8 17v-3", key: "17ska0" }]
-    ],
-    aliases: ["bar-chart-3"]
-  };
-  __iconData4.node;
-  var ChartColumn = createLucideIcon(__iconData4);
+  var __iconNode4 = [
+    ["path", { d: "M3 3v16a2 2 0 0 0 2 2h16", key: "c24i48" }],
+    ["path", { d: "M18 17V9", key: "2bz60n" }],
+    ["path", { d: "M13 17V5", key: "1frdt8" }],
+    ["path", { d: "M8 17v-3", key: "17ska0" }]
+  ];
+  var ChartColumn = createLucideIcon("chart-column", __iconNode4);
 
   // node_modules/lucide-react/dist/esm/icons/check.mjs
-  var __iconData5 = {
-    name: "check",
-    size: 24,
-    node: [["path", { d: "M20 6 9 17l-5-5", key: "1gmf2c" }]]
-  };
-  __iconData5.node;
-  var Check = createLucideIcon(__iconData5);
+  var __iconNode5 = [["path", { d: "M20 6 9 17l-5-5", key: "1gmf2c" }]];
+  var Check = createLucideIcon("check", __iconNode5);
 
   // node_modules/lucide-react/dist/esm/icons/chevron-down.mjs
-  var __iconData6 = {
-    name: "chevron-down",
-    size: 24,
-    node: [["path", { d: "m6 9 6 6 6-6", key: "qrunsl" }]]
-  };
-  __iconData6.node;
-  var ChevronDown = createLucideIcon(__iconData6);
+  var __iconNode6 = [["path", { d: "m6 9 6 6 6-6", key: "qrunsl" }]];
+  var ChevronDown = createLucideIcon("chevron-down", __iconNode6);
 
   // node_modules/lucide-react/dist/esm/icons/chevron-left.mjs
-  var __iconData7 = {
-    name: "chevron-left",
-    size: 24,
-    node: [["path", { d: "m15 18-6-6 6-6", key: "1wnfg3" }]]
-  };
-  __iconData7.node;
-  var ChevronLeft = createLucideIcon(__iconData7);
+  var __iconNode7 = [["path", { d: "m15 18-6-6 6-6", key: "1wnfg3" }]];
+  var ChevronLeft = createLucideIcon("chevron-left", __iconNode7);
 
   // node_modules/lucide-react/dist/esm/icons/chevron-right.mjs
-  var __iconData8 = {
-    name: "chevron-right",
-    size: 24,
-    node: [["path", { d: "m9 18 6-6-6-6", key: "mthhwq" }]]
-  };
-  __iconData8.node;
-  var ChevronRight = createLucideIcon(__iconData8);
+  var __iconNode8 = [["path", { d: "m9 18 6-6-6-6", key: "mthhwq" }]];
+  var ChevronRight = createLucideIcon("chevron-right", __iconNode8);
 
   // node_modules/lucide-react/dist/esm/icons/circle-alert.mjs
-  var __iconData9 = {
-    name: "circle-alert",
-    size: 24,
-    node: [
-      ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
-      ["line", { x1: "12", x2: "12", y1: "8", y2: "12", key: "1pkeuh" }],
-      ["line", { x1: "12", x2: "12.01", y1: "16", y2: "16", key: "4dfq90" }]
-    ],
-    aliases: ["alert-circle"]
-  };
-  __iconData9.node;
-  var CircleAlert = createLucideIcon(__iconData9);
+  var __iconNode9 = [
+    ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
+    ["line", { x1: "12", x2: "12", y1: "8", y2: "12", key: "1pkeuh" }],
+    ["line", { x1: "12", x2: "12.01", y1: "16", y2: "16", key: "4dfq90" }]
+  ];
+  var CircleAlert = createLucideIcon("circle-alert", __iconNode9);
 
   // node_modules/lucide-react/dist/esm/icons/circle-check.mjs
-  var __iconData10 = {
-    name: "circle-check",
-    size: 24,
-    node: [
-      ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
-      ["path", { d: "m16 9-5.5 5.5L8 12", key: "xofnsj" }]
-    ],
-    aliases: ["check-circle-2"]
-  };
-  __iconData10.node;
-  var CircleCheck = createLucideIcon(__iconData10);
+  var __iconNode10 = [
+    ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
+    ["path", { d: "m9 12 2 2 4-4", key: "dzmm74" }]
+  ];
+  var CircleCheck = createLucideIcon("circle-check", __iconNode10);
 
   // node_modules/lucide-react/dist/esm/icons/circle-question-mark.mjs
-  var __iconData11 = {
-    name: "circle-question-mark",
-    size: 24,
-    node: [
-      ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
-      ["path", { d: "M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3", key: "1u773s" }],
-      ["path", { d: "M12 17h.01", key: "p32p05" }]
-    ],
-    aliases: ["help-circle", "circle-help"]
-  };
-  __iconData11.node;
-  var CircleQuestionMark = createLucideIcon(__iconData11);
+  var __iconNode11 = [
+    ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
+    ["path", { d: "M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3", key: "1u773s" }],
+    ["path", { d: "M12 17h.01", key: "p32p05" }]
+  ];
+  var CircleQuestionMark = createLucideIcon("circle-question-mark", __iconNode11);
 
   // node_modules/lucide-react/dist/esm/icons/circle-x.mjs
-  var __iconData12 = {
-    name: "circle-x",
-    size: 24,
-    node: [
-      ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
-      ["path", { d: "m15 9-6 6", key: "1uzhvr" }],
-      ["path", { d: "m9 9 6 6", key: "z0biqf" }]
-    ],
-    aliases: ["x-circle"]
-  };
-  __iconData12.node;
-  var CircleX = createLucideIcon(__iconData12);
+  var __iconNode12 = [
+    ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
+    ["path", { d: "m15 9-6 6", key: "1uzhvr" }],
+    ["path", { d: "m9 9 6 6", key: "z0biqf" }]
+  ];
+  var CircleX = createLucideIcon("circle-x", __iconNode12);
 
   // node_modules/lucide-react/dist/esm/icons/clipboard-list.mjs
-  var __iconData13 = {
-    name: "clipboard-list",
-    size: 24,
-    node: [
-      ["rect", { width: "8", height: "4", x: "8", y: "2", rx: "1", ry: "1", key: "tgr4d6" }],
-      [
-        "path",
-        {
-          d: "M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2",
-          key: "116196"
-        }
-      ],
-      ["path", { d: "M12 11h4", key: "1jrz19" }],
-      ["path", { d: "M12 16h4", key: "n85exb" }],
-      ["path", { d: "M8 11h.01", key: "1dfujw" }],
-      ["path", { d: "M8 16h.01", key: "18s6g9" }]
-    ]
-  };
-  __iconData13.node;
-  var ClipboardList = createLucideIcon(__iconData13);
+  var __iconNode13 = [
+    ["rect", { width: "8", height: "4", x: "8", y: "2", rx: "1", ry: "1", key: "tgr4d6" }],
+    [
+      "path",
+      {
+        d: "M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2",
+        key: "116196"
+      }
+    ],
+    ["path", { d: "M12 11h4", key: "1jrz19" }],
+    ["path", { d: "M12 16h4", key: "n85exb" }],
+    ["path", { d: "M8 11h.01", key: "1dfujw" }],
+    ["path", { d: "M8 16h.01", key: "18s6g9" }]
+  ];
+  var ClipboardList = createLucideIcon("clipboard-list", __iconNode13);
 
   // node_modules/lucide-react/dist/esm/icons/clock.mjs
-  var __iconData14 = {
-    name: "clock",
-    size: 24,
-    node: [
-      ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
-      ["path", { d: "M12 6v6l4 2", key: "mmk7yg" }]
-    ]
-  };
-  __iconData14.node;
-  var Clock = createLucideIcon(__iconData14);
+  var __iconNode14 = [
+    ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
+    ["path", { d: "M12 6v6l4 2", key: "mmk7yg" }]
+  ];
+  var Clock = createLucideIcon("clock", __iconNode14);
 
   // node_modules/lucide-react/dist/esm/icons/cloud-rain.mjs
-  var __iconData15 = {
-    name: "cloud-rain",
-    size: 24,
-    node: [
-      ["path", { d: "M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242", key: "1pljnt" }],
-      ["path", { d: "M16 14v6", key: "1j4efv" }],
-      ["path", { d: "M8 14v6", key: "17c4r9" }],
-      ["path", { d: "M12 16v6", key: "c8a4gj" }]
-    ]
-  };
-  __iconData15.node;
-  var CloudRain = createLucideIcon(__iconData15);
+  var __iconNode15 = [
+    ["path", { d: "M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242", key: "1pljnt" }],
+    ["path", { d: "M16 14v6", key: "1j4efv" }],
+    ["path", { d: "M8 14v6", key: "17c4r9" }],
+    ["path", { d: "M12 16v6", key: "c8a4gj" }]
+  ];
+  var CloudRain = createLucideIcon("cloud-rain", __iconNode15);
 
   // node_modules/lucide-react/dist/esm/icons/download.mjs
-  var __iconData16 = {
-    name: "download",
-    size: 24,
-    node: [
-      ["path", { d: "M12 15V3", key: "m9g1x1" }],
-      ["path", { d: "M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4", key: "ih7n3h" }],
-      ["path", { d: "m7 10 5 5 5-5", key: "brsn70" }]
-    ]
-  };
-  __iconData16.node;
-  var Download = createLucideIcon(__iconData16);
+  var __iconNode16 = [
+    ["path", { d: "M12 15V3", key: "m9g1x1" }],
+    ["path", { d: "M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4", key: "ih7n3h" }],
+    ["path", { d: "m7 10 5 5 5-5", key: "brsn70" }]
+  ];
+  var Download = createLucideIcon("download", __iconNode16);
 
   // node_modules/lucide-react/dist/esm/icons/droplets.mjs
-  var __iconData17 = {
-    name: "droplets",
-    size: 24,
-    node: [
-      [
-        "path",
-        {
-          d: "M7 16.3c2.2 0 4-1.83 4-4.05 0-1.16-.57-2.26-1.71-3.19S7.29 6.75 7 5.3c-.29 1.45-1.14 2.84-2.29 3.76S3 11.1 3 12.25c0 2.22 1.8 4.05 4 4.05z",
-          key: "1ptgy4"
-        }
-      ],
-      [
-        "path",
-        {
-          d: "M12.56 6.6A10.97 10.97 0 0 0 14 3.02c.5 2.5 2 4.9 4 6.5s3 3.5 3 5.5a6.98 6.98 0 0 1-11.91 4.97",
-          key: "1sl1rz"
-        }
-      ]
+  var __iconNode17 = [
+    [
+      "path",
+      {
+        d: "M7 16.3c2.2 0 4-1.83 4-4.05 0-1.16-.57-2.26-1.71-3.19S7.29 6.75 7 5.3c-.29 1.45-1.14 2.84-2.29 3.76S3 11.1 3 12.25c0 2.22 1.8 4.05 4 4.05z",
+        key: "1ptgy4"
+      }
+    ],
+    [
+      "path",
+      {
+        d: "M12.56 6.6A10.97 10.97 0 0 0 14 3.02c.5 2.5 2 4.9 4 6.5s3 3.5 3 5.5a6.98 6.98 0 0 1-11.91 4.97",
+        key: "1sl1rz"
+      }
     ]
-  };
-  __iconData17.node;
-  var Droplets = createLucideIcon(__iconData17);
+  ];
+  var Droplets = createLucideIcon("droplets", __iconNode17);
 
   // node_modules/lucide-react/dist/esm/icons/ellipsis.mjs
-  var __iconData18 = {
-    name: "ellipsis",
-    size: 24,
-    node: [
-      ["circle", { cx: "12", cy: "12", r: "1", key: "41hilf" }],
-      ["circle", { cx: "19", cy: "12", r: "1", key: "1wjl8i" }],
-      ["circle", { cx: "5", cy: "12", r: "1", key: "1pcz8c" }]
-    ],
-    aliases: ["more-horizontal"]
-  };
-  __iconData18.node;
-  var Ellipsis = createLucideIcon(__iconData18);
+  var __iconNode18 = [
+    ["circle", { cx: "12", cy: "12", r: "1", key: "41hilf" }],
+    ["circle", { cx: "19", cy: "12", r: "1", key: "1wjl8i" }],
+    ["circle", { cx: "5", cy: "12", r: "1", key: "1pcz8c" }]
+  ];
+  var Ellipsis = createLucideIcon("ellipsis", __iconNode18);
 
   // node_modules/lucide-react/dist/esm/icons/file-check-corner.mjs
-  var __iconData19 = {
-    name: "file-check-corner",
-    size: 24,
-    node: [
-      [
-        "path",
-        {
-          d: "M10.5 22H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.706.706l3.588 3.588A2.4 2.4 0 0 1 20 8v6",
-          key: "g5mvt7"
-        }
-      ],
-      ["path", { d: "M14 2v5a1 1 0 0 0 1 1h5", key: "wfsgrz" }],
-      ["path", { d: "m14 20 2 2 4-4", key: "15kota" }]
+  var __iconNode19 = [
+    [
+      "path",
+      {
+        d: "M10.5 22H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.706.706l3.588 3.588A2.4 2.4 0 0 1 20 8v6",
+        key: "g5mvt7"
+      }
     ],
-    aliases: ["file-check-2"]
-  };
-  __iconData19.node;
-  var FileCheckCorner = createLucideIcon(__iconData19);
+    ["path", { d: "M14 2v5a1 1 0 0 0 1 1h5", key: "wfsgrz" }],
+    ["path", { d: "m14 20 2 2 4-4", key: "15kota" }]
+  ];
+  var FileCheckCorner = createLucideIcon("file-check-corner", __iconNode19);
 
   // node_modules/lucide-react/dist/esm/icons/file-down.mjs
-  var __iconData20 = {
-    name: "file-down",
-    size: 24,
-    node: [
-      [
-        "path",
-        {
-          d: "M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z",
-          key: "1oefj6"
-        }
-      ],
-      ["path", { d: "M14 2v5a1 1 0 0 0 1 1h5", key: "wfsgrz" }],
-      ["path", { d: "M12 18v-6", key: "17g6i2" }],
-      ["path", { d: "m9 15 3 3 3-3", key: "1npd3o" }]
-    ]
-  };
-  __iconData20.node;
-  var FileDown = createLucideIcon(__iconData20);
+  var __iconNode20 = [
+    [
+      "path",
+      {
+        d: "M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z",
+        key: "1oefj6"
+      }
+    ],
+    ["path", { d: "M14 2v5a1 1 0 0 0 1 1h5", key: "wfsgrz" }],
+    ["path", { d: "M12 18v-6", key: "17g6i2" }],
+    ["path", { d: "m9 15 3 3 3-3", key: "1npd3o" }]
+  ];
+  var FileDown = createLucideIcon("file-down", __iconNode20);
 
   // node_modules/lucide-react/dist/esm/icons/file-output.mjs
-  var __iconData21 = {
-    name: "file-output",
-    size: 24,
-    node: [
-      [
-        "path",
-        {
-          d: "M4.226 20.925A2 2 0 0 0 6 22h12a2 2 0 0 0 2-2V8a2.4 2.4 0 0 0-.706-1.706l-3.588-3.588A2.4 2.4 0 0 0 14 2H6a2 2 0 0 0-2 2v3.127",
-          key: "wfxp4w"
-        }
-      ],
-      ["path", { d: "M14 2v5a1 1 0 0 0 1 1h5", key: "wfsgrz" }],
-      ["path", { d: "m5 11-3 3", key: "1dgrs4" }],
-      ["path", { d: "m5 17-3-3h10", key: "1mvvaf" }]
-    ]
-  };
-  __iconData21.node;
-  var FileOutput = createLucideIcon(__iconData21);
+  var __iconNode21 = [
+    [
+      "path",
+      {
+        d: "M4.226 20.925A2 2 0 0 0 6 22h12a2 2 0 0 0 2-2V8a2.4 2.4 0 0 0-.706-1.706l-3.588-3.588A2.4 2.4 0 0 0 14 2H6a2 2 0 0 0-2 2v3.127",
+        key: "wfxp4w"
+      }
+    ],
+    ["path", { d: "M14 2v5a1 1 0 0 0 1 1h5", key: "wfsgrz" }],
+    ["path", { d: "m5 11-3 3", key: "1dgrs4" }],
+    ["path", { d: "m5 17-3-3h10", key: "1mvvaf" }]
+  ];
+  var FileOutput = createLucideIcon("file-output", __iconNode21);
 
   // node_modules/lucide-react/dist/esm/icons/file-spreadsheet.mjs
-  var __iconData22 = {
-    name: "file-spreadsheet",
-    size: 24,
-    node: [
-      [
-        "path",
-        {
-          d: "M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z",
-          key: "1oefj6"
-        }
-      ],
-      ["path", { d: "M14 2v5a1 1 0 0 0 1 1h5", key: "wfsgrz" }],
-      ["path", { d: "M8 13h2", key: "yr2amv" }],
-      ["path", { d: "M14 13h2", key: "un5t4a" }],
-      ["path", { d: "M8 17h2", key: "2yhykz" }],
-      ["path", { d: "M14 17h2", key: "10kma7" }]
-    ]
-  };
-  __iconData22.node;
-  var FileSpreadsheet = createLucideIcon(__iconData22);
+  var __iconNode22 = [
+    [
+      "path",
+      {
+        d: "M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z",
+        key: "1oefj6"
+      }
+    ],
+    ["path", { d: "M14 2v5a1 1 0 0 0 1 1h5", key: "wfsgrz" }],
+    ["path", { d: "M8 13h2", key: "yr2amv" }],
+    ["path", { d: "M14 13h2", key: "un5t4a" }],
+    ["path", { d: "M8 17h2", key: "2yhykz" }],
+    ["path", { d: "M14 17h2", key: "10kma7" }]
+  ];
+  var FileSpreadsheet = createLucideIcon("file-spreadsheet", __iconNode22);
 
   // node_modules/lucide-react/dist/esm/icons/file-text.mjs
-  var __iconData23 = {
-    name: "file-text",
-    size: 24,
-    node: [
-      [
-        "path",
-        {
-          d: "M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z",
-          key: "1oefj6"
-        }
-      ],
-      ["path", { d: "M14 2v5a1 1 0 0 0 1 1h5", key: "wfsgrz" }],
-      ["path", { d: "M10 9H8", key: "b1mrlr" }],
-      ["path", { d: "M16 13H8", key: "t4e002" }],
-      ["path", { d: "M16 17H8", key: "z1uh3a" }]
-    ]
-  };
-  __iconData23.node;
-  var FileText = createLucideIcon(__iconData23);
+  var __iconNode23 = [
+    [
+      "path",
+      {
+        d: "M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z",
+        key: "1oefj6"
+      }
+    ],
+    ["path", { d: "M14 2v5a1 1 0 0 0 1 1h5", key: "wfsgrz" }],
+    ["path", { d: "M10 9H8", key: "b1mrlr" }],
+    ["path", { d: "M16 13H8", key: "t4e002" }],
+    ["path", { d: "M16 17H8", key: "z1uh3a" }]
+  ];
+  var FileText = createLucideIcon("file-text", __iconNode23);
 
   // node_modules/lucide-react/dist/esm/icons/file-type-corner.mjs
-  var __iconData24 = {
-    name: "file-type-corner",
-    size: 24,
-    node: [
-      [
-        "path",
-        {
-          d: "M12 22h6a2 2 0 0 0 2-2V8a2.4 2.4 0 0 0-.706-1.706l-3.588-3.588A2.4 2.4 0 0 0 14 2H6a2 2 0 0 0-2 2v6",
-          key: "15usau"
-        }
-      ],
-      ["path", { d: "M14 2v5a1 1 0 0 0 1 1h5", key: "wfsgrz" }],
-      ["path", { d: "M3 16v-1.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5V16", key: "s1gz5" }],
-      ["path", { d: "M6 22h2", key: "194x9m" }],
-      ["path", { d: "M7 14v8", key: "11ixej" }]
+  var __iconNode24 = [
+    [
+      "path",
+      {
+        d: "M12 22h6a2 2 0 0 0 2-2V8a2.4 2.4 0 0 0-.706-1.706l-3.588-3.588A2.4 2.4 0 0 0 14 2H6a2 2 0 0 0-2 2v6",
+        key: "15usau"
+      }
     ],
-    aliases: ["file-type-2"]
-  };
-  __iconData24.node;
-  var FileTypeCorner = createLucideIcon(__iconData24);
+    ["path", { d: "M14 2v5a1 1 0 0 0 1 1h5", key: "wfsgrz" }],
+    ["path", { d: "M3 16v-1.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5V16", key: "s1gz5" }],
+    ["path", { d: "M6 22h2", key: "194x9m" }],
+    ["path", { d: "M7 14v8", key: "11ixej" }]
+  ];
+  var FileTypeCorner = createLucideIcon("file-type-corner", __iconNode24);
 
   // node_modules/lucide-react/dist/esm/icons/folder-kanban.mjs
-  var __iconData25 = {
-    name: "folder-kanban",
-    size: 24,
-    node: [
-      [
-        "path",
-        {
-          d: "M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z",
-          key: "1fr9dc"
-        }
-      ],
-      ["path", { d: "M8 10v4", key: "tgpxqk" }],
-      ["path", { d: "M12 10v2", key: "hh53o1" }],
-      ["path", { d: "M16 10v6", key: "1d6xys" }]
-    ]
-  };
-  __iconData25.node;
-  var FolderKanban = createLucideIcon(__iconData25);
+  var __iconNode25 = [
+    [
+      "path",
+      {
+        d: "M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z",
+        key: "1fr9dc"
+      }
+    ],
+    ["path", { d: "M8 10v4", key: "tgpxqk" }],
+    ["path", { d: "M12 10v2", key: "hh53o1" }],
+    ["path", { d: "M16 10v6", key: "1d6xys" }]
+  ];
+  var FolderKanban = createLucideIcon("folder-kanban", __iconNode25);
 
   // node_modules/lucide-react/dist/esm/icons/funnel.mjs
-  var __iconData26 = {
-    name: "funnel",
-    size: 24,
-    node: [
-      [
-        "path",
-        {
-          d: "M10 20a1 1 0 0 0 .553.895l2 1A1 1 0 0 0 14 21v-7a2 2 0 0 1 .517-1.341L21.74 4.67A1 1 0 0 0 21 3H3a1 1 0 0 0-.742 1.67l7.225 7.989A2 2 0 0 1 10 14z",
-          key: "sc7q7i"
-        }
-      ]
-    ],
-    aliases: ["filter"]
-  };
-  __iconData26.node;
-  var Funnel = createLucideIcon(__iconData26);
+  var __iconNode26 = [
+    [
+      "path",
+      {
+        d: "M10 20a1 1 0 0 0 .553.895l2 1A1 1 0 0 0 14 21v-7a2 2 0 0 1 .517-1.341L21.74 4.67A1 1 0 0 0 21 3H3a1 1 0 0 0-.742 1.67l7.225 7.989A2 2 0 0 1 10 14z",
+        key: "sc7q7i"
+      }
+    ]
+  ];
+  var Funnel = createLucideIcon("funnel", __iconNode26);
 
   // node_modules/lucide-react/dist/esm/icons/inbox.mjs
-  var __iconData27 = {
-    name: "inbox",
-    size: 24,
-    node: [
-      ["polyline", { points: "22 12 16 12 14 15 10 15 8 12 2 12", key: "o97t9d" }],
-      [
-        "path",
-        {
-          d: "M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z",
-          key: "oot6mr"
-        }
-      ]
+  var __iconNode27 = [
+    ["polyline", { points: "22 12 16 12 14 15 10 15 8 12 2 12", key: "o97t9d" }],
+    [
+      "path",
+      {
+        d: "M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z",
+        key: "oot6mr"
+      }
     ]
-  };
-  __iconData27.node;
-  var Inbox = createLucideIcon(__iconData27);
+  ];
+  var Inbox = createLucideIcon("inbox", __iconNode27);
 
   // node_modules/lucide-react/dist/esm/icons/info.mjs
-  var __iconData28 = {
-    name: "info",
-    size: 24,
-    node: [
-      ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
-      ["path", { d: "M12 16v-4", key: "1dtifu" }],
-      ["path", { d: "M12 8h.01", key: "e9boi3" }]
-    ]
-  };
-  __iconData28.node;
-  var Info = createLucideIcon(__iconData28);
+  var __iconNode28 = [
+    ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
+    ["path", { d: "M12 16v-4", key: "1dtifu" }],
+    ["path", { d: "M12 8h.01", key: "e9boi3" }]
+  ];
+  var Info = createLucideIcon("info", __iconNode28);
 
   // node_modules/lucide-react/dist/esm/icons/key-round.mjs
-  var __iconData29 = {
-    name: "key-round",
-    size: 24,
-    node: [
-      [
-        "path",
-        {
-          d: "M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z",
-          key: "1s6t7t"
-        }
-      ],
-      ["circle", { cx: "16.5", cy: "7.5", r: ".5", fill: "currentColor", key: "w0ekpg" }]
-    ]
-  };
-  __iconData29.node;
-  var KeyRound = createLucideIcon(__iconData29);
+  var __iconNode29 = [
+    [
+      "path",
+      {
+        d: "M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z",
+        key: "1s6t7t"
+      }
+    ],
+    ["circle", { cx: "16.5", cy: "7.5", r: ".5", fill: "currentColor", key: "w0ekpg" }]
+  ];
+  var KeyRound = createLucideIcon("key-round", __iconNode29);
 
   // node_modules/lucide-react/dist/esm/icons/layers.mjs
-  var __iconData30 = {
-    name: "layers",
-    size: 24,
-    node: [
-      [
-        "path",
-        {
-          d: "M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z",
-          key: "zw3jo"
-        }
-      ],
-      [
-        "path",
-        {
-          d: "M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12",
-          key: "1wduqc"
-        }
-      ],
-      [
-        "path",
-        {
-          d: "M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17",
-          key: "kqbvx6"
-        }
-      ]
+  var __iconNode30 = [
+    [
+      "path",
+      {
+        d: "M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z",
+        key: "zw3jo"
+      }
     ],
-    aliases: ["layers-3"]
-  };
-  __iconData30.node;
-  var Layers = createLucideIcon(__iconData30);
+    [
+      "path",
+      {
+        d: "M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12",
+        key: "1wduqc"
+      }
+    ],
+    [
+      "path",
+      {
+        d: "M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17",
+        key: "kqbvx6"
+      }
+    ]
+  ];
+  var Layers = createLucideIcon("layers", __iconNode30);
 
   // node_modules/lucide-react/dist/esm/icons/layout-dashboard.mjs
-  var __iconData31 = {
-    name: "layout-dashboard",
-    size: 24,
-    node: [
-      ["rect", { width: "7", height: "9", x: "3", y: "3", rx: "1", key: "10lvy0" }],
-      ["rect", { width: "7", height: "5", x: "14", y: "3", rx: "1", key: "16une8" }],
-      ["rect", { width: "7", height: "9", x: "14", y: "12", rx: "1", key: "1hutg5" }],
-      ["rect", { width: "7", height: "5", x: "3", y: "16", rx: "1", key: "ldoo1y" }]
-    ]
-  };
-  __iconData31.node;
-  var LayoutDashboard = createLucideIcon(__iconData31);
+  var __iconNode31 = [
+    ["rect", { width: "7", height: "9", x: "3", y: "3", rx: "1", key: "10lvy0" }],
+    ["rect", { width: "7", height: "5", x: "14", y: "3", rx: "1", key: "16une8" }],
+    ["rect", { width: "7", height: "9", x: "14", y: "12", rx: "1", key: "1hutg5" }],
+    ["rect", { width: "7", height: "5", x: "3", y: "16", rx: "1", key: "ldoo1y" }]
+  ];
+  var LayoutDashboard = createLucideIcon("layout-dashboard", __iconNode31);
 
   // node_modules/lucide-react/dist/esm/icons/link-2.mjs
-  var __iconData32 = {
-    name: "link-2",
-    size: 24,
-    node: [
-      ["path", { d: "M9 17H7A5 5 0 0 1 7 7h2", key: "8i5ue5" }],
-      ["path", { d: "M15 7h2a5 5 0 1 1 0 10h-2", key: "1b9ql8" }],
-      ["line", { x1: "8", x2: "16", y1: "12", y2: "12", key: "1jonct" }]
-    ]
-  };
-  __iconData32.node;
-  var Link2 = createLucideIcon(__iconData32);
+  var __iconNode32 = [
+    ["path", { d: "M9 17H7A5 5 0 0 1 7 7h2", key: "8i5ue5" }],
+    ["path", { d: "M15 7h2a5 5 0 1 1 0 10h-2", key: "1b9ql8" }],
+    ["line", { x1: "8", x2: "16", y1: "12", y2: "12", key: "1jonct" }]
+  ];
+  var Link2 = createLucideIcon("link-2", __iconNode32);
 
   // node_modules/lucide-react/dist/esm/icons/list-checks.mjs
-  var __iconData33 = {
-    name: "list-checks",
-    size: 24,
-    node: [
-      ["path", { d: "M13 5h8", key: "a7qcls" }],
-      ["path", { d: "M13 12h8", key: "h98zly" }],
-      ["path", { d: "M13 19h8", key: "c3s6r1" }],
-      ["path", { d: "m3 17 2 2 4-4", key: "1jhpwq" }],
-      ["path", { d: "m3 7 2 2 4-4", key: "1obspn" }]
-    ]
-  };
-  __iconData33.node;
-  var ListChecks = createLucideIcon(__iconData33);
+  var __iconNode33 = [
+    ["path", { d: "M13 5h8", key: "a7qcls" }],
+    ["path", { d: "M13 12h8", key: "h98zly" }],
+    ["path", { d: "M13 19h8", key: "c3s6r1" }],
+    ["path", { d: "m3 17 2 2 4-4", key: "1jhpwq" }],
+    ["path", { d: "m3 7 2 2 4-4", key: "1obspn" }]
+  ];
+  var ListChecks = createLucideIcon("list-checks", __iconNode33);
 
   // node_modules/lucide-react/dist/esm/icons/loader-circle.mjs
-  var __iconData34 = {
-    name: "loader-circle",
-    size: 24,
-    node: [["path", { d: "M21 12a9 9 0 1 1-6.219-8.56", key: "13zald" }]],
-    aliases: ["loader-2"]
-  };
-  __iconData34.node;
-  var LoaderCircle = createLucideIcon(__iconData34);
+  var __iconNode34 = [["path", { d: "M21 12a9 9 0 1 1-6.219-8.56", key: "13zald" }]];
+  var LoaderCircle = createLucideIcon("loader-circle", __iconNode34);
 
   // node_modules/lucide-react/dist/esm/icons/log-out.mjs
-  var __iconData35 = {
-    name: "log-out",
-    size: 24,
-    node: [
-      ["path", { d: "m16 17 5-5-5-5", key: "1bji2h" }],
-      ["path", { d: "M21 12H9", key: "dn1m92" }],
-      ["path", { d: "M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4", key: "1uf3rs" }]
-    ]
-  };
-  __iconData35.node;
-  var LogOut = createLucideIcon(__iconData35);
+  var __iconNode35 = [
+    ["path", { d: "m16 17 5-5-5-5", key: "1bji2h" }],
+    ["path", { d: "M21 12H9", key: "dn1m92" }],
+    ["path", { d: "M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4", key: "1uf3rs" }]
+  ];
+  var LogOut = createLucideIcon("log-out", __iconNode35);
 
   // node_modules/lucide-react/dist/esm/icons/mail.mjs
-  var __iconData36 = {
-    name: "mail",
-    size: 24,
-    node: [
-      ["path", { d: "m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7", key: "132q7q" }],
-      ["rect", { x: "2", y: "4", width: "20", height: "16", rx: "2", key: "izxlao" }]
-    ]
-  };
-  __iconData36.node;
-  var Mail = createLucideIcon(__iconData36);
+  var __iconNode36 = [
+    ["path", { d: "m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7", key: "132q7q" }],
+    ["rect", { x: "2", y: "4", width: "20", height: "16", rx: "2", key: "izxlao" }]
+  ];
+  var Mail = createLucideIcon("mail", __iconNode36);
 
   // node_modules/lucide-react/dist/esm/icons/map-pin.mjs
-  var __iconData37 = {
-    name: "map-pin",
-    size: 24,
-    node: [
-      [
-        "path",
-        {
-          d: "M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0",
-          key: "1r0f0z"
-        }
-      ],
-      ["circle", { cx: "12", cy: "10", r: "3", key: "ilqhr7" }]
-    ]
-  };
-  __iconData37.node;
-  var MapPin = createLucideIcon(__iconData37);
+  var __iconNode37 = [
+    [
+      "path",
+      {
+        d: "M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0",
+        key: "1r0f0z"
+      }
+    ],
+    ["circle", { cx: "12", cy: "10", r: "3", key: "ilqhr7" }]
+  ];
+  var MapPin = createLucideIcon("map-pin", __iconNode37);
 
   // node_modules/lucide-react/dist/esm/icons/paperclip.mjs
-  var __iconData38 = {
-    name: "paperclip",
-    size: 24,
-    node: [
-      [
-        "path",
-        {
-          d: "m16 6-8.414 8.586a2 2 0 0 0 2.829 2.829l8.414-8.586a4 4 0 1 0-5.657-5.657l-8.379 8.551a6 6 0 1 0 8.485 8.485l8.379-8.551",
-          key: "1miecu"
-        }
-      ]
+  var __iconNode38 = [
+    [
+      "path",
+      {
+        d: "m16 6-8.414 8.586a2 2 0 0 0 2.829 2.829l8.414-8.586a4 4 0 1 0-5.657-5.657l-8.379 8.551a6 6 0 1 0 8.485 8.485l8.379-8.551",
+        key: "1miecu"
+      }
     ]
-  };
-  __iconData38.node;
-  var Paperclip = createLucideIcon(__iconData38);
+  ];
+  var Paperclip = createLucideIcon("paperclip", __iconNode38);
 
   // node_modules/lucide-react/dist/esm/icons/pencil.mjs
-  var __iconData39 = {
-    name: "pencil",
-    size: 24,
-    node: [
-      [
-        "path",
-        {
-          d: "M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z",
-          key: "1a8usu"
-        }
-      ],
-      ["path", { d: "m15 5 4 4", key: "1mk7zo" }]
-    ]
-  };
-  __iconData39.node;
-  var Pencil = createLucideIcon(__iconData39);
+  var __iconNode39 = [
+    [
+      "path",
+      {
+        d: "M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z",
+        key: "1a8usu"
+      }
+    ],
+    ["path", { d: "m15 5 4 4", key: "1mk7zo" }]
+  ];
+  var Pencil = createLucideIcon("pencil", __iconNode39);
 
   // node_modules/lucide-react/dist/esm/icons/play.mjs
-  var __iconData40 = {
-    name: "play",
-    size: 24,
-    node: [
-      [
-        "path",
-        {
-          d: "M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z",
-          key: "10ikf1"
-        }
-      ]
+  var __iconNode40 = [
+    [
+      "path",
+      {
+        d: "M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z",
+        key: "10ikf1"
+      }
     ]
-  };
-  __iconData40.node;
-  var Play = createLucideIcon(__iconData40);
+  ];
+  var Play = createLucideIcon("play", __iconNode40);
 
   // node_modules/lucide-react/dist/esm/icons/plus.mjs
-  var __iconData41 = {
-    name: "plus",
-    size: 24,
-    node: [
-      ["path", { d: "M5 12h14", key: "1ays0h" }],
-      ["path", { d: "M12 5v14", key: "s699le" }]
-    ]
-  };
-  __iconData41.node;
-  var Plus = createLucideIcon(__iconData41);
+  var __iconNode41 = [
+    ["path", { d: "M5 12h14", key: "1ays0h" }],
+    ["path", { d: "M12 5v14", key: "s699le" }]
+  ];
+  var Plus = createLucideIcon("plus", __iconNode41);
 
   // node_modules/lucide-react/dist/esm/icons/refresh-cw.mjs
-  var __iconData42 = {
-    name: "refresh-cw",
-    size: 24,
-    node: [
-      ["path", { d: "M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8", key: "v9h5vc" }],
-      ["path", { d: "M21 3v5h-5", key: "1q7to0" }],
-      ["path", { d: "M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16", key: "3uifl3" }],
-      ["path", { d: "M8 16H3v5", key: "1cv678" }]
-    ]
-  };
-  __iconData42.node;
-  var RefreshCw = createLucideIcon(__iconData42);
+  var __iconNode42 = [
+    ["path", { d: "M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8", key: "v9h5vc" }],
+    ["path", { d: "M21 3v5h-5", key: "1q7to0" }],
+    ["path", { d: "M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16", key: "3uifl3" }],
+    ["path", { d: "M8 16H3v5", key: "1cv678" }]
+  ];
+  var RefreshCw = createLucideIcon("refresh-cw", __iconNode42);
 
   // node_modules/lucide-react/dist/esm/icons/settings.mjs
-  var __iconData43 = {
-    name: "settings",
-    size: 24,
-    node: [
-      [
-        "path",
-        {
-          d: "M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915",
-          key: "1i5ecw"
-        }
-      ],
-      ["circle", { cx: "12", cy: "12", r: "3", key: "1v7zrd" }]
-    ]
-  };
-  __iconData43.node;
-  var Settings = createLucideIcon(__iconData43);
+  var __iconNode43 = [
+    [
+      "path",
+      {
+        d: "M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915",
+        key: "1i5ecw"
+      }
+    ],
+    ["circle", { cx: "12", cy: "12", r: "3", key: "1v7zrd" }]
+  ];
+  var Settings = createLucideIcon("settings", __iconNode43);
 
   // node_modules/lucide-react/dist/esm/icons/shield-check.mjs
-  var __iconData44 = {
-    name: "shield-check",
-    size: 24,
-    node: [
-      [
-        "path",
-        {
-          d: "M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z",
-          key: "oel41y"
-        }
-      ],
-      ["path", { d: "m9 12 2 2 4-4", key: "dzmm74" }]
-    ]
-  };
-  __iconData44.node;
-  var ShieldCheck = createLucideIcon(__iconData44);
+  var __iconNode44 = [
+    [
+      "path",
+      {
+        d: "M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z",
+        key: "oel41y"
+      }
+    ],
+    ["path", { d: "m9 12 2 2 4-4", key: "dzmm74" }]
+  ];
+  var ShieldCheck = createLucideIcon("shield-check", __iconNode44);
 
   // node_modules/lucide-react/dist/esm/icons/sigma.mjs
-  var __iconData45 = {
-    name: "sigma",
-    size: 24,
-    node: [
-      [
-        "path",
-        {
-          d: "M18 7V5a1 1 0 0 0-1-1H6.5a.5.5 0 0 0-.4.8l4.5 6a2 2 0 0 1 0 2.4l-4.5 6a.5.5 0 0 0 .4.8H17a1 1 0 0 0 1-1v-2",
-          key: "wuwx1p"
-        }
-      ]
+  var __iconNode45 = [
+    [
+      "path",
+      {
+        d: "M18 7V5a1 1 0 0 0-1-1H6.5a.5.5 0 0 0-.4.8l4.5 6a2 2 0 0 1 0 2.4l-4.5 6a.5.5 0 0 0 .4.8H17a1 1 0 0 0 1-1v-2",
+        key: "wuwx1p"
+      }
     ]
-  };
-  __iconData45.node;
-  var Sigma = createLucideIcon(__iconData45);
+  ];
+  var Sigma = createLucideIcon("sigma", __iconNode45);
 
   // node_modules/lucide-react/dist/esm/icons/sparkles.mjs
-  var __iconData46 = {
-    name: "sparkles",
-    size: 24,
-    node: [
-      [
-        "path",
-        {
-          d: "M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z",
-          key: "1s2grr"
-        }
-      ],
-      ["path", { d: "M20 2v4", key: "1rf3ol" }],
-      ["path", { d: "M22 4h-4", key: "gwowj6" }],
-      ["circle", { cx: "4", cy: "20", r: "2", key: "6kqj1y" }]
+  var __iconNode46 = [
+    [
+      "path",
+      {
+        d: "M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z",
+        key: "1s2grr"
+      }
     ],
-    aliases: ["stars"]
-  };
-  __iconData46.node;
-  var Sparkles = createLucideIcon(__iconData46);
+    ["path", { d: "M20 2v4", key: "1rf3ol" }],
+    ["path", { d: "M22 4h-4", key: "gwowj6" }],
+    ["circle", { cx: "4", cy: "20", r: "2", key: "6kqj1y" }]
+  ];
+  var Sparkles = createLucideIcon("sparkles", __iconNode46);
 
   // node_modules/lucide-react/dist/esm/icons/sprout.mjs
-  var __iconData47 = {
-    name: "sprout",
-    size: 24,
-    node: [
-      [
-        "path",
-        {
-          d: "M14 9.536V7a4 4 0 0 1 4-4h1.5a.5.5 0 0 1 .5.5V5a4 4 0 0 1-4 4 4 4 0 0 0-4 4c0 2 1 3 1 5a5 5 0 0 1-1 3",
-          key: "139s4v"
-        }
-      ],
-      ["path", { d: "M4 9a5 5 0 0 1 8 4 5 5 0 0 1-8-4", key: "1dlkgp" }],
-      ["path", { d: "M5 21h14", key: "11awu3" }]
-    ]
-  };
-  __iconData47.node;
-  var Sprout = createLucideIcon(__iconData47);
+  var __iconNode47 = [
+    [
+      "path",
+      {
+        d: "M14 9.536V7a4 4 0 0 1 4-4h1.5a.5.5 0 0 1 .5.5V5a4 4 0 0 1-4 4 4 4 0 0 0-4 4c0 2 1 3 1 5a5 5 0 0 1-1 3",
+        key: "139s4v"
+      }
+    ],
+    ["path", { d: "M4 9a5 5 0 0 1 8 4 5 5 0 0 1-8-4", key: "1dlkgp" }],
+    ["path", { d: "M5 21h14", key: "11awu3" }]
+  ];
+  var Sprout = createLucideIcon("sprout", __iconNode47);
 
   // node_modules/lucide-react/dist/esm/icons/sun.mjs
-  var __iconData48 = {
-    name: "sun",
-    size: 24,
-    node: [
-      ["circle", { cx: "12", cy: "12", r: "4", key: "4exip2" }],
-      ["path", { d: "M12 2v2", key: "tus03m" }],
-      ["path", { d: "M12 20v2", key: "1lh1kg" }],
-      ["path", { d: "m4.93 4.93 1.41 1.41", key: "149t6j" }],
-      ["path", { d: "m17.66 17.66 1.41 1.41", key: "ptbguv" }],
-      ["path", { d: "M2 12h2", key: "1t8f8n" }],
-      ["path", { d: "M20 12h2", key: "1q8mjw" }],
-      ["path", { d: "m6.34 17.66-1.41 1.41", key: "1m8zz5" }],
-      ["path", { d: "m19.07 4.93-1.41 1.41", key: "1shlcs" }]
-    ]
-  };
-  __iconData48.node;
-  var Sun = createLucideIcon(__iconData48);
+  var __iconNode48 = [
+    ["circle", { cx: "12", cy: "12", r: "4", key: "4exip2" }],
+    ["path", { d: "M12 2v2", key: "tus03m" }],
+    ["path", { d: "M12 20v2", key: "1lh1kg" }],
+    ["path", { d: "m4.93 4.93 1.41 1.41", key: "149t6j" }],
+    ["path", { d: "m17.66 17.66 1.41 1.41", key: "ptbguv" }],
+    ["path", { d: "M2 12h2", key: "1t8f8n" }],
+    ["path", { d: "M20 12h2", key: "1q8mjw" }],
+    ["path", { d: "m6.34 17.66-1.41 1.41", key: "1m8zz5" }],
+    ["path", { d: "m19.07 4.93-1.41 1.41", key: "1shlcs" }]
+  ];
+  var Sun = createLucideIcon("sun", __iconNode48);
 
   // node_modules/lucide-react/dist/esm/icons/thermometer.mjs
-  var __iconData49 = {
-    name: "thermometer",
-    size: 24,
-    node: [["path", { d: "M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0Z", key: "17jzev" }]]
-  };
-  __iconData49.node;
-  var Thermometer = createLucideIcon(__iconData49);
-
-  // node_modules/lucide-react/dist/esm/icons/toggle-left.mjs
-  var __iconData50 = {
-    name: "toggle-left",
-    size: 24,
-    node: [
-      ["circle", { cx: "9", cy: "12", r: "3", key: "u3jwor" }],
-      ["rect", { width: "20", height: "14", x: "2", y: "5", rx: "7", key: "g7kal2" }]
-    ]
-  };
-  __iconData50.node;
-  var ToggleLeft = createLucideIcon(__iconData50);
+  var __iconNode49 = [
+    ["path", { d: "M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0Z", key: "17jzev" }]
+  ];
+  var Thermometer = createLucideIcon("thermometer", __iconNode49);
 
   // node_modules/lucide-react/dist/esm/icons/toggle-right.mjs
-  var __iconData51 = {
-    name: "toggle-right",
-    size: 24,
-    node: [
-      ["circle", { cx: "15", cy: "12", r: "3", key: "1afu0r" }],
-      ["rect", { width: "20", height: "14", x: "2", y: "5", rx: "7", key: "g7kal2" }]
-    ]
-  };
-  __iconData51.node;
-  var ToggleRight = createLucideIcon(__iconData51);
+  var __iconNode50 = [
+    ["circle", { cx: "15", cy: "12", r: "3", key: "1afu0r" }],
+    ["rect", { width: "20", height: "14", x: "2", y: "5", rx: "7", key: "g7kal2" }]
+  ];
+  var ToggleRight = createLucideIcon("toggle-right", __iconNode50);
 
-  // node_modules/lucide-react/dist/esm/icons/trash.mjs
-  var __iconData52 = {
-    name: "trash",
-    size: 24,
-    node: [
-      ["path", { d: "M10 11v6", key: "nco0om" }],
-      ["path", { d: "M14 11v6", key: "outv1u" }],
-      ["path", { d: "M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6", key: "miytrc" }],
-      ["path", { d: "M3 6h18", key: "d0wm0j" }],
-      ["path", { d: "M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2", key: "e791ji" }]
-    ],
-    aliases: ["trash-2"]
-  };
-  __iconData52.node;
-  var Trash = createLucideIcon(__iconData52);
+  // node_modules/lucide-react/dist/esm/icons/toggle-left.mjs
+  var __iconNode51 = [
+    ["circle", { cx: "9", cy: "12", r: "3", key: "u3jwor" }],
+    ["rect", { width: "20", height: "14", x: "2", y: "5", rx: "7", key: "g7kal2" }]
+  ];
+  var ToggleLeft = createLucideIcon("toggle-left", __iconNode51);
+
+  // node_modules/lucide-react/dist/esm/icons/trash-2.mjs
+  var __iconNode52 = [
+    ["path", { d: "M10 11v6", key: "nco0om" }],
+    ["path", { d: "M14 11v6", key: "outv1u" }],
+    ["path", { d: "M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6", key: "miytrc" }],
+    ["path", { d: "M3 6h18", key: "d0wm0j" }],
+    ["path", { d: "M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2", key: "e791ji" }]
+  ];
+  var Trash2 = createLucideIcon("trash-2", __iconNode52);
 
   // node_modules/lucide-react/dist/esm/icons/trending-up.mjs
-  var __iconData53 = {
-    name: "trending-up",
-    size: 24,
-    node: [
-      ["path", { d: "M16 7h6v6", key: "box55l" }],
-      ["path", { d: "m22 7-8.5 8.5-5-5L2 17", key: "1t1m79" }]
-    ]
-  };
-  __iconData53.node;
-  var TrendingUp = createLucideIcon(__iconData53);
+  var __iconNode53 = [
+    ["path", { d: "M16 7h6v6", key: "box55l" }],
+    ["path", { d: "m22 7-8.5 8.5-5-5L2 17", key: "1t1m79" }]
+  ];
+  var TrendingUp = createLucideIcon("trending-up", __iconNode53);
 
   // node_modules/lucide-react/dist/esm/icons/triangle-alert.mjs
-  var __iconData54 = {
-    name: "triangle-alert",
-    size: 24,
-    node: [
-      [
-        "path",
-        {
-          d: "m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3",
-          key: "wmoenq"
-        }
-      ],
-      ["path", { d: "M12 9v4", key: "juzpu7" }],
-      ["path", { d: "M12 17h.01", key: "p32p05" }]
+  var __iconNode54 = [
+    [
+      "path",
+      {
+        d: "m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3",
+        key: "wmoenq"
+      }
     ],
-    aliases: ["alert-triangle"]
-  };
-  __iconData54.node;
-  var TriangleAlert = createLucideIcon(__iconData54);
+    ["path", { d: "M12 9v4", key: "juzpu7" }],
+    ["path", { d: "M12 17h.01", key: "p32p05" }]
+  ];
+  var TriangleAlert = createLucideIcon("triangle-alert", __iconNode54);
 
   // node_modules/lucide-react/dist/esm/icons/upload.mjs
-  var __iconData55 = {
-    name: "upload",
-    size: 24,
-    node: [
-      ["path", { d: "M12 3v12", key: "1x0j5s" }],
-      ["path", { d: "m17 8-5-5-5 5", key: "7q97r8" }],
-      ["path", { d: "M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4", key: "ih7n3h" }]
-    ]
-  };
-  __iconData55.node;
-  var Upload = createLucideIcon(__iconData55);
+  var __iconNode55 = [
+    ["path", { d: "M12 3v12", key: "1x0j5s" }],
+    ["path", { d: "m17 8-5-5-5 5", key: "7q97r8" }],
+    ["path", { d: "M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4", key: "ih7n3h" }]
+  ];
+  var Upload = createLucideIcon("upload", __iconNode55);
 
   // node_modules/lucide-react/dist/esm/icons/user.mjs
-  var __iconData56 = {
-    name: "user",
-    size: 24,
-    node: [
-      ["path", { d: "M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2", key: "975kel" }],
-      ["circle", { cx: "12", cy: "7", r: "4", key: "17ys0d" }]
-    ]
-  };
-  __iconData56.node;
-  var User = createLucideIcon(__iconData56);
+  var __iconNode56 = [
+    ["path", { d: "M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2", key: "975kel" }],
+    ["circle", { cx: "12", cy: "7", r: "4", key: "17ys0d" }]
+  ];
+  var User = createLucideIcon("user", __iconNode56);
 
   // node_modules/lucide-react/dist/esm/icons/users.mjs
-  var __iconData57 = {
-    name: "users",
-    size: 24,
-    node: [
-      ["path", { d: "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2", key: "1yyitq" }],
-      ["path", { d: "M16 3.128a4 4 0 0 1 0 7.744", key: "16gr8j" }],
-      ["path", { d: "M22 21v-2a4 4 0 0 0-3-3.87", key: "kshegd" }],
-      ["circle", { cx: "9", cy: "7", r: "4", key: "nufk8" }]
-    ]
-  };
-  __iconData57.node;
-  var Users = createLucideIcon(__iconData57);
+  var __iconNode57 = [
+    ["path", { d: "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2", key: "1yyitq" }],
+    ["path", { d: "M16 3.128a4 4 0 0 1 0 7.744", key: "16gr8j" }],
+    ["path", { d: "M22 21v-2a4 4 0 0 0-3-3.87", key: "kshegd" }],
+    ["circle", { cx: "9", cy: "7", r: "4", key: "nufk8" }]
+  ];
+  var Users = createLucideIcon("users", __iconNode57);
 
   // node_modules/lucide-react/dist/esm/icons/wand-sparkles.mjs
-  var __iconData58 = {
-    name: "wand-sparkles",
-    size: 24,
-    node: [
-      [
-        "path",
-        {
-          d: "m21.64 3.64-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.2 1.2 0 0 0 1.72 0L21.64 5.36a1.2 1.2 0 0 0 0-1.72",
-          key: "ul74o6"
-        }
-      ],
-      ["path", { d: "m14 7 3 3", key: "1r5n42" }],
-      ["path", { d: "M5 6v4", key: "ilb8ba" }],
-      ["path", { d: "M19 14v4", key: "blhpug" }],
-      ["path", { d: "M10 2v2", key: "7u0qdc" }],
-      ["path", { d: "M7 8H3", key: "zfb6yr" }],
-      ["path", { d: "M21 16h-4", key: "1cnmox" }],
-      ["path", { d: "M11 3H9", key: "1obp7u" }]
+  var __iconNode58 = [
+    [
+      "path",
+      {
+        d: "m21.64 3.64-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.2 1.2 0 0 0 1.72 0L21.64 5.36a1.2 1.2 0 0 0 0-1.72",
+        key: "ul74o6"
+      }
     ],
-    aliases: ["wand-2"]
-  };
-  __iconData58.node;
-  var WandSparkles = createLucideIcon(__iconData58);
+    ["path", { d: "m14 7 3 3", key: "1r5n42" }],
+    ["path", { d: "M5 6v4", key: "ilb8ba" }],
+    ["path", { d: "M19 14v4", key: "blhpug" }],
+    ["path", { d: "M10 2v2", key: "7u0qdc" }],
+    ["path", { d: "M7 8H3", key: "zfb6yr" }],
+    ["path", { d: "M21 16h-4", key: "1cnmox" }],
+    ["path", { d: "M11 3H9", key: "1obp7u" }]
+  ];
+  var WandSparkles = createLucideIcon("wand-sparkles", __iconNode58);
 
   // node_modules/lucide-react/dist/esm/icons/waves-horizontal.mjs
-  var __iconData59 = {
-    name: "waves-horizontal",
-    size: 24,
-    node: [
-      ["path", { d: "M2 12q2.5 2 5 0t5 0 5 0 5 0", key: "8ddzzs" }],
-      ["path", { d: "M2 19q2.5 2 5 0t5 0 5 0 5 0", key: "1wj4st" }],
-      ["path", { d: "M2 5q2.5 2 5 0t5 0 5 0 5 0", key: "69x50u" }]
-    ],
-    aliases: ["waves"]
-  };
-  __iconData59.node;
-  var WavesHorizontal = createLucideIcon(__iconData59);
+  var __iconNode59 = [
+    ["path", { d: "M2 12q2.5 2 5 0t5 0 5 0 5 0", key: "8ddzzs" }],
+    ["path", { d: "M2 19q2.5 2 5 0t5 0 5 0 5 0", key: "1wj4st" }],
+    ["path", { d: "M2 5q2.5 2 5 0t5 0 5 0 5 0", key: "69x50u" }]
+  ];
+  var WavesHorizontal = createLucideIcon("waves-horizontal", __iconNode59);
 
   // node_modules/lucide-react/dist/esm/icons/x.mjs
-  var __iconData60 = {
-    name: "x",
-    size: 24,
-    node: [
-      ["path", { d: "M18 6 6 18", key: "1bl5f8" }],
-      ["path", { d: "m6 6 12 12", key: "d8bk6v" }]
-    ]
-  };
-  __iconData60.node;
-  var X = createLucideIcon(__iconData60);
+  var __iconNode60 = [
+    ["path", { d: "M18 6 6 18", key: "1bl5f8" }],
+    ["path", { d: "m6 6 12 12", key: "d8bk6v" }]
+  ];
+  var X = createLucideIcon("x", __iconNode60);
 
   // src/Dashboard.jsx
   var import_react73 = __toESM(require_react());
@@ -27222,21 +24688,12 @@
     return String(value);
   }
 
-  // node_modules/es-toolkit/dist/compat/predicate/isSymbol.mjs
-  function isSymbol(value) {
-    return typeof value === "symbol" || value instanceof Symbol;
-  }
-
   // node_modules/es-toolkit/dist/compat/util/toString.mjs
   function toString(value) {
     if (value == null) return "";
-    return baseToString(value);
-  }
-  function baseToString(value) {
     if (typeof value === "string") return value;
-    if (Array.isArray(value)) return value.map(baseToString).join(",");
-    if (isSymbol(value)) return value.toString();
-    const result = value + "";
+    if (Array.isArray(value)) return value.map(toString).join(",");
+    const result = String(value);
     if (result === "0" && Object.is(Number(value), -0)) return "-0";
     return result;
   }
@@ -27253,8 +24710,6 @@
     let key = "";
     let quoteChar = "";
     let bracket = false;
-    let bracketHadQuote = false;
-    const bracketNumberRegex = /^-?\d+(?:\.\d+)?$/;
     if (deepKey.charCodeAt(0) === 46) result.push("");
     while (index < length) {
       const char = deepKey[index];
@@ -27263,20 +24718,14 @@
         key += deepKey[index];
       } else if (char === quoteChar) quoteChar = "";
       else key += char;
-      else if (bracket) if (char === '"' || char === "'") {
-        quoteChar = char;
-        bracketHadQuote = true;
-      } else if (char === "]") {
+      else if (bracket) if (char === '"' || char === "'") quoteChar = char;
+      else if (char === "]") {
         bracket = false;
-        if (!bracketHadQuote && key.includes(".") && !bracketNumberRegex.test(key)) {
-          const segments = key.split(".");
-          for (let i = 0; i < segments.length; i++) if (segments[i] !== "") result.push(segments[i]);
-        } else result.push(key);
+        result.push(key);
         key = "";
       } else key += char;
       else if (char === "[") {
         bracket = true;
-        bracketHadQuote = false;
         if (key) {
           result.push(key);
           key = "";
@@ -29127,16 +26576,6 @@
     return x2;
   }
 
-  // node_modules/es-toolkit/dist/predicate/isLength.mjs
-  function isLength(value) {
-    return Number.isSafeInteger(value) && value >= 0;
-  }
-
-  // node_modules/es-toolkit/dist/compat/predicate/isArrayLike.mjs
-  function isArrayLike(value) {
-    return value != null && typeof value !== "function" && isLength(value.length);
-  }
-
   // node_modules/es-toolkit/dist/compat/object/property.mjs
   function property(path2) {
     return function(object) {
@@ -29367,7 +26806,7 @@
     if (source === target) return true;
     switch (typeof source) {
       case "object":
-        return isObjectMatch(target, source, compare, stack, isRoot);
+        return isObjectMatch(target, source, compare, stack);
       case "function":
         if (Object.keys(source).length > 0) return isMatchWithInternal(target, { ...source }, compare, stack, isRoot);
         return eq(target, source);
@@ -29380,26 +26819,20 @@
         return eq(target, source);
     }
   }
-  function isObjectMatch(target, source, compare, stack, isRoot = false) {
+  function isObjectMatch(target, source, compare, stack) {
     if (source == null) return true;
     if (Array.isArray(source)) return isArrayMatch(target, source, compare, stack);
     if (source instanceof Map) return isMapMatch(target, source, compare, stack);
     if (source instanceof Set) return isSetMatch(target, source, compare, stack);
     const keys2 = Object.keys(source);
-    if (target == null) return isRoot && keys2.length === 0;
-    if (isRoot) {
-      if (isPrimitive(target)) target = Object(target);
-    } else {
-      const tag = getTag(target);
-      if (tag !== "[object Object]" && tag !== "[object Arguments]") return false;
-    }
+    if (target == null || isPrimitive(target)) return keys2.length === 0;
     if (keys2.length === 0) return true;
     if (stack?.has(source)) return stack.get(source) === target;
     stack?.set(source, target);
     try {
       for (let i = 0; i < keys2.length; i++) {
         const key = keys2[i];
-        if (!(key in target)) return false;
+        if (!isPrimitive(target) && !(key in target)) return false;
         if (source[key] === void 0 && target[key] !== void 0) return false;
         if (source[key] === null && target[key] !== null) return false;
         if (!compare(target[key], source[key], key, target, source, stack)) return false;
@@ -29521,9 +26954,9 @@
     if (resolvedPath.length === 0) return false;
     let current2 = object;
     for (let i = 0; i < resolvedPath.length; i++) {
-      const key = toKey(resolvedPath[i]);
+      const key = resolvedPath[i];
       if (current2 == null || !Object.hasOwn(current2, key)) {
-        if (!((Array.isArray(current2) || isArguments(current2)) && isIndex(key) && Number(key) < current2.length)) return false;
+        if (!((Array.isArray(current2) || isArguments(current2)) && isIndex(key) && key < current2.length)) return false;
       }
       current2 = current2[key];
     }
@@ -29558,20 +26991,37 @@
       case "object":
         if (Array.isArray(value) && value.length === 2) return matchesProperty(value[0], value[1]);
         return matches(value);
-      default:
+      case "string":
+      case "symbol":
+      case "number":
         return property(value);
     }
   }
 
-  // node_modules/es-toolkit/dist/compat/_internal/normalizeZero.mjs
-  function normalizeZero(value) {
-    return value === 0 ? 0 : value;
+  // node_modules/es-toolkit/dist/predicate/isLength.mjs
+  function isLength(value) {
+    return Number.isSafeInteger(value) && value >= 0;
+  }
+
+  // node_modules/es-toolkit/dist/compat/predicate/isArrayLike.mjs
+  function isArrayLike(value) {
+    return value != null && typeof value !== "function" && isLength(value.length);
+  }
+
+  // node_modules/es-toolkit/dist/compat/predicate/isObjectLike.mjs
+  function isObjectLike(value) {
+    return typeof value === "object" && value !== null;
+  }
+
+  // node_modules/es-toolkit/dist/compat/predicate/isArrayLikeObject.mjs
+  function isArrayLikeObject(value) {
+    return isObjectLike(value) && isArrayLike(value);
   }
 
   // node_modules/es-toolkit/dist/compat/array/uniqBy.mjs
   function uniqBy2(array, iteratee$1 = identity) {
-    if (!isArrayLike(array)) return [];
-    return uniqBy(Array.from(array), ary(iteratee(iteratee$1), 1)).map(normalizeZero);
+    if (!isArrayLikeObject(array)) return [];
+    return uniqBy(Array.from(array), ary(iteratee(iteratee$1), 1));
   }
 
   // node_modules/recharts/es6/util/payload/getUniqPayload.js
@@ -29954,6 +27404,11 @@
     return 0;
   };
 
+  // node_modules/es-toolkit/dist/compat/predicate/isSymbol.mjs
+  function isSymbol(value) {
+    return typeof value === "symbol" || value instanceof Symbol;
+  }
+
   // node_modules/es-toolkit/dist/compat/_internal/isKey.mjs
   var regexIsDeepProp2 = /\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\\]|\\.)*?\1)\]/;
   var regexIsPlainProp = /^\w*$/;
@@ -29967,27 +27422,26 @@
   function orderBy(collection, criteria, orders, guard) {
     if (collection == null) return [];
     orders = guard ? void 0 : orders;
-    if (!Array.isArray(collection)) collection = isArrayLike(collection) ? Array.from(collection) : Object.values(collection);
+    if (!Array.isArray(collection)) collection = Object.values(collection);
     if (!Array.isArray(criteria)) criteria = criteria == null ? [null] : [criteria];
     if (criteria.length === 0) criteria = [null];
     if (!Array.isArray(orders)) orders = orders == null ? [] : [orders];
     orders = orders.map((order) => String(order));
     const getValueByNestedPath = (object, path2) => {
       let target = object;
-      let index = 0;
-      for (; index < path2.length && target != null; ++index) target = target[path2[index]];
-      return index > 0 && index === path2.length ? target : void 0;
+      for (let i = 0; i < path2.length && target != null; ++i) target = target[path2[i]];
+      return target;
     };
     const getValueByCriterion = (criterion, object) => {
-      if (criterion == null) return object;
-      if (object == null) return;
+      if (object == null || criterion == null) return object;
       if (typeof criterion === "object" && "key" in criterion) {
         if (Object.hasOwn(object, criterion.key)) return object[criterion.key];
         return getValueByNestedPath(object, criterion.path);
       }
       if (typeof criterion === "function") return criterion(object);
       if (Array.isArray(criterion)) return getValueByNestedPath(object, criterion);
-      return object[criterion];
+      if (typeof object === "object") return object[criterion];
+      return object;
     };
     const preparedCriteria = criteria.map((criterion) => {
       if (Array.isArray(criterion) && criterion.length === 1) criterion = criterion[0];
@@ -30818,9 +28272,9 @@
       set(parentCopy, location2, finalizedValue, parentType);
     }
   }
-  function registerChildFinalizationCallback(parent, child2, key) {
+  function registerChildFinalizationCallback(parent, child, key) {
     parent.callbacks_.push(function childCleanup(rootScope) {
-      const state = child2;
+      const state = child;
       if (!state || !isSameScope(state, rootScope)) {
         return;
       }
@@ -31299,8 +28753,6 @@
     }
     return copy3;
   }
-  var _globalIterator = globalThis.Iterator;
-  var hasIteratorFrom = typeof _globalIterator?.from === "function";
   var immer = new Immer2();
   var produce = immer.produce;
   var castDraft = (value) => value;
@@ -31324,7 +28776,11 @@
     if (typeof arguments[0] === "object") return compose;
     return compose.apply(null, arguments);
   };
-  typeof window !== "undefined" && window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__;
+  var devToolsEnhancer = typeof window !== "undefined" && window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__ : function() {
+    return function(noop32) {
+      return noop32;
+    };
+  };
   var hasMatchFunction = (v) => {
     return v && typeof v.match === "function";
   };
@@ -31332,12 +28788,18 @@
     function actionCreator(...args) {
       if (prepareAction) {
         let prepared = prepareAction(...args);
-        if (!prepared) throw new Error(false ? formatProdErrorMessage(0) : "prepareAction did not return an object");
+        if (!prepared) {
+          throw new Error(false ? formatProdErrorMessage(0) : "prepareAction did not return an object");
+        }
         return {
           type,
           payload: prepared.payload,
-          ..."meta" in prepared && { meta: prepared.meta },
-          ..."error" in prepared && { error: prepared.error }
+          ..."meta" in prepared && {
+            meta: prepared.meta
+          },
+          ..."error" in prepared && {
+            error: prepared.error
+          }
         };
       }
       return {
@@ -31351,7 +28813,8 @@
     return actionCreator;
   }
   function isActionCreator(action) {
-    return typeof action === "function" && "type" in action && hasMatchFunction(action);
+    return typeof action === "function" && "type" in action && // hasMatchFunction only wants Matchers but I don't see the point in rewriting it
+    hasMatchFunction(action);
   }
   function getMessage(type) {
     const splitType = type ? `${type}`.split("/") : [];
@@ -31360,10 +28823,16 @@
 Make sure you're calling the action creator before dispatching, i.e. \`dispatch(${actionName}())\` instead of \`dispatch(${actionName})\`. This is necessary even if the action has no payload.`;
   }
   function createActionCreatorInvariantMiddleware(options = {}) {
-    if (false) return () => (next) => (action) => next(action);
-    const { isActionCreator: isActionCreator$1 = isActionCreator } = options;
+    if (false) {
+      return () => (next) => (action) => next(action);
+    }
+    const {
+      isActionCreator: isActionCreator2 = isActionCreator
+    } = options;
     return () => (next) => (action) => {
-      if (isActionCreator$1(action)) console.warn(getMessage(action.type));
+      if (isActionCreator2(action)) {
+        console.warn(getMessage(action.type));
+      }
       return next(action);
     };
   }
@@ -31375,30 +28844,35 @@ Make sure you're calling the action creator before dispatching, i.e. \`dispatch(
         try {
           return fn();
         } finally {
-          elapsed += Date.now() - started;
+          const finished = Date.now();
+          elapsed += finished - started;
         }
       },
       warnIfExceeded() {
-        if (elapsed > maxDelay) console.warn(`${fnName} took ${elapsed}ms, which is more than the warning threshold of ${maxDelay}ms. 
+        if (elapsed > maxDelay) {
+          console.warn(`${fnName} took ${elapsed}ms, which is more than the warning threshold of ${maxDelay}ms. 
 If your state or actions are very large, you may want to disable the middleware as it might cause too much of a slowdown in development mode. See https://redux-toolkit.js.org/api/getDefaultMiddleware for instructions.
 It is disabled in production builds, so you don't need to worry about that.`);
+        }
       }
     };
   }
-  var Tuple = class Tuple2 extends Array {
+  var Tuple = class _Tuple extends Array {
     constructor(...items) {
       super(...items);
-      Object.setPrototypeOf(this, Tuple2.prototype);
+      Object.setPrototypeOf(this, _Tuple.prototype);
     }
     static get [Symbol.species]() {
-      return Tuple2;
+      return _Tuple;
     }
     concat(...arr) {
       return super.concat.apply(this, arr);
     }
     prepend(...arr) {
-      if (arr.length === 1 && Array.isArray(arr[0])) return new Tuple2(...arr[0].concat(this));
-      return new Tuple2(...arr.concat(this));
+      if (arr.length === 1 && Array.isArray(arr[0])) {
+        return new _Tuple(...arr[0].concat(this));
+      }
+      return new _Tuple(...arr.concat(this));
     }
   };
   function freezeDraftable(val) {
@@ -31414,69 +28888,89 @@ It is disabled in production builds, so you don't need to worry about that.`);
   }
   function trackForMutations(isImmutable, ignoredPaths, obj) {
     const trackedProperties = trackProperties(isImmutable, ignoredPaths, obj);
-    return { detectMutations() {
-      return detectMutations(isImmutable, ignoredPaths, trackedProperties, obj);
-    } };
+    return {
+      detectMutations() {
+        return detectMutations(isImmutable, ignoredPaths, trackedProperties, obj);
+      }
+    };
   }
-  function trackProperties(isImmutable, ignoredPaths = [], obj, path2 = "", inProgress = /* @__PURE__ */ new Map()) {
-    const tracked = { value: obj };
-    if (!isImmutable(obj)) {
-      const alreadyInProgress = inProgress.get(obj);
-      if (alreadyInProgress) return alreadyInProgress;
+  function trackProperties(isImmutable, ignoredPaths = [], obj, path2 = "", checkedObjects = /* @__PURE__ */ new Set()) {
+    const tracked = {
+      value: obj
+    };
+    if (!isImmutable(obj) && !checkedObjects.has(obj)) {
+      checkedObjects.add(obj);
       tracked.children = {};
-      inProgress.set(obj, tracked);
       const hasIgnoredPaths = ignoredPaths.length > 0;
       for (const key in obj) {
         const nestedPath = path2 ? path2 + "." + key : key;
         if (hasIgnoredPaths) {
-          if (ignoredPaths.some((ignored) => {
-            if (ignored instanceof RegExp) return ignored.test(nestedPath);
+          const hasMatches = ignoredPaths.some((ignored) => {
+            if (ignored instanceof RegExp) {
+              return ignored.test(nestedPath);
+            }
             return nestedPath === ignored;
-          })) continue;
+          });
+          if (hasMatches) {
+            continue;
+          }
         }
-        tracked.children[key] = trackProperties(isImmutable, ignoredPaths, obj[key], nestedPath, inProgress);
+        tracked.children[key] = trackProperties(isImmutable, ignoredPaths, obj[key], nestedPath);
       }
-      inProgress.delete(obj);
     }
     return tracked;
   }
-  function detectMutations(isImmutable, ignoredPaths = [], trackedProperty, obj, sameParentRef = false, path2 = "", seen = /* @__PURE__ */ new Map()) {
+  function detectMutations(isImmutable, ignoredPaths = [], trackedProperty, obj, sameParentRef = false, path2 = "") {
     const prevObj = trackedProperty ? trackedProperty.value : void 0;
     const sameRef = prevObj === obj;
-    if (sameParentRef && !sameRef && !Number.isNaN(obj)) return {
-      wasMutated: true,
-      path: path2
-    };
-    if (isImmutable(prevObj) || isImmutable(obj)) return { wasMutated: false };
-    let seenValues = seen.get(trackedProperty);
-    if (!seenValues) {
-      seenValues = /* @__PURE__ */ new Set();
-      seen.set(trackedProperty, seenValues);
-    } else if (seenValues.has(obj)) return { wasMutated: false };
-    seenValues.add(obj);
+    if (sameParentRef && !sameRef && !Number.isNaN(obj)) {
+      return {
+        wasMutated: true,
+        path: path2
+      };
+    }
+    if (isImmutable(prevObj) || isImmutable(obj)) {
+      return {
+        wasMutated: false
+      };
+    }
     const keysToDetect = {};
-    for (let key in trackedProperty.children) keysToDetect[key] = true;
-    for (let key in obj) keysToDetect[key] = true;
+    for (let key in trackedProperty.children) {
+      keysToDetect[key] = true;
+    }
+    for (let key in obj) {
+      keysToDetect[key] = true;
+    }
     const hasIgnoredPaths = ignoredPaths.length > 0;
     for (let key in keysToDetect) {
       const nestedPath = path2 ? path2 + "." + key : key;
       if (hasIgnoredPaths) {
-        if (ignoredPaths.some((ignored) => {
-          if (ignored instanceof RegExp) return ignored.test(nestedPath);
+        const hasMatches = ignoredPaths.some((ignored) => {
+          if (ignored instanceof RegExp) {
+            return ignored.test(nestedPath);
+          }
           return nestedPath === ignored;
-        })) continue;
+        });
+        if (hasMatches) {
+          continue;
+        }
       }
-      const result = detectMutations(isImmutable, ignoredPaths, trackedProperty.children[key], obj[key], sameRef, nestedPath, seen);
-      if (result.wasMutated) return result;
+      const result = detectMutations(isImmutable, ignoredPaths, trackedProperty.children[key], obj[key], sameRef, nestedPath);
+      if (result.wasMutated) {
+        return result;
+      }
     }
-    return { wasMutated: false };
+    return {
+      wasMutated: false
+    };
   }
   function createImmutableStateInvariantMiddleware(options = {}) {
-    if (false) return () => (next) => (action) => next(action);
-    else {
-      let stringify = function(obj, serializer, indent, decycler) {
-        return JSON.stringify(obj, getSerialize(serializer, decycler), indent);
-      }, getSerialize = function(serializer, decycler) {
+    if (false) {
+      return () => (next) => (action) => next(action);
+    } else {
+      let stringify2 = function(obj, serializer, indent, decycler) {
+        return JSON.stringify(obj, getSerialize2(serializer, decycler), indent);
+      }, getSerialize2 = function(serializer, decycler) {
         let stack = [], keys2 = [];
         if (!decycler) decycler = function(_, value) {
           if (stack[0] === value) return "[Circular ~]";
@@ -31485,21 +28979,23 @@ It is disabled in production builds, so you don't need to worry about that.`);
         return function(key, value) {
           if (stack.length > 0) {
             var thisPos = stack.indexOf(this);
-            if (~thisPos) {
-              stack.splice(thisPos + 1);
-              keys2.splice(thisPos, Infinity, key);
-            } else {
-              stack.push(this);
-              keys2.push(key);
-            }
+            ~thisPos ? stack.splice(thisPos + 1) : stack.push(this);
+            ~thisPos ? keys2.splice(thisPos, Infinity, key) : keys2.push(key);
             if (~stack.indexOf(value)) value = decycler.call(this, key, value);
           } else stack.push(value);
           return serializer == null ? value : serializer.call(this, key, value);
         };
       };
-      let { isImmutable = isImmutableDefault, ignoredPaths, warnAfter = 32 } = options;
+      var stringify = stringify2, getSerialize = getSerialize2;
+      let {
+        isImmutable = isImmutableDefault,
+        ignoredPaths,
+        warnAfter = 32
+      } = options;
       const track = trackForMutations.bind(null, isImmutable, ignoredPaths);
-      return ({ getState }) => {
+      return ({
+        getState
+      }) => {
         let state = getState();
         let tracker = track(state);
         let result;
@@ -31509,14 +29005,18 @@ It is disabled in production builds, so you don't need to worry about that.`);
             state = getState();
             result = tracker.detectMutations();
             tracker = track(state);
-            if (result.wasMutated) throw new Error(false ? formatProdErrorMessage(19) : `A state mutation was detected between dispatches, in the path '${result.path || ""}'.  This may cause incorrect behavior. (https://redux.js.org/style-guide/style-guide#do-not-mutate-state)`);
+            if (result.wasMutated) {
+              throw new Error(false ? formatProdErrorMessage(19) : `A state mutation was detected between dispatches, in the path '${result.path || ""}'.  This may cause incorrect behavior. (https://redux.js.org/style-guide/style-guide#do-not-mutate-state)`);
+            }
           });
           const dispatchedAction = next(action);
           measureUtils.measureTime(() => {
             state = getState();
             result = tracker.detectMutations();
             tracker = track(state);
-            if (result.wasMutated) throw new Error(false ? formatProdErrorMessage(20) : `A state mutation was detected inside a dispatch, in the path: ${result.path || ""}. Take a look at the reducer(s) handling the action ${stringify(action)}. (https://redux.js.org/style-guide/style-guide#do-not-mutate-state)`);
+            if (result.wasMutated) {
+              throw new Error(false ? formatProdErrorMessage(20) : `A state mutation was detected inside a dispatch, in the path: ${result.path || ""}. Take a look at the reducer(s) handling the action ${stringify2(action)}. (https://redux.js.org/style-guide/style-guide#do-not-mutate-state)`);
+            }
           });
           measureUtils.warnIfExceeded();
           return dispatchedAction;
@@ -31530,29 +29030,42 @@ It is disabled in production builds, so you don't need to worry about that.`);
   }
   function findNonSerializableValue(value, path2 = "", isSerializable = isPlain, getEntries, ignoredPaths = [], cache) {
     let foundNestedSerializable;
-    if (!isSerializable(value)) return {
-      keyPath: path2 || "<root>",
-      value
-    };
-    if (typeof value !== "object" || value === null) return false;
+    if (!isSerializable(value)) {
+      return {
+        keyPath: path2 || "<root>",
+        value
+      };
+    }
+    if (typeof value !== "object" || value === null) {
+      return false;
+    }
     if (cache?.has(value)) return false;
     const entries = getEntries != null ? getEntries(value) : Object.entries(value);
     const hasIgnoredPaths = ignoredPaths.length > 0;
     for (const [key, nestedValue] of entries) {
       const nestedPath = path2 ? path2 + "." + key : key;
       if (hasIgnoredPaths) {
-        if (ignoredPaths.some((ignored) => {
-          if (ignored instanceof RegExp) return ignored.test(nestedPath);
+        const hasMatches = ignoredPaths.some((ignored) => {
+          if (ignored instanceof RegExp) {
+            return ignored.test(nestedPath);
+          }
           return nestedPath === ignored;
-        })) continue;
+        });
+        if (hasMatches) {
+          continue;
+        }
       }
-      if (!isSerializable(nestedValue)) return {
-        keyPath: nestedPath,
-        value: nestedValue
-      };
+      if (!isSerializable(nestedValue)) {
+        return {
+          keyPath: nestedPath,
+          value: nestedValue
+        };
+      }
       if (typeof nestedValue === "object") {
         foundNestedSerializable = findNonSerializableValue(nestedValue, nestedPath, isSerializable, getEntries, ignoredPaths, cache);
-        if (foundNestedSerializable) return foundNestedSerializable;
+        if (foundNestedSerializable) {
+          return foundNestedSerializable;
+        }
       }
     }
     if (cache && isNestedFrozen(value)) cache.add(value);
@@ -31567,26 +29080,48 @@ It is disabled in production builds, so you don't need to worry about that.`);
     return true;
   }
   function createSerializableStateInvariantMiddleware(options = {}) {
-    if (false) return () => (next) => (action) => next(action);
-    else {
-      const { isSerializable = isPlain, getEntries, ignoredActions = [], ignoredActionPaths = ["meta.arg", "meta.baseQueryMeta"], ignoredPaths = [], warnAfter = 32, ignoreState = false, ignoreActions = false, disableCache = false } = options;
+    if (false) {
+      return () => (next) => (action) => next(action);
+    } else {
+      const {
+        isSerializable = isPlain,
+        getEntries,
+        ignoredActions = [],
+        ignoredActionPaths = ["meta.arg", "meta.baseQueryMeta"],
+        ignoredPaths = [],
+        warnAfter = 32,
+        ignoreState = false,
+        ignoreActions = false,
+        disableCache = false
+      } = options;
       const cache = !disableCache && WeakSet ? /* @__PURE__ */ new WeakSet() : void 0;
       return (storeAPI) => (next) => (action) => {
-        if (!isAction(action)) return next(action);
+        if (!isAction(action)) {
+          return next(action);
+        }
         const result = next(action);
         const measureUtils = getTimeMeasureUtils(warnAfter, "SerializableStateInvariantMiddleware");
-        if (!ignoreActions && !(ignoredActions.length && ignoredActions.indexOf(action.type) !== -1)) measureUtils.measureTime(() => {
-          const foundActionNonSerializableValue = findNonSerializableValue(action, "", isSerializable, getEntries, ignoredActionPaths, cache);
-          if (foundActionNonSerializableValue) {
-            const { keyPath, value } = foundActionNonSerializableValue;
-            console.error(`A non-serializable value was detected in an action, in the path: \`${keyPath}\`. Value:`, value, "\nTake a look at the logic that dispatched this action: ", action, "\n(See https://redux.js.org/faq/actions#why-should-type-be-a-string-why-should-my-action-types-be-constants)", "\n(To allow non-serializable values see: https://redux-toolkit.js.org/usage/usage-guide#working-with-non-serializable-data)");
-          }
-        });
+        if (!ignoreActions && !(ignoredActions.length && ignoredActions.indexOf(action.type) !== -1)) {
+          measureUtils.measureTime(() => {
+            const foundActionNonSerializableValue = findNonSerializableValue(action, "", isSerializable, getEntries, ignoredActionPaths, cache);
+            if (foundActionNonSerializableValue) {
+              const {
+                keyPath,
+                value
+              } = foundActionNonSerializableValue;
+              console.error(`A non-serializable value was detected in an action, in the path: \`${keyPath}\`. Value:`, value, "\nTake a look at the logic that dispatched this action: ", action, "\n(See https://redux.js.org/faq/actions#why-should-type-be-a-string-or-at-least-serializable-why-should-my-action-types-be-constants)", "\n(To allow non-serializable values see: https://redux-toolkit.js.org/usage/usage-guide#working-with-non-serializable-data)");
+            }
+          });
+        }
         if (!ignoreState) {
           measureUtils.measureTime(() => {
-            const foundStateNonSerializableValue = findNonSerializableValue(storeAPI.getState(), "", isSerializable, getEntries, ignoredPaths, cache);
+            const state = storeAPI.getState();
+            const foundStateNonSerializableValue = findNonSerializableValue(state, "", isSerializable, getEntries, ignoredPaths, cache);
             if (foundStateNonSerializableValue) {
-              const { keyPath, value } = foundStateNonSerializableValue;
+              const {
+                keyPath,
+                value
+              } = foundStateNonSerializableValue;
               console.error(`A non-serializable value was detected in the state, in the path: \`${keyPath}\`. Value:`, value, `
 Take a look at the reducer(s) handling this action type: ${action.type}.
 (See https://redux.js.org/faq/organizing-state#can-i-put-functions-promises-or-other-non-serializable-items-in-my-store-state)`);
@@ -31602,26 +29137,40 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     return typeof x2 === "boolean";
   }
   var buildGetDefaultMiddleware = () => function getDefaultMiddleware(options) {
-    const { thunk: thunk$1 = true, immutableCheck = true, serializableCheck = true, actionCreatorCheck = true } = options ?? {};
+    const {
+      thunk: thunk2 = true,
+      immutableCheck = true,
+      serializableCheck = true,
+      actionCreatorCheck = true
+    } = options ?? {};
     let middlewareArray = new Tuple();
-    if (thunk$1) {
-      if (isBoolean2(thunk$1)) middlewareArray.push(thunk);
-      else middlewareArray.push(withExtraArgument(thunk$1.extraArgument));
+    if (thunk2) {
+      if (isBoolean2(thunk2)) {
+        middlewareArray.push(thunk);
+      } else {
+        middlewareArray.push(withExtraArgument(thunk2.extraArgument));
+      }
     }
     if (true) {
       if (immutableCheck) {
         let immutableOptions = {};
-        if (!isBoolean2(immutableCheck)) immutableOptions = immutableCheck;
+        if (!isBoolean2(immutableCheck)) {
+          immutableOptions = immutableCheck;
+        }
         middlewareArray.unshift(createImmutableStateInvariantMiddleware(immutableOptions));
       }
       if (serializableCheck) {
         let serializableOptions = {};
-        if (!isBoolean2(serializableCheck)) serializableOptions = serializableCheck;
+        if (!isBoolean2(serializableCheck)) {
+          serializableOptions = serializableCheck;
+        }
         middlewareArray.push(createSerializableStateInvariantMiddleware(serializableOptions));
       }
       if (actionCreatorCheck) {
         let actionCreatorOptions = {};
-        if (!isBoolean2(actionCreatorCheck)) actionCreatorOptions = actionCreatorCheck;
+        if (!isBoolean2(actionCreatorCheck)) {
+          actionCreatorOptions = actionCreatorCheck;
+        }
         middlewareArray.unshift(createActionCreatorInvariantMiddleware(actionCreatorOptions));
       }
     }
@@ -31630,7 +29179,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   var SHOULD_AUTOBATCH = "RTK_autoBatch";
   var prepareAutoBatched = () => (payload) => ({
     payload,
-    meta: { [SHOULD_AUTOBATCH]: true }
+    meta: {
+      [SHOULD_AUTOBATCH]: true
+    }
   });
   var createQueueWithTimer = (timeout) => {
     return (notify) => {
@@ -31640,8 +29191,6 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   var createRafWithFallbackTimer = (raf, timeout) => {
     return (notify) => {
       let called = false;
-      let rafId4;
-      let timerId;
       const callback = () => {
         if (called) return;
         called = true;
@@ -31649,17 +29198,22 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         clearTimeout(timerId);
         notify();
       };
-      rafId4 = raf(callback);
-      timerId = setTimeout(callback, timeout);
+      const rafId4 = raf(callback);
+      const timerId = setTimeout(callback, timeout);
     };
   };
-  var autoBatchEnhancer = (options = { type: "raf" }) => (next) => (...args) => {
+  var autoBatchEnhancer = (options = {
+    type: "raf"
+  }) => (next) => (...args) => {
     const store = next(...args);
     let notifying = true;
     let shouldNotifyAtEndOfTick = false;
     let notificationQueued = false;
     const listeners = /* @__PURE__ */ new Set();
-    const queueCallback = options.type === "tick" ? queueMicrotask : options.type === "raf" ? typeof window !== "undefined" && window.requestAnimationFrame ? createRafWithFallbackTimer(window.requestAnimationFrame, 100) : createQueueWithTimer(10) : options.type === "callback" ? options.queueNotification : createQueueWithTimer(options.timeout);
+    const queueCallback = options.type === "tick" ? queueMicrotask : options.type === "raf" ? (
+      // requestAnimationFrame won't exist in SSR environments. Fall back to a vague approximation just to keep from erroring.
+      typeof window !== "undefined" && window.requestAnimationFrame ? createRafWithFallbackTimer(window.requestAnimationFrame, 100) : createQueueWithTimer(10)
+    ) : options.type === "callback" ? options.queueNotification : createQueueWithTimer(options.timeout);
     const notifyListeners = () => {
       notificationQueued = false;
       if (shouldNotifyAtEndOfTick) {
@@ -31668,6 +29222,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       }
     };
     return Object.assign({}, store, {
+      // Override the base `store.subscribe` method to keep original listeners
+      // from running if we're delaying notifications
       subscribe(listener2) {
         const wrappedListener = () => notifying && listener2();
         const unsubscribe = store.subscribe(wrappedListener);
@@ -31677,6 +29233,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           listeners.delete(listener2);
         };
       },
+      // Override the base `store.dispatch` method so that we can check actions
+      // for the `shouldAutoBatch` flag and determine if batching is active
       dispatch(action) {
         try {
           notifying = !action?.meta?.[SHOULD_AUTOBATCH];
@@ -31695,44 +29253,80 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     });
   };
   var buildGetDefaultEnhancers = (middlewareEnhancer) => function getDefaultEnhancers(options) {
-    const { autoBatch = true } = options ?? {};
+    const {
+      autoBatch = true
+    } = options ?? {};
     let enhancerArray = new Tuple(middlewareEnhancer);
-    if (autoBatch) enhancerArray.push(autoBatchEnhancer(typeof autoBatch === "object" ? autoBatch : void 0));
+    if (autoBatch) {
+      enhancerArray.push(autoBatchEnhancer(typeof autoBatch === "object" ? autoBatch : void 0));
+    }
     return enhancerArray;
   };
   function configureStore(options) {
     const getDefaultMiddleware = buildGetDefaultMiddleware();
-    const { reducer = void 0, middleware, devTools = true, duplicateMiddlewareCheck = true, preloadedState = void 0, enhancers = void 0 } = options || {};
+    const {
+      reducer = void 0,
+      middleware,
+      devTools = true,
+      duplicateMiddlewareCheck = true,
+      preloadedState = void 0,
+      enhancers = void 0
+    } = options || {};
     let rootReducer2;
-    if (typeof reducer === "function") rootReducer2 = reducer;
-    else if (isPlainObject(reducer)) rootReducer2 = combineReducers(reducer);
-    else throw new Error(false ? formatProdErrorMessage(1) : "`reducer` is a required argument, and must be a function or an object of functions that can be passed to combineReducers");
-    if (middleware && typeof middleware !== "function") throw new Error(false ? formatProdErrorMessage(2) : "`middleware` field must be a callback");
+    if (typeof reducer === "function") {
+      rootReducer2 = reducer;
+    } else if (isPlainObject(reducer)) {
+      rootReducer2 = combineReducers(reducer);
+    } else {
+      throw new Error(false ? formatProdErrorMessage(1) : "`reducer` is a required argument, and must be a function or an object of functions that can be passed to combineReducers");
+    }
+    if (middleware && typeof middleware !== "function") {
+      throw new Error(false ? formatProdErrorMessage(2) : "`middleware` field must be a callback");
+    }
     let finalMiddleware;
     if (typeof middleware === "function") {
       finalMiddleware = middleware(getDefaultMiddleware);
-      if (!Array.isArray(finalMiddleware)) throw new Error(false ? formatProdErrorMessage(3) : "when using a middleware builder function, an array of middleware must be returned");
-    } else finalMiddleware = getDefaultMiddleware();
-    if (finalMiddleware.some((item) => typeof item !== "function")) throw new Error(false ? formatProdErrorMessage(4) : "each middleware provided to configureStore must be a function");
+      if (!Array.isArray(finalMiddleware)) {
+        throw new Error(false ? formatProdErrorMessage(3) : "when using a middleware builder function, an array of middleware must be returned");
+      }
+    } else {
+      finalMiddleware = getDefaultMiddleware();
+    }
+    if (finalMiddleware.some((item) => typeof item !== "function")) {
+      throw new Error(false ? formatProdErrorMessage(4) : "each middleware provided to configureStore must be a function");
+    }
     if (duplicateMiddlewareCheck) {
       let middlewareReferences = /* @__PURE__ */ new Set();
       finalMiddleware.forEach((middleware2) => {
-        if (middlewareReferences.has(middleware2)) throw new Error(false ? formatProdErrorMessage(42) : "Duplicate middleware references found when creating the store. Ensure that each middleware is only included once.");
+        if (middlewareReferences.has(middleware2)) {
+          throw new Error(false ? formatProdErrorMessage(42) : "Duplicate middleware references found when creating the store. Ensure that each middleware is only included once.");
+        }
         middlewareReferences.add(middleware2);
       });
     }
     let finalCompose = compose;
-    if (devTools) finalCompose = composeWithDevTools({
-      trace: true,
-      ...typeof devTools === "object" && devTools
-    });
+    if (devTools) {
+      finalCompose = composeWithDevTools({
+        // Enable capture of stack traces for dispatched Redux actions
+        trace: true,
+        ...typeof devTools === "object" && devTools
+      });
+    }
     const middlewareEnhancer = applyMiddleware(...finalMiddleware);
     const getDefaultEnhancers = buildGetDefaultEnhancers(middlewareEnhancer);
-    if (enhancers && typeof enhancers !== "function") throw new Error(false ? formatProdErrorMessage(5) : "`enhancers` field must be a callback");
+    if (enhancers && typeof enhancers !== "function") {
+      throw new Error(false ? formatProdErrorMessage(5) : "`enhancers` field must be a callback");
+    }
     let storeEnhancers = typeof enhancers === "function" ? enhancers(getDefaultEnhancers) : getDefaultEnhancers();
-    if (!Array.isArray(storeEnhancers)) throw new Error(false ? formatProdErrorMessage(6) : "`enhancers` callback must return an array");
-    if (storeEnhancers.some((item) => typeof item !== "function")) throw new Error(false ? formatProdErrorMessage(7) : "each enhancer provided to configureStore must be a function");
-    if (finalMiddleware.length && !storeEnhancers.includes(middlewareEnhancer)) console.error("middlewares were provided, but middleware enhancer was not included in final enhancers - make sure to call `getDefaultEnhancers`");
+    if (!Array.isArray(storeEnhancers)) {
+      throw new Error(false ? formatProdErrorMessage(6) : "`enhancers` callback must return an array");
+    }
+    if (storeEnhancers.some((item) => typeof item !== "function")) {
+      throw new Error(false ? formatProdErrorMessage(7) : "each enhancer provided to configureStore must be a function");
+    }
+    if (finalMiddleware.length && !storeEnhancers.includes(middlewareEnhancer)) {
+      console.error("middlewares were provided, but middleware enhancer was not included in final enhancers - make sure to call `getDefaultEnhancers`");
+    }
     const composedEnhancer = finalCompose(...storeEnhancers);
     return createStore(rootReducer2, preloadedState, composedEnhancer);
   }
@@ -31743,18 +29337,28 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     const builder = {
       addCase(typeOrActionCreator, reducer) {
         if (true) {
-          if (actionMatchers.length > 0) throw new Error(false ? formatProdErrorMessage(26) : "`builder.addCase` should only be called before calling `builder.addMatcher`");
-          if (defaultCaseReducer) throw new Error(false ? formatProdErrorMessage(27) : "`builder.addCase` should only be called before calling `builder.addDefaultCase`");
+          if (actionMatchers.length > 0) {
+            throw new Error(false ? formatProdErrorMessage(26) : "`builder.addCase` should only be called before calling `builder.addMatcher`");
+          }
+          if (defaultCaseReducer) {
+            throw new Error(false ? formatProdErrorMessage(27) : "`builder.addCase` should only be called before calling `builder.addDefaultCase`");
+          }
         }
         const type = typeof typeOrActionCreator === "string" ? typeOrActionCreator : typeOrActionCreator.type;
-        if (!type) throw new Error(false ? formatProdErrorMessage(28) : "`builder.addCase` cannot be called with an empty action type");
-        if (type in actionsMap) throw new Error(false ? formatProdErrorMessage(29) : `\`builder.addCase\` cannot be called with two reducers for the same action type '${type}'`);
+        if (!type) {
+          throw new Error(false ? formatProdErrorMessage(28) : "`builder.addCase` cannot be called with an empty action type");
+        }
+        if (type in actionsMap) {
+          throw new Error(false ? formatProdErrorMessage(29) : `\`builder.addCase\` cannot be called with two reducers for the same action type '${type}'`);
+        }
         actionsMap[type] = reducer;
         return builder;
       },
       addAsyncThunk(asyncThunk, reducers2) {
         if (true) {
-          if (defaultCaseReducer) throw new Error(false ? formatProdErrorMessage(43) : "`builder.addAsyncThunk` should only be called before calling `builder.addDefaultCase`");
+          if (defaultCaseReducer) {
+            throw new Error(false ? formatProdErrorMessage(43) : "`builder.addAsyncThunk` should only be called before calling `builder.addDefaultCase`");
+          }
         }
         if (reducers2.pending) actionsMap[asyncThunk.pending.type] = reducers2.pending;
         if (reducers2.rejected) actionsMap[asyncThunk.rejected.type] = reducers2.rejected;
@@ -31767,7 +29371,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       },
       addMatcher(matcher, reducer) {
         if (true) {
-          if (defaultCaseReducer) throw new Error(false ? formatProdErrorMessage(30) : "`builder.addMatcher` should only be called before calling `builder.addDefaultCase`");
+          if (defaultCaseReducer) {
+            throw new Error(false ? formatProdErrorMessage(30) : "`builder.addMatcher` should only be called before calling `builder.addDefaultCase`");
+          }
         }
         actionMatchers.push({
           matcher,
@@ -31777,52 +29383,66 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       },
       addDefaultCase(reducer) {
         if (true) {
-          if (defaultCaseReducer) throw new Error(false ? formatProdErrorMessage(31) : "`builder.addDefaultCase` can only be called once");
+          if (defaultCaseReducer) {
+            throw new Error(false ? formatProdErrorMessage(31) : "`builder.addDefaultCase` can only be called once");
+          }
         }
         defaultCaseReducer = reducer;
         return builder;
       }
     };
     builderCallback(builder);
-    return [
-      actionsMap,
-      actionMatchers,
-      defaultCaseReducer
-    ];
+    return [actionsMap, actionMatchers, defaultCaseReducer];
   }
   function isStateFunction(x2) {
     return typeof x2 === "function";
   }
   function createReducer(initialState15, mapOrBuilderCallback) {
     if (true) {
-      if (typeof mapOrBuilderCallback === "object") throw new Error(false ? formatProdErrorMessage(8) : "The object notation for `createReducer` has been removed. Please use the 'builder callback' notation instead: https://redux-toolkit.js.org/api/createReducer");
+      if (typeof mapOrBuilderCallback === "object") {
+        throw new Error(false ? formatProdErrorMessage(8) : "The object notation for `createReducer` has been removed. Please use the 'builder callback' notation instead: https://redux-toolkit.js.org/api/createReducer");
+      }
     }
     let [actionsMap, finalActionMatchers, finalDefaultCaseReducer] = executeReducerBuilderCallback(mapOrBuilderCallback);
     let getInitialState;
-    if (isStateFunction(initialState15)) getInitialState = () => freezeDraftable(initialState15());
-    else {
+    if (isStateFunction(initialState15)) {
+      getInitialState = () => freezeDraftable(initialState15());
+    } else {
       const frozenInitialState = freezeDraftable(initialState15);
       getInitialState = () => frozenInitialState;
     }
     function reducer(state = getInitialState(), action) {
-      let caseReducers = [actionsMap[action.type], ...finalActionMatchers.filter(({ matcher }) => matcher(action)).map(({ reducer: reducer2 }) => reducer2)];
-      if (caseReducers.filter((cr) => !!cr).length === 0) caseReducers = [finalDefaultCaseReducer];
+      let caseReducers = [actionsMap[action.type], ...finalActionMatchers.filter(({
+        matcher
+      }) => matcher(action)).map(({
+        reducer: reducer2
+      }) => reducer2)];
+      if (caseReducers.filter((cr) => !!cr).length === 0) {
+        caseReducers = [finalDefaultCaseReducer];
+      }
       return caseReducers.reduce((previousState, caseReducer) => {
         if (caseReducer) {
           if (isDraft(previousState)) {
-            const result = caseReducer(previousState, action);
-            if (result === void 0) return previousState;
+            const draft = previousState;
+            const result = caseReducer(draft, action);
+            if (result === void 0) {
+              return previousState;
+            }
             return result;
           } else if (!isDraftable(previousState)) {
             const result = caseReducer(previousState, action);
             if (result === void 0) {
-              if (previousState === null) return previousState;
-              throw new Error(false ? formatProdErrorMessage(9) : "A case reducer on a non-draftable value must not return undefined");
+              if (previousState === null) {
+                return previousState;
+              }
+              throw Error("A case reducer on a non-draftable value must not return undefined");
             }
             return result;
-          } else return produce(previousState, (draft) => {
-            return caseReducer(draft, action);
-          });
+          } else {
+            return produce(previousState, (draft) => {
+              return caseReducer(draft, action);
+            });
+          }
         }
         return previousState;
       }, state);
@@ -31831,8 +29451,11 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     return reducer;
   }
   var matches2 = (matcher, action) => {
-    if (hasMatchFunction(matcher)) return matcher.match(action);
-    else return matcher(action);
+    if (hasMatchFunction(matcher)) {
+      return matcher.match(action);
+    } else {
+      return matcher(action);
+    }
   };
   function isAnyOf(...matchers) {
     return (action) => {
@@ -31843,40 +29466,51 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   var nanoid = (size = 21) => {
     let id = "";
     let i = size;
-    while (i--) id += urlAlphabet[Math.random() * 64 | 0];
+    while (i--) {
+      id += urlAlphabet[Math.random() * 64 | 0];
+    }
     return id;
   };
-  var commonProperties = [
-    "name",
-    "message",
-    "stack",
-    "code"
-  ];
+  var commonProperties = ["name", "message", "stack", "code"];
   var RejectWithValue = class {
-    payload;
-    meta;
-    _type;
     constructor(payload, meta) {
       this.payload = payload;
       this.meta = meta;
     }
+    payload;
+    meta;
+    /*
+    type-only property to distinguish between RejectWithValue and FulfillWithMeta
+    does not exist at runtime
+    */
+    _type;
   };
   var FulfillWithMeta = class {
-    payload;
-    meta;
-    _type;
     constructor(payload, meta) {
       this.payload = payload;
       this.meta = meta;
     }
+    payload;
+    meta;
+    /*
+    type-only property to distinguish between RejectWithValue and FulfillWithMeta
+    does not exist at runtime
+    */
+    _type;
   };
   var miniSerializeError = (value) => {
     if (typeof value === "object" && value !== null) {
       const simpleError = {};
-      for (const property2 of commonProperties) if (typeof value[property2] === "string") simpleError[property2] = value[property2];
+      for (const property2 of commonProperties) {
+        if (typeof value[property2] === "string") {
+          simpleError[property2] = value[property2];
+        }
+      }
       return simpleError;
     }
-    return { message: String(value) };
+    return {
+      message: String(value)
+    };
   };
   var externalAbortMessage = "External signal was aborted";
   var createAsyncThunk = /* @__PURE__ */ (() => {
@@ -31906,13 +29540,15 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           ...meta || {},
           arg,
           requestId,
-          rejectedWithValue: payload !== void 0,
+          rejectedWithValue: !!payload,
           requestStatus: "rejected",
           aborted: error?.name === "AbortError",
           condition: error?.name === "ConditionError"
         }
       }));
-      function actionCreator(arg, { signal } = {}) {
+      function actionCreator(arg, {
+        signal
+      } = {}) {
         return (dispatch, getState, extra) => {
           const requestId = options?.idGenerator ? options.idGenerator(arg) : nanoid();
           const abortController = new AbortController();
@@ -31923,8 +29559,13 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
             abortController.abort();
           }
           if (signal) {
-            if (signal.aborted) abort(externalAbortMessage);
-            else signal.addEventListener("abort", () => abort(externalAbortMessage), { once: true });
+            if (signal.aborted) {
+              abort(externalAbortMessage);
+            } else {
+              signal.addEventListener("abort", () => abort(externalAbortMessage), {
+                once: true
+              });
+            }
           }
           const promise = (async function() {
             let finalAction;
@@ -31933,15 +29574,15 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
                 getState,
                 extra
               });
-              if (isThenable(conditionResult)) conditionResult = await conditionResult;
-              if (conditionResult === false) throw {
-                name: "ConditionError",
-                message: "Aborted due to condition callback returning false."
-              };
-              if (abortController.signal.aborted) throw {
-                name: "AbortError",
-                message: abortReason || "Aborted"
-              };
+              if (isThenable(conditionResult)) {
+                conditionResult = await conditionResult;
+              }
+              if (conditionResult === false || abortController.signal.aborted) {
+                throw {
+                  name: "ConditionError",
+                  message: "Aborted due to condition callback returning false."
+                };
+              }
               const abortedPromise = new Promise((_, reject) => {
                 abortHandler = () => {
                   reject({
@@ -31949,7 +29590,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
                     message: abortReason || "Aborted"
                   });
                 };
-                abortController.signal.addEventListener("abort", abortHandler, { once: true });
+                abortController.signal.addEventListener("abort", abortHandler, {
+                  once: true
+                });
               });
               dispatch(pending(requestId, arg, options?.getPendingMeta?.({
                 requestId,
@@ -31972,16 +29615,25 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
                   return new FulfillWithMeta(value, meta);
                 })
               })).then((result) => {
-                if (result instanceof RejectWithValue) throw result;
-                if (result instanceof FulfillWithMeta) return fulfilled(result.payload, requestId, arg, result.meta);
+                if (result instanceof RejectWithValue) {
+                  throw result;
+                }
+                if (result instanceof FulfillWithMeta) {
+                  return fulfilled(result.payload, requestId, arg, result.meta);
+                }
                 return fulfilled(result, requestId, arg);
               })]);
             } catch (err) {
               finalAction = err instanceof RejectWithValue ? rejected(null, requestId, arg, err.payload, err.meta) : rejected(err, requestId, arg);
             } finally {
-              if (abortHandler) abortController.signal.removeEventListener("abort", abortHandler);
+              if (abortHandler) {
+                abortController.signal.removeEventListener("abort", abortHandler);
+              }
             }
-            if (!(options && !options.dispatchConditionRejection && rejected.match(finalAction) && finalAction.meta.condition)) dispatch(finalAction);
+            const skipDispatch = options && !options.dispatchConditionRejection && rejected.match(finalAction) && finalAction.meta.condition;
+            if (!skipDispatch) {
+              dispatch(finalAction);
+            }
             return finalAction;
           })();
           return Object.assign(promise, {
@@ -32006,25 +29658,40 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     return createAsyncThunk2;
   })();
   function unwrapResult(action) {
-    if (action.meta && action.meta.rejectedWithValue) throw action.payload;
-    if (action.error) throw action.error;
+    if (action.meta && action.meta.rejectedWithValue) {
+      throw action.payload;
+    }
+    if (action.error) {
+      throw action.error;
+    }
     return action.payload;
   }
   function isThenable(value) {
     return value !== null && typeof value === "object" && typeof value.then === "function";
   }
   var asyncThunkSymbol = /* @__PURE__ */ Symbol.for("rtk-slice-createasyncthunk");
-  var asyncThunkCreator = { [asyncThunkSymbol]: createAsyncThunk };
+  var asyncThunkCreator = {
+    [asyncThunkSymbol]: createAsyncThunk
+  };
   function getType(slice2, actionKey) {
     return `${slice2}/${actionKey}`;
   }
-  function buildCreateSlice({ creators } = {}) {
+  function buildCreateSlice({
+    creators
+  } = {}) {
     const cAT = creators?.asyncThunk?.[asyncThunkSymbol];
     return function createSlice2(options) {
-      const { name, reducerPath = name } = options;
-      if (!name) throw new Error(false ? formatProdErrorMessage(11) : "`name` is a required option for createSlice");
+      const {
+        name,
+        reducerPath = name
+      } = options;
+      if (!name) {
+        throw new Error(false ? formatProdErrorMessage(11) : "`name` is a required option for createSlice");
+      }
       if (typeof process !== "undefined" && true) {
-        if (options.initialState === void 0) console.error("You must provide an `initialState` value that is not `undefined`. You may have misspelled `initialState`");
+        if (options.initialState === void 0) {
+          console.error("You must provide an `initialState` value that is not `undefined`. You may have misspelled `initialState`");
+        }
       }
       const reducers2 = (typeof options.reducers === "function" ? options.reducers(buildReducerCreators()) : options.reducers) || {};
       const reducerNames = Object.keys(reducers2);
@@ -32037,8 +29704,12 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       const contextMethods = {
         addCase(typeOrActionCreator, reducer2) {
           const type = typeof typeOrActionCreator === "string" ? typeOrActionCreator : typeOrActionCreator.type;
-          if (!type) throw new Error(false ? formatProdErrorMessage(12) : "`context.addCase` cannot be called with an empty action type");
-          if (type in context.sliceCaseReducersByType) throw new Error(false ? formatProdErrorMessage(13) : "`context.addCase` cannot be called with two reducers for the same action type: " + type);
+          if (!type) {
+            throw new Error(false ? formatProdErrorMessage(12) : "`context.addCase` cannot be called with an empty action type");
+          }
+          if (type in context.sliceCaseReducersByType) {
+            throw new Error(false ? formatProdErrorMessage(13) : "`context.addCase` cannot be called with two reducers for the same action type: " + type);
+          }
           context.sliceCaseReducersByType[type] = reducer2;
           return contextMethods;
         },
@@ -32065,12 +29736,17 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           type: getType(name, reducerName),
           createNotation: typeof options.reducers === "function"
         };
-        if (isAsyncThunkSliceReducerDefinition(reducerDefinition)) handleThunkCaseReducerDefinition(reducerDetails, reducerDefinition, contextMethods, cAT);
-        else handleNormalReducerDefinition(reducerDetails, reducerDefinition, contextMethods);
+        if (isAsyncThunkSliceReducerDefinition(reducerDefinition)) {
+          handleThunkCaseReducerDefinition(reducerDetails, reducerDefinition, contextMethods, cAT);
+        } else {
+          handleNormalReducerDefinition(reducerDetails, reducerDefinition, contextMethods);
+        }
       });
       function buildReducer() {
         if (true) {
-          if (typeof options.extraReducers === "object") throw new Error(false ? formatProdErrorMessage(14) : "The object notation for `createSlice.extraReducers` has been removed. Please use the 'builder callback' notation instead: https://redux-toolkit.js.org/api/createSlice");
+          if (typeof options.extraReducers === "object") {
+            throw new Error(false ? formatProdErrorMessage(14) : "The object notation for `createSlice.extraReducers` has been removed. Please use the 'builder callback' notation instead: https://redux-toolkit.js.org/api/createSlice");
+          }
         }
         const [extraReducers = {}, actionMatchers = [], defaultCaseReducer = void 0] = typeof options.extraReducers === "function" ? executeReducerBuilderCallback(options.extraReducers) : [options.extraReducers];
         const finalCaseReducers = {
@@ -32078,10 +29754,18 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           ...context.sliceCaseReducersByType
         };
         return createReducer(options.initialState, (builder) => {
-          for (let key in finalCaseReducers) builder.addCase(key, finalCaseReducers[key]);
-          for (let sM of context.sliceMatchers) builder.addMatcher(sM.matcher, sM.reducer);
-          for (let m of actionMatchers) builder.addMatcher(m.matcher, m.reducer);
-          if (defaultCaseReducer) builder.addDefaultCase(defaultCaseReducer);
+          for (let key in finalCaseReducers) {
+            builder.addCase(key, finalCaseReducers[key]);
+          }
+          for (let sM of context.sliceMatchers) {
+            builder.addMatcher(sM.matcher, sM.reducer);
+          }
+          for (let m of actionMatchers) {
+            builder.addMatcher(m.matcher, m.reducer);
+          }
+          if (defaultCaseReducer) {
+            builder.addDefaultCase(defaultCaseReducer);
+          }
         });
       }
       const selectSelf = (state) => state;
@@ -32100,15 +29784,21 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         function selectSlice(state) {
           let sliceState = state[reducerPath2];
           if (typeof sliceState === "undefined") {
-            if (injected) sliceState = getOrInsertComputed(injectedStateCache, selectSlice, getInitialState);
-            else if (true) throw new Error(false ? formatProdErrorMessage(15) : "selectSlice returned undefined for an uninjected slice reducer");
+            if (injected) {
+              sliceState = getOrInsertComputed(injectedStateCache, selectSlice, getInitialState);
+            } else if (true) {
+              throw new Error(false ? formatProdErrorMessage(15) : "selectSlice returned undefined for an uninjected slice reducer");
+            }
           }
           return sliceState;
         }
         function getSelectors(selectState = selectSelf) {
-          return getOrInsertComputed(getOrInsertComputed(injectedSelectorCache, injected, () => /* @__PURE__ */ new WeakMap()), selectState, () => {
+          const selectorCache = getOrInsertComputed(injectedSelectorCache, injected, () => /* @__PURE__ */ new WeakMap());
+          return getOrInsertComputed(selectorCache, selectState, () => {
             const map2 = {};
-            for (const [name2, selector] of Object.entries(options.selectors ?? {})) map2[name2] = wrapSelector(selector, selectState, () => getOrInsertComputed(injectedStateCache, selectState, getInitialState), injected);
+            for (const [name2, selector] of Object.entries(options.selectors ?? {})) {
+              map2[name2] = wrapSelector(selector, selectState, () => getOrInsertComputed(injectedStateCache, selectState, getInitialState), injected);
+            }
             return map2;
           });
         }
@@ -32128,7 +29818,10 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         caseReducers: context.sliceCaseReducersByName,
         getInitialState,
         ...makeSelectorProps(reducerPath),
-        injectInto(injectable, { reducerPath: pathOpt, ...config } = {}) {
+        injectInto(injectable, {
+          reducerPath: pathOpt,
+          ...config
+        } = {}) {
           const newReducerPath = pathOpt ?? reducerPath;
           injectable.inject({
             reducerPath: newReducerPath,
@@ -32147,8 +29840,11 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     function wrapper(rootState, ...args) {
       let sliceState = selectState(rootState);
       if (typeof sliceState === "undefined") {
-        if (injected) sliceState = getInitialState();
-        else if (true) throw new Error(false ? formatProdErrorMessage(16) : "selectState returned undefined for an uninjected slice reducer");
+        if (injected) {
+          sliceState = getInitialState();
+        } else if (true) {
+          throw new Error(false ? formatProdErrorMessage(16) : "selectState returned undefined for an uninjected slice reducer");
+        }
       }
       return selector(sliceState, ...args);
     }
@@ -32167,9 +29863,16 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     asyncThunk.withTypes = () => asyncThunk;
     return {
       reducer(caseReducer) {
-        return Object.assign({ [caseReducer.name](...args) {
-          return caseReducer(...args);
-        } }[caseReducer.name], { _reducerDefinitionType: "reducer" });
+        return Object.assign({
+          // hack so the wrapping function has the same name as the original
+          // we need to create a wrapper so the `reducerDefinitionType` is not assigned to the original
+          [caseReducer.name](...args) {
+            return caseReducer(...args);
+          }
+        }[caseReducer.name], {
+          _reducerDefinitionType: "reducer"
+          /* reducer */
+        });
       },
       preparedReducer(prepare, reducer) {
         return {
@@ -32181,14 +29884,22 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       asyncThunk
     };
   }
-  function handleNormalReducerDefinition({ type, reducerName, createNotation }, maybeReducerWithPrepare, context) {
+  function handleNormalReducerDefinition({
+    type,
+    reducerName,
+    createNotation
+  }, maybeReducerWithPrepare, context) {
     let caseReducer;
     let prepareCallback;
     if ("reducer" in maybeReducerWithPrepare) {
-      if (createNotation && !isCaseReducerWithPrepareDefinition(maybeReducerWithPrepare)) throw new Error(false ? formatProdErrorMessage(17) : "Please use the `create.preparedReducer` notation for prepared action creators with the `create` notation.");
+      if (createNotation && !isCaseReducerWithPrepareDefinition(maybeReducerWithPrepare)) {
+        throw new Error(false ? formatProdErrorMessage(17) : "Please use the `create.preparedReducer` notation for prepared action creators with the `create` notation.");
+      }
       caseReducer = maybeReducerWithPrepare.reducer;
       prepareCallback = maybeReducerWithPrepare.prepare;
-    } else caseReducer = maybeReducerWithPrepare;
+    } else {
+      caseReducer = maybeReducerWithPrepare;
+    }
     context.addCase(type, caseReducer).exposeCaseReducer(reducerName, caseReducer).exposeAction(reducerName, prepareCallback ? createAction(type, prepareCallback) : createAction(type));
   }
   function isAsyncThunkSliceReducerDefinition(reducerDefinition) {
@@ -32197,23 +29908,43 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   function isCaseReducerWithPrepareDefinition(reducerDefinition) {
     return reducerDefinition._reducerDefinitionType === "reducerWithPrepare";
   }
-  function handleThunkCaseReducerDefinition({ type, reducerName }, reducerDefinition, context, cAT) {
-    if (!cAT) throw new Error(false ? formatProdErrorMessage(18) : "Cannot use `create.asyncThunk` in the built-in `createSlice`. Use `buildCreateSlice({ creators: { asyncThunk: asyncThunkCreator } })` to create a customised version of `createSlice`.");
-    const { payloadCreator, fulfilled, pending, rejected, settled, options } = reducerDefinition;
+  function handleThunkCaseReducerDefinition({
+    type,
+    reducerName
+  }, reducerDefinition, context, cAT) {
+    if (!cAT) {
+      throw new Error(false ? formatProdErrorMessage(18) : "Cannot use `create.asyncThunk` in the built-in `createSlice`. Use `buildCreateSlice({ creators: { asyncThunk: asyncThunkCreator } })` to create a customised version of `createSlice`.");
+    }
+    const {
+      payloadCreator,
+      fulfilled,
+      pending,
+      rejected,
+      settled,
+      options
+    } = reducerDefinition;
     const thunk2 = cAT(type, payloadCreator, options);
     context.exposeAction(reducerName, thunk2);
-    if (fulfilled) context.addCase(thunk2.fulfilled, fulfilled);
-    if (pending) context.addCase(thunk2.pending, pending);
-    if (rejected) context.addCase(thunk2.rejected, rejected);
-    if (settled) context.addMatcher(thunk2.settled, settled);
+    if (fulfilled) {
+      context.addCase(thunk2.fulfilled, fulfilled);
+    }
+    if (pending) {
+      context.addCase(thunk2.pending, pending);
+    }
+    if (rejected) {
+      context.addCase(thunk2.rejected, rejected);
+    }
+    if (settled) {
+      context.addMatcher(thunk2.settled, settled);
+    }
     context.exposeCaseReducer(reducerName, {
-      fulfilled: fulfilled || noop$1,
-      pending: pending || noop$1,
-      rejected: rejected || noop$1,
-      settled: settled || noop$1
+      fulfilled: fulfilled || noop3,
+      pending: pending || noop3,
+      rejected: rejected || noop3,
+      settled: settled || noop3
     });
   }
-  function noop$1() {
+  function noop3() {
   }
   var task = "task";
   var listener = "listener";
@@ -32224,32 +29955,38 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   var listenerCancelled = `${listener}-${cancelled}`;
   var listenerCompleted = `${listener}-${completed}`;
   var TaskAbortError = class {
-    code;
-    name = "TaskAbortError";
-    message;
     constructor(code) {
       this.code = code;
       this.message = `${task} ${cancelled} (reason: ${code})`;
     }
+    code;
+    name = "TaskAbortError";
+    message;
   };
   var assertFunction = (func, expected) => {
-    if (typeof func !== "function") throw new TypeError(false ? formatProdErrorMessage(32) : `${expected} is not a function`);
+    if (typeof func !== "function") {
+      throw new TypeError(false ? formatProdErrorMessage(32) : `${expected} is not a function`);
+    }
   };
-  var noop3 = () => {
+  var noop22 = () => {
   };
-  var catchRejection = (promise, onError = noop3) => {
+  var catchRejection = (promise, onError = noop22) => {
     promise.catch(onError);
     return promise;
   };
   var addAbortSignalListener = (abortSignal, callback) => {
-    abortSignal.addEventListener("abort", callback, { once: true });
+    abortSignal.addEventListener("abort", callback, {
+      once: true
+    });
     return () => abortSignal.removeEventListener("abort", callback);
   };
   var validateActive = (signal) => {
-    if (signal.aborted) throw new TaskAbortError(signal.reason);
+    if (signal.aborted) {
+      throw new TaskAbortError(signal.reason);
+    }
   };
   function raceWithSignal(signal, promise) {
-    let cleanup = noop3;
+    let cleanup = noop22;
     return new Promise((resolve, reject) => {
       const notifyRejection = () => reject(new TaskAbortError(signal.reason));
       if (signal.aborted) {
@@ -32259,15 +29996,16 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       cleanup = addAbortSignalListener(signal, notifyRejection);
       promise.finally(() => cleanup()).then(resolve, reject);
     }).finally(() => {
-      cleanup = noop3;
+      cleanup = noop22;
     });
   }
   var runTask = async (task2, cleanUp) => {
     try {
       await Promise.resolve();
+      const value = await task2();
       return {
         status: "ok",
-        value: await task2()
+        value
       };
     } catch (error) {
       return {
@@ -32292,7 +30030,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       return pause(new Promise((resolve) => setTimeout(resolve, timeoutMs)));
     };
   };
-  var { assign } = Object;
+  var {
+    assign
+  } = Object;
   var INTERNAL_NIL_TOKEN = {};
   var alm = "listenerMiddleware";
   var createFork = (parentAbortSignal, parentBlockingPromises) => {
@@ -32312,7 +30052,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         validateActive(childAbortController.signal);
         return result2;
       }, () => childAbortController.abort(taskCompleted));
-      if (opts?.autoJoin) parentBlockingPromises.push(result.catch(noop3));
+      if (opts?.autoJoin) {
+        parentBlockingPromises.push(result.catch(noop22));
+      }
       return {
         result: createPause(parentAbortSignal)(result),
         cancel() {
@@ -32326,24 +30068,23 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       validateActive(signal);
       let unsubscribe = () => {
       };
-      const promises = [new Promise((resolve, reject) => {
+      const tuplePromise = new Promise((resolve, reject) => {
         let stopListening = startListening({
           predicate,
           effect: (action, listenerApi) => {
             listenerApi.unsubscribe();
-            resolve([
-              action,
-              listenerApi.getState(),
-              listenerApi.getOriginalState()
-            ]);
+            resolve([action, listenerApi.getState(), listenerApi.getOriginalState()]);
           }
         });
         unsubscribe = () => {
           stopListening();
           reject();
         };
-      })];
-      if (timeout != null) promises.push(new Promise((resolve) => setTimeout(resolve, timeout, null)));
+      });
+      const promises = [tuplePromise];
+      if (timeout != null) {
+        promises.push(new Promise((resolve) => setTimeout(resolve, timeout, null)));
+      }
       try {
         const output = await raceWithSignal(signal, Promise.race(promises));
         validateActive(signal);
@@ -32355,14 +30096,24 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     return ((predicate, timeout) => catchRejection(take(predicate, timeout)));
   };
   var getListenerEntryPropsFrom = (options) => {
-    let { type, actionCreator, matcher, predicate, effect } = options;
-    if (type) predicate = createAction(type).match;
-    else if (actionCreator) {
+    let {
+      type,
+      actionCreator,
+      matcher,
+      predicate,
+      effect
+    } = options;
+    if (type) {
+      predicate = createAction(type).match;
+    } else if (actionCreator) {
       type = actionCreator.type;
       predicate = actionCreator.match;
-    } else if (matcher) predicate = matcher;
-    else if (predicate) {
-    } else throw new Error(false ? formatProdErrorMessage(21) : "Creating or removing a listener requires one of the known fields for matching an action");
+    } else if (matcher) {
+      predicate = matcher;
+    } else if (predicate) {
+    } else {
+      throw new Error(false ? formatProdErrorMessage(21) : "Creating or removing a listener requires one of the known fields for matching an action");
+    }
     assertFunction(effect, "options.listener");
     return {
       predicate,
@@ -32371,8 +30122,12 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     };
   };
   var createListenerEntry = /* @__PURE__ */ assign((options) => {
-    const { type, predicate, effect } = getListenerEntryPropsFrom(options);
-    return {
+    const {
+      type,
+      predicate,
+      effect
+    } = getListenerEntryPropsFrom(options);
+    const entry = {
       id: nanoid(),
       effect,
       type,
@@ -32382,11 +30137,19 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         throw new Error(false ? formatProdErrorMessage(22) : "Unsubscribe not initialized");
       }
     };
-  }, { withTypes: () => createListenerEntry });
+    return entry;
+  }, {
+    withTypes: () => createListenerEntry
+  });
   var findListenerEntry = (listenerMap, options) => {
-    const { type, effect, predicate } = getListenerEntryPropsFrom(options);
+    const {
+      type,
+      effect,
+      predicate
+    } = getListenerEntryPropsFrom(options);
     return Array.from(listenerMap.values()).find((entry) => {
-      return (typeof type === "string" ? entry.type === type : entry.predicate === predicate) && entry.effect === effect;
+      const matchPredicateOrType = typeof type === "string" ? entry.type === type : entry.predicate === predicate;
+      return matchPredicateOrType && entry.effect === effect;
     });
   };
   var cancelActiveListeners = (entry) => {
@@ -32396,7 +30159,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   };
   var createClearListenerMiddleware = (listenerMap, executingListeners) => {
     return () => {
-      for (const listener2 of executingListeners.keys()) cancelActiveListeners(listener2);
+      for (const listener2 of executingListeners.keys()) {
+        cancelActiveListeners(listener2);
+      }
       listenerMap.clear();
     };
   };
@@ -32409,9 +30174,13 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       }, 0);
     }
   };
-  var addListener = /* @__PURE__ */ assign(/* @__PURE__ */ createAction(`${alm}/add`), { withTypes: () => addListener });
+  var addListener = /* @__PURE__ */ assign(/* @__PURE__ */ createAction(`${alm}/add`), {
+    withTypes: () => addListener
+  });
   var clearAllListeners = /* @__PURE__ */ createAction(`${alm}/removeAll`);
-  var removeListener = /* @__PURE__ */ assign(/* @__PURE__ */ createAction(`${alm}/remove`), { withTypes: () => removeListener });
+  var removeListener = /* @__PURE__ */ assign(/* @__PURE__ */ createAction(`${alm}/remove`), {
+    withTypes: () => removeListener
+  });
   var defaultErrorHandler = (...args) => {
     console.error(`${alm}/error`, ...args);
   };
@@ -32424,33 +30193,47 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     };
     const untrackExecutingListener = (entry) => {
       const count = executingListeners.get(entry) ?? 1;
-      if (count === 1) executingListeners.delete(entry);
-      else executingListeners.set(entry, count - 1);
+      if (count === 1) {
+        executingListeners.delete(entry);
+      } else {
+        executingListeners.set(entry, count - 1);
+      }
     };
-    const { extra, onError = defaultErrorHandler } = middlewareOptions;
+    const {
+      extra,
+      onError = defaultErrorHandler
+    } = middlewareOptions;
     assertFunction(onError, "onError");
     const insertEntry = (entry) => {
       entry.unsubscribe = () => listenerMap.delete(entry.id);
       listenerMap.set(entry.id, entry);
       return (cancelOptions) => {
         entry.unsubscribe();
-        if (cancelOptions?.cancelActive) cancelActiveListeners(entry);
+        if (cancelOptions?.cancelActive) {
+          cancelActiveListeners(entry);
+        }
       };
     };
     const startListening = ((options) => {
       const entry = findListenerEntry(listenerMap, options) ?? createListenerEntry(options);
       return insertEntry(entry);
     });
-    assign(startListening, { withTypes: () => startListening });
+    assign(startListening, {
+      withTypes: () => startListening
+    });
     const stopListening = (options) => {
       const entry = findListenerEntry(listenerMap, options);
       if (entry) {
         entry.unsubscribe();
-        if (options.cancelActive) cancelActiveListeners(entry);
+        if (options.cancelActive) {
+          cancelActiveListeners(entry);
+        }
       }
       return !!entry;
     };
-    assign(stopListening, { withTypes: () => stopListening });
+    assign(stopListening, {
+      withTypes: () => stopListening
+    });
     const notifyListener = async (entry, action, api, getOriginalState) => {
       const internalTaskController = new AbortController();
       const take = createTakePattern(startListening, internalTaskController.signal);
@@ -32458,37 +30241,45 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       try {
         entry.pending.add(internalTaskController);
         trackExecutingListener(entry);
-        await Promise.resolve(entry.effect(action, assign({}, api, {
-          getOriginalState,
-          condition: (predicate, timeout) => take(predicate, timeout).then(Boolean),
-          take,
-          delay: createDelay(internalTaskController.signal),
-          pause: createPause(internalTaskController.signal),
-          extra,
-          signal: internalTaskController.signal,
-          fork: createFork(internalTaskController.signal, autoJoinPromises),
-          unsubscribe: entry.unsubscribe,
-          subscribe: () => {
-            listenerMap.set(entry.id, entry);
-          },
-          cancelActiveListeners: () => {
-            entry.pending.forEach((controller, _, set2) => {
-              if (controller !== internalTaskController) {
-                controller.abort(listenerCancelled);
-                set2.delete(controller);
-              }
-            });
-          },
-          cancel: () => {
-            internalTaskController.abort(listenerCancelled);
-            entry.pending.delete(internalTaskController);
-          },
-          throwIfCancelled: () => {
-            validateActive(internalTaskController.signal);
-          }
-        })));
+        await Promise.resolve(entry.effect(
+          action,
+          // Use assign() rather than ... to avoid extra helper functions added to bundle
+          assign({}, api, {
+            getOriginalState,
+            condition: (predicate, timeout) => take(predicate, timeout).then(Boolean),
+            take,
+            delay: createDelay(internalTaskController.signal),
+            pause: createPause(internalTaskController.signal),
+            extra,
+            signal: internalTaskController.signal,
+            fork: createFork(internalTaskController.signal, autoJoinPromises),
+            unsubscribe: entry.unsubscribe,
+            subscribe: () => {
+              listenerMap.set(entry.id, entry);
+            },
+            cancelActiveListeners: () => {
+              entry.pending.forEach((controller, _, set2) => {
+                if (controller !== internalTaskController) {
+                  controller.abort(listenerCancelled);
+                  set2.delete(controller);
+                }
+              });
+            },
+            cancel: () => {
+              internalTaskController.abort(listenerCancelled);
+              entry.pending.delete(internalTaskController);
+            },
+            throwIfCancelled: () => {
+              validateActive(internalTaskController.signal);
+            }
+          })
+        ));
       } catch (listenerError) {
-        if (!(listenerError instanceof TaskAbortError)) safelyNotifyError(onError, listenerError, { raisedBy: "effect" });
+        if (!(listenerError instanceof TaskAbortError)) {
+          safelyNotifyError(onError, listenerError, {
+            raisedBy: "effect"
+          });
+        }
       } finally {
         await Promise.all(autoJoinPromises);
         internalTaskController.abort(listenerCompleted);
@@ -32498,16 +30289,24 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     };
     const clearListenerMiddleware = createClearListenerMiddleware(listenerMap, executingListeners);
     const middleware = (api) => (next) => (action) => {
-      if (!isAction(action)) return next(action);
-      if (addListener.match(action)) return startListening(action.payload);
+      if (!isAction(action)) {
+        return next(action);
+      }
+      if (addListener.match(action)) {
+        return startListening(action.payload);
+      }
       if (clearAllListeners.match(action)) {
         clearListenerMiddleware();
         return;
       }
-      if (removeListener.match(action)) return stopListening(action.payload);
+      if (removeListener.match(action)) {
+        return stopListening(action.payload);
+      }
       let originalState = api.getState();
       const getOriginalState = () => {
-        if (originalState === INTERNAL_NIL_TOKEN) throw new Error(false ? formatProdErrorMessage(23) : `${alm}: getOriginalState can only be called synchronously`);
+        if (originalState === INTERNAL_NIL_TOKEN) {
+          throw new Error(false ? formatProdErrorMessage(23) : `${alm}: getOriginalState can only be called synchronously`);
+        }
         return originalState;
       };
       let result;
@@ -32522,9 +30321,13 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
               runListener = entry.predicate(action, currentState, originalState);
             } catch (predicateError) {
               runListener = false;
-              safelyNotifyError(onError, predicateError, { raisedBy: "predicate" });
+              safelyNotifyError(onError, predicateError, {
+                raisedBy: "predicate"
+              });
             }
-            if (!runListener) continue;
+            if (!runListener) {
+              continue;
+            }
             notifyListener(entry, action, api, getOriginalState);
           }
         }
@@ -33273,7 +31076,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       if (maxWait != null) {
         if (pendingAt === null) pendingAt = Date.now();
         if (Date.now() - pendingAt >= maxWait) {
-          if (leading || trailing) result = func.apply(this, args);
+          result = func.apply(this, args);
           pendingAt = Date.now();
           _debounced.cancel();
           _debounced.schedule();
@@ -44805,12 +42608,12 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       return lastResult;
     }
     var result = [];
-    import_react31.Children.forEach(children, (child2) => {
-      if (isNullish(child2)) return;
-      if ((0, import_react_is.isFragment)(child2)) {
-        result = result.concat(toArray(child2.props.children));
+    import_react31.Children.forEach(children, (child) => {
+      if (isNullish(child)) return;
+      if ((0, import_react_is.isFragment)(child)) {
+        result = result.concat(toArray(child.props.children));
       } else {
-        result.push(child2);
+        result.push(child);
       }
     });
     lastResult = result;
@@ -44825,10 +42628,10 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     } else {
       types = [getDisplayName(type)];
     }
-    toArray(children).forEach((child2) => {
-      var childType = get(child2, "type.displayName") || get(child2, "type.name");
+    toArray(children).forEach((child) => {
+      var childType = get(child, "type.displayName") || get(child, "type.name");
       if (childType && types.indexOf(childType) !== -1) {
-        result.push(child2);
+        result.push(child);
       }
     });
     return result;
@@ -54150,6 +51953,14 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   };
 
   // node_modules/@supabase/postgrest-js/dist/index.mjs
+  var DEFAULT_MAX_RETRIES = 3;
+  var getRetryDelay = (attemptIndex) => Math.min(1e3 * 2 ** attemptIndex, 3e4);
+  var RETRYABLE_STATUS_CODES = [520, 503];
+  var RETRYABLE_METHODS = [
+    "GET",
+    "HEAD",
+    "OPTIONS"
+  ];
   var PostgrestError = class extends Error {
     /**
     * @example
@@ -54181,14 +51992,6 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       };
     }
   };
-  var DEFAULT_MAX_RETRIES = 3;
-  var getRetryDelay = (attemptIndex) => Math.min(1e3 * 2 ** attemptIndex, 3e4);
-  var RETRYABLE_STATUS_CODES = [520, 503];
-  var RETRYABLE_METHODS = [
-    "GET",
-    "HEAD",
-    "OPTIONS"
-  ];
   function _typeof(o) {
     "@babel/helpers - typeof";
     return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o$1) {
@@ -54262,42 +52065,6 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     if (!RETRYABLE_METHODS.includes(method)) return false;
     if (!RETRYABLE_STATUS_CODES.includes(status)) return false;
     return true;
-  }
-  async function fetchWithRetry(fetchImpl, url, request, retryEnabled) {
-    let attemptCount = 0;
-    while (true) {
-      const headers = _objectSpread210({}, request.headers);
-      if (attemptCount > 0) headers["X-Retry-Count"] = String(attemptCount);
-      let res;
-      try {
-        res = await fetchImpl(url, {
-          method: request.method,
-          headers,
-          body: request.body,
-          signal: request.signal
-        });
-      } catch (fetchError) {
-        if ((fetchError === null || fetchError === void 0 ? void 0 : fetchError.name) === "AbortError" || (fetchError === null || fetchError === void 0 ? void 0 : fetchError.code) === "ABORT_ERR") throw fetchError;
-        if (!RETRYABLE_METHODS.includes(request.method)) throw fetchError;
-        if (retryEnabled && attemptCount < DEFAULT_MAX_RETRIES) {
-          const delay = getRetryDelay(attemptCount);
-          attemptCount++;
-          await sleep(delay, request.signal);
-          continue;
-        }
-        throw fetchError;
-      }
-      if (shouldRetry(request.method, res.status, attemptCount, retryEnabled)) {
-        var _res$headers$get, _res$headers;
-        const retryAfterHeader = (_res$headers$get = (_res$headers = res.headers) === null || _res$headers === void 0 ? void 0 : _res$headers.get("Retry-After")) !== null && _res$headers$get !== void 0 ? _res$headers$get : null;
-        const delay = retryAfterHeader !== null ? Math.max(0, parseInt(retryAfterHeader, 10) || 0) * 1e3 : getRetryDelay(attemptCount);
-        await res.text();
-        attemptCount++;
-        await sleep(delay, request.signal);
-        continue;
-      }
-      return res;
-    }
   }
   var PostgrestBuilder = class {
     /**
@@ -54468,17 +52235,43 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       }
       const _fetch = this.fetch;
       const executeWithRetry = async () => {
-        const headers = {};
-        _this.headers.forEach((value, key) => {
-          headers[key] = value;
-        });
-        const res$1 = await fetchWithRetry(_fetch, _this.url.toString(), {
-          method: _this.method,
-          headers,
-          body: JSON.stringify(_this.body, (_, value) => typeof value === "bigint" ? value.toString() : value),
-          signal: _this.signal
-        }, _this.retryEnabled);
-        return await _this.processResponse(res$1);
+        let attemptCount = 0;
+        while (true) {
+          const headers = {};
+          _this.headers.forEach((value, key) => {
+            headers[key] = value;
+          });
+          if (attemptCount > 0) headers["X-Retry-Count"] = String(attemptCount);
+          let res$1;
+          try {
+            res$1 = await _fetch(_this.url.toString(), {
+              method: _this.method,
+              headers,
+              body: JSON.stringify(_this.body, (_, value) => typeof value === "bigint" ? value.toString() : value),
+              signal: _this.signal
+            });
+          } catch (fetchError) {
+            if ((fetchError === null || fetchError === void 0 ? void 0 : fetchError.name) === "AbortError" || (fetchError === null || fetchError === void 0 ? void 0 : fetchError.code) === "ABORT_ERR") throw fetchError;
+            if (!RETRYABLE_METHODS.includes(_this.method)) throw fetchError;
+            if (_this.retryEnabled && attemptCount < DEFAULT_MAX_RETRIES) {
+              const delay = getRetryDelay(attemptCount);
+              attemptCount++;
+              await sleep(delay, _this.signal);
+              continue;
+            }
+            throw fetchError;
+          }
+          if (shouldRetry(_this.method, res$1.status, attemptCount, _this.retryEnabled)) {
+            var _res$headers$get, _res$headers;
+            const retryAfterHeader = (_res$headers$get = (_res$headers = res$1.headers) === null || _res$headers === void 0 ? void 0 : _res$headers.get("Retry-After")) !== null && _res$headers$get !== void 0 ? _res$headers$get : null;
+            const delay = retryAfterHeader !== null ? Math.max(0, parseInt(retryAfterHeader, 10) || 0) * 1e3 : getRetryDelay(attemptCount);
+            await res$1.text();
+            attemptCount++;
+            await sleep(delay, _this.signal);
+            continue;
+          }
+          return await _this.processResponse(res$1);
+        }
       };
       let res = executeWithRetry();
       if (!this.shouldThrowOnError) res = res.catch((fetchError) => {
@@ -54539,7 +52332,7 @@ ${cause.stack}`;
       let status = res.status;
       let statusText = res.statusText;
       if (res.ok) {
-        var _this$headers$get2, _res$headers$get;
+        var _this$headers$get2, _res$headers$get2;
         if (_this2.method !== "HEAD") {
           var _this$headers$get;
           const body = await res.text();
@@ -54560,7 +52353,7 @@ ${cause.stack}`;
           }
         }
         const countHeader = (_this$headers$get2 = _this2.headers.get("Prefer")) === null || _this$headers$get2 === void 0 ? void 0 : _this$headers$get2.match(/count=(exact|planned|estimated)/);
-        const contentRange = (_res$headers$get = res.headers.get("content-range")) === null || _res$headers$get === void 0 ? void 0 : _res$headers$get.split("/");
+        const contentRange = (_res$headers$get2 = res.headers.get("content-range")) === null || _res$headers$get2 === void 0 ? void 0 : _res$headers$get2.split("/");
         if (countHeader && contentRange && contentRange.length > 1) count = parseInt(contentRange[1]);
         if (_this2.isMaybeSingle && Array.isArray(data)) if (data.length > 1) {
           error = {
@@ -57643,44 +55436,6 @@ ${cause.stack}`;
       });
     }
   };
-  function toOpenApiError(body, statusText) {
-    try {
-      const parsed = JSON.parse(body);
-      if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
-        var _parsed$message, _parsed$details, _parsed$hint, _parsed$code;
-        return new PostgrestError({
-          message: String((_parsed$message = parsed.message) !== null && _parsed$message !== void 0 ? _parsed$message : body),
-          details: (_parsed$details = parsed.details) !== null && _parsed$details !== void 0 ? _parsed$details : "",
-          hint: (_parsed$hint = parsed.hint) !== null && _parsed$hint !== void 0 ? _parsed$hint : "",
-          code: (_parsed$code = parsed.code) !== null && _parsed$code !== void 0 ? _parsed$code : ""
-        });
-      }
-    } catch (_unused) {
-    }
-    return new PostgrestError({
-      message: body || statusText,
-      details: "",
-      hint: "",
-      code: ""
-    });
-  }
-  function toTransportFailure(cause, status, statusText) {
-    var _err$name;
-    const err = cause;
-    return {
-      success: false,
-      error: new PostgrestError({
-        message: `${(_err$name = err === null || err === void 0 ? void 0 : err.name) !== null && _err$name !== void 0 ? _err$name : "FetchError"}: ${err === null || err === void 0 ? void 0 : err.message}`,
-        details: "",
-        hint: "",
-        code: ""
-      }),
-      data: null,
-      count: null,
-      status,
-      statusText
-    };
-  }
   var PostgrestClient = class PostgrestClient2 {
     /**
     * Creates a PostgREST client.
@@ -57778,74 +55533,6 @@ ${cause.stack}`;
         urlLengthLimit: this.urlLengthLimit,
         retry: this.retry
       });
-    }
-    /**
-    * Fetch the OpenAPI description PostgREST publishes for this client's schema.
-    *
-    * The document lists only the tables, views and functions the caller's role
-    * holds privileges on; PostgREST applies that filtering server-side. The
-    * schema is the one this client was created with, so call `.schema()` first
-    * to describe a different one. Transient failures are retried according to
-    * the client's `retry` option, like any other idempotent request.
-    *
-    * @example
-    * ```ts
-    * const { data, error } = await supabase.getOpenApiSpec()
-    * ```
-    *
-    * @example Describe a schema other than the client default
-    * ```ts
-    * const { data, error } = await supabase.schema('billing').getOpenApiSpec()
-    * ```
-    *
-    * @category Database
-    */
-    async getOpenApiSpec() {
-      var _this = this;
-      var _this$fetch;
-      const headers = new Headers(_this.headers);
-      headers.set("Accept", "application/openapi+json");
-      if (_this.schemaName) headers.set("Accept-Profile", _this.schemaName);
-      const requestHeaders = {};
-      headers.forEach((value, key) => {
-        requestHeaders[key] = value;
-      });
-      const fetchImpl = (_this$fetch = _this.fetch) !== null && _this$fetch !== void 0 ? _this$fetch : globalThis.fetch;
-      let res;
-      try {
-        var _this$retry;
-        res = await fetchWithRetry(fetchImpl, `${_this.url}/`, {
-          method: "GET",
-          headers: requestHeaders
-        }, (_this$retry = _this.retry) !== null && _this$retry !== void 0 ? _this$retry : true);
-      } catch (fetchError) {
-        return toTransportFailure(fetchError, 0, "");
-      }
-      let body;
-      try {
-        body = await res.text();
-      } catch (readError) {
-        return toTransportFailure(readError, res.status, res.statusText);
-      }
-      if (res.ok) try {
-        return {
-          success: true,
-          error: null,
-          data: JSON.parse(body),
-          count: null,
-          status: res.status,
-          statusText: res.statusText
-        };
-      } catch (_unused2) {
-      }
-      return {
-        success: false,
-        error: toOpenApiError(body, res.statusText),
-        data: null,
-        count: null,
-        status: res.status,
-        statusText: res.statusText
-      };
     }
     /**
     * Perform a function call.
@@ -58013,7 +55700,7 @@ ${cause.stack}`;
     * ```
     */
     rpc(fn, args = {}, { head: head2 = false, get: get4 = false, count } = {}) {
-      var _this$fetch2;
+      var _this$fetch;
       let method;
       const url = new URL(`${this.url}/rpc/${fn}`);
       let body;
@@ -58040,7 +55727,7 @@ ${cause.stack}`;
         headers,
         schema: this.schemaName,
         body,
-        fetch: (_this$fetch2 = this.fetch) !== null && _this$fetch2 !== void 0 ? _this$fetch2 : fetch,
+        fetch: (_this$fetch = this.fetch) !== null && _this$fetch !== void 0 ? _this$fetch : fetch,
         urlLengthLimit: this.urlLengthLimit,
         retry: this.retry
       });
@@ -58151,7 +55838,7 @@ Suggested solution: ${env.workaround}`;
   var websocket_factory_default = WebSocketFactory;
 
   // node_modules/@supabase/realtime-js/dist/module/lib/version.js
-  var version2 = "2.117.2";
+  var version2 = "2.112.3";
 
   // node_modules/@supabase/realtime-js/dist/module/lib/constants.js
   var DEFAULT_VERSION = `realtime-js/${version2}`;
@@ -58159,8 +55846,6 @@ Suggested solution: ${env.workaround}`;
   var VSN_2_0_0 = "2.0.0";
   var DEFAULT_VSN = VSN_2_0_0;
   var DEFAULT_TIMEOUT = 1e4;
-  var DEFAULT_POSTGRES_CHANGES_WAIT_TIMEOUT = 15e3;
-  var POSTGRES_CHANGES_WAIT_ERROR_GRACE = 1e4;
   var MAX_PUSH_BUFFER_SIZE = 100;
   var CHANNEL_STATES = {
     closed: "closed",
@@ -60785,16 +58470,21 @@ Suggested solution: ${env.workaround}`;
      * ```
      */
     subscribe(callback, timeout = this.timeout) {
-      var _a, _b, _c, _d;
+      var _a, _b, _c;
       if (!this.socket.isConnected()) {
         this.socket.connect();
       }
       if (this.channelAdapter.isClosed()) {
-        const { config: { broadcast, presence, private: isPrivate, postgres_changes_options } } = this.params;
+        const { config: { broadcast, presence, private: isPrivate } } = this.params;
         const postgres_changes = (_b = (_a = this.bindings.postgres_changes) === null || _a === void 0 ? void 0 : _a.map((r2) => r2.filter)) !== null && _b !== void 0 ? _b : [];
         const presence_enabled = !!this.bindings[REALTIME_LISTEN_TYPES.PRESENCE] && this.bindings[REALTIME_LISTEN_TYPES.PRESENCE].length > 0 || ((_c = this.params.config.presence) === null || _c === void 0 ? void 0 : _c.enabled) === true;
         const accessTokenPayload = {};
-        const config = Object.assign({ broadcast, presence: Object.assign(Object.assign({}, presence), { enabled: presence_enabled }), postgres_changes, private: isPrivate }, postgres_changes_options ? { postgres_changes_options } : {});
+        const config = {
+          broadcast,
+          presence: Object.assign(Object.assign({}, presence), { enabled: presence_enabled }),
+          postgres_changes,
+          private: isPrivate
+        };
         if (this.socket.accessTokenValue) {
           accessTokenPayload.access_token = this.socket.accessTokenValue;
         }
@@ -60804,8 +58494,7 @@ Suggested solution: ${env.workaround}`;
         this._onClose(() => callback === null || callback === void 0 ? void 0 : callback(REALTIME_SUBSCRIBE_STATES.CLOSED));
         this.updateJoinPayload(Object.assign({ config }, accessTokenPayload));
         this._updateFilterMessage();
-        const joinTimeout = (postgres_changes_options === null || postgres_changes_options === void 0 ? void 0 : postgres_changes_options.wait) && postgres_changes.length > 0 ? Math.max(timeout, ((_d = postgres_changes_options.timeout) !== null && _d !== void 0 ? _d : DEFAULT_POSTGRES_CHANGES_WAIT_TIMEOUT) + POSTGRES_CHANGES_WAIT_ERROR_GRACE) : timeout;
-        this.channelAdapter.subscribe(joinTimeout).receive("ok", async ({ postgres_changes: postgres_changes2 }) => {
+        this.channelAdapter.subscribe(timeout).receive("ok", async ({ postgres_changes: postgres_changes2 }) => {
           if (!this.socket._isManualToken()) {
             this.socket.setAuth();
           }
@@ -61164,12 +58853,7 @@ Suggested solution: ${env.workaround}`;
     async send(args, opts = {}) {
       var _a, _b;
       if (!this.channelAdapter.canPush() && args.type === "broadcast") {
-        const fallbackWarning = "Realtime send() is automatically falling back to REST API. This behavior will be deprecated in the future. Please use httpSend() explicitly for REST delivery.";
-        if (this.socket.hasLogger()) {
-          this.socket.log("channel", fallbackWarning);
-        } else {
-          console.warn(fallbackWarning);
-        }
+        console.warn("Realtime send() is automatically falling back to REST API. This behavior will be deprecated in the future. Please use httpSend() explicitly for REST delivery.");
         const { event, payload: endpoint_payload } = args;
         const headers = {
           apikey: this.socket.apiKey ? this.socket.apiKey : "",
@@ -61469,9 +59153,6 @@ Suggested solution: ${env.workaround}`;
     }
     log(kind, msg, data) {
       this.socket.log(kind, msg, data);
-    }
-    hasLogger() {
-      return this.socket.hasLogger();
     }
     makeRef() {
       return this.socket.makeRef();
@@ -61780,14 +59461,6 @@ Suggested solution: ${env.workaround}`;
       this.socketAdapter.log(kind, msg, data);
     }
     /**
-     * Returns true if a custom `logger` has been configured on this client.
-     *
-     * @category Realtime
-     */
-    hasLogger() {
-      return this.socketAdapter.hasLogger();
-    }
-    /**
      * Returns the current state of the socket.
      *
      * @category Realtime
@@ -61864,10 +59537,6 @@ Suggested solution: ${env.workaround}`;
      * When an `accessToken` callback IS configured, the callback is the source of truth:
      * the client remains in callback mode and continues to refresh from it on heartbeat,
      * even after a bootstrap/override `setAuth(token)` call.
-     *
-     * The callback is called on connect and on every heartbeat (`heartbeatIntervalMs`,
-     * default 25000ms). Its token must stay valid past the next call, or the server closes
-     * the channel at expiry with no automatic resubscribe.
      *
      * @param token A JWT string to override the token set on the client.
      *
@@ -63406,7 +61075,6 @@ Suggested solution: ${env.workaround}`;
     * @param fromPath The original file path, including the current file name. For example `folder/image.png`.
     * @param toPath The new file path, including the new file name. For example `folder/image-new.png`.
     * @param options The destination options.
-    * @param options.sourceVersionId The version id of the source object to move.
     * @returns Promise with response containing success message or error
     *
     * @example Move file
@@ -63440,8 +61108,7 @@ Suggested solution: ${env.workaround}`;
           bucketId: _this6.bucketId,
           sourceKey: fromPath,
           destinationKey: toPath2,
-          destinationBucket: options === null || options === void 0 ? void 0 : options.destinationBucket,
-          sourceVersionId: options === null || options === void 0 ? void 0 : options.sourceVersionId
+          destinationBucket: options === null || options === void 0 ? void 0 : options.destinationBucket
         }, { headers: _this6.headers });
       });
     }
@@ -63453,7 +61120,6 @@ Suggested solution: ${env.workaround}`;
     * @param fromPath The original file path, including the current file name. For example `folder/image.png`.
     * @param toPath The new file path, including the new file name. For example `folder/image-copy.png`.
     * @param options The destination options.
-    * @param options.sourceVersionId The version id of the source object to copy.
     * @returns Promise with response containing copied file path or error
     *
     * @example Copy file
@@ -63487,8 +61153,7 @@ Suggested solution: ${env.workaround}`;
           bucketId: _this7.bucketId,
           sourceKey: fromPath,
           destinationKey: toPath2,
-          destinationBucket: options === null || options === void 0 ? void 0 : options.destinationBucket,
-          sourceVersionId: options === null || options === void 0 ? void 0 : options.sourceVersionId
+          destinationBucket: options === null || options === void 0 ? void 0 : options.destinationBucket
         }, { headers: _this7.headers })).Key };
       });
     }
@@ -63502,7 +61167,6 @@ Suggested solution: ${env.workaround}`;
     * @param options.download triggers the file as a download if set to true. Set this parameter as the name of the file if you want to trigger the download with a different filename.
     * @param options.transform Transform the asset before serving it to the client.
     * @param options.cacheNonce Append a cache nonce parameter to the URL to invalidate the cache.
-    * @param options.versionId Create a signed URL for a specific object version rather than the current one.
     * @returns Promise with response containing signed URL or error
     *
     * @example Create Signed URL
@@ -63557,7 +61221,7 @@ Suggested solution: ${env.workaround}`;
       return _this8.handleOperation(async () => {
         let _path = _this8._getFinalPath(path2);
         const hasTransform = typeof (options === null || options === void 0 ? void 0 : options.transform) === "object" && options.transform !== null && Object.keys(options.transform).length > 0;
-        let data = await post(_this8.fetch, `${_this8.url}/object/sign/${_path}`, _objectSpread211(_objectSpread211({ expiresIn }, hasTransform ? { transform: options.transform } : {}), (options === null || options === void 0 ? void 0 : options.versionId) != null ? { versionId: options.versionId } : {}), { headers: _this8.headers });
+        let data = await post(_this8.fetch, `${_this8.url}/object/sign/${_path}`, _objectSpread211({ expiresIn }, hasTransform ? { transform: options.transform } : {}), { headers: _this8.headers });
         const query = new URLSearchParams();
         if (options === null || options === void 0 ? void 0 : options.download) query.set("download", options.download === true ? "" : options.download);
         if ((options === null || options === void 0 ? void 0 : options.cacheNonce) != null) query.set("cacheNonce", String(options.cacheNonce));
@@ -63631,7 +61295,7 @@ Suggested solution: ${env.workaround}`;
     * @category Storage
     * @subcategory File Buckets
     * @param path The full path and file name of the file to be downloaded. For example `folder/image.png`.
-    * @param options Optional settings: `transform` to transform the asset before serving it to the client, `cacheNonce` to append a cache nonce parameter to the URL to invalidate the cache, and `versionId` to download a specific object version.
+    * @param options Optional settings: `transform` to transform the asset before serving it to the client, and `cacheNonce` to append a cache nonce parameter to the URL to invalidate the cache.
     * @param parameters Additional fetch parameters like signal for cancellation. Supports standard fetch options including cache control.
     * @returns BlobDownloadBuilder instance for downloading the file
     *
@@ -63695,7 +61359,6 @@ Suggested solution: ${env.workaround}`;
       const query = new URLSearchParams();
       if (options === null || options === void 0 ? void 0 : options.transform) this.applyTransformOptsToQuery(query, options.transform);
       if ((options === null || options === void 0 ? void 0 : options.cacheNonce) != null) query.set("cacheNonce", String(options.cacheNonce));
-      if ((options === null || options === void 0 ? void 0 : options.versionId) != null) query.set("versionId", String(options.versionId));
       const queryString = query.toString();
       const _path = this._getFinalPath(path2);
       const downloadFn = () => get3(this.fetch, `${this.url}/${renderPath}/${_path}${queryString ? `?${queryString}` : ""}`, {
@@ -63713,7 +61376,6 @@ Suggested solution: ${env.workaround}`;
     * @category Storage
     * @subcategory File Buckets
     * @param path The file path, including the file name. For example `folder/image.png`.
-    * @param options Optional settings, including `versionId` to retrieve a specific object version.
     * @returns Promise with response containing file metadata or error
     *
     * @example Get file info
@@ -63729,14 +61391,11 @@ Suggested solution: ${env.workaround}`;
     * }
     * ```
     */
-    async info(path2, options) {
+    async info(path2) {
       var _this10 = this;
       const _path = _this10._getFinalPath(path2);
-      const query = new URLSearchParams();
-      if ((options === null || options === void 0 ? void 0 : options.versionId) != null) query.set("versionId", String(options.versionId));
-      const queryString = query.toString();
       return _this10.handleOperation(async () => {
-        return recursiveToCamel(await get3(_this10.fetch, `${_this10.url}/object/info/${_path}${queryString ? `?${queryString}` : ""}`, { headers: _this10.headers }));
+        return recursiveToCamel(await get3(_this10.fetch, `${_this10.url}/object/info/${_path}`, { headers: _this10.headers }));
       });
     }
     /**
@@ -63787,7 +61446,6 @@ Suggested solution: ${env.workaround}`;
     * @param options.download Triggers the file as a download if set to true. Set this parameter as the name of the file if you want to trigger the download with a different filename.
     * @param options.transform Transform the asset before serving it to the client.
     * @param options.cacheNonce Append a cache nonce parameter to the URL to invalidate the cache.
-    * @param options.versionId Return the URL for a specific object version rather than the current one.
     * @returns Object with public URL
     *
     * @example Returns the URL for an asset in a public bucket
@@ -63843,7 +61501,6 @@ Suggested solution: ${env.workaround}`;
       if (options === null || options === void 0 ? void 0 : options.download) query.set("download", options.download === true ? "" : options.download);
       if (options === null || options === void 0 ? void 0 : options.transform) this.applyTransformOptsToQuery(query, options.transform);
       if ((options === null || options === void 0 ? void 0 : options.cacheNonce) != null) query.set("cacheNonce", String(options.cacheNonce));
-      if ((options === null || options === void 0 ? void 0 : options.versionId) != null) query.set("versionId", String(options.versionId));
       const queryString = query.toString();
       const renderPath = typeof (options === null || options === void 0 ? void 0 : options.transform) === "object" && options.transform !== null && Object.keys(options.transform).length > 0 ? "render/image" : "object";
       return { data: { publicUrl: encodeURI(`${this.url}/${renderPath}/public/${_path}`) + (queryString ? `?${queryString}` : "") } };
@@ -63856,9 +61513,7 @@ Suggested solution: ${env.workaround}`;
     *
     * @category Storage
     * @subcategory File Buckets
-    * @param paths An array of files to delete. Each entry is either a path (deletes whichever
-    * version is currently at that path, e.g. `'folder/image.png'`), or `{ path, versionId }` to
-    * delete an exact version current or archived (e.g. `{ path: 'folder/image.png', versionId: '...' }`).
+    * @param paths An array of files to delete, including the path and file name. For example [`'folder/image.png'`].
     * @returns Promise with response containing array of deleted file objects or error
     *
     * @example Delete file
@@ -63875,14 +61530,6 @@ Suggested solution: ${env.workaround}`;
     *   "data": [],
     *   "error": null
     * }
-    * ```
-    *
-    * @example Delete a specific object version
-    * ```js
-    * const { data, error } = await supabase
-    *   .storage
-    *   .from('avatars')
-    *   .remove([{ path: 'folder/avatar1.png', versionId: 'noncurrent-version-id' }])
     * ```
     *
     * @remarks
@@ -64127,7 +61774,7 @@ Suggested solution: ${env.workaround}`;
       return query;
     }
   };
-  var version3 = "2.117.2";
+  var version3 = "2.112.3";
   var DEFAULT_HEADERS = { "X-Client-Info": `storage-js/${version3}` };
   var StorageBucketApi = class extends BaseApiClient {
     constructor(url, headers = {}, fetch$1, opts) {
@@ -64246,8 +61893,6 @@ Suggested solution: ${env.workaround}`;
     * Each mime type specified can be a wildcard, e.g. image/*, or a specific mime type, e.g. image/png.
     * @param options.type (private-beta) specifies the bucket type. see `BucketType` for more details.
     *   - default bucket type is `STANDARD`
-    * @param options.versioningStatus the bucket's initial object versioning status.
-    * The default value is `DISABLED`
     * @returns Promise with response containing newly created bucket name or error
     *
     * @example Create bucket
@@ -64286,8 +61931,7 @@ Suggested solution: ${env.workaround}`;
           type: options.type,
           public: options.public,
           file_size_limit: options.fileSizeLimit,
-          allowed_mime_types: options.allowedMimeTypes,
-          versioning_status: options.versioningStatus
+          allowed_mime_types: options.allowedMimeTypes
         }, { headers: _this3.headers });
       });
     }
@@ -64304,8 +61948,6 @@ Suggested solution: ${env.workaround}`;
     * @param options.allowedMimeTypes specifies the allowed mime types that this bucket can accept during upload.
     * The default value is null, which allows files with all mime types to be uploaded.
     * Each mime type specified can be a wildcard, e.g. image/*, or a specific mime type, e.g. image/png.
-    * @param options.versioningStatus the bucket's new object versioning status. `DISABLED` is not
-    * valid here, there's no transition back to it once versioning has been touched.
     * @returns Promise with response containing success message or error
     *
     * @example Update bucket
@@ -64343,8 +61985,7 @@ Suggested solution: ${env.workaround}`;
           name: id,
           public: options.public,
           file_size_limit: options.fileSizeLimit,
-          allowed_mime_types: options.allowedMimeTypes,
-          versioning_status: options.versioningStatus
+          allowed_mime_types: options.allowedMimeTypes
         }, { headers: _this4.headers });
       });
     }
@@ -64424,153 +62065,6 @@ Suggested solution: ${env.workaround}`;
       });
     }
     /**
-    * Returns the lifecycle policy stored on a bucket.
-    *
-    * Fails with `NoSuchLifecycleConfiguration` when the bucket has no policy.
-    *
-    * These rules expire previous versions of objects, not the current one.
-    * Turn versioning on or there is nothing for the policy to act on.
-    * Standard buckets only. Returns `FeatureNotEnabled` if lifecycle is off
-    * for the project.
-    *
-    * @category Storage
-    * @subcategory File Buckets
-    * @param id The unique identifier of the bucket.
-    * @returns Promise with the lifecycle configuration or error
-    *
-    * @example Get lifecycle configuration
-    * ```js
-    * const { data, error } = await supabase
-    *   .storage
-    *   .getBucketLifecycle('avatars')
-    * ```
-    *
-    * Response:
-    * ```json
-    * {
-    *   "data": {
-    *     "rules": [
-    *       {
-    *         "id": "expire-history",
-    *         "status": "Enabled",
-    *         "filter": {},
-    *         "noncurrentVersionExpiration": {
-    *           "noncurrentDays": 30,
-    *           "newerNoncurrentVersions": 2
-    *         }
-    *       }
-    *     ]
-    *   },
-    *   "error": null
-    * }
-    * ```
-    *
-    * @remarks
-    * - RLS policy permissions required:
-    *   - `buckets` table permissions: `select`
-    *   - `objects` table permissions: none
-    * - Refer to the [Storage guide](/docs/guides/storage/security/access-control) on how access control works
-    */
-    async getBucketLifecycle(id) {
-      var _this7 = this;
-      return _this7.handleOperation(async () => {
-        return await get3(_this7.fetch, _this7.bucketLifecycleUrl(id), { headers: _this7.headers });
-      });
-    }
-    /**
-    * Replaces the lifecycle policy on a bucket.
-    *
-    * The `rules` array you send is the whole policy. Anything previously stored
-    * is overwritten. Send at least one rule. Call {@link deleteBucketLifecycle}
-    * to remove the policy.
-    *
-    * Each rule currently supports only `noncurrentVersionExpiration`. `filter`
-    * is required and must be `{}`. Prefix filters, tag filters, and current-object
-    * expiration are rejected. Rule IDs must be unique. Omit `id` and the
-    * server generates one.
-    *
-    * Standard buckets only. Returns `FeatureNotEnabled` if lifecycle is off
-    * for the project.
-    *
-    * @category Storage
-    * @subcategory File Buckets
-    * @param id The unique identifier of the bucket.
-    * @param configuration The full lifecycle configuration to store.
-    * @returns Promise with the stored configuration or error
-    *
-    * @example Replace lifecycle configuration
-    * ```js
-    * const { data, error } = await supabase
-    *   .storage
-    *   .updateBucketLifecycle('avatars', {
-    *     rules: [
-    *       {
-    *         id: 'expire-history',
-    *         status: 'Enabled',
-    *         filter: {},
-    *         noncurrentVersionExpiration: {
-    *           noncurrentDays: 30,
-    *           newerNoncurrentVersions: 2,
-    *         },
-    *       },
-    *     ],
-    *   })
-    * ```
-    *
-    * @remarks
-    * - RLS policy permissions required:
-    *   - `buckets` table permissions: `select` and `update`
-    *   - `objects` table permissions: none
-    * - Refer to the [Storage guide](/docs/guides/storage/security/access-control) on how access control works
-    */
-    async updateBucketLifecycle(id, configuration) {
-      var _this8 = this;
-      return _this8.handleOperation(async () => {
-        return await put(_this8.fetch, _this8.bucketLifecycleUrl(id), configuration, { headers: _this8.headers });
-      });
-    }
-    /**
-    * Removes the lifecycle policy from a bucket.
-    *
-    * Safe to call when no policy is stored. The response is still success.
-    * Standard buckets only. Returns `FeatureNotEnabled` if lifecycle is off
-    * for the project.
-    *
-    * @category Storage
-    * @subcategory File Buckets
-    * @param id The unique identifier of the bucket.
-    * @returns Promise with success message or error
-    *
-    * @example Delete lifecycle configuration
-    * ```js
-    * const { data, error } = await supabase
-    *   .storage
-    *   .deleteBucketLifecycle('avatars')
-    * ```
-    *
-    * Response:
-    * ```json
-    * {
-    *   "data": {
-    *     "message": "Successfully deleted"
-    *   },
-    *   "error": null
-    * }
-    * ```
-    *
-    * @remarks
-    * - RLS policy permissions required:
-    *   - `buckets` table permissions: `select` and `update`
-    *   - `objects` table permissions: none
-    * - Refer to the [Storage guide](/docs/guides/storage/security/access-control) on how access control works
-    */
-    async deleteBucketLifecycle(id) {
-      var _this9 = this;
-      return _this9.handleOperation(async () => {
-        return await remove(_this9.fetch, _this9.bucketLifecycleUrl(id), {}, { headers: _this9.headers });
-      });
-    }
-    /**
     * Purges the CDN cache for an entire bucket.
     *
     * Maps to `DELETE /cdn/{bucket}` on the Storage API. The server
@@ -64607,16 +62101,13 @@ Suggested solution: ${env.workaround}`;
     * ```
     */
     async purgeBucketCache(id, options, parameters) {
-      var _this10 = this;
-      return _this10.handleOperation(async () => {
+      var _this7 = this;
+      return _this7.handleOperation(async () => {
         const query = new URLSearchParams();
         if (options === null || options === void 0 ? void 0 : options.transformations) query.set("transformations", "true");
         const queryString = query.toString();
-        return await remove(_this10.fetch, `${_this10.url}/cdn/${encodeStoragePath(id)}${queryString ? `?${queryString}` : ""}`, {}, { headers: _this10.headers }, parameters);
+        return await remove(_this7.fetch, `${_this7.url}/cdn/${encodeStoragePath(id)}${queryString ? `?${queryString}` : ""}`, {}, { headers: _this7.headers }, parameters);
       });
-    }
-    bucketLifecycleUrl(id) {
-      return `${this.url}/bucket/${encodeStoragePath(id)}/lifecycle`;
     }
     listBucketOptionsToQueryString(options) {
       const params = {};
@@ -65552,7 +63043,7 @@ Suggested solution: ${env.workaround}`;
     * @category Storage
     * @subcategory Vector Buckets
     * @param options - Query options (bucket and index names automatically set)
-    * @returns Promise with response containing vectors ordered by distance, an optional pagination token, or an error
+    * @returns Promise with response containing matches array of similar vectors ordered by distance or error
     *
     * @example Query similar vectors
     * ```typescript
@@ -65685,7 +63176,7 @@ Suggested solution: ${env.workaround}`;
   };
 
   // node_modules/@supabase/auth-js/dist/module/lib/version.js
-  var version4 = "2.117.2";
+  var version4 = "2.112.3";
 
   // node_modules/@supabase/auth-js/dist/module/lib/constants.js
   var AUTO_REFRESH_TICK_DURATION_MS = 30 * 1e3;
@@ -66313,9 +63804,9 @@ Suggested solution: ${env.workaround}`;
       throw new Error("@supabase/auth-js: Expected parameter to be UUID but is not");
     }
   }
-  function assertRecoveryCodesExperimentalEnabled(experimental) {
-    if (!experimental.recoveryCodes) {
-      throw new Error("@supabase/auth-js: the MFA recovery codes API is experimental and disabled by default. Enable it by passing `auth: { experimental: { recoveryCodes: true } }` to createClient (or to the GoTrueClient constructor).");
+  function assertPasskeyExperimentalEnabled(experimental) {
+    if (!experimental.passkey) {
+      throw new Error("@supabase/auth-js: the passkey API is experimental and disabled by default. Enable it by passing `auth: { experimental: { passkey: true } }` to createClient (or to the GoTrueClient constructor).");
     }
   }
   function userNotAvailableProxy() {
@@ -67573,8 +65064,11 @@ Suggested solution: ${env.workaround}`;
      * Lists all passkeys for a user.
      *
      * This function should only be called on a server. Never expose your secret key in the browser.
+     *
+     * Requires `auth.experimental.passkey: true`.
      */
     async _adminListPasskeys(params) {
+      assertPasskeyExperimentalEnabled(this.experimental);
       validateUUID(params.userId);
       try {
         return await _request(this.fetch, "GET", `${this.url}/admin/users/${params.userId}/passkeys`, { headers: this.headers, xform: (data) => ({ data, error: null }) });
@@ -67589,8 +65083,11 @@ Suggested solution: ${env.workaround}`;
      * Deletes a user's passkey.
      *
      * This function should only be called on a server. Never expose your secret key in the browser.
+     *
+     * Requires `auth.experimental.passkey: true`.
      */
     async _adminDeletePasskey(params) {
+      assertPasskeyExperimentalEnabled(this.experimental);
       validateUUID(params.userId);
       validateUUID(params.passkeyId);
       try {
@@ -68383,7 +65880,7 @@ ${suffix2}`;
         if (!factor) {
           await this.client.mfa.listFactors().then((factors) => {
             var _a;
-            return (_a = factors.data) === null || _a === void 0 ? void 0 : _a.all.find((v) => v.factor_type === "webauthn" && v.friendly_name === friendlyName && v.status === "unverified");
+            return (_a = factors.data) === null || _a === void 0 ? void 0 : _a.all.find((v) => v.factor_type === "webauthn" && v.friendly_name === friendlyName && v.status !== "unverified");
           }).then((factor2) => factor2 ? this.client.mfa.unenroll({ factorId: factor2 === null || factor2 === void 0 ? void 0 : factor2.id }) : void 0);
           return { data: null, error: enrollError };
         }
@@ -68439,7 +65936,6 @@ ${suffix2}`;
     experimental: {}
   };
   var GLOBAL_JWKS = {};
-  var deprecatedLockWarned = false;
   var GoTrueClient = class _GoTrueClient {
     /**
      * The JWKS used for verifying asymmetric JWTs
@@ -68535,10 +66031,6 @@ ${suffix2}`;
       this.lockAcquireTimeout = settings.lockAcquireTimeout;
       if (settings.lock != null) {
         this.lock = settings.lock;
-        if (!deprecatedLockWarned) {
-          deprecatedLockWarned = true;
-          console.warn(`${this._logPrefix()} The "lock" option is deprecated and will be removed in v3. The client now coordinates session refreshes without a lock, so most apps can drop the option. See https://github.com/supabase/supabase-js/blob/master/packages/core/auth-js/migrations/lockless-coordination.md`);
-        }
       }
       if (!this.jwks) {
         this.jwks = { keys: [] };
@@ -68552,14 +66044,7 @@ ${suffix2}`;
         listFactors: this._listFactors.bind(this),
         challengeAndVerify: this._challengeAndVerify.bind(this),
         getAuthenticatorAssuranceLevel: this._getAuthenticatorAssuranceLevel.bind(this),
-        webauthn: new WebAuthnApi(this),
-        recoveryCodes: {
-          getStatus: this._getRecoveryCodesStatus.bind(this),
-          generate: this._generateRecoveryCodes.bind(this),
-          verify: this._verifyRecoveryCode.bind(this),
-          regenerate: this._regenerateRecoveryCodes.bind(this),
-          unenroll: this._unenrollRecoveryCodes.bind(this)
-        }
+        webauthn: new WebAuthnApi(this)
       };
       this.oauth = {
         getAuthorizationDetails: this._getAuthorizationDetails.bind(this),
@@ -70729,16 +68214,31 @@ ${suffix2}`;
         const hasExpired = currentSession.expires_at ? currentSession.expires_at * 1e3 - Date.now() < EXPIRY_MARGIN_MS : false;
         this._debug("#__loadSession()", `session has${hasExpired ? "" : " not"} expired`, "expires_at", currentSession.expires_at);
         if (!hasExpired) {
-          return { data: { session: await this._hydrateSessionUser(currentSession) }, error: null };
+          if (this.userStorage) {
+            const maybeUser = await getItemAsync(this.userStorage, this.storageKey + "-user");
+            if (maybeUser === null || maybeUser === void 0 ? void 0 : maybeUser.user) {
+              currentSession.user = maybeUser.user;
+            } else {
+              currentSession.user = userNotAvailableProxy();
+            }
+          }
+          if (this.storage.isServer && currentSession.user && !currentSession.user.__isUserNotAvailableProxy) {
+            const suppressWarningRef = { value: this.suppressGetSessionWarning };
+            currentSession.user = insecureUserWarningProxy(currentSession.user, suppressWarningRef);
+            if (suppressWarningRef.value) {
+              this.suppressGetSessionWarning = true;
+            }
+          }
+          return { data: { session: currentSession }, error: null };
         }
         const { data: session, error } = await this._callRefreshToken(currentSession.refresh_token);
         if (error) {
-          const stored = await getItemAsync(this.storage, this.storageKey);
-          if (stored && this._isValidSession(stored) && stored.expires_at && stored.expires_at * 1e3 > Date.now()) {
-            return this._returnResult({
-              data: { session: await this._hydrateSessionUser(stored) },
-              error: null
-            });
+          const accessTokenStillValid = !!(currentSession.expires_at && currentSession.expires_at * 1e3 > Date.now());
+          if (accessTokenStillValid) {
+            const stillStored = await getItemAsync(this.storage, this.storageKey);
+            if (stillStored && stillStored.refresh_token === currentSession.refresh_token) {
+              return this._returnResult({ data: { session: currentSession }, error: null });
+            }
           }
           return this._returnResult({ data: { session: null }, error });
         }
@@ -70746,26 +68246,6 @@ ${suffix2}`;
       } finally {
         this._debug("#__loadSession()", "end");
       }
-    }
-    /**
-     * Completes a session read back from storage so it matches what callers of
-     * `getSession()` expect: fills in `session.user` from `userStorage` when the
-     * client keeps the user in split storage, and wraps the user in the
-     * insecure-access warning proxy on the server.
-     */
-    async _hydrateSessionUser(session) {
-      if (this.userStorage) {
-        const maybeUser = await getItemAsync(this.userStorage, this.storageKey + "-user");
-        session.user = (maybeUser === null || maybeUser === void 0 ? void 0 : maybeUser.user) ? maybeUser.user : userNotAvailableProxy();
-      }
-      if (this.storage.isServer && session.user && !session.user.__isUserNotAvailableProxy) {
-        const suppressWarningRef = { value: this.suppressGetSessionWarning };
-        session.user = insecureUserWarningProxy(session.user, suppressWarningRef);
-        if (suppressWarningRef.value) {
-          this.suppressGetSessionWarning = true;
-        }
-      }
-      return session;
     }
     /**
      * Gets the current user details if there is an existing session. This method
@@ -71809,9 +69289,6 @@ ${suffix2}`;
         } catch (err) {
           await ((_b = this.stateChangeEmitters.get(id)) === null || _b === void 0 ? void 0 : _b.callback("INITIAL_SESSION", null));
           this._debug("INITIAL_SESSION", "callback id", id, "error", err);
-          if (isAuthRefreshDiscardedError(err)) {
-            return;
-          }
           if (isAuthSessionMissingError(err) || isAuthRetryableFetchError(err) || isAuthApiError(err) && (err.code === "refresh_token_not_found" || err.code === "refresh_token_already_used" || err.code === "session_expired")) {
             console.warn(err);
           } else {
@@ -72279,8 +69756,6 @@ ${suffix2}`;
       this._debug(debugName, "begin");
       try {
         this.refreshingDeferred = new Deferred();
-        this.refreshingDeferred.promise.then(void 0, () => {
-        });
         const storedAtStart = await getItemAsync(this.storage, this.storageKey);
         const { data, error } = await this._refreshAccessToken(refreshToken);
         if (error)
@@ -72944,12 +70419,11 @@ ${suffix2}`;
         all: [],
         phone: [],
         totp: [],
-        webauthn: [],
-        recovery_code: []
+        webauthn: []
       };
       for (const factor of (_a = user === null || user === void 0 ? void 0 : user.factors) !== null && _a !== void 0 ? _a : []) {
         data.all.push(factor);
-        if (factor.status === "verified" && factor.factor_type in data && Array.isArray(data[factor.factor_type])) {
+        if (factor.status === "verified") {
           ;
           data[factor.factor_type].push(factor);
         }
@@ -73011,158 +70485,6 @@ ${suffix2}`;
       }
       const currentAuthenticationMethods = payload.amr || [];
       return { data: { currentLevel, nextLevel, currentAuthenticationMethods }, error: null };
-    }
-    /**
-     * {@link AuthMFARecoveryCodesApi#getStatus}
-     */
-    async _getRecoveryCodesStatus() {
-      assertRecoveryCodesExperimentalEnabled(this.experimental);
-      try {
-        return await this._useSession(async (result) => {
-          var _a;
-          const { data: sessionData, error: sessionError } = result;
-          if (sessionError) {
-            return this._returnResult({ data: null, error: sessionError });
-          }
-          const { data, error } = await _request(this.fetch, "GET", `${this.url}/factors/recovery-codes`, {
-            headers: this.headers,
-            jwt: (_a = sessionData === null || sessionData === void 0 ? void 0 : sessionData.session) === null || _a === void 0 ? void 0 : _a.access_token
-          });
-          if (error) {
-            return this._returnResult({ data: null, error });
-          }
-          return this._returnResult({ data, error: null });
-        });
-      } catch (error) {
-        if (isAuthError(error)) {
-          return this._returnResult({ data: null, error });
-        }
-        throw error;
-      }
-    }
-    /**
-     * {@link AuthMFARecoveryCodesApi#generate}
-     */
-    async _generateRecoveryCodes(params) {
-      assertRecoveryCodesExperimentalEnabled(this.experimental);
-      try {
-        return await this._useSession(async (result) => {
-          var _a;
-          const { data: sessionData, error: sessionError } = result;
-          if (sessionError) {
-            return this._returnResult({ data: null, error: sessionError });
-          }
-          const { data, error } = await _request(this.fetch, "POST", `${this.url}/factors/recovery-codes`, {
-            // The body is optional server-side; only send one when a name was given.
-            body: (params === null || params === void 0 ? void 0 : params.friendlyName) ? { friendly_name: params.friendlyName } : void 0,
-            headers: this.headers,
-            jwt: (_a = sessionData === null || sessionData === void 0 ? void 0 : sessionData.session) === null || _a === void 0 ? void 0 : _a.access_token
-          });
-          if (error) {
-            return this._returnResult({ data: null, error });
-          }
-          return this._returnResult({ data, error: null });
-        });
-      } catch (error) {
-        if (isAuthError(error)) {
-          return this._returnResult({ data: null, error });
-        }
-        throw error;
-      }
-    }
-    /**
-     * {@link AuthMFARecoveryCodesApi#verify}
-     */
-    async _verifyRecoveryCode(params) {
-      assertRecoveryCodesExperimentalEnabled(this.experimental);
-      const run = async () => {
-        try {
-          return await this._useSession(async (result) => {
-            var _a;
-            const { data: sessionData, error: sessionError } = result;
-            if (sessionError) {
-              return this._returnResult({ data: null, error: sessionError });
-            }
-            const { data, error } = await _request(this.fetch, "POST", `${this.url}/factors/recovery-codes/verify`, {
-              body: { code: params.code },
-              headers: this.headers,
-              jwt: (_a = sessionData === null || sessionData === void 0 ? void 0 : sessionData.session) === null || _a === void 0 ? void 0 : _a.access_token
-            });
-            if (error) {
-              return this._returnResult({ data: null, error });
-            }
-            const session = Object.assign({ expires_at: expiresAt(data.expires_in) }, data);
-            await this._saveSession(session);
-            await this._notifyAllSubscribers("MFA_CHALLENGE_VERIFIED", session);
-            return this._returnResult({ data, error: null });
-          });
-        } catch (error) {
-          if (isAuthError(error)) {
-            return this._returnResult({ data: null, error });
-          }
-          throw error;
-        }
-      };
-      if (this.lock != null) {
-        return this._acquireLock(this.lockAcquireTimeout, run);
-      }
-      return run();
-    }
-    /**
-     * {@link AuthMFARecoveryCodesApi#regenerate}
-     */
-    async _regenerateRecoveryCodes() {
-      assertRecoveryCodesExperimentalEnabled(this.experimental);
-      try {
-        return await this._useSession(async (result) => {
-          var _a;
-          const { data: sessionData, error: sessionError } = result;
-          if (sessionError) {
-            return this._returnResult({ data: null, error: sessionError });
-          }
-          const { data, error } = await _request(this.fetch, "POST", `${this.url}/factors/recovery-codes/regenerate`, {
-            headers: this.headers,
-            jwt: (_a = sessionData === null || sessionData === void 0 ? void 0 : sessionData.session) === null || _a === void 0 ? void 0 : _a.access_token
-          });
-          if (error) {
-            return this._returnResult({ data: null, error });
-          }
-          return this._returnResult({ data, error: null });
-        });
-      } catch (error) {
-        if (isAuthError(error)) {
-          return this._returnResult({ data: null, error });
-        }
-        throw error;
-      }
-    }
-    /**
-     * {@link AuthMFARecoveryCodesApi#unenroll}
-     */
-    async _unenrollRecoveryCodes() {
-      assertRecoveryCodesExperimentalEnabled(this.experimental);
-      try {
-        return await this._useSession(async (result) => {
-          var _a;
-          const { data: sessionData, error: sessionError } = result;
-          if (sessionError) {
-            return this._returnResult({ data: null, error: sessionError });
-          }
-          const { data, error } = await _request(this.fetch, "DELETE", `${this.url}/factors/recovery-codes`, {
-            headers: this.headers,
-            jwt: (_a = sessionData === null || sessionData === void 0 ? void 0 : sessionData.session) === null || _a === void 0 ? void 0 : _a.access_token
-          });
-          if (error) {
-            return this._returnResult({ data: null, error });
-          }
-          return this._returnResult({ data, error: null });
-        });
-      } catch (error) {
-        if (isAuthError(error)) {
-          return this._returnResult({ data: null, error });
-        }
-        throw error;
-      }
     }
     /**
      * Retrieves details about an OAuth authorization request.
@@ -73474,35 +70796,13 @@ ${suffix2}`;
      * 2. Prompts user via navigator.credentials.get()
      * 3. Verifies credential with server and creates session
      *
-     * Pass `options.mediation: 'conditional'` to use WebAuthn Conditional UI
-     * (passkey autofill) instead of the modal picker; the value is forwarded to
-     * `navigator.credentials.get()` unchanged.
-     *
-     * The challenge fetched in step 1 expires after the server's
-     * GOTRUE_WEBAUTHN_CHALLENGE_EXPIRY_DURATION (5 minutes by default). With
-     * `mediation: 'conditional'` the autofill prompt can stay pending for longer
-     * than that: the browser ceremony then still succeeds, but verification fails
-     * with `error_code: "webauthn_challenge_expired"`. Recover by calling
-     * `signInWithPasskey()` again. It fetches a fresh challenge and, unless you
-     * passed your own `options.signal`, cancels the pending ceremony first, so
-     * the browser never sees two concurrent WebAuthn requests; the earlier call
-     * resolves with a `WebAuthnError` whose code is `ERROR_CEREMONY_ABORTED`. If
-     * you pass your own `signal`, abort it before retrying.
+     * Requires `auth.experimental.passkey: true`.
      *
      * @category Auth
-     *
-     * @example Sign in with Conditional UI (passkey autofill)
-     * ```js
-     * // <input autocomplete="username webauthn" /> somewhere on the page
-     * const { data, error } = await supabase.auth.signInWithPasskey({
-     *   options: {
-     *     mediation: 'conditional'
-     *   }
-     * });
-     * ```
      */
     async signInWithPasskey(credentials) {
-      var _a, _b, _c, _d;
+      var _a, _b, _c;
+      assertPasskeyExperimentalEnabled(this.experimental);
       try {
         if (!browserSupportsWebAuthn()) {
           return this._returnResult({
@@ -73520,8 +70820,7 @@ ${suffix2}`;
         const signal = (_c = (_b = credentials === null || credentials === void 0 ? void 0 : credentials.options) === null || _b === void 0 ? void 0 : _b.signal) !== null && _c !== void 0 ? _c : webAuthnAbortService.createNewAbortSignal();
         const { data: credential, error: credentialError } = await getCredential({
           publicKey: publicKeyOptions,
-          signal,
-          mediation: (_d = credentials === null || credentials === void 0 ? void 0 : credentials.options) === null || _d === void 0 ? void 0 : _d.mediation
+          signal
         });
         if (credentialError || !credential) {
           return this._returnResult({
@@ -73547,12 +70846,13 @@ ${suffix2}`;
      * 2. Prompts user via navigator.credentials.create()
      * 3. Verifies credential with server
      *
-     * Requires an active session.
+     * Requires an active session. Requires `auth.experimental.passkey: true`.
      *
      * @category Auth
      */
     async registerPasskey(credentials) {
       var _a, _b;
+      assertPasskeyExperimentalEnabled(this.experimental);
       try {
         if (!browserSupportsWebAuthn()) {
           return this._returnResult({
@@ -73593,6 +70893,7 @@ ${suffix2}`;
      * Returns WebAuthn credential creation options to pass to navigator.credentials.create().
      */
     async _startPasskeyRegistration() {
+      assertPasskeyExperimentalEnabled(this.experimental);
       try {
         return await this._useSession(async (result) => {
           const { data: { session }, error: sessionError } = result;
@@ -73624,6 +70925,7 @@ ${suffix2}`;
      * The credentialResponse should be the serialized output of navigator.credentials.create().
      */
     async _verifyPasskeyRegistration(params) {
+      assertPasskeyExperimentalEnabled(this.experimental);
       try {
         return await this._useSession(async (result) => {
           const { data: { session }, error: sessionError } = result;
@@ -73659,6 +70961,7 @@ ${suffix2}`;
      */
     async _startPasskeyAuthentication(params) {
       var _a;
+      assertPasskeyExperimentalEnabled(this.experimental);
       try {
         const { data, error } = await _request(this.fetch, "POST", `${this.url}/passkeys/authentication/options`, {
           headers: this.headers,
@@ -73682,6 +70985,7 @@ ${suffix2}`;
      * The credential should be the serialized output of navigator.credentials.get().
      */
     async _verifyPasskeyAuthentication(params) {
+      assertPasskeyExperimentalEnabled(this.experimental);
       try {
         const { data, error } = await _request(this.fetch, "POST", `${this.url}/passkeys/authentication/verify`, {
           headers: this.headers,
@@ -73710,6 +71014,7 @@ ${suffix2}`;
      * List all passkeys for the current user.
      */
     async _listPasskeys() {
+      assertPasskeyExperimentalEnabled(this.experimental);
       try {
         return await this._useSession(async (result) => {
           const { data: { session }, error: sessionError } = result;
@@ -73740,6 +71045,7 @@ ${suffix2}`;
      * Update a passkey.
      */
     async _updatePasskey(params) {
+      assertPasskeyExperimentalEnabled(this.experimental);
       try {
         return await this._useSession(async (result) => {
           const { data: { session }, error: sessionError } = result;
@@ -73770,6 +71076,7 @@ ${suffix2}`;
      * Delete a passkey.
      */
     async _deletePasskey(params) {
+      assertPasskeyExperimentalEnabled(this.experimental);
       try {
         return await this._useSession(async (result) => {
           const { data: { session }, error: sessionError } = result;
@@ -73805,7 +71112,7 @@ ${suffix2}`;
   var AuthClient_default = AuthClient;
 
   // node_modules/@supabase/supabase-js/dist/index.mjs
-  var version5 = "2.117.2";
+  var version5 = "2.112.3";
   var JS_ENV = "";
   var JS_RUNTIME_VERSION;
   if (typeof Deno !== "undefined") {
@@ -74024,13 +71331,6 @@ ${suffix2}`;
   }
   function ensureTrailingSlash(url) {
     return url.endsWith("/") ? url : url + "/";
-  }
-  var warnedTopLevelSchema = false;
-  function checkTopLevelSchemaOption(options) {
-    if (warnedTopLevelSchema) return;
-    if (typeof options !== "object" || options === null || !("schema" in options) || options.schema === void 0) return;
-    warnedTopLevelSchema = true;
-    console.warn(`@supabase/supabase-js: The "schema" option must be nested under "db", e.g. createClient(url, key, { db: { schema: 'myschema' } }). A top-level "schema" is ignored and queries go to the default schema.`);
   }
   function applySettingDefaults(options, defaults) {
     var _DEFAULT_GLOBAL_OPTIO, _globalOptions$header, _ref2, _tracePropagationOpti, _ref22, _tracePropagationOpti2;
@@ -74291,7 +71591,6 @@ ${suffix2}`;
       const baseUrl = validateSupabaseUrl(supabaseUrl);
       if (!supabaseKey) throw new Error("supabaseKey is required.");
       checkApiKeyFormat(supabaseKey);
-      checkTopLevelSchemaOption(options);
       this.realtimeUrl = new URL("realtime/v1", baseUrl);
       this.realtimeUrl.protocol = this.realtimeUrl.protocol.replace("http", "ws");
       this.authUrl = new URL("auth/v1", baseUrl);
@@ -74363,23 +71662,6 @@ ${suffix2}`;
     */
     schema(schema) {
       return this.rest.schema(schema);
-    }
-    /**
-    * Fetch the OpenAPI description PostgREST publishes for this client's schema.
-    *
-    * The document lists only the tables, views and functions the caller's role
-    * holds privileges on. The request carries the same `apikey` and
-    * `Authorization` headers as every other query, so the description is scoped
-    * to the signed-in user. Call `.schema()` first to describe a schema other
-    * than the client default.
-    *
-    * @example
-    * ```ts
-    * const { data, error } = await supabase.getOpenApiSpec()
-    * ```
-    */
-    getOpenApiSpec() {
-      return this.rest.getOpenApiSpec();
     }
     /**
     * Perform a function call.
@@ -106968,7 +104250,7 @@ ${suffix2}`;
         className: "w-full text-sm rounded-lg border border-gray-200 p-2 mb-2 focus:outline-none focus:ring-2",
         style: { "--tw-ring-color": GOLD3 }
       }
-    ), /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex gap-2" }, /* @__PURE__ */ import_react74.default.createElement("button", { onClick: saveIndicateur, className: "px-3 py-1.5 rounded-lg text-xs font-medium text-white", style: { background: "#256B45" } }, /* @__PURE__ */ import_react74.default.createElement(Check, { size: 12, className: "inline mr-1 -mt-0.5" }), " Enregistrer"), /* @__PURE__ */ import_react74.default.createElement("button", { onClick: () => setEditingIndicateur(null), className: "px-3 py-1.5 rounded-lg text-xs font-medium bg-white border border-gray-200 text-gray-600" }, "Annuler"))), /* @__PURE__ */ import_react74.default.createElement("div", { className: "space-y-3" }, indicateurs.map((kpi) => /* @__PURE__ */ import_react74.default.createElement("div", { key: kpi.id, className: "flex items-center gap-3 rounded-xl border border-gray-100 p-3" }, /* @__PURE__ */ import_react74.default.createElement("div", { className: "w-8 h-8 rounded-lg flex items-center justify-center shrink-0", style: { background: "#EBEEF7" } }, /* @__PURE__ */ import_react74.default.createElement(ChartColumn, { size: 15, style: { color: NAVY4 } })), /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex-1" }, /* @__PURE__ */ import_react74.default.createElement("div", { className: "text-sm font-medium text-gray-800" }, kpi.nom), /* @__PURE__ */ import_react74.default.createElement("div", { className: "text-[11px] text-gray-400" }, kpi.formule)), /* @__PURE__ */ import_react74.default.createElement("span", { className: "text-[11px] font-medium px-2 py-1 rounded-full", style: { background: "#FDF1DA", color: "#8A5A00" } }, "Seuil : ", kpi.seuil || "ND"), /* @__PURE__ */ import_react74.default.createElement("button", { onClick: () => setEditingIndicateur(kpi), className: "text-gray-300 hover:text-blue-500" }, /* @__PURE__ */ import_react74.default.createElement(Pencil, { size: 14 })), /* @__PURE__ */ import_react74.default.createElement("button", { onClick: () => setIndicateurs(indicateurs.filter((k2) => k2.id !== kpi.id)), className: "text-gray-300 hover:text-red-400" }, /* @__PURE__ */ import_react74.default.createElement(Trash, { size: 15 })))), indicateurs.length === 0 && /* @__PURE__ */ import_react74.default.createElement("div", { className: "text-xs text-gray-400 italic text-center py-4" }, "Aucun indicateur d\xE9fini \u2014 cliquez sur \xAB Ajouter un indicateur \xBB."))), step === 5 && /* @__PURE__ */ import_react74.default.createElement(Card, null, /* @__PURE__ */ import_react74.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY4 } }, "Cartographie automatique des variables"), /* @__PURE__ */ import_react74.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, dataset ? `Types d\xE9tect\xE9s r\xE9ellement \xE0 partir de ${dataset.fileName} (${dataset.rows.length} lignes).` : "Aucun fichier import\xE9 \xE0 l'\xE9tape 2 \u2014 exemple illustratif ci-dessous."), /* @__PURE__ */ import_react74.default.createElement("div", { className: "rounded-xl overflow-hidden border border-gray-100" }, /* @__PURE__ */ import_react74.default.createElement("table", { className: "w-full text-sm" }, /* @__PURE__ */ import_react74.default.createElement("thead", null, /* @__PURE__ */ import_react74.default.createElement("tr", { className: "text-left text-[11px] text-gray-400 uppercase bg-gray-50" }, /* @__PURE__ */ import_react74.default.createElement("th", { className: "px-4 py-2.5 font-medium" }, "Colonne de la base"), /* @__PURE__ */ import_react74.default.createElement("th", { className: "px-4 py-2.5 font-medium" }, "Type d\xE9tect\xE9"), /* @__PURE__ */ import_react74.default.createElement("th", { className: "px-4 py-2.5 font-medium" }, "Statut"))), /* @__PURE__ */ import_react74.default.createElement("tbody", null, (dataset ? dataset.columns.map((c2) => ({
+    ), /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex gap-2" }, /* @__PURE__ */ import_react74.default.createElement("button", { onClick: saveIndicateur, className: "px-3 py-1.5 rounded-lg text-xs font-medium text-white", style: { background: "#256B45" } }, /* @__PURE__ */ import_react74.default.createElement(Check, { size: 12, className: "inline mr-1 -mt-0.5" }), " Enregistrer"), /* @__PURE__ */ import_react74.default.createElement("button", { onClick: () => setEditingIndicateur(null), className: "px-3 py-1.5 rounded-lg text-xs font-medium bg-white border border-gray-200 text-gray-600" }, "Annuler"))), /* @__PURE__ */ import_react74.default.createElement("div", { className: "space-y-3" }, indicateurs.map((kpi) => /* @__PURE__ */ import_react74.default.createElement("div", { key: kpi.id, className: "flex items-center gap-3 rounded-xl border border-gray-100 p-3" }, /* @__PURE__ */ import_react74.default.createElement("div", { className: "w-8 h-8 rounded-lg flex items-center justify-center shrink-0", style: { background: "#EBEEF7" } }, /* @__PURE__ */ import_react74.default.createElement(ChartColumn, { size: 15, style: { color: NAVY4 } })), /* @__PURE__ */ import_react74.default.createElement("div", { className: "flex-1" }, /* @__PURE__ */ import_react74.default.createElement("div", { className: "text-sm font-medium text-gray-800" }, kpi.nom), /* @__PURE__ */ import_react74.default.createElement("div", { className: "text-[11px] text-gray-400" }, kpi.formule)), /* @__PURE__ */ import_react74.default.createElement("span", { className: "text-[11px] font-medium px-2 py-1 rounded-full", style: { background: "#FDF1DA", color: "#8A5A00" } }, "Seuil : ", kpi.seuil || "ND"), /* @__PURE__ */ import_react74.default.createElement("button", { onClick: () => setEditingIndicateur(kpi), className: "text-gray-300 hover:text-blue-500" }, /* @__PURE__ */ import_react74.default.createElement(Pencil, { size: 14 })), /* @__PURE__ */ import_react74.default.createElement("button", { onClick: () => setIndicateurs(indicateurs.filter((k2) => k2.id !== kpi.id)), className: "text-gray-300 hover:text-red-400" }, /* @__PURE__ */ import_react74.default.createElement(Trash2, { size: 15 })))), indicateurs.length === 0 && /* @__PURE__ */ import_react74.default.createElement("div", { className: "text-xs text-gray-400 italic text-center py-4" }, "Aucun indicateur d\xE9fini \u2014 cliquez sur \xAB Ajouter un indicateur \xBB."))), step === 5 && /* @__PURE__ */ import_react74.default.createElement(Card, null, /* @__PURE__ */ import_react74.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY4 } }, "Cartographie automatique des variables"), /* @__PURE__ */ import_react74.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, dataset ? `Types d\xE9tect\xE9s r\xE9ellement \xE0 partir de ${dataset.fileName} (${dataset.rows.length} lignes).` : "Aucun fichier import\xE9 \xE0 l'\xE9tape 2 \u2014 exemple illustratif ci-dessous."), /* @__PURE__ */ import_react74.default.createElement("div", { className: "rounded-xl overflow-hidden border border-gray-100" }, /* @__PURE__ */ import_react74.default.createElement("table", { className: "w-full text-sm" }, /* @__PURE__ */ import_react74.default.createElement("thead", null, /* @__PURE__ */ import_react74.default.createElement("tr", { className: "text-left text-[11px] text-gray-400 uppercase bg-gray-50" }, /* @__PURE__ */ import_react74.default.createElement("th", { className: "px-4 py-2.5 font-medium" }, "Colonne de la base"), /* @__PURE__ */ import_react74.default.createElement("th", { className: "px-4 py-2.5 font-medium" }, "Type d\xE9tect\xE9"), /* @__PURE__ */ import_react74.default.createElement("th", { className: "px-4 py-2.5 font-medium" }, "Statut"))), /* @__PURE__ */ import_react74.default.createElement("tbody", null, (dataset ? dataset.columns.map((c2) => ({
       q: c2.name,
       type: c2.type,
       status: c2.isGeo ? "geo" : c2.type === "Texte libre" ? "warn" : "ok"
@@ -107591,14 +104873,7 @@ ${suffix2}`;
   var __getOwnPropNames2 = Object.getOwnPropertyNames;
   var __getProtoOf2 = Object.getPrototypeOf;
   var __hasOwnProp2 = Object.prototype.hasOwnProperty;
-  var __esmMin = (fn, res, err) => () => {
-    if (err) throw err[0];
-    try {
-      return fn && (res = fn(fn = 0)), res;
-    } catch (e) {
-      throw err = [e], e;
-    }
-  };
+  var __esmMin = (fn, res) => () => (fn && (res = fn(fn = 0)), res);
   var __commonJSMin = (cb, mod) => () => (mod || (cb((mod = { exports: {} }).exports, mod), cb = null), mod.exports);
   var __copyProps2 = (to2, from2, except, desc) => {
     if (from2 && typeof from2 === "object" || typeof from2 === "function") for (var keys2 = __getOwnPropNames2(from2), i = 0, n = keys2.length, key; i < n; i++) {
@@ -107610,7 +104885,7 @@ ${suffix2}`;
     }
     return to2;
   };
-  var __toESM2 = (mod, isNodeMode, target) => (target = mod != null ? __create2(__getProtoOf2(mod)) : {}, __copyProps2(isNodeMode || !mod || !mod.__esModule || !__hasOwnProp2.call(mod, "default") ? __defProp2(target, "default", {
+  var __toESM2 = (mod, isNodeMode, target) => (target = mod != null ? __create2(__getProtoOf2(mod)) : {}, __copyProps2(isNodeMode || !mod || !mod.__esModule ? __defProp2(target, "default", {
     value: mod,
     enumerable: true
   }) : target, mod));
@@ -107663,14 +104938,6 @@ ${suffix2}`;
       );
       this.rootKey = rootKey;
     }
-    /**
-    * The components written in this one's place, one after another, when it can't be written as a single element,
-    * such as a run with another run in its children. Undefined when it is written as itself.
-    *
-    * @internal
-    */
-    get writtenAs() {
-    }
   };
   var EMPTY_OBJECT = Object.seal({});
   var XmlComponent = class extends BaseXmlComponent {
@@ -107720,11 +104987,8 @@ ${suffix2}`;
     prepForXml(context) {
       var _children$;
       context.stack.push(this);
-      const children = this.root.flatMap((comp) => {
-        if (comp instanceof BaseXmlComponent) {
-          const parts = comp.writtenAs;
-          return parts ? parts.map((part) => part.prepForXml(context)) : comp.prepForXml(context);
-        }
+      const children = this.root.map((comp) => {
+        if (comp instanceof BaseXmlComponent) return comp.prepForXml(context);
         return comp;
       }).filter((comp) => comp !== void 0);
       context.stack.pop();
@@ -107737,8 +105001,8 @@ ${suffix2}`;
     * @param child - The child component or text string to add
     * @returns This component (for chaining)
     */
-    addChildElement(child2) {
-      this.root.push(child2);
+    addChildElement(child) {
+      this.root.push(child);
       return this;
     }
   };
@@ -107757,7 +105021,7 @@ ${suffix2}`;
     prepForXml(context) {
       const result = super.prepForXml(context);
       if (this.includeIfEmpty) return result;
-      return result && (typeof result[this.rootKey] !== "object" || Object.keys(result[this.rootKey]).length) ? result : void 0;
+      if (result && (typeof result[this.rootKey] !== "object" || Object.keys(result[this.rootKey]).length)) return result;
     }
   };
   function ownKeys51(e, r2) {
@@ -108036,13 +105300,12 @@ ${suffix2}`;
       if (events === void 0) return this;
       list = events[type];
       if (list === void 0) return this;
-      if (list === listener2 || list.listener === listener2) {
-        if (--this._eventsCount === 0) this._events = /* @__PURE__ */ Object.create(null);
-        else {
-          delete events[type];
-          if (events.removeListener) this.emit("removeListener", type, list.listener || listener2);
-        }
-      } else if (typeof list !== "function") {
+      if (list === listener2 || list.listener === listener2) if (--this._eventsCount === 0) this._events = /* @__PURE__ */ Object.create(null);
+      else {
+        delete events[type];
+        if (events.removeListener) this.emit("removeListener", type, list.listener || listener2);
+      }
+      else if (typeof list !== "function") {
         position = -1;
         for (i = list.length - 1; i >= 0; i--) if (list[i] === listener2 || list[i].listener === listener2) {
           originalListener = list[i].listener;
@@ -108065,10 +105328,8 @@ ${suffix2}`;
         if (arguments.length === 0) {
           this._events = /* @__PURE__ */ Object.create(null);
           this._eventsCount = 0;
-        } else if (events[type] !== void 0) {
-          if (--this._eventsCount === 0) this._events = /* @__PURE__ */ Object.create(null);
-          else delete events[type];
-        }
+        } else if (events[type] !== void 0) if (--this._eventsCount === 0) this._events = /* @__PURE__ */ Object.create(null);
+        else delete events[type];
         return this;
       }
       if (arguments.length === 0) {
@@ -108152,10 +105413,9 @@ ${suffix2}`;
       if (typeof emitter.on === "function") eventTargetAgnosticAddListener(emitter, "error", handler, flags);
     }
     function eventTargetAgnosticAddListener(emitter, name, listener2, flags) {
-      if (typeof emitter.on === "function") {
-        if (flags.once) emitter.once(name, listener2);
-        else emitter.on(name, listener2);
-      } else if (typeof emitter.addEventListener === "function") emitter.addEventListener(name, function wrapListener(arg) {
+      if (typeof emitter.on === "function") if (flags.once) emitter.once(name, listener2);
+      else emitter.on(name, listener2);
+      else if (typeof emitter.addEventListener === "function") emitter.addEventListener(name, function wrapListener(arg) {
         if (flags.once) emitter.removeEventListener(name, wrapListener);
         listener2(arg);
       });
@@ -108373,8 +105633,8 @@ ${suffix2}`;
       var arr = new Arr(_byteLength(b64, validLen, placeHoldersLen));
       var curByte = 0;
       var len2 = placeHoldersLen > 0 ? validLen - 4 : validLen;
-      var i2 = 0;
-      for (; i2 < len2; i2 += 4) {
+      var i2;
+      for (i2 = 0; i2 < len2; i2 += 4) {
         tmp = revLookup[b64.charCodeAt(i2)] << 18 | revLookup[b64.charCodeAt(i2 + 1)] << 12 | revLookup[b64.charCodeAt(i2 + 2)] << 6 | revLookup[b64.charCodeAt(i2 + 3)];
         arr[curByte++] = tmp >> 16 & 255;
         arr[curByte++] = tmp >> 8 & 255;
@@ -108503,7 +105763,7 @@ ${suffix2}`;
     if (!Buffer2.TYPED_ARRAY_SUPPORT && typeof console !== "undefined" && typeof console.error === "function") console.error("This browser lacks typed array (Uint8Array) support which is required by `buffer` v5.x. Use `buffer` v4.x if you require old browser support.");
     function typedArraySupport() {
       try {
-        var arr = /* @__PURE__ */ new Uint8Array(1);
+        var arr = new Uint8Array(1);
         var proto = { foo: function() {
           return 42;
         } };
@@ -108687,10 +105947,9 @@ ${suffix2}`;
       var pos = 0;
       for (i = 0; i < list.length; ++i) {
         var buf = list[i];
-        if (isInstance(buf, Uint8Array)) {
-          if (pos + buf.length > buffer.length) Buffer2.from(buf).copy(buffer, pos);
-          else Uint8Array.prototype.set.call(buffer, buf, pos);
-        } else if (!Buffer2.isBuffer(buf)) throw new TypeError('"list" argument must be an Array of Buffers');
+        if (isInstance(buf, Uint8Array)) if (pos + buf.length > buffer.length) Buffer2.from(buf).copy(buffer, pos);
+        else Uint8Array.prototype.set.call(buffer, buf, pos);
+        else if (!Buffer2.isBuffer(buf)) throw new TypeError('"list" argument must be an Array of Buffers');
         else buf.copy(buffer, pos);
         pos += buf.length;
       }
@@ -108854,23 +106113,18 @@ ${suffix2}`;
       byteOffset = +byteOffset;
       if (numberIsNaN(byteOffset)) byteOffset = dir ? 0 : buffer.length - 1;
       if (byteOffset < 0) byteOffset = buffer.length + byteOffset;
-      if (byteOffset >= buffer.length) {
-        if (dir) return -1;
-        else byteOffset = buffer.length - 1;
-      } else if (byteOffset < 0) {
-        if (dir) byteOffset = 0;
-        else return -1;
-      }
+      if (byteOffset >= buffer.length) if (dir) return -1;
+      else byteOffset = buffer.length - 1;
+      else if (byteOffset < 0) if (dir) byteOffset = 0;
+      else return -1;
       if (typeof val === "string") val = Buffer2.from(val, encoding);
       if (Buffer2.isBuffer(val)) {
         if (val.length === 0) return -1;
         return arrayIndexOf(buffer, val, byteOffset, encoding, dir);
       } else if (typeof val === "number") {
         val = val & 255;
-        if (typeof Uint8Array.prototype.indexOf === "function") {
-          if (dir) return Uint8Array.prototype.indexOf.call(buffer, val, byteOffset);
-          else return Uint8Array.prototype.lastIndexOf.call(buffer, val, byteOffset);
-        }
+        if (typeof Uint8Array.prototype.indexOf === "function") if (dir) return Uint8Array.prototype.indexOf.call(buffer, val, byteOffset);
+        else return Uint8Array.prototype.lastIndexOf.call(buffer, val, byteOffset);
         return arrayIndexOf(buffer, [val], byteOffset, encoding, dir);
       }
       throw new TypeError("val must be string, number or Buffer");
@@ -110269,20 +107523,16 @@ ${suffix2}`;
     var toStr = Object.prototype.toString;
     var hasOwnProperty = Object.prototype.hasOwnProperty;
     var forEachArray = function forEachArray2(array, iterator, receiver) {
-      for (var i = 0, len = array.length; i < len; i++) if (hasOwnProperty.call(array, i)) {
-        if (receiver == null) iterator(array[i], i, array);
-        else iterator.call(receiver, array[i], i, array);
-      }
+      for (var i = 0, len = array.length; i < len; i++) if (hasOwnProperty.call(array, i)) if (receiver == null) iterator(array[i], i, array);
+      else iterator.call(receiver, array[i], i, array);
     };
     var forEachString = function forEachString2(string, iterator, receiver) {
       for (var i = 0, len = string.length; i < len; i++) if (receiver == null) iterator(string.charAt(i), i, string);
       else iterator.call(receiver, string.charAt(i), i, string);
     };
     var forEachObject = function forEachObject2(object, iterator, receiver) {
-      for (var k2 in object) if (hasOwnProperty.call(object, k2)) {
-        if (receiver == null) iterator(object[k2], k2, object);
-        else iterator.call(receiver, object[k2], k2, object);
-      }
+      for (var k2 in object) if (hasOwnProperty.call(object, k2)) if (receiver == null) iterator(object[k2], k2, object);
+      else iterator.call(receiver, object[k2], k2, object);
     };
     function isArray2(x2) {
       return toStr.call(x2) === "[object Array]";
@@ -110381,10 +107631,8 @@ ${suffix2}`;
         if (desc && !desc.configurable) functionLengthIsConfigurable = false;
         if (desc && !desc.writable) functionLengthIsWritable = false;
       }
-      if (functionLengthIsConfigurable || functionLengthIsWritable || !loose) {
-        if (hasDescriptors) define2(fn, "length", length, true, true);
-        else define2(fn, "length", length);
-      }
+      if (functionLengthIsConfigurable || functionLengthIsWritable || !loose) if (hasDescriptors) define2(fn, "length", length, true, true);
+      else define2(fn, "length", length);
       return fn;
     };
   }));
@@ -110764,16 +108012,14 @@ ${suffix2}`;
     }
     exports.debuglog = function(set2) {
       set2 = set2.toUpperCase();
-      if (!debugs[set2]) {
-        if (debugEnvRegex.test(set2)) {
-          var pid = process$1.pid;
-          debugs[set2] = function() {
-            var msg = exports.format.apply(exports, arguments);
-            console.error("%s %d: %s", set2, pid, msg);
-          };
-        } else debugs[set2] = function() {
+      if (!debugs[set2]) if (debugEnvRegex.test(set2)) {
+        var pid = process$1.pid;
+        debugs[set2] = function() {
+          var msg = exports.format.apply(exports, arguments);
+          console.error("%s %d: %s", set2, pid, msg);
         };
-      }
+      } else debugs[set2] = function() {
+      };
       return debugs[set2];
     };
     function inspect(obj, opts) {
@@ -110864,10 +108110,8 @@ ${suffix2}`;
       if (isDate2(value)) base = " " + Date.prototype.toUTCString.call(value);
       if (isError2(value)) base = " " + formatError(value);
       if (keys2.length === 0 && (!array || value.length == 0)) return braces[0] + base + braces[1];
-      if (recurseTimes < 0) {
-        if (isRegExp(value)) return ctx.stylize(RegExp.prototype.toString.call(value), "regexp");
-        else return ctx.stylize("[Object]", "special");
-      }
+      if (recurseTimes < 0) if (isRegExp(value)) return ctx.stylize(RegExp.prototype.toString.call(value), "regexp");
+      else return ctx.stylize("[Object]", "special");
       ctx.seen.push(value);
       var output;
       if (array) output = formatArray(ctx, value, recurseTimes, visibleKeys, keys2);
@@ -110901,25 +108145,20 @@ ${suffix2}`;
     }
     function formatProperty(ctx, value, recurseTimes, visibleKeys, key, array) {
       var name, str, desc = Object.getOwnPropertyDescriptor(value, key) || { value: value[key] };
-      if (desc.get) {
-        if (desc.set) str = ctx.stylize("[Getter/Setter]", "special");
-        else str = ctx.stylize("[Getter]", "special");
-      } else if (desc.set) str = ctx.stylize("[Setter]", "special");
+      if (desc.get) if (desc.set) str = ctx.stylize("[Getter/Setter]", "special");
+      else str = ctx.stylize("[Getter]", "special");
+      else if (desc.set) str = ctx.stylize("[Setter]", "special");
       if (!hasOwnProperty(visibleKeys, key)) name = "[" + key + "]";
-      if (!str) {
-        if (ctx.seen.indexOf(desc.value) < 0) {
-          if (isNull(recurseTimes)) str = formatValue(ctx, desc.value, null);
-          else str = formatValue(ctx, desc.value, recurseTimes - 1);
-          if (str.indexOf("\n") > -1) {
-            if (array) str = str.split("\n").map(function(line) {
-              return "  " + line;
-            }).join("\n").slice(2);
-            else str = "\n" + str.split("\n").map(function(line) {
-              return "   " + line;
-            }).join("\n");
-          }
-        } else str = ctx.stylize("[Circular]", "special");
-      }
+      if (!str) if (ctx.seen.indexOf(desc.value) < 0) {
+        if (isNull(recurseTimes)) str = formatValue(ctx, desc.value, null);
+        else str = formatValue(ctx, desc.value, recurseTimes - 1);
+        if (str.indexOf("\n") > -1) if (array) str = str.split("\n").map(function(line) {
+          return "  " + line;
+        }).join("\n").slice(2);
+        else str = "\n" + str.split("\n").map(function(line) {
+          return "   " + line;
+        }).join("\n");
+      } else str = ctx.stylize("[Circular]", "special");
       if (isUndefined(name)) {
         if (array && key.match(/^\d+$/)) return str;
         name = JSON.stringify("" + key);
@@ -111051,10 +108290,10 @@ ${suffix2}`;
       return Object.prototype.hasOwnProperty.call(obj, prop);
     }
     var kCustomPromisifiedSymbol = typeof Symbol !== "undefined" ? /* @__PURE__ */ Symbol("util.promisify.custom") : void 0;
-    exports.promisify = function promisify(original2) {
-      if (typeof original2 !== "function") throw new TypeError('The "original" argument must be of type Function');
-      if (kCustomPromisifiedSymbol && original2[kCustomPromisifiedSymbol]) {
-        var fn = original2[kCustomPromisifiedSymbol];
+    exports.promisify = function promisify(original) {
+      if (typeof original !== "function") throw new TypeError('The "original" argument must be of type Function');
+      if (kCustomPromisifiedSymbol && original[kCustomPromisifiedSymbol]) {
+        var fn = original[kCustomPromisifiedSymbol];
         if (typeof fn !== "function") throw new TypeError('The "util.promisify.custom" argument must be of type Function');
         Object.defineProperty(fn, kCustomPromisifiedSymbol, {
           value: fn,
@@ -111077,20 +108316,20 @@ ${suffix2}`;
           else promiseResolve(value);
         });
         try {
-          original2.apply(this, args);
+          original.apply(this, args);
         } catch (err) {
           promiseReject(err);
         }
         return promise;
       }
-      Object.setPrototypeOf(fn, Object.getPrototypeOf(original2));
+      Object.setPrototypeOf(fn, Object.getPrototypeOf(original));
       if (kCustomPromisifiedSymbol) Object.defineProperty(fn, kCustomPromisifiedSymbol, {
         value: fn,
         enumerable: false,
         writable: false,
         configurable: true
       });
-      return Object.defineProperties(fn, getOwnPropertyDescriptors(original2));
+      return Object.defineProperties(fn, getOwnPropertyDescriptors(original));
     };
     exports.promisify.custom = kCustomPromisifiedSymbol;
     function callbackifyOnRejected(reason, cb) {
@@ -111101,8 +108340,8 @@ ${suffix2}`;
       }
       return cb(reason);
     }
-    function callbackify(original2) {
-      if (typeof original2 !== "function") throw new TypeError('The "original" argument must be of type Function');
+    function callbackify(original) {
+      if (typeof original !== "function") throw new TypeError('The "original" argument must be of type Function');
       function callbackified() {
         var args = [];
         for (var i = 0; i < arguments.length; i++) args.push(arguments[i]);
@@ -111112,14 +108351,14 @@ ${suffix2}`;
         var cb = function() {
           return maybeCb.apply(self2, arguments);
         };
-        original2.apply(this, args).then(function(ret) {
+        original.apply(this, args).then(function(ret) {
           process$1.nextTick(cb.bind(null, null, ret));
         }, function(rej) {
           process$1.nextTick(callbackifyOnRejected.bind(null, rej, cb));
         });
       }
-      Object.setPrototypeOf(callbackified, Object.getPrototypeOf(original2));
-      Object.defineProperties(callbackified, getOwnPropertyDescriptors(original2));
+      Object.setPrototypeOf(callbackified, Object.getPrototypeOf(original));
+      Object.defineProperties(callbackified, getOwnPropertyDescriptors(original));
       return callbackified;
     }
     exports.callbackify = callbackify;
@@ -111382,13 +108621,12 @@ ${suffix2}`;
       if (this._readableState) this._readableState.destroyed = true;
       if (this._writableState) this._writableState.destroyed = true;
       this._destroy(err || null, function(err2) {
-        if (!cb && err2) {
-          if (!_this._writableState) process$1.nextTick(emitErrorAndCloseNT, _this, err2);
-          else if (!_this._writableState.errorEmitted) {
-            _this._writableState.errorEmitted = true;
-            process$1.nextTick(emitErrorAndCloseNT, _this, err2);
-          } else process$1.nextTick(emitCloseNT, _this);
-        } else if (cb) {
+        if (!cb && err2) if (!_this._writableState) process$1.nextTick(emitErrorAndCloseNT, _this, err2);
+        else if (!_this._writableState.errorEmitted) {
+          _this._writableState.errorEmitted = true;
+          process$1.nextTick(emitErrorAndCloseNT, _this, err2);
+        } else process$1.nextTick(emitCloseNT, _this);
+        else if (cb) {
           process$1.nextTick(emitCloseNT, _this);
           cb(err2);
         } else process$1.nextTick(emitCloseNT, _this);
@@ -111530,7 +108768,7 @@ ${suffix2}`;
         if (!(isFinite(hwm) && Math.floor(hwm) === hwm) || hwm < 0) throw new ERR_INVALID_OPT_VALUE(isDuplex ? duplexKey : "highWaterMark", hwm);
         return Math.floor(hwm);
       }
-      return state.objectMode ? 16 : 16384;
+      return state.objectMode ? 16 : 16 * 1024;
     }
     module.exports = { getHighWaterMark };
   }));
@@ -111589,15 +108827,7 @@ ${suffix2}`;
     }
     var destroyImpl = require_destroy();
     var getHighWaterMark = require_state().getHighWaterMark;
-    var _require$codes = require_errors_browser().codes;
-    var ERR_INVALID_ARG_TYPE = _require$codes.ERR_INVALID_ARG_TYPE;
-    var ERR_METHOD_NOT_IMPLEMENTED = _require$codes.ERR_METHOD_NOT_IMPLEMENTED;
-    var ERR_MULTIPLE_CALLBACK = _require$codes.ERR_MULTIPLE_CALLBACK;
-    var ERR_STREAM_CANNOT_PIPE = _require$codes.ERR_STREAM_CANNOT_PIPE;
-    var ERR_STREAM_DESTROYED = _require$codes.ERR_STREAM_DESTROYED;
-    var ERR_STREAM_NULL_VALUES = _require$codes.ERR_STREAM_NULL_VALUES;
-    var ERR_STREAM_WRITE_AFTER_END = _require$codes.ERR_STREAM_WRITE_AFTER_END;
-    var ERR_UNKNOWN_ENCODING = _require$codes.ERR_UNKNOWN_ENCODING;
+    var _require$codes = require_errors_browser().codes, ERR_INVALID_ARG_TYPE = _require$codes.ERR_INVALID_ARG_TYPE, ERR_METHOD_NOT_IMPLEMENTED = _require$codes.ERR_METHOD_NOT_IMPLEMENTED, ERR_MULTIPLE_CALLBACK = _require$codes.ERR_MULTIPLE_CALLBACK, ERR_STREAM_CANNOT_PIPE = _require$codes.ERR_STREAM_CANNOT_PIPE, ERR_STREAM_DESTROYED = _require$codes.ERR_STREAM_DESTROYED, ERR_STREAM_NULL_VALUES = _require$codes.ERR_STREAM_NULL_VALUES, ERR_STREAM_WRITE_AFTER_END = _require$codes.ERR_STREAM_WRITE_AFTER_END, ERR_UNKNOWN_ENCODING = _require$codes.ERR_UNKNOWN_ENCODING;
     var errorOrDestroy = destroyImpl.errorOrDestroy;
     require_inherits_browser()(Writable, Stream);
     function nop() {
@@ -111927,15 +109157,13 @@ ${suffix2}`;
       });
     }
     function prefinish(stream, state) {
-      if (!state.prefinished && !state.finalCalled) {
-        if (typeof stream._final === "function" && !state.destroyed) {
-          state.pendingcb++;
-          state.finalCalled = true;
-          process$1.nextTick(callFinal, stream, state);
-        } else {
-          state.prefinished = true;
-          stream.emit("prefinish");
-        }
+      if (!state.prefinished && !state.finalCalled) if (typeof stream._final === "function" && !state.destroyed) {
+        state.pendingcb++;
+        state.finalCalled = true;
+        process$1.nextTick(callFinal, stream, state);
+      } else {
+        state.prefinished = true;
+        stream.emit("prefinish");
       }
     }
     function finishMaybe(stream, state) {
@@ -111956,10 +109184,8 @@ ${suffix2}`;
     function endWritable(stream, state, cb) {
       state.ending = true;
       finishMaybe(stream, state);
-      if (cb) {
-        if (state.finished) process$1.nextTick(cb);
-        else stream.once("finish", cb);
-      }
+      if (cb) if (state.finished) process$1.nextTick(cb);
+      else stream.once("finish", cb);
       state.ended = true;
       stream.writable = false;
     }
@@ -112081,10 +109307,9 @@ ${suffix2}`;
     SafeBuffer.alloc = function(size, fill2, encoding) {
       if (typeof size !== "number") throw new TypeError("Argument must be a number");
       var buf = Buffer2(size);
-      if (fill2 !== void 0) {
-        if (typeof encoding === "string") buf.fill(fill2, encoding);
-        else buf.fill(fill2);
-      } else buf.fill(0);
+      if (fill2 !== void 0) if (typeof encoding === "string") buf.fill(fill2, encoding);
+      else buf.fill(fill2);
+      else buf.fill(0);
       return buf;
     };
     SafeBuffer.allocUnsafe = function(size) {
@@ -112222,10 +109447,8 @@ ${suffix2}`;
       if (--j < i || nb === -2) return 0;
       nb = utf8CheckByte(buf[j]);
       if (nb >= 0) {
-        if (nb > 0) {
-          if (nb === 2) nb = 0;
-          else self2.lastNeed = nb - 3;
-        }
+        if (nb > 0) if (nb === 2) nb = 0;
+        else self2.lastNeed = nb - 3;
         return nb;
       }
       return 0;
@@ -112607,11 +109830,7 @@ ${suffix2}`;
     var BufferList = require_buffer_list();
     var destroyImpl = require_destroy();
     var getHighWaterMark = require_state().getHighWaterMark;
-    var _require$codes = require_errors_browser().codes;
-    var ERR_INVALID_ARG_TYPE = _require$codes.ERR_INVALID_ARG_TYPE;
-    var ERR_STREAM_PUSH_AFTER_EOF = _require$codes.ERR_STREAM_PUSH_AFTER_EOF;
-    var ERR_METHOD_NOT_IMPLEMENTED = _require$codes.ERR_METHOD_NOT_IMPLEMENTED;
-    var ERR_STREAM_UNSHIFT_AFTER_END_EVENT = _require$codes.ERR_STREAM_UNSHIFT_AFTER_END_EVENT;
+    var _require$codes = require_errors_browser().codes, ERR_INVALID_ARG_TYPE = _require$codes.ERR_INVALID_ARG_TYPE, ERR_STREAM_PUSH_AFTER_EOF = _require$codes.ERR_STREAM_PUSH_AFTER_EOF, ERR_METHOD_NOT_IMPLEMENTED = _require$codes.ERR_METHOD_NOT_IMPLEMENTED, ERR_STREAM_UNSHIFT_AFTER_END_EVENT = _require$codes.ERR_STREAM_UNSHIFT_AFTER_END_EVENT;
     var StringDecoder;
     var createReadableStreamAsyncIterator;
     var from2;
@@ -112723,10 +109942,9 @@ ${suffix2}`;
         if (er) errorOrDestroy(stream, er);
         else if (state.objectMode || chunk && chunk.length > 0) {
           if (typeof chunk !== "string" && !state.objectMode && Object.getPrototypeOf(chunk) !== Buffer2.prototype) chunk = _uint8ArrayToBuffer(chunk);
-          if (addToFront) {
-            if (state.endEmitted) errorOrDestroy(stream, new ERR_STREAM_UNSHIFT_AFTER_END_EVENT());
-            else addChunk(stream, state, chunk, true);
-          } else if (state.ended) errorOrDestroy(stream, new ERR_STREAM_PUSH_AFTER_EOF());
+          if (addToFront) if (state.endEmitted) errorOrDestroy(stream, new ERR_STREAM_UNSHIFT_AFTER_END_EVENT());
+          else addChunk(stream, state, chunk, true);
+          else if (state.ended) errorOrDestroy(stream, new ERR_STREAM_PUSH_AFTER_EOF());
           else if (state.destroyed) return false;
           else {
             state.reading = false;
@@ -112800,10 +110018,8 @@ ${suffix2}`;
     function howMuchToRead(n, state) {
       if (n <= 0 || state.length === 0 && state.ended) return 0;
       if (state.objectMode) return 1;
-      if (n !== n) {
-        if (state.flowing && state.length) return state.buffer.head.data.length;
-        else return state.length;
-      }
+      if (n !== n) if (state.flowing && state.length) return state.buffer.head.data.length;
+      else return state.length;
       if (n > state.highWaterMark) state.highWaterMark = computeNewHighWaterMark(n);
       if (n <= state.length) return n;
       if (!state.ended) {
@@ -112934,6 +110150,7 @@ ${suffix2}`;
           break;
         default:
           state.pipes.push(dest);
+          break;
       }
       state.pipesCount += 1;
       debug("pipe count=%d opts=%j", state.pipesCount, pipeOpts);
@@ -113243,11 +110460,7 @@ ${suffix2}`;
   }));
   var require__stream_transform = /* @__PURE__ */ __commonJSMin(((exports, module) => {
     module.exports = Transform;
-    var _require$codes = require_errors_browser().codes;
-    var ERR_METHOD_NOT_IMPLEMENTED = _require$codes.ERR_METHOD_NOT_IMPLEMENTED;
-    var ERR_MULTIPLE_CALLBACK = _require$codes.ERR_MULTIPLE_CALLBACK;
-    var ERR_TRANSFORM_ALREADY_TRANSFORMING = _require$codes.ERR_TRANSFORM_ALREADY_TRANSFORMING;
-    var ERR_TRANSFORM_WITH_LENGTH_0 = _require$codes.ERR_TRANSFORM_WITH_LENGTH_0;
+    var _require$codes = require_errors_browser().codes, ERR_METHOD_NOT_IMPLEMENTED = _require$codes.ERR_METHOD_NOT_IMPLEMENTED, ERR_MULTIPLE_CALLBACK = _require$codes.ERR_MULTIPLE_CALLBACK, ERR_TRANSFORM_ALREADY_TRANSFORMING = _require$codes.ERR_TRANSFORM_ALREADY_TRANSFORMING, ERR_TRANSFORM_WITH_LENGTH_0 = _require$codes.ERR_TRANSFORM_WITH_LENGTH_0;
     var Duplex = require__stream_duplex();
     require_inherits_browser()(Transform, Duplex);
     function afterTransform(er, data) {
@@ -113348,9 +110561,7 @@ ${suffix2}`;
         callback.apply(void 0, arguments);
       };
     }
-    var _require$codes = require_errors_browser().codes;
-    var ERR_MISSING_ARGS = _require$codes.ERR_MISSING_ARGS;
-    var ERR_STREAM_DESTROYED = _require$codes.ERR_STREAM_DESTROYED;
+    var _require$codes = require_errors_browser().codes, ERR_MISSING_ARGS = _require$codes.ERR_MISSING_ARGS, ERR_STREAM_DESTROYED = _require$codes.ERR_STREAM_DESTROYED;
     function noop7(err) {
       if (err) throw err;
     }
@@ -113487,7 +110698,7 @@ ${suffix2}`;
       sax.SAXParser = SAXParser;
       sax.SAXStream = SAXStream;
       sax.createStream = createStream;
-      sax.MAX_BUFFER_LENGTH = 65536;
+      sax.MAX_BUFFER_LENGTH = 64 * 1024;
       var buffers = [
         "comment",
         "sgmlDecl",
@@ -114091,15 +111302,13 @@ ${suffix2}`;
           var qn = qname(parser.attribName, true);
           var prefix2 = qn.prefix;
           var local = qn.local;
-          if (prefix2 === "xmlns") {
-            if (local === "xml" && parser.attribValue !== XML_NAMESPACE) strictFail(parser, "xml: prefix must be bound to " + XML_NAMESPACE + "\nActual: " + parser.attribValue);
-            else if (local === "xmlns" && parser.attribValue !== XMLNS_NAMESPACE) strictFail(parser, "xmlns: prefix must be bound to " + XMLNS_NAMESPACE + "\nActual: " + parser.attribValue);
-            else {
-              var tag = parser.tag;
-              var parent = parser.tags[parser.tags.length - 1] || parser;
-              if (tag.ns === parent.ns) tag.ns = Object.create(parent.ns);
-              tag.ns[local] = parser.attribValue;
-            }
+          if (prefix2 === "xmlns") if (local === "xml" && parser.attribValue !== XML_NAMESPACE) strictFail(parser, "xml: prefix must be bound to " + XML_NAMESPACE + "\nActual: " + parser.attribValue);
+          else if (local === "xmlns" && parser.attribValue !== XMLNS_NAMESPACE) strictFail(parser, "xmlns: prefix must be bound to " + XMLNS_NAMESPACE + "\nActual: " + parser.attribValue);
+          else {
+            var tag = parser.tag;
+            var parent = parser.tags[parser.tags.length - 1] || parser;
+            if (tag.ns === parent.ns) tag.ns = Object.create(parent.ns);
+            tag.ns[local] = parser.attribValue;
           }
           parser.attribList.push([parser.attribName, parser.attribValue]);
         } else {
@@ -114225,16 +111434,14 @@ ${suffix2}`;
         if (parser.ENTITIES[entity]) return parser.ENTITIES[entity];
         if (parser.ENTITIES[entityLC]) return parser.ENTITIES[entityLC];
         entity = entityLC;
-        if (entity.charAt(0) === "#") {
-          if (entity.charAt(1) === "x") {
-            entity = entity.slice(2);
-            num = parseInt(entity, 16);
-            numStr = num.toString(16);
-          } else {
-            entity = entity.slice(1);
-            num = parseInt(entity, 10);
-            numStr = num.toString(10);
-          }
+        if (entity.charAt(0) === "#") if (entity.charAt(1) === "x") {
+          entity = entity.slice(2);
+          num = parseInt(entity, 16);
+          numStr = num.toString(16);
+        } else {
+          entity = entity.slice(1);
+          num = parseInt(entity, 10);
+          numStr = num.toString(10);
         }
         entity = entity.replace(/^0+/, "");
         if (isNaN(num) || numStr.toLowerCase() !== entity) {
@@ -114587,15 +111794,13 @@ ${suffix2}`;
               else parser.state = S.ATTRIB;
               continue;
             case S.CLOSE_TAG:
-              if (!parser.tagName) {
-                if (isWhitespace(c2)) continue;
-                else if (notMatch(nameStart, c2)) {
-                  if (parser.script) {
-                    parser.script += "</" + c2;
-                    parser.state = S.SCRIPT;
-                  } else strictFail(parser, "Invalid tagname in closing tag.");
-                } else parser.tagName = c2;
-              } else if (c2 === ">") closeTag(parser);
+              if (!parser.tagName) if (isWhitespace(c2)) continue;
+              else if (notMatch(nameStart, c2)) if (parser.script) {
+                parser.script += "</" + c2;
+                parser.state = S.SCRIPT;
+              } else strictFail(parser, "Invalid tagname in closing tag.");
+              else parser.tagName = c2;
+              else if (c2 === ">") closeTag(parser);
               else if (isMatch2(nameBody, c2)) parser.tagName += c2;
               else if (parser.script) {
                 parser.script += "</" + parser.tagName;
@@ -114628,6 +111833,7 @@ ${suffix2}`;
                 case S.ATTRIB_VALUE_ENTITY_U:
                   returnState = S.ATTRIB_VALUE_UNQUOTED;
                   buffer = "attribValue";
+                  break;
               }
               if (c2 === ";") {
                 parser[buffer] += parseEntity(parser);
@@ -114787,13 +111993,11 @@ ${suffix2}`;
         if (currentElement[options[type + "Key"]] && !isArray2(currentElement[options[type + "Key"]])) currentElement[options[type + "Key"]] = [currentElement[options[type + "Key"]]];
         if (type + "Fn" in options && typeof value === "string") value = options[type + "Fn"](value, currentElement);
         if (type === "instruction" && ("instructionFn" in options || "instructionNameFn" in options)) {
-          for (key in value) if (value.hasOwnProperty(key)) {
-            if ("instructionFn" in options) value[key] = options.instructionFn(value[key], key, currentElement);
-            else {
-              var temp = value[key];
-              delete value[key];
-              value[options.instructionNameFn(key, temp, currentElement)] = temp;
-            }
+          for (key in value) if (value.hasOwnProperty(key)) if ("instructionFn" in options) value[key] = options.instructionFn(value[key], key, currentElement);
+          else {
+            var temp = value[key];
+            delete value[key];
+            value[options.instructionNameFn(key, temp, currentElement)] = temp;
           }
         }
         if (isArray2(currentElement[options[type + "Key"]])) currentElement[options[type + "Key"]].push(value);
@@ -114977,8 +112181,7 @@ ${suffix2}`;
   var require_js2xml = /* @__PURE__ */ __commonJSMin(((exports, module) => {
     var helper = require_options_helper();
     var isArray2 = require_array_helper().isArray;
-    var currentElement;
-    var currentElementName;
+    var currentElement, currentElementName;
     function validateOptions(userOptions) {
       var options = helper.copyOptions(userOptions);
       helper.ensureFlagExists("ignoreDeclaration", options);
@@ -115102,10 +112305,8 @@ ${suffix2}`;
       xml.push("<" + elementName);
       if (element[options.attributesKey]) xml.push(writeAttributes(element[options.attributesKey], options, depth));
       var withClosingTag = element[options.elementsKey] && element[options.elementsKey].length || element[options.attributesKey] && element[options.attributesKey]["xml:space"] === "preserve";
-      if (!withClosingTag) {
-        if ("fullTagEmptyElementFn" in options) withClosingTag = options.fullTagEmptyElementFn(element.name, element);
-        else withClosingTag = options.fullTagEmptyElement;
-      }
+      if (!withClosingTag) if ("fullTagEmptyElementFn" in options) withClosingTag = options.fullTagEmptyElementFn(element.name, element);
+      else withClosingTag = options.fullTagEmptyElement;
       if (withClosingTag) {
         xml.push(">");
         if (element[options.elementsKey] && element[options.elementsKey].length) {
@@ -115176,10 +112377,8 @@ ${suffix2}`;
         }
         if (element[options.attributesKey]) xml.push(writeAttributes(element[options.attributesKey], options, depth));
         var withClosingTag = hasContentCompact(element, options, true) || element[options.attributesKey] && element[options.attributesKey]["xml:space"] === "preserve";
-        if (!withClosingTag) {
-          if ("fullTagEmptyElementFn" in options) withClosingTag = options.fullTagEmptyElementFn(name, element);
-          else withClosingTag = options.fullTagEmptyElement;
-        }
+        if (!withClosingTag) if ("fullTagEmptyElementFn" in options) withClosingTag = options.fullTagEmptyElementFn(name, element);
+        else withClosingTag = options.fullTagEmptyElement;
         if (withClosingTag) xml.push(">");
         else {
           xml.push("/>");
@@ -115269,8 +112468,8 @@ ${suffix2}`;
         const xmlComponent = new ImportedXmlComponent(element.name, element.attributes);
         const childElements = element.elements || [];
         for (const childElm of childElements) {
-          const child2 = convertToXmlComponent(childElm);
-          if (child2 !== void 0) xmlComponent.push(child2);
+          const child = convertToXmlComponent(childElm);
+          if (child !== void 0) xmlComponent.push(child);
         }
         return xmlComponent;
       case "text":
@@ -115373,22 +112572,6 @@ ${suffix2}`;
     const amount = val.substring(0, val.length - 2);
     return `${Number(amount)}${unit2}`;
   };
-  var TWIPS_PER_UNIT = {
-    in: 1440,
-    cm: 1440 / 2.54,
-    mm: 1440 / 25.4,
-    pt: 20,
-    pc: 240,
-    pi: 240
-  };
-  var universalMeasureToTwips = (val) => {
-    if (typeof val === "number") return val;
-    const unit2 = val.slice(-2);
-    const amount = Number(val.substring(0, val.length - 2));
-    const twipsPerUnit = TWIPS_PER_UNIT[unit2];
-    if (twipsPerUnit === void 0 || Number.isNaN(amount)) throw new Error(`Invalid universal measure '${val}'. Expected a number followed by mm, cm, in, pt, pc or pi.`);
-    return amount * twipsPerUnit;
-  };
   var positiveUniversalMeasureValue = (val) => {
     const value = universalMeasureValue(val);
     if (parseFloat(value) < 0) throw new Error(`Invalid value '${value}' specified. Expected a positive number.`);
@@ -115407,7 +112590,8 @@ ${suffix2}`;
   };
   var measurementOrPercentValue = (val) => {
     if (typeof val === "number") return decimalNumber(val);
-    return val.slice(-1) === "%" ? percentageValue(val) : universalMeasureValue(val);
+    if (val.slice(-1) === "%") return percentageValue(val);
+    return universalMeasureValue(val);
   };
   var eighthPointMeasureValue = unsignedDecimalNumber;
   var pointMeasureValue = unsignedDecimalNumber;
@@ -115531,268 +112715,27 @@ ${suffix2}`;
       value: type
     } }
   });
-  var COLOR_OOXML_NAMES = {
-    dark1: "dk1",
-    light1: "lt1",
-    dark2: "dk2",
-    light2: "lt2",
-    accent1: "accent1",
-    accent2: "accent2",
-    accent3: "accent3",
-    accent4: "accent4",
-    accent5: "accent5",
-    accent6: "accent6",
-    hyperlink: "hlink",
-    followedHyperlink: "folHlink"
-  };
-  var OFFICE_COLORS = {
-    dark2: "44546A",
-    light2: "E7E6E6",
-    accent1: "4472C4",
-    accent2: "ED7D31",
-    accent3: "A5A5A5",
-    accent4: "FFC000",
-    accent5: "5B9BD5",
-    accent6: "70AD47",
-    hyperlink: "0563C1",
-    followedHyperlink: "954F72"
-  };
-  var OFFICE_SYSTEM_COLORS = {
-    dark1: {
-      value: "windowText",
-      lastColor: "000000"
-    },
-    light1: {
-      value: "window",
-      lastColor: "FFFFFF"
+  var createBorderElement = (elementName, { color: color2, size, space, style }) => new BuilderElement({
+    name: elementName,
+    attributes: {
+      style: {
+        key: "w:val",
+        value: style
+      },
+      color: {
+        key: "w:color",
+        value: color2 === void 0 ? void 0 : hexColorValue(color2)
+      },
+      size: {
+        key: "w:sz",
+        value: size === void 0 ? void 0 : eighthPointMeasureValue(size)
+      },
+      space: {
+        key: "w:space",
+        value: space === void 0 ? void 0 : pointMeasureValue(space)
+      }
     }
-  };
-  var rgbColorValue = (name, color2) => {
-    if (color2 === "auto") throw new Error(`Invalid theme color ${name} 'auto'. Expected 6 digit hex value`);
-    return hexColorValue(color2);
-  };
-  var themeColorValues = (colors = {}) => Object.fromEntries(Object.keys(COLOR_OOXML_NAMES).map((name) => {
-    const color2 = colors[name];
-    const office = name === "dark1" || name === "light1" ? OFFICE_SYSTEM_COLORS[name].lastColor : OFFICE_COLORS[name];
-    return [name, color2 === void 0 ? office : rgbColorValue(name, color2)];
-  }));
-  var createRgbColor = (name, color2) => new BuilderElement({
-    name: "a:srgbClr",
-    attributes: { value: {
-      key: "val",
-      value: rgbColorValue(name, color2)
-    } }
   });
-  var createColor = (name, colors) => {
-    const color2 = colors[name];
-    const system = name === "dark1" || name === "light1" ? OFFICE_SYSTEM_COLORS[name] : void 0;
-    return new BuilderElement({
-      name: `a:${COLOR_OOXML_NAMES[name]}`,
-      children: [color2 === void 0 && system ? new BuilderElement({
-        name: "a:sysClr",
-        attributes: {
-          value: {
-            key: "val",
-            value: system.value
-          },
-          lastColor: {
-            key: "lastClr",
-            value: system.lastColor
-          }
-        }
-      }) : createRgbColor(name, color2 !== null && color2 !== void 0 ? color2 : OFFICE_COLORS[name])]
-    });
-  };
-  var createColorScheme = (name, colors = {}) => new BuilderElement({
-    name: "a:clrScheme",
-    attributes: { name: {
-      key: "name",
-      value: name
-    } },
-    children: Object.keys(COLOR_OOXML_NAMES).map((color2) => createColor(color2, colors))
-  });
-  var THEME_COLOR_NAMES = /* @__PURE__ */ new Set([
-    "dark1",
-    "light1",
-    "dark2",
-    "light2",
-    "accent1",
-    "accent2",
-    "accent3",
-    "accent4",
-    "accent5",
-    "accent6",
-    "hyperlink",
-    "followedHyperlink"
-  ]);
-  var THEME_COLOR_SUGGESTIONS = /* @__PURE__ */ new Map([
-    ["dk1", "dark1"],
-    ["lt1", "light1"],
-    ["dk2", "dark2"],
-    ["lt2", "light2"],
-    ["hlink", "hyperlink"],
-    ["folHlink", "followedHyperlink"],
-    ["text1", "dark1"],
-    ["background1", "light1"],
-    ["text2", "dark2"],
-    ["background2", "light2"]
-  ]);
-  var changeValue = (value, option) => {
-    if (!(value >= 0 && value <= 100)) throw new Error(`Invalid ${option} ${value}. Expected a number from 0 to 100`);
-    return Math.round(255 * (1 - value / 100));
-  };
-  var themeColorChange = ({ theme, lighter, darker: darker2 }) => {
-    if (!THEME_COLOR_NAMES.has(theme)) {
-      const suggestion = THEME_COLOR_SUGGESTIONS.get(theme);
-      throw new Error(`Invalid theme color "${theme}". ${suggestion ? `Did you mean "${suggestion}"?` : `Expected one of ${[...THEME_COLOR_NAMES].join(", ")}`}`);
-    }
-    if (lighter !== void 0 && darker2 !== void 0) throw new Error("Invalid theme color. Expected lighter or darker, not both");
-    const tint = lighter === void 0 ? void 0 : changeValue(lighter, "lighter");
-    const shade = darker2 === void 0 ? void 0 : changeValue(darker2, "darker");
-    return {
-      tint: tint === 255 ? void 0 : tint,
-      shade: shade === 255 ? void 0 : shade
-    };
-  };
-  var toHsl = (hex2) => {
-    const [red, green, blue] = [
-      0,
-      2,
-      4
-    ].map((index) => parseInt(hex2.slice(index, index + 2), 16) / 255);
-    const max2 = Math.max(red, green, blue);
-    const min2 = Math.min(red, green, blue);
-    const lightness = (max2 + min2) / 2;
-    const range3 = max2 - min2;
-    if (range3 === 0) return {
-      hue: 0,
-      saturation: 0,
-      lightness
-    };
-    return {
-      hue: (max2 === red ? ((green - blue) / range3 + 6) % 6 : max2 === green ? (blue - red) / range3 + 2 : (red - green) / range3 + 4) * 60,
-      saturation: range3 / (1 - Math.abs(2 * lightness - 1)),
-      lightness
-    };
-  };
-  var toHex2 = ({ hue, saturation, lightness }) => {
-    const chroma = (1 - Math.abs(2 * lightness - 1)) * saturation;
-    const second2 = chroma * (1 - Math.abs(hue / 60 % 2 - 1));
-    const [red, green, blue] = hue < 60 ? [
-      chroma,
-      second2,
-      0
-    ] : hue < 120 ? [
-      second2,
-      chroma,
-      0
-    ] : hue < 180 ? [
-      0,
-      chroma,
-      second2
-    ] : hue < 240 ? [
-      0,
-      second2,
-      chroma
-    ] : hue < 300 ? [
-      second2,
-      0,
-      chroma
-    ] : [
-      chroma,
-      0,
-      second2
-    ];
-    const lowest = lightness - chroma / 2;
-    return [
-      red,
-      green,
-      blue
-    ].map((value) => Math.floor((value + lowest) * 255 + 1e-9).toString(16).padStart(2, "0")).join("").toUpperCase();
-  };
-  var applyChange = (hex2, { tint, shade }) => {
-    if (tint === void 0 && shade === void 0) return hex2;
-    const hsl2 = toHsl(hex2);
-    const lightness = tint === void 0 ? hsl2.lightness * shade / 255 : hsl2.lightness * tint / 255 + (1 - tint / 255);
-    return toHex2(_objectSpread213(_objectSpread213({}, hsl2), {}, { lightness }));
-  };
-  var hexByte = (value) => value === void 0 ? void 0 : value.toString(16).padStart(2, "0").toUpperCase();
-  var checkColor = (color2) => typeof color2 === "string" ? {
-    type: "hex",
-    value: hexColorValue(color2)
-  } : {
-    type: "theme",
-    color: color2,
-    change: themeColorChange(color2)
-  };
-  var colorValues = (checked, colors) => checked.type === "hex" ? { color: checked.value } : {
-    color: applyChange(colors[checked.color.theme], checked.change),
-    theme: checked.color.theme,
-    tint: hexByte(checked.change.tint),
-    shade: hexByte(checked.change.shade)
-  };
-  var OFFICE_THEME_COLORS = themeColorValues();
-  var ColorAttributeComponent = class extends BaseXmlComponent {
-    /**
-    * @throws If a color isn't valid
-    */
-    constructor(attributes) {
-      super("_attr");
-      _defineProperty54(this, "attributes", void 0);
-      this.attributes = attributes.map((attribute) => "keys" in attribute ? {
-        keys: attribute.keys,
-        color: attribute.color === void 0 ? void 0 : checkColor(attribute.color)
-      } : attribute);
-    }
-    prepForXml(context) {
-      var _context$file$Theme$C, _context$file;
-      const themeColors = (_context$file$Theme$C = (_context$file = context.file) === null || _context$file === void 0 || (_context$file = _context$file.Theme) === null || _context$file === void 0 ? void 0 : _context$file.Colors) !== null && _context$file$Theme$C !== void 0 ? _context$file$Theme$C : OFFICE_THEME_COLORS;
-      const entries = this.attributes.flatMap((attribute) => {
-        if (!("keys" in attribute)) return [[attribute.key, attribute.value]];
-        if (attribute.color === void 0) return [];
-        const { keys: keys2 } = attribute;
-        const values = colorValues(attribute.color, themeColors);
-        return [
-          [keys2.color, values.color],
-          [keys2.theme, values.theme],
-          [keys2.tint, values.tint],
-          [keys2.shade, values.shade]
-        ];
-      });
-      return { _attr: Object.fromEntries(entries.filter(([, value]) => value !== void 0)) };
-    }
-  };
-  var ColorElement = class extends XmlComponent {
-    constructor(name, attributes) {
-      super(name);
-      this.root.push(new ColorAttributeComponent(attributes));
-    }
-  };
-  var createColorElement = (name, attributes) => new ColorElement(name, attributes);
-  var COLOR_ATTRIBUTES = {
-    color: "w:color",
-    theme: "w:themeColor",
-    tint: "w:themeTint",
-    shade: "w:themeShade"
-  };
-  var createBorderElement = (elementName, { color: color2, size, space, style }) => createColorElement(elementName, [
-    {
-      key: "w:val",
-      value: style
-    },
-    {
-      keys: COLOR_ATTRIBUTES,
-      color: color2
-    },
-    {
-      key: "w:sz",
-      value: size === void 0 ? void 0 : eighthPointMeasureValue(size)
-    },
-    {
-      key: "w:space",
-      value: space === void 0 ? void 0 : pointMeasureValue(space)
-    }
-  ]);
   var BorderStyle = {
     /** a single line */
     SINGLE: "single",
@@ -115853,8 +112796,8 @@ ${suffix2}`;
     constructor(options) {
       super("w:pBdr");
       if (options.top) this.root.push(createBorderElement("w:top", options.top));
-      if (options.left) this.root.push(createBorderElement("w:left", options.left));
       if (options.bottom) this.root.push(createBorderElement("w:bottom", options.bottom));
+      if (options.left) this.root.push(createBorderElement("w:left", options.left));
       if (options.right) this.root.push(createBorderElement("w:right", options.right));
       if (options.between) this.root.push(createBorderElement("w:between", options.between));
     }
@@ -115964,25 +112907,23 @@ ${suffix2}`;
       this.root.push("SECTION");
     }
   };
-  var createShading = ({ fill: fill2, color: color2, type }) => createColorElement("w:shd", [
-    {
-      keys: {
-        color: "w:fill",
-        theme: "w:themeFill",
-        tint: "w:themeFillTint",
-        shade: "w:themeFillShade"
+  var createShading = ({ fill: fill2, color: color2, type }) => new BuilderElement({
+    name: "w:shd",
+    attributes: {
+      fill: {
+        key: "w:fill",
+        value: fill2 === void 0 ? void 0 : hexColorValue(fill2)
       },
-      color: fill2
-    },
-    {
-      keys: COLOR_ATTRIBUTES,
-      color: color2
-    },
-    {
-      key: "w:val",
-      value: type !== null && type !== void 0 ? type : ShadingType.CLEAR
+      color: {
+        key: "w:color",
+        value: color2 === void 0 ? void 0 : hexColorValue(color2)
+      },
+      type: {
+        key: "w:val",
+        value: type
+      }
     }
-  ]);
+  });
   var ShadingType = {
     /** Clear shading - no pattern, fill color only */
     CLEAR: "clear",
@@ -116073,15 +113014,18 @@ ${suffix2}`;
   var Color2 = class extends XmlComponent {
     constructor(color2) {
       super("w:color");
-      this.root.push(new ColorAttributeComponent([{
-        keys: _objectSpread213(_objectSpread213({}, COLOR_ATTRIBUTES), {}, { color: "w:val" }),
-        color: color2
-      }]));
+      this.root.push(new Attributes({ val: hexColorValue(color2) }));
     }
   };
   var Highlight = class extends XmlComponent {
     constructor(color2) {
       super("w:highlight");
+      this.root.push(new Attributes({ val: color2 }));
+    }
+  };
+  var HighlightComplexScript = class extends XmlComponent {
+    constructor(color2) {
+      super("w:highlightCs");
       this.root.push(new Attributes({ val: color2 }));
     }
   };
@@ -116127,30 +113071,6 @@ ${suffix2}`;
           hint: {
             key: "w:hint",
             value: hint
-          }
-        }
-      });
-    }
-    if ("theme" in nameOrAttrs) {
-      const theme = nameOrAttrs.theme === "headings" ? "major" : "minor";
-      return new BuilderElement({
-        name: "w:rFonts",
-        attributes: {
-          ascii: {
-            key: "w:asciiTheme",
-            value: `${theme}HAnsi`
-          },
-          eastAsia: {
-            key: "w:eastAsiaTheme",
-            value: `${theme}EastAsia`
-          },
-          hAnsi: {
-            key: "w:hAnsiTheme",
-            value: `${theme}HAnsi`
-          },
-          cs: {
-            key: "w:cstheme",
-            value: `${theme}Bidi`
           }
         }
       });
@@ -116229,23 +113149,27 @@ ${suffix2}`;
     /** No underline */
     NONE: "none"
   };
-  var createUnderline = (underlineType = UnderlineType.SINGLE, color2) => createColorElement("w:u", [{
-    key: "w:val",
-    value: underlineType
-  }, {
-    keys: COLOR_ATTRIBUTES,
-    color: color2
-  }]);
+  var createUnderline = (underlineType = UnderlineType.SINGLE, color2) => new BuilderElement({
+    name: "w:u",
+    attributes: {
+      val: {
+        key: "w:val",
+        value: underlineType
+      },
+      color: {
+        key: "w:color",
+        value: color2 === void 0 ? void 0 : hexColorValue(color2)
+      }
+    }
+  });
   var RunProperties = class extends IgnoreIfEmptyXmlComponent {
     constructor(options) {
       super("w:rPr");
       if (!options) return;
       if (options.style) this.push(new StringValueElement("w:rStyle", options.style));
-      if (options.font) {
-        if (typeof options.font === "string") this.push(createRunFonts(options.font));
-        else if ("name" in options.font) this.push(createRunFonts(options.font.name, options.font.hint));
-        else this.push(createRunFonts(options.font));
-      }
+      if (options.font) if (typeof options.font === "string") this.push(createRunFonts(options.font));
+      else if ("name" in options.font) this.push(createRunFonts(options.font.name, options.font.hint));
+      else this.push(createRunFonts(options.font));
       if (options.bold !== void 0) this.push(new OnOffElement("w:b", options.bold));
       if (options.boldComplexScript === void 0 && options.bold !== void 0 || options.boldComplexScript) {
         var _options$boldComplexS;
@@ -116274,6 +113198,8 @@ ${suffix2}`;
       const szCs = options.sizeComplexScript === void 0 || options.sizeComplexScript === true ? options.size : options.sizeComplexScript;
       if (szCs) this.push(new HpsMeasureElement("w:szCs", szCs));
       if (options.highlight) this.push(new Highlight(options.highlight));
+      const highlightCs = options.highlightComplexScript === void 0 || options.highlightComplexScript === true ? options.highlight : options.highlightComplexScript;
+      if (highlightCs) this.push(new HighlightComplexScript(highlightCs));
       if (options.underline) this.push(createUnderline(options.underline.type, options.underline.color));
       if (options.effect) this.push(new StringValueElement("w:effect", options.effect));
       if (options.border) this.push(createBorderElement("w:bdr", options.border));
@@ -116332,25 +113258,16 @@ ${suffix2}`;
     /** Inserts the current section number */
     CURRENT_SECTION: "SECTION"
   };
-  var Run = class Run2 extends XmlComponent {
+  var Run = class extends XmlComponent {
     constructor(options) {
       super("w:r");
       _defineProperty54(this, "properties", void 0);
-      _defineProperty54(this, "following", []);
       this.properties = new RunProperties(options);
       this.root.push(this.properties);
       if (options.break) for (let i = 0; i < options.break; i++) this.root.push(createBreak());
-      if (options.children) for (const [index, child2] of options.children.entries()) {
-        if (child2 instanceof Run2) {
-          const rest = options.children.slice(index + 1);
-          this.following = [child2, ...rest.length > 0 ? [new Run2(_objectSpread213(_objectSpread213({}, options), {}, {
-            break: void 0,
-            children: rest
-          }))] : []];
-          break;
-        }
-        if (typeof child2 === "string") {
-          switch (child2) {
+      if (options.children) for (const child of options.children) {
+        if (typeof child === "string") {
+          switch (child) {
             case PageNumber.CURRENT:
               this.root.push(createBegin());
               this.root.push(new Page());
@@ -116376,19 +113293,14 @@ ${suffix2}`;
               this.root.push(createEnd());
               break;
             default:
-              this.root.push(new Text2(child2));
+              this.root.push(new Text2(child));
+              break;
           }
           continue;
         }
-        this.root.push(child2);
+        this.root.push(child);
       }
       else if (options.text !== void 0) this.root.push(new Text2(options.text));
-    }
-    get writtenAs() {
-      return this.following.length > 0 ? [this, ...this.following.flatMap((run) => {
-        var _run$writtenAs;
-        return (_run$writtenAs = run.writtenAs) !== null && _run$writtenAs !== void 0 ? _run$writtenAs : run;
-      })] : void 0;
     }
   };
   var TextRun = class extends Run {
@@ -116447,12 +113359,12 @@ ${suffix2}`;
       return res;
     }
     exports.toArray = toArray3;
-    function toHex3(msg) {
+    function toHex2(msg) {
       var res = "";
       for (var i = 0; i < msg.length; i++) res += zero22(msg[i].toString(16));
       return res;
     }
-    exports.toHex = toHex3;
+    exports.toHex = toHex2;
     function htonl(w) {
       return (w >>> 24 | w >>> 8 & 65280 | w << 8 & 16711680 | (w & 255) << 24) >>> 0;
     }
@@ -117824,14 +114736,14 @@ ${suffix2}`;
     return (size = defaultSize) => {
       let id = "";
       let i = size | 0;
-      while (i-- > 0) id += alphabet[Math.random() * alphabet.length | 0];
+      while (i--) id += alphabet[Math.random() * alphabet.length | 0];
       return id;
     };
   };
   var nanoid2 = (size = 21) => {
     let id = "";
     let i = size | 0;
-    while (i-- > 0) id += urlAlphabet2[Math.random() * 64 | 0];
+    while (i--) id += urlAlphabet2[Math.random() * 64 | 0];
     return id;
   };
   var convertInchesToTwip = (inches) => Math.floor(inches * 72 * 20);
@@ -117841,14 +114753,17 @@ ${suffix2}`;
   };
   var abstractNumUniqueNumericIdGen = () => uniqueNumericIdCreator();
   var concreteNumUniqueNumericIdGen = () => uniqueNumericIdCreator(1);
-  var docPropertiesUniqueNumericIdGen = () => uniqueNumericIdCreator();
-  var docPropertiesUniqueNumericId = docPropertiesUniqueNumericIdGen();
   var bookmarkUniqueNumericIdGen = () => uniqueNumericIdCreator();
-  var bookmarkUniqueNumericId = bookmarkUniqueNumericIdGen();
   var uniqueId2 = () => nanoid2().toLowerCase();
   var generateUuidPart = (count) => customAlphabet("1234567890abcdef", count)();
   var uniqueUuid = () => `${generateUuidPart(8)}-${generateUuidPart(4)}-${generateUuidPart(4)}-${generateUuidPart(4)}-${generateUuidPart(12)}`;
   var encodeUtf8 = (str) => new Uint8Array(new TextEncoder().encode(str));
+  var RelationshipsAttributes = class extends XmlAttributeComponent {
+    constructor(..._args) {
+      super(..._args);
+      _defineProperty54(this, "xmlKeys", { xmlns: "xmlns" });
+    }
+  };
   var TargetModeType = {
     /** Target is external to the package (e.g., hyperlink to a URL) */
     EXTERNAL: "External"
@@ -117874,12 +114789,6 @@ ${suffix2}`;
       }
     }
   });
-  var RelationshipsAttributes = class extends XmlAttributeComponent {
-    constructor(..._args) {
-      super(..._args);
-      _defineProperty54(this, "xmlKeys", { xmlns: "xmlns" });
-    }
-  };
   var Relationships = class extends XmlComponent {
     constructor() {
       super("Relationships");
@@ -117949,8 +114858,7 @@ ${suffix2}`;
         "xmlns:wpg": "xmlns:wpg",
         "xmlns:wpi": "xmlns:wpi",
         "xmlns:wne": "xmlns:wne",
-        "xmlns:wps": "xmlns:wps",
-        "mc:Ignorable": "mc:Ignorable"
+        "xmlns:wps": "xmlns:wps"
       });
     }
   };
@@ -117965,7 +114873,7 @@ ${suffix2}`;
         author,
         date: date2.toISOString()
       }));
-      for (const child2 of children) this.root.push(child2);
+      for (const child of children) this.root.push(child);
     }
     /**
     * Serializes this comment to XML, injecting w14:paraId and w14:textId into the last
@@ -117978,9 +114886,9 @@ ${suffix2}`;
       const commentChildren = result["w:comment"];
       if (!Array.isArray(commentChildren)) return result;
       for (let i = commentChildren.length - 1; i >= 0; i--) {
-        const child2 = commentChildren[i];
-        if (child2 && typeof child2 === "object" && "w:p" in child2) {
-          const pChildren = child2["w:p"];
+        const child = commentChildren[i];
+        if (child && typeof child === "object" && "w:p" in child) {
+          const pChildren = child["w:p"];
           if (Array.isArray(pChildren)) pChildren.unshift({ _attr: {
             "w14:paraId": this.paraId,
             "w14:textId": this.paraId
@@ -117997,9 +114905,6 @@ ${suffix2}`;
       super("w:comments");
       _defineProperty54(this, "relationships", void 0);
       _defineProperty54(this, "threadData", void 0);
-      _defineProperty54(this, "commentIdsData", void 0);
-      _defineProperty54(this, "isEmpty", void 0);
-      this.isEmpty = children.length === 0;
       this.root.push(new RootCommentsAttributes({
         "xmlns:cx": "http://schemas.microsoft.com/office/drawing/2014/chartex",
         "xmlns:cx1": "http://schemas.microsoft.com/office/drawing/2015/9/8/chartex",
@@ -118031,27 +114936,17 @@ ${suffix2}`;
         "xmlns:wpg": "http://schemas.microsoft.com/office/word/2010/wordprocessingGroup",
         "xmlns:wpi": "http://schemas.microsoft.com/office/word/2010/wordprocessingInk",
         "xmlns:wne": "http://schemas.microsoft.com/office/word/2006/wordml",
-        "xmlns:wps": "http://schemas.microsoft.com/office/word/2010/wordprocessingShape",
-        "mc:Ignorable": "w14 w15 wp14"
+        "xmlns:wps": "http://schemas.microsoft.com/office/word/2010/wordprocessingShape"
       }));
-      const hasThreading = children.some((child2) => child2.parentId !== void 0);
-      const hasDurableIds = children.some((child2) => child2.durableId !== void 0);
-      if (hasThreading || hasDurableIds) {
-        const idToParaId = new Map(children.map((child2) => [child2.id, commentIdToParaId(child2.id)]));
-        for (const child2 of children) this.root.push(new Comment(child2, idToParaId.get(child2.id)));
-        if (hasThreading) this.threadData = children.map((child2) => ({
-          paraId: idToParaId.get(child2.id),
-          parentParaId: child2.parentId !== void 0 ? idToParaId.get(child2.parentId) : void 0,
-          done: child2.resolved
+      if (children.some((child) => child.parentId !== void 0)) {
+        const idToParaId = new Map(children.map((child) => [child.id, commentIdToParaId(child.id)]));
+        for (const child of children) this.root.push(new Comment(child, idToParaId.get(child.id)));
+        this.threadData = children.map((child) => ({
+          paraId: idToParaId.get(child.id),
+          parentParaId: child.parentId !== void 0 ? idToParaId.get(child.parentId) : void 0,
+          done: child.resolved
         }));
-        if (hasDurableIds) this.commentIdsData = children.map((child2) => {
-          var _child$durableId;
-          return {
-            paraId: idToParaId.get(child2.id),
-            durableId: (_child$durableId = child2.durableId) !== null && _child$durableId !== void 0 ? _child$durableId : idToParaId.get(child2.id)
-          };
-        });
-      } else for (const child2 of children) this.root.push(new Comment(child2));
+      } else for (const child of children) this.root.push(new Comment(child));
       this.relationships = new Relationships();
     }
     get Relationships() {
@@ -118060,14 +114955,6 @@ ${suffix2}`;
     /** Thread data for commentsExtended.xml, or undefined when no comments use parentId. */
     get ThreadData() {
       return this.threadData;
-    }
-    /** Comment id data for commentsIds.xml, or undefined when no comments carry a durableId. */
-    get CommentIdsData() {
-      return this.commentIdsData;
-    }
-    /** Whether there are no comments, in which case the document has no comments.xml part. */
-    get IsEmpty() {
-      return this.isEmpty;
     }
   };
   var CommentsExtendedAttributes = class extends XmlAttributeComponent {
@@ -118111,45 +114998,6 @@ ${suffix2}`;
         "mc:Ignorable": "w15"
       }));
       for (const data of threadData) this.root.push(new CommentEx(data));
-    }
-  };
-  var CommentIdAttributes = class extends XmlAttributeComponent {
-    constructor(..._args3) {
-      super(..._args3);
-      _defineProperty54(this, "xmlKeys", {
-        paraId: "w16cid:paraId",
-        durableId: "w16cid:durableId"
-      });
-    }
-  };
-  var CommentId = class extends XmlComponent {
-    constructor(options) {
-      super("w16cid:commentId");
-      this.root.push(new CommentIdAttributes({
-        paraId: options.paraId,
-        durableId: options.durableId
-      }));
-    }
-  };
-  var CommentsIdsAttributes = class extends XmlAttributeComponent {
-    constructor(..._args4) {
-      super(..._args4);
-      _defineProperty54(this, "xmlKeys", {
-        "xmlns:w16cid": "xmlns:w16cid",
-        "xmlns:mc": "xmlns:mc",
-        "mc:Ignorable": "mc:Ignorable"
-      });
-    }
-  };
-  var CommentsIds = class extends XmlComponent {
-    constructor(commentIdsData) {
-      super("w16cid:commentsIds");
-      this.root.push(new CommentsIdsAttributes({
-        "xmlns:w16cid": "http://schemas.microsoft.com/office/word/2016/wordml/cid",
-        "xmlns:mc": "http://schemas.openxmlformats.org/markup-compatibility/2006",
-        "mc:Ignorable": "w16cid"
-      }));
-      for (const data of commentIdsData) this.root.push(new CommentId(data));
     }
   };
   var EndnoteReference = class extends EmptyElement {
@@ -118253,7 +115101,7 @@ ${suffix2}`;
       },
       pos: {
         key: "w:pos",
-        value: signedTwipsMeasureValue(position)
+        value: position
       },
       leader: {
         key: "w:leader",
@@ -118317,8 +115165,8 @@ ${suffix2}`;
         id: !anchor ? `rId${this.linkId}` : void 0
       });
       this.root.push(attributes);
-      children.forEach((child2) => {
-        this.root.push(child2);
+      children.forEach((child) => {
+        this.root.push(child);
       });
     }
   };
@@ -118346,10 +115194,11 @@ ${suffix2}`;
   };
   var Bookmark = class {
     constructor(options) {
+      _defineProperty54(this, "bookmarkUniqueNumericId", bookmarkUniqueNumericIdGen());
       _defineProperty54(this, "start", void 0);
       _defineProperty54(this, "children", void 0);
       _defineProperty54(this, "end", void 0);
-      const linkId = bookmarkUniqueNumericId();
+      const linkId = this.bookmarkUniqueNumericId();
       this.start = new BookmarkStart(options.id, linkId);
       this.children = options.children;
       this.end = new BookmarkEnd(linkId);
@@ -118386,7 +115235,7 @@ ${suffix2}`;
       value: id
     } }, fontKey ? { fontKey: {
       key: "w:fontKey",
-      value: `{${fontKey.toUpperCase()}}`
+      value: `{${fontKey}}`
     } } : {}),
     children: [...subsetted ? [new OnOffElement("w:subsetted", subsetted)] : []]
   });
@@ -118606,20 +115455,16 @@ ${suffix2}`;
     });
   };
   var ParagraphProperties = class extends IgnoreIfEmptyXmlComponent {
-    /**
-    * Creates paragraph properties.
-    *
-    * @param options - The paragraph formatting to emit
-    * @param config - Controls how the element is assembled; see {@link IParagraphPropertiesConfig}
-    */
-    constructor(options, { implicitListParagraphStyle = true } = {}) {
+    constructor(options) {
       super("w:pPr", options === null || options === void 0 ? void 0 : options.includeIfEmpty);
       _defineProperty54(this, "numberingReferences", []);
       if (!options) return this;
       if (options.heading) this.push(createParagraphStyle(options.heading));
-      if (implicitListParagraphStyle) {
-        if (options.bullet) this.push(createParagraphStyle("ListParagraph"));
-        if (options.numbering && !options.numbering.custom && !options.style && !options.heading) this.push(createParagraphStyle("ListParagraph"));
+      if (options.bullet) this.push(createParagraphStyle("ListParagraph"));
+      if (options.numbering) {
+        if (!options.style && !options.heading) {
+          if (!options.numbering.custom) this.push(createParagraphStyle("ListParagraph"));
+        }
       }
       if (options.style) this.push(createParagraphStyle(options.style));
       if (options.keepNext !== void 0) this.push(new OnOffElement("w:keepNext", options.keepNext));
@@ -118710,14 +115555,14 @@ ${suffix2}`;
       this.properties = new ParagraphProperties(options);
       this.root.push(this.properties);
       if (options.text) this.root.push(new TextRun(options.text));
-      if (options.children) for (const child2 of options.children) {
-        if (child2 instanceof Bookmark) {
-          this.root.push(child2.start);
-          for (const textRun of child2.children) this.root.push(textRun);
-          this.root.push(child2.end);
+      if (options.children) for (const child of options.children) {
+        if (child instanceof Bookmark) {
+          this.root.push(child.start);
+          for (const textRun of child.children) this.root.push(textRun);
+          this.root.push(child.end);
           continue;
         }
-        this.root.push(child2);
+        this.root.push(child);
       }
     }
     prepForXml(context) {
@@ -118734,24 +115579,91 @@ ${suffix2}`;
       return this;
     }
   };
-  function _objectWithoutPropertiesLoose31(r2, e) {
-    if (null == r2) return {};
-    var t = {};
-    for (var n in r2) if ({}.hasOwnProperty.call(r2, n)) {
-      if (e.includes(n)) continue;
-      t[n] = r2[n];
+  var createGridCol = (width) => new BuilderElement({
+    name: "w:gridCol",
+    attributes: width !== void 0 ? { width: {
+      key: "w:w",
+      value: twipsMeasureValue(width)
+    } } : void 0
+  });
+  var TableGrid = class extends XmlComponent {
+    constructor(widths, revision) {
+      super("w:tblGrid");
+      for (const width of widths) this.root.push(createGridCol(width));
+      if (revision) this.root.push(new TableGridChange(revision));
     }
-    return t;
-  }
-  function _objectWithoutProperties31(e, t) {
-    if (null == e) return {};
-    var o, r2, i = _objectWithoutPropertiesLoose31(e, t);
-    if (Object.getOwnPropertySymbols) {
-      var s2 = Object.getOwnPropertySymbols(e);
-      for (r2 = 0; r2 < s2.length; r2++) o = s2[r2], t.includes(o) || {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]);
+  };
+  var TableGridChangeAttributes = class extends XmlAttributeComponent {
+    constructor(..._args) {
+      super(..._args);
+      _defineProperty54(this, "xmlKeys", { id: "w:id" });
     }
-    return i;
-  }
+  };
+  var TableGridChange = class extends XmlComponent {
+    constructor(options) {
+      super("w:tblGridChange");
+      this.root.push(new TableGridChangeAttributes({ id: options.id }));
+      this.root.push(new TableGrid(options.columnWidths));
+    }
+  };
+  var InsertedTableRow = class extends XmlComponent {
+    constructor(options) {
+      super("w:ins");
+      this.root.push(new ChangeAttributes({
+        id: options.id,
+        author: options.author,
+        date: options.date
+      }));
+    }
+  };
+  var DeletedTableRow = class extends XmlComponent {
+    constructor(options) {
+      super("w:del");
+      this.root.push(new ChangeAttributes({
+        id: options.id,
+        author: options.author,
+        date: options.date
+      }));
+    }
+  };
+  var InsertedTableCell = class extends XmlComponent {
+    constructor(options) {
+      super("w:cellIns");
+      this.root.push(new ChangeAttributes({
+        id: options.id,
+        author: options.author,
+        date: options.date
+      }));
+    }
+  };
+  var DeletedTableCell = class extends XmlComponent {
+    constructor(options) {
+      super("w:cellDel");
+      this.root.push(new ChangeAttributes({
+        id: options.id,
+        author: options.author,
+        date: options.date
+      }));
+    }
+  };
+  var CellMergeAttributes = class extends XmlAttributeComponent {
+    constructor(..._args) {
+      super(..._args);
+      _defineProperty54(this, "xmlKeys", {
+        id: "w:id",
+        author: "w:author",
+        date: "w:date",
+        verticalMerge: "w:vMerge",
+        verticalMergeOriginal: "w:vMergeOrig"
+      });
+    }
+  };
+  var CellMerge = class extends XmlComponent {
+    constructor(options) {
+      super("w:cellMerge");
+      this.root.push(new CellMergeAttributes(options));
+    }
+  };
   var VerticalAlignTable = {
     TOP: "top",
     CENTER: "center",
@@ -118765,6 +115677,695 @@ ${suffix2}`;
       value
     } }
   });
+  var buildMarginChildren = ({ marginUnitType = WidthType.DXA, top, left, bottom, right }) => [
+    {
+      name: "w:top",
+      size: top
+    },
+    {
+      name: "w:left",
+      size: left
+    },
+    {
+      name: "w:bottom",
+      size: bottom
+    },
+    {
+      name: "w:right",
+      size: right
+    }
+  ].filter((entry) => entry.size !== void 0).map(({ name, size }) => createTableWidthElement(name, {
+    type: marginUnitType,
+    size
+  }));
+  var createTableCellMargin = (options) => {
+    const children = buildMarginChildren(options);
+    if (children.length === 0) return;
+    return new BuilderElement({
+      name: "w:tblCellMar",
+      children
+    });
+  };
+  var createCellMargin = (options) => {
+    const children = buildMarginChildren(options);
+    if (children.length === 0) return;
+    return new BuilderElement({
+      name: "w:tcMar",
+      children
+    });
+  };
+  var WidthType = {
+    /** Auto. */
+    AUTO: "auto",
+    /** Value is in twentieths of a point */
+    DXA: "dxa",
+    /** No (empty) value. */
+    NIL: "nil",
+    /** Value is in percentage. */
+    PERCENTAGE: "pct"
+  };
+  var createTableWidthElement = (name, { type = WidthType.AUTO, size }) => {
+    let tableWidthValue = size;
+    if (type === WidthType.PERCENTAGE && typeof size === "number") tableWidthValue = `${size}%`;
+    return new BuilderElement({
+      name,
+      attributes: {
+        type: {
+          key: "w:type",
+          value: type
+        },
+        size: {
+          key: "w:w",
+          value: measurementOrPercentValue(tableWidthValue)
+        }
+      }
+    });
+  };
+  var TableCellBorders = class extends IgnoreIfEmptyXmlComponent {
+    constructor(options) {
+      super("w:tcBorders");
+      if (options.top) this.root.push(createBorderElement("w:top", options.top));
+      if (options.start) this.root.push(createBorderElement("w:start", options.start));
+      if (options.left) this.root.push(createBorderElement("w:left", options.left));
+      if (options.bottom) this.root.push(createBorderElement("w:bottom", options.bottom));
+      if (options.end) this.root.push(createBorderElement("w:end", options.end));
+      if (options.right) this.root.push(createBorderElement("w:right", options.right));
+    }
+  };
+  var GridSpanAttributes = class extends XmlAttributeComponent {
+    constructor(..._args) {
+      super(..._args);
+      _defineProperty54(this, "xmlKeys", { val: "w:val" });
+    }
+  };
+  var GridSpan = class extends XmlComponent {
+    constructor(value) {
+      super("w:gridSpan");
+      this.root.push(new GridSpanAttributes({ val: decimalNumber(value) }));
+    }
+  };
+  var VerticalMergeType = {
+    /**
+    * Cell that is merged with upper one.
+    * This cell continues a vertical merge started by a cell above it.
+    */
+    CONTINUE: "continue",
+    /**
+    * Cell that is starting the vertical merge.
+    * This cell begins a new vertical merge region.
+    */
+    RESTART: "restart"
+  };
+  var VerticalMergeAttributes = class extends XmlAttributeComponent {
+    constructor(..._args2) {
+      super(..._args2);
+      _defineProperty54(this, "xmlKeys", { val: "w:val" });
+    }
+  };
+  var VerticalMerge = class extends XmlComponent {
+    constructor(value) {
+      super("w:vMerge");
+      this.root.push(new VerticalMergeAttributes({ val: value }));
+    }
+  };
+  var TDirectionAttributes = class extends XmlAttributeComponent {
+    constructor(..._args3) {
+      super(..._args3);
+      _defineProperty54(this, "xmlKeys", { val: "w:val" });
+    }
+  };
+  var TDirection = class extends XmlComponent {
+    constructor(value) {
+      super("w:textDirection");
+      this.root.push(new TDirectionAttributes({ val: value }));
+    }
+  };
+  var TableCellProperties = class extends IgnoreIfEmptyXmlComponent {
+    constructor(options) {
+      super("w:tcPr", options.includeIfEmpty);
+      if (options.width) this.root.push(createTableWidthElement("w:tcW", options.width));
+      if (options.columnSpan) this.root.push(new GridSpan(options.columnSpan));
+      if (options.verticalMerge) this.root.push(new VerticalMerge(options.verticalMerge));
+      else if (options.rowSpan && options.rowSpan > 1) this.root.push(new VerticalMerge(VerticalMergeType.RESTART));
+      if (options.borders) this.root.push(new TableCellBorders(options.borders));
+      if (options.shading) this.root.push(createShading(options.shading));
+      if (options.margins) {
+        const cellMargin = createCellMargin(options.margins);
+        if (cellMargin) this.root.push(cellMargin);
+      }
+      if (options.textDirection) this.root.push(new TDirection(options.textDirection));
+      if (options.verticalAlign) this.root.push(createVerticalAlign(options.verticalAlign));
+      if (options.insertion) this.root.push(new InsertedTableCell(options.insertion));
+      if (options.deletion) this.root.push(new DeletedTableCell(options.deletion));
+      if (options.revision) this.root.push(new TableCellPropertiesChange(options.revision));
+      if (options.cellMerge) this.root.push(new CellMerge(options.cellMerge));
+    }
+  };
+  var TableCellPropertiesChange = class extends XmlComponent {
+    constructor(options) {
+      super("w:tcPrChange");
+      this.root.push(new ChangeAttributes({
+        id: options.id,
+        author: options.author,
+        date: options.date
+      }));
+      this.root.push(new TableCellProperties(_objectSpread213(_objectSpread213({}, options), {}, { includeIfEmpty: true })));
+    }
+  };
+  var TableCell = class extends XmlComponent {
+    constructor(options) {
+      super("w:tc");
+      _defineProperty54(this, "options", void 0);
+      this.options = options;
+      this.root.push(new TableCellProperties(options));
+      for (const child of options.children) this.root.push(child);
+    }
+    prepForXml(context) {
+      if (!(this.root[this.root.length - 1] instanceof Paragraph)) this.root.push(new Paragraph({}));
+      return super.prepForXml(context);
+    }
+  };
+  var NONE_BORDER = {
+    style: BorderStyle.NONE,
+    size: 0,
+    color: "auto"
+  };
+  var DEFAULT_BORDER = {
+    style: BorderStyle.SINGLE,
+    size: 4,
+    color: "auto"
+  };
+  var TableBorders = class extends XmlComponent {
+    constructor(options) {
+      var _options$top, _options$left, _options$bottom, _options$right, _options$insideHorizo, _options$insideVertic;
+      super("w:tblBorders");
+      this.root.push(createBorderElement("w:top", (_options$top = options.top) !== null && _options$top !== void 0 ? _options$top : DEFAULT_BORDER));
+      this.root.push(createBorderElement("w:left", (_options$left = options.left) !== null && _options$left !== void 0 ? _options$left : DEFAULT_BORDER));
+      this.root.push(createBorderElement("w:bottom", (_options$bottom = options.bottom) !== null && _options$bottom !== void 0 ? _options$bottom : DEFAULT_BORDER));
+      this.root.push(createBorderElement("w:right", (_options$right = options.right) !== null && _options$right !== void 0 ? _options$right : DEFAULT_BORDER));
+      this.root.push(createBorderElement("w:insideH", (_options$insideHorizo = options.insideHorizontal) !== null && _options$insideHorizo !== void 0 ? _options$insideHorizo : DEFAULT_BORDER));
+      this.root.push(createBorderElement("w:insideV", (_options$insideVertic = options.insideVertical) !== null && _options$insideVertic !== void 0 ? _options$insideVertic : DEFAULT_BORDER));
+    }
+  };
+  _defineProperty54(TableBorders, "NONE", {
+    top: NONE_BORDER,
+    bottom: NONE_BORDER,
+    left: NONE_BORDER,
+    right: NONE_BORDER,
+    insideHorizontal: NONE_BORDER,
+    insideVertical: NONE_BORDER
+  });
+  var createOverlapElement = (overlap) => new BuilderElement({
+    name: "w:tblOverlap",
+    attributes: { val: {
+      key: "w:val",
+      value: overlap
+    } }
+  });
+  var createTableFloatProperties = ({ horizontalAnchor, verticalAnchor, absoluteHorizontalPosition, relativeHorizontalPosition, absoluteVerticalPosition, relativeVerticalPosition, bottomFromText, topFromText, leftFromText, rightFromText, overlap }) => new BuilderElement({
+    name: "w:tblpPr",
+    attributes: {
+      leftFromText: {
+        key: "w:leftFromText",
+        value: leftFromText === void 0 ? void 0 : twipsMeasureValue(leftFromText)
+      },
+      rightFromText: {
+        key: "w:rightFromText",
+        value: rightFromText === void 0 ? void 0 : twipsMeasureValue(rightFromText)
+      },
+      topFromText: {
+        key: "w:topFromText",
+        value: topFromText === void 0 ? void 0 : twipsMeasureValue(topFromText)
+      },
+      bottomFromText: {
+        key: "w:bottomFromText",
+        value: bottomFromText === void 0 ? void 0 : twipsMeasureValue(bottomFromText)
+      },
+      absoluteHorizontalPosition: {
+        key: "w:tblpX",
+        value: absoluteHorizontalPosition === void 0 ? void 0 : signedTwipsMeasureValue(absoluteHorizontalPosition)
+      },
+      absoluteVerticalPosition: {
+        key: "w:tblpY",
+        value: absoluteVerticalPosition === void 0 ? void 0 : signedTwipsMeasureValue(absoluteVerticalPosition)
+      },
+      horizontalAnchor: {
+        key: "w:horzAnchor",
+        value: horizontalAnchor
+      },
+      relativeHorizontalPosition: {
+        key: "w:tblpXSpec",
+        value: relativeHorizontalPosition
+      },
+      relativeVerticalPosition: {
+        key: "w:tblpYSpec",
+        value: relativeVerticalPosition
+      },
+      verticalAnchor: {
+        key: "w:vertAnchor",
+        value: verticalAnchor
+      }
+    },
+    children: overlap ? [createOverlapElement(overlap)] : void 0
+  });
+  var createTableLayout = (type) => new BuilderElement({
+    name: "w:tblLayout",
+    attributes: { type: {
+      key: "w:type",
+      value: type
+    } }
+  });
+  var CellSpacingType = {
+    /** Value is in twentieths of a point */
+    DXA: "dxa",
+    /** No (empty) value. */
+    NIL: "nil"
+  };
+  var createTableCellSpacing = ({ type = CellSpacingType.DXA, value }) => new BuilderElement({
+    name: "w:tblCellSpacing",
+    attributes: {
+      type: {
+        key: "w:type",
+        value: type
+      },
+      value: {
+        key: "w:w",
+        value: measurementOrPercentValue(value)
+      }
+    }
+  });
+  var createTableLook = ({ firstRow, lastRow, firstColumn, lastColumn, noHBand, noVBand }) => new BuilderElement({
+    name: "w:tblLook",
+    attributes: {
+      firstRow: {
+        key: "w:firstRow",
+        value: firstRow
+      },
+      lastRow: {
+        key: "w:lastRow",
+        value: lastRow
+      },
+      firstColumn: {
+        key: "w:firstColumn",
+        value: firstColumn
+      },
+      lastColumn: {
+        key: "w:lastColumn",
+        value: lastColumn
+      },
+      noHBand: {
+        key: "w:noHBand",
+        value: noHBand
+      },
+      noVBand: {
+        key: "w:noVBand",
+        value: noVBand
+      }
+    }
+  });
+  var TableProperties = class extends IgnoreIfEmptyXmlComponent {
+    constructor(options) {
+      super("w:tblPr", options.includeIfEmpty);
+      if (options.style) this.root.push(new StringValueElement("w:tblStyle", options.style));
+      if (options.float) this.root.push(createTableFloatProperties(options.float));
+      if (options.visuallyRightToLeft !== void 0) this.root.push(new OnOffElement("w:bidiVisual", options.visuallyRightToLeft));
+      if (options.width) this.root.push(createTableWidthElement("w:tblW", options.width));
+      if (options.alignment) this.root.push(createAlignment(options.alignment));
+      if (options.indent) this.root.push(createTableWidthElement("w:tblInd", options.indent));
+      if (options.borders) this.root.push(new TableBorders(options.borders));
+      if (options.shading) this.root.push(createShading(options.shading));
+      if (options.layout) this.root.push(createTableLayout(options.layout));
+      if (options.cellMargin) {
+        const cellMargin = createTableCellMargin(options.cellMargin);
+        if (cellMargin) this.root.push(cellMargin);
+      }
+      if (options.tableLook) this.root.push(createTableLook(options.tableLook));
+      if (options.cellSpacing) this.root.push(createTableCellSpacing(options.cellSpacing));
+      if (options.revision) this.root.push(new TablePropertiesChange(options.revision));
+    }
+  };
+  var TablePropertiesChange = class extends XmlComponent {
+    constructor(options) {
+      super("w:tblPrChange");
+      this.root.push(new ChangeAttributes({
+        id: options.id,
+        author: options.author,
+        date: options.date
+      }));
+      this.root.push(new TableProperties(_objectSpread213(_objectSpread213({}, options), {}, { includeIfEmpty: true })));
+    }
+  };
+  var Table = class extends FileChild {
+    constructor({ rows, width, columnWidths = Array(Math.max(...rows.map((row) => row.CellCount))).fill(100), columnWidthsRevision, margins, indent, float, layout, style, borders, alignment, visuallyRightToLeft, tableLook, cellSpacing, revision }) {
+      super("w:tbl");
+      this.root.push(new TableProperties({
+        borders: borders !== null && borders !== void 0 ? borders : {},
+        width: width !== null && width !== void 0 ? width : { size: 100 },
+        indent,
+        float,
+        layout,
+        style,
+        alignment,
+        cellMargin: margins,
+        visuallyRightToLeft,
+        tableLook,
+        cellSpacing,
+        revision
+      }));
+      this.root.push(new TableGrid(columnWidths, columnWidthsRevision));
+      for (const row of rows) this.root.push(row);
+      rows.forEach((row, rowIndex) => {
+        if (rowIndex === rows.length - 1) return;
+        let columnIndex = 0;
+        row.cells.forEach((cell2) => {
+          if (cell2.options.rowSpan && cell2.options.rowSpan > 1) {
+            const continueCell = new TableCell({
+              rowSpan: cell2.options.rowSpan - 1,
+              columnSpan: cell2.options.columnSpan,
+              borders: cell2.options.borders,
+              children: [],
+              verticalMerge: VerticalMergeType.CONTINUE
+            });
+            rows[rowIndex + 1].addCellToColumnIndex(continueCell, columnIndex);
+          }
+          columnIndex += cell2.options.columnSpan || 1;
+        });
+      });
+    }
+  };
+  var createTableRowHeight = (value, rule) => new BuilderElement({
+    name: "w:trHeight",
+    attributes: {
+      value: {
+        key: "w:val",
+        value: twipsMeasureValue(value)
+      },
+      rule: {
+        key: "w:hRule",
+        value: rule
+      }
+    }
+  });
+  var TableRowProperties = class extends IgnoreIfEmptyXmlComponent {
+    constructor(options) {
+      super("w:trPr", options.includeIfEmpty);
+      if (options.cantSplit !== void 0) this.root.push(new OnOffElement("w:cantSplit", options.cantSplit));
+      if (options.tableHeader !== void 0) this.root.push(new OnOffElement("w:tblHeader", options.tableHeader));
+      if (options.height) this.root.push(createTableRowHeight(options.height.value, options.height.rule));
+      if (options.cellSpacing) this.root.push(createTableCellSpacing(options.cellSpacing));
+      if (options.insertion) this.root.push(new InsertedTableRow(options.insertion));
+      if (options.deletion) this.root.push(new DeletedTableRow(options.deletion));
+      if (options.revision) this.root.push(new TableRowPropertiesChange(options.revision));
+    }
+  };
+  var TableRowPropertiesChange = class extends XmlComponent {
+    constructor(options) {
+      super("w:trPrChange");
+      this.root.push(new ChangeAttributes({
+        id: options.id,
+        author: options.author,
+        date: options.date
+      }));
+      this.root.push(new TableRowProperties(_objectSpread213(_objectSpread213({}, options), {}, { includeIfEmpty: true })));
+    }
+  };
+  var TableRow = class extends XmlComponent {
+    constructor(options) {
+      super("w:tr");
+      _defineProperty54(this, "options", void 0);
+      this.options = options;
+      this.root.push(new TableRowProperties(options));
+      for (const child of options.children) this.root.push(child);
+    }
+    get CellCount() {
+      return this.options.children.length;
+    }
+    get cells() {
+      return this.root.filter((xmlComponent) => xmlComponent instanceof TableCell);
+    }
+    addCellToIndex(cell2, index) {
+      this.root.splice(index + 1, 0, cell2);
+    }
+    addCellToColumnIndex(cell2, columnIndex) {
+      const rootIndex = this.columnIndexToRootIndex(columnIndex, true);
+      this.addCellToIndex(cell2, rootIndex - 1);
+    }
+    rootIndexToColumnIndex(rootIndex) {
+      if (rootIndex < 1 || rootIndex >= this.root.length) throw new Error(`cell 'rootIndex' should between 1 to ${this.root.length - 1}`);
+      let colIdx = 0;
+      for (let rootIdx = 1; rootIdx < rootIndex; rootIdx++) {
+        const cell2 = this.root[rootIdx];
+        colIdx += cell2.options.columnSpan || 1;
+      }
+      return colIdx;
+    }
+    columnIndexToRootIndex(columnIndex, allowEndNewCell = false) {
+      if (columnIndex < 0) throw new Error(`cell 'columnIndex' should not less than zero`);
+      let colIdx = 0;
+      let rootIdx = 1;
+      while (colIdx <= columnIndex) {
+        if (rootIdx >= this.root.length) if (allowEndNewCell) return this.root.length;
+        else throw new Error(`cell 'columnIndex' should not great than ${colIdx - 1}`);
+        const cell2 = this.root[rootIdx];
+        rootIdx += 1;
+        colIdx += cell2 && cell2.options.columnSpan || 1;
+      }
+      return rootIdx - 1;
+    }
+  };
+  var AppPropertiesAttributes = class extends XmlAttributeComponent {
+    constructor(..._args) {
+      super(..._args);
+      _defineProperty54(this, "xmlKeys", {
+        xmlns: "xmlns",
+        vt: "xmlns:vt"
+      });
+    }
+  };
+  var AppProperties = class extends XmlComponent {
+    constructor() {
+      super("Properties");
+      this.root.push(new AppPropertiesAttributes({
+        xmlns: "http://schemas.openxmlformats.org/officeDocument/2006/extended-properties",
+        vt: "http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes"
+      }));
+    }
+  };
+  var ContentTypeAttributes = class extends XmlAttributeComponent {
+    constructor(..._args) {
+      super(..._args);
+      _defineProperty54(this, "xmlKeys", { xmlns: "xmlns" });
+    }
+  };
+  var createDefault = (contentType, extension) => new BuilderElement({
+    name: "Default",
+    attributes: {
+      contentType: {
+        key: "ContentType",
+        value: contentType
+      },
+      extension: {
+        key: "Extension",
+        value: extension
+      }
+    }
+  });
+  var createOverride = (contentType, partName) => new BuilderElement({
+    name: "Override",
+    attributes: {
+      contentType: {
+        key: "ContentType",
+        value: contentType
+      },
+      partName: {
+        key: "PartName",
+        value: partName
+      }
+    }
+  });
+  var ContentTypes = class extends XmlComponent {
+    constructor() {
+      super("Types");
+      this.root.push(new ContentTypeAttributes({ xmlns: "http://schemas.openxmlformats.org/package/2006/content-types" }));
+      this.root.push(createDefault("image/png", "png"));
+      this.root.push(createDefault("image/jpeg", "jpeg"));
+      this.root.push(createDefault("image/jpeg", "jpg"));
+      this.root.push(createDefault("image/bmp", "bmp"));
+      this.root.push(createDefault("image/gif", "gif"));
+      this.root.push(createDefault("image/svg+xml", "svg"));
+      this.root.push(createDefault("application/vnd.openxmlformats-package.relationships+xml", "rels"));
+      this.root.push(createDefault("application/xml", "xml"));
+      this.root.push(createDefault("application/vnd.openxmlformats-officedocument.obfuscatedFont", "odttf"));
+      this.root.push(createOverride("application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml", "/word/document.xml"));
+      this.root.push(createOverride("application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml", "/word/styles.xml"));
+      this.root.push(createOverride("application/vnd.openxmlformats-package.core-properties+xml", "/docProps/core.xml"));
+      this.root.push(createOverride("application/vnd.openxmlformats-officedocument.custom-properties+xml", "/docProps/custom.xml"));
+      this.root.push(createOverride("application/vnd.openxmlformats-officedocument.extended-properties+xml", "/docProps/app.xml"));
+      this.root.push(createOverride("application/vnd.openxmlformats-officedocument.wordprocessingml.numbering+xml", "/word/numbering.xml"));
+      this.root.push(createOverride("application/vnd.openxmlformats-officedocument.wordprocessingml.footnotes+xml", "/word/footnotes.xml"));
+      this.root.push(createOverride("application/vnd.openxmlformats-officedocument.wordprocessingml.endnotes+xml", "/word/endnotes.xml"));
+      this.root.push(createOverride("application/vnd.openxmlformats-officedocument.wordprocessingml.settings+xml", "/word/settings.xml"));
+      this.root.push(createOverride("application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml", "/word/comments.xml"));
+      this.root.push(createOverride("application/vnd.openxmlformats-officedocument.wordprocessingml.fontTable+xml", "/word/fontTable.xml"));
+    }
+    /**
+    * Registers the commentsExtended part in the content types.
+    */
+    addCommentsExtended() {
+      this.root.push(createOverride("application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml", "/word/commentsExtended.xml"));
+    }
+    /**
+    * Registers a footer part in the content types.
+    *
+    * @param index - Footer index number (e.g., 1 for footer1.xml)
+    */
+    addFooter(index) {
+      this.root.push(createOverride("application/vnd.openxmlformats-officedocument.wordprocessingml.footer+xml", `/word/footer${index}.xml`));
+    }
+    /**
+    * Registers a header part in the content types.
+    *
+    * @param index - Header index number (e.g., 1 for header1.xml)
+    */
+    addHeader(index) {
+      this.root.push(createOverride("application/vnd.openxmlformats-officedocument.wordprocessingml.header+xml", `/word/header${index}.xml`));
+    }
+  };
+  var DocumentAttributeNamespaces = {
+    wpc: "http://schemas.microsoft.com/office/word/2010/wordprocessingCanvas",
+    mc: "http://schemas.openxmlformats.org/markup-compatibility/2006",
+    o: "urn:schemas-microsoft-com:office:office",
+    r: "http://schemas.openxmlformats.org/officeDocument/2006/relationships",
+    m: "http://schemas.openxmlformats.org/officeDocument/2006/math",
+    v: "urn:schemas-microsoft-com:vml",
+    wp14: "http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing",
+    wp: "http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing",
+    w10: "urn:schemas-microsoft-com:office:word",
+    w: "http://schemas.openxmlformats.org/wordprocessingml/2006/main",
+    w14: "http://schemas.microsoft.com/office/word/2010/wordml",
+    w15: "http://schemas.microsoft.com/office/word/2012/wordml",
+    wpg: "http://schemas.microsoft.com/office/word/2010/wordprocessingGroup",
+    wpi: "http://schemas.microsoft.com/office/word/2010/wordprocessingInk",
+    wne: "http://schemas.microsoft.com/office/word/2006/wordml",
+    wps: "http://schemas.microsoft.com/office/word/2010/wordprocessingShape",
+    cp: "http://schemas.openxmlformats.org/package/2006/metadata/core-properties",
+    dc: "http://purl.org/dc/elements/1.1/",
+    dcterms: "http://purl.org/dc/terms/",
+    dcmitype: "http://purl.org/dc/dcmitype/",
+    xsi: "http://www.w3.org/2001/XMLSchema-instance",
+    cx: "http://schemas.microsoft.com/office/drawing/2014/chartex",
+    cx1: "http://schemas.microsoft.com/office/drawing/2015/9/8/chartex",
+    cx2: "http://schemas.microsoft.com/office/drawing/2015/10/21/chartex",
+    cx3: "http://schemas.microsoft.com/office/drawing/2016/5/9/chartex",
+    cx4: "http://schemas.microsoft.com/office/drawing/2016/5/10/chartex",
+    cx5: "http://schemas.microsoft.com/office/drawing/2016/5/11/chartex",
+    cx6: "http://schemas.microsoft.com/office/drawing/2016/5/12/chartex",
+    cx7: "http://schemas.microsoft.com/office/drawing/2016/5/13/chartex",
+    cx8: "http://schemas.microsoft.com/office/drawing/2016/5/14/chartex",
+    aink: "http://schemas.microsoft.com/office/drawing/2016/ink",
+    am3d: "http://schemas.microsoft.com/office/drawing/2017/model3d",
+    w16cex: "http://schemas.microsoft.com/office/word/2018/wordml/cex",
+    w16cid: "http://schemas.microsoft.com/office/word/2016/wordml/cid",
+    w16: "http://schemas.microsoft.com/office/word/2018/wordml",
+    w16sdtdh: "http://schemas.microsoft.com/office/word/2020/wordml/sdtdatahash",
+    w16se: "http://schemas.microsoft.com/office/word/2015/wordml/symex"
+  };
+  var DocumentAttributes = class extends XmlAttributeComponent {
+    constructor(ns, Ignorable) {
+      super(_objectSpread213({ Ignorable }, Object.fromEntries(ns.map((n) => [n, DocumentAttributeNamespaces[n]]))));
+      _defineProperty54(this, "xmlKeys", _objectSpread213({ Ignorable: "mc:Ignorable" }, Object.fromEntries(Object.keys(DocumentAttributeNamespaces).map((key) => [key, `xmlns:${key}`]))));
+    }
+  };
+  var CoreProperties = class extends XmlComponent {
+    constructor(options) {
+      super("cp:coreProperties");
+      this.root.push(new DocumentAttributes([
+        "cp",
+        "dc",
+        "dcterms",
+        "dcmitype",
+        "xsi"
+      ]));
+      if (options.title) this.root.push(new StringContainer("dc:title", options.title));
+      if (options.subject) this.root.push(new StringContainer("dc:subject", options.subject));
+      if (options.creator) this.root.push(new StringContainer("dc:creator", options.creator));
+      if (options.keywords) this.root.push(new StringContainer("cp:keywords", options.keywords));
+      if (options.description) this.root.push(new StringContainer("dc:description", options.description));
+      if (options.lastModifiedBy) this.root.push(new StringContainer("cp:lastModifiedBy", options.lastModifiedBy));
+      if (options.revision) this.root.push(new StringContainer("cp:revision", String(options.revision)));
+      this.root.push(new TimestampElement("dcterms:created"));
+      this.root.push(new TimestampElement("dcterms:modified"));
+    }
+  };
+  var TimestampElementProperties = class extends XmlAttributeComponent {
+    constructor(..._args) {
+      super(..._args);
+      _defineProperty54(this, "xmlKeys", { type: "xsi:type" });
+    }
+  };
+  var TimestampElement = class extends XmlComponent {
+    constructor(name) {
+      super(name);
+      this.root.push(new TimestampElementProperties({ type: "dcterms:W3CDTF" }));
+      this.root.push(dateTimeValue(/* @__PURE__ */ new Date()));
+    }
+  };
+  var CustomPropertiesAttributes = class extends XmlAttributeComponent {
+    constructor(..._args) {
+      super(..._args);
+      _defineProperty54(this, "xmlKeys", {
+        xmlns: "xmlns",
+        vt: "xmlns:vt"
+      });
+    }
+  };
+  var CustomPropertyAttributes = class extends XmlAttributeComponent {
+    constructor(..._args) {
+      super(..._args);
+      _defineProperty54(this, "xmlKeys", {
+        formatId: "fmtid",
+        pid: "pid",
+        name: "name"
+      });
+    }
+  };
+  var CustomProperty = class extends XmlComponent {
+    constructor(id, properties) {
+      super("property");
+      this.root.push(new CustomPropertyAttributes({
+        formatId: "{D5CDD505-2E9C-101B-9397-08002B2CF9AE}",
+        pid: id.toString(),
+        name: properties.name
+      }));
+      this.root.push(new CustomPropertyValue(properties.value));
+    }
+  };
+  var CustomPropertyValue = class extends XmlComponent {
+    constructor(value) {
+      super("vt:lpwstr");
+      this.root.push(value);
+    }
+  };
+  var CustomProperties = class extends XmlComponent {
+    constructor(properties) {
+      super("Properties");
+      _defineProperty54(this, "nextId", void 0);
+      _defineProperty54(this, "properties", []);
+      this.root.push(new CustomPropertiesAttributes({
+        xmlns: "http://schemas.openxmlformats.org/officeDocument/2006/custom-properties",
+        vt: "http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes"
+      }));
+      this.nextId = 2;
+      for (const property2 of properties) this.addCustomProperty(property2);
+    }
+    prepForXml(context) {
+      this.properties.forEach((x2) => this.root.push(x2));
+      return super.prepForXml(context);
+    }
+    addCustomProperty(property2) {
+      this.properties.push(new CustomProperty(this.nextId++, property2));
+    }
+  };
   var createColumns = ({ space, count, separate, equalWidth, children }) => new BuilderElement({
     name: "w:cols",
     attributes: {
@@ -119008,28 +116609,9 @@ ${suffix2}`;
     /** Page orientation: portrait */
     ORIENTATION: PageOrientation.PORTRAIT
   };
-  var SectionProperties = class SectionProperties2 extends XmlComponent {
+  var SectionProperties = class extends XmlComponent {
     constructor({ page: { size: { width = sectionPageSizeDefaults.WIDTH, height = sectionPageSizeDefaults.HEIGHT, orientation = sectionPageSizeDefaults.ORIENTATION, code } = {}, margin: { top = sectionMarginDefaults.TOP, right = sectionMarginDefaults.RIGHT, bottom = sectionMarginDefaults.BOTTOM, left = sectionMarginDefaults.LEFT, header = sectionMarginDefaults.HEADER, footer = sectionMarginDefaults.FOOTER, gutter = sectionMarginDefaults.GUTTER } = {}, pageNumbers = {}, borders, textDirection } = {}, grid: { linePitch = 360, charSpace, type: gridType } = {}, headerWrapperGroup = {}, footerWrapperGroup = {}, lineNumbers, titlePage, verticalAlign, column, type, revision } = {}) {
       super("w:sectPr");
-      _defineProperty54(
-        this,
-        /**
-        * Width, in twips, available to block-level content in this section.
-        *
-        * This is the page width (accounting for orientation) minus the left and right
-        * margins and the gutter. When the section is laid out in several columns, it is
-        * the width of a single column. Percentage table widths are resolved against it.
-        */
-        "availableTextWidth",
-        void 0
-      );
-      this.availableTextWidth = SectionProperties2.calculateAvailableTextWidth({
-        pageWidth: orientation === PageOrientation.LANDSCAPE ? height : width,
-        left,
-        right,
-        gutter,
-        column
-      });
       this.addHeaderFooterGroup(HeaderFooterType.HEADER, headerWrapperGroup);
       this.addHeaderFooterGroup(HeaderFooterType.FOOTER, footerWrapperGroup);
       if (type) this.root.push(createSectionType(type));
@@ -119047,36 +116629,12 @@ ${suffix2}`;
       if (verticalAlign) this.root.push(createVerticalAlign(verticalAlign));
       if (titlePage !== void 0) this.root.push(new OnOffElement("w:titlePg", titlePage));
       if (textDirection) this.root.push(new PageTextDirection(textDirection));
+      if (revision) this.root.push(new SectionPropertiesChange(revision));
       this.root.push(createDocumentGrid({
         linePitch,
         charSpace,
         type: gridType
       }));
-      if (revision) this.root.push(new SectionPropertiesChange(revision));
-    }
-    /**
-    * Width, in twips, available to block-level content (paragraphs and tables) in this section.
-    *
-    * Page width minus the left and right margins and the gutter, divided among the
-    * section's columns when there is more than one. Tables use this to resolve
-    * percentage widths into the absolute twip grid that Google Docs, Apple Pages and
-    * other consumers lay tables out from.
-    *
-    * @example
-    * ```typescript
-    * // A4 portrait with 1 inch margins
-    * new SectionProperties().AvailableTextWidth; // 11906 - 1440 - 1440 = 9026
-    * ```
-    */
-    get AvailableTextWidth() {
-      return this.availableTextWidth;
-    }
-    static calculateAvailableTextWidth({ pageWidth, left, right, gutter, column }) {
-      var _column$count, _column$space;
-      const textWidth = universalMeasureToTwips(pageWidth) - universalMeasureToTwips(left) - universalMeasureToTwips(right) - universalMeasureToTwips(gutter);
-      const columnCount = (_column$count = column === null || column === void 0 ? void 0 : column.count) !== null && _column$count !== void 0 ? _column$count : 1;
-      if (columnCount <= 1) return textWidth;
-      return (textWidth - universalMeasureToTwips((_column$space = column === null || column === void 0 ? void 0 : column.space) !== null && _column$space !== void 0 ? _column$space : 720) * (columnCount - 1)) / columnCount;
     }
     addHeaderFooterGroup(type, group) {
       if (group.default) this.root.push(createHeaderFooterReference(type, {
@@ -119108,38 +116666,6 @@ ${suffix2}`;
     constructor() {
       super("w:body");
       _defineProperty54(this, "sections", []);
-      _defineProperty54(
-        this,
-        /**
-        * Section properties that were moved into a paragraph at the end of their section
-        * by {@link addSection}, keyed by that paragraph. Used to find the section that
-        * governs a given child of the body.
-        */
-        "sectionParagraphs",
-        /* @__PURE__ */ new Map()
-      );
-    }
-    /**
-    * Finds the section properties that govern a top-level child of the body.
-    *
-    * A section's properties are stored after its content (either in the closing
-    * paragraph of the section or, for the last section, at the end of the body), so
-    * the governing section is the first one found at or after the child. When no
-    * child is given (or it is not a direct child of the body), the first section is
-    * returned.
-    *
-    * @param child - A direct child of the body (paragraph, table, etc.)
-    * @returns The governing section properties, or undefined if the body has no sections
-    */
-    getSectionPropertiesFor(child2) {
-      const start = child2 ? this.root.indexOf(child2) + 1 : 0;
-      for (let i = start; i < this.root.length; i++) {
-        const component = this.root[i];
-        if (component instanceof SectionProperties) return component;
-        const section = this.sectionParagraphs.get(component);
-        if (section) return section;
-      }
-      return this.sections[this.sections.length - 1];
     }
     /**
     * Adds new section properties to the document body.
@@ -119156,9 +116682,7 @@ ${suffix2}`;
     */
     addSection(options) {
       const currentSection = this.sections.pop();
-      const sectionParagraph = this.createSectionParagraph(currentSection);
-      this.root.push(sectionParagraph);
-      if (currentSection) this.sectionParagraphs.set(sectionParagraph, currentSection);
+      this.root.push(this.createSectionParagraph(currentSection));
       this.sections.push(new SectionProperties(options));
     }
     /**
@@ -119196,984 +116720,26 @@ ${suffix2}`;
       return paragraph;
     }
   };
-  var WidthType = {
-    /** Auto. */
-    AUTO: "auto",
-    /** Value is in twentieths of a point */
-    DXA: "dxa",
-    /** No (empty) value. */
-    NIL: "nil",
-    /** Value is in percentage. */
-    PERCENTAGE: "pct"
-  };
-  var createTableWidthElement = (name, { type = WidthType.AUTO, size }) => {
-    let tableWidthValue = size;
-    if (type === WidthType.PERCENTAGE && typeof size === "number") tableWidthValue = Math.round(size * 50);
-    return new BuilderElement({
-      name,
-      attributes: {
-        type: {
-          key: "w:type",
-          value: type
-        },
-        size: {
-          key: "w:w",
-          value: measurementOrPercentValue(tableWidthValue)
-        }
-      }
-    });
-  };
-  var DEFAULT_AVAILABLE_WIDTH = sectionPageSizeDefaults.WIDTH - sectionMarginDefaults.LEFT - sectionMarginDefaults.RIGHT - sectionMarginDefaults.GUTTER;
-  var columnSpanOf = (cell2) => cell2.options.columnSpan || 1;
-  var resolvePreferredWidth = (width, referenceWidth) => {
-    if (!width) return;
-    const { type = WidthType.AUTO, size } = width;
-    if (type !== WidthType.PERCENTAGE && type !== WidthType.DXA) return;
-    const twips = typeof size === "number" ? type === WidthType.PERCENTAGE ? size / 100 * referenceWidth : size : size.endsWith("%") ? Number(size.slice(0, -1)) / 100 * referenceWidth : universalMeasureToTwips(size);
-    return twips > 0 ? twips : void 0;
-  };
-  var resolveTableWidth = (width, availableWidth) => {
-    var _resolvePreferredWidt;
-    return (_resolvePreferredWidt = resolvePreferredWidth(width, availableWidth)) !== null && _resolvePreferredWidt !== void 0 ? _resolvePreferredWidt : availableWidth;
-  };
-  var countGridColumns = (rows) => Math.max(0, ...rows.map((row) => row.cells.reduce((count, cell2) => count + columnSpanOf(cell2), 0)));
-  var resolveColumnWidths = ({ rows, width, availableWidth }) => {
-    const columnCount = countGridColumns(rows);
-    if (columnCount === 0) return [];
-    const tableWidth = resolveTableWidth(width, availableWidth);
-    const widths = Array.from({ length: columnCount }, () => void 0);
-    const spanningCells = [];
-    for (const row of rows) {
-      let column = 0;
-      for (const cell2 of row.cells) {
-        const span = columnSpanOf(cell2);
-        const cellWidth = resolvePreferredWidth(cell2.options.width, tableWidth);
-        if (cellWidth !== void 0) {
-          if (span === 1) {
-            var _column, _widths$_column;
-            (_widths$_column = widths[_column = column]) !== null && _widths$_column !== void 0 || (widths[_column] = cellWidth);
-          } else spanningCells.push({
-            start: column,
-            span,
-            width: cellWidth
-          });
-        }
-        column += span;
-      }
-    }
-    for (const { start, span, width: cellWidth } of spanningCells) {
-      const columns = Array.from({ length: span }, (_, i) => start + i).filter((column) => column < columnCount);
-      const unresolvedSpanColumns = columns.filter((column) => widths[column] === void 0);
-      const remaining = cellWidth - columns.reduce((sum, column) => {
-        var _widths$column;
-        return sum + ((_widths$column = widths[column]) !== null && _widths$column !== void 0 ? _widths$column : 0);
-      }, 0);
-      if (unresolvedSpanColumns.length > 0 && remaining > 0) for (const column of unresolvedSpanColumns) widths[column] = remaining / unresolvedSpanColumns.length;
-    }
-    const unresolvedColumns = widths.flatMap((columnWidth, column) => columnWidth === void 0 ? [column] : []);
-    if (unresolvedColumns.length > 0) {
-      const remaining = tableWidth - widths.reduce((sum, columnWidth) => sum + (columnWidth !== null && columnWidth !== void 0 ? columnWidth : 0), 0);
-      const share = remaining > 0 ? remaining / unresolvedColumns.length : tableWidth / columnCount;
-      for (const column of unresolvedColumns) widths[column] = share;
-    }
-    return widths.map((columnWidth) => Math.round(columnWidth));
-  };
-  var createGridCol = (width) => new BuilderElement({
-    name: "w:gridCol",
-    attributes: width !== void 0 ? { width: {
-      key: "w:w",
-      value: twipsMeasureValue(width)
-    } } : void 0
-  });
-  var TableGrid = class extends XmlComponent {
-    constructor(widths, revision) {
-      super("w:tblGrid");
-      for (const width of widths) this.root.push(createGridCol(width));
-      if (revision) this.root.push(new TableGridChange(revision));
-    }
-  };
-  var TableGridChangeAttributes = class extends XmlAttributeComponent {
-    constructor(..._args) {
-      super(..._args);
-      _defineProperty54(this, "xmlKeys", { id: "w:id" });
-    }
-  };
-  var TableGridChange = class extends XmlComponent {
-    constructor(options) {
-      super("w:tblGridChange");
-      this.root.push(new TableGridChangeAttributes({ id: options.id }));
-      this.root.push(new TableGrid(options.columnWidths));
-    }
-  };
-  var InsertedTableRow = class extends XmlComponent {
-    constructor(options) {
-      super("w:ins");
-      this.root.push(new ChangeAttributes({
-        id: options.id,
-        author: options.author,
-        date: options.date
-      }));
-    }
-  };
-  var DeletedTableRow = class extends XmlComponent {
-    constructor(options) {
-      super("w:del");
-      this.root.push(new ChangeAttributes({
-        id: options.id,
-        author: options.author,
-        date: options.date
-      }));
-    }
-  };
-  var InsertedTableCell = class extends XmlComponent {
-    constructor(options) {
-      super("w:cellIns");
-      this.root.push(new ChangeAttributes({
-        id: options.id,
-        author: options.author,
-        date: options.date
-      }));
-    }
-  };
-  var DeletedTableCell = class extends XmlComponent {
-    constructor(options) {
-      super("w:cellDel");
-      this.root.push(new ChangeAttributes({
-        id: options.id,
-        author: options.author,
-        date: options.date
-      }));
-    }
-  };
-  var CellMergeAttributes = class extends XmlAttributeComponent {
+  var DocumentBackgroundAttributes = class extends XmlAttributeComponent {
     constructor(..._args) {
       super(..._args);
       _defineProperty54(this, "xmlKeys", {
-        id: "w:id",
-        author: "w:author",
-        date: "w:date",
-        verticalMerge: "w:vMerge",
-        verticalMergeOriginal: "w:vMergeOrig"
+        color: "w:color",
+        themeColor: "w:themeColor",
+        themeShade: "w:themeShade",
+        themeTint: "w:themeTint"
       });
-    }
-  };
-  var CellMerge = class extends XmlComponent {
-    constructor(options) {
-      super("w:cellMerge");
-      this.root.push(new CellMergeAttributes(options));
-    }
-  };
-  var buildMarginChildren = ({ marginUnitType = WidthType.DXA, top, left, bottom, right }) => [
-    {
-      name: "w:top",
-      size: top
-    },
-    {
-      name: "w:left",
-      size: left
-    },
-    {
-      name: "w:bottom",
-      size: bottom
-    },
-    {
-      name: "w:right",
-      size: right
-    }
-  ].filter((entry) => entry.size !== void 0).map(({ name, size }) => createTableWidthElement(name, {
-    type: marginUnitType,
-    size
-  }));
-  var createTableCellMargin = (options) => {
-    const children = buildMarginChildren(options);
-    if (children.length === 0) return;
-    return new BuilderElement({
-      name: "w:tblCellMar",
-      children
-    });
-  };
-  var createCellMargin = (options) => {
-    const children = buildMarginChildren(options);
-    if (children.length === 0) return;
-    return new BuilderElement({
-      name: "w:tcMar",
-      children
-    });
-  };
-  var TableCellBorders = class extends IgnoreIfEmptyXmlComponent {
-    constructor(options) {
-      super("w:tcBorders");
-      if (options.top) this.root.push(createBorderElement("w:top", options.top));
-      if (options.start) this.root.push(createBorderElement("w:start", options.start));
-      if (options.left) this.root.push(createBorderElement("w:left", options.left));
-      if (options.bottom) this.root.push(createBorderElement("w:bottom", options.bottom));
-      if (options.end) this.root.push(createBorderElement("w:end", options.end));
-      if (options.right) this.root.push(createBorderElement("w:right", options.right));
-    }
-  };
-  var GridSpanAttributes = class extends XmlAttributeComponent {
-    constructor(..._args) {
-      super(..._args);
-      _defineProperty54(this, "xmlKeys", { val: "w:val" });
-    }
-  };
-  var GridSpan = class extends XmlComponent {
-    constructor(value) {
-      super("w:gridSpan");
-      this.root.push(new GridSpanAttributes({ val: decimalNumber(value) }));
-    }
-  };
-  var VerticalMergeType = {
-    /**
-    * Cell that is merged with upper one.
-    * This cell continues a vertical merge started by a cell above it.
-    */
-    CONTINUE: "continue",
-    /**
-    * Cell that is starting the vertical merge.
-    * This cell begins a new vertical merge region.
-    */
-    RESTART: "restart"
-  };
-  var VerticalMergeAttributes = class extends XmlAttributeComponent {
-    constructor(..._args2) {
-      super(..._args2);
-      _defineProperty54(this, "xmlKeys", { val: "w:val" });
-    }
-  };
-  var VerticalMerge = class extends XmlComponent {
-    constructor(value) {
-      super("w:vMerge");
-      this.root.push(new VerticalMergeAttributes({ val: value }));
-    }
-  };
-  var TDirectionAttributes = class extends XmlAttributeComponent {
-    constructor(..._args3) {
-      super(..._args3);
-      _defineProperty54(this, "xmlKeys", { val: "w:val" });
-    }
-  };
-  var TDirection = class extends XmlComponent {
-    constructor(value) {
-      super("w:textDirection");
-      this.root.push(new TDirectionAttributes({ val: value }));
-    }
-  };
-  var TableCellProperties = class extends IgnoreIfEmptyXmlComponent {
-    constructor(options) {
-      super("w:tcPr", options.includeIfEmpty);
-      if (options.width) this.root.push(createTableWidthElement("w:tcW", options.width));
-      if (options.columnSpan) this.root.push(new GridSpan(options.columnSpan));
-      if (options.verticalMerge) this.root.push(new VerticalMerge(options.verticalMerge));
-      else if (options.rowSpan && options.rowSpan > 1) this.root.push(new VerticalMerge(VerticalMergeType.RESTART));
-      if (options.borders) this.root.push(new TableCellBorders(options.borders));
-      if (options.shading) this.root.push(createShading(options.shading));
-      if (options.margins) {
-        const cellMargin = createCellMargin(options.margins);
-        if (cellMargin) this.root.push(cellMargin);
-      }
-      if (options.textDirection) this.root.push(new TDirection(options.textDirection));
-      if (options.verticalAlign) this.root.push(createVerticalAlign(options.verticalAlign));
-      if (options.insertion) this.root.push(new InsertedTableCell(options.insertion));
-      if (options.deletion) this.root.push(new DeletedTableCell(options.deletion));
-      if (options.cellMerge) this.root.push(new CellMerge(options.cellMerge));
-      if (options.revision) this.root.push(new TableCellPropertiesChange(options.revision));
-    }
-  };
-  var TableCellPropertiesChange = class extends XmlComponent {
-    constructor(options) {
-      super("w:tcPrChange");
-      this.root.push(new ChangeAttributes({
-        id: options.id,
-        author: options.author,
-        date: options.date
-      }));
-      this.root.push(new TableCellProperties(_objectSpread213(_objectSpread213({}, options), {}, { includeIfEmpty: true })));
-    }
-  };
-  var TableCell = class extends XmlComponent {
-    constructor(options) {
-      super("w:tc");
-      _defineProperty54(
-        this,
-        /**
-        * The options the cell was created with.
-        *
-        * Its borders and shading are declared with hex colors, as they were before they took colors of the document's
-        * theme, so that code reading them still compiles. A cell given a theme color has it here as it was given.
-        */
-        "options",
-        void 0
-      );
-      this.options = options;
-      this.root.push(new TableCellProperties(options));
-      for (const child2 of options.children) this.root.push(child2);
-    }
-    prepForXml(context) {
-      if (!(this.root[this.root.length - 1] instanceof Paragraph)) this.root.push(new Paragraph({}));
-      return super.prepForXml(context);
-    }
-  };
-  var createOnOffOnlyElement = (name, value) => value ? new OnOffElement(name) : new StringValueElement(name, "off");
-  var NONE_BORDER = {
-    style: BorderStyle.NONE,
-    size: 0,
-    color: "auto"
-  };
-  var DEFAULT_BORDER = {
-    style: BorderStyle.SINGLE,
-    size: 4,
-    color: "auto"
-  };
-  var TableBorders = class extends XmlComponent {
-    constructor(options) {
-      var _options$top, _options$left, _options$bottom, _options$right, _options$insideHorizo, _options$insideVertic;
-      super("w:tblBorders");
-      this.root.push(createBorderElement("w:top", (_options$top = options.top) !== null && _options$top !== void 0 ? _options$top : DEFAULT_BORDER));
-      this.root.push(createBorderElement("w:left", (_options$left = options.left) !== null && _options$left !== void 0 ? _options$left : DEFAULT_BORDER));
-      this.root.push(createBorderElement("w:bottom", (_options$bottom = options.bottom) !== null && _options$bottom !== void 0 ? _options$bottom : DEFAULT_BORDER));
-      this.root.push(createBorderElement("w:right", (_options$right = options.right) !== null && _options$right !== void 0 ? _options$right : DEFAULT_BORDER));
-      this.root.push(createBorderElement("w:insideH", (_options$insideHorizo = options.insideHorizontal) !== null && _options$insideHorizo !== void 0 ? _options$insideHorizo : DEFAULT_BORDER));
-      this.root.push(createBorderElement("w:insideV", (_options$insideVertic = options.insideVertical) !== null && _options$insideVertic !== void 0 ? _options$insideVertic : DEFAULT_BORDER));
-    }
-  };
-  _defineProperty54(TableBorders, "NONE", {
-    top: NONE_BORDER,
-    bottom: NONE_BORDER,
-    left: NONE_BORDER,
-    right: NONE_BORDER,
-    insideHorizontal: NONE_BORDER,
-    insideVertical: NONE_BORDER
-  });
-  var createTableFloatProperties = ({ horizontalAnchor, verticalAnchor, absoluteHorizontalPosition, relativeHorizontalPosition, absoluteVerticalPosition, relativeVerticalPosition, bottomFromText, topFromText, leftFromText, rightFromText }) => new BuilderElement({
-    name: "w:tblpPr",
-    attributes: {
-      leftFromText: {
-        key: "w:leftFromText",
-        value: leftFromText === void 0 ? void 0 : twipsMeasureValue(leftFromText)
-      },
-      rightFromText: {
-        key: "w:rightFromText",
-        value: rightFromText === void 0 ? void 0 : twipsMeasureValue(rightFromText)
-      },
-      topFromText: {
-        key: "w:topFromText",
-        value: topFromText === void 0 ? void 0 : twipsMeasureValue(topFromText)
-      },
-      bottomFromText: {
-        key: "w:bottomFromText",
-        value: bottomFromText === void 0 ? void 0 : twipsMeasureValue(bottomFromText)
-      },
-      absoluteHorizontalPosition: {
-        key: "w:tblpX",
-        value: absoluteHorizontalPosition === void 0 ? void 0 : signedTwipsMeasureValue(absoluteHorizontalPosition)
-      },
-      absoluteVerticalPosition: {
-        key: "w:tblpY",
-        value: absoluteVerticalPosition === void 0 ? void 0 : signedTwipsMeasureValue(absoluteVerticalPosition)
-      },
-      horizontalAnchor: {
-        key: "w:horzAnchor",
-        value: horizontalAnchor
-      },
-      relativeHorizontalPosition: {
-        key: "w:tblpXSpec",
-        value: relativeHorizontalPosition
-      },
-      relativeVerticalPosition: {
-        key: "w:tblpYSpec",
-        value: relativeVerticalPosition
-      },
-      verticalAnchor: {
-        key: "w:vertAnchor",
-        value: verticalAnchor
-      }
-    }
-  });
-  var createTableLayout = (type) => new BuilderElement({
-    name: "w:tblLayout",
-    attributes: { type: {
-      key: "w:type",
-      value: type
-    } }
-  });
-  var CellSpacingType = {
-    /** Value is in twentieths of a point */
-    DXA: "dxa",
-    /** No (empty) value. */
-    NIL: "nil"
-  };
-  var createTableCellSpacing = ({ type = CellSpacingType.DXA, value }) => new BuilderElement({
-    name: "w:tblCellSpacing",
-    attributes: {
-      type: {
-        key: "w:type",
-        value: type
-      },
-      value: {
-        key: "w:w",
-        value: measurementOrPercentValue(value)
-      }
-    }
-  });
-  var createTableLook = ({ firstRow, lastRow, firstColumn, lastColumn, noHBand, noVBand }) => new BuilderElement({
-    name: "w:tblLook",
-    attributes: {
-      firstRow: {
-        key: "w:firstRow",
-        value: firstRow
-      },
-      lastRow: {
-        key: "w:lastRow",
-        value: lastRow
-      },
-      firstColumn: {
-        key: "w:firstColumn",
-        value: firstColumn
-      },
-      lastColumn: {
-        key: "w:lastColumn",
-        value: lastColumn
-      },
-      noHBand: {
-        key: "w:noHBand",
-        value: noHBand
-      },
-      noVBand: {
-        key: "w:noVBand",
-        value: noVBand
-      }
-    }
-  });
-  var createTableOverlap = (overlap) => new BuilderElement({
-    name: "w:tblOverlap",
-    attributes: { val: {
-      key: "w:val",
-      value: overlap
-    } }
-  });
-  var TableProperties = class extends IgnoreIfEmptyXmlComponent {
-    constructor(options) {
-      var _options$float;
-      super("w:tblPr", options.includeIfEmpty);
-      if (options.style) this.root.push(new StringValueElement("w:tblStyle", options.style));
-      if (options.float) this.root.push(createTableFloatProperties(options.float));
-      if ((_options$float = options.float) === null || _options$float === void 0 ? void 0 : _options$float.overlap) this.root.push(createTableOverlap(options.float.overlap));
-      if (options.visuallyRightToLeft !== void 0) this.root.push(createOnOffOnlyElement("w:bidiVisual", options.visuallyRightToLeft));
-      if (options.width) this.root.push(createTableWidthElement("w:tblW", options.width));
-      if (options.alignment) this.root.push(createAlignment(options.alignment));
-      if (options.cellSpacing) this.root.push(createTableCellSpacing(options.cellSpacing));
-      if (options.indent) this.root.push(createTableWidthElement("w:tblInd", options.indent));
-      if (options.borders) this.root.push(new TableBorders(options.borders));
-      if (options.shading) this.root.push(createShading(options.shading));
-      if (options.layout) this.root.push(createTableLayout(options.layout));
-      if (options.cellMargin) {
-        const cellMargin = createTableCellMargin(options.cellMargin);
-        if (cellMargin) this.root.push(cellMargin);
-      }
-      if (options.tableLook) this.root.push(createTableLook(options.tableLook));
-      if (options.revision) this.root.push(new TablePropertiesChange(options.revision));
-    }
-  };
-  var TablePropertiesChange = class extends XmlComponent {
-    constructor(options) {
-      super("w:tblPrChange");
-      this.root.push(new ChangeAttributes({
-        id: options.id,
-        author: options.author,
-        date: options.date
-      }));
-      this.root.push(new TableProperties(_objectSpread213(_objectSpread213({}, options), {}, { includeIfEmpty: true })));
-    }
-  };
-  var createTableRowHeight = (value, rule) => new BuilderElement({
-    name: "w:trHeight",
-    attributes: {
-      value: {
-        key: "w:val",
-        value: twipsMeasureValue(value)
-      },
-      rule: {
-        key: "w:hRule",
-        value: rule
-      }
-    }
-  });
-  var TableRowProperties = class extends IgnoreIfEmptyXmlComponent {
-    constructor(options) {
-      super("w:trPr", options.includeIfEmpty);
-      if (options.cantSplit !== void 0) this.root.push(createOnOffOnlyElement("w:cantSplit", options.cantSplit));
-      if (options.tableHeader !== void 0) this.root.push(createOnOffOnlyElement("w:tblHeader", options.tableHeader));
-      if (options.height) this.root.push(createTableRowHeight(options.height.value, options.height.rule));
-      if (options.cellSpacing) this.root.push(createTableCellSpacing(options.cellSpacing));
-      if (options.insertion) this.root.push(new InsertedTableRow(options.insertion));
-      if (options.deletion) this.root.push(new DeletedTableRow(options.deletion));
-      if (options.revision) this.root.push(new TableRowPropertiesChange(options.revision));
-    }
-  };
-  var TableRowPropertiesChange = class extends XmlComponent {
-    constructor(options) {
-      super("w:trPrChange");
-      this.root.push(new ChangeAttributes({
-        id: options.id,
-        author: options.author,
-        date: options.date
-      }));
-      this.root.push(new TableRowProperties(_objectSpread213(_objectSpread213({}, options), {}, { includeIfEmpty: true })));
-    }
-  };
-  var TableRow = class extends XmlComponent {
-    constructor(options) {
-      super("w:tr");
-      _defineProperty54(this, "options", void 0);
-      this.options = options;
-      this.root.push(new TableRowProperties(options));
-      for (const child2 of options.children) this.root.push(child2);
-    }
-    get CellCount() {
-      return this.options.children.length;
-    }
-    get cells() {
-      return this.root.filter((xmlComponent) => xmlComponent instanceof TableCell);
-    }
-    addCellToIndex(cell2, index) {
-      this.root.splice(index + 1, 0, cell2);
-    }
-    addCellToColumnIndex(cell2, columnIndex) {
-      const rootIndex = this.columnIndexToRootIndex(columnIndex, true);
-      this.addCellToIndex(cell2, rootIndex - 1);
-    }
-    rootIndexToColumnIndex(rootIndex) {
-      if (rootIndex < 1 || rootIndex >= this.root.length) throw new Error(`cell 'rootIndex' should between 1 to ${this.root.length - 1}`);
-      let colIdx = 0;
-      for (let rootIdx = 1; rootIdx < rootIndex; rootIdx++) {
-        const cell2 = this.root[rootIdx];
-        colIdx += cell2.options.columnSpan || 1;
-      }
-      return colIdx;
-    }
-    columnIndexToRootIndex(columnIndex, allowEndNewCell = false) {
-      if (columnIndex < 0) throw new Error(`cell 'columnIndex' should not less than zero`);
-      let colIdx = 0;
-      let rootIdx = 1;
-      while (colIdx <= columnIndex) {
-        if (rootIdx >= this.root.length) {
-          if (allowEndNewCell) return this.root.length;
-          else throw new Error(`cell 'columnIndex' should not great than ${colIdx - 1}`);
-        }
-        const cell2 = this.root[rootIdx];
-        rootIdx += 1;
-        colIdx += cell2 && cell2.options.columnSpan || 1;
-      }
-      return rootIdx - 1;
-    }
-  };
-  var Table = class Table2 extends FileChild {
-    constructor({ rows, width, columnWidths, columnWidthsRevision, margins, indent, float, layout, style, borders, alignment, visuallyRightToLeft, tableLook, cellSpacing, revision }) {
-      super("w:tbl");
-      _defineProperty54(this, "rows", void 0);
-      _defineProperty54(this, "width", void 0);
-      _defineProperty54(this, "columnWidths", void 0);
-      _defineProperty54(this, "columnWidthsRevision", void 0);
-      _defineProperty54(
-        this,
-        /**
-        * Grid column widths in twips: the explicit `columnWidths`, or the widths derived
-        * from the table and cell widths (re-resolved against the actual page or parent
-        * cell every time the table is serialized).
-        */
-        "resolvedColumnWidths",
-        void 0
-      );
-      this.rows = rows;
-      this.width = width !== null && width !== void 0 ? width : { size: 100 };
-      this.columnWidths = columnWidths;
-      this.columnWidthsRevision = columnWidthsRevision;
-      rows.forEach((row, rowIndex) => {
-        if (rowIndex === rows.length - 1) return;
-        let columnIndex = 0;
-        row.cells.forEach((cell2) => {
-          if (cell2.options.rowSpan && cell2.options.rowSpan > 1) {
-            const continueCell = new TableCell({
-              rowSpan: cell2.options.rowSpan - 1,
-              columnSpan: cell2.options.columnSpan,
-              borders: cell2.options.borders,
-              children: [],
-              verticalMerge: VerticalMergeType.CONTINUE
-            });
-            rows[rowIndex + 1].addCellToColumnIndex(continueCell, columnIndex);
-          }
-          columnIndex += cell2.options.columnSpan || 1;
-        });
-      });
-      this.resolvedColumnWidths = columnWidths !== null && columnWidths !== void 0 ? columnWidths : resolveColumnWidths({
-        rows,
-        width: this.width,
-        availableWidth: DEFAULT_AVAILABLE_WIDTH
-      });
-      this.root.push(new TableProperties({
-        borders: borders !== null && borders !== void 0 ? borders : {},
-        width: this.width,
-        indent,
-        float,
-        layout,
-        style,
-        alignment,
-        cellMargin: margins,
-        visuallyRightToLeft,
-        tableLook,
-        cellSpacing,
-        revision
-      }));
-      this.root.push(new TableGrid(this.resolvedColumnWidths, columnWidthsRevision));
-      for (const row of rows) this.root.push(row);
-    }
-    /**
-    * Widths of the grid columns in twips, as they will be written to `w:tblGrid`.
-    *
-    * These are the explicit `columnWidths` when given, otherwise the widths derived
-    * from the table and cell widths. Derived widths are resolved against the page (or
-    * the parent cell for nested tables) during serialization, so before that they
-    * reflect the default page size.
-    */
-    get ColumnWidths() {
-      return this.resolvedColumnWidths;
-    }
-    /**
-    * Width in twips, according to the grid, of a cell in one of this table's rows.
-    *
-    * Used by nested tables to resolve their own widths against the cell they sit in.
-    *
-    * @param row - A row of this table
-    * @param cell - A cell of that row
-    * @returns The summed width of the grid columns the cell spans, or undefined if the cell cannot be located on the grid
-    */
-    getCellWidth(row, cell2) {
-      const { cells } = row;
-      const cellIndex = cells.indexOf(cell2);
-      if (cellIndex === -1) return;
-      const start = cells.slice(0, cellIndex).reduce((column, previous) => column + (previous.options.columnSpan || 1), 0);
-      const columns = this.resolvedColumnWidths.slice(start, start + (cell2.options.columnSpan || 1));
-      return columns.length === 0 ? void 0 : columns.reduce((sum, columnWidth) => sum + columnWidth, 0);
-    }
-    /**
-    * Resolves derived grid column widths against the width actually available to the
-    * table (the section's text width, or the parent cell for nested tables) before
-    * serializing.
-    */
-    prepForXml(context) {
-      if (this.columnWidths === void 0) {
-        this.resolvedColumnWidths = resolveColumnWidths({
-          rows: this.rows,
-          width: this.width,
-          availableWidth: this.resolveAvailableWidth(context)
-        });
-        const gridIndex = this.root.findIndex((component) => component instanceof TableGrid);
-        this.root[gridIndex] = new TableGrid(this.resolvedColumnWidths, this.columnWidthsRevision);
-      }
-      return super.prepForXml(context);
-    }
-    /**
-    * Finds the width in twips available to this table from the serialization context:
-    * the parent cell for a nested table, otherwise the text width of the section the
-    * table belongs to (the first section for headers, footers and other parts). Falls
-    * back to the default page when the context carries no document.
-    */
-    resolveAvailableWidth(context) {
-      var _context$file, _stack, _section$AvailableTex;
-      const { stack } = context;
-      const cell2 = stack[stack.length - 1];
-      const row = stack[stack.length - 2];
-      const parentTable = stack[stack.length - 3];
-      if (cell2 instanceof TableCell && row instanceof TableRow && parentTable instanceof Table2) {
-        const cellWidth = parentTable.getCellWidth(row, cell2);
-        if (cellWidth !== void 0) return cellWidth;
-      }
-      const bodyIndex = stack.findIndex((component) => component instanceof Body);
-      const documentBody = (_context$file = context.file) === null || _context$file === void 0 || (_context$file = _context$file.Document) === null || _context$file === void 0 ? void 0 : _context$file.View.Body;
-      const section = bodyIndex >= 0 ? stack[bodyIndex].getSectionPropertiesFor((_stack = stack[bodyIndex + 1]) !== null && _stack !== void 0 ? _stack : this) : documentBody === null || documentBody === void 0 ? void 0 : documentBody.getSectionPropertiesFor();
-      return (_section$AvailableTex = section === null || section === void 0 ? void 0 : section.AvailableTextWidth) !== null && _section$AvailableTex !== void 0 ? _section$AvailableTex : DEFAULT_AVAILABLE_WIDTH;
-    }
-  };
-  var AppPropertiesAttributes = class extends XmlAttributeComponent {
-    constructor(..._args) {
-      super(..._args);
-      _defineProperty54(this, "xmlKeys", {
-        xmlns: "xmlns",
-        vt: "xmlns:vt"
-      });
-    }
-  };
-  var AppProperties = class extends XmlComponent {
-    constructor() {
-      super("Properties");
-      this.root.push(new AppPropertiesAttributes({
-        xmlns: "http://schemas.openxmlformats.org/officeDocument/2006/extended-properties",
-        vt: "http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes"
-      }));
-    }
-  };
-  var ContentTypeAttributes = class extends XmlAttributeComponent {
-    constructor(..._args) {
-      super(..._args);
-      _defineProperty54(this, "xmlKeys", { xmlns: "xmlns" });
-    }
-  };
-  var createDefault = (contentType, extension) => new BuilderElement({
-    name: "Default",
-    attributes: {
-      contentType: {
-        key: "ContentType",
-        value: contentType
-      },
-      extension: {
-        key: "Extension",
-        value: extension
-      }
-    }
-  });
-  var createOverride = (contentType, partName) => new BuilderElement({
-    name: "Override",
-    attributes: {
-      contentType: {
-        key: "ContentType",
-        value: contentType
-      },
-      partName: {
-        key: "PartName",
-        value: partName
-      }
-    }
-  });
-  var ContentTypes = class extends XmlComponent {
-    constructor() {
-      super("Types");
-      this.root.push(new ContentTypeAttributes({ xmlns: "http://schemas.openxmlformats.org/package/2006/content-types" }));
-      this.root.push(createDefault("image/png", "png"));
-      this.root.push(createDefault("image/jpeg", "jpeg"));
-      this.root.push(createDefault("image/jpeg", "jpg"));
-      this.root.push(createDefault("image/bmp", "bmp"));
-      this.root.push(createDefault("image/gif", "gif"));
-      this.root.push(createDefault("image/svg+xml", "svg"));
-      this.root.push(createDefault("application/vnd.openxmlformats-package.relationships+xml", "rels"));
-      this.root.push(createDefault("application/xml", "xml"));
-      this.root.push(createDefault("application/vnd.openxmlformats-officedocument.obfuscatedFont", "odttf"));
-      this.root.push(createOverride("application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml", "/word/document.xml"));
-      this.root.push(createOverride("application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml", "/word/styles.xml"));
-      this.root.push(createOverride("application/vnd.openxmlformats-package.core-properties+xml", "/docProps/core.xml"));
-      this.root.push(createOverride("application/vnd.openxmlformats-officedocument.custom-properties+xml", "/docProps/custom.xml"));
-      this.root.push(createOverride("application/vnd.openxmlformats-officedocument.extended-properties+xml", "/docProps/app.xml"));
-      this.root.push(createOverride("application/vnd.openxmlformats-officedocument.wordprocessingml.numbering+xml", "/word/numbering.xml"));
-      this.root.push(createOverride("application/vnd.openxmlformats-officedocument.wordprocessingml.footnotes+xml", "/word/footnotes.xml"));
-      this.root.push(createOverride("application/vnd.openxmlformats-officedocument.wordprocessingml.endnotes+xml", "/word/endnotes.xml"));
-      this.root.push(createOverride("application/vnd.openxmlformats-officedocument.wordprocessingml.settings+xml", "/word/settings.xml"));
-      this.root.push(createOverride("application/vnd.openxmlformats-officedocument.wordprocessingml.fontTable+xml", "/word/fontTable.xml"));
-      this.root.push(createOverride("application/vnd.openxmlformats-officedocument.theme+xml", "/word/theme/theme1.xml"));
-    }
-    /**
-    * Registers the comments part in the content types.
-    */
-    addComments() {
-      this.root.push(createOverride("application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml", "/word/comments.xml"));
-    }
-    /**
-    * Registers the commentsExtended part in the content types.
-    */
-    addCommentsExtended() {
-      this.root.push(createOverride("application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml", "/word/commentsExtended.xml"));
-    }
-    /**
-    * Registers the commentsIds part in the content types.
-    */
-    addCommentsIds() {
-      this.root.push(createOverride("application/vnd.openxmlformats-officedocument.wordprocessingml.commentsIds+xml", "/word/commentsIds.xml"));
-    }
-    /**
-    * Registers a footer part in the content types.
-    *
-    * @param index - Footer index number (e.g., 1 for footer1.xml)
-    */
-    addFooter(index) {
-      this.root.push(createOverride("application/vnd.openxmlformats-officedocument.wordprocessingml.footer+xml", `/word/footer${index}.xml`));
-    }
-    /**
-    * Registers a part by its name, such as a chart or an embedded workbook that a drawing adds to the package.
-    *
-    * @param contentType - The part's content type
-    * @param partName - The part's name, from the root of the package, such as "/word/charts/chart1.xml"
-    */
-    addOverride(contentType, partName) {
-      this.root.push(createOverride(contentType, partName));
-    }
-    /**
-    * Registers a header part in the content types.
-    *
-    * @param index - Header index number (e.g., 1 for header1.xml)
-    */
-    addHeader(index) {
-      this.root.push(createOverride("application/vnd.openxmlformats-officedocument.wordprocessingml.header+xml", `/word/header${index}.xml`));
-    }
-  };
-  var DocumentAttributeNamespaces = {
-    wpc: "http://schemas.microsoft.com/office/word/2010/wordprocessingCanvas",
-    mc: "http://schemas.openxmlformats.org/markup-compatibility/2006",
-    o: "urn:schemas-microsoft-com:office:office",
-    r: "http://schemas.openxmlformats.org/officeDocument/2006/relationships",
-    m: "http://schemas.openxmlformats.org/officeDocument/2006/math",
-    v: "urn:schemas-microsoft-com:vml",
-    wp14: "http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing",
-    wp: "http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing",
-    w10: "urn:schemas-microsoft-com:office:word",
-    w: "http://schemas.openxmlformats.org/wordprocessingml/2006/main",
-    w14: "http://schemas.microsoft.com/office/word/2010/wordml",
-    w15: "http://schemas.microsoft.com/office/word/2012/wordml",
-    wpg: "http://schemas.microsoft.com/office/word/2010/wordprocessingGroup",
-    wpi: "http://schemas.microsoft.com/office/word/2010/wordprocessingInk",
-    wne: "http://schemas.microsoft.com/office/word/2006/wordml",
-    wps: "http://schemas.microsoft.com/office/word/2010/wordprocessingShape",
-    cp: "http://schemas.openxmlformats.org/package/2006/metadata/core-properties",
-    dc: "http://purl.org/dc/elements/1.1/",
-    dcterms: "http://purl.org/dc/terms/",
-    dcmitype: "http://purl.org/dc/dcmitype/",
-    xsi: "http://www.w3.org/2001/XMLSchema-instance",
-    cx: "http://schemas.microsoft.com/office/drawing/2014/chartex",
-    cx1: "http://schemas.microsoft.com/office/drawing/2015/9/8/chartex",
-    cx2: "http://schemas.microsoft.com/office/drawing/2015/10/21/chartex",
-    cx3: "http://schemas.microsoft.com/office/drawing/2016/5/9/chartex",
-    cx4: "http://schemas.microsoft.com/office/drawing/2016/5/10/chartex",
-    cx5: "http://schemas.microsoft.com/office/drawing/2016/5/11/chartex",
-    cx6: "http://schemas.microsoft.com/office/drawing/2016/5/12/chartex",
-    cx7: "http://schemas.microsoft.com/office/drawing/2016/5/13/chartex",
-    cx8: "http://schemas.microsoft.com/office/drawing/2016/5/14/chartex",
-    aink: "http://schemas.microsoft.com/office/drawing/2016/ink",
-    am3d: "http://schemas.microsoft.com/office/drawing/2017/model3d",
-    w16cex: "http://schemas.microsoft.com/office/word/2018/wordml/cex",
-    w16cid: "http://schemas.microsoft.com/office/word/2016/wordml/cid",
-    w16: "http://schemas.microsoft.com/office/word/2018/wordml",
-    w16sdtdh: "http://schemas.microsoft.com/office/word/2020/wordml/sdtdatahash",
-    w16se: "http://schemas.microsoft.com/office/word/2015/wordml/symex"
-  };
-  var DocumentAttributes = class extends XmlAttributeComponent {
-    constructor(ns, Ignorable) {
-      super(_objectSpread213({ Ignorable }, Object.fromEntries(ns.map((n) => [n, DocumentAttributeNamespaces[n]]))));
-      _defineProperty54(this, "xmlKeys", _objectSpread213({ Ignorable: "mc:Ignorable" }, Object.fromEntries(Object.keys(DocumentAttributeNamespaces).map((key) => [key, `xmlns:${key}`]))));
-    }
-  };
-  var CoreProperties = class extends XmlComponent {
-    constructor(options) {
-      super("cp:coreProperties");
-      this.root.push(new DocumentAttributes([
-        "cp",
-        "dc",
-        "dcterms",
-        "dcmitype",
-        "xsi"
-      ]));
-      if (options.title) this.root.push(new StringContainer("dc:title", options.title));
-      if (options.subject) this.root.push(new StringContainer("dc:subject", options.subject));
-      if (options.creator) this.root.push(new StringContainer("dc:creator", options.creator));
-      if (options.keywords) this.root.push(new StringContainer("cp:keywords", options.keywords));
-      if (options.description) this.root.push(new StringContainer("dc:description", options.description));
-      if (options.lastModifiedBy) this.root.push(new StringContainer("cp:lastModifiedBy", options.lastModifiedBy));
-      if (options.revision) this.root.push(new StringContainer("cp:revision", String(options.revision)));
-      this.root.push(new TimestampElement("dcterms:created"));
-      this.root.push(new TimestampElement("dcterms:modified"));
-    }
-  };
-  var TimestampElementProperties = class extends XmlAttributeComponent {
-    constructor(..._args) {
-      super(..._args);
-      _defineProperty54(this, "xmlKeys", { type: "xsi:type" });
-    }
-  };
-  var TimestampElement = class extends XmlComponent {
-    constructor(name) {
-      super(name);
-      this.root.push(new TimestampElementProperties({ type: "dcterms:W3CDTF" }));
-      this.root.push(dateTimeValue(/* @__PURE__ */ new Date()));
-    }
-  };
-  var CustomPropertiesAttributes = class extends XmlAttributeComponent {
-    constructor(..._args) {
-      super(..._args);
-      _defineProperty54(this, "xmlKeys", {
-        xmlns: "xmlns",
-        vt: "xmlns:vt"
-      });
-    }
-  };
-  var CustomPropertyAttributes = class extends XmlAttributeComponent {
-    constructor(..._args) {
-      super(..._args);
-      _defineProperty54(this, "xmlKeys", {
-        formatId: "fmtid",
-        pid: "pid",
-        name: "name"
-      });
-    }
-  };
-  var CustomProperty = class extends XmlComponent {
-    constructor(id, properties) {
-      super("property");
-      this.root.push(new CustomPropertyAttributes({
-        formatId: "{D5CDD505-2E9C-101B-9397-08002B2CF9AE}",
-        pid: id.toString(),
-        name: properties.name
-      }));
-      this.root.push(new CustomPropertyValue(properties.value));
-    }
-  };
-  var CustomPropertyValue = class extends XmlComponent {
-    constructor(value) {
-      super("vt:lpwstr");
-      this.root.push(value);
-    }
-  };
-  var CustomProperties = class extends XmlComponent {
-    constructor(properties) {
-      super("Properties");
-      _defineProperty54(this, "nextId", void 0);
-      _defineProperty54(this, "properties", []);
-      this.root.push(new CustomPropertiesAttributes({
-        xmlns: "http://schemas.openxmlformats.org/officeDocument/2006/custom-properties",
-        vt: "http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes"
-      }));
-      this.nextId = 2;
-      for (const property2 of properties) this.addCustomProperty(property2);
-    }
-    prepForXml(context) {
-      this.properties.forEach((x2) => this.root.push(x2));
-      return super.prepForXml(context);
-    }
-    addCustomProperty(property2) {
-      this.properties.push(new CustomProperty(this.nextId++, property2));
     }
   };
   var DocumentBackground = class extends XmlComponent {
-    /**
-    * @throws If a color isn't valid, or `color` is a theme color and `themeColor`, `themeShade` or `themeTint` is given
-    */
-    constructor({ color: color2, themeColor: themeColor2, themeShade, themeTint }) {
+    constructor(options) {
       super("w:background");
-      if (typeof color2 === "object" && (themeColor2 !== void 0 || themeShade !== void 0 || themeTint !== void 0)) throw new Error("Invalid background. Expected a theme color in color, or themeColor, themeShade and themeTint, not both");
-      this.root.push(new ColorAttributeComponent([
-        {
-          keys: COLOR_ATTRIBUTES,
-          color: color2
-        },
-        {
-          key: "w:themeColor",
-          value: themeColor2
-        },
-        {
-          key: "w:themeShade",
-          value: themeShade === void 0 ? void 0 : uCharHexNumber(themeShade)
-        },
-        {
-          key: "w:themeTint",
-          value: themeTint === void 0 ? void 0 : uCharHexNumber(themeTint)
-        }
-      ]));
+      this.root.push(new DocumentBackgroundAttributes({
+        color: options.color === void 0 ? void 0 : hexColorValue(options.color),
+        themeColor: options.themeColor,
+        themeShade: options.themeShade === void 0 ? void 0 : uCharHexNumber(options.themeShade),
+        themeTint: options.themeTint === void 0 ? void 0 : uCharHexNumber(options.themeTint)
+      }));
     }
   };
   var Document = class extends XmlComponent {
@@ -120221,7 +116787,7 @@ ${suffix2}`;
     /**
     * Adds a block-level element to the document body.
     *
-    * @param item - The element to add (paragraph, table, table of contents, hyperlink, or any other file child)
+    * @param item - The element to add (paragraph, table, table of contents, or hyperlink)
     * @returns The Document instance for method chaining
     */
     add(item) {
@@ -120302,9 +116868,9 @@ ${suffix2}`;
         id: options.id
       }));
       for (let i = 0; i < options.children.length; i++) {
-        const child2 = options.children[i];
-        if (i === 0) child2.addRunToFront(new EndnoteRefRun());
-        this.root.push(child2);
+        const child = options.children[i];
+        if (i === 0) child.addRunToFront(new EndnoteRefRun());
+        this.root.push(child);
       }
     }
   };
@@ -120520,9 +117086,9 @@ ${suffix2}`;
         id: options.id
       }));
       for (let i = 0; i < options.children.length; i++) {
-        const child2 = options.children[i];
-        if (i === 0) child2.addRunToFront(new FootnoteRefRun());
-        this.root.push(child2);
+        const child = options.children[i];
+        if (i === 0) child.addRunToFront(new FootnoteRefRun());
+        this.root.push(child);
       }
     }
   };
@@ -120891,7 +117457,7 @@ ${suffix2}`;
       super(..._args);
       _defineProperty54(this, "xmlKeys", {
         ilvl: "w:ilvl",
-        tentative: "w:tentative"
+        tentative: "w15:tentative"
       });
     }
   };
@@ -120907,21 +117473,10 @@ ${suffix2}`;
       this.root.push(new Attributes({ val: value }));
     }
   };
-  var levelAlignment = (value) => {
-    switch (value) {
-      case AlignmentType.CENTER:
-        return "center";
-      case AlignmentType.END:
-      case AlignmentType.RIGHT:
-        return "right";
-      default:
-        return "left";
-    }
-  };
   var LevelJc = class extends XmlComponent {
     constructor(value) {
       super("w:lvlJc");
-      this.root.push(new Attributes({ val: levelAlignment(value) }));
+      this.root.push(new Attributes({ val: value }));
     }
   };
   var Suffix = class extends XmlComponent {
@@ -120948,17 +117503,13 @@ ${suffix2}`;
       _defineProperty54(this, "runProperties", void 0);
       this.root.push(new NumberValueElement("w:start", decimalNumber(start)));
       if (format2) this.root.push(new NumberFormat$1(format2));
-      if (style === null || style === void 0 ? void 0 : style.style) this.root.push(createParagraphStyle(style.style));
-      if (isLegalNumberingStyle) this.root.push(new IsLegalNumberingStyle());
       if (suffix2) this.root.push(new Suffix(suffix2));
+      if (isLegalNumberingStyle) this.root.push(new IsLegalNumberingStyle());
       if (text) this.root.push(new LevelText(text));
       this.root.push(new LevelJc(alignment));
-      this.paragraphProperties = new ParagraphProperties(style && style.paragraph, { implicitListParagraphStyle: false });
-      this.runProperties = new RunProperties((style === null || style === void 0 ? void 0 : style.run) && _objectSpread213(_objectSpread213({}, style.run), {}, {
-        highlight: void 0,
-        math: void 0,
-        revision: void 0
-      }));
+      if (style === null || style === void 0 ? void 0 : style.style) this.root.push(createParagraphStyle(style.style));
+      this.paragraphProperties = new ParagraphProperties(style && style.paragraph);
+      this.runProperties = new RunProperties(style && style.run);
       this.root.push(this.paragraphProperties);
       this.root.push(this.runProperties);
       if (level > 9) throw new Error("Level cannot be greater than 9. Read more here: https://answers.microsoft.com/en-us/msoffice/forum/all/does-word-support-more-than-9-list-levels/d130fdcd-1781-446d-8c84-c6c79124e4d7");
@@ -121300,69 +117851,6 @@ ${suffix2}`;
       return Array.from(this.referenceConfigMap.values());
     }
   };
-  var PackageParts = class {
-    /**
-    * @param contentTypes - Where each part's content type is added
-    * @param existingPaths - The paths under word/ of the parts the package already has, such as a template's charts,
-    * which new parts are numbered after
-    */
-    constructor(contentTypes, existingPaths = /* @__PURE__ */ new Set()) {
-      _defineProperty54(this, "contentTypes", void 0);
-      _defineProperty54(this, "existingPaths", void 0);
-      _defineProperty54(this, "paths", /* @__PURE__ */ new Map());
-      _defineProperty54(this, "folders", /* @__PURE__ */ new WeakMap());
-      this.contentTypes = contentTypes;
-      this.existingPaths = existingPaths;
-    }
-    /**
-    * Adds a part, and its content type, once.
-    *
-    * @returns The part's path under word/, such as "charts/chart1.xml"
-    */
-    add(part) {
-      const added = this.paths.get(part);
-      if (added !== void 0) return added;
-      const { folder, name, extension, contentType } = part.options;
-      const taken = /* @__PURE__ */ new Set([...this.existingPaths, ...this.paths.values()]);
-      let index = 1;
-      while (taken.has(`${folder}/${name}${index}.${extension}`)) index++;
-      const path2 = `${folder}/${name}${index}.${extension}`;
-      this.paths.set(part, path2);
-      this.contentTypes.addOverride(contentType, `/word/${path2}`);
-      return path2;
-    }
-    /**
-    * Each part added, with its path under word/, in the order they were added.
-    */
-    get Array() {
-      return [...this.paths].map(([part, path2]) => ({
-        part,
-        path: path2
-      }));
-    }
-    /**
-    * Creates the relationships of a part whose XML is being written, so the parts its XML refers to are found from its
-    * folder.
-    *
-    * @param path - The part's path under word/
-    */
-    createRelationships(path2) {
-      const relationships = new Relationships();
-      this.folders.set(relationships, path2.slice(0, path2.indexOf("/")));
-      return relationships;
-    }
-    /**
-    * The target of a relationship to a part, relative to the part the relationships are from. The document, headers,
-    * footers, footnotes, endnotes and comments are all in word/.
-    *
-    * @param path - The part's path under word/
-    */
-    getTarget(relationships, path2) {
-      const from2 = this.folders.get(relationships);
-      if (from2 === void 0) return path2;
-      return path2.startsWith(`${from2}/`) ? path2.slice(from2.length + 1) : `../${path2}`;
-    }
-  };
   var createCompatibilitySetting = (version7) => new BuilderElement({
     name: "w:compatSetting",
     attributes: {
@@ -121383,6 +117871,7 @@ ${suffix2}`;
   var Compatibility = class extends XmlComponent {
     constructor(options) {
       super("w:compat");
+      if (options.version) this.root.push(createCompatibilitySetting(options.version));
       if (options.useSingleBorderforContiguousCells) this.root.push(new OnOffElement("w:useSingleBorderforContiguousCells", options.useSingleBorderforContiguousCells));
       if (options.wordPerfectJustification) this.root.push(new OnOffElement("w:wpJustification", options.wordPerfectJustification));
       if (options.noTabStopForHangingIndent) this.root.push(new OnOffElement("w:noTabHangInd", options.noTabStopForHangingIndent));
@@ -121448,7 +117937,6 @@ ${suffix2}`;
       if (options.ignoreVerticalAlignmentInTextboxes) this.root.push(new OnOffElement("w:doNotVertAlignInTxbx", options.ignoreVerticalAlignmentInTextboxes));
       if (options.useAnsiKerningPairs) this.root.push(new OnOffElement("w:useAnsiKerningPairs", options.useAnsiKerningPairs));
       if (options.cachedColumnBalance) this.root.push(new OnOffElement("w:cachedColBalance", options.cachedColumnBalance));
-      if (options.version) this.root.push(createCompatibilitySetting(options.version));
     }
   };
   var SettingsAttributes = class extends XmlAttributeComponent {
@@ -121500,13 +117988,13 @@ ${suffix2}`;
       }));
       this.root.push(new OnOffElement("w:displayBackgroundShape", true));
       if (options.trackRevisions !== void 0) this.root.push(new OnOffElement("w:trackRevisions", options.trackRevisions));
-      if (options.defaultTabStop !== void 0) this.root.push(new NumberValueElement("w:defaultTabStop", options.defaultTabStop));
-      if (((_options$hyphenation = options.hyphenation) === null || _options$hyphenation === void 0 ? void 0 : _options$hyphenation.autoHyphenation) !== void 0) this.root.push(new OnOffElement("w:autoHyphenation", options.hyphenation.autoHyphenation));
-      if (((_options$hyphenation2 = options.hyphenation) === null || _options$hyphenation2 === void 0 ? void 0 : _options$hyphenation2.consecutiveHyphenLimit) !== void 0) this.root.push(new NumberValueElement("w:consecutiveHyphenLimit", options.hyphenation.consecutiveHyphenLimit));
-      if (((_options$hyphenation3 = options.hyphenation) === null || _options$hyphenation3 === void 0 ? void 0 : _options$hyphenation3.hyphenationZone) !== void 0) this.root.push(new NumberValueElement("w:hyphenationZone", options.hyphenation.hyphenationZone));
-      if (((_options$hyphenation4 = options.hyphenation) === null || _options$hyphenation4 === void 0 ? void 0 : _options$hyphenation4.doNotHyphenateCaps) !== void 0) this.root.push(new OnOffElement("w:doNotHyphenateCaps", options.hyphenation.doNotHyphenateCaps));
       if (options.evenAndOddHeaders !== void 0) this.root.push(new OnOffElement("w:evenAndOddHeaders", options.evenAndOddHeaders));
       if (options.updateFields !== void 0) this.root.push(new OnOffElement("w:updateFields", options.updateFields));
+      if (options.defaultTabStop !== void 0) this.root.push(new NumberValueElement("w:defaultTabStop", options.defaultTabStop));
+      if (((_options$hyphenation = options.hyphenation) === null || _options$hyphenation === void 0 ? void 0 : _options$hyphenation.autoHyphenation) !== void 0) this.root.push(new OnOffElement("w:autoHyphenation", options.hyphenation.autoHyphenation));
+      if (((_options$hyphenation2 = options.hyphenation) === null || _options$hyphenation2 === void 0 ? void 0 : _options$hyphenation2.hyphenationZone) !== void 0) this.root.push(new NumberValueElement("w:hyphenationZone", options.hyphenation.hyphenationZone));
+      if (((_options$hyphenation3 = options.hyphenation) === null || _options$hyphenation3 === void 0 ? void 0 : _options$hyphenation3.consecutiveHyphenLimit) !== void 0) this.root.push(new NumberValueElement("w:consecutiveHyphenLimit", options.hyphenation.consecutiveHyphenLimit));
+      if (((_options$hyphenation4 = options.hyphenation) === null || _options$hyphenation4 === void 0 ? void 0 : _options$hyphenation4.doNotHyphenateCaps) !== void 0) this.root.push(new OnOffElement("w:doNotHyphenateCaps", options.hyphenation.doNotHyphenateCaps));
       this.root.push(new Compatibility(_objectSpread213(_objectSpread213({}, (_options$compatibilit = options.compatibility) !== null && _options$compatibilit !== void 0 ? _options$compatibilit : {}), {}, { version: (_ref2 = (_options$compatibilit2 = (_options$compatibilit3 = options.compatibility) === null || _options$compatibilit3 === void 0 ? void 0 : _options$compatibilit3.version) !== null && _options$compatibilit2 !== void 0 ? _options$compatibilit2 : options.compatibilityModeVersion) !== null && _ref2 !== void 0 ? _ref2 : 15 })));
     }
   };
@@ -121561,7 +118049,7 @@ ${suffix2}`;
       }, options);
       _defineProperty54(this, "paragraphProperties", void 0);
       _defineProperty54(this, "runProperties", void 0);
-      this.paragraphProperties = new ParagraphProperties(options.paragraph, { implicitListParagraphStyle: false });
+      this.paragraphProperties = new ParagraphProperties(options.paragraph);
       this.runProperties = new RunProperties(options.run);
       this.root.push(this.paragraphProperties);
       this.root.push(this.runProperties);
@@ -121761,25 +118249,6 @@ ${suffix2}`;
       }, options));
     }
   };
-  var nameOf = (child2) => typeof child2 === "object" ? Object.keys(child2)[0] : void 0;
-  var attributesOf = (style) => {
-    var _flat$find;
-    return (_flat$find = [style["w:style"]].flat().find((part) => part._attr)) === null || _flat$find === void 0 ? void 0 : _flat$find._attr;
-  };
-  var styleIdOf = (style) => {
-    var _attributesOf;
-    return (_attributesOf = attributesOf(style)) === null || _attributesOf === void 0 ? void 0 : _attributesOf["w:styleId"];
-  };
-  var isDefaultParagraphStyle = (style) => {
-    var _attributes$wType;
-    const attributes = attributesOf(style);
-    return ((_attributes$wType = attributes === null || attributes === void 0 ? void 0 : attributes["w:type"]) !== null && _attributes$wType !== void 0 ? _attributes$wType : "paragraph") === "paragraph" && (attributes === null || attributes === void 0 ? void 0 : attributes["w:default"]) !== void 0 && ![
-      "0",
-      "false",
-      "off"
-    ].includes(String(attributes["w:default"]));
-  };
-  var markedAsDefault = (style) => ({ "w:style": [style["w:style"]].flat().map((part) => part._attr ? { _attr: _objectSpread213(_objectSpread213({}, part._attr), {}, { "w:default": "1" }) } : part) });
   var Styles = class extends XmlComponent {
     constructor(options) {
       super("w:styles");
@@ -121788,40 +118257,11 @@ ${suffix2}`;
       if (options.paragraphStyles) for (const style of options.paragraphStyles) this.root.push(new StyleForParagraph(style));
       if (options.characterStyles) for (const style of options.characterStyles) this.root.push(new StyleForCharacter(style));
     }
-    /**
-    * Writes the styles in the schema's order: the document defaults, the latent styles, then the styles. A style id
-    * can only be used once, so a style replaces an earlier one with its id. That way external styles replace docx's
-    * default styles, and paragraph and character styles replace the default and imported ones. Of several document
-    * defaults, or several latent styles, the last is kept. Normal is marked as the default paragraph style when no
-    * style is.
-    */
-    prepForXml(context) {
-      const xml = super.prepForXml(context);
-      const children = xml["w:styles"];
-      if (!Array.isArray(children)) return xml;
-      const named2 = (name) => children.filter((child2) => nameOf(child2) === name);
-      const ids = children.map((child2) => nameOf(child2) === "w:style" ? styleIdOf(child2) : void 0);
-      const kept = children.filter((child2, index) => ![
-        "_attr",
-        "w:docDefaults",
-        "w:latentStyles"
-      ].includes(nameOf(child2)) && (ids[index] === void 0 || ids.lastIndexOf(ids[index]) === index));
-      const styles = kept.some((child2) => nameOf(child2) === "w:style" && isDefaultParagraphStyle(child2)) ? kept : kept.map((child2) => {
-        var _attributesOf$wType, _attributesOf2;
-        return nameOf(child2) === "w:style" && styleIdOf(child2) === "Normal" && ((_attributesOf$wType = (_attributesOf2 = attributesOf(child2)) === null || _attributesOf2 === void 0 ? void 0 : _attributesOf2["w:type"]) !== null && _attributesOf$wType !== void 0 ? _attributesOf$wType : "paragraph") === "paragraph" ? markedAsDefault(child2) : child2;
-      });
-      return { "w:styles": [
-        ...named2("_attr"),
-        ...named2("w:docDefaults").slice(-1),
-        ...named2("w:latentStyles").slice(-1),
-        ...styles
-      ] };
-    }
   };
   var ParagraphPropertiesDefaults = class extends XmlComponent {
     constructor(options) {
       super("w:pPrDefault");
-      this.root.push(new ParagraphProperties(options, { implicitListParagraphStyle: false }));
+      this.root.push(new ParagraphProperties(options));
     }
   };
   var RunPropertiesDefaults = class extends XmlComponent {
@@ -121879,47 +118319,9 @@ ${suffix2}`;
       };
     }
   };
-  var createDefaultStyles = (options = {}) => {
-    var _options$document;
-    return {
-      normal: new StyleForParagraph({
-        id: "Normal",
-        name: "Normal",
-        quickFormat: true
-      }),
-      document: new DocumentDefaults((_options$document = options.document) !== null && _options$document !== void 0 ? _options$document : {}),
-      title: new TitleStyle(_objectSpread213({ run: { size: 56 } }, options.title)),
-      heading1: new Heading1Style(_objectSpread213({ run: {
-        color: "2E74B5",
-        size: 32
-      } }, options.heading1)),
-      heading2: new Heading2Style(_objectSpread213({ run: {
-        color: "2E74B5",
-        size: 26
-      } }, options.heading2)),
-      heading3: new Heading3Style(_objectSpread213({ run: {
-        color: "1F4D78",
-        size: 24
-      } }, options.heading3)),
-      heading4: new Heading4Style(_objectSpread213({ run: {
-        color: "2E74B5",
-        italics: true
-      } }, options.heading4)),
-      heading5: new Heading5Style(_objectSpread213({ run: { color: "2E74B5" } }, options.heading5)),
-      heading6: new Heading6Style(_objectSpread213({ run: { color: "1F4D78" } }, options.heading6)),
-      strong: new StrongStyle(_objectSpread213({ run: { bold: true } }, options.strong)),
-      listParagraph: new ListParagraph(options.listParagraph || {}),
-      hyperlink: new HyperlinkStyle(options.hyperlink || {}),
-      footnoteReference: new FootnoteReferenceStyle(options.footnoteReference || {}),
-      footnoteText: new FootnoteText(options.footnoteText || {}),
-      footnoteTextChar: new FootnoteTextChar(options.footnoteTextChar || {}),
-      endnoteReference: new EndnoteReferenceStyle(options.endnoteReference || {}),
-      endnoteText: new EndnoteText(options.endnoteText || {}),
-      endnoteTextChar: new EndnoteTextChar(options.endnoteTextChar || {})
-    };
-  };
   var DefaultStylesFactory = class {
     newInstance(options = {}) {
+      var _options$document;
       return {
         initialStyles: new DocumentAttributes([
           "mc",
@@ -121928,400 +118330,38 @@ ${suffix2}`;
           "w14",
           "w15"
         ], "w14 w15"),
-        importedStyles: Object.values(createDefaultStyles(options))
+        importedStyles: [
+          new DocumentDefaults((_options$document = options.document) !== null && _options$document !== void 0 ? _options$document : {}),
+          new TitleStyle(_objectSpread213({ run: { size: 56 } }, options.title)),
+          new Heading1Style(_objectSpread213({ run: {
+            color: "2E74B5",
+            size: 32
+          } }, options.heading1)),
+          new Heading2Style(_objectSpread213({ run: {
+            color: "2E74B5",
+            size: 26
+          } }, options.heading2)),
+          new Heading3Style(_objectSpread213({ run: {
+            color: "1F4D78",
+            size: 24
+          } }, options.heading3)),
+          new Heading4Style(_objectSpread213({ run: {
+            color: "2E74B5",
+            italics: true
+          } }, options.heading4)),
+          new Heading5Style(_objectSpread213({ run: { color: "2E74B5" } }, options.heading5)),
+          new Heading6Style(_objectSpread213({ run: { color: "1F4D78" } }, options.heading6)),
+          new StrongStyle(_objectSpread213({ run: { bold: true } }, options.strong)),
+          new ListParagraph(options.listParagraph || {}),
+          new HyperlinkStyle(options.hyperlink || {}),
+          new FootnoteReferenceStyle(options.footnoteReference || {}),
+          new FootnoteText(options.footnoteText || {}),
+          new FootnoteTextChar(options.footnoteTextChar || {}),
+          new EndnoteReferenceStyle(options.endnoteReference || {}),
+          new EndnoteText(options.endnoteText || {}),
+          new EndnoteTextChar(options.endnoteTextChar || {})
+        ]
       };
-    }
-  };
-  var OFFICE_FONTS = {
-    headings: {
-      latin: "Calibri Light",
-      panose: "020F0302020204030204"
-    },
-    body: {
-      latin: "Calibri",
-      panose: "020F0502020204030204"
-    }
-  };
-  var OFFICE_SCRIPT_FONTS = [
-    [
-      "Jpan",
-      "\u6E38\u30B4\u30B7\u30C3\u30AF Light",
-      "\u6E38\u660E\u671D"
-    ],
-    ["Hang", "\uB9D1\uC740 \uACE0\uB515"],
-    [
-      "Hans",
-      "\u7B49\u7EBF Light",
-      "\u7B49\u7EBF"
-    ],
-    ["Hant", "\u65B0\u7D30\u660E\u9AD4"],
-    [
-      "Arab",
-      "Times New Roman",
-      "Arial"
-    ],
-    [
-      "Hebr",
-      "Times New Roman",
-      "Arial"
-    ],
-    [
-      "Thai",
-      "Angsana New",
-      "Cordia New"
-    ],
-    ["Ethi", "Nyala"],
-    ["Beng", "Vrinda"],
-    ["Gujr", "Shruti"],
-    [
-      "Khmr",
-      "MoolBoran",
-      "DaunPenh"
-    ],
-    ["Knda", "Tunga"],
-    ["Guru", "Raavi"],
-    ["Cans", "Euphemia"],
-    ["Cher", "Plantagenet Cherokee"],
-    ["Yiii", "Microsoft Yi Baiti"],
-    ["Tibt", "Microsoft Himalaya"],
-    ["Thaa", "MV Boli"],
-    ["Deva", "Mangal"],
-    ["Telu", "Gautami"],
-    ["Taml", "Latha"],
-    ["Syrc", "Estrangelo Edessa"],
-    ["Orya", "Kalinga"],
-    ["Mlym", "Kartika"],
-    ["Laoo", "DokChampa"],
-    ["Sinh", "Iskoola Pota"],
-    ["Mong", "Mongolian Baiti"],
-    [
-      "Viet",
-      "Times New Roman",
-      "Arial"
-    ],
-    ["Uigh", "Microsoft Uighur"],
-    ["Geor", "Sylfaen"],
-    ["Armn", "Arial"],
-    ["Bugi", "Leelawadee UI"],
-    ["Bopo", "Microsoft JhengHei"],
-    ["Java", "Javanese Text"],
-    ["Lisu", "Segoe UI"],
-    ["Mymr", "Myanmar Text"],
-    ["Nkoo", "Ebrima"],
-    ["Olck", "Nirmala UI"],
-    ["Osma", "Ebrima"],
-    ["Phag", "Phagspa"],
-    ["Syrn", "Estrangelo Edessa"],
-    ["Syrj", "Estrangelo Edessa"],
-    ["Syre", "Estrangelo Edessa"],
-    ["Sora", "Nirmala UI"],
-    ["Tale", "Microsoft Tai Le"],
-    ["Talu", "Microsoft New Tai Lue"],
-    ["Tfng", "Ebrima"]
-  ];
-  var createTextFont = (name, typeface, panose) => new BuilderElement({
-    name,
-    attributes: {
-      typeface: {
-        key: "typeface",
-        value: typeface
-      },
-      panose: {
-        key: "panose",
-        value: panose
-      }
-    }
-  });
-  var themeLatinFont = (use, fonts) => {
-    const font = fonts[use];
-    const latin = typeof font === "string" ? font : font === null || font === void 0 ? void 0 : font.latin;
-    return latin !== null && latin !== void 0 ? latin : OFFICE_FONTS[use].latin;
-  };
-  var createFontCollection = (use, fonts) => {
-    const font = fonts[use];
-    const { eastAsia = "", complexScript = "" } = typeof font === "object" ? font : {};
-    const latin = themeLatinFont(use, fonts);
-    const office = OFFICE_FONTS[use];
-    return new BuilderElement({
-      name: use === "headings" ? "a:majorFont" : "a:minorFont",
-      children: [
-        createTextFont("a:latin", latin, latin === office.latin ? office.panose : void 0),
-        createTextFont("a:ea", eastAsia),
-        createTextFont("a:cs", complexScript),
-        ...OFFICE_SCRIPT_FONTS.map(([script, headings, body = headings]) => new BuilderElement({
-          name: "a:font",
-          attributes: {
-            script: {
-              key: "script",
-              value: script
-            },
-            typeface: {
-              key: "typeface",
-              value: use === "headings" ? headings : body
-            }
-          }
-        }))
-      ]
-    });
-  };
-  var createFontScheme = (name, fonts = {}) => new BuilderElement({
-    name: "a:fontScheme",
-    attributes: { name: {
-      key: "name",
-      value: name
-    } },
-    children: [createFontCollection("headings", fonts), createFontCollection("body", fonts)]
-  });
-  var createStyleColor = (changes = []) => new BuilderElement({
-    name: "a:schemeClr",
-    attributes: { value: {
-      key: "val",
-      value: "phClr"
-    } },
-    children: changes.map(([name, value]) => new BuilderElement({
-      name: `a:${name}`,
-      attributes: { value: {
-        key: "val",
-        value
-      } }
-    }))
-  });
-  var createSolidFill = (changes) => new BuilderElement({
-    name: "a:solidFill",
-    children: [createStyleColor(changes)]
-  });
-  var createGradientFill = (stops) => new BuilderElement({
-    name: "a:gradFill",
-    attributes: { rotateWithShape: {
-      key: "rotWithShape",
-      value: true
-    } },
-    children: [new BuilderElement({
-      name: "a:gsLst",
-      children: stops.map((changes, index) => new BuilderElement({
-        name: "a:gs",
-        attributes: { position: {
-          key: "pos",
-          value: index * 5e4
-        } },
-        children: [createStyleColor(changes)]
-      }))
-    }), new BuilderElement({
-      name: "a:lin",
-      attributes: {
-        angle: {
-          key: "ang",
-          value: 54e5
-        },
-        scaled: {
-          key: "scaled",
-          value: false
-        }
-      }
-    })]
-  });
-  var createLine = (width) => new BuilderElement({
-    name: "a:ln",
-    attributes: {
-      width: {
-        key: "w",
-        value: width
-      },
-      cap: {
-        key: "cap",
-        value: "flat"
-      },
-      compound: {
-        key: "cmpd",
-        value: "sng"
-      },
-      alignment: {
-        key: "algn",
-        value: "ctr"
-      }
-    },
-    children: [
-      createSolidFill(),
-      new BuilderElement({
-        name: "a:prstDash",
-        attributes: { value: {
-          key: "val",
-          value: "solid"
-        } }
-      }),
-      new BuilderElement({
-        name: "a:miter",
-        attributes: { limit: {
-          key: "lim",
-          value: 8e5
-        } }
-      })
-    ]
-  });
-  var createEffectStyle = (effects) => new BuilderElement({
-    name: "a:effectStyle",
-    children: [new BuilderElement({
-      name: "a:effectLst",
-      children: effects
-    })]
-  });
-  var createShadow = () => new BuilderElement({
-    name: "a:outerShdw",
-    attributes: {
-      blurRadius: {
-        key: "blurRad",
-        value: 57150
-      },
-      distance: {
-        key: "dist",
-        value: 19050
-      },
-      direction: {
-        key: "dir",
-        value: 54e5
-      },
-      alignment: {
-        key: "algn",
-        value: "ctr"
-      },
-      rotateWithShape: {
-        key: "rotWithShape",
-        value: false
-      }
-    },
-    children: [new BuilderElement({
-      name: "a:srgbClr",
-      attributes: { value: {
-        key: "val",
-        value: "000000"
-      } },
-      children: [new BuilderElement({
-        name: "a:alpha",
-        attributes: { value: {
-          key: "val",
-          value: 63e3
-        } }
-      })]
-    })]
-  });
-  var createFormatScheme = () => new BuilderElement({
-    name: "a:fmtScheme",
-    attributes: { name: {
-      key: "name",
-      value: "Office"
-    } },
-    children: [
-      new BuilderElement({
-        name: "a:fillStyleLst",
-        children: [
-          createSolidFill(),
-          createGradientFill([
-            [
-              ["lumMod", 11e4],
-              ["satMod", 105e3],
-              ["tint", 67e3]
-            ],
-            [
-              ["lumMod", 105e3],
-              ["satMod", 103e3],
-              ["tint", 73e3]
-            ],
-            [
-              ["lumMod", 105e3],
-              ["satMod", 109e3],
-              ["tint", 81e3]
-            ]
-          ]),
-          createGradientFill([
-            [
-              ["satMod", 103e3],
-              ["lumMod", 102e3],
-              ["tint", 94e3]
-            ],
-            [
-              ["satMod", 11e4],
-              ["lumMod", 1e5],
-              ["shade", 1e5]
-            ],
-            [
-              ["lumMod", 99e3],
-              ["satMod", 12e4],
-              ["shade", 78e3]
-            ]
-          ])
-        ]
-      }),
-      new BuilderElement({
-        name: "a:lnStyleLst",
-        children: [
-          createLine(6350),
-          createLine(12700),
-          createLine(19050)
-        ]
-      }),
-      new BuilderElement({
-        name: "a:effectStyleLst",
-        children: [
-          createEffectStyle([]),
-          createEffectStyle([]),
-          createEffectStyle([createShadow()])
-        ]
-      }),
-      new BuilderElement({
-        name: "a:bgFillStyleLst",
-        children: [
-          createSolidFill(),
-          createSolidFill([["tint", 95e3], ["satMod", 17e4]]),
-          createGradientFill([
-            [
-              ["tint", 93e3],
-              ["satMod", 15e4],
-              ["shade", 98e3],
-              ["lumMod", 102e3]
-            ],
-            [
-              ["tint", 98e3],
-              ["satMod", 13e4],
-              ["shade", 9e4],
-              ["lumMod", 103e3]
-            ],
-            [["shade", 63e3], ["satMod", 12e4]]
-          ])
-        ]
-      })
-    ]
-  });
-  var Theme = class extends XmlComponent {
-    constructor({ name = "Office Theme", colors, fonts } = {}) {
-      super("a:theme");
-      _defineProperty54(this, "colors", void 0);
-      this.colors = themeColorValues(colors);
-      this.root.push(new NextAttributeComponent({
-        namespace: {
-          key: "xmlns:a",
-          value: "http://schemas.openxmlformats.org/drawingml/2006/main"
-        },
-        name: {
-          key: "name",
-          value: name
-        }
-      }));
-      this.root.push(new BuilderElement({
-        name: "a:themeElements",
-        children: [
-          createColorScheme(colors ? name : "Office", colors),
-          createFontScheme(fonts ? name : "Office", fonts),
-          createFormatScheme()
-        ]
-      }));
-      this.root.push(new BuilderElement({ name: "a:objectDefaults" }));
-      this.root.push(new BuilderElement({ name: "a:extraClrSchemeLst" }));
-    }
-    /**
-    * The hex color of each of the theme's colors. The system's window text and window colors are black and white.
-    */
-    get Colors() {
-      return this.colors;
     }
   };
   var File2 = class {
@@ -122349,15 +118389,7 @@ ${suffix2}`;
         "commentsExtended",
         void 0
       );
-      _defineProperty54(
-        this,
-        /** Durable comment id mapping (word/commentsIds.xml). */
-        "commentsIds",
-        void 0
-      );
       _defineProperty54(this, "fontWrapper", void 0);
-      _defineProperty54(this, "theme", void 0);
-      _defineProperty54(this, "packageParts", void 0);
       this.coreProperties = new CoreProperties(_objectSpread213(_objectSpread213({}, options), {}, {
         creator: (_options$creator = options.creator) !== null && _options$creator !== void 0 ? _options$creator : "Un-named",
         revision: (_options$revision = options.revision) !== null && _options$revision !== void 0 ? _options$revision : 1,
@@ -122366,14 +118398,12 @@ ${suffix2}`;
       this.numbering = new Numbering(options.numbering ? options.numbering : { config: [] });
       this.comments = new Comments((_options$comments = options.comments) !== null && _options$comments !== void 0 ? _options$comments : { children: [] });
       if (this.comments.ThreadData) this.commentsExtended = new CommentsExtended(this.comments.ThreadData);
-      if (this.comments.CommentIdsData) this.commentsIds = new CommentsIds(this.comments.CommentIdsData);
       this.fileRelationships = new Relationships();
       this.customProperties = new CustomProperties((_options$customProper = options.customProperties) !== null && _options$customProper !== void 0 ? _options$customProper : []);
       this.appProperties = new AppProperties();
       this.footnotesWrapper = new FootnotesWrapper();
       this.endnotesWrapper = new EndnotesWrapper();
       this.contentTypes = new ContentTypes();
-      this.packageParts = new PackageParts(this.contentTypes);
       this.documentWrapper = new DocumentWrapper({ background: options.background });
       this.settings = new Settings2({
         compatibilityModeVersion: options.compatabilityModeVersion,
@@ -122391,16 +118421,10 @@ ${suffix2}`;
       });
       this.media = new Media();
       if (options.externalStyles !== void 0) {
-        var _options$styles$defau, _options$styles;
-        const given = (_options$styles$defau = (_options$styles = options.styles) === null || _options$styles === void 0 ? void 0 : _options$styles.default) !== null && _options$styles$defau !== void 0 ? _options$styles$defau : {};
-        const defaultStyles = Object.entries(createDefaultStyles(given));
-        const isGiven = ([key]) => given[key] !== void 0;
+        var _options$styles;
+        const defaultStyles = new DefaultStylesFactory().newInstance((_options$styles = options.styles) === null || _options$styles === void 0 ? void 0 : _options$styles.default);
         const externalStyles = new ExternalStylesFactory().newInstance(options.externalStyles);
-        this.styles = new Styles(_objectSpread213(_objectSpread213({}, externalStyles), {}, { importedStyles: [
-          ...defaultStyles.filter((entry) => !isGiven(entry)).map(([, style]) => style),
-          ...externalStyles.importedStyles,
-          ...defaultStyles.filter(isGiven).map(([, style]) => style)
-        ] }));
+        this.styles = new Styles(_objectSpread213(_objectSpread213({}, externalStyles), {}, { importedStyles: [...defaultStyles.importedStyles, ...externalStyles.importedStyles] }));
       } else if (options.styles) {
         const defaultStyles = new DefaultStylesFactory().newInstance(options.styles.default);
         this.styles = new Styles(_objectSpread213(_objectSpread213({}, defaultStyles), options.styles));
@@ -122413,8 +118437,6 @@ ${suffix2}`;
       if (options.footnotes) for (const key in options.footnotes) this.footnotesWrapper.View.createFootNote(parseFloat(key), options.footnotes[key].children);
       if (options.endnotes) for (const key in options.endnotes) this.endnotesWrapper.View.createEndnote(parseFloat(key), options.endnotes[key].children);
       this.fontWrapper = new FontWrapper((_options$fonts = options.fonts) !== null && _options$fonts !== void 0 ? _options$fonts : []);
-      this.theme = new Theme(options.theme);
-      this.documentWrapper.Relationships.addRelationship(this.currentRelationshipId++, "http://schemas.openxmlformats.org/officeDocument/2006/relationships/theme", "theme/theme1.xml");
     }
     addSection({ headers = {}, footers = {}, children, properties }) {
       this.documentWrapper.View.Body.addSection(_objectSpread213(_objectSpread213({}, properties), {}, {
@@ -122429,17 +118451,17 @@ ${suffix2}`;
           even: footers.even ? this.createFooter(footers.even) : void 0
         }
       }));
-      for (const child2 of children) this.documentWrapper.View.add(child2);
+      for (const child of children) this.documentWrapper.View.add(child);
     }
     createHeader(header) {
       const wrapper = new HeaderWrapper(this.media, this.currentRelationshipId++);
-      for (const child2 of header.options.children) wrapper.add(child2);
+      for (const child of header.options.children) wrapper.add(child);
       this.addHeaderToDocument(wrapper);
       return wrapper;
     }
     createFooter(footer) {
       const wrapper = new FooterWrapper(this.media, this.currentRelationshipId++);
-      for (const child2 of footer.options.children) wrapper.add(child2);
+      for (const child of footer.options.children) wrapper.add(child);
       this.addFooterToDocument(wrapper);
       return wrapper;
     }
@@ -122469,17 +118491,10 @@ ${suffix2}`;
       this.documentWrapper.Relationships.addRelationship(this.currentRelationshipId++, "http://schemas.openxmlformats.org/officeDocument/2006/relationships/footnotes", "footnotes.xml");
       this.documentWrapper.Relationships.addRelationship(this.currentRelationshipId++, "http://schemas.openxmlformats.org/officeDocument/2006/relationships/endnotes", "endnotes.xml");
       this.documentWrapper.Relationships.addRelationship(this.currentRelationshipId++, "http://schemas.openxmlformats.org/officeDocument/2006/relationships/settings", "settings.xml");
-      if (!this.comments.IsEmpty) {
-        this.documentWrapper.Relationships.addRelationship(this.currentRelationshipId++, "http://schemas.openxmlformats.org/officeDocument/2006/relationships/comments", "comments.xml");
-        this.contentTypes.addComments();
-      }
+      this.documentWrapper.Relationships.addRelationship(this.currentRelationshipId++, "http://schemas.openxmlformats.org/officeDocument/2006/relationships/comments", "comments.xml");
       if (this.commentsExtended) {
         this.documentWrapper.Relationships.addRelationship(this.currentRelationshipId++, "http://schemas.microsoft.com/office/2011/relationships/commentsExtended", "commentsExtended.xml");
         this.contentTypes.addCommentsExtended();
-      }
-      if (this.commentsIds) {
-        this.documentWrapper.Relationships.addRelationship(this.currentRelationshipId++, "http://schemas.microsoft.com/office/2016/09/relationships/commentsIds", "commentsIds.xml");
-        this.contentTypes.addCommentsIds();
       }
     }
     get Document() {
@@ -122531,20 +118546,8 @@ ${suffix2}`;
     get CommentsExtended() {
       return this.commentsExtended;
     }
-    /** Durable comment id part. Undefined when no comment carries a durableId. */
-    get CommentsIds() {
-      return this.commentsIds;
-    }
     get FontTable() {
       return this.fontWrapper;
-    }
-    /** The document's theme (word/theme/theme1.xml). */
-    get Theme() {
-      return this.theme;
-    }
-    /** The parts that drawings, such as charts, add to the package when it is written. */
-    get PackageParts() {
-      return this.packageParts;
     }
   };
   var require_jszip_min = /* @__PURE__ */ __commonJSMin(((exports, module) => {
@@ -122857,7 +118860,7 @@ ${suffix2}`;
               return e3;
             };
           }
-          (n.prototype = e("./object")).loadAsync = e("./load"), n.support = e("./support"), n.defaults = e("./defaults"), n.version = "3.10.2", n.loadAsync = function(e3, t2) {
+          (n.prototype = e("./object")).loadAsync = e("./load"), n.support = e("./support"), n.defaults = e("./defaults"), n.version = "3.10.1", n.loadAsync = function(e3, t2) {
             return new n().loadAsync(e3, t2);
           }, n.external = e("./external"), t.exports = n;
         }, {
@@ -123214,7 +119217,7 @@ ${suffix2}`;
             n.call(this, e3);
           }
           e("../utils").inherits(i, n), i.prototype.readData = function(e3) {
-            if (this.checkOffset(e3), 0 === e3) return /* @__PURE__ */ new Uint8Array(0);
+            if (this.checkOffset(e3), 0 === e3) return new Uint8Array(0);
             var t2 = this.data.subarray(this.zero + this.index, this.zero + this.index + e3);
             return this.index += e3, t2;
           }, t.exports = i;
@@ -123628,7 +119631,7 @@ ${suffix2}`;
             applyCanBeUsed: {
               uint8array: (function() {
                 try {
-                  return o.uint8array && 1 === String.fromCharCode.apply(null, /* @__PURE__ */ new Uint8Array(1)).length;
+                  return o.uint8array && 1 === String.fromCharCode.apply(null, new Uint8Array(1)).length;
                 } catch (e3) {
                   return false;
                 }
@@ -123732,9 +119735,7 @@ ${suffix2}`;
             }
             return r3.join("/");
           }, a2.getTypeOf = function(e3) {
-            if ("string" == typeof e3) return "string";
-            var t2 = Object.prototype.toString.call(e3);
-            return "[object Array]" === t2 ? "array" : o.nodebuffer && r2.isBuffer(e3) ? "nodebuffer" : o.uint8array && "[object Uint8Array]" === t2 ? "uint8array" : o.arraybuffer && "[object ArrayBuffer]" === t2 ? "arraybuffer" : void 0;
+            return "string" == typeof e3 ? "string" : "[object Array]" === Object.prototype.toString.call(e3) ? "array" : o.nodebuffer && r2.isBuffer(e3) ? "nodebuffer" : o.uint8array && e3 instanceof Uint8Array ? "uint8array" : o.arraybuffer && e3 instanceof ArrayBuffer ? "arraybuffer" : void 0;
           }, a2.checkSupport = function(e3) {
             if (!o[e3.toLowerCase()]) throw new Error(e3 + " is not supported by this platform");
           }, a2.MAX_VALUE_16BITS = 65535, a2.MAX_VALUE_32BITS = -1, a2.pretty = function(e3) {
@@ -123755,14 +119756,14 @@ ${suffix2}`;
             return r3;
           }, a2.prepareContent = function(r3, e3, n2, i2, s3) {
             return u.Promise.resolve(e3).then(function(n3) {
-              return o.blob && (n3 instanceof Blob || -1 !== ["[object File]", "[object Blob]"].indexOf(Object.prototype.toString.call(n3))) ? void 0 !== Blob.prototype.arrayBuffer ? n3.arrayBuffer() : "undefined" != typeof FileReader ? new u.Promise(function(t2, r4) {
+              return o.blob && (n3 instanceof Blob || -1 !== ["[object File]", "[object Blob]"].indexOf(Object.prototype.toString.call(n3))) && "undefined" != typeof FileReader ? new u.Promise(function(t2, r4) {
                 var e4 = new FileReader();
                 e4.onload = function(e6) {
                   t2(e6.target.result);
                 }, e4.onerror = function(e6) {
                   r4(e6.target.error);
                 }, e4.readAsArrayBuffer(n3);
-              }) : u.Promise.reject(/* @__PURE__ */ new Error(r3 + " is a Blob, but we have no way of reading it.")) : n3;
+              }) : n3;
             }).then(function(e4) {
               var t2 = a2.getTypeOf(e4);
               return t2 ? ("arraybuffer" === t2 ? e4 = a2.transformTo("uint8array", e4) : "string" === t2 && (s3 ? e4 = h.decode(e4) : n2 && true !== i2 && (e4 = (function(e6) {
@@ -123814,8 +119815,8 @@ ${suffix2}`;
               if (this.diskWithZip64CentralDirStart = this.reader.readInt(4), this.relativeOffsetEndOfZip64CentralDir = this.reader.readInt(8), this.disksCount = this.reader.readInt(4), 1 < this.disksCount) throw new Error("Multi-volumes zip are not supported");
             },
             readLocalFiles: function() {
-              var e3 = 0, t2;
-              for (; e3 < this.files.length; e3++) t2 = this.files[e3], this.reader.setIndex(t2.localHeaderOffset), this.checkSignature(s2.LOCAL_FILE_HEADER), t2.readLocalPart(this.reader), t2.handleUTF8(), t2.processAttributes();
+              var e3, t2;
+              for (e3 = 0; e3 < this.files.length; e3++) t2 = this.files[e3], this.reader.setIndex(t2.localHeaderOffset), this.checkSignature(s2.LOCAL_FILE_HEADER), t2.readLocalPart(this.reader), t2.handleUTF8(), t2.processAttributes();
             },
             readCentralDir: function() {
               var e3;
@@ -124195,8 +120196,8 @@ ${suffix2}`;
             var r3 = a2.deflateInit2(this.strm, t2.level, t2.method, t2.windowBits, t2.memLevel, t2.strategy);
             if (r3 !== l) throw new Error(i[r3]);
             if (t2.header && a2.deflateSetHeader(this.strm, t2.header), t2.dictionary) {
-              var n2 = "string" == typeof t2.dictionary ? h.string2buf(t2.dictionary) : "[object ArrayBuffer]" === u.call(t2.dictionary) ? new Uint8Array(t2.dictionary) : t2.dictionary;
-              if ((r3 = a2.deflateSetDictionary(this.strm, n2)) !== l) throw new Error(i[r3]);
+              var n2;
+              if (n2 = "string" == typeof t2.dictionary ? h.string2buf(t2.dictionary) : "[object ArrayBuffer]" === u.call(t2.dictionary) ? new Uint8Array(t2.dictionary) : t2.dictionary, (r3 = a2.deflateSetDictionary(this.strm, n2)) !== l) throw new Error(i[r3]);
               this._dict_set = true;
             }
           }
@@ -124297,8 +120298,8 @@ ${suffix2}`;
               else for (var s3 = 0; s3 < n2; s3++) e3[i2 + s3] = t2[r3 + s3];
             },
             flattenChunks: function(e3) {
-              var t2 = n2 = 0, r3 = e3.length, n2, i2, s3, a2;
-              for (; t2 < r3; t2++) n2 += e3[t2].length;
+              var t2, r3, n2, i2, s3, a2;
+              for (t2 = n2 = 0, r3 = e3.length; t2 < r3; t2++) n2 += e3[t2].length;
               for (a2 = new Uint8Array(n2), t2 = i2 = 0, r3 = e3.length; t2 < r3; t2++) s3 = e3[t2], a2.set(s3, i2), i2 += s3.length;
               return a2;
             }
@@ -124323,7 +120324,7 @@ ${suffix2}`;
             i = false;
           }
           try {
-            String.fromCharCode.apply(null, /* @__PURE__ */ new Uint8Array(1));
+            String.fromCharCode.apply(null, new Uint8Array(1));
           } catch (e3) {
             s2 = false;
           }
@@ -125137,6 +121138,7 @@ ${suffix2}`;
                 break e;
               case 31:
                 return -4;
+              case 32:
               default:
                 return U;
             }
@@ -125483,8 +121485,8 @@ ${suffix2}`;
             }
           }
           function W(e3) {
-            var t2 = 0;
-            for (; t2 < l; t2++) e3.dyn_ltree[2 * t2] = 0;
+            var t2;
+            for (t2 = 0; t2 < l; t2++) e3.dyn_ltree[2 * t2] = 0;
             for (t2 = 0; t2 < f; t2++) e3.dyn_dtree[2 * t2] = 0;
             for (t2 = 0; t2 < c2; t2++) e3.bl_tree[2 * t2] = 0;
             e3.dyn_ltree[2 * m] = 1, e3.opt_len = e3.static_len = 0, e3.last_lit = e3.matches = 0;
@@ -125804,10 +121806,9 @@ ${suffix2}`;
             isStringContent = false;
             content.push("");
             values.forEach(function(value) {
-              if (typeof value == "object") {
-                if (Object.keys(value)[0] == "_attr") get_attributes(value._attr);
-                else content.push(resolve(value, indent, indent_count + 1));
-              } else {
+              if (typeof value == "object") if (Object.keys(value)[0] == "_attr") get_attributes(value._attr);
+              else content.push(resolve(value, indent, indent_count + 1));
+              else {
                 content.pop();
                 isStringContent = true;
                 content.push(escapeForXML(value));
@@ -125939,56 +121940,6 @@ ${suffix2}`;
       return currentXmlData;
     }
   };
-  var formatter$2 = new Formatter();
-  var xmlifyPart = (file, content, prettify, relationships, standalone = true) => (0, import_xml.default)(formatter$2.format(content, {
-    viewWrapper: {
-      View: content,
-      Relationships: relationships
-    },
-    file,
-    stack: []
-  }), {
-    indent: prettify,
-    declaration: standalone ? {
-      standalone: "yes",
-      encoding: "UTF-8"
-    } : { encoding: "UTF-8" }
-  });
-  var xmlifyPackagePart = (file, part, path2, prettify) => {
-    const { content } = part.options;
-    if (content instanceof Uint8Array) return [{
-      data: content,
-      path: `word/${path2}`
-    }];
-    if ("files" in content) {
-      const embedded = new import_jszip_min.default();
-      for (const { path: filePath, content: fileContent } of content.files) embedded.file(filePath, fileContent instanceof Uint8Array ? fileContent : encodeUtf8(xmlifyPart(file, fileContent, prettify, new Relationships())));
-      return [{
-        data: embedded.generateAsync({
-          type: "uint8array",
-          compression: "DEFLATE"
-        }),
-        path: `word/${path2}`
-      }];
-    }
-    const relationships = file.PackageParts.createRelationships(path2);
-    const data = xmlifyPart(file, content, prettify, relationships);
-    const folder = path2.slice(0, path2.lastIndexOf("/"));
-    const name = path2.slice(path2.lastIndexOf("/") + 1);
-    return [{
-      data,
-      path: `word/${path2}`
-    }, ...relationships.RelationshipCount > 0 ? [{
-      data: xmlifyPart(file, relationships, prettify, relationships, false),
-      path: `word/${folder}/_rels/${name}.rels`
-    }] : []];
-  };
-  var xmlifyPackageParts = (file, prettify, from2 = 0) => {
-    const parts = file.PackageParts.Array.slice(from2);
-    if (parts.length === 0) return [];
-    return [...parts.flatMap(({ part, path: path2 }) => xmlifyPackagePart(file, part, path2, prettify)), ...xmlifyPackageParts(file, prettify, from2 + parts.length)];
-  };
-  var _excluded48 = ["PackageParts"];
   var Compiler = class {
     /**
     * Creates a new Compiler instance.
@@ -126020,11 +121971,10 @@ ${suffix2}`;
     */
     compile(file, prettifyXml, overrides = []) {
       const zip = new import_jszip_min.default();
-      const _this$xmlifyFile = this.xmlifyFile(file, prettifyXml), { PackageParts: packageParts } = _this$xmlifyFile, xmlifiedFileMapping = _objectWithoutProperties31(_this$xmlifyFile, _excluded48);
+      const xmlifiedFileMapping = this.xmlifyFile(file, prettifyXml);
       const map2 = new Map(Object.entries(xmlifiedFileMapping));
       for (const [, obj] of map2) if (Array.isArray(obj)) for (const subFile of obj) zip.file(subFile.path, encodeUtf8(subFile.data));
       else zip.file(obj.path, encodeUtf8(obj.data));
-      for (const { path: path2, data } of packageParts) zip.file(path2, typeof data === "string" ? encodeUtf8(data) : data);
       for (const subFile of overrides) zip.file(subFile.path, encodeUtf8(subFile.data));
       for (const data of file.Media.Array) if (data.type !== "svg") zip.file(`word/media/${data.fileName}`, data.data);
       else {
@@ -126077,7 +122027,7 @@ ${suffix2}`;
       const documentMediaDatas = this.imageReplacer.getMediaData(documentXmlData, file.Media);
       const commentMediaDatas = this.imageReplacer.getMediaData(commentXmlData, file.Media);
       const footnoteMediaDatas = this.imageReplacer.getMediaData(footnoteXmlData, file.Media);
-      return _objectSpread213(_objectSpread213(_objectSpread213(_objectSpread213({
+      return _objectSpread213(_objectSpread213({
         Relationships: {
           data: (() => {
             documentMediaDatas.forEach((mediaData, i) => {
@@ -126238,6 +122188,17 @@ ${suffix2}`;
             path: `word/footer${index + 1}.xml`
           };
         }),
+        ContentTypes: {
+          data: (0, import_xml.default)(this.formatter.format(file.ContentTypes, {
+            viewWrapper: file.Document,
+            file,
+            stack: []
+          }), {
+            indent: prettify,
+            declaration: { encoding: "UTF-8" }
+          }),
+          path: "[Content_Types].xml"
+        },
         CustomProperties: {
           data: (0, import_xml.default)(this.formatter.format(file.CustomProperties, {
             viewWrapper: file.Document,
@@ -126324,8 +122285,7 @@ ${suffix2}`;
             }
           }),
           path: "word/settings.xml"
-        }
-      }, file.Comments.IsEmpty ? {} : {
+        },
         Comments: {
           data: (() => {
             const xmlData = this.imageReplacer.replace(commentXmlData, commentMediaDatas, commentRelationshipCount);
@@ -126352,7 +122312,7 @@ ${suffix2}`;
           })(),
           path: "word/_rels/comments.xml.rels"
         }
-      }), file.CommentsExtended ? { CommentsExtended: {
+      }, file.CommentsExtended ? { CommentsExtended: {
         data: (0, import_xml.default)(this.formatter.format(file.CommentsExtended, {
           viewWrapper: {
             View: file.CommentsExtended,
@@ -126368,22 +122328,6 @@ ${suffix2}`;
           }
         }),
         path: "word/commentsExtended.xml"
-      } } : {}), file.CommentsIds ? { CommentsIds: {
-        data: (0, import_xml.default)(this.formatter.format(file.CommentsIds, {
-          viewWrapper: {
-            View: file.CommentsIds,
-            Relationships: file.Comments.Relationships
-          },
-          file,
-          stack: []
-        }), {
-          indent: prettify,
-          declaration: {
-            standalone: "yes",
-            encoding: "UTF-8"
-          }
-        }),
-        path: "word/commentsIds.xml"
       } } : {}), {}, {
         FontTable: {
           data: (0, import_xml.default)(this.formatter.format(file.FontTable.View, {
@@ -126400,41 +122344,15 @@ ${suffix2}`;
           path: "word/fontTable.xml"
         },
         FontTableRelationships: {
-          data: (() => (0, import_xml.default)(this.formatter.format(file.FontTable.Relationships, {
+          data: (0, import_xml.default)(this.formatter.format(file.FontTable.Relationships, {
             viewWrapper: file.Document,
             file,
             stack: []
           }), {
             indent: prettify,
             declaration: { encoding: "UTF-8" }
-          }))(),
+          }),
           path: "word/_rels/fontTable.xml.rels"
-        },
-        Theme: {
-          data: (0, import_xml.default)(this.formatter.format(file.Theme, {
-            viewWrapper: file.Document,
-            file,
-            stack: []
-          }), {
-            indent: prettify,
-            declaration: {
-              standalone: "yes",
-              encoding: "UTF-8"
-            }
-          }),
-          path: "word/theme/theme1.xml"
-        },
-        PackageParts: xmlifyPackageParts(file, prettify),
-        ContentTypes: {
-          data: (0, import_xml.default)(this.formatter.format(file.ContentTypes, {
-            viewWrapper: file.Document,
-            file,
-            stack: []
-          }), {
-            indent: prettify,
-            declaration: { encoding: "UTF-8" }
-          }),
-          path: "[Content_Types].xml"
         }
       });
     }
@@ -126584,11 +122502,8 @@ ${suffix2}`;
   };
   var patchSpaceAttribute = (element) => _objectSpread213(_objectSpread213({}, element), {}, { attributes: { "xml:space": "preserve" } });
   var getFirstLevelElements = (relationships, id) => {
-    var _relationships$elemen, _parent$elements;
-    const parent = (_relationships$elemen = relationships.elements) === null || _relationships$elemen === void 0 ? void 0 : _relationships$elemen.find((e) => e.name === id);
-    if (parent === void 0) return [];
-    (_parent$elements = parent.elements) !== null && _parent$elements !== void 0 || (parent.elements = []);
-    return parent.elements;
+    var _relationships$elemen, _relationships$elemen2;
+    return (_relationships$elemen = (_relationships$elemen2 = relationships.elements) === null || _relationships$elemen2 === void 0 ? void 0 : _relationships$elemen2.filter((e) => e.name === id)[0].elements) !== null && _relationships$elemen !== void 0 ? _relationships$elemen : [];
   };
   var appendContentType = (element, contentType, extension) => {
     const relationshipElements = getFirstLevelElements(element, "Types");
@@ -126604,41 +122519,6 @@ ${suffix2}`;
       name: "Default",
       type: "element"
     });
-  };
-  var appendContentTypeOverride = (element, contentType, partName) => {
-    const contentTypeElements = getFirstLevelElements(element, "Types");
-    if (contentTypeElements.some((el) => {
-      var _el$attributes3;
-      return el.type === "element" && el.name === "Override" && ((_el$attributes3 = el.attributes) === null || _el$attributes3 === void 0 ? void 0 : _el$attributes3.PartName) === partName;
-    })) return;
-    contentTypeElements.push({
-      attributes: {
-        ContentType: contentType,
-        PartName: partName
-      },
-      name: "Override",
-      type: "element"
-    });
-  };
-  var removeContentTypeOverride = (element, partName) => {
-    var _element$elements;
-    const types = (_element$elements = element.elements) === null || _element$elements === void 0 ? void 0 : _element$elements.find((el) => el.name === "Types");
-    if ((types === null || types === void 0 ? void 0 : types.elements) === void 0) return;
-    types.elements = types.elements.filter((el) => {
-      var _el$attributes$PartNa, _el$attributes4;
-      return !(el.name === "Override" && String((_el$attributes$PartNa = (_el$attributes4 = el.attributes) === null || _el$attributes4 === void 0 ? void 0 : _el$attributes4.PartName) !== null && _el$attributes$PartNa !== void 0 ? _el$attributes$PartNa : "").toLowerCase() === partName.toLowerCase());
-    });
-  };
-  var PatchType = {
-    /** Replace entire file-level elements (e.g., whole paragraphs) */
-    DOCUMENT: "file",
-    /** Replace content within paragraphs (inline replacement) */
-    PARAGRAPH: "paragraph",
-    /**
-    * Change a drawing whose alt text holds the placeholder, and the parts it refers to, such as the data of a chart made
-    * in Word. See {@link DrawingPatch}
-    */
-    DRAWING: "drawing"
   };
   var getIdFromRelationshipId = (relationshipId) => {
     const output = parseInt(relationshipId.substring(3), 10);
@@ -126663,170 +122543,6 @@ ${suffix2}`;
       type: "element"
     });
     return relationshipElements;
-  };
-  var createRelationshipFile = () => ({
-    declaration: { attributes: {
-      version: "1.0",
-      encoding: "UTF-8",
-      standalone: "yes"
-    } },
-    elements: [{
-      type: "element",
-      name: "Relationships",
-      attributes: { xmlns: "http://schemas.openxmlformats.org/package/2006/relationships" },
-      elements: []
-    }]
-  });
-  var DRAWING_PROPERTIES = /* @__PURE__ */ new Map([
-    ["wp:inline", "wp:docPr"],
-    ["wp:anchor", "wp:docPr"],
-    ["wpg:graphicFrame", "wpg:cNvPr"],
-    ["wpc:graphicFrame", "wpg:cNvPr"]
-  ]);
-  var findDrawings = (element) => {
-    var _element$elements;
-    return ((_element$elements = element.elements) !== null && _element$elements !== void 0 ? _element$elements : []).flatMap((child2) => {
-      var _child$elements;
-      const name = child2.name === void 0 ? void 0 : DRAWING_PROPERTIES.get(child2.name);
-      const properties = name === void 0 ? void 0 : (_child$elements = child2.elements) === null || _child$elements === void 0 ? void 0 : _child$elements.find((e) => e.name === name);
-      return [...properties ? [{
-        element: child2,
-        properties
-      }] : [], ...findDrawings(child2)];
-    });
-  };
-  var altTextOf = (properties) => {
-    var _properties$attribute, _properties$attribute2;
-    return [(_properties$attribute = properties.attributes) === null || _properties$attribute === void 0 ? void 0 : _properties$attribute.descr, (_properties$attribute2 = properties.attributes) === null || _properties$attribute2 === void 0 ? void 0 : _properties$attribute2.title].flatMap((text) => text === void 0 ? [] : [String(text)]);
-  };
-  var relationshipsPathOf = (path2) => {
-    const slash = path2.lastIndexOf("/");
-    return `${path2.slice(0, slash + 1)}_rels/${path2.slice(slash + 1)}.rels`;
-  };
-  var sourceOfRelationships = (path2) => path2.replace(/(^|\/)_rels\/([^/]*)\.rels$/, "$1$2");
-  var folderOf = (path2) => path2.slice(0, path2.lastIndexOf("/") + 1);
-  var resolveTarget = (from2, target) => {
-    const normalized = target.replace(/\\/g, "/");
-    return (normalized.startsWith("/") ? normalized : `${folderOf(from2)}${normalized}`).split("/").reduce((segments, segment) => {
-      if (segment === "" || segment === ".") return segments;
-      return segment === ".." ? segments.slice(0, -1) : [...segments, segment];
-    }, []).join("/");
-  };
-  var relativeTarget = (from2, to2) => {
-    const folders = folderOf(from2).split("/").filter(Boolean);
-    const segments = to2.split("/");
-    const common = folders.findIndex((folder, index) => index >= segments.length - 1 || segments[index] !== folder);
-    const shared = common === -1 ? folders.length : common;
-    return [...folders.slice(shared).map(() => ".."), ...segments.slice(shared)].join("/");
-  };
-  var CONTENT_TYPES = "[Content_Types].xml";
-  var relationshipsIn = (relationships) => {
-    var _relationships$elemen;
-    if (!((_relationships$elemen = relationships.elements) === null || _relationships$elemen === void 0 ? void 0 : _relationships$elemen.some((element) => element.name === "Relationships"))) {
-      var _relationships$elemen2;
-      relationships.elements = [...(_relationships$elemen2 = relationships.elements) !== null && _relationships$elemen2 !== void 0 ? _relationships$elemen2 : [], ...createRelationshipFile().elements];
-    }
-    return getFirstLevelElements(relationships, "Relationships");
-  };
-  var createTemplatePackage = (parts, binaryParts, file, context) => {
-    const formatter2 = new Formatter();
-    const has3 = (path2) => parts.has(path2) || binaryParts.has(path2);
-    const findPath = (path2) => {
-      if (has3(path2)) return path2;
-      const decoded = (() => {
-        try {
-          return decodeURI(path2);
-        } catch (_unused) {
-          return;
-        }
-      })();
-      if (decoded !== void 0 && has3(decoded)) return decoded;
-      const lower = path2.toLowerCase();
-      return [...parts.keys(), ...binaryParts.keys()].find((key) => key.toLowerCase() === lower);
-    };
-    const findRelationship = (from2, id) => {
-      const relationships = parts.get(relationshipsPathOf(from2));
-      return relationships === void 0 ? void 0 : getFirstLevelElements(relationships, "Relationships").find((relationship) => {
-        var _relationship$attribu;
-        return relationship.name === "Relationship" && ((_relationship$attribu = relationship.attributes) === null || _relationship$attribu === void 0 ? void 0 : _relationship$attribu.Id) === id;
-      });
-    };
-    const pathOf = (from2, relationship) => {
-      var _relationship$attribu2, _relationship$attribu3;
-      const target = (_relationship$attribu2 = relationship.attributes) === null || _relationship$attribu2 === void 0 ? void 0 : _relationship$attribu2.Target;
-      return ((_relationship$attribu3 = relationship.attributes) === null || _relationship$attribu3 === void 0 ? void 0 : _relationship$attribu3.TargetMode) === "External" || target === void 0 ? void 0 : findPath(resolveTarget(from2, String(target)));
-    };
-    const isReferenced = (path2) => [...parts].some(([relationshipsPath, relationships]) => relationshipsPath.endsWith(".rels") && getFirstLevelElements(relationships, "Relationships").some((relationship) => pathOf(sourceOfRelationships(relationshipsPath), relationship) === path2));
-    const removePart = (path2) => {
-      parts.delete(path2);
-      binaryParts.delete(path2);
-      parts.delete(relationshipsPathOf(path2));
-      const contentTypes = parts.get(CONTENT_TYPES);
-      if (contentTypes !== void 0) removeContentTypeOverride(contentTypes, `/${path2}`);
-    };
-    return {
-      getRelatedPart: (from2, relationshipId) => {
-        const relationship = findRelationship(from2.path, relationshipId);
-        const path2 = relationship === void 0 ? void 0 : pathOf(from2.path, relationship);
-        return path2 === void 0 ? void 0 : {
-          path: path2,
-          xml: parts.get(path2)
-        };
-      },
-      replaceRelatedPart: (from2, relationshipId, part) => {
-        const path2 = `word/${file.PackageParts.add(part)}`;
-        const { relationshipType } = part.options;
-        const target = relativeTarget(from2.path, path2);
-        const relationship = relationshipId === void 0 ? void 0 : findRelationship(from2.path, relationshipId);
-        if (relationship === void 0) {
-          var _parts$get;
-          const relationshipsPath = relationshipsPathOf(from2.path);
-          const relationships = (_parts$get = parts.get(relationshipsPath)) !== null && _parts$get !== void 0 ? _parts$get : createRelationshipFile();
-          parts.set(relationshipsPath, relationships);
-          const id = relationshipId !== null && relationshipId !== void 0 ? relationshipId : `rId${getNextRelationshipIndex(relationships)}`;
-          relationshipsIn(relationships).push({
-            type: "element",
-            name: "Relationship",
-            attributes: {
-              Id: id,
-              Type: relationshipType,
-              Target: target
-            }
-          });
-          return id;
-        }
-        const previous = pathOf(from2.path, relationship);
-        relationship.attributes = _objectSpread213(_objectSpread213({}, Object.fromEntries(Object.entries(relationship.attributes).filter(([name]) => name !== "TargetMode"))), {}, {
-          Type: relationshipType,
-          Target: target
-        });
-        if (previous !== void 0 && previous !== from2.path && previous !== CONTENT_TYPES && !previous.endsWith(".rels") && !isReferenced(previous)) removePart(previous);
-        return String(relationship.attributes.Id);
-      },
-      format: (content) => toJson2((0, import_xml.default)(formatter2.format(content, context))).elements[0]
-    };
-  };
-  var patchDrawings = ({ parts, binaryParts, file, patches, delimiters }, createContext16) => {
-    const placeholders = patches.map(([key, patch]) => ({
-      placeholder: `${delimiters.start}${key}${delimiters.end}`,
-      patch
-    }));
-    const found = [...parts].filter(([path2]) => path2.startsWith("word/") && !path2.endsWith(".rels")).flatMap(([path2, xmlPart]) => findDrawings(xmlPart).flatMap((drawing) => {
-      const altText = altTextOf(drawing.properties);
-      const matches3 = placeholders.filter(({ placeholder }) => altText.some((text) => text.includes(placeholder)));
-      if (matches3.length > 1) {
-        var _drawing$properties$a, _drawing$properties$a2;
-        throw new Error(`The drawing "${(_drawing$properties$a = (_drawing$properties$a2 = drawing.properties.attributes) === null || _drawing$properties$a2 === void 0 ? void 0 : _drawing$properties$a2.name) !== null && _drawing$properties$a !== void 0 ? _drawing$properties$a : ""}" in ${path2} has the placeholders ${matches3.map(({ placeholder }) => placeholder).join(" and ")} in its alt text. A drawing can only be patched once`);
-      }
-      return matches3.map(({ placeholder, patch }) => ({
-        drawing: _objectSpread213(_objectSpread213({ placeholder }, drawing), {}, { part: {
-          path: path2,
-          xml: xmlPart
-        } }),
-        patch
-      }));
-    }));
-    for (const { drawing, patch } of found) patch.patch(drawing, createTemplatePackage(parts, binaryParts, file, createContext16(drawing.part.path)));
   };
   var TokenNotFoundError = class extends Error {
     constructor(token) {
@@ -126876,8 +122592,8 @@ ${suffix2}`;
     /** Reached the end of the replacement text */
     END: 2
   };
-  var replaceTokenInParagraphElement = ({ paragraphElement, renderedParagraph, originalText, replacementText, fromIndex = 0 }) => {
-    const startIndex = renderedParagraph.text.indexOf(originalText, fromIndex);
+  var replaceTokenInParagraphElement = ({ paragraphElement, renderedParagraph, originalText, replacementText }) => {
+    const startIndex = renderedParagraph.text.indexOf(originalText);
     const endIndex = startIndex + originalText.length - 1;
     let replaceMode = ReplaceMode.START;
     for (const run of renderedParagraph.runs) for (const { text, index, start, end } of run.parts) switch (replaceMode) {
@@ -126885,8 +122601,9 @@ ${suffix2}`;
         if (startIndex >= start && startIndex <= end) {
           const offsetStartIndex = startIndex - start;
           const offsetEndIndex = Math.min(endIndex, end) - start;
-          if (text.substring(offsetStartIndex, offsetEndIndex + 1) === "") continue;
-          const firstPart = text.substring(0, offsetStartIndex) + replacementText + text.substring(offsetEndIndex + 1);
+          const partToReplace = run.text.substring(offsetStartIndex, offsetEndIndex + 1);
+          if (partToReplace === "") continue;
+          const firstPart = text.replace(partToReplace, replacementText);
           patchTextElement(paragraphElement.elements[run.index].elements[index], firstPart);
           replaceMode = ReplaceMode.MIDDLE;
           continue;
@@ -126900,6 +122617,8 @@ ${suffix2}`;
           paragraphElement.elements[run.index].elements[index] = patchSpaceAttribute(currentElement);
           replaceMode = ReplaceMode.END;
         } else patchTextElement(paragraphElement.elements[run.index].elements[index], "");
+        break;
+      default:
     }
     return paragraphElement;
   };
@@ -126942,23 +122661,23 @@ ${suffix2}`;
     let currentTextStringIndex = currentRunStringIndex;
     const parts = node.elements.map((element, i) => {
       var _element$elements$0$t, _element$elements$0$t2;
-      if (element.name !== "w:t" || !element.elements || element.elements.length === 0) return;
-      const partText = (_element$elements$0$t = (_element$elements$0$t2 = element.elements[0].text) === null || _element$elements$0$t2 === void 0 ? void 0 : _element$elements$0$t2.toString()) !== null && _element$elements$0$t !== void 0 ? _element$elements$0$t : "";
-      const start = currentTextStringIndex;
-      currentTextStringIndex += partText.length;
-      return {
-        text: partText,
+      return element.name === "w:t" && element.elements && element.elements.length > 0 ? {
+        text: (_element$elements$0$t = (_element$elements$0$t2 = element.elements[0].text) === null || _element$elements$0$t2 === void 0 ? void 0 : _element$elements$0$t2.toString()) !== null && _element$elements$0$t !== void 0 ? _element$elements$0$t : "",
         index: i,
-        start,
-        end: start + partText.length - 1
-      };
+        start: currentTextStringIndex,
+        end: (() => {
+          var _element$elements$0$t3, _element$elements$0$t4;
+          currentTextStringIndex += ((_element$elements$0$t3 = (_element$elements$0$t4 = element.elements[0].text) === null || _element$elements$0$t4 === void 0 ? void 0 : _element$elements$0$t4.toString()) !== null && _element$elements$0$t3 !== void 0 ? _element$elements$0$t3 : "").length - 1;
+          return currentTextStringIndex;
+        })()
+      } : void 0;
     }).filter((e) => !!e).map((e) => e);
     return {
       text: parts.reduce((acc, curr) => acc + curr.text, ""),
       parts,
       index,
       start: currentRunStringIndex,
-      end: parts.length > 0 ? parts[parts.length - 1].end : currentRunStringIndex
+      end: currentTextStringIndex
     };
   };
   var buildNodePath = (node) => node.parent ? [...buildNodePath(node.parent), node.index] : [node.index];
@@ -126987,44 +122706,47 @@ ${suffix2}`;
   };
   var findLocationOfText = (node, text) => traverse(node).filter((p2) => p2.text.includes(text));
   var formatter = new Formatter();
-  var SPLIT_TOKEN = "\uFFFF";
-  var replacer = ({ json, patch, patchText, context, keepOriginalStyles = true, recursive = true }) => {
+  var SPLIT_TOKEN = "\u0275";
+  var replacer = ({ json, patch, patchText, context, keepOriginalStyles = true }) => {
     const renderedParagraphs = findLocationOfText(json, patchText);
     if (renderedParagraphs.length === 0) return {
       element: json,
       didFindOccurrence: false
     };
-    const paragraphsInPatchOrder = [...renderedParagraphs].reverse();
-    const paragraphsToPatch = patch.type === PatchType.DOCUMENT ? withoutNestedParagraphs(paragraphsInPatchOrder) : paragraphsInPatchOrder;
-    for (const renderedParagraph of paragraphsToPatch) switch (patch.type) {
-      case PatchType.DOCUMENT: {
-        const parentElement = goToParentElementFromPath(json, renderedParagraph.pathToParagraph);
-        const elementIndex = getLastElementIndexFromPath(renderedParagraph.pathToParagraph);
-        parentElement.elements.splice(elementIndex, 1, ...formatChildren(patch, context));
-        break;
-      }
-      case PatchType.PARAGRAPH:
-      default: {
-        const paragraphElement = goToElementFromPath(json, renderedParagraph.pathToParagraph);
-        let paragraph = renderedParagraph;
-        let fromIndex = 0;
-        do {
-          const nextRunIndex = replaceOccurrenceInParagraph({
+    for (const renderedParagraph of renderedParagraphs) {
+      const textJson = patch.children.map((c2) => toJson2((0, import_xml.default)(formatter.format(c2, context)))).map((c2) => c2.elements[0]);
+      switch (patch.type) {
+        case PatchType.DOCUMENT: {
+          const parentElement = goToParentElementFromPath(json, renderedParagraph.pathToParagraph);
+          const elementIndex = getLastElementIndexFromPath(renderedParagraph.pathToParagraph);
+          parentElement.elements.splice(elementIndex, 1, ...textJson);
+          break;
+        }
+        case PatchType.PARAGRAPH:
+        default: {
+          const paragraphElement = goToElementFromPath(json, renderedParagraph.pathToParagraph);
+          replaceTokenInParagraphElement({
             paragraphElement,
-            renderedParagraph: paragraph,
-            patchText,
-            fromIndex,
-            children: formatChildren(patch, context),
-            keepOriginalStyles
+            renderedParagraph,
+            originalText: patchText,
+            replacementText: SPLIT_TOKEN
           });
-          paragraph = renderParagraphNode({
-            element: paragraphElement,
-            index: renderedParagraph.index,
-            parent: void 0
-          });
-          fromIndex = paragraph.runs.filter((run) => run.index < nextRunIndex).reduce((length, run) => length + run.text.length, 0);
-        } while (recursive && paragraph.text.includes(patchText, fromIndex));
-        break;
+          const index = findRunElementIndexWithToken(paragraphElement, SPLIT_TOKEN);
+          const runElementToBeReplaced = paragraphElement.elements[index];
+          const { left, right } = splitRunElement(runElementToBeReplaced, SPLIT_TOKEN);
+          let newRunElements = textJson;
+          let patchedRightElement = right;
+          if (keepOriginalStyles) {
+            const runElementNonTextualElements = runElementToBeReplaced.elements.filter((e) => e.type === "element" && e.name === "w:rPr");
+            newRunElements = textJson.map((e) => {
+              var _e$elements;
+              return _objectSpread213(_objectSpread213({}, e), {}, { elements: [...runElementNonTextualElements, ...(_e$elements = e.elements) !== null && _e$elements !== void 0 ? _e$elements : []] });
+            });
+            patchedRightElement = _objectSpread213(_objectSpread213({}, right), {}, { elements: [...runElementNonTextualElements, ...right.elements] });
+          }
+          paragraphElement.elements.splice(index, 1, left, ...newRunElements, patchedRightElement);
+          break;
+        }
       }
     }
     return {
@@ -127032,100 +122754,6 @@ ${suffix2}`;
       didFindOccurrence: true
     };
   };
-  var formatChildren = (patch, context) => patch.children.flatMap((c2) => {
-    var _c$writtenAs;
-    return (_c$writtenAs = c2.writtenAs) !== null && _c$writtenAs !== void 0 ? _c$writtenAs : c2;
-  }).map((c2) => toJson2((0, import_xml.default)(formatter.format(c2, context)))).map((c2) => c2.elements[0]);
-  var replaceOccurrenceInParagraph = ({ paragraphElement, renderedParagraph, patchText, fromIndex, children, keepOriginalStyles }) => {
-    replaceTokenInParagraphElement({
-      paragraphElement,
-      renderedParagraph,
-      originalText: patchText,
-      replacementText: SPLIT_TOKEN,
-      fromIndex
-    });
-    const index = findRunElementIndexWithToken(paragraphElement, SPLIT_TOKEN);
-    const runElementToBeReplaced = paragraphElement.elements[index];
-    const { left, right } = splitRunElement(runElementToBeReplaced, SPLIT_TOKEN);
-    const runProperties = runElementToBeReplaced.elements.find((e) => e.type === "element" && e.name === "w:rPr");
-    const newRunElements = keepOriginalStyles && runProperties ? children.map((e) => e.name === "w:r" ? withRunProperties(e, runProperties) : e) : children;
-    const patchedRightElement = runProperties ? _objectSpread213(_objectSpread213({}, right), {}, { elements: [runProperties, ...right.elements] }) : right;
-    paragraphElement.elements.splice(index, 1, left, ...newRunElements, patchedRightElement);
-    return index + 1 + newRunElements.length;
-  };
-  var withRunProperties = (runElement, originalRunProperties) => {
-    const ownRunProperties = childElementsOf(runElement).find((e) => e.type === "element" && e.name === "w:rPr");
-    if (!ownRunProperties) return _objectSpread213(_objectSpread213({}, runElement), {}, { elements: [originalRunProperties, ...childElementsOf(runElement)] });
-    const ownPropertyNames = new Set(childElementsOf(ownRunProperties).map((e) => e.name));
-    const properties = [...childElementsOf(originalRunProperties).filter((e) => !ownPropertyNames.has(e.name)), ...childElementsOf(ownRunProperties)];
-    const mergedRunProperties = _objectSpread213(_objectSpread213({}, ownRunProperties), {}, { elements: [...properties].sort((a2, b) => runPropertyRank(a2) - runPropertyRank(b)) });
-    return _objectSpread213(_objectSpread213({}, runElement), {}, { elements: childElementsOf(runElement).map((e) => e === ownRunProperties ? mergedRunProperties : e) });
-  };
-  var RUN_PROPERTY_ORDER = [
-    "w:rStyle",
-    "w:rFonts",
-    "w:b",
-    "w:bCs",
-    "w:i",
-    "w:iCs",
-    "w:caps",
-    "w:smallCaps",
-    "w:strike",
-    "w:dstrike",
-    "w:outline",
-    "w:shadow",
-    "w:emboss",
-    "w:imprint",
-    "w:noProof",
-    "w:snapToGrid",
-    "w:vanish",
-    "w:webHidden",
-    "w:color",
-    "w:spacing",
-    "w:w",
-    "w:kern",
-    "w:position",
-    "w:sz",
-    "w:szCs",
-    "w:highlight",
-    "w:u",
-    "w:effect",
-    "w:bdr",
-    "w:shd",
-    "w:fitText",
-    "w:vertAlign",
-    "w:rtl",
-    "w:cs",
-    "w:em",
-    "w:lang",
-    "w:eastAsianLayout",
-    "w:specVanish",
-    "w:oMath",
-    "w14:glow",
-    "w14:shadow",
-    "w14:reflection",
-    "w14:textOutline",
-    "w14:textFill",
-    "w14:scene3d",
-    "w14:props3d",
-    "w14:ligatures",
-    "w14:numForm",
-    "w14:numSpacing",
-    "w14:stylisticSets",
-    "w14:cntxtAlts"
-  ];
-  var runPropertyRank = (element) => {
-    var _element$name;
-    if (element.name === "w:rPrChange") return RUN_PROPERTY_ORDER.length + 1;
-    const index = RUN_PROPERTY_ORDER.indexOf((_element$name = element.name) !== null && _element$name !== void 0 ? _element$name : "");
-    return index === -1 ? RUN_PROPERTY_ORDER.length : index;
-  };
-  var childElementsOf = (element) => {
-    var _element$elements;
-    return (_element$elements = element.elements) !== null && _element$elements !== void 0 ? _element$elements : [];
-  };
-  var isInsideElementAtPath = (path2, ancestorPath) => path2.length > ancestorPath.length && ancestorPath.every((index, i) => path2[i] === index);
-  var withoutNestedParagraphs = (paragraphs) => paragraphs.filter((paragraph) => !paragraphs.some((other) => isInsideElementAtPath(paragraph.pathToParagraph, other.pathToParagraph)));
   var goToElementFromPath = (json, path2) => {
     let element = json;
     for (let i = 1; i < path2.length; i++) {
@@ -127136,80 +122764,12 @@ ${suffix2}`;
   };
   var goToParentElementFromPath = (json, path2) => goToElementFromPath(json, path2.slice(0, path2.length - 1));
   var getLastElementIndexFromPath = (path2) => path2[path2.length - 1];
-  var THEME_RELATIONSHIP_TYPE = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/theme";
-  var COLOR_NAMES = /* @__PURE__ */ new Map([
-    ["dk1", "dark1"],
-    ["lt1", "light1"],
-    ["dk2", "dark2"],
-    ["lt2", "light2"],
-    ["accent1", "accent1"],
-    ["accent2", "accent2"],
-    ["accent3", "accent3"],
-    ["accent4", "accent4"],
-    ["accent5", "accent5"],
-    ["accent6", "accent6"],
-    ["hlink", "hyperlink"],
-    ["folHlink", "followedHyperlink"]
-  ]);
-  var localName = (element) => {
-    var _element$name;
-    return (_element$name = element.name) === null || _element$name === void 0 ? void 0 : _element$name.slice(element.name.indexOf(":") + 1);
+  var PatchType = {
+    /** Replace entire file-level elements (e.g., whole paragraphs) */
+    DOCUMENT: "file",
+    /** Replace content within paragraphs (inline replacement) */
+    PARAGRAPH: "paragraph"
   };
-  var child = (element, name) => {
-    var _element$elements;
-    return element === null || element === void 0 || (_element$elements = element.elements) === null || _element$elements === void 0 ? void 0 : _element$elements.find((item) => localName(item) === name);
-  };
-  var hexValue = (color2) => {
-    var _color$elements;
-    const value = (_color$elements = color2.elements) === null || _color$elements === void 0 ? void 0 : _color$elements.map((item) => {
-      var _item$attributes, _item$attributes2;
-      return localName(item) === "srgbClr" ? (_item$attributes = item.attributes) === null || _item$attributes === void 0 ? void 0 : _item$attributes.val : localName(item) === "sysClr" ? (_item$attributes2 = item.attributes) === null || _item$attributes2 === void 0 ? void 0 : _item$attributes2.lastClr : void 0;
-    }).find((item) => item !== void 0);
-    return typeof value === "string" && /^[0-9A-Fa-f]{6}$/.test(value) ? value.toUpperCase() : void 0;
-  };
-  var isUtf16 = (bytes) => bytes[0] === 255 && bytes[1] === 254 || bytes[0] === 254 && bytes[1] === 255;
-  var readPart = (function() {
-    var _ref2 = _asyncToGenerator(function* (zip, path2) {
-      const part = zip.file(path2);
-      if (part === null) return;
-      return isUtf16(yield part.async("uint8array")) ? void 0 : toJson2(yield part.async("text"));
-    });
-    return function readPart2(_x, _x2) {
-      return _ref2.apply(this, arguments);
-    };
-  })();
-  var readTheme = (function() {
-    var _ref2 = _asyncToGenerator(function* (zip) {
-      var _child, _theme$attributes;
-      const theme = (_child = child(yield readPart(zip, "word/_rels/document.xml.rels"), "Relationships")) === null || _child === void 0 || (_child = _child.elements) === null || _child === void 0 ? void 0 : _child.find((item) => {
-        var _item$attributes3;
-        return ((_item$attributes3 = item.attributes) === null || _item$attributes3 === void 0 ? void 0 : _item$attributes3.Type) === THEME_RELATIONSHIP_TYPE;
-      });
-      const target = theme === null || theme === void 0 || (_theme$attributes = theme.attributes) === null || _theme$attributes === void 0 ? void 0 : _theme$attributes.Target;
-      return typeof target === "string" ? readPart(zip, target.startsWith("/") ? target.slice(1) : `word/${target}`) : void 0;
-    });
-    return function readTheme2(_x3) {
-      return _ref2.apply(this, arguments);
-    };
-  })();
-  var readThemeColors = (function() {
-    var _ref3 = _asyncToGenerator(function* (zip) {
-      var _scheme$elements;
-      const theme = yield readTheme(zip);
-      if (theme === void 0) return;
-      const scheme = child(child(child(theme, "theme"), "themeElements"), "clrScheme");
-      const colors = ((_scheme$elements = scheme === null || scheme === void 0 ? void 0 : scheme.elements) !== null && _scheme$elements !== void 0 ? _scheme$elements : []).flatMap((color2) => {
-        var _localName;
-        const name = COLOR_NAMES.get((_localName = localName(color2)) !== null && _localName !== void 0 ? _localName : "");
-        const value = hexValue(color2);
-        return name && value ? [[name, value]] : [];
-      });
-      return themeColorValues(Object.fromEntries(colors));
-    });
-    return function readThemeColors2(_x4) {
-      return _ref3.apply(this, arguments);
-    };
-  })();
   var imageReplacer = new ImageReplacer();
   var UTF16LE = new Uint8Array([255, 254]);
   var UTF16BE = new Uint8Array([254, 255]);
@@ -127225,24 +122785,12 @@ ${suffix2}`;
     }, recursive = true }) {
       const zipContent = data instanceof import_jszip_min.default ? data : yield import_jszip_min.default.loadAsync(data);
       const contexts = /* @__PURE__ */ new Map();
-      const themeColors = yield readThemeColors(zipContent);
-      const contentTypeOverrides = [];
-      const file = {
-        Media: new Media(),
-        Theme: themeColors && { Colors: themeColors },
-        PackageParts: new PackageParts({ addOverride: (contentType, partName) => contentTypeOverrides.push({
-          contentType,
-          partName
-        }) }, new Set(Object.keys(zipContent.files).filter((path2) => path2.startsWith("word/")).map((path2) => path2.slice(5))))
-      };
+      const file = { Media: new Media() };
       const map2 = /* @__PURE__ */ new Map();
       const imageRelationshipAdditions = [];
-      const relationshipAdditions = [];
+      const hyperlinkRelationshipAdditions = [];
       let hasMedia = false;
       const binaryContentMap = /* @__PURE__ */ new Map();
-      if (!(placeholderDelimiters === null || placeholderDelimiters === void 0 ? void 0 : placeholderDelimiters.start.trim()) || !(placeholderDelimiters === null || placeholderDelimiters === void 0 ? void 0 : placeholderDelimiters.end.trim())) throw new Error("Both start and end delimiters must be non-empty strings.");
-      const { start, end } = placeholderDelimiters;
-      for (const [key, patch] of Object.entries(patches)) if (!((patch === null || patch === void 0 ? void 0 : patch.type) === PatchType.DRAWING ? typeof patch.patch === "function" : Array.isArray(patch === null || patch === void 0 ? void 0 : patch.children))) throw new Error(`Invalid patch "${key}". Expected { type: PatchType.PARAGRAPH or PatchType.DOCUMENT, children: [...] }, or a drawing patch such as ChartDataPatch from docx/charts`);
       for (const [key, value] of Object.entries(zipContent.files)) {
         const binaryValue = yield value.async("uint8array");
         const startBytes = binaryValue.slice(0, 2);
@@ -127269,71 +122817,62 @@ ${suffix2}`;
             document2.attributes["mc:Ignorable"] = `${document2.attributes["mc:Ignorable"] || ""} w15`.trim();
           }
         }
+        if (key.startsWith("word/") && !key.endsWith(".xml.rels")) {
+          const context = {
+            file,
+            viewWrapper: { Relationships: { addRelationship: (linkId, _, target, __) => {
+              hyperlinkRelationshipAdditions.push({
+                key,
+                hyperlink: {
+                  id: linkId,
+                  link: target
+                }
+              });
+            } } },
+            stack: []
+          };
+          contexts.set(key, context);
+          if (!(placeholderDelimiters === null || placeholderDelimiters === void 0 ? void 0 : placeholderDelimiters.start.trim()) || !(placeholderDelimiters === null || placeholderDelimiters === void 0 ? void 0 : placeholderDelimiters.end.trim())) throw new Error("Both start and end delimiters must be non-empty strings.");
+          const { start, end } = placeholderDelimiters;
+          for (const [patchKey, patchValue] of Object.entries(patches)) {
+            const patchText = `${start}${patchKey}${end}`;
+            while (true) {
+              const { didFindOccurrence } = replacer({
+                json,
+                patch: _objectSpread213(_objectSpread213({}, patchValue), {}, { children: patchValue.children.map((element) => {
+                  if (element instanceof ExternalHyperlink) {
+                    const concreteHyperlink = new ConcreteHyperlink(element.options.children, uniqueId2());
+                    hyperlinkRelationshipAdditions.push({
+                      key,
+                      hyperlink: {
+                        id: concreteHyperlink.linkId,
+                        link: element.options.link
+                      }
+                    });
+                    return concreteHyperlink;
+                  } else return element;
+                }) }),
+                patchText,
+                context,
+                keepOriginalStyles
+              });
+              if (!recursive || !didFindOccurrence) break;
+            }
+          }
+          const mediaDatas = imageReplacer.getMediaData(JSON.stringify(json), context.file.Media);
+          if (mediaDatas.length > 0) {
+            hasMedia = true;
+            imageRelationshipAdditions.push({
+              key,
+              mediaDatas
+            });
+          }
+        }
         map2.set(key, json);
-      }
-      const createContext16 = (key) => ({
-        file,
-        viewWrapper: { Relationships: { addRelationship: (id, type, target, targetMode) => {
-          relationshipAdditions.push({
-            key,
-            id,
-            type,
-            target,
-            targetMode
-          });
-        } } },
-        stack: []
-      });
-      patchDrawings({
-        parts: map2,
-        binaryParts: binaryContentMap,
-        file,
-        patches: Object.entries(patches).flatMap(([key, patch]) => patch.type === PatchType.DRAWING ? [[key, patch]] : []),
-        delimiters: {
-          start,
-          end
-        }
-      }, createContext16);
-      for (const [key, json] of [...map2]) {
-        if (!key.startsWith("word/") || key.endsWith(".xml.rels")) continue;
-        const context = createContext16(key);
-        contexts.set(key, context);
-        for (const [patchKey, patchValue] of Object.entries(patches)) {
-          if (patchValue.type === PatchType.DRAWING) continue;
-          const patchText = `${start}${patchKey}${end}`;
-          replacer({
-            json,
-            patch: _objectSpread213(_objectSpread213({}, patchValue), {}, { children: patchValue.children.map((element) => {
-              if (element instanceof ExternalHyperlink) {
-                const concreteHyperlink = new ConcreteHyperlink(element.options.children, uniqueId2());
-                relationshipAdditions.push({
-                  key,
-                  id: concreteHyperlink.linkId,
-                  type: "http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink",
-                  target: element.options.link,
-                  targetMode: TargetModeType.EXTERNAL
-                });
-                return concreteHyperlink;
-              } else return element;
-            }) }),
-            patchText,
-            context,
-            keepOriginalStyles,
-            recursive
-          });
-        }
-        const mediaDatas = imageReplacer.getMediaData(JSON.stringify(json), context.file.Media);
-        if (mediaDatas.length > 0) {
-          hasMedia = true;
-          imageRelationshipAdditions.push({
-            key,
-            mediaDatas
-          });
-        }
       }
       for (const { key, mediaDatas } of imageRelationshipAdditions) {
         var _map$get;
-        const relationshipKey = relationshipsPathOf(key);
+        const relationshipKey = `word/_rels/${key.split("/").pop()}.rels`;
         const relationshipsJson = (_map$get = map2.get(relationshipKey)) !== null && _map$get !== void 0 ? _map$get : createRelationshipFile();
         map2.set(relationshipKey, relationshipsJson);
         const index = getNextRelationshipIndex(relationshipsJson);
@@ -127344,26 +122883,22 @@ ${suffix2}`;
           appendRelationship(relationshipsJson, index + i, "http://schemas.openxmlformats.org/officeDocument/2006/relationships/image", `media/${fileName}`);
         }
       }
-      for (const { key, id, type, target, targetMode } of relationshipAdditions) {
+      for (const { key, hyperlink } of hyperlinkRelationshipAdditions) {
         var _map$get2;
-        const relationshipKey = relationshipsPathOf(key);
+        const relationshipKey = `word/_rels/${key.split("/").pop()}.rels`;
         const relationshipsJson = (_map$get2 = map2.get(relationshipKey)) !== null && _map$get2 !== void 0 ? _map$get2 : createRelationshipFile();
         map2.set(relationshipKey, relationshipsJson);
-        appendRelationship(relationshipsJson, id, type, target, targetMode);
+        appendRelationship(relationshipsJson, hyperlink.id, "http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink", hyperlink.link, TargetModeType.EXTERNAL);
       }
-      const packageParts = xmlifyPackageParts(file, void 0);
-      if (hasMedia || contentTypeOverrides.length > 0) {
+      if (hasMedia) {
         const contentTypesJson = map2.get("[Content_Types].xml");
         if (!contentTypesJson) throw new Error("Could not find content types file");
-        if (hasMedia) {
-          appendContentType(contentTypesJson, "image/png", "png");
-          appendContentType(contentTypesJson, "image/jpeg", "jpeg");
-          appendContentType(contentTypesJson, "image/jpeg", "jpg");
-          appendContentType(contentTypesJson, "image/bmp", "bmp");
-          appendContentType(contentTypesJson, "image/gif", "gif");
-          appendContentType(contentTypesJson, "image/svg+xml", "svg");
-        }
-        for (const { contentType, partName } of contentTypeOverrides) appendContentTypeOverride(contentTypesJson, contentType, partName);
+        appendContentType(contentTypesJson, "image/png", "png");
+        appendContentType(contentTypesJson, "image/jpeg", "jpeg");
+        appendContentType(contentTypesJson, "image/jpeg", "jpg");
+        appendContentType(contentTypesJson, "image/bmp", "bmp");
+        appendContentType(contentTypesJson, "image/gif", "gif");
+        appendContentType(contentTypesJson, "image/svg+xml", "svg");
       }
       const zip = new import_jszip_min.default();
       for (const [key, value] of map2) {
@@ -127372,7 +122907,6 @@ ${suffix2}`;
       }
       for (const [key, value] of binaryContentMap) zip.file(key, value);
       for (const { data: stream, fileName } of file.Media.Array) zip.file(`word/media/${fileName}`, stream);
-      for (const { path: path2, data: partData } of packageParts) zip.file(path2, typeof partData === "string" ? encodeUtf8(partData) : partData);
       return zip.generateAsync({
         type: outputType,
         mimeType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
@@ -127383,20 +122917,29 @@ ${suffix2}`;
       return _ref2.apply(this, arguments);
     };
   })();
-  var withAmpersandsEscaped = (element) => _objectSpread213(_objectSpread213({}, element), element.elements === void 0 ? {} : { elements: element.elements.map((child2) => child2.type === "text" ? _objectSpread213(_objectSpread213({}, child2), {}, { text: String(child2.text).replace(/&/g, "&amp;") }) : withAmpersandsEscaped(child2)) });
   var toXml = (jsonObj) => {
-    return (0, import_lib.js2xml)(withAmpersandsEscaped(jsonObj), { attributeValueFn: (str) => String(str).replace(/&(?!amp;|lt;|gt;|quot;|apos;)/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&apos;") });
+    return (0, import_lib.js2xml)(jsonObj, { attributeValueFn: (str) => String(str).replace(/&(?!amp;|lt;|gt;|quot;|apos;)/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&apos;") });
   };
+  var createRelationshipFile = () => ({
+    declaration: { attributes: {
+      version: "1.0",
+      encoding: "UTF-8",
+      standalone: "yes"
+    } },
+    elements: [{
+      type: "element",
+      name: "Relationships",
+      attributes: { xmlns: "http://schemas.openxmlformats.org/package/2006/relationships" },
+      elements: []
+    }]
+  });
   var patchDetector = (function() {
     var _ref2 = _asyncToGenerator(function* ({ data }) {
       const zipContent = data instanceof import_jszip_min.default ? data : yield import_jszip_min.default.loadAsync(data);
       const patches = /* @__PURE__ */ new Set();
       for (const [key, value] of Object.entries(zipContent.files)) {
         if (!key.endsWith(".xml") && !key.endsWith(".rels")) continue;
-        if (key.startsWith("word/") && !key.endsWith(".xml.rels")) {
-          const json = toJson2(yield value.async("text"));
-          [...traverse(json).map((p2) => p2.text), ...findDrawings(json).flatMap(({ properties }) => altTextOf(properties))].forEach((text) => findPatchKeys(text).forEach((patch) => patches.add(patch)));
-        }
+        if (key.startsWith("word/") && !key.endsWith(".xml.rels")) traverse(toJson2(yield value.async("text"))).forEach((p2) => findPatchKeys(p2.text).forEach((patch) => patches.add(patch)));
       }
       return Array.from(patches);
     });
@@ -127406,7 +122949,7 @@ ${suffix2}`;
   })();
   var findPatchKeys = (text) => {
     var _text$match;
-    const pattern = new RegExp("(?<=\\{\\{).+?(?=\\}\\})", "gs");
+    const pattern = /* @__PURE__ */ new RegExp("(?<=\\{\\{).+?(?=\\}\\})", "gs");
     return (_text$match = text.match(pattern)) !== null && _text$match !== void 0 ? _text$match : [];
   };
 
@@ -128859,6 +124402,39 @@ ${suffix2}`;
   function Card6({ children, className = "" }) {
     return /* @__PURE__ */ import_react83.default.createElement("div", { className: `bg-white rounded-2xl p-6 shadow-sm border border-black/5 ${className}` }, children);
   }
+  function Chip3({ label, active, onClick, color: color2 }) {
+    return /* @__PURE__ */ import_react83.default.createElement(
+      "button",
+      {
+        onClick,
+        className: "px-3 py-1.5 rounded-full text-xs font-medium border transition-colors",
+        style: active ? { background: color2 || NAVY14, borderColor: color2 || NAVY14, color: "white" } : { background: "white", borderColor: "#D8DEE9", color: "#5A6478" }
+      },
+      label
+    );
+  }
+  function averageDailyAcrossCommunes(perCommuneDaily) {
+    const byDate = /* @__PURE__ */ new Map();
+    perCommuneDaily.forEach((daily) => {
+      daily.forEach((d) => {
+        if (!byDate.has(d.dateISO)) byDate.set(d.dateISO, { dateISO: d.dateISO, date: d.date, pluie: [], tmax: [], tmin: [], et0: [] });
+        const g = byDate.get(d.dateISO);
+        if (d.pluie !== null && d.pluie !== void 0) g.pluie.push(d.pluie);
+        if (d.tmax !== null && d.tmax !== void 0) g.tmax.push(d.tmax);
+        if (d.tmin !== null && d.tmin !== void 0) g.tmin.push(d.tmin);
+        if (d.et0 !== null && d.et0 !== void 0) g.et0.push(d.et0);
+      });
+    });
+    const avg = (arr) => arr.length > 0 ? arr.reduce((s2, v) => s2 + v, 0) / arr.length : null;
+    return [...byDate.values()].sort((a2, b) => a2.dateISO > b.dateISO ? 1 : -1).map((g) => ({
+      dateISO: g.dateISO,
+      date: g.date,
+      pluie: avg(g.pluie),
+      tmax: avg(g.tmax),
+      tmin: avg(g.tmin),
+      et0: avg(g.et0)
+    }));
+  }
   function toYYYYMMDD(d) {
     return d.toISOString().slice(0, 10).replace(/-/g, "");
   }
@@ -128881,8 +124457,8 @@ ${suffix2}`;
   }
   function Climate({ active, onNavigate, userEmail, roleLabel, isAdmin, isGuest, onLogout, onOpenAdmin }) {
     const defaults = defaultDates();
-    const [departement, setDepartement] = (0, import_react83.useState)("Borgou");
-    const [commune, setCommune] = (0, import_react83.useState)("Parakou");
+    const [departements, setDepartements] = (0, import_react83.useState)(["Borgou"]);
+    const [communes, setCommunes] = (0, import_react83.useState)(["Parakou"]);
     const [startDate, setStartDate] = (0, import_react83.useState)(defaults.start);
     const [endDate, setEndDate] = (0, import_react83.useState)(defaults.end);
     const [loading, setLoading] = (0, import_react83.useState)(false);
@@ -128893,24 +124469,41 @@ ${suffix2}`;
     const [cropKey, setCropKey] = (0, import_react83.useState)("mais");
     const [sowingDate, setSowingDate] = (0, import_react83.useState)("");
     const [drySpellMinLength, setDrySpellMinLength] = (0, import_react83.useState)(7);
-    const communesDuDepartement = BENIN_DEPARTEMENTS.find((d) => d.departement === departement)?.communes || [];
+    const toggleDepartement = (dep) => {
+      setDepartements((prev) => {
+        const next = prev.includes(dep) ? prev.filter((d) => d !== dep) : [...prev, dep];
+        if (prev.includes(dep)) {
+          const communesDuDep = BENIN_DEPARTEMENTS.find((d) => d.departement === dep)?.communes || [];
+          setCommunes((c2) => c2.filter((cc) => !communesDuDep.includes(cc)));
+        }
+        return next;
+      });
+    };
+    const toggleCommune = (c2) => setCommunes((prev) => prev.includes(c2) ? prev.filter((x2) => x2 !== c2) : [...prev, c2]);
     const fetchClimate = async () => {
-      const coords = COMMUNE_COORDS[commune];
-      if (!coords) {
-        setError("Coordonn\xE9es non disponibles pour cette commune.");
+      if (communes.length === 0) {
+        setError("S\xE9lectionnez au moins une commune.");
+        return;
+      }
+      const validCommunes = communes.filter((c2) => COMMUNE_COORDS[c2]);
+      if (validCommunes.length === 0) {
+        setError("Coordonn\xE9es non disponibles pour les communes s\xE9lectionn\xE9es.");
         return;
       }
       setLoading(true);
       setError("");
       setEt0Error("");
       setResult(null);
-      try {
+      const isoStart = `${startDate.slice(0, 4)}-${startDate.slice(4, 6)}-${startDate.slice(6, 8)}`;
+      const isoEnd = `${endDate.slice(0, 4)}-${endDate.slice(4, 6)}-${endDate.slice(6, 8)}`;
+      const fetchOneCommune = async (c2) => {
+        const coords = COMMUNE_COORDS[c2];
         const url = `https://power.larc.nasa.gov/api/temporal/daily/point?parameters=PRECTOTCORR,T2M_MAX,T2M_MIN,T2M&community=AG&longitude=${coords.lon}&latitude=${coords.lat}&start=${startDate}&end=${endDate}&format=JSON`;
         const res = await fetch(url);
-        if (!res.ok) throw new Error(`Le service NASA POWER a r\xE9pondu avec le code ${res.status}.`);
+        if (!res.ok) throw new Error(`NASA POWER a r\xE9pondu avec le code ${res.status} pour ${c2}.`);
         const data = await res.json();
         const params = data?.properties?.parameter;
-        if (!params) throw new Error(data?.messages?.[0] || "R\xE9ponse inattendue du service NASA POWER.");
+        if (!params) throw new Error(data?.messages?.[0] || `R\xE9ponse inattendue du service NASA POWER pour ${c2}.`);
         const dates = Object.keys(params.PRECTOTCORR || {}).sort();
         let daily = dates.map((d) => ({
           dateISO: `${d.slice(0, 4)}-${d.slice(4, 6)}-${d.slice(6, 8)}`,
@@ -128920,20 +124513,34 @@ ${suffix2}`;
           tmin: params.T2M_MIN[d] === -999 ? null : params.T2M_MIN[d],
           et0: null
         })).filter((d) => d.pluie !== null);
-        if (daily.length === 0) throw new Error("Aucune donn\xE9e exploitable sur la p\xE9riode demand\xE9e (essayez une p\xE9riode plus ancienne).");
         try {
-          const isoStart = `${startDate.slice(0, 4)}-${startDate.slice(4, 6)}-${startDate.slice(6, 8)}`;
-          const isoEnd = `${endDate.slice(0, 4)}-${endDate.slice(4, 6)}-${endDate.slice(6, 8)}`;
           const omUrl = `https://archive-api.open-meteo.com/v1/archive?latitude=${coords.lat}&longitude=${coords.lon}&start_date=${isoStart}&end_date=${isoEnd}&daily=et0_fao_evapotranspiration&timezone=UTC`;
           const omRes = await fetch(omUrl);
-          if (!omRes.ok) throw new Error(`Le service Open-Meteo a r\xE9pondu avec le code ${omRes.status}.`);
+          if (!omRes.ok) throw new Error(`code ${omRes.status}`);
           const omData = await omRes.json();
           const omDates = omData?.daily?.time || [];
           const omEt0 = omData?.daily?.et0_fao_evapotranspiration || [];
           const et0ByDate = new Map(omDates.map((d, i) => [d, omEt0[i]]));
           daily = daily.map((d) => ({ ...d, et0: et0ByDate.has(d.dateISO) && et0ByDate.get(d.dateISO) !== null ? et0ByDate.get(d.dateISO) : null }));
         } catch (e) {
-          setEt0Error("\xC9vapotranspiration (ET0) indisponible pour cette p\xE9riode/localit\xE9 (service Open-Meteo) : " + e.message + " \u2014 le bilan hydrique et l'analyse par culture ne peuvent pas \xEAtre calcul\xE9s tant que cette donn\xE9e manque.");
+        }
+        return daily;
+      };
+      try {
+        const outcomes = await Promise.allSettled(validCommunes.map(fetchOneCommune));
+        const succeeded = outcomes.filter((o) => o.status === "fulfilled").map((o) => o.value);
+        if (succeeded.length === 0) {
+          const firstErrorDetail = outcomes.find((o) => o.status === "rejected")?.reason?.message;
+          throw new Error(firstErrorDetail || "Impossible de r\xE9cup\xE9rer des donn\xE9es pour aucune des communes s\xE9lectionn\xE9es.");
+        }
+        let daily = averageDailyAcrossCommunes(succeeded);
+        if (daily.length === 0) throw new Error("Aucune donn\xE9e exploitable sur la p\xE9riode demand\xE9e (essayez une p\xE9riode plus ancienne).");
+        if (!daily.some((d) => d.et0 !== null)) {
+          setEt0Error("\xC9vapotranspiration (ET0) indisponible pour cette p\xE9riode/zone (service Open-Meteo) \u2014 le bilan hydrique et l'analyse par culture ne peuvent pas \xEAtre calcul\xE9s tant que cette donn\xE9e manque.");
+        }
+        const nEchec = validCommunes.length - succeeded.length;
+        if (nEchec > 0) {
+          setEt0Error((prev) => (prev ? prev + " " : "") + `${nEchec} commune(s) sur ${validCommunes.length} n'ont pas pu \xEAtre r\xE9cup\xE9r\xE9es et sont exclues de la moyenne de zone.`);
         }
         daily = computeWaterBalance(daily);
         const cumulPluie = daily.reduce((s2, d) => s2 + (d.pluie || 0), 0);
@@ -128944,7 +124551,7 @@ ${suffix2}`;
         const et0Cumule = daily.reduce((s2, d) => s2 + (d.et0 || 0), 0);
         const bilanNet = daily.length > 0 ? daily[daily.length - 1].bilanCumule : null;
         const drySpells = detectDrySpells(daily, 1, Number(drySpellMinLength) || 7);
-        setResult({ daily, cumulPluie, joursPluie, tMaxAbs, tMinAbs, tMoyenne, n: daily.length, et0Cumule, bilanNet, drySpells });
+        setResult({ daily, cumulPluie, joursPluie, tMaxAbs, tMinAbs, tMoyenne, n: daily.length, et0Cumule, bilanNet, drySpells, communesUtilisees: succeeded.length });
         if (!sowingDate) setSowingDate(daily[0]?.dateISO || "");
       } catch (e) {
         if (e instanceof TypeError) {
@@ -128988,18 +124595,17 @@ ${suffix2}`;
       const ws = utils.json_to_sheet(rows);
       utils.book_append_sheet(wb, ws, "Donn\xE9es journali\xE8res");
       const wsMeta = utils.json_to_sheet([{
-        Commune: commune,
-        D\u00E9partement: departement,
-        Latitude: COMMUNE_COORDS[commune]?.lat,
-        Longitude: COMMUNE_COORDS[commune]?.lon,
+        "Zone d'intervention (communes)": communes.join(", "),
+        "D\xE9partement(s)": departements.join(", "),
+        "Communes effectivement moyenn\xE9es": result.communesUtilisees,
         "P\xE9riode de d\xE9but": startDate,
         "P\xE9riode de fin": endDate,
-        "Cumul pluviom\xE9trique (mm)": Number(result.cumulPluie.toFixed(1)),
-        "ET0 cumul\xE9e (mm)": Number(result.et0Cumule.toFixed(1)),
-        "Sources": "NASA POWER (pluie, temp\xE9ratures) \xB7 Open-Meteo Archive API (ET0, FAO-56 Penman-Monteith)"
+        "Cumul pluviom\xE9trique moyen (mm)": Number(result.cumulPluie.toFixed(1)),
+        "ET0 cumul\xE9e moyenne (mm)": Number(result.et0Cumule.toFixed(1)),
+        "Sources": "NASA POWER (pluie, temp\xE9ratures) \xB7 Open-Meteo Archive API (ET0, FAO-56 Penman-Monteith) \u2014 moyenne journali\xE8re des communes de la zone d'intervention"
       }]);
       utils.book_append_sheet(wb, wsMeta, "M\xE9tadonn\xE9es");
-      writeFileSync(wb, `AgroMeteo_${commune}_${startDate}_${endDate}.xlsx`);
+      writeFileSync(wb, `AgroMeteo_${communes.length > 1 ? "zone" : communes[0]}_${startDate}_${endDate}.xlsx`);
     };
     return /* @__PURE__ */ import_react83.default.createElement("div", { className: "min-h-screen bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans" }, /* @__PURE__ */ import_react83.default.createElement("div", { className: "flex" }, /* @__PURE__ */ import_react83.default.createElement(Sidebar, { active, onNavigate }), /* @__PURE__ */ import_react83.default.createElement("div", { className: "flex-1 min-h-screen" }, /* @__PURE__ */ import_react83.default.createElement(
       "header",
@@ -129028,28 +124634,10 @@ ${suffix2}`;
           onOpenAdmin
         }
       ))
-    ), /* @__PURE__ */ import_react83.default.createElement("main", { className: "p-8" }, /* @__PURE__ */ import_react83.default.createElement(Card6, { className: "mb-5" }, /* @__PURE__ */ import_react83.default.createElement("div", { className: "grid grid-cols-4 gap-3 items-end" }, /* @__PURE__ */ import_react83.default.createElement("div", null, /* @__PURE__ */ import_react83.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "D\xE9partement"), /* @__PURE__ */ import_react83.default.createElement(
-      "select",
-      {
-        value: departement,
-        onChange: (e) => {
-          setDepartement(e.target.value);
-          setCommune(BENIN_DEPARTEMENTS.find((d) => d.departement === e.target.value).communes[0]);
-        },
-        className: "w-full text-sm rounded-xl border border-gray-200 p-2.5 bg-white focus:outline-none focus:ring-2",
-        style: { "--tw-ring-color": GOLD13 }
-      },
-      BENIN_DEPARTEMENTS.map((d) => /* @__PURE__ */ import_react83.default.createElement("option", { key: d.departement, value: d.departement }, d.departement))
-    )), /* @__PURE__ */ import_react83.default.createElement("div", null, /* @__PURE__ */ import_react83.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Commune"), /* @__PURE__ */ import_react83.default.createElement(
-      "select",
-      {
-        value: commune,
-        onChange: (e) => setCommune(e.target.value),
-        className: "w-full text-sm rounded-xl border border-gray-200 p-2.5 bg-white focus:outline-none focus:ring-2",
-        style: { "--tw-ring-color": GOLD13 }
-      },
-      communesDuDepartement.map((c2) => /* @__PURE__ */ import_react83.default.createElement("option", { key: c2, value: c2 }, c2))
-    )), /* @__PURE__ */ import_react83.default.createElement("div", null, /* @__PURE__ */ import_react83.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "P\xE9riode"), /* @__PURE__ */ import_react83.default.createElement("div", { className: "flex items-center gap-1.5" }, /* @__PURE__ */ import_react83.default.createElement(
+    ), /* @__PURE__ */ import_react83.default.createElement("main", { className: "p-8" }, /* @__PURE__ */ import_react83.default.createElement(Card6, { className: "mb-5" }, /* @__PURE__ */ import_react83.default.createElement("div", { className: "flex items-center justify-between mb-1" }, /* @__PURE__ */ import_react83.default.createElement("label", { className: "text-xs font-medium text-gray-600" }, "Zone d'intervention \u2014 d\xE9partement(s)"), /* @__PURE__ */ import_react83.default.createElement("span", { className: "text-[11px] text-gray-400" }, communes.length, " commune", communes.length > 1 ? "s" : "", " s\xE9lectionn\xE9e", communes.length > 1 ? "s" : "", " \u2014 la moyenne journali\xE8re de la zone sera calcul\xE9e")), /* @__PURE__ */ import_react83.default.createElement("div", { className: "flex flex-wrap gap-2 mb-3" }, BENIN_DEPARTEMENTS.map((d) => /* @__PURE__ */ import_react83.default.createElement(Chip3, { key: d.departement, label: d.departement, active: departements.includes(d.departement), onClick: () => toggleDepartement(d.departement) }))), departements.length > 0 && /* @__PURE__ */ import_react83.default.createElement("div", { className: "mb-3" }, /* @__PURE__ */ import_react83.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Communes"), departements.map((dep) => {
+      const communesDuDep = BENIN_DEPARTEMENTS.find((d) => d.departement === dep)?.communes || [];
+      return /* @__PURE__ */ import_react83.default.createElement("div", { key: dep, className: "mb-2" }, /* @__PURE__ */ import_react83.default.createElement("div", { className: "text-[11px] text-gray-400 mb-1" }, dep), /* @__PURE__ */ import_react83.default.createElement("div", { className: "flex flex-wrap gap-1.5" }, communesDuDep.map((c2) => /* @__PURE__ */ import_react83.default.createElement(Chip3, { key: c2, label: c2, color: GREEN4, active: communes.includes(c2), onClick: () => toggleCommune(c2) }))));
+    })), communes.length > 0 && /* @__PURE__ */ import_react83.default.createElement("div", { className: "flex flex-wrap gap-1.5 mb-4" }, communes.map((c2) => /* @__PURE__ */ import_react83.default.createElement("span", { key: c2, className: "flex items-center gap-1 text-[11px] font-medium px-2 py-1 rounded-full", style: { background: NAVY_TINT3, color: NAVY14 } }, c2, /* @__PURE__ */ import_react83.default.createElement("button", { onClick: () => toggleCommune(c2), className: "hover:text-red-500" }, /* @__PURE__ */ import_react83.default.createElement(X, { size: 11 }))))), /* @__PURE__ */ import_react83.default.createElement("div", { className: "grid grid-cols-3 gap-3 items-end" }, /* @__PURE__ */ import_react83.default.createElement("div", null, /* @__PURE__ */ import_react83.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "P\xE9riode"), /* @__PURE__ */ import_react83.default.createElement("div", { className: "flex items-center gap-1.5" }, /* @__PURE__ */ import_react83.default.createElement(
       "input",
       {
         type: "date",
@@ -129067,17 +124655,17 @@ ${suffix2}`;
         className: "w-full text-xs rounded-xl border border-gray-200 p-2.5 focus:outline-none focus:ring-2",
         style: { "--tw-ring-color": GOLD13 }
       }
-    ))), /* @__PURE__ */ import_react83.default.createElement(
+    ))), /* @__PURE__ */ import_react83.default.createElement("div", { className: "col-span-2" }, /* @__PURE__ */ import_react83.default.createElement(
       "button",
       {
         onClick: fetchClimate,
-        disabled: loading,
+        disabled: loading || communes.length === 0,
         className: "px-4 py-2.5 rounded-xl text-sm font-medium flex items-center justify-center gap-2 text-white shadow-md disabled:opacity-60",
         style: { background: `linear-gradient(135deg, ${NAVY14}, #2A4A82)` }
       },
       loading ? /* @__PURE__ */ import_react83.default.createElement(LoaderCircle, { size: 15, className: "animate-spin" }) : /* @__PURE__ */ import_react83.default.createElement(RefreshCw, { size: 15 }),
       " Afficher"
-    )), /* @__PURE__ */ import_react83.default.createElement("p", { className: "text-[11px] text-gray-400 mt-2" }, "Coordonn\xE9es approximatives du centre de la commune (", COMMUNE_COORDS[commune]?.lat.toFixed(2), ", ", COMMUNE_COORDS[commune]?.lon.toFixed(2), ") \xB7 Pluie et temp\xE9ratures : NASA POWER (communaut\xE9 agroclimatique) \xB7 \xC9vapotranspiration de r\xE9f\xE9rence (ET0) : Open-Meteo, m\xE9thode FAO-56 Penman-Monteith \u2014 publication diff\xE9r\xE9e de quelques jours.")), error && /* @__PURE__ */ import_react83.default.createElement("div", { className: "flex items-start gap-2 rounded-xl p-4 mb-5", style: { background: RED_TINT, color: RED } }, /* @__PURE__ */ import_react83.default.createElement(CircleAlert, { size: 16, className: "mt-0.5 shrink-0" }), /* @__PURE__ */ import_react83.default.createElement("div", { className: "text-sm" }, /* @__PURE__ */ import_react83.default.createElement("p", null, error), /* @__PURE__ */ import_react83.default.createElement(
+    ))), /* @__PURE__ */ import_react83.default.createElement("p", { className: "text-[11px] text-gray-400 mt-2" }, "Pluie et temp\xE9ratures : NASA POWER (communaut\xE9 agroclimatique) \xB7 \xC9vapotranspiration de r\xE9f\xE9rence (ET0) : Open-Meteo, m\xE9thode FAO-56 Penman-Monteith \u2014 moyenne journali\xE8re calcul\xE9e sur l'ensemble des communes coch\xE9es \xB7 publication diff\xE9r\xE9e de quelques jours.")), error && /* @__PURE__ */ import_react83.default.createElement("div", { className: "flex items-start gap-2 rounded-xl p-4 mb-5", style: { background: RED_TINT, color: RED } }, /* @__PURE__ */ import_react83.default.createElement(CircleAlert, { size: 16, className: "mt-0.5 shrink-0" }), /* @__PURE__ */ import_react83.default.createElement("div", { className: "text-sm" }, /* @__PURE__ */ import_react83.default.createElement("p", null, error), /* @__PURE__ */ import_react83.default.createElement(
       "a",
       {
         href: `https://power.larc.nasa.gov/data-access-viewer/`,
@@ -129121,7 +124709,7 @@ ${suffix2}`;
         onChange: (e) => setSowingDate(e.target.value),
         className: "w-full text-sm rounded-xl border border-gray-200 p-2.5 focus:outline-none"
       }
-    )), cropAnalysis && /* @__PURE__ */ import_react83.default.createElement("div", { className: "rounded-xl p-3 flex flex-col justify-center", style: { background: NAVY_TINT3 } }, /* @__PURE__ */ import_react83.default.createElement("span", { className: "text-[11px] text-gray-500" }, "Fin de cycle estim\xE9e"), /* @__PURE__ */ import_react83.default.createElement("span", { className: "text-sm font-semibold", style: { color: NAVY14 } }, cropAnalysis.dateFinCycleISO, " (", cropAnalysis.cycleLength, " j)"))), !result.daily.some((d) => d.et0 !== null) ? /* @__PURE__ */ import_react83.default.createElement("div", { className: "rounded-xl p-3 text-xs text-gray-400 italic", style: { background: "#F7F8FA" } }, "L'analyse par culture n\xE9cessite l'\xE9vapotranspiration de r\xE9f\xE9rence (ET0), indisponible pour cette p\xE9riode.") : cropAnalysis && cropAnalysis.decades.length > 0 ? /* @__PURE__ */ import_react83.default.createElement(import_react83.default.Fragment, null, /* @__PURE__ */ import_react83.default.createElement("div", { className: "rounded-xl p-3 mb-4 flex items-center gap-3", style: { background: cropAnalysis.iseGlobal >= 1 ? GREEN_TINT3 : cropAnalysis.iseGlobal >= 0.5 ? AMBER_TINT3 : RED_TINT } }, /* @__PURE__ */ import_react83.default.createElement(Info, { size: 15, style: { color: cropAnalysis.iseGlobal >= 1 ? GREEN4 : cropAnalysis.iseGlobal >= 0.5 ? AMBER3 : RED } }), /* @__PURE__ */ import_react83.default.createElement("p", { className: "text-xs", style: { color: cropAnalysis.iseGlobal >= 1 ? GREEN4 : cropAnalysis.iseGlobal >= 0.5 ? AMBER3 : RED } }, "Sur la portion du cycle couverte par les donn\xE9es disponibles : ", cropAnalysis.totalPluie.toFixed(0), " mm de pluie pour ", cropAnalysis.totalEtc.toFixed(0), " mm de besoins (ETc) \u2014 indice de satisfaction global ", cropAnalysis.iseGlobal !== null ? cropAnalysis.iseGlobal.toFixed(2) : "\u2014", ".", cropAnalysis.periodesStress.length > 0 && ` ${cropAnalysis.periodesStress.length} d\xE9cade(s) en situation de d\xE9ficit hydrique.`)), /* @__PURE__ */ import_react83.default.createElement("div", { className: "overflow-x-auto" }, /* @__PURE__ */ import_react83.default.createElement("table", { className: "text-xs w-full" }, /* @__PURE__ */ import_react83.default.createElement("thead", null, /* @__PURE__ */ import_react83.default.createElement("tr", null, /* @__PURE__ */ import_react83.default.createElement("th", { className: "text-left text-[10px] text-gray-400 uppercase pb-2" }, "P\xE9riode (d\xE9cade)"), /* @__PURE__ */ import_react83.default.createElement("th", { className: "text-left text-[10px] text-gray-400 uppercase pb-2" }, "Stade"), /* @__PURE__ */ import_react83.default.createElement("th", { className: "text-right text-[10px] text-gray-400 uppercase pb-2" }, "Pluie (mm)"), /* @__PURE__ */ import_react83.default.createElement("th", { className: "text-right text-[10px] text-gray-400 uppercase pb-2" }, "ETc (mm)"), /* @__PURE__ */ import_react83.default.createElement("th", { className: "text-right text-[10px] text-gray-400 uppercase pb-2" }, "ISE"), /* @__PURE__ */ import_react83.default.createElement("th", { className: "text-right text-[10px] text-gray-400 uppercase pb-2" }, "Statut"))), /* @__PURE__ */ import_react83.default.createElement("tbody", null, cropAnalysis.decades.map((d, i) => /* @__PURE__ */ import_react83.default.createElement("tr", { key: i, className: "border-t border-gray-50" }, /* @__PURE__ */ import_react83.default.createElement("td", { className: "py-1.5 text-gray-700" }, d.dateDebut, " \u2192 ", d.dateFin), /* @__PURE__ */ import_react83.default.createElement("td", { className: "py-1.5 text-gray-500" }, d.stage), /* @__PURE__ */ import_react83.default.createElement("td", { className: "py-1.5 text-right text-gray-700" }, d.pluieCumul.toFixed(1)), /* @__PURE__ */ import_react83.default.createElement("td", { className: "py-1.5 text-right text-gray-700" }, d.etcCumul.toFixed(1)), /* @__PURE__ */ import_react83.default.createElement("td", { className: "py-1.5 text-right font-mono text-gray-600" }, d.ise !== null ? d.ise.toFixed(2) : "\u2014"), /* @__PURE__ */ import_react83.default.createElement("td", { className: "py-1.5 text-right" }, /* @__PURE__ */ import_react83.default.createElement(StatusPill, { statut: d.statut })))))))) : /* @__PURE__ */ import_react83.default.createElement("div", { className: "rounded-xl p-3 text-xs text-gray-400 italic", style: { background: "#F7F8FA" } }, "Choisissez une date de semis comprise dans (ou proche de) la p\xE9riode import\xE9e pour lancer l'analyse."))), !result && !error && !loading && /* @__PURE__ */ import_react83.default.createElement(Card6, { className: "text-center py-12" }, /* @__PURE__ */ import_react83.default.createElement(MapPin, { size: 32, className: "mx-auto text-gray-300 mb-3" }), /* @__PURE__ */ import_react83.default.createElement("p", { className: "text-sm text-gray-500" }, "Choisissez une commune et une p\xE9riode, puis cliquez \xAB Afficher \xBB."))))));
+    )), cropAnalysis && /* @__PURE__ */ import_react83.default.createElement("div", { className: "rounded-xl p-3 flex flex-col justify-center", style: { background: NAVY_TINT3 } }, /* @__PURE__ */ import_react83.default.createElement("span", { className: "text-[11px] text-gray-500" }, "Fin de cycle estim\xE9e"), /* @__PURE__ */ import_react83.default.createElement("span", { className: "text-sm font-semibold", style: { color: NAVY14 } }, cropAnalysis.dateFinCycleISO, " (", cropAnalysis.cycleLength, " j)"))), !result.daily.some((d) => d.et0 !== null) ? /* @__PURE__ */ import_react83.default.createElement("div", { className: "rounded-xl p-3 text-xs text-gray-400 italic", style: { background: "#F7F8FA" } }, "L'analyse par culture n\xE9cessite l'\xE9vapotranspiration de r\xE9f\xE9rence (ET0), indisponible pour cette p\xE9riode.") : cropAnalysis && cropAnalysis.decades.length > 0 ? /* @__PURE__ */ import_react83.default.createElement(import_react83.default.Fragment, null, /* @__PURE__ */ import_react83.default.createElement("div", { className: "rounded-xl p-3 mb-4 flex items-center gap-3", style: { background: cropAnalysis.iseGlobal >= 1 ? GREEN_TINT3 : cropAnalysis.iseGlobal >= 0.5 ? AMBER_TINT3 : RED_TINT } }, /* @__PURE__ */ import_react83.default.createElement(Info, { size: 15, style: { color: cropAnalysis.iseGlobal >= 1 ? GREEN4 : cropAnalysis.iseGlobal >= 0.5 ? AMBER3 : RED } }), /* @__PURE__ */ import_react83.default.createElement("p", { className: "text-xs", style: { color: cropAnalysis.iseGlobal >= 1 ? GREEN4 : cropAnalysis.iseGlobal >= 0.5 ? AMBER3 : RED } }, "Sur la portion du cycle couverte par les donn\xE9es disponibles : ", cropAnalysis.totalPluie.toFixed(0), " mm de pluie pour ", cropAnalysis.totalEtc.toFixed(0), " mm de besoins (ETc) \u2014 indice de satisfaction global ", cropAnalysis.iseGlobal !== null ? cropAnalysis.iseGlobal.toFixed(2) : "\u2014", ".", cropAnalysis.periodesStress.length > 0 && ` ${cropAnalysis.periodesStress.length} d\xE9cade(s) en situation de d\xE9ficit hydrique.`)), /* @__PURE__ */ import_react83.default.createElement("div", { className: "overflow-x-auto" }, /* @__PURE__ */ import_react83.default.createElement("table", { className: "text-xs w-full" }, /* @__PURE__ */ import_react83.default.createElement("thead", null, /* @__PURE__ */ import_react83.default.createElement("tr", null, /* @__PURE__ */ import_react83.default.createElement("th", { className: "text-left text-[10px] text-gray-400 uppercase pb-2" }, "P\xE9riode (d\xE9cade)"), /* @__PURE__ */ import_react83.default.createElement("th", { className: "text-left text-[10px] text-gray-400 uppercase pb-2" }, "Stade"), /* @__PURE__ */ import_react83.default.createElement("th", { className: "text-right text-[10px] text-gray-400 uppercase pb-2" }, "Pluie (mm)"), /* @__PURE__ */ import_react83.default.createElement("th", { className: "text-right text-[10px] text-gray-400 uppercase pb-2" }, "ETc (mm)"), /* @__PURE__ */ import_react83.default.createElement("th", { className: "text-right text-[10px] text-gray-400 uppercase pb-2" }, "ISE"), /* @__PURE__ */ import_react83.default.createElement("th", { className: "text-right text-[10px] text-gray-400 uppercase pb-2" }, "Statut"))), /* @__PURE__ */ import_react83.default.createElement("tbody", null, cropAnalysis.decades.map((d, i) => /* @__PURE__ */ import_react83.default.createElement("tr", { key: i, className: "border-t border-gray-50" }, /* @__PURE__ */ import_react83.default.createElement("td", { className: "py-1.5 text-gray-700" }, d.dateDebut, " \u2192 ", d.dateFin), /* @__PURE__ */ import_react83.default.createElement("td", { className: "py-1.5 text-gray-500" }, d.stage), /* @__PURE__ */ import_react83.default.createElement("td", { className: "py-1.5 text-right text-gray-700" }, d.pluieCumul.toFixed(1)), /* @__PURE__ */ import_react83.default.createElement("td", { className: "py-1.5 text-right text-gray-700" }, d.etcCumul.toFixed(1)), /* @__PURE__ */ import_react83.default.createElement("td", { className: "py-1.5 text-right font-mono text-gray-600" }, d.ise !== null ? d.ise.toFixed(2) : "\u2014"), /* @__PURE__ */ import_react83.default.createElement("td", { className: "py-1.5 text-right" }, /* @__PURE__ */ import_react83.default.createElement(StatusPill, { statut: d.statut })))))))) : /* @__PURE__ */ import_react83.default.createElement("div", { className: "rounded-xl p-3 text-xs text-gray-400 italic", style: { background: "#F7F8FA" } }, "Choisissez une date de semis comprise dans (ou proche de) la p\xE9riode import\xE9e pour lancer l'analyse."))), !result && !error && !loading && /* @__PURE__ */ import_react83.default.createElement(Card6, { className: "text-center py-12" }, /* @__PURE__ */ import_react83.default.createElement(MapPin, { size: 32, className: "mx-auto text-gray-300 mb-3" }), /* @__PURE__ */ import_react83.default.createElement("p", { className: "text-sm text-gray-500" }, "Choisissez une ou plusieurs communes et une p\xE9riode, puis cliquez \xAB Afficher \xBB."))))));
   }
 
   // src/admin/AdminDashboard.jsx
@@ -129428,19 +125016,16 @@ react-is/cjs/react-is.development.js:
 papaparse/papaparse.min.js:
   (* @license
   Papa Parse
-  v5.7.0
+  v5.6.0
   https://github.com/mholt/PapaParse
   License: MIT
   *)
 
+lucide-react/dist/esm/shared/src/utils/mergeClasses.mjs:
 lucide-react/dist/esm/shared/src/utils/toKebabCase.mjs:
-lucide-react/dist/esm/shared/src/utils/toLucideIconData.mjs:
 lucide-react/dist/esm/shared/src/utils/toCamelCase.mjs:
 lucide-react/dist/esm/shared/src/utils/toPascalCase.mjs:
-lucide-react/dist/esm/shared/src/utils/mergeClasses.mjs:
-lucide-react/dist/esm/shared/src/build/defaultAttributes.mjs:
-lucide-react/dist/esm/shared/src/build/buildLucideIconNode.mjs:
-lucide-react/dist/esm/shared/src/build/buildLucideIconForReact.mjs:
+lucide-react/dist/esm/defaultAttributes.mjs:
 lucide-react/dist/esm/shared/src/utils/hasA11yProp.mjs:
 lucide-react/dist/esm/context.mjs:
 lucide-react/dist/esm/Icon.mjs:
@@ -129494,9 +125079,9 @@ lucide-react/dist/esm/icons/sparkles.mjs:
 lucide-react/dist/esm/icons/sprout.mjs:
 lucide-react/dist/esm/icons/sun.mjs:
 lucide-react/dist/esm/icons/thermometer.mjs:
-lucide-react/dist/esm/icons/toggle-left.mjs:
 lucide-react/dist/esm/icons/toggle-right.mjs:
-lucide-react/dist/esm/icons/trash.mjs:
+lucide-react/dist/esm/icons/toggle-left.mjs:
+lucide-react/dist/esm/icons/trash-2.mjs:
 lucide-react/dist/esm/icons/trending-up.mjs:
 lucide-react/dist/esm/icons/triangle-alert.mjs:
 lucide-react/dist/esm/icons/upload.mjs:
@@ -129507,7 +125092,7 @@ lucide-react/dist/esm/icons/waves-horizontal.mjs:
 lucide-react/dist/esm/icons/x.mjs:
 lucide-react/dist/esm/lucide-react.mjs:
   (**
-   * @license lucide-react v1.48.0 - ISC
+   * @license lucide-react v1.28.0 - ISC
    *
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
@@ -129532,7 +125117,7 @@ docx/dist/index.mjs:
 docx/dist/index.mjs:
   (*!
   
-  JSZip v3.10.2 - A JavaScript class for generating and reading zip files
+  JSZip v3.10.1 - A JavaScript class for generating and reading zip files
   <http://stuartk.com/jszip>
   
   (c) 2009-2016 Stuart Knightley <stuart [at] stuartk.com>
