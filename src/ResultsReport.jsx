@@ -272,7 +272,41 @@ function AnalysisResultCard({ item, dataset, index, validated, onToggleValidated
 }
 
 
-export default function ResultsReport({ active, onNavigate, userEmail, roleLabel, isAdmin, isGuest, onLogout, onOpenAdmin, dataset, analysisQueue, onAnalysisQueueChange, context, onContextChange }) {
+function UnivariateResultCard({ item }) {
+  const s = item.stats;
+  return (
+    <Card>
+      <ResultHeader title={item.variableLabel} subtitle={item.isQuantitative ? "Statistiques descriptives (univariée)" : "Fréquences (univariée)"} status="auto" />
+      {item.isQuantitative ? (
+        <>
+          <div className="grid grid-cols-3 gap-2 text-center">
+            {[["Moyenne", s.moyenne], ["Médiane", s.mediane], ["Écart-type", s.ecartType], ["CV (%)", s.cv], ["Min", s.min], ["Max", s.max]].map(([l, v]) => (
+              <div key={l} className="rounded-lg py-2" style={{ background: NAVY_TINT }}>
+                <div className="text-[10px] text-gray-500">{l}</div>
+                <div className="text-xs font-bold" style={{ color: NAVY }}>{v.toFixed(2)}</div>
+              </div>
+            ))}
+          </div>
+          <p className="text-xs mt-2" style={{ color: s.outliers?.count > 0 ? AMBER : "#9CA3AF" }}>
+            {s.outliers?.count > 0
+              ? `${s.outliers.count} valeur${s.outliers.count > 1 ? "s" : ""} atypique${s.outliers.count > 1 ? "s" : ""} détectée${s.outliers.count > 1 ? "s" : ""} (méthode interquartile) — hors [${s.outliers.lowerBound.toFixed(1)} ; ${s.outliers.upperBound.toFixed(1)}]`
+              : "Aucune valeur atypique détectée (méthode interquartile)."}
+          </p>
+        </>
+      ) : (
+        <div className="flex flex-wrap gap-1.5">
+          {(s || []).map((f) => (
+            <span key={f.modalite} className="text-[11px] px-2 py-1 rounded-full" style={{ background: NAVY_TINT, color: NAVY }}>
+              {f.modalite} · {f.pct.toFixed(0)}% (n={f.n})
+            </span>
+          ))}
+        </div>
+      )}
+    </Card>
+  );
+}
+
+export default function ResultsReport({ active, onNavigate, userEmail, roleLabel, isAdmin, isGuest, onLogout, onOpenAdmin, dataset, analysisQueue, onAnalysisQueueChange, context, onContextChange, univariateQueue }) {
   const [sections, setSections] = useState(reportSections);
   const [format, setFormat] = useState("docx");
   const [aiLoading, setAiLoading] = useState(false);
@@ -280,6 +314,7 @@ export default function ResultsReport({ active, onNavigate, userEmail, roleLabel
   const [aiReport, setAiReport] = useState(context?.aiReport || null); // { analyse, recommandations, conclusion }
   const [exporting, setExporting] = useState(false);
   const queue = analysisQueue || [];
+  const uniQueue = univariateQueue || [];
 
   const toggleSection = (s) =>
     setSections((prev) => (prev.includes(s) ? prev.filter((i) => i !== s) : [...prev, s]));
@@ -301,7 +336,7 @@ export default function ResultsReport({ active, onNavigate, userEmail, roleLabel
       const res = await fetch("/api/generate-report", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ context, analyses: queueForReport }),
+        body: JSON.stringify({ context, analyses: queueForReport, univariateAnalyses: uniQueue }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Erreur inconnue du service de génération.");
@@ -317,7 +352,7 @@ export default function ResultsReport({ active, onNavigate, userEmail, roleLabel
   const handleExport = async () => {
     setExporting(true);
     try {
-      await exportReportToDocx({ context, queue: queueForReport, aiReport, dataset });
+      await exportReportToDocx({ context, queue: queueForReport, uniQueue, aiReport, dataset });
     } catch (e) {
       setAiError("Échec de l'export : " + e.message);
     } finally {
@@ -339,7 +374,8 @@ export default function ResultsReport({ active, onNavigate, userEmail, roleLabel
             <div>
               <h1 className="font-serif text-xl font-bold" style={{ color: NAVY }}>Résultats &amp; rapport final</h1>
               <p className="text-xs text-gray-500 mt-0.5">
-                {dataset ? `${dataset.fileName} · ` : ""}{queue.length} analyse{queue.length > 1 ? "s" : ""} configurée{queue.length > 1 ? "s" : ""}
+                {dataset ? `${dataset.fileName} · ` : ""}{queue.length} analyse{queue.length > 1 ? "s" : ""} bivariée{queue.length > 1 ? "s" : ""}
+                {uniQueue.length > 0 && <> · {uniQueue.length} variable{uniQueue.length > 1 ? "s" : ""} univariée{uniQueue.length > 1 ? "s" : ""} validée{uniQueue.length > 1 ? "s" : ""}</>}
               </p>
             </div>
             <div className="flex items-center gap-4">
@@ -351,12 +387,12 @@ export default function ResultsReport({ active, onNavigate, userEmail, roleLabel
 
           <main className="p-8 grid grid-cols-3 gap-6">
             <div className="col-span-2 space-y-5">
-              {queue.length === 0 ? (
+              {queue.length === 0 && uniQueue.length === 0 ? (
                 <Card className="text-center py-12">
                   <Inbox size={32} className="mx-auto text-gray-300 mb-3" />
                   <p className="text-sm font-medium text-gray-500">Aucune analyse configurée pour l'instant</p>
                   <p className="text-xs text-gray-400 mt-1 mb-4 max-w-sm mx-auto">
-                    Rendez-vous dans « Configuration des analyses » pour sélectionner des variables, valider un test statistique, puis l'ajouter à la file.
+                    Rendez-vous dans « Configuration des analyses » pour sélectionner des variables, valider un test statistique (ou une variable univariée), puis l'ajouter à la file.
                   </p>
                   <button onClick={() => onNavigate("config")}
                     className="px-4 py-2 rounded-xl text-sm font-medium text-white shadow-md"
@@ -372,6 +408,15 @@ export default function ResultsReport({ active, onNavigate, userEmail, roleLabel
                       <p className="text-xs" style={{ color: AMBER }}>
                         Aucune base de données réelle n'est actuellement importée : les analyses ci-dessous sont présentées à titre d'exemple. Importez un fichier via l'assistant d'import pour des résultats calculés sur vos propres données.
                       </p>
+                    </div>
+                  )}
+
+                  {uniQueue.length > 0 && (
+                    <div>
+                      <h3 className="font-serif font-semibold text-sm mb-3" style={{ color: NAVY }}>Analyses univariées validées</h3>
+                      <div className="space-y-4">
+                        {uniQueue.map((u) => <UnivariateResultCard key={u.id} item={u} />)}
+                      </div>
                     </div>
                   )}
 
@@ -396,7 +441,7 @@ export default function ResultsReport({ active, onNavigate, userEmail, roleLabel
                         <Sparkles size={16} style={{ color: GOLD }} />
                         <h3 className="font-serif font-semibold text-sm" style={{ color: NAVY }}>6. Analyse</h3>
                       </div>
-                      <button onClick={generateWithClaude} disabled={aiLoading || queueForReport.length === 0}
+                      <button onClick={generateWithClaude} disabled={aiLoading || (queueForReport.length === 0 && uniQueue.length === 0)}
                         className="text-xs font-medium flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-white disabled:opacity-50"
                         style={{ background: NAVY }}>
                         <Sparkles size={12} /> {aiLoading ? "Rédaction en cours…" : aiReport ? "Régénérer avec Claude" : "Rédiger avec Claude"}
@@ -473,9 +518,17 @@ export default function ResultsReport({ active, onNavigate, userEmail, roleLabel
                   <Paperclip size={16} style={{ color: NAVY }} />
                   <h2 className="font-serif font-semibold" style={{ color: NAVY }}>Annexe automatique</h2>
                 </div>
-                <p className="text-[11px] text-gray-400 mb-3">Tableaux consolidés automatiquement à partir de la file d'analyses (Module 6).</p>
+                <p className="text-[11px] text-gray-400 mb-3">Tableaux consolidés automatiquement à partir des variables univariées validées et de la file d'analyses bivariées.</p>
                 <div className="space-y-2">
-                  {queue.length === 0 && <p className="text-xs text-gray-400 italic">Aucun tableau pour l'instant.</p>}
+                  {queue.length === 0 && uniQueue.length === 0 && <p className="text-xs text-gray-400 italic">Aucun tableau pour l'instant.</p>}
+                  {uniQueue.map((u, i) => (
+                    <div key={u.id || i} className="rounded-xl border border-gray-100 p-2.5">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[11px] font-semibold" style={{ color: NAVY }}>Tableau U{i + 1}</span>
+                      </div>
+                      <div className="text-[11px] text-gray-600 mt-0.5">{u.isQuantitative ? "Statistiques descriptives" : "Fréquences"} — {u.variableLabel}</div>
+                    </div>
+                  ))}
                   {queue.map((item, i) => (
                     <div key={item.id || i} className="rounded-xl border border-gray-100 p-2.5">
                       <div className="flex items-center justify-between">
@@ -511,7 +564,7 @@ export default function ResultsReport({ active, onNavigate, userEmail, roleLabel
                     <FileDown size={13} /> PDF
                   </button>
                 </div>
-                <button disabled={queue.length === 0 || exporting} onClick={handleExport}
+                <button disabled={(queue.length === 0 && uniQueue.length === 0) || exporting} onClick={handleExport}
                   className="w-full px-4 py-2.5 rounded-xl text-sm font-medium flex items-center justify-center gap-1.5 text-white shadow-md disabled:opacity-40 disabled:cursor-not-allowed"
                   style={{ background: `linear-gradient(135deg, #3E9C6B, ${GREEN})` }}>
                   <Layers size={14} /> {exporting ? "Génération en cours…" : format === "docx" ? "Exporter en Word (.docx)" : "Exporter en Word (PDF à venir)"}
