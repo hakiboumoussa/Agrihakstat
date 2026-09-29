@@ -141064,6 +141064,68 @@ ${suffix2}`;
     if (data.error) throw new Error(data.error);
     return data.elements || [];
   }
+  async function fetchCommuneBoundaries(names, signal) {
+    const url = `/api/geo-proxy?kind=boundary&names=${encodeURIComponent(names.join(";"))}`;
+    const res = await fetch(url, { signal });
+    let data;
+    try {
+      data = await res.json();
+    } catch {
+      data = null;
+    }
+    if (!res.ok || !data) throw new Error(data && data.error || `Le service a r\xE9pondu avec le code ${res.status}.`);
+    if (data.error) throw new Error(data.error);
+    return data.elements || [];
+  }
+  var RING_EPS = 1e-7;
+  var pointsEqual = (a2, b) => Math.abs(a2[0] - b[0]) < RING_EPS && Math.abs(a2[1] - b[1]) < RING_EPS;
+  function stitchRings(segments) {
+    const remaining = segments.filter((s2) => s2 && s2.length >= 2).map((s2) => s2.slice());
+    const rings = [];
+    while (remaining.length) {
+      let ring = remaining.shift();
+      let guard = 0;
+      while (guard < 500) {
+        guard += 1;
+        const start = ring[0], end = ring[ring.length - 1];
+        if (ring.length > 2 && pointsEqual(start, end)) break;
+        let foundIdx = -1, reverse = false;
+        for (let i = 0; i < remaining.length; i += 1) {
+          const seg2 = remaining[i];
+          if (pointsEqual(seg2[0], end)) {
+            foundIdx = i;
+            reverse = false;
+            break;
+          }
+          if (pointsEqual(seg2[seg2.length - 1], end)) {
+            foundIdx = i;
+            reverse = true;
+            break;
+          }
+        }
+        if (foundIdx === -1) break;
+        let seg = remaining.splice(foundIdx, 1)[0];
+        if (reverse) seg = seg.slice().reverse();
+        ring = ring.concat(seg.slice(1));
+      }
+      if (ring.length >= 3) rings.push(ring);
+    }
+    return rings;
+  }
+  function pickBestBoundaryRelation(relations) {
+    if (relations.length <= 1) return relations[0] || null;
+    const score = (rel) => {
+      const level = Number(rel.tags && rel.tags.admin_level);
+      const levelScore = level === 4 || level === 6 ? 2 : level === 3 || level === 5 ? 1 : 0;
+      const memberCount = (rel.members || []).length;
+      return levelScore * 1e3 + memberCount;
+    };
+    return relations.slice().sort((a2, b) => score(b) - score(a2))[0];
+  }
+  function relationToRings(rel) {
+    const outerSegments = (rel.members || []).filter((m) => m.type === "way" && m.role !== "inner" && m.geometry && m.geometry.length >= 2).map((m) => m.geometry.map((pt) => [pt.lat, pt.lon]));
+    return stitchRings(outerSegments);
+  }
   function Cartographie({ active, onNavigate, userEmail, roleLabel, isAdmin, isGuest, onLogout, onOpenAdmin, dataset }) {
     const [baseLayerKey, setBaseLayerKey] = (0, import_react78.useState)("osm");
     const [showRivers, setShowRivers] = (0, import_react78.useState)(false);
@@ -141141,7 +141203,9 @@ ${suffix2}`;
     const baseTileRef = (0, import_react78.useRef)(null);
     const landcoverTileRef = (0, import_react78.useRef)(null);
     const groupsRef = (0, import_react78.useRef)({});
-    const overpassAbortRef = (0, import_react78.useRef)({ rivers: null, roads: null });
+    const overpassAbortRef = (0, import_react78.useRef)({ rivers: null, roads: null, boundary: null });
+    const [boundaryStatus, setBoundaryStatus] = (0, import_react78.useState)(null);
+    const [boundaryMissing, setBoundaryMissing] = (0, import_react78.useState)([]);
     (0, import_react78.useEffect)(() => {
       if (mapRef.current || !mapDivRef.current) return;
       const map2 = import_leaflet.default.map(mapDivRef.current, { center: [9.5, 2.3], zoom: 7, minZoom: 2, maxZoom: 19, worldCopyJump: true });
@@ -141149,6 +141213,7 @@ ${suffix2}`;
       groupsRef.current = {
         rivers: import_leaflet.default.layerGroup(),
         roads: import_leaflet.default.layerGroup(),
+        boundaries: import_leaflet.default.layerGroup(),
         habitats: import_leaflet.default.layerGroup(),
         suivi: import_leaflet.default.layerGroup(),
         survey: import_leaflet.default.layerGroup()
@@ -141230,6 +141295,63 @@ ${suffix2}`;
       } else {
         map2.fitBounds(import_leaflet.default.latLngBounds(coords.map((c2) => [c2.lat, c2.lon])), { padding: [50, 50], maxZoom: 12 });
       }
+    }, [extractionActive, extractionSelection]);
+    (0, import_react78.useEffect)(() => {
+      const map2 = mapRef.current;
+      if (!map2) return;
+      const group = groupsRef.current.boundaries;
+      group.clearLayers();
+      if (!extractionActive || extractionSelection.length === 0) {
+        setBoundaryStatus(null);
+        setBoundaryMissing([]);
+        if (map2.hasLayer(group)) map2.removeLayer(group);
+        return;
+      }
+      group.addTo(map2);
+      if (overpassAbortRef.current.boundary) overpassAbortRef.current.boundary.abort();
+      const controller = new AbortController();
+      overpassAbortRef.current.boundary = controller;
+      setBoundaryStatus("loading");
+      const selection = extractionSelection;
+      (async () => {
+        try {
+          const relations = await fetchCommuneBoundaries(selection, controller.signal);
+          group.clearLayers();
+          const byName = {};
+          relations.forEach((rel) => {
+            const nm = rel.tags && rel.tags.name;
+            if (!nm || !selection.includes(nm)) return;
+            (byName[nm] = byName[nm] || []).push(rel);
+          });
+          const missing = [];
+          let allLatLngs = [];
+          selection.forEach((name) => {
+            const best = pickBestBoundaryRelation(byName[name] || []);
+            const rings = best ? relationToRings(best) : [];
+            if (rings.length > 0) {
+              import_leaflet.default.polygon(rings, { color: NAVY8, weight: 2.5, fillColor: NAVY8, fillOpacity: 0.08 }).bindTooltip(`Limite administrative \u2014 ${name}`, { sticky: true }).addTo(group);
+              rings.forEach((r2) => {
+                allLatLngs = allLatLngs.concat(r2);
+              });
+            } else {
+              missing.push(name);
+              const coords = COMMUNE_COORDS[name];
+              if (coords) {
+                import_leaflet.default.circle([coords.lat, coords.lon], { radius: 9e3, color: "#8A93A8", weight: 2, dashArray: "6 5", fillColor: "#8A93A8", fillOpacity: 0.06 }).bindTooltip(`${name} \u2014 limite pr\xE9cise indisponible dans OpenStreetMap (cercle indicatif, rayon 9 km)`, { sticky: true }).addTo(group);
+                allLatLngs.push([coords.lat + 0.08, coords.lon], [coords.lat - 0.08, coords.lon], [coords.lat, coords.lon + 0.08], [coords.lat, coords.lon - 0.08]);
+              }
+            }
+          });
+          group.eachLayer((l) => l.bringToBack());
+          setBoundaryMissing(missing);
+          setBoundaryStatus(missing.length === 0 ? "ok" : missing.length === selection.length ? "error" : "partial");
+          if (allLatLngs.length > 0) {
+            map2.fitBounds(import_leaflet.default.latLngBounds(allLatLngs), { padding: [50, 50], maxZoom: selection.length === 1 ? 13 : 12 });
+          }
+        } catch (err) {
+          if (err.name !== "AbortError") setBoundaryStatus("error");
+        }
+      })();
     }, [extractionActive, extractionSelection]);
     (0, import_react78.useEffect)(() => {
       const map2 = mapRef.current;
@@ -141348,7 +141470,7 @@ ${suffix2}`;
       /* @__PURE__ */ import_react78.default.createElement(cfg.icon, { size: 15 }),
       " ",
       cfg.label
-    ))), extractionActive && extractionSelection.length > 0 && /* @__PURE__ */ import_react78.default.createElement("div", { className: "flex items-center justify-between mb-3 px-4 py-2.5 rounded-xl", style: { background: "#EBEEF7", border: `1px solid ${NAVY8}` } }, /* @__PURE__ */ import_react78.default.createElement("div", { className: "flex items-center gap-2 text-sm font-medium", style: { color: NAVY8 } }, /* @__PURE__ */ import_react78.default.createElement(Crosshair, { size: 15 }), "Extraction active \u2014 ", exportTitle), /* @__PURE__ */ import_react78.default.createElement("button", { onClick: resetExtraction, className: "flex items-center gap-1 text-xs font-medium px-2.5 py-1 rounded-lg hover:bg-white/60", style: { color: NAVY8 } }, /* @__PURE__ */ import_react78.default.createElement(RotateCcw, { size: 12 }), " Revenir \xE0 la vue d'ensemble")), /* @__PURE__ */ import_react78.default.createElement(Card4, null, /* @__PURE__ */ import_react78.default.createElement("div", { ref: mapExportRef, className: "bg-white" }, /* @__PURE__ */ import_react78.default.createElement("div", { className: "flex items-center justify-between mb-2 px-1" }, /* @__PURE__ */ import_react78.default.createElement("div", null, /* @__PURE__ */ import_react78.default.createElement("p", { className: "font-serif font-semibold text-sm", style: { color: NAVY8 } }, exportTitle), /* @__PURE__ */ import_react78.default.createElement("p", { className: "text-[10px] text-gray-400" }, "AgriHakStat \u2014 DDAEP-Borgou \xB7 ", (/* @__PURE__ */ new Date()).toLocaleDateString("fr-FR", { day: "2-digit", month: "long", year: "numeric" }), showSuivi && ` \xB7 Indicateur : ${indicateurLabel}`)), showSuivi && /* @__PURE__ */ import_react78.default.createElement("div", { className: "flex items-center gap-2 text-[10px] text-gray-500" }, /* @__PURE__ */ import_react78.default.createElement("span", { className: "flex items-center gap-1" }, /* @__PURE__ */ import_react78.default.createElement("span", { className: "w-2.5 h-2.5 rounded-full inline-block", style: { background: "#3E9C6B" } }), "Satisfaisant"), /* @__PURE__ */ import_react78.default.createElement("span", { className: "flex items-center gap-1" }, /* @__PURE__ */ import_react78.default.createElement("span", { className: "w-2.5 h-2.5 rounded-full inline-block", style: { background: "#E3A23B" } }), "Mod\xE9r\xE9"), /* @__PURE__ */ import_react78.default.createElement("span", { className: "flex items-center gap-1" }, /* @__PURE__ */ import_react78.default.createElement("span", { className: "w-2.5 h-2.5 rounded-full inline-block", style: { background: "#C1573F" } }), "Critique"))), /* @__PURE__ */ import_react78.default.createElement("div", { ref: mapDivRef, className: "rounded-xl overflow-hidden border border-gray-100", style: { height: 520, width: "100%" } })), /* @__PURE__ */ import_react78.default.createElement("p", { className: "text-[10px] text-gray-400 italic mt-2" }, "D\xE9filement \xE0 la molette ou pincement pour zoomer, cliquer-glisser pour d\xE9placer \u2014 depuis la vue mondiale jusqu'\xE0 l'\xE9chelle communale. Fond \xAB Satellite \xBB : imagerie r\xE9elle utilis\xE9e comme approximation visuelle (et non une classification scientifique d'occupation du sol) ; pour une classification effective, activer la couche \xAB Couverture du sol (v\xE9g\xE9tation) \xBB \u2014 ESA WorldCover 2021, 10 m de r\xE9solution. Cours d'eau et routes : base collaborative OpenStreetMap (Overpass API), charg\xE9s \xE0 partir de l'\xE9chelle sous-r\xE9gionale/communale et actualis\xE9s au d\xE9placement de la carte."))), /* @__PURE__ */ import_react78.default.createElement("div", { className: "space-y-4" }, /* @__PURE__ */ import_react78.default.createElement(Card4, null, /* @__PURE__ */ import_react78.default.createElement("div", { className: "flex items-center gap-2 mb-3" }, /* @__PURE__ */ import_react78.default.createElement(Layers, { size: 16, style: { color: NAVY8 } }), /* @__PURE__ */ import_react78.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY8 } }, "Couches affich\xE9es")), /* @__PURE__ */ import_react78.default.createElement("div", { className: "space-y-2" }, /* @__PURE__ */ import_react78.default.createElement(LayerToggle, { label: "Localit\xE9s / habitats (77 communes)", icon: House, checked: showHabitats, onChange: () => setShowHabitats((v) => !v) }), /* @__PURE__ */ import_react78.default.createElement(LayerToggle, { label: "Cours d'eau", icon: WavesHorizontal, color: "#3592C4", checked: showRivers, onChange: () => setShowRivers((v) => !v), status: riversStatus }), /* @__PURE__ */ import_react78.default.createElement(LayerToggle, { label: "Routes principales", icon: Route, color: "#8A5A00", checked: showRoads, onChange: () => setShowRoads((v) => !v), status: roadsStatus }), /* @__PURE__ */ import_react78.default.createElement(LayerToggle, { label: "Couverture du sol (v\xE9g\xE9tation)", icon: Trees, color: "#3E9C6B", checked: showLandcover, onChange: () => setShowLandcover((v) => !v) }), /* @__PURE__ */ import_react78.default.createElement(LayerToggle, { label: "Suivi agricole interne", icon: Sprout, color: "#3E9C6B", checked: showSuivi, onChange: () => setShowSuivi((v) => !v) }), hasRealGeo && /* @__PURE__ */ import_react78.default.createElement(LayerToggle, { label: `Points d'enqu\xEAte import\xE9s (${realPoints.length})`, icon: MapPin, checked: showSurvey, onChange: () => setShowSurvey((v) => !v) })), (riversStatus === "zoom" || roadsStatus === "zoom") && /* @__PURE__ */ import_react78.default.createElement("p", { className: "text-[11px] text-gray-400 italic mt-2" }, "Zoomez sur la zone souhait\xE9e (\xE9chelle sous-r\xE9gionale ou communale) pour charger les cours d'eau/routes."), (riversStatus === "empty" || roadsStatus === "empty") && /* @__PURE__ */ import_react78.default.createElement("p", { className: "text-[11px] text-gray-400 italic mt-2" }, "Aucun tron\xE7on r\xE9f\xE9renc\xE9 par OpenStreetMap dans cette emprise \u2014 d\xE9placez ou d\xE9zoomez l\xE9g\xE8rement la carte."), (riversStatus === "error" || roadsStatus === "error") && /* @__PURE__ */ import_react78.default.createElement("p", { className: "text-[11px] mt-2", style: { color: "#B3413A" } }, "Le service cartographique communautaire (OpenStreetMap/Overpass) est temporairement indisponible \u2014 r\xE9essayez dans quelques instants.")), /* @__PURE__ */ import_react78.default.createElement(Card4, null, /* @__PURE__ */ import_react78.default.createElement("div", { className: "flex items-center gap-2 mb-3" }, /* @__PURE__ */ import_react78.default.createElement(Funnel, { size: 16, style: { color: NAVY8 } }), /* @__PURE__ */ import_react78.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY8 } }, "Indicateur du suivi agricole")), /* @__PURE__ */ import_react78.default.createElement(
+    ))), extractionActive && extractionSelection.length > 0 && /* @__PURE__ */ import_react78.default.createElement("div", { className: "mb-3 rounded-xl", style: { background: "#EBEEF7", border: `1px solid ${NAVY8}` } }, /* @__PURE__ */ import_react78.default.createElement("div", { className: "flex items-center justify-between px-4 py-2.5" }, /* @__PURE__ */ import_react78.default.createElement("div", { className: "flex items-center gap-2 text-sm font-medium", style: { color: NAVY8 } }, /* @__PURE__ */ import_react78.default.createElement(Crosshair, { size: 15 }), "Extraction active \u2014 ", exportTitle), /* @__PURE__ */ import_react78.default.createElement("button", { onClick: resetExtraction, className: "flex items-center gap-1 text-xs font-medium px-2.5 py-1 rounded-lg hover:bg-white/60", style: { color: NAVY8 } }, /* @__PURE__ */ import_react78.default.createElement(RotateCcw, { size: 12 }), " Revenir \xE0 la vue d'ensemble")), /* @__PURE__ */ import_react78.default.createElement("div", { className: "px-4 pb-2.5 -mt-1 text-[11px] flex items-center gap-1.5", style: { color: "#5A6478" } }, boundaryStatus === "loading" && /* @__PURE__ */ import_react78.default.createElement(import_react78.default.Fragment, null, /* @__PURE__ */ import_react78.default.createElement(LoaderCircle, { size: 11, className: "animate-spin" }), " Chargement de la limite administrative (OpenStreetMap)\u2026"), boundaryStatus === "ok" && /* @__PURE__ */ import_react78.default.createElement(import_react78.default.Fragment, null, /* @__PURE__ */ import_react78.default.createElement("span", { className: "w-1.5 h-1.5 rounded-full inline-block", style: { background: "#3E9C6B" } }), " Limite(s) administrative(s) pr\xE9cise(s) affich\xE9e(s)."), boundaryStatus === "partial" && /* @__PURE__ */ import_react78.default.createElement(import_react78.default.Fragment, null, /* @__PURE__ */ import_react78.default.createElement(CircleAlert, { size: 11, className: "text-amber-500" }), " Limite approximative (cercle, 9 km) pour : ", boundaryMissing.join(", "), " \u2014 non recens\xE9e(s) dans OpenStreetMap."), boundaryStatus === "error" && /* @__PURE__ */ import_react78.default.createElement(import_react78.default.Fragment, null, /* @__PURE__ */ import_react78.default.createElement(CircleAlert, { size: 11, className: "text-red-400" }), " Limite pr\xE9cise indisponible \u2014 cercle approximatif (9 km) affich\xE9 \xE0 titre indicatif."))), /* @__PURE__ */ import_react78.default.createElement(Card4, null, /* @__PURE__ */ import_react78.default.createElement("div", { ref: mapExportRef, className: "bg-white" }, /* @__PURE__ */ import_react78.default.createElement("div", { className: "flex items-center justify-between mb-2 px-1" }, /* @__PURE__ */ import_react78.default.createElement("div", null, /* @__PURE__ */ import_react78.default.createElement("p", { className: "font-serif font-semibold text-sm", style: { color: NAVY8 } }, exportTitle), /* @__PURE__ */ import_react78.default.createElement("p", { className: "text-[10px] text-gray-400" }, "AgriHakStat \u2014 DDAEP-Borgou \xB7 ", (/* @__PURE__ */ new Date()).toLocaleDateString("fr-FR", { day: "2-digit", month: "long", year: "numeric" }), showSuivi && ` \xB7 Indicateur : ${indicateurLabel}`)), showSuivi && /* @__PURE__ */ import_react78.default.createElement("div", { className: "flex items-center gap-2 text-[10px] text-gray-500" }, /* @__PURE__ */ import_react78.default.createElement("span", { className: "flex items-center gap-1" }, /* @__PURE__ */ import_react78.default.createElement("span", { className: "w-2.5 h-2.5 rounded-full inline-block", style: { background: "#3E9C6B" } }), "Satisfaisant"), /* @__PURE__ */ import_react78.default.createElement("span", { className: "flex items-center gap-1" }, /* @__PURE__ */ import_react78.default.createElement("span", { className: "w-2.5 h-2.5 rounded-full inline-block", style: { background: "#E3A23B" } }), "Mod\xE9r\xE9"), /* @__PURE__ */ import_react78.default.createElement("span", { className: "flex items-center gap-1" }, /* @__PURE__ */ import_react78.default.createElement("span", { className: "w-2.5 h-2.5 rounded-full inline-block", style: { background: "#C1573F" } }), "Critique"))), /* @__PURE__ */ import_react78.default.createElement("div", { ref: mapDivRef, className: "rounded-xl overflow-hidden border border-gray-100", style: { height: 520, width: "100%" } })), /* @__PURE__ */ import_react78.default.createElement("p", { className: "text-[10px] text-gray-400 italic mt-2" }, "D\xE9filement \xE0 la molette ou pincement pour zoomer, cliquer-glisser pour d\xE9placer \u2014 depuis la vue mondiale jusqu'\xE0 l'\xE9chelle communale. Fond \xAB Satellite \xBB : imagerie r\xE9elle utilis\xE9e comme approximation visuelle (et non une classification scientifique d'occupation du sol) ; pour une classification effective, activer la couche \xAB Couverture du sol (v\xE9g\xE9tation) \xBB \u2014 ESA WorldCover 2021, 10 m de r\xE9solution. Cours d'eau et routes : base collaborative OpenStreetMap (Overpass API), charg\xE9s \xE0 partir de l'\xE9chelle sous-r\xE9gionale/communale et actualis\xE9s au d\xE9placement de la carte."))), /* @__PURE__ */ import_react78.default.createElement("div", { className: "space-y-4" }, /* @__PURE__ */ import_react78.default.createElement(Card4, null, /* @__PURE__ */ import_react78.default.createElement("div", { className: "flex items-center gap-2 mb-3" }, /* @__PURE__ */ import_react78.default.createElement(Layers, { size: 16, style: { color: NAVY8 } }), /* @__PURE__ */ import_react78.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY8 } }, "Couches affich\xE9es")), /* @__PURE__ */ import_react78.default.createElement("div", { className: "space-y-2" }, /* @__PURE__ */ import_react78.default.createElement(LayerToggle, { label: "Localit\xE9s / habitats (77 communes)", icon: House, checked: showHabitats, onChange: () => setShowHabitats((v) => !v) }), /* @__PURE__ */ import_react78.default.createElement(LayerToggle, { label: "Cours d'eau", icon: WavesHorizontal, color: "#3592C4", checked: showRivers, onChange: () => setShowRivers((v) => !v), status: riversStatus }), /* @__PURE__ */ import_react78.default.createElement(LayerToggle, { label: "Routes principales", icon: Route, color: "#8A5A00", checked: showRoads, onChange: () => setShowRoads((v) => !v), status: roadsStatus }), /* @__PURE__ */ import_react78.default.createElement(LayerToggle, { label: "Couverture du sol (v\xE9g\xE9tation)", icon: Trees, color: "#3E9C6B", checked: showLandcover, onChange: () => setShowLandcover((v) => !v) }), /* @__PURE__ */ import_react78.default.createElement(LayerToggle, { label: "Suivi agricole interne", icon: Sprout, color: "#3E9C6B", checked: showSuivi, onChange: () => setShowSuivi((v) => !v) }), hasRealGeo && /* @__PURE__ */ import_react78.default.createElement(LayerToggle, { label: `Points d'enqu\xEAte import\xE9s (${realPoints.length})`, icon: MapPin, checked: showSurvey, onChange: () => setShowSurvey((v) => !v) })), (riversStatus === "zoom" || roadsStatus === "zoom") && /* @__PURE__ */ import_react78.default.createElement("p", { className: "text-[11px] text-gray-400 italic mt-2" }, "Zoomez sur la zone souhait\xE9e (\xE9chelle sous-r\xE9gionale ou communale) pour charger les cours d'eau/routes."), (riversStatus === "empty" || roadsStatus === "empty") && /* @__PURE__ */ import_react78.default.createElement("p", { className: "text-[11px] text-gray-400 italic mt-2" }, "Aucun tron\xE7on r\xE9f\xE9renc\xE9 par OpenStreetMap dans cette emprise \u2014 d\xE9placez ou d\xE9zoomez l\xE9g\xE8rement la carte."), (riversStatus === "error" || roadsStatus === "error") && /* @__PURE__ */ import_react78.default.createElement("p", { className: "text-[11px] mt-2", style: { color: "#B3413A" } }, "Le service cartographique communautaire (OpenStreetMap/Overpass) est temporairement indisponible \u2014 r\xE9essayez dans quelques instants.")), /* @__PURE__ */ import_react78.default.createElement(Card4, null, /* @__PURE__ */ import_react78.default.createElement("div", { className: "flex items-center gap-2 mb-3" }, /* @__PURE__ */ import_react78.default.createElement(Funnel, { size: 16, style: { color: NAVY8 } }), /* @__PURE__ */ import_react78.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY8 } }, "Indicateur du suivi agricole")), /* @__PURE__ */ import_react78.default.createElement(
       "select",
       {
         value: indicateur,

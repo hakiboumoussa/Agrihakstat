@@ -173,6 +173,74 @@ async function fetchOverpassWays(kind, bounds, signal) {
   return data.elements || [];
 }
 
+// Interroge les limites administratives (communes) auprès d'Overpass, pour un ou plusieurs noms
+// de commune à la fois (voir api/geo-proxy.js, kind=boundary).
+async function fetchCommuneBoundaries(names, signal) {
+  const url = `/api/geo-proxy?kind=boundary&names=${encodeURIComponent(names.join(";"))}`;
+  const res = await fetch(url, { signal });
+  let data;
+  try { data = await res.json(); } catch { data = null; }
+  if (!res.ok || !data) throw new Error((data && data.error) || `Le service a répondu avec le code ${res.status}.`);
+  if (data.error) throw new Error(data.error);
+  return data.elements || [];
+}
+
+const RING_EPS = 1e-7;
+const pointsEqual = (a, b) => Math.abs(a[0] - b[0]) < RING_EPS && Math.abs(a[1] - b[1]) < RING_EPS;
+
+// Reconstitue un ou plusieurs anneaux fermés à partir de tronçons de way disjoints (membres
+// « outer » d'une relation de limite administrative OpenStreetMap) : les tronçons partagent des
+// nœuds aux extrémités communes (mêmes coordonnées), qu'on assemble bout à bout jusqu'à fermeture.
+// Méthode standard de reconstruction de multipolygone à partir d'arcs OSM.
+function stitchRings(segments) {
+  const remaining = segments.filter((s) => s && s.length >= 2).map((s) => s.slice());
+  const rings = [];
+  while (remaining.length) {
+    let ring = remaining.shift();
+    let guard = 0;
+    while (guard < 500) {
+      guard += 1;
+      const start = ring[0], end = ring[ring.length - 1];
+      if (ring.length > 2 && pointsEqual(start, end)) break;
+      let foundIdx = -1, reverse = false;
+      for (let i = 0; i < remaining.length; i += 1) {
+        const seg = remaining[i];
+        if (pointsEqual(seg[0], end)) { foundIdx = i; reverse = false; break; }
+        if (pointsEqual(seg[seg.length - 1], end)) { foundIdx = i; reverse = true; break; }
+      }
+      if (foundIdx === -1) break;
+      let seg = remaining.splice(foundIdx, 1)[0];
+      if (reverse) seg = seg.slice().reverse();
+      ring = ring.concat(seg.slice(1));
+    }
+    if (ring.length >= 3) rings.push(ring);
+  }
+  return rings;
+}
+
+// Choisit, parmi les relations OSM partageant le même nom (une commune et une localité/un
+// arrondissement homonymes existent souvent en même temps), celle qui correspond le mieux à la
+// commune administrative : on préfère les niveaux admin_level habituellement utilisés pour les
+// communes en Afrique de l'Ouest sur OpenStreetMap (4 ou 6), puis, à égalité, la géométrie
+// couvrant la plus grande superficie (la commune englobe ses localités).
+function pickBestBoundaryRelation(relations) {
+  if (relations.length <= 1) return relations[0] || null;
+  const score = (rel) => {
+    const level = Number(rel.tags && rel.tags.admin_level);
+    const levelScore = level === 4 || level === 6 ? 2 : level === 3 || level === 5 ? 1 : 0;
+    const memberCount = (rel.members || []).length;
+    return levelScore * 1000 + memberCount;
+  };
+  return relations.slice().sort((a, b) => score(b) - score(a))[0];
+}
+
+function relationToRings(rel) {
+  const outerSegments = (rel.members || [])
+    .filter((m) => m.type === "way" && m.role !== "inner" && m.geometry && m.geometry.length >= 2)
+    .map((m) => m.geometry.map((pt) => [pt.lat, pt.lon]));
+  return stitchRings(outerSegments);
+}
+
 export default function Cartographie({ active, onNavigate, userEmail, roleLabel, isAdmin, isGuest, onLogout, onOpenAdmin, dataset }) {
   const [baseLayerKey, setBaseLayerKey] = useState("osm");
   const [showRivers, setShowRivers] = useState(false);
@@ -277,14 +345,16 @@ export default function Cartographie({ active, onNavigate, userEmail, roleLabel,
   const baseTileRef = useRef(null);
   const landcoverTileRef = useRef(null);
   const groupsRef = useRef({});
-  const overpassAbortRef = useRef({ rivers: null, roads: null });
+  const overpassAbortRef = useRef({ rivers: null, roads: null, boundary: null });
+  const [boundaryStatus, setBoundaryStatus] = useState(null); // null | loading | ok | partial | error
+  const [boundaryMissing, setBoundaryMissing] = useState([]);
 
   useEffect(() => {
     if (mapRef.current || !mapDivRef.current) return;
     const map = L.map(mapDivRef.current, { center: [9.5, 2.3], zoom: 7, minZoom: 2, maxZoom: 19, worldCopyJump: true });
     mapRef.current = map;
     groupsRef.current = {
-      rivers: L.layerGroup(), roads: L.layerGroup(),
+      rivers: L.layerGroup(), roads: L.layerGroup(), boundaries: L.layerGroup(),
       habitats: L.layerGroup(), suivi: L.layerGroup(), survey: L.layerGroup(),
     };
     return () => { map.remove(); mapRef.current = null; };
@@ -365,8 +435,9 @@ export default function Cartographie({ active, onNavigate, userEmail, roleLabel,
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showSuivi, indicateur, extractionActive, extractionSelection]);
 
-  // Recadrage automatique de la carte lors de l'activation/mise à jour d'une extraction :
-  // une seule commune → zoom communal centré ; un groupe → ajustement sur l'emprise du groupe.
+  // Recadrage immédiat de la carte lors de l'activation/mise à jour d'une extraction, sur la
+  // seule base du point de la (des) commune(s) — vue provisoire affichée sans attendre le réseau ;
+  // affinée dès que la géométrie exacte de la limite administrative est connue (effet suivant).
   useEffect(() => {
     const map = mapRef.current; if (!map) return;
     if (!extractionActive || extractionSelection.length === 0) return;
@@ -377,6 +448,73 @@ export default function Cartographie({ active, onNavigate, userEmail, roleLabel,
     } else {
       map.fitBounds(L.latLngBounds(coords.map((c) => [c.lat, c.lon])), { padding: [50, 50], maxZoom: 12 });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [extractionActive, extractionSelection]);
+
+  // Couche « Limite administrative » — délimitation réelle (polygone) de la ou des communes
+  // isolées par extraction, tracée à partir des limites OpenStreetMap (voir fetchCommuneBoundaries
+  // / stitchRings ci-dessus). Sans cette couche, la sélection n'était matérialisée que par un point
+  // coloré, sans indication claire de l'étendue réelle de la commune. À défaut de limite trouvée
+  // dans OpenStreetMap pour une commune donnée, un cercle pointillé approximatif (rayon 9 km,
+  // convention purement indicative) prend le relais et l'utilisateur en est informé explicitement.
+  useEffect(() => {
+    const map = mapRef.current; if (!map) return;
+    const group = groupsRef.current.boundaries;
+    group.clearLayers();
+    if (!extractionActive || extractionSelection.length === 0) {
+      setBoundaryStatus(null);
+      setBoundaryMissing([]);
+      if (map.hasLayer(group)) map.removeLayer(group);
+      return;
+    }
+    group.addTo(map);
+    if (overpassAbortRef.current.boundary) overpassAbortRef.current.boundary.abort();
+    const controller = new AbortController();
+    overpassAbortRef.current.boundary = controller;
+    setBoundaryStatus("loading");
+    const selection = extractionSelection;
+
+    (async () => {
+      try {
+        const relations = await fetchCommuneBoundaries(selection, controller.signal);
+        group.clearLayers();
+        const byName = {};
+        relations.forEach((rel) => {
+          const nm = rel.tags && rel.tags.name;
+          if (!nm || !selection.includes(nm)) return;
+          (byName[nm] = byName[nm] || []).push(rel);
+        });
+        const missing = [];
+        let allLatLngs = [];
+        selection.forEach((name) => {
+          const best = pickBestBoundaryRelation(byName[name] || []);
+          const rings = best ? relationToRings(best) : [];
+          if (rings.length > 0) {
+            L.polygon(rings, { color: NAVY, weight: 2.5, fillColor: NAVY, fillOpacity: 0.08 })
+              .bindTooltip(`Limite administrative — ${name}`, { sticky: true })
+              .addTo(group);
+            rings.forEach((r) => { allLatLngs = allLatLngs.concat(r); });
+          } else {
+            missing.push(name);
+            const coords = COMMUNE_COORDS[name];
+            if (coords) {
+              L.circle([coords.lat, coords.lon], { radius: 9000, color: "#8A93A8", weight: 2, dashArray: "6 5", fillColor: "#8A93A8", fillOpacity: 0.06 })
+                .bindTooltip(`${name} — limite précise indisponible dans OpenStreetMap (cercle indicatif, rayon 9 km)`, { sticky: true })
+                .addTo(group);
+              allLatLngs.push([coords.lat + 0.08, coords.lon], [coords.lat - 0.08, coords.lon], [coords.lat, coords.lon + 0.08], [coords.lat, coords.lon - 0.08]);
+            }
+          }
+        });
+        group.eachLayer((l) => l.bringToBack());
+        setBoundaryMissing(missing);
+        setBoundaryStatus(missing.length === 0 ? "ok" : missing.length === selection.length ? "error" : "partial");
+        if (allLatLngs.length > 0) {
+          map.fitBounds(L.latLngBounds(allLatLngs), { padding: [50, 50], maxZoom: selection.length === 1 ? 13 : 12 });
+        }
+      } catch (err) {
+        if (err.name !== "AbortError") setBoundaryStatus("error");
+      }
+    })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [extractionActive, extractionSelection]);
 
@@ -503,14 +641,22 @@ export default function Cartographie({ active, onNavigate, userEmail, roleLabel,
               </div>
 
               {extractionActive && extractionSelection.length > 0 && (
-                <div className="flex items-center justify-between mb-3 px-4 py-2.5 rounded-xl" style={{ background: "#EBEEF7", border: `1px solid ${NAVY}` }}>
-                  <div className="flex items-center gap-2 text-sm font-medium" style={{ color: NAVY }}>
-                    <Crosshair size={15} />
-                    Extraction active — {exportTitle}
+                <div className="mb-3 rounded-xl" style={{ background: "#EBEEF7", border: `1px solid ${NAVY}` }}>
+                  <div className="flex items-center justify-between px-4 py-2.5">
+                    <div className="flex items-center gap-2 text-sm font-medium" style={{ color: NAVY }}>
+                      <Crosshair size={15} />
+                      Extraction active — {exportTitle}
+                    </div>
+                    <button onClick={resetExtraction} className="flex items-center gap-1 text-xs font-medium px-2.5 py-1 rounded-lg hover:bg-white/60" style={{ color: NAVY }}>
+                      <RotateCcw size={12} /> Revenir à la vue d'ensemble
+                    </button>
                   </div>
-                  <button onClick={resetExtraction} className="flex items-center gap-1 text-xs font-medium px-2.5 py-1 rounded-lg hover:bg-white/60" style={{ color: NAVY }}>
-                    <RotateCcw size={12} /> Revenir à la vue d'ensemble
-                  </button>
+                  <div className="px-4 pb-2.5 -mt-1 text-[11px] flex items-center gap-1.5" style={{ color: "#5A6478" }}>
+                    {boundaryStatus === "loading" && (<><Loader2 size={11} className="animate-spin" /> Chargement de la limite administrative (OpenStreetMap)…</>)}
+                    {boundaryStatus === "ok" && (<><span className="w-1.5 h-1.5 rounded-full inline-block" style={{ background: "#3E9C6B" }} /> Limite(s) administrative(s) précise(s) affichée(s).</>)}
+                    {boundaryStatus === "partial" && (<><AlertCircle size={11} className="text-amber-500" /> Limite approximative (cercle, 9 km) pour : {boundaryMissing.join(", ")} — non recensée(s) dans OpenStreetMap.</>)}
+                    {boundaryStatus === "error" && (<><AlertCircle size={11} className="text-red-400" /> Limite précise indisponible — cercle approximatif (9 km) affiché à titre indicatif.</>)}
+                  </div>
                 </div>
               )}
 
