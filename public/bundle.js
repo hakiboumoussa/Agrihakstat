@@ -124244,46 +124244,86 @@ ${suffix2}`;
 
   // src/agroClimate.js
   var RAIN_DAY_THRESHOLD_MM = 5;
+  var SOIL_TEXTURE_TABLE = {
+    sableux: { label: "Sableux", awcMm: 21 },
+    sablo_limoneux: { label: "Sablo-limoneux", awcMm: 71 },
+    limono_sableux: { label: "Limono-sableux (d\xE9faut Borgou)", awcMm: 121 },
+    limoneux: { label: "Limoneux", awcMm: 167 },
+    limono_argileux: { label: "Limono-argileux", awcMm: 200 },
+    argileux: { label: "Argileux", awcMm: 150 }
+  };
+  var DEFAULT_SOIL_TEXTURE = "limono_sableux";
   var CROP_KC_TABLE = {
     mais: {
       label: "Ma\xEFs (cycle moyen)",
       duree: { ini: 20, dev: 35, mid: 40, fin: 15 },
-      kc: { ini: 0.3, mid: 1.2, fin: 0.6 }
+      kc: { ini: 0.3, mid: 1.2, fin: 0.6 },
+      zrMax: 1.3,
+      pBase: 0.55
+      // FAO-56 Tableau 22 : « Maize, Field (grain) », Zr 1,0–1,7 m, p = 0,55
     },
     sorgho: {
       label: "Sorgho",
       duree: { ini: 20, dev: 30, mid: 40, fin: 30 },
-      kc: { ini: 0.3, mid: 1.05, fin: 0.55 }
+      kc: { ini: 0.3, mid: 1.05, fin: 0.55 },
+      zrMax: 1.5,
+      pBase: 0.55
+      // FAO-56 Tableau 22 : « Sorghum - grain », Zr 1,0–2,0 m, p = 0,55
     },
     riz_pluvial: {
       label: "Riz pluvial (non irrigu\xE9)",
       duree: { ini: 30, dev: 30, mid: 30, fin: 30 },
-      kc: { ini: 1.05, mid: 1.2, fin: 0.75 }
+      kc: { ini: 1.05, mid: 1.2, fin: 0.75 },
+      // FAO-56 Tableau 22 donne Zr 0,5–1,0 m pour le riz, mais p = 0,20 y est explicitement défini
+      // « of saturation » pour le riz inondé (submergé en permanence) — non pertinent ici puisqu'il
+      // s'agit de riz PLUVIAL non irrigué, cultivé à même le régime de pluie sans lame d'eau
+      // maintenue. On retient donc une fraction de tarissement usuelle de céréale pluviale (p = 0,50)
+      // plutôt que la valeur « riz irrigué » du tableau, qui sous-estimerait fortement le stress.
+      zrMax: 0.75,
+      pBase: 0.5
     },
     niebe: {
       label: "Ni\xE9b\xE9 (cycle court)",
       duree: { ini: 15, dev: 20, mid: 30, fin: 20 },
-      kc: { ini: 0.4, mid: 1.05, fin: 0.55 }
+      kc: { ini: 0.4, mid: 1.05, fin: 0.55 },
+      zrMax: 0.75,
+      pBase: 0.45
+      // FAO-56 Tableau 22 : « Beans, dry and Pulses », Zr 0,6–0,9 m, p = 0,45
     },
     soja: {
       label: "Soja",
       duree: { ini: 20, dev: 30, mid: 45, fin: 25 },
-      kc: { ini: 0.4, mid: 1.15, fin: 0.5 }
+      kc: { ini: 0.4, mid: 1.15, fin: 0.5 },
+      zrMax: 0.95,
+      pBase: 0.5
+      // FAO-56 Tableau 22 : « Soybeans », Zr 0,6–1,3 m, p = 0,50
     },
     coton: {
       label: "Coton",
       duree: { ini: 30, dev: 50, mid: 60, fin: 30 },
-      kc: { ini: 0.35, mid: 1.18, fin: 0.65 }
+      kc: { ini: 0.35, mid: 1.18, fin: 0.65 },
+      zrMax: 1.35,
+      pBase: 0.65
+      // FAO-56 Tableau 22 : « Cotton », Zr 1,0–1,7 m, p = 0,65
     },
     arachide: {
       label: "Arachide",
       duree: { ini: 25, dev: 35, mid: 45, fin: 25 },
-      kc: { ini: 0.4, mid: 1.08, fin: 0.55 }
+      kc: { ini: 0.4, mid: 1.08, fin: 0.55 },
+      zrMax: 0.75,
+      pBase: 0.5
+      // FAO-56 Tableau 22 : « Groundnut (Peanut) », Zr 0,5–1,0 m, p = 0,50
     },
     manioc: {
       label: "Manioc (cycle long, valeurs indicatives)",
       duree: { ini: 60, dev: 60, mid: 120, fin: 60 },
-      kc: { ini: 0.3, mid: 0.9, fin: 0.5 }
+      kc: { ini: 0.3, mid: 0.9, fin: 0.5 },
+      // Le manioc n'est pas répertorié au Tableau 22 de la FAO-56. Zr et p sont estimés à partir de
+      // la littérature agronomique sur l'enracinement du manioc (système racinaire principalement
+      // concentré entre 0,3 et 1,0 m, plante réputée relativement tolérante au déficit hydrique) —
+      // valeurs à recaler par calibration locale si possible.
+      zrMax: 0.8,
+      pBase: 0.55
     }
   };
   function kcForDay(crop, dayIndex) {
@@ -124320,6 +124360,18 @@ ${suffix2}`;
   function cropCycleLength(crop) {
     return crop.duree.ini + crop.duree.dev + crop.duree.mid + crop.duree.fin;
   }
+  function rootDepthForDay(crop, dayIndex) {
+    const { duree, zrMax } = crop;
+    const zrMin = Math.min(0.15, zrMax * 0.25);
+    const tIni = duree.ini;
+    const tDev = tIni + duree.dev;
+    if (dayIndex <= tIni) return zrMin;
+    if (dayIndex <= tDev) {
+      const frac = (dayIndex - tIni) / duree.dev;
+      return zrMin + frac * (zrMax - zrMin);
+    }
+    return zrMax;
+  }
   function computeWaterBalance(daily) {
     let cumulNonBorne = 0;
     let cumulBorne = 0;
@@ -124330,14 +124382,16 @@ ${suffix2}`;
       return { ...d, bilanJour, bilanCumule: cumulNonBorne, reserveEstimee: cumulBorne };
     });
   }
-  function computeCropWaterSatisfaction(daily, cropKey, sowingDateISO) {
+  function computeCropWaterSatisfaction(daily, cropKey, sowingDateISO, textureKey = DEFAULT_SOIL_TEXTURE) {
     const crop = CROP_KC_TABLE[cropKey];
+    const texture = SOIL_TEXTURE_TABLE[textureKey] || SOIL_TEXTURE_TABLE[DEFAULT_SOIL_TEXTURE];
     if (!crop || !sowingDateISO) return null;
     const sowing = new Date(sowingDateISO);
     const cycleLength = cropCycleLength(crop);
     const byDate = new Map(daily.map((d) => [d.dateISO, d]));
     const decades = [];
     let current2 = null;
+    let drPrev = 0;
     for (let dayIndex = 0; dayIndex <= cycleLength; dayIndex++) {
       const date2 = new Date(sowing);
       date2.setDate(date2.getDate() + dayIndex);
@@ -124349,6 +124403,16 @@ ${suffix2}`;
       const et0 = d?.et0 ?? null;
       const pluie = d?.pluie ?? null;
       const etc = et0 !== null ? kc * et0 : null;
+      const zr = rootDepthForDay(crop, dayIndex);
+      const taw = texture.awcMm * zr;
+      const pAdj = etc !== null ? Math.min(0.8, Math.max(0.1, crop.pBase + 0.04 * (5 - etc))) : crop.pBase;
+      const raw = pAdj * taw;
+      const ks = drPrev <= raw ? 1 : Math.max(0, (taw - drPrev) / Math.max(1e-6, taw - raw));
+      const etcAdj = etc !== null ? ks * etc : null;
+      let dr = drPrev - (pluie ?? 0) + (etcAdj ?? 0);
+      dr = Math.min(taw, Math.max(0, dr));
+      const eauDisponible = taw - dr;
+      drPrev = dr;
       const decadeIndex = Math.floor(dayIndex / 10);
       if (!current2 || current2.decadeIndex !== decadeIndex) {
         current2 = {
@@ -124359,40 +124423,57 @@ ${suffix2}`;
           pluieCumul: 0,
           etcCumul: 0,
           joursManquants: 0,
-          nJours: 0
+          nJours: 0,
+          ksSum: 0,
+          taw: 0,
+          raw: 0,
+          eauDisponible: 0,
+          dr: 0
         };
         decades.push(current2);
       }
       current2.dateFin = dateISO;
       current2.nJours += 1;
+      current2.ksSum += ks;
+      current2.taw = taw;
+      current2.raw = raw;
+      current2.eauDisponible = eauDisponible;
+      current2.dr = dr;
       if (pluie !== null) current2.pluieCumul += pluie;
       if (etc !== null) current2.etcCumul += etc;
       else current2.joursManquants += 1;
     }
     const decadesResult = decades.filter((dec2) => dec2.etcCumul > 0 || dec2.pluieCumul > 0).map((dec2) => {
       const ise = dec2.etcCumul > 0 ? dec2.pluieCumul / dec2.etcCumul : null;
+      const ksMoyen = dec2.nJours > 0 ? dec2.ksSum / dec2.nJours : null;
       let statut = "Donn\xE9es insuffisantes";
-      if (ise !== null) {
-        if (ise >= 1) statut = "Besoins satisfaits";
-        else if (ise >= 0.5) statut = "Stress mod\xE9r\xE9";
+      if (ksMoyen !== null && dec2.joursManquants < dec2.nJours) {
+        if (ksMoyen >= 0.9) statut = "Besoins satisfaits";
+        else if (ksMoyen >= 0.5) statut = "Stress mod\xE9r\xE9";
         else statut = "Stress s\xE9v\xE8re";
       }
-      return { ...dec2, ise, statut };
+      return { ...dec2, ise, ksMoyen, statut };
     });
     const totalEtc = decadesResult.reduce((s2, d) => s2 + (d.etcCumul || 0), 0);
     const totalPluie = decadesResult.reduce((s2, d) => s2 + (d.pluieCumul || 0), 0);
     const dateFinCycle = new Date(sowing);
     dateFinCycle.setDate(dateFinCycle.getDate() + cycleLength);
+    const derniereDecade = decadesResult[decadesResult.length - 1] || null;
     return {
       crop: crop.label,
       cycleLength,
       sowingDateISO,
       dateFinCycleISO: dateFinCycle.toISOString().slice(0, 10),
+      texture: texture.label,
       decades: decadesResult,
       totalEtc,
       totalPluie,
       iseGlobal: totalEtc > 0 ? totalPluie / totalEtc : null,
-      periodesStress: decadesResult.filter((d) => d.ise !== null && d.ise < 1)
+      // Statut hydrique courant de la zone racinaire, à la dernière décade calculée
+      eauDisponibleActuelle: derniereDecade?.eauDisponible ?? null,
+      tawActuelle: derniereDecade?.taw ?? null,
+      ksActuel: derniereDecade?.ksMoyen ?? null,
+      periodesStress: decadesResult.filter((d) => d.statut === "Stress mod\xE9r\xE9" || d.statut === "Stress s\xE9v\xE8re")
     };
   }
   function detectDrySpells(daily, threshold2 = RAIN_DAY_THRESHOLD_MM, minLength = 7) {
@@ -124516,6 +124597,43 @@ ${suffix2}`;
     const s2 = map2[statut] || map2["Donn\xE9es insuffisantes"];
     return /* @__PURE__ */ import_react84.default.createElement("span", { className: "text-[10px] font-semibold px-2 py-0.5 rounded-full", style: { background: s2.bg, color: s2.color } }, statut);
   }
+  function zoneDescription(communes, departements) {
+    const nC = communes.length;
+    const communesTxt = communes.length <= 3 ? communes.join(", ") : `${communes.slice(0, 3).join(", ")} et ${communes.length - 3} autre(s)`;
+    return `la zone couvrant ${nC} commune${nC > 1 ? "s" : ""} (${communesTxt}) du/des d\xE9partement${departements.length > 1 ? "s" : ""} ${departements.join(", ")}`;
+  }
+  function AnalysisNote({ children }) {
+    return /* @__PURE__ */ import_react84.default.createElement("div", { className: "mt-3 rounded-xl p-3 flex items-start gap-2.5", style: { background: NAVY_TINT3 } }, /* @__PURE__ */ import_react84.default.createElement(Info, { size: 14, className: "mt-0.5 shrink-0", style: { color: NAVY14 } }), /* @__PURE__ */ import_react84.default.createElement("p", { className: "text-xs leading-relaxed", style: { color: "#3A4562" } }, children));
+  }
+  function analysePluieTemp(result, zoneTxt) {
+    const tauxJoursPluie = result.n > 0 ? result.joursPluie / result.n : 0;
+    const regularite = tauxJoursPluie >= 0.35 ? "une fr\xE9quence de jours pluvieux relativement r\xE9guli\xE8re" : tauxJoursPluie >= 0.2 ? "une fr\xE9quence de jours pluvieux mod\xE9r\xE9e" : "une fr\xE9quence de jours pluvieux faible, traduisant une pluviom\xE9trie concentr\xE9e sur peu d'\xE9v\xE9nements";
+    const decisionTemp = result.tMaxAbs >= 38 ? " Les pics de temp\xE9rature maximale relev\xE9s (\u2265 38 \xB0C) exposent les cultures sensibles \xE0 un stress thermique lors des phases critiques (floraison, remplissage) : privil\xE9gier, sur cette zone, des vari\xE9t\xE9s tol\xE9rantes \xE0 la chaleur et un paillage limitant l'\xE9vaporation." : "";
+    return `Sur ${zoneTxt}, le cumul pluviom\xE9trique observ\xE9 (${result.cumulPluie.toFixed(0)} mm sur ${result.n} jours) s'accompagne de ${regularite} (${result.joursPluie} jour(s) > ${RAIN_DAY_THRESHOLD_MM} mm).${decisionTemp} D\xE9cision op\xE9rationnelle : ajuster le calendrier des interventions culturales (semis, apports d'intrants) aux communes de la zone les mieux pourvues en jours pluvieux plut\xF4t qu'\xE0 la moyenne de zone, qui peut masquer des disparit\xE9s locales entre communes s\xE9lectionn\xE9es.`;
+  }
+  function analyseOmbrothermique(monthlyData, zoneTxt) {
+    const moisSecs = monthlyData.filter((m) => (m.pluie || 0) < 2 * (m.tmoyenne || 0));
+    const partSecs = monthlyData.length > 0 ? moisSecs.length / monthlyData.length : 0;
+    const listeMois = moisSecs.map((m) => m.periode).join(", ");
+    return `Selon la convention de Gaussen, ${moisSecs.length} mois sur ${monthlyData.length} sont class\xE9s secs sur ${zoneTxt}${moisSecs.length > 0 ? ` (${listeMois})` : ""}. ${partSecs >= 0.5 ? "La saison s\xE8che domine largement la p\xE9riode observ\xE9e : d\xE9cision \u2014 concentrer les semis pluviaux sur la fen\xEAtre humide restante et r\xE9server les mois secs identifi\xE9s aux cultures irrigu\xE9es ou aux activit\xE9s hors culture (stockage, transformation)." : "La p\xE9riode comporte une alternance de mois secs et humides : d\xE9cision \u2014 caler les semis en dehors des mois secs identifi\xE9s afin d'\xE9viter un d\xE9ficit hydrique en phase d'installation de la culture."}`;
+  }
+  function analyseBilanHydrique(result, zoneTxt) {
+    if (result.bilanNet === null) return null;
+    const excedent = result.bilanNet >= 0;
+    return `Le bilan hydrique s\xE9quentiel (pluie \u2212 ET0) cumul\xE9 sur ${zoneTxt} atteint ${excedent ? "+" : ""}${result.bilanNet.toFixed(1)} mm sur la p\xE9riode. ${excedent ? "Cet exc\xE9dent traduit des apports pluviom\xE9triques sup\xE9rieurs \xE0 la demande \xE9vaporatoire cumul\xE9e : d\xE9cision \u2014 surveiller les risques d'exc\xE8s d'eau (engorgement, lessivage des intrants) sur les parcelles mal drain\xE9es de la zone plut\xF4t qu'un d\xE9ficit." : "Ce d\xE9ficit traduit une demande \xE9vaporatoire sup\xE9rieure aux apports pluviom\xE9triques cumul\xE9s sur la p\xE9riode : d\xE9cision \u2014 anticiper un besoin d'irrigation d'appoint ou de report des op\xE9rations culturales sensibles \xE0 l'eau (semis, repiquage) sur les communes de la zone les moins arros\xE9es."} Ce bilan reste un indicateur atmosph\xE9rique global (sans r\xE9serve utile du sol) \u2014 se r\xE9f\xE9rer \xE0 l'analyse par culture ci-dessous pour une estimation de l'eau r\xE9ellement disponible aux racines.`;
+  }
+  function analyseSequencesSeches(drySpellsRecalc, drySpellMinLength, zoneTxt) {
+    if (!drySpellsRecalc || drySpellsRecalc.significant.length === 0) {
+      return `Aucune s\xE9quence s\xE8che d'au moins ${drySpellMinLength} jours cons\xE9cutifs n'a \xE9t\xE9 d\xE9tect\xE9e sur ${zoneTxt} pour la p\xE9riode affich\xE9e : d\xE9cision \u2014 la r\xE9gularit\xE9 pluviom\xE9trique observ\xE9e ne justifie pas de mesure corrective particuli\xE8re sur ce plan, sous r\xE9serve de confirmation par les relev\xE9s de terrain (pluviom\xE8tres communaux).`;
+    }
+    return `${drySpellsRecalc.countSignificant} s\xE9quence(s) s\xE8che(s) significative(s) ont \xE9t\xE9 d\xE9tect\xE9es sur ${zoneTxt}, la plus longue s'\xE9tendant sur ${drySpellsRecalc.longest?.length} jours cons\xE9cutifs (${drySpellsRecalc.longest?.start} \u2192 ${drySpellsRecalc.longest?.end}). D\xE9cision op\xE9rationnelle : si cette s\xE9quence recoupe une phase sensible du cycle cultural (lev\xE9e, floraison, remplissage), recommander aux producteurs de la zone un semis diff\xE9r\xE9 apr\xE8s confirmation de l'installation des pluies, ou la mobilisation de techniques de conservation de l'eau (paillage, za\xEF, demi-lunes) sur les communes les plus expos\xE9es.`;
+  }
+  function analyseCultureEau(cropAnalysis, zoneTxt) {
+    const ratioActuel = cropAnalysis.tawActuelle > 0 ? cropAnalysis.eauDisponibleActuelle / cropAnalysis.tawActuelle : null;
+    const nStress = cropAnalysis.periodesStress.length;
+    const decisionActuelle = ratioActuel !== null ? ratioActuel < 0.3 ? " La r\xE9serve en eau actuellement disponible dans la zone racinaire est proche de l'\xE9puisement (moins de 30 % de la r\xE9serve utile) : d\xE9cision \u2014 une irrigation d'appoint est recommand\xE9e dans les meilleurs d\xE9lais si l'irrigation est possible, sinon surveiller \xE9troitement les sympt\xF4mes de fl\xE9trissement sur les parcelles de la zone." : ratioActuel < 0.6 ? " La r\xE9serve en eau disponible se situe \xE0 un niveau interm\xE9diaire : d\xE9cision \u2014 maintenir une surveillance rapproch\xE9e et pr\xE9voir une irrigation d'appoint si aucune pluie utile n'intervient sous 5 \xE0 7 jours." : " La r\xE9serve en eau disponible demeure confortable \xE0 la date d'analyse : d\xE9cision \u2014 aucune intervention hydrique urgente n'est n\xE9cessaire sur cette zone pour la culture s\xE9lectionn\xE9e." : "";
+    return `Pour la culture s\xE9lectionn\xE9e sur ${zoneTxt}, avec un sol de texture \xAB ${cropAnalysis.texture} \xBB (hypoth\xE8se par d\xE9faut, \xE0 confirmer localement), ${nStress} d\xE9cade(s) sur ${cropAnalysis.decades.length} pr\xE9sentent un coefficient de stress hydrique Ks inf\xE9rieur \xE0 0,9 (m\xE9thode FAO-56).${decisionActuelle} Cette estimation d\xE9pend directement de la texture de sol retenue : une v\xE9rification p\xE9dologique locale (sondage \xE0 la tari\xE8re, texture au toucher) est recommand\xE9e avant toute d\xE9cision d'irrigation engageant des co\xFBts significatifs.`;
+  }
   function Climate({ active, onNavigate, userEmail, roleLabel, isAdmin, isGuest, onLogout, onOpenAdmin }) {
     const defaults = defaultDates();
     const [departements, setDepartements] = (0, import_react84.useState)(["Borgou"]);
@@ -124530,6 +124648,7 @@ ${suffix2}`;
     const [cropKey, setCropKey] = (0, import_react84.useState)("mais");
     const [sowingDate, setSowingDate] = (0, import_react84.useState)("");
     const [drySpellMinLength, setDrySpellMinLength] = (0, import_react84.useState)(7);
+    const [soilTexture, setSoilTexture] = (0, import_react84.useState)(DEFAULT_SOIL_TEXTURE);
     const toggleDepartement = (dep) => {
       setDepartements((prev) => {
         const next = prev.includes(dep) ? prev.filter((d) => d !== dep) : [...prev, dep];
@@ -124635,12 +124754,13 @@ ${suffix2}`;
     }, [monthlyData]);
     const cropAnalysis = (0, import_react84.useMemo)(() => {
       if (!result || !sowingDate || !cropKey) return null;
-      return computeCropWaterSatisfaction(result.daily, cropKey, sowingDate);
-    }, [result, sowingDate, cropKey]);
+      return computeCropWaterSatisfaction(result.daily, cropKey, sowingDate, soilTexture);
+    }, [result, sowingDate, cropKey, soilTexture]);
     const drySpellsRecalc = (0, import_react84.useMemo)(() => {
       if (!result) return null;
       return detectDrySpells(result.daily, RAIN_DAY_THRESHOLD_MM, Number(drySpellMinLength) || 7);
     }, [result, drySpellMinLength]);
+    const zoneTxt = (0, import_react84.useMemo)(() => zoneDescription(communes, departements), [communes, departements]);
     const pluieChartRef = (0, import_react84.useRef)(null);
     const tempChartRef = (0, import_react84.useRef)(null);
     const ombroChartRef = (0, import_react84.useRef)(null);
@@ -124748,7 +124868,7 @@ ${suffix2}`;
         style: view === k2 ? { background: NAVY14, color: "white" } : { background: "#F1F2F6", color: "#5A6478" }
       },
       l
-    )))), /* @__PURE__ */ import_react84.default.createElement("div", { className: "grid grid-cols-2 gap-4" }, /* @__PURE__ */ import_react84.default.createElement("div", null, /* @__PURE__ */ import_react84.default.createElement("div", { className: "flex items-center justify-between mb-2" }, /* @__PURE__ */ import_react84.default.createElement("p", { className: "text-xs text-gray-400" }, view === "jour" ? "Pluie journali\xE8re (mm)" : `Pluie cumul\xE9e par ${view} (mm)`), /* @__PURE__ */ import_react84.default.createElement(ChartExportButton, { targetRef: pluieChartRef, filename: `Pluie_${view}_${communes.join("-")}` })), /* @__PURE__ */ import_react84.default.createElement("div", { ref: pluieChartRef }, /* @__PURE__ */ import_react84.default.createElement(ResponsiveContainer, { width: "100%", height: 220 }, /* @__PURE__ */ import_react84.default.createElement(BarChart, { data: periodData }, /* @__PURE__ */ import_react84.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react84.default.createElement(XAxis, { dataKey: periodKey, tick: { fontSize: 10 }, interval: view === "jour" ? Math.ceil((periodData?.length || 1) / 8) : 0 }), /* @__PURE__ */ import_react84.default.createElement(YAxis, { tick: { fontSize: 11 }, unit: " mm", width: 50 }), /* @__PURE__ */ import_react84.default.createElement(Tooltip, null), /* @__PURE__ */ import_react84.default.createElement(Bar, { dataKey: "pluie", fill: "#3592C4", radius: [3, 3, 0, 0], name: "Pluie (mm)" }))))), /* @__PURE__ */ import_react84.default.createElement("div", null, /* @__PURE__ */ import_react84.default.createElement("div", { className: "flex items-center justify-between mb-2" }, /* @__PURE__ */ import_react84.default.createElement("p", { className: "text-xs text-gray-400" }, view === "jour" ? "Temp\xE9ratures journali\xE8res (\xB0C)" : `Temp\xE9rature moyenne par ${view} (\xB0C)`), /* @__PURE__ */ import_react84.default.createElement(ChartExportButton, { targetRef: tempChartRef, filename: `Temperatures_${view}_${communes.join("-")}` })), /* @__PURE__ */ import_react84.default.createElement("div", { ref: tempChartRef }, /* @__PURE__ */ import_react84.default.createElement(ResponsiveContainer, { width: "100%", height: 220 }, view === "jour" ? /* @__PURE__ */ import_react84.default.createElement(LineChart, { data: periodData }, /* @__PURE__ */ import_react84.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react84.default.createElement(XAxis, { dataKey: "date", tick: { fontSize: 10 }, interval: Math.ceil((periodData?.length || 1) / 8) }), /* @__PURE__ */ import_react84.default.createElement(YAxis, { tick: { fontSize: 11 }, unit: "\xB0C", width: 45 }), /* @__PURE__ */ import_react84.default.createElement(Tooltip, null), /* @__PURE__ */ import_react84.default.createElement(Line, { type: "monotone", dataKey: "tmax", stroke: RED, strokeWidth: 2, dot: false, name: "T\xB0 max" }), /* @__PURE__ */ import_react84.default.createElement(Line, { type: "monotone", dataKey: "tmin", stroke: "#3592C4", strokeWidth: 2, dot: false, name: "T\xB0 min" })) : /* @__PURE__ */ import_react84.default.createElement(LineChart, { data: periodData }, /* @__PURE__ */ import_react84.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react84.default.createElement(XAxis, { dataKey: "periode", tick: { fontSize: 10 } }), /* @__PURE__ */ import_react84.default.createElement(YAxis, { tick: { fontSize: 11 }, unit: "\xB0C", width: 45 }), /* @__PURE__ */ import_react84.default.createElement(Tooltip, null), /* @__PURE__ */ import_react84.default.createElement(Line, { type: "monotone", dataKey: "tmoyenne", stroke: RED, strokeWidth: 2, dot: true, name: "T\xB0 moyenne" }))))))), /* @__PURE__ */ import_react84.default.createElement(Card6, { className: "mb-5" }, /* @__PURE__ */ import_react84.default.createElement("div", { className: "flex items-center justify-between mb-1" }, /* @__PURE__ */ import_react84.default.createElement("div", { className: "flex items-center gap-2" }, /* @__PURE__ */ import_react84.default.createElement(Sun, { size: 16, style: { color: GOLD13 } }), /* @__PURE__ */ import_react84.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY14 } }, "Diagramme ombrothermique (Gaussen)")), /* @__PURE__ */ import_react84.default.createElement(ChartExportButton, { targetRef: ombroChartRef, filename: `Diagramme_ombrothermique_${communes.join("-")}` })), /* @__PURE__ */ import_react84.default.createElement("p", { className: "text-xs text-gray-400 mb-3" }, "Convention de Gaussen : un mois est consid\xE9r\xE9 sec lorsque le cumul pluviom\xE9trique (mm) descend sous le double de la temp\xE9rature moyenne (\xB0C) \u2014 zone gris\xE9e sur le graphique."), /* @__PURE__ */ import_react84.default.createElement("div", { ref: ombroChartRef }, /* @__PURE__ */ import_react84.default.createElement(ResponsiveContainer, { width: "100%", height: 260 }, /* @__PURE__ */ import_react84.default.createElement(ComposedChart, { data: monthlyData }, /* @__PURE__ */ import_react84.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react84.default.createElement(XAxis, { dataKey: "periode", tick: { fontSize: 11 } }), /* @__PURE__ */ import_react84.default.createElement(YAxis, { yAxisId: "temp", tick: { fontSize: 11 }, unit: "\xB0C", width: 45, domain: [0, ombroMax.temp] }), /* @__PURE__ */ import_react84.default.createElement(YAxis, { yAxisId: "pluie", orientation: "right", tick: { fontSize: 11 }, unit: " mm", width: 50, domain: [0, ombroMax.pluie] }), /* @__PURE__ */ import_react84.default.createElement(Tooltip, null), /* @__PURE__ */ import_react84.default.createElement(Legend, { wrapperStyle: { fontSize: 11 } }), /* @__PURE__ */ import_react84.default.createElement(Bar, { yAxisId: "pluie", dataKey: "pluie", fill: "#A9C7E8", name: "Pluie cumul\xE9e (mm)", radius: [3, 3, 0, 0] }), /* @__PURE__ */ import_react84.default.createElement(Line, { yAxisId: "temp", type: "monotone", dataKey: "tmoyenne", stroke: RED, strokeWidth: 2.5, name: "Temp\xE9rature moyenne (\xB0C)", dot: true }))))), /* @__PURE__ */ import_react84.default.createElement(Card6, { className: "mb-5" }, /* @__PURE__ */ import_react84.default.createElement("div", { className: "flex items-center justify-between mb-1" }, /* @__PURE__ */ import_react84.default.createElement("div", { className: "flex items-center gap-2" }, /* @__PURE__ */ import_react84.default.createElement(WavesHorizontal, { size: 16, style: { color: "#3592C4" } }), /* @__PURE__ */ import_react84.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY14 } }, "Bilan hydrique s\xE9quentiel (P \u2212 ET0)")), result.daily.some((d) => d.et0 !== null) && /* @__PURE__ */ import_react84.default.createElement(ChartExportButton, { targetRef: bilanChartRef, filename: `Bilan_hydrique_${communes.join("-")}` })), /* @__PURE__ */ import_react84.default.createElement("p", { className: "text-xs text-gray-400 mb-3" }, "Bilan cumul\xE9 = somme courante de (pluie \u2212 ET0) depuis le d\xE9but de la p\xE9riode affich\xE9e. Une valeur positive indique un exc\xE9dent hydrique disponible, une valeur n\xE9gative un d\xE9ficit. Estimation simplifi\xE9e, sans prise en compte de la r\xE9serve utile du sol ni du ruissellement."), result.daily.some((d) => d.et0 !== null) ? /* @__PURE__ */ import_react84.default.createElement("div", { ref: bilanChartRef }, /* @__PURE__ */ import_react84.default.createElement(ResponsiveContainer, { width: "100%", height: 220 }, /* @__PURE__ */ import_react84.default.createElement(LineChart, { data: result.daily }, /* @__PURE__ */ import_react84.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react84.default.createElement(XAxis, { dataKey: "date", tick: { fontSize: 10 }, interval: Math.ceil(result.daily.length / 8) }), /* @__PURE__ */ import_react84.default.createElement(YAxis, { tick: { fontSize: 11 }, unit: " mm", width: 55 }), /* @__PURE__ */ import_react84.default.createElement(Tooltip, null), /* @__PURE__ */ import_react84.default.createElement(ReferenceLine, { y: 0, stroke: "#B0B7C6", strokeDasharray: "4 4" }), /* @__PURE__ */ import_react84.default.createElement(Line, { type: "monotone", dataKey: "bilanCumule", stroke: GREEN4, strokeWidth: 2, dot: false, name: "Bilan cumul\xE9 (mm)" })))) : /* @__PURE__ */ import_react84.default.createElement("div", { className: "rounded-xl p-3 text-xs text-gray-400 italic", style: { background: "#F7F8FA" } }, "Le bilan hydrique ne peut pas \xEAtre calcul\xE9 : l'\xE9vapotranspiration de r\xE9f\xE9rence (ET0) n'a pas pu \xEAtre r\xE9cup\xE9r\xE9e pour cette p\xE9riode.")), /* @__PURE__ */ import_react84.default.createElement(Card6, { className: "mb-5" }, /* @__PURE__ */ import_react84.default.createElement("div", { className: "flex items-center justify-between mb-1" }, /* @__PURE__ */ import_react84.default.createElement("div", { className: "flex items-center gap-2" }, /* @__PURE__ */ import_react84.default.createElement(TriangleAlert, { size: 16, style: { color: AMBER3 } }), /* @__PURE__ */ import_react84.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY14 } }, "S\xE9quences s\xE8ches")), /* @__PURE__ */ import_react84.default.createElement("div", { className: "flex items-center gap-2 text-xs text-gray-500" }, "Seuil de signalement :", /* @__PURE__ */ import_react84.default.createElement(
+    )))), /* @__PURE__ */ import_react84.default.createElement("div", { className: "grid grid-cols-2 gap-4" }, /* @__PURE__ */ import_react84.default.createElement("div", null, /* @__PURE__ */ import_react84.default.createElement("div", { className: "flex items-center justify-between mb-2" }, /* @__PURE__ */ import_react84.default.createElement("p", { className: "text-xs text-gray-400" }, view === "jour" ? "Pluie journali\xE8re (mm)" : `Pluie cumul\xE9e par ${view} (mm)`), /* @__PURE__ */ import_react84.default.createElement(ChartExportButton, { targetRef: pluieChartRef, filename: `Pluie_${view}_${communes.join("-")}` })), /* @__PURE__ */ import_react84.default.createElement("div", { ref: pluieChartRef }, /* @__PURE__ */ import_react84.default.createElement(ResponsiveContainer, { width: "100%", height: 220 }, /* @__PURE__ */ import_react84.default.createElement(BarChart, { data: periodData }, /* @__PURE__ */ import_react84.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react84.default.createElement(XAxis, { dataKey: periodKey, tick: { fontSize: 10 }, interval: view === "jour" ? Math.ceil((periodData?.length || 1) / 8) : 0 }), /* @__PURE__ */ import_react84.default.createElement(YAxis, { tick: { fontSize: 11 }, unit: " mm", width: 50 }), /* @__PURE__ */ import_react84.default.createElement(Tooltip, null), /* @__PURE__ */ import_react84.default.createElement(Bar, { dataKey: "pluie", fill: "#3592C4", radius: [3, 3, 0, 0], name: "Pluie (mm)" }))))), /* @__PURE__ */ import_react84.default.createElement("div", null, /* @__PURE__ */ import_react84.default.createElement("div", { className: "flex items-center justify-between mb-2" }, /* @__PURE__ */ import_react84.default.createElement("p", { className: "text-xs text-gray-400" }, view === "jour" ? "Temp\xE9ratures journali\xE8res (\xB0C)" : `Temp\xE9rature moyenne par ${view} (\xB0C)`), /* @__PURE__ */ import_react84.default.createElement(ChartExportButton, { targetRef: tempChartRef, filename: `Temperatures_${view}_${communes.join("-")}` })), /* @__PURE__ */ import_react84.default.createElement("div", { ref: tempChartRef }, /* @__PURE__ */ import_react84.default.createElement(ResponsiveContainer, { width: "100%", height: 220 }, view === "jour" ? /* @__PURE__ */ import_react84.default.createElement(LineChart, { data: periodData }, /* @__PURE__ */ import_react84.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react84.default.createElement(XAxis, { dataKey: "date", tick: { fontSize: 10 }, interval: Math.ceil((periodData?.length || 1) / 8) }), /* @__PURE__ */ import_react84.default.createElement(YAxis, { tick: { fontSize: 11 }, unit: "\xB0C", width: 45 }), /* @__PURE__ */ import_react84.default.createElement(Tooltip, null), /* @__PURE__ */ import_react84.default.createElement(Line, { type: "monotone", dataKey: "tmax", stroke: RED, strokeWidth: 2, dot: false, name: "T\xB0 max" }), /* @__PURE__ */ import_react84.default.createElement(Line, { type: "monotone", dataKey: "tmin", stroke: "#3592C4", strokeWidth: 2, dot: false, name: "T\xB0 min" })) : /* @__PURE__ */ import_react84.default.createElement(LineChart, { data: periodData }, /* @__PURE__ */ import_react84.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react84.default.createElement(XAxis, { dataKey: "periode", tick: { fontSize: 10 } }), /* @__PURE__ */ import_react84.default.createElement(YAxis, { tick: { fontSize: 11 }, unit: "\xB0C", width: 45 }), /* @__PURE__ */ import_react84.default.createElement(Tooltip, null), /* @__PURE__ */ import_react84.default.createElement(Line, { type: "monotone", dataKey: "tmoyenne", stroke: RED, strokeWidth: 2, dot: true, name: "T\xB0 moyenne" })))))), /* @__PURE__ */ import_react84.default.createElement(AnalysisNote, null, analysePluieTemp(result, zoneTxt))), /* @__PURE__ */ import_react84.default.createElement(Card6, { className: "mb-5" }, /* @__PURE__ */ import_react84.default.createElement("div", { className: "flex items-center justify-between mb-1" }, /* @__PURE__ */ import_react84.default.createElement("div", { className: "flex items-center gap-2" }, /* @__PURE__ */ import_react84.default.createElement(Sun, { size: 16, style: { color: GOLD13 } }), /* @__PURE__ */ import_react84.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY14 } }, "Diagramme ombrothermique (Gaussen)")), /* @__PURE__ */ import_react84.default.createElement(ChartExportButton, { targetRef: ombroChartRef, filename: `Diagramme_ombrothermique_${communes.join("-")}` })), /* @__PURE__ */ import_react84.default.createElement("p", { className: "text-xs text-gray-400 mb-3" }, "Convention de Gaussen : un mois est consid\xE9r\xE9 sec lorsque le cumul pluviom\xE9trique (mm) descend sous le double de la temp\xE9rature moyenne (\xB0C) \u2014 zone gris\xE9e sur le graphique."), /* @__PURE__ */ import_react84.default.createElement("div", { ref: ombroChartRef }, /* @__PURE__ */ import_react84.default.createElement(ResponsiveContainer, { width: "100%", height: 260 }, /* @__PURE__ */ import_react84.default.createElement(ComposedChart, { data: monthlyData }, /* @__PURE__ */ import_react84.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react84.default.createElement(XAxis, { dataKey: "periode", tick: { fontSize: 11 } }), /* @__PURE__ */ import_react84.default.createElement(YAxis, { yAxisId: "temp", tick: { fontSize: 11 }, unit: "\xB0C", width: 45, domain: [0, ombroMax.temp] }), /* @__PURE__ */ import_react84.default.createElement(YAxis, { yAxisId: "pluie", orientation: "right", tick: { fontSize: 11 }, unit: " mm", width: 50, domain: [0, ombroMax.pluie] }), /* @__PURE__ */ import_react84.default.createElement(Tooltip, null), /* @__PURE__ */ import_react84.default.createElement(Legend, { wrapperStyle: { fontSize: 11 } }), /* @__PURE__ */ import_react84.default.createElement(Bar, { yAxisId: "pluie", dataKey: "pluie", fill: "#A9C7E8", name: "Pluie cumul\xE9e (mm)", radius: [3, 3, 0, 0] }), /* @__PURE__ */ import_react84.default.createElement(Line, { yAxisId: "temp", type: "monotone", dataKey: "tmoyenne", stroke: RED, strokeWidth: 2.5, name: "Temp\xE9rature moyenne (\xB0C)", dot: true })))), monthlyData.length > 0 && /* @__PURE__ */ import_react84.default.createElement(AnalysisNote, null, analyseOmbrothermique(monthlyData, zoneTxt))), /* @__PURE__ */ import_react84.default.createElement(Card6, { className: "mb-5" }, /* @__PURE__ */ import_react84.default.createElement("div", { className: "flex items-center justify-between mb-1" }, /* @__PURE__ */ import_react84.default.createElement("div", { className: "flex items-center gap-2" }, /* @__PURE__ */ import_react84.default.createElement(WavesHorizontal, { size: 16, style: { color: "#3592C4" } }), /* @__PURE__ */ import_react84.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY14 } }, "Bilan hydrique s\xE9quentiel (P \u2212 ET0)")), result.daily.some((d) => d.et0 !== null) && /* @__PURE__ */ import_react84.default.createElement(ChartExportButton, { targetRef: bilanChartRef, filename: `Bilan_hydrique_${communes.join("-")}` })), /* @__PURE__ */ import_react84.default.createElement("p", { className: "text-xs text-gray-400 mb-3" }, "Bilan cumul\xE9 = somme courante de (pluie \u2212 ET0) depuis le d\xE9but de la p\xE9riode affich\xE9e. Une valeur positive indique un exc\xE9dent hydrique disponible, une valeur n\xE9gative un d\xE9ficit. Estimation simplifi\xE9e, sans prise en compte de la r\xE9serve utile du sol ni du ruissellement."), result.daily.some((d) => d.et0 !== null) ? /* @__PURE__ */ import_react84.default.createElement("div", { ref: bilanChartRef }, /* @__PURE__ */ import_react84.default.createElement(ResponsiveContainer, { width: "100%", height: 220 }, /* @__PURE__ */ import_react84.default.createElement(LineChart, { data: result.daily }, /* @__PURE__ */ import_react84.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react84.default.createElement(XAxis, { dataKey: "date", tick: { fontSize: 10 }, interval: Math.ceil(result.daily.length / 8) }), /* @__PURE__ */ import_react84.default.createElement(YAxis, { tick: { fontSize: 11 }, unit: " mm", width: 55 }), /* @__PURE__ */ import_react84.default.createElement(Tooltip, null), /* @__PURE__ */ import_react84.default.createElement(ReferenceLine, { y: 0, stroke: "#B0B7C6", strokeDasharray: "4 4" }), /* @__PURE__ */ import_react84.default.createElement(Line, { type: "monotone", dataKey: "bilanCumule", stroke: GREEN4, strokeWidth: 2, dot: false, name: "Bilan cumul\xE9 (mm)" })))) : /* @__PURE__ */ import_react84.default.createElement("div", { className: "rounded-xl p-3 text-xs text-gray-400 italic", style: { background: "#F7F8FA" } }, "Le bilan hydrique ne peut pas \xEAtre calcul\xE9 : l'\xE9vapotranspiration de r\xE9f\xE9rence (ET0) n'a pas pu \xEAtre r\xE9cup\xE9r\xE9e pour cette p\xE9riode."), result.daily.some((d) => d.et0 !== null) && /* @__PURE__ */ import_react84.default.createElement(AnalysisNote, null, analyseBilanHydrique(result, zoneTxt))), /* @__PURE__ */ import_react84.default.createElement(Card6, { className: "mb-5" }, /* @__PURE__ */ import_react84.default.createElement("div", { className: "flex items-center justify-between mb-1" }, /* @__PURE__ */ import_react84.default.createElement("div", { className: "flex items-center gap-2" }, /* @__PURE__ */ import_react84.default.createElement(TriangleAlert, { size: 16, style: { color: AMBER3 } }), /* @__PURE__ */ import_react84.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY14 } }, "S\xE9quences s\xE8ches")), /* @__PURE__ */ import_react84.default.createElement("div", { className: "flex items-center gap-2 text-xs text-gray-500" }, "Seuil de signalement :", /* @__PURE__ */ import_react84.default.createElement(
       "input",
       {
         type: "number",
@@ -124758,7 +124878,7 @@ ${suffix2}`;
         onChange: (e) => setDrySpellMinLength(e.target.value),
         className: "w-16 text-xs rounded-lg border border-gray-200 p-1.5 focus:outline-none"
       }
-    ), "jours cons\xE9cutifs sans pluie utile (\u2264 ", RAIN_DAY_THRESHOLD_MM, " mm)")), drySpellsRecalc && drySpellsRecalc.significant.length > 0 ? /* @__PURE__ */ import_react84.default.createElement(import_react84.default.Fragment, null, /* @__PURE__ */ import_react84.default.createElement("p", { className: "text-xs text-gray-500 mb-3" }, drySpellsRecalc.countSignificant, " s\xE9quence", drySpellsRecalc.countSignificant > 1 ? "s" : "", " s\xE8che", drySpellsRecalc.countSignificant > 1 ? "s" : "", " significative", drySpellsRecalc.countSignificant > 1 ? "s" : "", " d\xE9tect\xE9e", drySpellsRecalc.countSignificant > 1 ? "s" : "", " sur la p\xE9riode \u2014 la plus longue dure ", drySpellsRecalc.longest?.length, " jours (", drySpellsRecalc.longest?.start, " \u2192 ", drySpellsRecalc.longest?.end, ")."), /* @__PURE__ */ import_react84.default.createElement("div", { className: "space-y-1.5" }, drySpellsRecalc.significant.slice(0, 8).map((s2, i) => /* @__PURE__ */ import_react84.default.createElement("div", { key: i, className: "flex items-center justify-between rounded-lg px-3 py-2 text-xs", style: { background: AMBER_TINT3 } }, /* @__PURE__ */ import_react84.default.createElement("span", { style: { color: AMBER3 } }, "Du ", s2.start, " au ", s2.end), /* @__PURE__ */ import_react84.default.createElement("span", { className: "font-semibold", style: { color: AMBER3 } }, s2.length, " jours"))))) : /* @__PURE__ */ import_react84.default.createElement("div", { className: "rounded-xl p-3 text-xs text-gray-400 italic", style: { background: "#F7F8FA" } }, "Aucune s\xE9quence s\xE8che d'au moins ", drySpellMinLength, " jours cons\xE9cutifs d\xE9tect\xE9e sur la p\xE9riode.")), /* @__PURE__ */ import_react84.default.createElement(Card6, null, /* @__PURE__ */ import_react84.default.createElement("div", { className: "flex items-center gap-2 mb-1" }, /* @__PURE__ */ import_react84.default.createElement(Sprout, { size: 16, style: { color: GREEN4 } }), /* @__PURE__ */ import_react84.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY14 } }, "Satisfaction des besoins en eau par culture")), /* @__PURE__ */ import_react84.default.createElement("p", { className: "text-xs text-gray-400 mb-3" }, "M\xE9thode des coefficients culturaux (Kc) \u2014 FAO Irrigation and Drainage Paper n\xB056 (Allen et al., 1998), valeurs indicatives pour la zone soudano-guin\xE9enne. ETc = Kc \xD7 ET0 ; indice de satisfaction = pluie d\xE9cadaire / ETc d\xE9cadaire."), /* @__PURE__ */ import_react84.default.createElement("div", { className: "grid grid-cols-3 gap-3 mb-4" }, /* @__PURE__ */ import_react84.default.createElement("div", null, /* @__PURE__ */ import_react84.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Culture"), /* @__PURE__ */ import_react84.default.createElement(
+    ), "jours cons\xE9cutifs sans pluie utile (\u2264 ", RAIN_DAY_THRESHOLD_MM, " mm)")), drySpellsRecalc && drySpellsRecalc.significant.length > 0 ? /* @__PURE__ */ import_react84.default.createElement(import_react84.default.Fragment, null, /* @__PURE__ */ import_react84.default.createElement("p", { className: "text-xs text-gray-500 mb-3" }, drySpellsRecalc.countSignificant, " s\xE9quence", drySpellsRecalc.countSignificant > 1 ? "s" : "", " s\xE8che", drySpellsRecalc.countSignificant > 1 ? "s" : "", " significative", drySpellsRecalc.countSignificant > 1 ? "s" : "", " d\xE9tect\xE9e", drySpellsRecalc.countSignificant > 1 ? "s" : "", " sur la p\xE9riode \u2014 la plus longue dure ", drySpellsRecalc.longest?.length, " jours (", drySpellsRecalc.longest?.start, " \u2192 ", drySpellsRecalc.longest?.end, ")."), /* @__PURE__ */ import_react84.default.createElement("div", { className: "space-y-1.5" }, drySpellsRecalc.significant.slice(0, 8).map((s2, i) => /* @__PURE__ */ import_react84.default.createElement("div", { key: i, className: "flex items-center justify-between rounded-lg px-3 py-2 text-xs", style: { background: AMBER_TINT3 } }, /* @__PURE__ */ import_react84.default.createElement("span", { style: { color: AMBER3 } }, "Du ", s2.start, " au ", s2.end), /* @__PURE__ */ import_react84.default.createElement("span", { className: "font-semibold", style: { color: AMBER3 } }, s2.length, " jours"))))) : /* @__PURE__ */ import_react84.default.createElement("div", { className: "rounded-xl p-3 text-xs text-gray-400 italic", style: { background: "#F7F8FA" } }, "Aucune s\xE9quence s\xE8che d'au moins ", drySpellMinLength, " jours cons\xE9cutifs d\xE9tect\xE9e sur la p\xE9riode."), /* @__PURE__ */ import_react84.default.createElement(AnalysisNote, null, analyseSequencesSeches(drySpellsRecalc, drySpellMinLength, zoneTxt))), /* @__PURE__ */ import_react84.default.createElement(Card6, null, /* @__PURE__ */ import_react84.default.createElement("div", { className: "flex items-center gap-2 mb-1" }, /* @__PURE__ */ import_react84.default.createElement(Sprout, { size: 16, style: { color: GREEN4 } }), /* @__PURE__ */ import_react84.default.createElement("h2", { className: "font-serif font-semibold", style: { color: NAVY14 } }, "Satisfaction des besoins en eau par culture")), /* @__PURE__ */ import_react84.default.createElement("p", { className: "text-xs text-gray-400 mb-3" }, "M\xE9thode des coefficients culturaux (Kc) et bilan hydrique de la zone racinaire \u2014 FAO Irrigation and Drainage Paper n\xB056 (Allen, Pereira, Raes & Smith, 1998, chap. 8). ETc = Kc \xD7 ET0 ; eau disponible = r\xE9serve utile (TAW) \u2212 d\xE9pl\xE9tion (Dr), avec coefficient de stress Ks selon les \xE9quations 82 \xE0 85 de la FAO-56. Indice de satisfaction (ISE) = pluie d\xE9cadaire / ETc d\xE9cadaire, fourni \xE0 titre compl\xE9mentaire."), /* @__PURE__ */ import_react84.default.createElement("div", { className: "grid grid-cols-4 gap-3 mb-4" }, /* @__PURE__ */ import_react84.default.createElement("div", null, /* @__PURE__ */ import_react84.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Culture"), /* @__PURE__ */ import_react84.default.createElement(
       "select",
       {
         value: cropKey,
@@ -124774,7 +124894,15 @@ ${suffix2}`;
         onChange: (e) => setSowingDate(e.target.value),
         className: "w-full text-sm rounded-xl border border-gray-200 p-2.5 focus:outline-none"
       }
-    )), cropAnalysis && /* @__PURE__ */ import_react84.default.createElement("div", { className: "rounded-xl p-3 flex flex-col justify-center", style: { background: NAVY_TINT3 } }, /* @__PURE__ */ import_react84.default.createElement("span", { className: "text-[11px] text-gray-500" }, "Fin de cycle estim\xE9e"), /* @__PURE__ */ import_react84.default.createElement("span", { className: "text-sm font-semibold", style: { color: NAVY14 } }, cropAnalysis.dateFinCycleISO, " (", cropAnalysis.cycleLength, " j)"))), !result.daily.some((d) => d.et0 !== null) ? /* @__PURE__ */ import_react84.default.createElement("div", { className: "rounded-xl p-3 text-xs text-gray-400 italic", style: { background: "#F7F8FA" } }, "L'analyse par culture n\xE9cessite l'\xE9vapotranspiration de r\xE9f\xE9rence (ET0), indisponible pour cette p\xE9riode.") : cropAnalysis && cropAnalysis.decades.length > 0 ? /* @__PURE__ */ import_react84.default.createElement(import_react84.default.Fragment, null, /* @__PURE__ */ import_react84.default.createElement("div", { className: "rounded-xl p-3 mb-4 flex items-center gap-3", style: { background: cropAnalysis.iseGlobal >= 1 ? GREEN_TINT3 : cropAnalysis.iseGlobal >= 0.5 ? AMBER_TINT3 : RED_TINT } }, /* @__PURE__ */ import_react84.default.createElement(Info, { size: 15, style: { color: cropAnalysis.iseGlobal >= 1 ? GREEN4 : cropAnalysis.iseGlobal >= 0.5 ? AMBER3 : RED } }), /* @__PURE__ */ import_react84.default.createElement("p", { className: "text-xs", style: { color: cropAnalysis.iseGlobal >= 1 ? GREEN4 : cropAnalysis.iseGlobal >= 0.5 ? AMBER3 : RED } }, "Sur la portion du cycle couverte par les donn\xE9es disponibles : ", cropAnalysis.totalPluie.toFixed(0), " mm de pluie pour ", cropAnalysis.totalEtc.toFixed(0), " mm de besoins (ETc) \u2014 indice de satisfaction global ", cropAnalysis.iseGlobal !== null ? cropAnalysis.iseGlobal.toFixed(2) : "\u2014", ".", cropAnalysis.periodesStress.length > 0 && ` ${cropAnalysis.periodesStress.length} d\xE9cade(s) en situation de d\xE9ficit hydrique.`)), /* @__PURE__ */ import_react84.default.createElement("div", { className: "overflow-x-auto" }, /* @__PURE__ */ import_react84.default.createElement("table", { className: "text-xs w-full" }, /* @__PURE__ */ import_react84.default.createElement("thead", null, /* @__PURE__ */ import_react84.default.createElement("tr", null, /* @__PURE__ */ import_react84.default.createElement("th", { className: "text-left text-[10px] text-gray-400 uppercase pb-2" }, "P\xE9riode (d\xE9cade)"), /* @__PURE__ */ import_react84.default.createElement("th", { className: "text-left text-[10px] text-gray-400 uppercase pb-2" }, "Stade"), /* @__PURE__ */ import_react84.default.createElement("th", { className: "text-right text-[10px] text-gray-400 uppercase pb-2" }, "Pluie (mm)"), /* @__PURE__ */ import_react84.default.createElement("th", { className: "text-right text-[10px] text-gray-400 uppercase pb-2" }, "ETc (mm)"), /* @__PURE__ */ import_react84.default.createElement("th", { className: "text-right text-[10px] text-gray-400 uppercase pb-2" }, "ISE"), /* @__PURE__ */ import_react84.default.createElement("th", { className: "text-right text-[10px] text-gray-400 uppercase pb-2" }, "Statut"))), /* @__PURE__ */ import_react84.default.createElement("tbody", null, cropAnalysis.decades.map((d, i) => /* @__PURE__ */ import_react84.default.createElement("tr", { key: i, className: "border-t border-gray-50" }, /* @__PURE__ */ import_react84.default.createElement("td", { className: "py-1.5 text-gray-700" }, d.dateDebut, " \u2192 ", d.dateFin), /* @__PURE__ */ import_react84.default.createElement("td", { className: "py-1.5 text-gray-500" }, d.stage), /* @__PURE__ */ import_react84.default.createElement("td", { className: "py-1.5 text-right text-gray-700" }, d.pluieCumul.toFixed(1)), /* @__PURE__ */ import_react84.default.createElement("td", { className: "py-1.5 text-right text-gray-700" }, d.etcCumul.toFixed(1)), /* @__PURE__ */ import_react84.default.createElement("td", { className: "py-1.5 text-right font-mono text-gray-600" }, d.ise !== null ? d.ise.toFixed(2) : "\u2014"), /* @__PURE__ */ import_react84.default.createElement("td", { className: "py-1.5 text-right" }, /* @__PURE__ */ import_react84.default.createElement(StatusPill, { statut: d.statut })))))))) : /* @__PURE__ */ import_react84.default.createElement("div", { className: "rounded-xl p-3 text-xs text-gray-400 italic", style: { background: "#F7F8FA" } }, "Choisissez une date de semis comprise dans (ou proche de) la p\xE9riode import\xE9e pour lancer l'analyse."))), !result && !error && !loading && /* @__PURE__ */ import_react84.default.createElement(Card6, { className: "text-center py-12" }, /* @__PURE__ */ import_react84.default.createElement(MapPin, { size: 32, className: "mx-auto text-gray-300 mb-3" }), /* @__PURE__ */ import_react84.default.createElement("p", { className: "text-sm text-gray-500" }, "Choisissez une ou plusieurs communes et une p\xE9riode, puis cliquez \xAB Afficher \xBB."))))));
+    )), /* @__PURE__ */ import_react84.default.createElement("div", null, /* @__PURE__ */ import_react84.default.createElement("label", { className: "text-xs font-medium text-gray-600 block mb-1.5" }, "Texture du sol"), /* @__PURE__ */ import_react84.default.createElement(
+      "select",
+      {
+        value: soilTexture,
+        onChange: (e) => setSoilTexture(e.target.value),
+        className: "w-full text-sm rounded-xl border border-gray-200 p-2.5 bg-white focus:outline-none"
+      },
+      Object.entries(SOIL_TEXTURE_TABLE).map(([k2, t]) => /* @__PURE__ */ import_react84.default.createElement("option", { key: k2, value: k2 }, t.label))
+    )), cropAnalysis && /* @__PURE__ */ import_react84.default.createElement("div", { className: "rounded-xl p-3 flex flex-col justify-center", style: { background: NAVY_TINT3 } }, /* @__PURE__ */ import_react84.default.createElement("span", { className: "text-[11px] text-gray-500" }, "Fin de cycle estim\xE9e"), /* @__PURE__ */ import_react84.default.createElement("span", { className: "text-sm font-semibold", style: { color: NAVY14 } }, cropAnalysis.dateFinCycleISO, " (", cropAnalysis.cycleLength, " j)"))), !result.daily.some((d) => d.et0 !== null) ? /* @__PURE__ */ import_react84.default.createElement("div", { className: "rounded-xl p-3 text-xs text-gray-400 italic", style: { background: "#F7F8FA" } }, "L'analyse par culture n\xE9cessite l'\xE9vapotranspiration de r\xE9f\xE9rence (ET0), indisponible pour cette p\xE9riode.") : cropAnalysis && cropAnalysis.decades.length > 0 ? /* @__PURE__ */ import_react84.default.createElement(import_react84.default.Fragment, null, /* @__PURE__ */ import_react84.default.createElement("div", { className: "grid grid-cols-3 gap-3 mb-4" }, /* @__PURE__ */ import_react84.default.createElement("div", { className: "rounded-xl p-3", style: { background: NAVY_TINT3 } }, /* @__PURE__ */ import_react84.default.createElement("span", { className: "text-[11px] text-gray-500" }, "R\xE9serve utile (TAW), enracinement actuel"), /* @__PURE__ */ import_react84.default.createElement("div", { className: "text-sm font-semibold", style: { color: NAVY14 } }, cropAnalysis.tawActuelle !== null ? `${cropAnalysis.tawActuelle.toFixed(0)} mm` : "\u2014")), /* @__PURE__ */ import_react84.default.createElement("div", { className: "rounded-xl p-3", style: { background: cropAnalysis.ksActuel >= 0.9 ? GREEN_TINT3 : cropAnalysis.ksActuel >= 0.5 ? AMBER_TINT3 : RED_TINT } }, /* @__PURE__ */ import_react84.default.createElement("span", { className: "text-[11px]", style: { color: cropAnalysis.ksActuel >= 0.9 ? GREEN4 : cropAnalysis.ksActuel >= 0.5 ? AMBER3 : RED } }, "Eau disponible pour la plante (TAW \u2212 Dr)"), /* @__PURE__ */ import_react84.default.createElement("div", { className: "text-sm font-semibold", style: { color: cropAnalysis.ksActuel >= 0.9 ? GREEN4 : cropAnalysis.ksActuel >= 0.5 ? AMBER3 : RED } }, cropAnalysis.eauDisponibleActuelle !== null ? `${cropAnalysis.eauDisponibleActuelle.toFixed(0)} mm` : "\u2014", cropAnalysis.tawActuelle > 0 && ` (${(cropAnalysis.eauDisponibleActuelle / cropAnalysis.tawActuelle * 100).toFixed(0)} % de la TAW)`)), /* @__PURE__ */ import_react84.default.createElement("div", { className: "rounded-xl p-3", style: { background: NAVY_TINT3 } }, /* @__PURE__ */ import_react84.default.createElement("span", { className: "text-[11px] text-gray-500" }, "Coefficient de stress hydrique (Ks)"), /* @__PURE__ */ import_react84.default.createElement("div", { className: "text-sm font-semibold", style: { color: NAVY14 } }, cropAnalysis.ksActuel !== null ? cropAnalysis.ksActuel.toFixed(2) : "\u2014"))), /* @__PURE__ */ import_react84.default.createElement("div", { className: "rounded-xl p-3 mb-4 flex items-center gap-3", style: { background: cropAnalysis.iseGlobal >= 1 ? GREEN_TINT3 : cropAnalysis.iseGlobal >= 0.5 ? AMBER_TINT3 : RED_TINT } }, /* @__PURE__ */ import_react84.default.createElement(Info, { size: 15, style: { color: cropAnalysis.iseGlobal >= 1 ? GREEN4 : cropAnalysis.iseGlobal >= 0.5 ? AMBER3 : RED } }), /* @__PURE__ */ import_react84.default.createElement("p", { className: "text-xs", style: { color: cropAnalysis.iseGlobal >= 1 ? GREEN4 : cropAnalysis.iseGlobal >= 0.5 ? AMBER3 : RED } }, "Sur la portion du cycle couverte par les donn\xE9es disponibles : ", cropAnalysis.totalPluie.toFixed(0), " mm de pluie pour ", cropAnalysis.totalEtc.toFixed(0), " mm de besoins (ETc) \u2014 indice de satisfaction global ", cropAnalysis.iseGlobal !== null ? cropAnalysis.iseGlobal.toFixed(2) : "\u2014", ".", cropAnalysis.periodesStress.length > 0 && ` ${cropAnalysis.periodesStress.length} d\xE9cade(s) en situation de stress hydrique (Ks < 0,9).`)), /* @__PURE__ */ import_react84.default.createElement("div", { className: "overflow-x-auto" }, /* @__PURE__ */ import_react84.default.createElement("table", { className: "text-xs w-full" }, /* @__PURE__ */ import_react84.default.createElement("thead", null, /* @__PURE__ */ import_react84.default.createElement("tr", null, /* @__PURE__ */ import_react84.default.createElement("th", { className: "text-left text-[10px] text-gray-400 uppercase pb-2" }, "P\xE9riode (d\xE9cade)"), /* @__PURE__ */ import_react84.default.createElement("th", { className: "text-left text-[10px] text-gray-400 uppercase pb-2" }, "Stade"), /* @__PURE__ */ import_react84.default.createElement("th", { className: "text-right text-[10px] text-gray-400 uppercase pb-2" }, "Pluie (mm)"), /* @__PURE__ */ import_react84.default.createElement("th", { className: "text-right text-[10px] text-gray-400 uppercase pb-2" }, "ETc (mm)"), /* @__PURE__ */ import_react84.default.createElement("th", { className: "text-right text-[10px] text-gray-400 uppercase pb-2" }, "Eau disponible (mm)"), /* @__PURE__ */ import_react84.default.createElement("th", { className: "text-right text-[10px] text-gray-400 uppercase pb-2" }, "Ks"), /* @__PURE__ */ import_react84.default.createElement("th", { className: "text-right text-[10px] text-gray-400 uppercase pb-2" }, "ISE"), /* @__PURE__ */ import_react84.default.createElement("th", { className: "text-right text-[10px] text-gray-400 uppercase pb-2" }, "Statut"))), /* @__PURE__ */ import_react84.default.createElement("tbody", null, cropAnalysis.decades.map((d, i) => /* @__PURE__ */ import_react84.default.createElement("tr", { key: i, className: "border-t border-gray-50" }, /* @__PURE__ */ import_react84.default.createElement("td", { className: "py-1.5 text-gray-700" }, d.dateDebut, " \u2192 ", d.dateFin), /* @__PURE__ */ import_react84.default.createElement("td", { className: "py-1.5 text-gray-500" }, d.stage), /* @__PURE__ */ import_react84.default.createElement("td", { className: "py-1.5 text-right text-gray-700" }, d.pluieCumul.toFixed(1)), /* @__PURE__ */ import_react84.default.createElement("td", { className: "py-1.5 text-right text-gray-700" }, d.etcCumul.toFixed(1)), /* @__PURE__ */ import_react84.default.createElement("td", { className: "py-1.5 text-right font-mono text-gray-600" }, d.eauDisponible.toFixed(0), " / ", d.taw.toFixed(0)), /* @__PURE__ */ import_react84.default.createElement("td", { className: "py-1.5 text-right font-mono text-gray-600" }, d.ksMoyen !== null ? d.ksMoyen.toFixed(2) : "\u2014"), /* @__PURE__ */ import_react84.default.createElement("td", { className: "py-1.5 text-right font-mono text-gray-600" }, d.ise !== null ? d.ise.toFixed(2) : "\u2014"), /* @__PURE__ */ import_react84.default.createElement("td", { className: "py-1.5 text-right" }, /* @__PURE__ */ import_react84.default.createElement(StatusPill, { statut: d.statut }))))))), /* @__PURE__ */ import_react84.default.createElement(AnalysisNote, null, analyseCultureEau(cropAnalysis, zoneTxt))) : /* @__PURE__ */ import_react84.default.createElement("div", { className: "rounded-xl p-3 text-xs text-gray-400 italic", style: { background: "#F7F8FA" } }, "Choisissez une date de semis comprise dans (ou proche de) la p\xE9riode import\xE9e pour lancer l'analyse."))), !result && !error && !loading && /* @__PURE__ */ import_react84.default.createElement(Card6, { className: "text-center py-12" }, /* @__PURE__ */ import_react84.default.createElement(MapPin, { size: 32, className: "mx-auto text-gray-300 mb-3" }), /* @__PURE__ */ import_react84.default.createElement("p", { className: "text-sm text-gray-500" }, "Choisissez une ou plusieurs communes et une p\xE9riode, puis cliquez \xAB Afficher \xBB."))))));
   }
 
   // src/admin/AdminDashboard.jsx

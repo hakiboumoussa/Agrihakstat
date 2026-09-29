@@ -14,7 +14,7 @@ import { BENIN_DEPARTEMENTS } from "./beninGeo.js";
 import { COMMUNE_COORDS } from "./communeCoords.js";
 import {
   CROP_KC_TABLE, computeWaterBalance, computeCropWaterSatisfaction, detectDrySpells, aggregateByPeriod,
-  RAIN_DAY_THRESHOLD_MM,
+  RAIN_DAY_THRESHOLD_MM, SOIL_TEXTURE_TABLE, DEFAULT_SOIL_TEXTURE,
 } from "./agroClimate.js";
 import { ChartExportButton } from "./chartExport.js";
 
@@ -100,6 +100,67 @@ function StatusPill({ statut }) {
   );
 }
 
+function zoneDescription(communes, departements) {
+  const nC = communes.length;
+  const communesTxt = communes.length <= 3 ? communes.join(", ") : `${communes.slice(0, 3).join(", ")} et ${communes.length - 3} autre(s)`;
+  return `la zone couvrant ${nC} commune${nC > 1 ? "s" : ""} (${communesTxt}) du/des département${departements.length > 1 ? "s" : ""} ${departements.join(", ")}`;
+}
+
+function AnalysisNote({ children }) {
+  return (
+    <div className="mt-3 rounded-xl p-3 flex items-start gap-2.5" style={{ background: NAVY_TINT }}>
+      <Info size={14} className="mt-0.5 shrink-0" style={{ color: NAVY }} />
+      <p className="text-xs leading-relaxed" style={{ color: "#3A4562" }}>{children}</p>
+    </div>
+  );
+}
+
+function analysePluieTemp(result, zoneTxt) {
+  const tauxJoursPluie = result.n > 0 ? result.joursPluie / result.n : 0;
+  const regularite = tauxJoursPluie >= 0.35 ? "une fréquence de jours pluvieux relativement régulière" : tauxJoursPluie >= 0.2 ? "une fréquence de jours pluvieux modérée" : "une fréquence de jours pluvieux faible, traduisant une pluviométrie concentrée sur peu d'événements";
+  const decisionTemp = result.tMaxAbs >= 38
+    ? " Les pics de température maximale relevés (≥ 38 °C) exposent les cultures sensibles à un stress thermique lors des phases critiques (floraison, remplissage) : privilégier, sur cette zone, des variétés tolérantes à la chaleur et un paillage limitant l'évaporation."
+    : "";
+  return `Sur ${zoneTxt}, le cumul pluviométrique observé (${result.cumulPluie.toFixed(0)} mm sur ${result.n} jours) s'accompagne de ${regularite} (${result.joursPluie} jour(s) > ${RAIN_DAY_THRESHOLD_MM} mm).${decisionTemp} Décision opérationnelle : ajuster le calendrier des interventions culturales (semis, apports d'intrants) aux communes de la zone les mieux pourvues en jours pluvieux plutôt qu'à la moyenne de zone, qui peut masquer des disparités locales entre communes sélectionnées.`;
+}
+
+function analyseOmbrothermique(monthlyData, zoneTxt) {
+  const moisSecs = monthlyData.filter((m) => (m.pluie || 0) < 2 * (m.tmoyenne || 0));
+  const partSecs = monthlyData.length > 0 ? moisSecs.length / monthlyData.length : 0;
+  const listeMois = moisSecs.map((m) => m.periode).join(", ");
+  return `Selon la convention de Gaussen, ${moisSecs.length} mois sur ${monthlyData.length} sont classés secs sur ${zoneTxt}${moisSecs.length > 0 ? ` (${listeMois})` : ""}. ${partSecs >= 0.5
+    ? "La saison sèche domine largement la période observée : décision — concentrer les semis pluviaux sur la fenêtre humide restante et réserver les mois secs identifiés aux cultures irriguées ou aux activités hors culture (stockage, transformation)."
+    : "La période comporte une alternance de mois secs et humides : décision — caler les semis en dehors des mois secs identifiés afin d'éviter un déficit hydrique en phase d'installation de la culture."}`;
+}
+
+function analyseBilanHydrique(result, zoneTxt) {
+  if (result.bilanNet === null) return null;
+  const excedent = result.bilanNet >= 0;
+  return `Le bilan hydrique séquentiel (pluie − ET0) cumulé sur ${zoneTxt} atteint ${excedent ? "+" : ""}${result.bilanNet.toFixed(1)} mm sur la période. ${excedent
+    ? "Cet excédent traduit des apports pluviométriques supérieurs à la demande évaporatoire cumulée : décision — surveiller les risques d'excès d'eau (engorgement, lessivage des intrants) sur les parcelles mal drainées de la zone plutôt qu'un déficit."
+    : "Ce déficit traduit une demande évaporatoire supérieure aux apports pluviométriques cumulés sur la période : décision — anticiper un besoin d'irrigation d'appoint ou de report des opérations culturales sensibles à l'eau (semis, repiquage) sur les communes de la zone les moins arrosées."} Ce bilan reste un indicateur atmosphérique global (sans réserve utile du sol) — se référer à l'analyse par culture ci-dessous pour une estimation de l'eau réellement disponible aux racines.`;
+}
+
+function analyseSequencesSeches(drySpellsRecalc, drySpellMinLength, zoneTxt) {
+  if (!drySpellsRecalc || drySpellsRecalc.significant.length === 0) {
+    return `Aucune séquence sèche d'au moins ${drySpellMinLength} jours consécutifs n'a été détectée sur ${zoneTxt} pour la période affichée : décision — la régularité pluviométrique observée ne justifie pas de mesure corrective particulière sur ce plan, sous réserve de confirmation par les relevés de terrain (pluviomètres communaux).`;
+  }
+  return `${drySpellsRecalc.countSignificant} séquence(s) sèche(s) significative(s) ont été détectées sur ${zoneTxt}, la plus longue s'étendant sur ${drySpellsRecalc.longest?.length} jours consécutifs (${drySpellsRecalc.longest?.start} → ${drySpellsRecalc.longest?.end}). Décision opérationnelle : si cette séquence recoupe une phase sensible du cycle cultural (levée, floraison, remplissage), recommander aux producteurs de la zone un semis différé après confirmation de l'installation des pluies, ou la mobilisation de techniques de conservation de l'eau (paillage, zaï, demi-lunes) sur les communes les plus exposées.`;
+}
+
+function analyseCultureEau(cropAnalysis, zoneTxt) {
+  const ratioActuel = cropAnalysis.tawActuelle > 0 ? cropAnalysis.eauDisponibleActuelle / cropAnalysis.tawActuelle : null;
+  const nStress = cropAnalysis.periodesStress.length;
+  const decisionActuelle = ratioActuel !== null
+    ? (ratioActuel < 0.3
+      ? " La réserve en eau actuellement disponible dans la zone racinaire est proche de l'épuisement (moins de 30 % de la réserve utile) : décision — une irrigation d'appoint est recommandée dans les meilleurs délais si l'irrigation est possible, sinon surveiller étroitement les symptômes de flétrissement sur les parcelles de la zone."
+      : ratioActuel < 0.6
+        ? " La réserve en eau disponible se situe à un niveau intermédiaire : décision — maintenir une surveillance rapprochée et prévoir une irrigation d'appoint si aucune pluie utile n'intervient sous 5 à 7 jours."
+        : " La réserve en eau disponible demeure confortable à la date d'analyse : décision — aucune intervention hydrique urgente n'est nécessaire sur cette zone pour la culture sélectionnée.")
+    : "";
+  return `Pour la culture sélectionnée sur ${zoneTxt}, avec un sol de texture « ${cropAnalysis.texture} » (hypothèse par défaut, à confirmer localement), ${nStress} décade(s) sur ${cropAnalysis.decades.length} présentent un coefficient de stress hydrique Ks inférieur à 0,9 (méthode FAO-56).${decisionActuelle} Cette estimation dépend directement de la texture de sol retenue : une vérification pédologique locale (sondage à la tarière, texture au toucher) est recommandée avant toute décision d'irrigation engageant des coûts significatifs.`;
+}
+
 export default function Climate({ active, onNavigate, userEmail, roleLabel, isAdmin, isGuest, onLogout, onOpenAdmin }) {
   const defaults = defaultDates();
   const [departements, setDepartements] = useState(["Borgou"]);
@@ -114,6 +175,7 @@ export default function Climate({ active, onNavigate, userEmail, roleLabel, isAd
   const [cropKey, setCropKey] = useState("mais");
   const [sowingDate, setSowingDate] = useState("");
   const [drySpellMinLength, setDrySpellMinLength] = useState(7);
+  const [soilTexture, setSoilTexture] = useState(DEFAULT_SOIL_TEXTURE);
 
   const toggleDepartement = (dep) => {
     setDepartements((prev) => {
@@ -233,13 +295,15 @@ export default function Climate({ active, onNavigate, userEmail, roleLabel, isAd
 
   const cropAnalysis = useMemo(() => {
     if (!result || !sowingDate || !cropKey) return null;
-    return computeCropWaterSatisfaction(result.daily, cropKey, sowingDate);
-  }, [result, sowingDate, cropKey]);
+    return computeCropWaterSatisfaction(result.daily, cropKey, sowingDate, soilTexture);
+  }, [result, sowingDate, cropKey, soilTexture]);
 
   const drySpellsRecalc = useMemo(() => {
     if (!result) return null;
     return detectDrySpells(result.daily, RAIN_DAY_THRESHOLD_MM, Number(drySpellMinLength) || 7);
   }, [result, drySpellMinLength]);
+
+  const zoneTxt = useMemo(() => zoneDescription(communes, departements), [communes, departements]);
 
   const pluieChartRef = useRef(null);
   const tempChartRef = useRef(null);
@@ -489,6 +553,7 @@ export default function Climate({ active, onNavigate, userEmail, roleLabel, isAd
                       </div>
                     </div>
                   </div>
+                  <AnalysisNote>{analysePluieTemp(result, zoneTxt)}</AnalysisNote>
                 </Card>
 
                 {/* Diagramme ombrothermique */}
@@ -517,6 +582,7 @@ export default function Climate({ active, onNavigate, userEmail, roleLabel, isAd
                       </ComposedChart>
                     </ResponsiveContainer>
                   </div>
+                  {monthlyData.length > 0 && <AnalysisNote>{analyseOmbrothermique(monthlyData, zoneTxt)}</AnalysisNote>}
                 </Card>
 
                 {/* Bilan hydrique */}
@@ -551,6 +617,7 @@ export default function Climate({ active, onNavigate, userEmail, roleLabel, isAd
                       Le bilan hydrique ne peut pas être calculé : l'évapotranspiration de référence (ET0) n'a pas pu être récupérée pour cette période.
                     </div>
                   )}
+                  {result.daily.some((d) => d.et0 !== null) && <AnalysisNote>{analyseBilanHydrique(result, zoneTxt)}</AnalysisNote>}
                 </Card>
 
                 {/* Séquences sèches */}
@@ -587,6 +654,7 @@ export default function Climate({ active, onNavigate, userEmail, roleLabel, isAd
                       Aucune séquence sèche d'au moins {drySpellMinLength} jours consécutifs détectée sur la période.
                     </div>
                   )}
+                  <AnalysisNote>{analyseSequencesSeches(drySpellsRecalc, drySpellMinLength, zoneTxt)}</AnalysisNote>
                 </Card>
 
                 {/* Analyse par culture */}
@@ -596,9 +664,9 @@ export default function Climate({ active, onNavigate, userEmail, roleLabel, isAd
                     <h2 className="font-serif font-semibold" style={{ color: NAVY }}>Satisfaction des besoins en eau par culture</h2>
                   </div>
                   <p className="text-xs text-gray-400 mb-3">
-                    Méthode des coefficients culturaux (Kc) — FAO Irrigation and Drainage Paper n°56 (Allen et al., 1998), valeurs indicatives pour la zone soudano-guinéenne. ETc = Kc × ET0 ; indice de satisfaction = pluie décadaire / ETc décadaire.
+                    Méthode des coefficients culturaux (Kc) et bilan hydrique de la zone racinaire — FAO Irrigation and Drainage Paper n°56 (Allen, Pereira, Raes &amp; Smith, 1998, chap. 8). ETc = Kc × ET0 ; eau disponible = réserve utile (TAW) − déplétion (Dr), avec coefficient de stress Ks selon les équations 82 à 85 de la FAO-56. Indice de satisfaction (ISE) = pluie décadaire / ETc décadaire, fourni à titre complémentaire.
                   </p>
-                  <div className="grid grid-cols-3 gap-3 mb-4">
+                  <div className="grid grid-cols-4 gap-3 mb-4">
                     <div>
                       <label className="text-xs font-medium text-gray-600 block mb-1.5">Culture</label>
                       <select value={cropKey} onChange={(e) => setCropKey(e.target.value)}
@@ -610,6 +678,13 @@ export default function Climate({ active, onNavigate, userEmail, roleLabel, isAd
                       <label className="text-xs font-medium text-gray-600 block mb-1.5">Date de semis</label>
                       <input type="date" value={sowingDate} onChange={(e) => setSowingDate(e.target.value)}
                         className="w-full text-sm rounded-xl border border-gray-200 p-2.5 focus:outline-none" />
+                    </div>
+                    <div>
+                      <label className="text-xs font-medium text-gray-600 block mb-1.5">Texture du sol</label>
+                      <select value={soilTexture} onChange={(e) => setSoilTexture(e.target.value)}
+                        className="w-full text-sm rounded-xl border border-gray-200 p-2.5 bg-white focus:outline-none">
+                        {Object.entries(SOIL_TEXTURE_TABLE).map(([k, t]) => <option key={k} value={k}>{t.label}</option>)}
+                      </select>
                     </div>
                     {cropAnalysis && (
                       <div className="rounded-xl p-3 flex flex-col justify-center" style={{ background: NAVY_TINT }}>
@@ -625,11 +700,28 @@ export default function Climate({ active, onNavigate, userEmail, roleLabel, isAd
                     </div>
                   ) : cropAnalysis && cropAnalysis.decades.length > 0 ? (
                     <>
+                      <div className="grid grid-cols-3 gap-3 mb-4">
+                        <div className="rounded-xl p-3" style={{ background: NAVY_TINT }}>
+                          <span className="text-[11px] text-gray-500">Réserve utile (TAW), enracinement actuel</span>
+                          <div className="text-sm font-semibold" style={{ color: NAVY }}>{cropAnalysis.tawActuelle !== null ? `${cropAnalysis.tawActuelle.toFixed(0)} mm` : "—"}</div>
+                        </div>
+                        <div className="rounded-xl p-3" style={{ background: cropAnalysis.ksActuel >= 0.9 ? GREEN_TINT : cropAnalysis.ksActuel >= 0.5 ? AMBER_TINT : RED_TINT }}>
+                          <span className="text-[11px]" style={{ color: cropAnalysis.ksActuel >= 0.9 ? GREEN : cropAnalysis.ksActuel >= 0.5 ? AMBER : RED }}>Eau disponible pour la plante (TAW − Dr)</span>
+                          <div className="text-sm font-semibold" style={{ color: cropAnalysis.ksActuel >= 0.9 ? GREEN : cropAnalysis.ksActuel >= 0.5 ? AMBER : RED }}>
+                            {cropAnalysis.eauDisponibleActuelle !== null ? `${cropAnalysis.eauDisponibleActuelle.toFixed(0)} mm` : "—"}
+                            {cropAnalysis.tawActuelle > 0 && ` (${((cropAnalysis.eauDisponibleActuelle / cropAnalysis.tawActuelle) * 100).toFixed(0)} % de la TAW)`}
+                          </div>
+                        </div>
+                        <div className="rounded-xl p-3" style={{ background: NAVY_TINT }}>
+                          <span className="text-[11px] text-gray-500">Coefficient de stress hydrique (Ks)</span>
+                          <div className="text-sm font-semibold" style={{ color: NAVY }}>{cropAnalysis.ksActuel !== null ? cropAnalysis.ksActuel.toFixed(2) : "—"}</div>
+                        </div>
+                      </div>
                       <div className="rounded-xl p-3 mb-4 flex items-center gap-3" style={{ background: cropAnalysis.iseGlobal >= 1 ? GREEN_TINT : cropAnalysis.iseGlobal >= 0.5 ? AMBER_TINT : RED_TINT }}>
                         <Info size={15} style={{ color: cropAnalysis.iseGlobal >= 1 ? GREEN : cropAnalysis.iseGlobal >= 0.5 ? AMBER : RED }} />
                         <p className="text-xs" style={{ color: cropAnalysis.iseGlobal >= 1 ? GREEN : cropAnalysis.iseGlobal >= 0.5 ? AMBER : RED }}>
                           Sur la portion du cycle couverte par les données disponibles : {cropAnalysis.totalPluie.toFixed(0)} mm de pluie pour {cropAnalysis.totalEtc.toFixed(0)} mm de besoins (ETc) — indice de satisfaction global {cropAnalysis.iseGlobal !== null ? cropAnalysis.iseGlobal.toFixed(2) : "—"}.
-                          {cropAnalysis.periodesStress.length > 0 && ` ${cropAnalysis.periodesStress.length} décade(s) en situation de déficit hydrique.`}
+                          {cropAnalysis.periodesStress.length > 0 && ` ${cropAnalysis.periodesStress.length} décade(s) en situation de stress hydrique (Ks < 0,9).`}
                         </p>
                       </div>
                       <div className="overflow-x-auto">
@@ -640,6 +732,8 @@ export default function Climate({ active, onNavigate, userEmail, roleLabel, isAd
                               <th className="text-left text-[10px] text-gray-400 uppercase pb-2">Stade</th>
                               <th className="text-right text-[10px] text-gray-400 uppercase pb-2">Pluie (mm)</th>
                               <th className="text-right text-[10px] text-gray-400 uppercase pb-2">ETc (mm)</th>
+                              <th className="text-right text-[10px] text-gray-400 uppercase pb-2">Eau disponible (mm)</th>
+                              <th className="text-right text-[10px] text-gray-400 uppercase pb-2">Ks</th>
                               <th className="text-right text-[10px] text-gray-400 uppercase pb-2">ISE</th>
                               <th className="text-right text-[10px] text-gray-400 uppercase pb-2">Statut</th>
                             </tr>
@@ -651,6 +745,8 @@ export default function Climate({ active, onNavigate, userEmail, roleLabel, isAd
                                 <td className="py-1.5 text-gray-500">{d.stage}</td>
                                 <td className="py-1.5 text-right text-gray-700">{d.pluieCumul.toFixed(1)}</td>
                                 <td className="py-1.5 text-right text-gray-700">{d.etcCumul.toFixed(1)}</td>
+                                <td className="py-1.5 text-right font-mono text-gray-600">{d.eauDisponible.toFixed(0)} / {d.taw.toFixed(0)}</td>
+                                <td className="py-1.5 text-right font-mono text-gray-600">{d.ksMoyen !== null ? d.ksMoyen.toFixed(2) : "—"}</td>
                                 <td className="py-1.5 text-right font-mono text-gray-600">{d.ise !== null ? d.ise.toFixed(2) : "—"}</td>
                                 <td className="py-1.5 text-right"><StatusPill statut={d.statut} /></td>
                               </tr>
@@ -658,6 +754,7 @@ export default function Climate({ active, onNavigate, userEmail, roleLabel, isAd
                           </tbody>
                         </table>
                       </div>
+                      <AnalysisNote>{analyseCultureEau(cropAnalysis, zoneTxt)}</AnalysisNote>
                     </>
                   ) : (
                     <div className="rounded-xl p-3 text-xs text-gray-400 italic" style={{ background: "#F7F8FA" }}>
