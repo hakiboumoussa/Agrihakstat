@@ -13,6 +13,19 @@
 const SUBDOMAINS = ["a", "b", "c"];
 const pick = () => SUBDOMAINS[Math.floor(Math.random() * SUBDOMAINS.length)];
 
+// Conversion tuile XYZ (Web Mercator) → emprise géographique (WGS84), nécessaire pour interroger
+// un service WMS (GetMap) tuile par tuile avec la même convention z/x/y que les fournisseurs
+// raster classiques. Référence : https://en.wikipedia.org/wiki/Web_Mercator_projection
+function tileToBBox(z, x, y) {
+  const n = Math.pow(2, Number(z));
+  const lonMin = (Number(x) / n) * 360 - 180;
+  const lonMax = ((Number(x) + 1) / n) * 360 - 180;
+  const latOf = (yTile) => (Math.atan(Math.sinh(Math.PI * (1 - (2 * yTile) / n))) * 180) / Math.PI;
+  const latMax = latOf(Number(y));
+  const latMin = latOf(Number(y) + 1);
+  return { lonMin, lonMax, latMin, latMax };
+}
+
 const PROVIDERS = {
   clair: { host: () => "maps.wikimedia.org", path: (z, x, y) => `/osm-intl/${z}/${x}/${y}.png` },
   osm: { host: () => `${pick()}.tile.openstreetmap.org`, path: (z, x, y) => `/${z}/${x}/${y}.png` },
@@ -21,6 +34,24 @@ const PROVIDERS = {
     path: (z, x, y) => `/ArcGIS/rest/services/World_Imagery/MapServer/tile/${z}/${y}/${x}`,
   },
   relief: { host: () => `${pick()}.tile.opentopomap.org`, path: (z, x, y) => `/${z}/${x}/${y}.png` },
+  // Couverture du sol / végétation : ESA WorldCover 2021 (10 m, 11 classes dont cultures, forêt,
+  // savane/prairie, zones bâties, plans d'eau...), service WMS public de VITO/Terrascope, sans
+  // clé d'API. Chaque tuile XYZ est traduite en une requête WMS GetMap classique (BBOX en
+  // WGS84/EPSG:4326) via tileToBBox ci-dessus. Source : https://esa-worldcover.org/
+  landcover: {
+    wms: true,
+    build: (z, x, y) => {
+      const { lonMin, lonMax, latMin, latMax } = tileToBBox(z, x, y);
+      const params = new URLSearchParams({
+        SERVICE: "WMS", VERSION: "1.1.1", REQUEST: "GetMap",
+        LAYERS: "WORLDCOVER_2021_MAP", STYLES: "", FORMAT: "image/png",
+        TRANSPARENT: "true", SRS: "EPSG:4326",
+        BBOX: `${lonMin},${latMin},${lonMax},${latMax}`,
+        WIDTH: "256", HEIGHT: "256",
+      });
+      return `https://services.terrascope.be/wms/v2?${params.toString()}`;
+    },
+  },
 };
 
 module.exports = async function handler(req, res) {
@@ -31,7 +62,7 @@ module.exports = async function handler(req, res) {
     return;
   }
 
-  const url = `https://${provider.host()}${provider.path(z, x, y)}`;
+  const url = provider.wms ? provider.build(z, x, y) : `https://${provider.host()}${provider.path(z, x, y)}`;
 
   try {
     const upstream = await fetch(url, {

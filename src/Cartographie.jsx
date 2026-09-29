@@ -4,7 +4,7 @@ import {
   LayoutDashboard, ClipboardList, BarChart3, FileText, Settings, Sprout,
   Bell, ChevronDown, MapPin, Layers, Droplets, Download, FileOutput, Filter,
   Waves, Route as RouteIcon, Home, Satellite, Mountain, Map as MapIcon, Loader2, AlertCircle,
-  Crosshair, Search, X, RotateCcw,
+  Crosshair, Search, X, RotateCcw, Trees,
 } from "lucide-react";
 import UserMenu from "./UserMenu.jsx";
 import Sidebar from "./Sidebar.jsx";
@@ -77,6 +77,24 @@ const BASE_LAYERS = {
   },
 };
 
+// Couche superposable « Couverture du sol / végétation » — classification ESA WorldCover 2021
+// (résolution 10 m, 11 classes : cultures, forêt, savane/prairie, zones bâties, plans d'eau,
+// sol nu, etc.), à la différence du fond « Satellite » qui n'est qu'une image brute. Service WMS
+// public de l'ESA/VITO (Terrascope), sans clé d'API. Source : https://esa-worldcover.org/
+const LANDCOVER_LAYER = {
+  url: "/api/tile-proxy?p=landcover&z={z}&x={x}&y={y}",
+  attribution: '<a href="https://esa-worldcover.org/">ESA WorldCover 2021</a> (10 m) &copy; ESA, produit par VITO — CC BY 4.0',
+  maxZoom: 18,
+};
+
+// Zoom minimal avant d'interroger Overpass : en-deçà, l'emprise visible (échelle nationale ou
+// mondiale) produirait une requête portant sur une zone bien trop vaste, risquant timeout ou
+// volume de données excessif côté client — d'où le seuil à 9 (échelle sous-régionale). La vue
+// initiale de la carte est à zoom 7 (Bénin entier) : sans recadrage automatique, cocher « Cours
+// d'eau »/« Routes » à ce niveau n'affichait donc rien tant que l'utilisateur ne zoomait pas
+// manuellement — les toggles ci-dessous zooment désormais eux-mêmes la carte au seuil requis.
+const MIN_OVERPASS_ZOOM = 9;
+
 function rainColor(mm) {
   if (mm < 65) return "#C99A2E";
   if (mm < 80) return "#8FAECB";
@@ -130,28 +148,28 @@ function LayerToggle({ label, icon: Icon, checked, onChange, status, color }) {
       {status === "loading" && <Loader2 size={13} className="animate-spin text-gray-400" />}
       {status === "error" && <AlertCircle size={13} className="text-red-400" />}
       {status === "zoom" && <span className="text-[10px] text-gray-400 italic">zoomer</span>}
+      {status === "empty" && <span className="text-[10px] text-gray-400 italic">aucune donnée ici</span>}
+      {status === "ok" && <span className="w-1.5 h-1.5 rounded-full inline-block" style={{ background: "#3E9C6B" }} />}
     </label>
   );
 }
 
-// Interroge l'API Overpass (base de données OpenStreetMap) pour les voies d'eau ou les routes
-// principales dans l'emprise actuellement affichée par la carte. « out geom » renvoie directement
-// la géométrie de chaque tronçon, sans étape de conversion GeoJSON supplémentaire.
+// Interroge le proxy /api/geo-proxy (qui relaie l'API Overpass/OpenStreetMap) pour les voies
+// d'eau ou les routes principales dans l'emprise actuellement affichée par la carte. Le passage
+// par notre propre domaine (plutôt qu'un appel direct au navigateur vers overpass-api.de) évite
+// tout blocage CORS silencieux et permet un en-tête User-Agent identifiant l'application,
+// conformément à la politique d'usage équitable d'Overpass — voir api/geo-proxy.js.
 async function fetchOverpassWays(kind, bounds, signal) {
   const s = bounds.getSouth().toFixed(4), w = bounds.getWest().toFixed(4);
   const n = bounds.getNorth().toFixed(4), e = bounds.getEast().toFixed(4);
-  const filter = kind === "rivers"
-    ? 'way["waterway"~"^(river|stream|canal)$"]'
-    : 'way["highway"~"^(motorway|trunk|primary|secondary)$"]';
-  const query = `[out:json][timeout:25];(${filter}(${s},${w},${n},${e});); out geom;`;
-  const res = await fetch("https://overpass-api.de/api/interpreter", {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: "data=" + encodeURIComponent(query),
-    signal,
-  });
-  if (!res.ok) throw new Error(`Overpass a répondu avec le code ${res.status}`);
-  const data = await res.json();
+  const url = `/api/geo-proxy?kind=${kind}&s=${s}&w=${w}&n=${n}&e=${e}`;
+  const res = await fetch(url, { signal });
+  let data;
+  try { data = await res.json(); } catch { data = null; }
+  if (!res.ok || !data) {
+    throw new Error((data && data.error) || `Le service a répondu avec le code ${res.status}.`);
+  }
+  if (data.error) throw new Error(data.error);
   return data.elements || [];
 }
 
@@ -160,6 +178,7 @@ export default function Cartographie({ active, onNavigate, userEmail, roleLabel,
   const [showRivers, setShowRivers] = useState(false);
   const [showRoads, setShowRoads] = useState(false);
   const [showHabitats, setShowHabitats] = useState(true);
+  const [showLandcover, setShowLandcover] = useState(false);
   const [showSuivi, setShowSuivi] = useState(true);
   const [showSurvey, setShowSurvey] = useState(true);
   const [indicateur, setIndicateur] = useState("taux");
@@ -256,6 +275,7 @@ export default function Cartographie({ active, onNavigate, userEmail, roleLabel,
   const mapExportRef = useRef(null);
   const mapRef = useRef(null);
   const baseTileRef = useRef(null);
+  const landcoverTileRef = useRef(null);
   const groupsRef = useRef({});
   const overpassAbortRef = useRef({ rivers: null, roads: null });
 
@@ -279,7 +299,27 @@ export default function Cartographie({ active, onNavigate, userEmail, roleLabel,
     const tile = L.tileLayer(cfg.url, { attribution: cfg.attribution, subdomains: cfg.subdomains, maxZoom: cfg.maxZoom, crossOrigin: true });
     tile.addTo(map);
     baseTileRef.current = tile;
+    // La couche « Couverture du sol » partage le même panneau (tilePane) que le fond de carte ;
+    // comme ce dernier vient d'être réinséré, il faut la ramener au premier plan pour qu'un
+    // changement de fond ne la fasse pas disparaître sous le nouveau fond.
+    if (landcoverTileRef.current) landcoverTileRef.current.bringToFront();
   }, [baseLayerKey]);
+
+  // Couche « Couverture du sol / végétation » (ESA WorldCover, superposée semi-transparente)
+  useEffect(() => {
+    const map = mapRef.current; if (!map) return;
+    if (showLandcover) {
+      if (!landcoverTileRef.current) {
+        landcoverTileRef.current = L.tileLayer(LANDCOVER_LAYER.url, {
+          attribution: LANDCOVER_LAYER.attribution, maxZoom: LANDCOVER_LAYER.maxZoom, opacity: 0.65, crossOrigin: true,
+        });
+      }
+      landcoverTileRef.current.addTo(map);
+      landcoverTileRef.current.bringToFront();
+    } else if (landcoverTileRef.current && map.hasLayer(landcoverTileRef.current)) {
+      map.removeLayer(landcoverTileRef.current);
+    }
+  }, [showLandcover]);
 
   // Couche « Localités / habitats » — référentiel des 77 communes du Bénin
   useEffect(() => {
@@ -367,7 +407,7 @@ export default function Cartographie({ active, onNavigate, userEmail, roleLabel,
     const map = mapRef.current; if (!map) return;
     const setStatus = kind === "rivers" ? setRiversStatus : setRoadsStatus;
     const group = groupsRef.current[kind];
-    if (map.getZoom() < 7) { setStatus("zoom"); return; }
+    if (map.getZoom() < MIN_OVERPASS_ZOOM) { setStatus("zoom"); return; }
     if (overpassAbortRef.current[kind]) overpassAbortRef.current[kind].abort();
     const controller = new AbortController();
     overpassAbortRef.current[kind] = controller;
@@ -376,11 +416,13 @@ export default function Cartographie({ active, onNavigate, userEmail, roleLabel,
       const elements = await fetchOverpassWays(kind, map.getBounds(), controller.signal);
       group.clearLayers();
       const color = kind === "rivers" ? "#3592C4" : "#8A5A00";
+      let drawn = 0;
       elements.forEach((el) => {
         if (!el.geometry || el.geometry.length < 2) return;
         L.polyline(el.geometry.map((pt) => [pt.lat, pt.lon]), { color, weight: kind === "rivers" ? 2 : 1.5, opacity: 0.75 }).addTo(group);
+        drawn += 1;
       });
-      setStatus("ok");
+      setStatus(drawn === 0 ? "empty" : "ok");
     } catch (e) {
       if (e.name !== "AbortError") setStatus("error");
     }
@@ -389,16 +431,24 @@ export default function Cartographie({ active, onNavigate, userEmail, roleLabel,
   useEffect(() => {
     const map = mapRef.current; if (!map) return;
     const group = groupsRef.current.rivers;
-    if (showRivers) { group.addTo(map); loadOverpassLayer("rivers"); }
-    else { if (map.hasLayer(group)) map.removeLayer(group); setRiversStatus(null); }
+    if (showRivers) {
+      group.addTo(map);
+      // Recadrage automatique si la vue actuelle est trop large pour interroger Overpass, afin
+      // que cocher la couche produise un effet visible immédiat plutôt qu'une simple invite à zoomer.
+      if (map.getZoom() < MIN_OVERPASS_ZOOM) map.setZoom(MIN_OVERPASS_ZOOM);
+      loadOverpassLayer("rivers");
+    } else { if (map.hasLayer(group)) map.removeLayer(group); setRiversStatus(null); }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showRivers]);
 
   useEffect(() => {
     const map = mapRef.current; if (!map) return;
     const group = groupsRef.current.roads;
-    if (showRoads) { group.addTo(map); loadOverpassLayer("roads"); }
-    else { if (map.hasLayer(group)) map.removeLayer(group); setRoadsStatus(null); }
+    if (showRoads) {
+      group.addTo(map);
+      if (map.getZoom() < MIN_OVERPASS_ZOOM) map.setZoom(MIN_OVERPASS_ZOOM);
+      loadOverpassLayer("roads");
+    } else { if (map.hasLayer(group)) map.removeLayer(group); setRoadsStatus(null); }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showRoads]);
 
@@ -486,7 +536,7 @@ export default function Cartographie({ active, onNavigate, userEmail, roleLabel,
                   <div ref={mapDivRef} className="rounded-xl overflow-hidden border border-gray-100" style={{ height: 520, width: "100%" }} />
                 </div>
                 <p className="text-[10px] text-gray-400 italic mt-2">
-                  Défilement à la molette ou pincement pour zoomer, cliquer-glisser pour déplacer — depuis la vue mondiale jusqu'à l'échelle communale. Fond « Satellite » : imagerie réelle utilisée comme approximation visuelle de la couverture végétale (et non une classification scientifique d'occupation du sol). Cours d'eau et routes : base collaborative OpenStreetMap (Overpass API), chargés à partir du niveau de zoom régional et actualisés au déplacement de la carte.
+                  Défilement à la molette ou pincement pour zoomer, cliquer-glisser pour déplacer — depuis la vue mondiale jusqu'à l'échelle communale. Fond « Satellite » : imagerie réelle utilisée comme approximation visuelle (et non une classification scientifique d'occupation du sol) ; pour une classification effective, activer la couche « Couverture du sol (végétation) » — ESA WorldCover 2021, 10 m de résolution. Cours d'eau et routes : base collaborative OpenStreetMap (Overpass API), chargés à partir de l'échelle sous-régionale/communale et actualisés au déplacement de la carte.
                 </p>
               </Card>
             </div>
@@ -502,13 +552,17 @@ export default function Cartographie({ active, onNavigate, userEmail, roleLabel,
                   <LayerToggle label="Localités / habitats (77 communes)" icon={Home} checked={showHabitats} onChange={() => setShowHabitats((v) => !v)} />
                   <LayerToggle label="Cours d'eau" icon={Waves} color="#3592C4" checked={showRivers} onChange={() => setShowRivers((v) => !v)} status={riversStatus} />
                   <LayerToggle label="Routes principales" icon={RouteIcon} color="#8A5A00" checked={showRoads} onChange={() => setShowRoads((v) => !v)} status={roadsStatus} />
+                  <LayerToggle label="Couverture du sol (végétation)" icon={Trees} color="#3E9C6B" checked={showLandcover} onChange={() => setShowLandcover((v) => !v)} />
                   <LayerToggle label="Suivi agricole interne" icon={Sprout} color="#3E9C6B" checked={showSuivi} onChange={() => setShowSuivi((v) => !v)} />
                   {hasRealGeo && (
                     <LayerToggle label={`Points d'enquête importés (${realPoints.length})`} icon={MapPin} checked={showSurvey} onChange={() => setShowSurvey((v) => !v)} />
                   )}
                 </div>
                 {(riversStatus === "zoom" || roadsStatus === "zoom") && (
-                  <p className="text-[11px] text-gray-400 italic mt-2">Zoomez sur la zone souhaitée (échelle régionale ou plus) pour charger les cours d'eau/routes.</p>
+                  <p className="text-[11px] text-gray-400 italic mt-2">Zoomez sur la zone souhaitée (échelle sous-régionale ou communale) pour charger les cours d'eau/routes.</p>
+                )}
+                {(riversStatus === "empty" || roadsStatus === "empty") && (
+                  <p className="text-[11px] text-gray-400 italic mt-2">Aucun tronçon référencé par OpenStreetMap dans cette emprise — déplacez ou dézoomez légèrement la carte.</p>
                 )}
                 {(riversStatus === "error" || roadsStatus === "error") && (
                   <p className="text-[11px] mt-2" style={{ color: "#B3413A" }}>Le service cartographique communautaire (OpenStreetMap/Overpass) est temporairement indisponible — réessayez dans quelques instants.</p>
