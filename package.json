@@ -6,7 +6,8 @@
   "scripts": {
     "build:js": "esbuild src/entry.jsx --bundle --outfile=public/bundle.js --loader:.js=jsx",
     "build:css": "tailwindcss -i input.css -o public/styles.css",
-    "build": "npm run build:js && npm run build:css",
+    "build:vendor": "cp node_modules/leaflet/dist/leaflet.css public/leaflet.css",
+    "build": "npm run build:js && npm run build:css && npm run build:vendor",
     "watch:js": "esbuild src/entry.jsx --bundle --outfile=public/bundle.js --loader:.js=jsx --watch",
     "watch:css": "tailwindcss -i input.css -o public/styles.css --watch",
     "serve": "npx serve public"
@@ -18,6 +19,7 @@
     "@supabase/supabase-js": "^2.112.3",
     "docx": "^9.7.1",
     "esbuild": "^0.28.1",
+    "leaflet": "^1.9.4",
     "lucide-react": "^1.28.0",
     "papaparse": "^5.6.0",
     "react": "^19.2.8",

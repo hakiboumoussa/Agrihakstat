@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect, useMemo } from "react";
+import L from "leaflet";
 import {
   LayoutDashboard, ClipboardList, BarChart3, FileText, Settings, Sprout,
   Bell, ChevronDown, MapPin, Layers, Droplets, Download, FileOutput, Filter,
+  Waves, Route as RouteIcon, Home, Satellite, Mountain, Map as MapIcon, Loader2, AlertCircle,
 } from "lucide-react";
 import UserMenu from "./UserMenu.jsx";
 import Sidebar from "./Sidebar.jsx";
+import { COMMUNE_COORDS } from "./communeCoords.js";
 
 const NAVY = "#1F3864";
 const GOLD = "#C99A2E";
@@ -22,30 +25,50 @@ const nav = [
   { id: "map", label: "Cartographie", icon: MapPin },
 ];
 
-// Positions relatives illustratives (mockup) des communes du Borgou
+// Données de suivi interne illustratives pour les 8 communes du Borgou, projetées sur leurs
+// coordonnées géographiques réelles (COMMUNE_COORDS) plutôt que sur une position schématique.
 const COMMUNES = [
-  { name: "Sinendé", x: 30, y: 8, mm: 108, taux: 84, rendement: 1720, anomalies: 0 },
-  { name: "Kalalé", x: 68, y: 13, mm: 101, taux: 79, rendement: 1650, anomalies: 1 },
-  { name: "Bembéréké", x: 42, y: 29, mm: 95, taux: 88, rendement: 1810, anomalies: 0 },
-  { name: "N'Dali", x: 16, y: 47, mm: 84, taux: 91, rendement: 1900, anomalies: 0 },
-  { name: "Pérèrè", x: 66, y: 41, mm: 61, taux: 62, rendement: 1120, anomalies: 2 },
-  { name: "Parakou", x: 40, y: 54, mm: 76, taux: 86, rendement: 1780, anomalies: 0 },
-  { name: "Nikki", x: 70, y: 61, mm: 89, taux: 83, rendement: 1690, anomalies: 1 },
-  { name: "Tchaourou", x: 32, y: 81, mm: 58, taux: 58, rendement: 1080, anomalies: 4 },
+  { name: "Sinendé", mm: 108, taux: 84, rendement: 1720, anomalies: 0 },
+  { name: "Kalalé", mm: 101, taux: 79, rendement: 1650, anomalies: 1 },
+  { name: "Bembéréké", mm: 95, taux: 88, rendement: 1810, anomalies: 0 },
+  { name: "N'Dali", mm: 84, taux: 91, rendement: 1900, anomalies: 0 },
+  { name: "Pérèrè", mm: 61, taux: 62, rendement: 1120, anomalies: 2 },
+  { name: "Parakou", mm: 76, taux: 86, rendement: 1780, anomalies: 0 },
+  { name: "Nikki", mm: 89, taux: 83, rendement: 1690, anomalies: 1 },
+  { name: "Tchaourou", mm: 58, taux: 58, rendement: 1080, anomalies: 4 },
 ];
 
-// Points d'enquête individuels, dispersés autour de chaque commune
-const SURVEY_POINTS = COMMUNES.flatMap((c, ci) =>
-  Array.from({ length: 4 }).map((_, i) => {
-    const filieres = Object.keys(FILIERES);
-    return {
-      id: `${c.name}-${i}`,
-      x: c.x + (((ci + i) % 5) - 2) * 3.2,
-      y: c.y + (((ci * 3 + i) % 5) - 2) * 3.2,
-      filiere: filieres[(ci + i) % filieres.length],
-    };
-  })
-);
+// ---------- Fonds de carte (tuiles) ----------
+// « Satellite » sert d'approximation visuelle pratique de la couverture végétale (imagerie
+// réelle), en l'absence d'un service de classification d'occupation du sol (NDVI/land-cover)
+// accessible sans clé d'API dans cet environnement — à ne pas confondre avec une classification
+// scientifique de l'occupation des sols.
+const BASE_LAYERS = {
+  clair: {
+    label: "Fond clair", icon: MapIcon,
+    url: "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+    subdomains: "abcd", maxZoom: 19,
+  },
+  osm: {
+    label: "Plan (OpenStreetMap)", icon: RouteIcon,
+    url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    subdomains: "abc", maxZoom: 19,
+  },
+  satellite: {
+    label: "Satellite (couverture végétale)", icon: Satellite,
+    url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+    attribution: "Tiles &copy; Esri — Source : Esri, Maxar, Earthstar Geographics",
+    subdomains: "", maxZoom: 19,
+  },
+  relief: {
+    label: "Relief", icon: Mountain,
+    url: "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png",
+    attribution: 'Données : &copy; OpenStreetMap contributors, SRTM — Rendu : &copy; OpenTopoMap (CC-BY-SA)',
+    subdomains: "abc", maxZoom: 17,
+  },
+};
 
 function rainColor(mm) {
   if (mm < 65) return "#C99A2E";
@@ -78,18 +101,6 @@ function Card({ children, className = "" }) {
   return <div className={`bg-white rounded-2xl p-6 shadow-sm border border-black/5 ${className}`}>{children}</div>;
 }
 
-function LayerButton({ label, icon: Icon, active, onClick }) {
-  return (
-    <button
-      onClick={onClick}
-      className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-colors"
-      style={active ? { background: NAVY, color: "white" } : { background: "white", color: "#5A6478", border: "1px solid #E4E6ED" }}
-    >
-      <Icon size={15} /> {label}
-    </button>
-  );
-}
-
 function Chip({ label, active, onClick, color }) {
   return (
     <button
@@ -102,17 +113,63 @@ function Chip({ label, active, onClick, color }) {
   );
 }
 
+function LayerToggle({ label, icon: Icon, checked, onChange, status, color }) {
+  return (
+    <label className="flex items-center gap-2.5 px-3 py-2 rounded-xl border cursor-pointer text-sm select-none"
+      style={checked ? { background: "#EBEEF7", borderColor: NAVY } : { background: "white", borderColor: "#E4E6ED" }}>
+      <input type="checkbox" checked={checked} onChange={onChange} className="w-4 h-4 rounded" style={{ accentColor: color || NAVY }} />
+      <Icon size={15} style={{ color: color || "#5A6478" }} />
+      <span className="flex-1 text-gray-700">{label}</span>
+      {status === "loading" && <Loader2 size={13} className="animate-spin text-gray-400" />}
+      {status === "error" && <AlertCircle size={13} className="text-red-400" />}
+      {status === "zoom" && <span className="text-[10px] text-gray-400 italic">zoomer</span>}
+    </label>
+  );
+}
+
+// Interroge l'API Overpass (base de données OpenStreetMap) pour les voies d'eau ou les routes
+// principales dans l'emprise actuellement affichée par la carte. « out geom » renvoie directement
+// la géométrie de chaque tronçon, sans étape de conversion GeoJSON supplémentaire.
+async function fetchOverpassWays(kind, bounds, signal) {
+  const s = bounds.getSouth().toFixed(4), w = bounds.getWest().toFixed(4);
+  const n = bounds.getNorth().toFixed(4), e = bounds.getEast().toFixed(4);
+  const filter = kind === "rivers"
+    ? 'way["waterway"~"^(river|stream|canal)$"]'
+    : 'way["highway"~"^(motorway|trunk|primary|secondary)$"]';
+  const query = `[out:json][timeout:25];(${filter}(${s},${w},${n},${e});); out geom;`;
+  const res = await fetch("https://overpass-api.de/api/interpreter", {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: "data=" + encodeURIComponent(query),
+    signal,
+  });
+  if (!res.ok) throw new Error(`Overpass a répondu avec le code ${res.status}`);
+  const data = await res.json();
+  return data.elements || [];
+}
+
 export default function Cartographie({ active, onNavigate, userEmail, roleLabel, isAdmin, isGuest, onLogout, onOpenAdmin, dataset }) {
-  const [layer, setLayer] = useState("points");
+  const [baseLayerKey, setBaseLayerKey] = useState("clair");
+  const [showRivers, setShowRivers] = useState(false);
+  const [showRoads, setShowRoads] = useState(false);
+  const [showHabitats, setShowHabitats] = useState(true);
+  const [showSuivi, setShowSuivi] = useState(true);
+  const [showSurvey, setShowSurvey] = useState(true);
   const [indicateur, setIndicateur] = useState("taux");
   const [filieres, setFilieres] = useState(Object.keys(FILIERES));
+  const [riversStatus, setRiversStatus] = useState(null);
+  const [roadsStatus, setRoadsStatus] = useState(null);
 
   const toggleFiliere = (f) =>
     setFilieres((prev) => (prev.includes(f) ? prev.filter((x) => x !== f) : [...prev, f]));
 
-  const indicateurLabel = { taux: "Taux de réalisation (%)", rendement: "Rendement moyen (kg/ha)", anomalies: "Anomalies détectées" }[indicateur];
-  const indicateurValue = (c) => (indicateur === "taux" ? `${c.taux}%` : indicateur === "rendement" ? `${c.rendement}` : c.anomalies);
-  const indicateurColor = (c) => (indicateur === "anomalies" ? (c.anomalies > 1 ? "#C1573F" : c.anomalies === 1 ? "#E3A23B" : "#3E9C6B") : indicateur === "taux" ? tauxColor(c.taux) : tauxColor((c.rendement / 2000) * 100));
+  const indicateurLabel = { taux: "Taux de réalisation (%)", rendement: "Rendement moyen (kg/ha)", anomalies: "Anomalies détectées", pluvio: "Pluviométrie décadaire (mm)" }[indicateur];
+  const indicateurValue = (c) => (indicateur === "taux" ? `${c.taux}%` : indicateur === "rendement" ? `${c.rendement}` : indicateur === "pluvio" ? `${c.mm}` : c.anomalies);
+  const indicateurColor = (c) => (
+    indicateur === "anomalies" ? (c.anomalies > 1 ? "#C1573F" : c.anomalies === 1 ? "#E3A23B" : "#3E9C6B")
+      : indicateur === "pluvio" ? rainColor(c.mm)
+      : indicateur === "taux" ? tauxColor(c.taux) : tauxColor((c.rendement / 2000) * 100)
+  );
 
   // ---------- Détection et projection des vraies coordonnées géographiques importées ----------
   const geoCols = dataset ? dataset.columns.filter((c) => c.isGeo) : [];
@@ -120,33 +177,163 @@ export default function Cartographie({ active, onNavigate, userEmail, roleLabel,
   const lonCol = geoCols.find((c) => /lon|lng/i.test(c.name));
   const hasRealGeo = !!(dataset && latCol && lonCol);
 
-  let realPoints = [];
-  let colorCol = null;
-  let realColorMap = {};
-  if (hasRealGeo) {
+  const { realPoints, colorCol, realColorMap } = useMemo(() => {
+    if (!hasRealGeo) return { realPoints: [], colorCol: null, realColorMap: {} };
     const rawPoints = dataset.rows
       .map((r) => ({ lat: Number(r[latCol.name]), lon: Number(r[lonCol.name]), row: r }))
       .filter((p) => !isNaN(p.lat) && !isNaN(p.lon));
-    if (rawPoints.length > 0) {
-      const lats = rawPoints.map((p) => p.lat), lons = rawPoints.map((p) => p.lon);
-      const latMin = Math.min(...lats), latMax = Math.max(...lats);
-      const lonMin = Math.min(...lons), lonMax = Math.max(...lons);
-      const latSpan = latMax - latMin || 1, lonSpan = lonMax - lonMin || 1;
+    const cCol = dataset.columns.find((c) => !c.isQuantitative && !c.isGeo && c.modalites && c.modalites.length <= 8) || null;
+    const cMap = {};
+    if (cCol) cCol.modalites.forEach((m, i) => { cMap[m] = FILIERE_PALETTE[i % FILIERE_PALETTE.length]; });
+    return {
+      realPoints: rawPoints.map((p, i) => ({ id: i, lat: p.lat, lon: p.lon, color: cCol ? (cMap[p.row[cCol.name]] || "#8A93A8") : NAVY, label: cCol ? p.row[cCol.name] : null })),
+      colorCol: cCol, realColorMap: cMap,
+    };
+  }, [hasRealGeo, dataset, latCol, lonCol]);
 
-      colorCol = dataset.columns.find((c) => !c.isQuantitative && !c.isGeo && c.modalites && c.modalites.length <= 8) || null;
-      if (colorCol) {
-        colorCol.modalites.forEach((m, i) => { realColorMap[m] = FILIERE_PALETTE[i % FILIERE_PALETTE.length]; });
-      }
+  // ---------- Carte Leaflet (monde, scrollable/zoomable) ----------
+  const mapDivRef = useRef(null);
+  const mapRef = useRef(null);
+  const baseTileRef = useRef(null);
+  const groupsRef = useRef({});
+  const overpassAbortRef = useRef({ rivers: null, roads: null });
 
-      realPoints = rawPoints.map((p, i) => ({
-        id: i,
-        x: 5 + ((p.lon - lonMin) / lonSpan) * 90,
-        y: 95 - ((p.lat - latMin) / latSpan) * 90,
-        color: colorCol ? (realColorMap[p.row[colorCol.name]] || "#8A93A8") : NAVY,
-        label: colorCol ? p.row[colorCol.name] : null,
-      }));
+  useEffect(() => {
+    if (mapRef.current || !mapDivRef.current) return;
+    const map = L.map(mapDivRef.current, { center: [9.5, 2.3], zoom: 7, minZoom: 2, maxZoom: 19, worldCopyJump: true });
+    mapRef.current = map;
+    groupsRef.current = {
+      rivers: L.layerGroup(), roads: L.layerGroup(),
+      habitats: L.layerGroup(), suivi: L.layerGroup(), survey: L.layerGroup(),
+    };
+    return () => { map.remove(); mapRef.current = null; };
+  }, []);
+
+  // Fond de carte
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map) return;
+    if (baseTileRef.current) map.removeLayer(baseTileRef.current);
+    const cfg = BASE_LAYERS[baseLayerKey];
+    const tile = L.tileLayer(cfg.url, { attribution: cfg.attribution, subdomains: cfg.subdomains, maxZoom: cfg.maxZoom });
+    tile.addTo(map);
+    baseTileRef.current = tile;
+  }, [baseLayerKey]);
+
+  // Couche « Localités / habitats » — référentiel des 77 communes du Bénin
+  useEffect(() => {
+    const map = mapRef.current; if (!map) return;
+    const group = groupsRef.current.habitats;
+    group.clearLayers();
+    if (showHabitats) {
+      Object.entries(COMMUNE_COORDS).forEach(([name, c]) => {
+        L.circleMarker([c.lat, c.lon], { radius: 3, weight: 1, color: "#5A6478", fillColor: "#8891A5", fillOpacity: 0.9 })
+          .bindTooltip(name, { direction: "top", offset: [0, -4] })
+          .addTo(group);
+      });
+      group.addTo(map);
+    } else if (map.hasLayer(group)) {
+      map.removeLayer(group);
     }
-  }
+  }, [showHabitats]);
+
+  // Couche « Suivi agricole interne » — communes du Borgou, colorées selon l'indicateur choisi
+  useEffect(() => {
+    const map = mapRef.current; if (!map) return;
+    const group = groupsRef.current.suivi;
+    group.clearLayers();
+    if (showSuivi) {
+      COMMUNES.forEach((c) => {
+        const coords = COMMUNE_COORDS[c.name];
+        if (!coords) return;
+        const color = indicateurColor(c);
+        L.circleMarker([coords.lat, coords.lon], { radius: 12, weight: 2, color: "white", fillColor: color, fillOpacity: 0.88 })
+          .bindTooltip(`<b>${c.name}</b><br/>${indicateurLabel} : ${indicateurValue(c)}`, { direction: "top", offset: [0, -10] })
+          .addTo(group);
+      });
+      group.addTo(map);
+    } else if (map.hasLayer(group)) {
+      map.removeLayer(group);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [showSuivi, indicateur]);
+
+  // Couche « Points d'enquête importés » — coordonnées réelles de la base importée, si disponibles
+  useEffect(() => {
+    const map = mapRef.current; if (!map) return;
+    const group = groupsRef.current.survey;
+    group.clearLayers();
+    if (showSurvey && hasRealGeo) {
+      realPoints.forEach((pt) => {
+        L.circleMarker([pt.lat, pt.lon], { radius: 4, weight: 1, color: "white", fillColor: pt.color, fillOpacity: 0.85 })
+          .bindTooltip(pt.label ? String(pt.label) : "Point d'enquête", { direction: "top", offset: [0, -4] })
+          .addTo(group);
+      });
+      group.addTo(map);
+      if (realPoints.length > 0) {
+        map.fitBounds(L.latLngBounds(realPoints.map((p) => [p.lat, p.lon])), { padding: [30, 30], maxZoom: 12 });
+      }
+    } else if (map.hasLayer(group)) {
+      map.removeLayer(group);
+    }
+  }, [showSurvey, hasRealGeo, realPoints]);
+
+  // Couches « Cours d'eau » et « Routes » — interrogation Overpass (OpenStreetMap) sur l'emprise
+  // affichée. Chargées uniquement à partir d'un niveau de zoom suffisant pour éviter une requête
+  // trop volumineuse sur l'ensemble du monde ; se recalculent lorsque la carte est déplacée/zoomée.
+  const loadOverpassLayer = async (kind) => {
+    const map = mapRef.current; if (!map) return;
+    const setStatus = kind === "rivers" ? setRiversStatus : setRoadsStatus;
+    const group = groupsRef.current[kind];
+    if (map.getZoom() < 7) { setStatus("zoom"); return; }
+    if (overpassAbortRef.current[kind]) overpassAbortRef.current[kind].abort();
+    const controller = new AbortController();
+    overpassAbortRef.current[kind] = controller;
+    setStatus("loading");
+    try {
+      const elements = await fetchOverpassWays(kind, map.getBounds(), controller.signal);
+      group.clearLayers();
+      const color = kind === "rivers" ? "#3592C4" : "#8A5A00";
+      elements.forEach((el) => {
+        if (!el.geometry || el.geometry.length < 2) return;
+        L.polyline(el.geometry.map((pt) => [pt.lat, pt.lon]), { color, weight: kind === "rivers" ? 2 : 1.5, opacity: 0.75 }).addTo(group);
+      });
+      setStatus("ok");
+    } catch (e) {
+      if (e.name !== "AbortError") setStatus("error");
+    }
+  };
+
+  useEffect(() => {
+    const map = mapRef.current; if (!map) return;
+    const group = groupsRef.current.rivers;
+    if (showRivers) { group.addTo(map); loadOverpassLayer("rivers"); }
+    else { if (map.hasLayer(group)) map.removeLayer(group); setRiversStatus(null); }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [showRivers]);
+
+  useEffect(() => {
+    const map = mapRef.current; if (!map) return;
+    const group = groupsRef.current.roads;
+    if (showRoads) { group.addTo(map); loadOverpassLayer("roads"); }
+    else { if (map.hasLayer(group)) map.removeLayer(group); setRoadsStatus(null); }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [showRoads]);
+
+  useEffect(() => {
+    const map = mapRef.current; if (!map) return;
+    let timer = null;
+    const handler = () => {
+      if (timer) clearTimeout(timer);
+      timer = setTimeout(() => {
+        if (showRivers) loadOverpassLayer("rivers");
+        if (showRoads) loadOverpassLayer("roads");
+      }, 700);
+    };
+    map.on("moveend", handler);
+    return () => { map.off("moveend", handler); if (timer) clearTimeout(timer); };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [showRivers, showRoads]);
 
   return (
     <div className="min-h-screen relative bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans">
@@ -161,7 +348,7 @@ export default function Cartographie({ active, onNavigate, userEmail, roleLabel,
             style={{ borderBottom: `2px solid ${GOLD}` }}>
             <div>
               <h1 className="font-serif text-xl font-bold" style={{ color: NAVY }}>Cartographie</h1>
-              <p className="text-xs text-gray-500 mt-0.5">Module 8 · Suivi semis 2026-2027 — Décade 3, Borgou</p>
+              <p className="text-xs text-gray-500 mt-0.5">Carte interactive — monde entier, zoom libre jusqu'à l'échelle communale du Bénin</p>
             </div>
             <div className="flex items-center gap-4">
               <Bell size={18} className="text-gray-400" />
@@ -173,111 +360,60 @@ export default function Cartographie({ active, onNavigate, userEmail, roleLabel,
           <main className="p-8 grid grid-cols-3 gap-6">
             {/* Carte */}
             <div className="col-span-2">
-              <div className="flex gap-2 mb-4">
-                <LayerButton label="Points d'enquête" icon={MapPin} active={layer === "points"} onClick={() => setLayer("points")} />
-                <LayerButton label="Choroplèthe indicateurs" icon={Layers} active={layer === "choropleth"} onClick={() => setLayer("choropleth")} />
-                <LayerButton label="Isohyètes pluviométriques" icon={Droplets} active={layer === "isohyet"} onClick={() => setLayer("isohyet")} />
+              <div className="flex gap-2 mb-4 flex-wrap">
+                {Object.entries(BASE_LAYERS).map(([k, cfg]) => (
+                  <button key={k} onClick={() => setBaseLayerKey(k)}
+                    className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-colors"
+                    style={baseLayerKey === k ? { background: NAVY, color: "white" } : { background: "white", color: "#5A6478", border: "1px solid #E4E6ED" }}>
+                    <cfg.icon size={15} /> {cfg.label}
+                  </button>
+                ))}
               </div>
 
               <Card>
-                {layer === "choropleth" && (
-                  <div className="flex items-center gap-2 mb-4">
-                    <Filter size={13} className="text-gray-400" />
-                    <span className="text-xs text-gray-500">Indicateur :</span>
-                    <select value={indicateur} onChange={(e) => setIndicateur(e.target.value)}
-                      className="text-xs rounded-lg border border-gray-200 p-1.5 bg-white focus:outline-none">
-                      <option value="taux">Taux de réalisation (%)</option>
-                      <option value="rendement">Rendement moyen (kg/ha)</option>
-                      <option value="anomalies">Anomalies détectées</option>
-                    </select>
-                  </div>
-                )}
-
-                <div className="relative rounded-xl bg-[#F7F9FC] border border-gray-100" style={{ height: 460 }}>
-                  {layer === "points" && !hasRealGeo ? (
-                    <div className="w-full h-full flex flex-col items-center justify-center text-center px-8">
-                      <MapPin size={32} className="text-gray-300 mb-3" />
-                      <p className="text-sm font-medium text-gray-500">Aucune donnée de géoréférencement disponible</p>
-                      <p className="text-xs text-gray-400 mt-1 max-w-sm">
-                        {dataset
-                          ? "La base importée ne contient pas de colonnes de latitude/longitude exploitables. Importez une base incluant des coordonnées GPS pour activer la cartographie des points d'enquête."
-                          : "Importez d'abord une base de données via l'assistant d'import (étape « Base de données »)."}
-                      </p>
-                    </div>
-                  ) : (
-                  <>
-                  <svg viewBox="0 0 100 100" className="w-full h-full">
-                    {layer === "points" && hasRealGeo && realPoints.map((pt) => (
-                      <circle key={pt.id} cx={pt.x} cy={pt.y} r={1.6} fill={pt.color} opacity={0.85} stroke="white" strokeWidth={0.3} />
-                    ))}
-
-                    {layer === "choropleth" && COMMUNES.map((c) => (
-                      <g key={c.name}>
-                        <circle cx={c.x} cy={c.y} r={9} fill={indicateurColor(c)} opacity={0.88} />
-                        <circle cx={c.x} cy={c.y} r={9} fill="none" stroke="white" strokeWidth={0.6} />
-                        <text x={c.x} y={c.y - 12} fontSize="3.4" textAnchor="middle" fill="#4A5568" fontWeight="600">{c.name}</text>
-                        <text x={c.x} y={c.y + 1.2} fontSize="3" textAnchor="middle" fill="white" fontWeight="700">{indicateurValue(c)}</text>
-                      </g>
-                    ))}
-
-
-                    {layer === "isohyet" && COMMUNES.map((c) => (
-                      <g key={c.name}>
-                        <circle cx={c.x} cy={c.y} r={11} fill={rainColor(c.mm)} opacity={0.25} />
-                        <circle cx={c.x} cy={c.y} r={7} fill={rainColor(c.mm)} opacity={0.9} />
-                        <circle cx={c.x} cy={c.y} r={7} fill="none" stroke="white" strokeWidth={0.6} />
-                        <text x={c.x} y={c.y - 13} fontSize="3.4" textAnchor="middle" fill="#4A5568" fontWeight="600">{c.name}</text>
-                        <text x={c.x} y={c.y + 1.2} fontSize="3" textAnchor="middle" fill="white" fontWeight="700">{c.mm}</text>
-                      </g>
-                    ))}
-                  </svg>
-                  <span className="absolute bottom-2 right-3 text-[9px] text-gray-400 italic">
-                    {layer === "isohyet" ? "Interpolation IDW — illustrative" : hasRealGeo ? `Projection linéaire des coordonnées réelles (${latCol.name}/${lonCol.name})` : "Position illustrative — non géoréférencée à l'échelle"}
-                  </span>
-                  </>
-                  )}
-                </div>
-
-                {/* Légendes */}
-                {layer === "points" && hasRealGeo && (
-                  <div className="flex flex-wrap gap-3 mt-4">
-                    {colorCol ? colorCol.modalites.map((m) => (
-                      <div key={m} className="flex items-center gap-1.5 text-[11px] text-gray-600">
-                        <span className="w-2.5 h-2.5 rounded-full" style={{ background: realColorMap[m] }} /> {m}
-                      </div>
-                    )) : (
-                      <div className="flex items-center gap-1.5 text-[11px] text-gray-600">
-                        <span className="w-2.5 h-2.5 rounded-full" style={{ background: NAVY }} /> Points d'enquête ({realPoints.length})
-                      </div>
-                    )}
-                  </div>
-                )}
-                {layer === "choropleth" && (
-                  <div className="flex items-center gap-4 mt-4">
-                    <span className="text-[11px] text-gray-500">{indicateurLabel} :</span>
-                    <div className="flex items-center gap-1.5 text-[11px] text-gray-600"><span className="w-2.5 h-2.5 rounded-full" style={{ background: "#C1573F" }} /> Faible</div>
-                    <div className="flex items-center gap-1.5 text-[11px] text-gray-600"><span className="w-2.5 h-2.5 rounded-full" style={{ background: "#E3A23B" }} /> Intermédiaire</div>
-                    <div className="flex items-center gap-1.5 text-[11px] text-gray-600"><span className="w-2.5 h-2.5 rounded-full" style={{ background: "#3E9C6B" }} /> Satisfaisant</div>
-                  </div>
-                )}
-                {layer === "isohyet" && (
-                  <div className="flex items-center gap-4 mt-4 flex-wrap">
-                    <span className="text-[11px] text-gray-500">Cumul décadaire (mm) :</span>
-                    {[["#C99A2E", "< 65"], ["#8FAECB", "65–80"], ["#4A7AB5", "80–95"], ["#1F3864", "≥ 95"]].map(([c, l]) => (
-                      <div key={l} className="flex items-center gap-1.5 text-[11px] text-gray-600"><span className="w-2.5 h-2.5 rounded-full" style={{ background: c }} /> {l}</div>
-                    ))}
-                  </div>
-                )}
+                <div ref={mapDivRef} className="rounded-xl overflow-hidden border border-gray-100" style={{ height: 520, width: "100%" }} />
+                <p className="text-[10px] text-gray-400 italic mt-2">
+                  Défilement à la molette ou pincement pour zoomer, cliquer-glisser pour déplacer — depuis la vue mondiale jusqu'à l'échelle communale. Fond « Satellite » : imagerie réelle utilisée comme approximation visuelle de la couverture végétale (et non une classification scientifique d'occupation du sol). Cours d'eau et routes : base collaborative OpenStreetMap (Overpass API), chargés à partir du niveau de zoom régional et actualisés au déplacement de la carte.
+                </p>
               </Card>
             </div>
 
-            {/* Filtres et export */}
+            {/* Filtres, couches et export */}
             <div className="space-y-4">
               <Card>
                 <div className="flex items-center gap-2 mb-3">
-                  <Filter size={16} style={{ color: NAVY }} />
-                  <h2 className="font-serif font-semibold" style={{ color: NAVY }}>Filtres</h2>
+                  <Layers size={16} style={{ color: NAVY }} />
+                  <h2 className="font-serif font-semibold" style={{ color: NAVY }}>Couches affichées</h2>
                 </div>
+                <div className="space-y-2">
+                  <LayerToggle label="Localités / habitats (77 communes)" icon={Home} checked={showHabitats} onChange={() => setShowHabitats((v) => !v)} />
+                  <LayerToggle label="Cours d'eau" icon={Waves} color="#3592C4" checked={showRivers} onChange={() => setShowRivers((v) => !v)} status={riversStatus} />
+                  <LayerToggle label="Routes principales" icon={RouteIcon} color="#8A5A00" checked={showRoads} onChange={() => setShowRoads((v) => !v)} status={roadsStatus} />
+                  <LayerToggle label="Suivi agricole interne" icon={Sprout} color="#3E9C6B" checked={showSuivi} onChange={() => setShowSuivi((v) => !v)} />
+                  {hasRealGeo && (
+                    <LayerToggle label={`Points d'enquête importés (${realPoints.length})`} icon={MapPin} checked={showSurvey} onChange={() => setShowSurvey((v) => !v)} />
+                  )}
+                </div>
+                {(riversStatus === "zoom" || roadsStatus === "zoom") && (
+                  <p className="text-[11px] text-gray-400 italic mt-2">Zoomez sur la zone souhaitée (échelle régionale ou plus) pour charger les cours d'eau/routes.</p>
+                )}
+                {(riversStatus === "error" || roadsStatus === "error") && (
+                  <p className="text-[11px] mt-2" style={{ color: "#B3413A" }}>Le service cartographique communautaire (OpenStreetMap/Overpass) est temporairement indisponible — réessayez dans quelques instants.</p>
+                )}
+              </Card>
+
+              <Card>
+                <div className="flex items-center gap-2 mb-3">
+                  <Filter size={16} style={{ color: NAVY }} />
+                  <h2 className="font-serif font-semibold" style={{ color: NAVY }}>Indicateur du suivi agricole</h2>
+                </div>
+                <select value={indicateur} onChange={(e) => setIndicateur(e.target.value)}
+                  className="w-full text-sm rounded-xl border border-gray-200 p-2.5 bg-white focus:outline-none mb-4">
+                  <option value="taux">Taux de réalisation (%)</option>
+                  <option value="rendement">Rendement moyen (kg/ha)</option>
+                  <option value="anomalies">Anomalies détectées</option>
+                  <option value="pluvio">Pluviométrie décadaire (mm)</option>
+                </select>
                 <label className="text-xs font-medium text-gray-600 block mb-1.5">Filière</label>
                 <div className="flex flex-wrap gap-2 mb-4">
                   {Object.entries(FILIERES).map(([f, c]) => (
@@ -297,7 +433,7 @@ export default function Cartographie({ active, onNavigate, userEmail, roleLabel,
                   <MapPin size={16} style={{ color: NAVY }} />
                   <h2 className="font-serif font-semibold" style={{ color: NAVY }}>Communes en alerte</h2>
                 </div>
-                <p className="text-[11px] text-gray-400 mb-3">Selon l'indicateur actuellement affiché</p>
+                <p className="text-[11px] text-gray-400 mb-3">Selon l'indicateur actuellement sélectionné</p>
                 <div className="space-y-2">
                   {COMMUNES.filter((c) => c.taux < 70 || c.anomalies > 1).map((c) => (
                     <div key={c.name} className="flex items-center justify-between rounded-xl border border-gray-100 p-2.5">
