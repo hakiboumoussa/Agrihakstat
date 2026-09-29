@@ -70,6 +70,7 @@ export function numericValues(rows, col) {
   return rows.map((r) => Number(r[col])).filter((v) => !isNaN(v));
 }
 
+// Quartile par interpolation linéaire (méthode couramment utilisée, cohérente avec Excel/R type 7)
 function quartile(sortedVals, q) {
   const pos = (sortedVals.length - 1) * q;
   const base = Math.floor(pos);
@@ -80,8 +81,12 @@ function quartile(sortedVals, q) {
   return sortedVals[base];
 }
 
-// Détection des valeurs aberrantes par la méthode interquartile (Tukey, k=1.5)
+// Détection des valeurs atypiques (outliers) selon la méthode interquartile (IQR) :
+// bornes = Q1 - 1.5×IQR et Q3 + 1.5×IQR ; toute valeur hors de cet intervalle est considérée atypique.
 export function detectOutliersIQR(vals) {
+  if (!vals || vals.length < 4) {
+    return { q1: null, q3: null, iqr: null, lowerBound: null, upperBound: null, outliers: [], count: 0 };
+  }
   const sorted = [...vals].sort((a, b) => a - b);
   const q1 = quartile(sorted, 0.25);
   const q3 = quartile(sorted, 0.75);

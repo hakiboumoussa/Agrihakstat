@@ -1,33 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
+import * as XLSX from "xlsx";
 import {
-  Bell, CloudRain, Thermometer, Droplets, MapPin, Loader2, AlertCircle, RefreshCw, X, Sun, Wind,
+  Bell, CloudRain, Thermometer, Droplets, MapPin, Loader2, AlertCircle, RefreshCw,
+  Download, Sprout, Waves, Sun, TriangleAlert, Info,
 } from "lucide-react";
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Line, LineChart,
+  ComposedChart, Legend, ReferenceLine,
 } from "recharts";
 import Sidebar from "./Sidebar.jsx";
 import UserMenu from "./UserMenu.jsx";
 import { BENIN_DEPARTEMENTS } from "./beninGeo.js";
 import { COMMUNE_COORDS } from "./communeCoords.js";
+import {
+  CROP_KC_TABLE, computeWaterBalance, computeCropWaterSatisfaction, detectDrySpells, aggregateByPeriod,
+} from "./agroClimate.js";
 
 const NAVY = "#1F3864";
 const GOLD = "#C99A2E";
 const GREEN = "#256B45";
+const GREEN_TINT = "#E4F5EC";
+const AMBER = "#8A5A00";
+const AMBER_TINT = "#FDF1DA";
+const RED = "#B3413A";
+const RED_TINT = "#FBE7E5";
+const NAVY_TINT = "#EBEEF7";
 
 function Card({ children, className = "" }) {
   return <div className={`bg-white rounded-2xl p-6 shadow-sm border border-black/5 ${className}`}>{children}</div>;
-}
-
-function Chip({ label, active, onClick }) {
-  return (
-    <button
-      onClick={onClick}
-      className="px-3 py-1.5 rounded-full text-xs font-medium border transition-colors"
-      style={active ? { background: NAVY, borderColor: NAVY, color: "white" } : { background: "white", borderColor: "#D8DEE9", color: "#5A6478" }}
-    >
-      {label}
-    </button>
-  );
 }
 
 function toYYYYMMDD(d) {
@@ -35,163 +35,162 @@ function toYYYYMMDD(d) {
 }
 
 function defaultDates() {
-  // NASA POWER accuse un léger différé de publication : on s'arrête 4 jours avant aujourd'hui
+  // NASA POWER et Open-Meteo accusent un léger différé de publication : on s'arrête 5 jours avant aujourd'hui
   const end = new Date();
-  end.setDate(end.getDate() - 4);
+  end.setDate(end.getDate() - 5);
   const start = new Date(end);
-  start.setDate(start.getDate() - 29);
+  start.setDate(start.getDate() - 89); // 3 mois par défaut, pour une lecture saisonnière pertinente
   return { start: toYYYYMMDD(start), end: toYYYYMMDD(end) };
+}
+
+function StatusPill({ statut }) {
+  const map = {
+    "Besoins satisfaits": { bg: GREEN_TINT, color: GREEN },
+    "Stress modéré": { bg: AMBER_TINT, color: AMBER },
+    "Stress sévère": { bg: RED_TINT, color: RED },
+    "Données insuffisantes": { bg: "#F1F2F6", color: "#8891A5" },
+  };
+  const s = map[statut] || map["Données insuffisantes"];
+  return (
+    <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full" style={{ background: s.bg, color: s.color }}>
+      {statut}
+    </span>
+  );
 }
 
 export default function Climate({ active, onNavigate, userEmail, roleLabel, isAdmin, isGuest, onLogout, onOpenAdmin }) {
   const defaults = defaultDates();
-  const [departements, setDepartements] = useState(["Borgou"]);
-  const [communes, setCommunes] = useState(["Parakou"]);
+  const [departement, setDepartement] = useState("Borgou");
+  const [commune, setCommune] = useState("Parakou");
   const [startDate, setStartDate] = useState(defaults.start);
   const [endDate, setEndDate] = useState(defaults.end);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [partialWarning, setPartialWarning] = useState("");
+  const [et0Error, setEt0Error] = useState("");
   const [result, setResult] = useState(null);
+  const [view, setView] = useState("jour"); // jour | mois | trimestre
+  const [cropKey, setCropKey] = useState("mais");
+  const [sowingDate, setSowingDate] = useState("");
+  const [drySpellMinLength, setDrySpellMinLength] = useState(7);
 
-  const toggleDepartement = (dep) => {
-    if (departements.includes(dep)) {
-      const communesDeCeDepartement = new Set(BENIN_DEPARTEMENTS.find((d) => d.departement === dep)?.communes || []);
-      setCommunes(communes.filter((c) => !communesDeCeDepartement.has(c)));
-      setDepartements(departements.filter((d) => d !== dep));
-    } else {
-      setDepartements([...departements, dep]);
-    }
-  };
-  const toggleCommune = (c) => setCommunes(communes.includes(c) ? communes.filter((x) => x !== c) : [...communes, c]);
+  const communesDuDepartement = BENIN_DEPARTEMENTS.find((d) => d.departement === departement)?.communes || [];
 
   const fetchClimate = async () => {
-    if (communes.length === 0) { setError("Sélectionnez au moins une commune."); return; }
+    const coords = COMMUNE_COORDS[commune];
+    if (!coords) { setError("Coordonnées non disponibles pour cette commune."); return; }
     setLoading(true);
     setError("");
-    setPartialWarning("");
+    setEt0Error("");
     setResult(null);
+    try {
+      const url = `https://power.larc.nasa.gov/api/temporal/daily/point?parameters=PRECTOTCORR,T2M_MAX,T2M_MIN,T2M&community=AG&longitude=${coords.lon}&latitude=${coords.lat}&start=${startDate}&end=${endDate}&format=JSON`;
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(`Le service NASA POWER a répondu avec le code ${res.status}.`);
+      const data = await res.json();
+      const params = data?.properties?.parameter;
+      if (!params) throw new Error(data?.messages?.[0] || "Réponse inattendue du service NASA POWER.");
 
-    const outcomes = await Promise.allSettled(
-      communes.map(async (commune) => {
-        const coords = COMMUNE_COORDS[commune];
-        if (!coords) throw new Error(`Coordonnées non disponibles pour ${commune}.`);
-
-        // Appel "cœur" (pluie, températures) séparé des paramètres supplémentaires (ET0, vent) :
-        // si ces derniers posent problème, cela ne doit jamais faire échouer toute la commune.
-        const baseUrl = `https://power.larc.nasa.gov/api/temporal/daily/point?community=AG&longitude=${coords.lon}&latitude=${coords.lat}&start=${startDate}&end=${endDate}&format=JSON`;
-
-        const coreRes = await fetch(`${baseUrl}&parameters=PRECTOTCORR,T2M_MAX,T2M_MIN`);
-        const coreBody = await coreRes.text();
-        if (!coreRes.ok) throw new Error(`${commune} : le service NASA POWER a répondu ${coreRes.status} — ${coreBody.slice(0, 200)}`);
-        let coreData;
-        try { coreData = JSON.parse(coreBody); } catch { throw new Error(`${commune} : réponse NASA POWER illisible — ${coreBody.slice(0, 200)}`); }
-        const coreParams = coreData?.properties?.parameter;
-        if (!coreParams) throw new Error(`${commune} : ${coreData?.messages?.[0] || coreBody.slice(0, 200) || "réponse inattendue du service NASA POWER"}`);
-
-        // Évapotranspiration (ET0) et vitesse du vent : Open-Meteo plutôt que NASA POWER pour ces deux
-        // paramètres précis, qui se combinaient mal dans la requête NASA POWER unique. Le vent y est
-        // mesuré à 10 m ; conversion vers 2 m selon la formule logarithmique standard FAO-56.
-        let extraByDate = {};
-        try {
-          const isoStart = `${startDate.slice(0, 4)}-${startDate.slice(4, 6)}-${startDate.slice(6, 8)}`;
-          const isoEnd = `${endDate.slice(0, 4)}-${endDate.slice(4, 6)}-${endDate.slice(6, 8)}`;
-          const omUrl = `https://archive-api.open-meteo.com/v1/archive?latitude=${coords.lat}&longitude=${coords.lon}&start_date=${isoStart}&end_date=${isoEnd}&daily=et0_fao_evapotranspiration,wind_speed_10m_max&timezone=auto`;
-          const extraRes = await fetch(omUrl);
-          if (extraRes.ok) {
-            const extraData = await extraRes.json();
-            const times = extraData?.daily?.time || [];
-            const etos = extraData?.daily?.et0_fao_evapotranspiration || [];
-            const winds10 = extraData?.daily?.wind_speed_10m_max || [];
-            times.forEach((isoDate, i) => {
-              const key = isoDate.replace(/-/g, "");
-              const eto = etos[i];
-              const w10 = winds10[i];
-              extraByDate[key] = {
-                eto: eto === null || eto === undefined ? null : eto,
-                // FAO-56 : u2 = u10 × 4.87 / ln(67.8×10 − 5.42)
-                vent: w10 === null || w10 === undefined ? null : w10 * (4.87 / Math.log(67.8 * 10 - 5.42)),
-              };
-            });
-          }
-        } catch {
-          // Open-Meteo indisponible : on continue sans ET0/vent, silencieusement.
-        }
-
-        const dates = Object.keys(coreParams.PRECTOTCORR || {}).sort();
-        const daily = {};
-        dates.forEach((d) => {
-          const pluie = coreParams.PRECTOTCORR[d];
-          const tmax = coreParams.T2M_MAX[d];
-          const tmin = coreParams.T2M_MIN[d];
-          const eto = extraByDate[d]?.eto;
-          const vent = extraByDate[d]?.vent;
-          daily[d] = {
-            pluie: pluie === -999 ? null : pluie,
-            tmax: tmax === -999 ? null : tmax,
-            tmin: tmin === -999 ? null : tmin,
-            eto: eto === -999 || eto === undefined ? null : eto,
-            vent: vent === -999 || vent === undefined ? null : vent,
-          };
-        });
-        return { commune, daily };
-      })
-    );
-
-    const succeeded = outcomes.filter((o) => o.status === "fulfilled").map((o) => o.value);
-    const failed = communes.filter((_, i) => outcomes[i].status === "rejected");
-    const firstErrorDetail = outcomes.find((o) => o.status === "rejected")?.reason?.message;
-
-    setLoading(false);
-
-    if (succeeded.length === 0) {
-      setError(
-        firstErrorDetail
-          ? `Échec de la récupération des données climatiques : ${firstErrorDetail}`
-          : "Impossible de récupérer des données pour aucune des communes sélectionnées. Vérifiez votre connexion et réessayez."
-      );
-      return;
-    }
-    if (failed.length > 0) {
-      setPartialWarning(`Données indisponibles pour : ${failed.join(", ")}. La moyenne ci-dessous porte uniquement sur ${succeeded.map((s) => s.commune).join(", ")}.`);
-    }
-
-    // Fusion : moyenne, jour par jour, entre toutes les communes ayant répondu
-    const allDates = new Set();
-    succeeded.forEach((s) => Object.keys(s.daily).forEach((d) => allDates.add(d)));
-    const sortedDates = [...allDates].sort();
-
-    const daily = sortedDates.map((d) => {
-      const pluies = succeeded.map((s) => s.daily[d]?.pluie).filter((v) => v !== null && v !== undefined);
-      const tmaxs = succeeded.map((s) => s.daily[d]?.tmax).filter((v) => v !== null && v !== undefined);
-      const tmins = succeeded.map((s) => s.daily[d]?.tmin).filter((v) => v !== null && v !== undefined);
-      const etos = succeeded.map((s) => s.daily[d]?.eto).filter((v) => v !== null && v !== undefined);
-      const vents = succeeded.map((s) => s.daily[d]?.vent).filter((v) => v !== null && v !== undefined);
-      return {
+      const dates = Object.keys(params.PRECTOTCORR || {}).sort();
+      let daily = dates.map((d) => ({
+        dateISO: `${d.slice(0, 4)}-${d.slice(4, 6)}-${d.slice(6, 8)}`,
         date: `${d.slice(6, 8)}/${d.slice(4, 6)}`,
-        pluie: pluies.length ? pluies.reduce((a, b) => a + b, 0) / pluies.length : null,
-        tmax: tmaxs.length ? tmaxs.reduce((a, b) => a + b, 0) / tmaxs.length : null,
-        tmin: tmins.length ? tmins.reduce((a, b) => a + b, 0) / tmins.length : null,
-        eto: etos.length ? etos.reduce((a, b) => a + b, 0) / etos.length : null,
-        vent: vents.length ? vents.reduce((a, b) => a + b, 0) / vents.length : null,
-      };
-    }).filter((d) => d.pluie !== null);
+        pluie: params.PRECTOTCORR[d] === -999 ? null : params.PRECTOTCORR[d],
+        tmax: params.T2M_MAX[d] === -999 ? null : params.T2M_MAX[d],
+        tmin: params.T2M_MIN[d] === -999 ? null : params.T2M_MIN[d],
+        et0: null,
+      })).filter((d) => d.pluie !== null);
 
-    if (daily.length === 0) {
-      setError("Aucune donnée exploitable sur la période demandée (essayez une période plus ancienne).");
-      return;
+      if (daily.length === 0) throw new Error("Aucune donnée exploitable sur la période demandée (essayez une période plus ancienne).");
+
+      // Évapotranspiration de référence (ET0, méthode FAO-56 Penman-Monteith) — Open-Meteo Archive API.
+      // Récupérée séparément : un échec sur cette source ne doit pas empêcher l'affichage de la pluie et
+      // des températures, qui restent la donnée principale.
+      try {
+        const isoStart = `${startDate.slice(0, 4)}-${startDate.slice(4, 6)}-${startDate.slice(6, 8)}`;
+        const isoEnd = `${endDate.slice(0, 4)}-${endDate.slice(4, 6)}-${endDate.slice(6, 8)}`;
+        const omUrl = `https://archive-api.open-meteo.com/v1/archive?latitude=${coords.lat}&longitude=${coords.lon}&start_date=${isoStart}&end_date=${isoEnd}&daily=et0_fao_evapotranspiration&timezone=UTC`;
+        const omRes = await fetch(omUrl);
+        if (!omRes.ok) throw new Error(`Le service Open-Meteo a répondu avec le code ${omRes.status}.`);
+        const omData = await omRes.json();
+        const omDates = omData?.daily?.time || [];
+        const omEt0 = omData?.daily?.et0_fao_evapotranspiration || [];
+        const et0ByDate = new Map(omDates.map((d, i) => [d, omEt0[i]]));
+        daily = daily.map((d) => ({ ...d, et0: et0ByDate.has(d.dateISO) && et0ByDate.get(d.dateISO) !== null ? et0ByDate.get(d.dateISO) : null }));
+      } catch (e) {
+        setEt0Error("Évapotranspiration (ET0) indisponible pour cette période/localité (service Open-Meteo) : " + e.message + " — le bilan hydrique et l'analyse par culture ne peuvent pas être calculés tant que cette donnée manque.");
+      }
+
+      daily = computeWaterBalance(daily);
+
+      const cumulPluie = daily.reduce((s, d) => s + (d.pluie || 0), 0);
+      const joursPluie = daily.filter((d) => d.pluie >= 1).length;
+      const tMaxAbs = Math.max(...daily.map((d) => d.tmax).filter((v) => v !== null));
+      const tMinAbs = Math.min(...daily.map((d) => d.tmin).filter((v) => v !== null));
+      const tMoyenne = daily.reduce((s, d) => s + (d.tmax + d.tmin) / 2, 0) / daily.length;
+      const et0Cumule = daily.reduce((s, d) => s + (d.et0 || 0), 0);
+      const bilanNet = daily.length > 0 ? daily[daily.length - 1].bilanCumule : null;
+      const drySpells = detectDrySpells(daily, 1, Number(drySpellMinLength) || 7);
+
+      setResult({ daily, cumulPluie, joursPluie, tMaxAbs, tMinAbs, tMoyenne, n: daily.length, et0Cumule, bilanNet, drySpells });
+      if (!sowingDate) setSowingDate(daily[0]?.dateISO || "");
+    } catch (e) {
+      if (e instanceof TypeError) {
+        setError("Impossible de joindre le service NASA POWER (connexion réseau ou blocage temporaire). Vérifiez votre connexion internet et réessayez dans quelques instants.");
+      } else {
+        setError(e.message || "Échec de la récupération des données climatiques.");
+      }
+    } finally {
+      setLoading(false);
     }
+  };
 
-    const cumulPluie = daily.reduce((s, d) => s + d.pluie, 0);
-    const joursPluie = daily.filter((d) => d.pluie >= 10).length;
-    const tMaxAbs = Math.max(...daily.map((d) => d.tmax).filter((v) => v !== null));
-    const tMinAbs = Math.min(...daily.map((d) => d.tmin).filter((v) => v !== null));
-    const etoValides = daily.map((d) => d.eto).filter((v) => v !== null);
-    const cumulEto = etoValides.length ? etoValides.reduce((a, b) => a + b, 0) : null;
-    const ventValides = daily.map((d) => d.vent).filter((v) => v !== null);
-    const ventMoyen = ventValides.length ? ventValides.reduce((a, b) => a + b, 0) / ventValides.length : null;
+  const monthlyData = useMemo(() => (result ? aggregateByPeriod(result.daily, "mois") : []), [result]);
+  const quarterlyData = useMemo(() => (result ? aggregateByPeriod(result.daily, "trimestre") : []), [result]);
+  const periodData = view === "jour" ? result?.daily : view === "mois" ? monthlyData : quarterlyData;
+  const periodKey = view === "jour" ? "date" : "periode";
 
-    setResult({ daily, cumulPluie, joursPluie, tMaxAbs, tMinAbs, cumulEto, ventMoyen, n: daily.length, communesUtilisees: succeeded.map((s) => s.commune) });
+  const ombroMax = useMemo(() => {
+    if (monthlyData.length === 0) return { temp: 40, pluie: 80 };
+    const maxTemp = Math.max(...monthlyData.map((m) => m.tmoyenne || 0));
+    return { temp: Math.ceil((maxTemp * 1.2) / 5) * 5, pluie: Math.ceil((maxTemp * 1.2 * 2) / 20) * 20 };
+  }, [monthlyData]);
+
+  const cropAnalysis = useMemo(() => {
+    if (!result || !sowingDate || !cropKey) return null;
+    return computeCropWaterSatisfaction(result.daily, cropKey, sowingDate);
+  }, [result, sowingDate, cropKey]);
+
+  const drySpellsRecalc = useMemo(() => {
+    if (!result) return null;
+    return detectDrySpells(result.daily, 1, Number(drySpellMinLength) || 7);
+  }, [result, drySpellMinLength]);
+
+  const exportExcel = () => {
+    if (!result) return;
+    const rows = result.daily.map((d) => ({
+      Date: d.dateISO,
+      "Pluie (mm)": d.pluie !== null ? Number(d.pluie.toFixed(2)) : "",
+      "T° max (°C)": d.tmax !== null ? Number(d.tmax.toFixed(2)) : "",
+      "T° min (°C)": d.tmin !== null ? Number(d.tmin.toFixed(2)) : "",
+      "ET0 (mm)": d.et0 !== null && d.et0 !== undefined ? Number(d.et0.toFixed(2)) : "",
+      "Bilan du jour P-ET0 (mm)": d.bilanJour !== null && d.bilanJour !== undefined ? Number(d.bilanJour.toFixed(2)) : "",
+      "Bilan cumulé (mm)": d.bilanCumule !== null && d.bilanCumule !== undefined ? Number(d.bilanCumule.toFixed(2)) : "",
+    }));
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.json_to_sheet(rows);
+    XLSX.utils.book_append_sheet(wb, ws, "Données journalières");
+
+    const wsMeta = XLSX.utils.json_to_sheet([{
+      Commune: commune, Département: departement,
+      Latitude: COMMUNE_COORDS[commune]?.lat, Longitude: COMMUNE_COORDS[commune]?.lon,
+      "Période de début": startDate, "Période de fin": endDate,
+      "Cumul pluviométrique (mm)": Number(result.cumulPluie.toFixed(1)),
+      "ET0 cumulée (mm)": Number(result.et0Cumule.toFixed(1)),
+      "Sources": "NASA POWER (pluie, températures) · Open-Meteo Archive API (ET0, FAO-56 Penman-Monteith)",
+    }]);
+    XLSX.utils.book_append_sheet(wb, wsMeta, "Métadonnées");
+
+    XLSX.writeFile(wb, `AgroMeteo_${commune}_${startDate}_${endDate}.xlsx`);
   };
 
   return (
@@ -204,9 +203,16 @@ export default function Climate({ active, onNavigate, userEmail, roleLabel, isAd
             style={{ borderBottom: `2px solid ${GOLD}` }}>
             <div>
               <h1 className="font-serif text-xl font-bold" style={{ color: NAVY }}>Situation agrométéorologique</h1>
-              <p className="text-xs text-gray-500 mt-0.5">Données NASA POWER — moyenne sur zone d'intervention, Bénin</p>
+              <p className="text-xs text-gray-500 mt-0.5">Données NASA POWER &amp; Open-Meteo, par localité — Bénin</p>
             </div>
             <div className="flex items-center gap-4">
+              {result && (
+                <button onClick={exportExcel}
+                  className="text-xs font-medium flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-white"
+                  style={{ background: GREEN }}>
+                  <Download size={13} /> Extraire les données (.xlsx)
+                </button>
+              )}
               <Bell size={18} className="text-gray-400" />
               <UserMenu email={userEmail} roleLabel={roleLabel} isAdmin={isAdmin} isGuest={isGuest}
                 onLogout={onLogout} onOpenAdmin={onOpenAdmin} />
@@ -215,43 +221,22 @@ export default function Climate({ active, onNavigate, userEmail, roleLabel, isAd
 
           <main className="p-8">
             <Card className="mb-5">
-              <label className="text-xs font-medium text-gray-600 block mb-1.5">Zone d'intervention — département(s)</label>
-              <div className="flex flex-wrap gap-2 mb-3">
-                {BENIN_DEPARTEMENTS.map((d) => (
-                  <Chip key={d.departement} label={d.departement} active={departements.includes(d.departement)} onClick={() => toggleDepartement(d.departement)} />
-                ))}
-              </div>
-
-              {departements.length === 0 ? (
-                <p className="text-[11px] text-gray-400 italic mb-3">Sélectionnez au moins un département pour afficher ses communes.</p>
-              ) : (
-                <div className="space-y-2 mb-2">
-                  {departements.map((dep) => (
-                    <div key={dep}>
-                      <label className="text-[11px] text-gray-500 block mb-1">Communes de {dep}</label>
-                      <div className="flex flex-wrap gap-2">
-                        {(BENIN_DEPARTEMENTS.find((d) => d.departement === dep)?.communes || []).map((c) => (
-                          <Chip key={c} label={c} active={communes.includes(c)} onClick={() => toggleCommune(c)} />
-                        ))}
-                      </div>
-                    </div>
-                  ))}
+              <div className="grid grid-cols-4 gap-3 items-end">
+                <div>
+                  <label className="text-xs font-medium text-gray-600 block mb-1.5">Département</label>
+                  <select value={departement} onChange={(e) => { setDepartement(e.target.value); setCommune(BENIN_DEPARTEMENTS.find((d) => d.departement === e.target.value).communes[0]); }}
+                    className="w-full text-sm rounded-xl border border-gray-200 p-2.5 bg-white focus:outline-none focus:ring-2" style={{ "--tw-ring-color": GOLD }}>
+                    {BENIN_DEPARTEMENTS.map((d) => <option key={d.departement} value={d.departement}>{d.departement}</option>)}
+                  </select>
                 </div>
-              )}
-
-              {communes.length > 0 && (
-                <div className="flex flex-wrap gap-1.5 mb-4 pt-2 border-t border-gray-100">
-                  {communes.map((c) => (
-                    <span key={c} className="text-[11px] px-2 py-1 rounded-full flex items-center gap-1" style={{ background: "#EBEEF7", color: NAVY }}>
-                      {c}
-                      <button onClick={() => toggleCommune(c)} className="hover:text-red-500"><X size={11} /></button>
-                    </span>
-                  ))}
+                <div>
+                  <label className="text-xs font-medium text-gray-600 block mb-1.5">Commune</label>
+                  <select value={commune} onChange={(e) => setCommune(e.target.value)}
+                    className="w-full text-sm rounded-xl border border-gray-200 p-2.5 bg-white focus:outline-none focus:ring-2" style={{ "--tw-ring-color": GOLD }}>
+                    {communesDuDepartement.map((c) => <option key={c} value={c}>{c}</option>)}
+                  </select>
                 </div>
-              )}
-
-              <div className="grid grid-cols-3 gap-3 items-end">
-                <div className="col-span-2">
+                <div>
                   <label className="text-xs font-medium text-gray-600 block mb-1.5">Période</label>
                   <div className="flex items-center gap-1.5">
                     <input type="date" value={`${startDate.slice(0,4)}-${startDate.slice(4,6)}-${startDate.slice(6,8)}`}
@@ -269,12 +254,12 @@ export default function Climate({ active, onNavigate, userEmail, roleLabel, isAd
                 </button>
               </div>
               <p className="text-[11px] text-gray-400 mt-2">
-                Moyenne calculée jour par jour sur les communes sélectionnées (coordonnées approximatives du centre de chaque commune) · Source : NASA POWER, publication différée de quelques jours.
+                Coordonnées approximatives du centre de la commune ({COMMUNE_COORDS[commune]?.lat.toFixed(2)}, {COMMUNE_COORDS[commune]?.lon.toFixed(2)}) · Pluie et températures : NASA POWER (communauté agroclimatique) · Évapotranspiration de référence (ET0) : Open-Meteo, méthode FAO-56 Penman-Monteith — publication différée de quelques jours.
               </p>
             </Card>
 
             {error && (
-              <div className="flex items-start gap-2 rounded-xl p-4 mb-5" style={{ background: "#FBE7E5", color: "#B3413A" }}>
+              <div className="flex items-start gap-2 rounded-xl p-4 mb-5" style={{ background: RED_TINT, color: RED }}>
                 <AlertCircle size={16} className="mt-0.5 shrink-0" />
                 <div className="text-sm">
                   <p>{error}</p>
@@ -286,109 +271,275 @@ export default function Climate({ active, onNavigate, userEmail, roleLabel, isAd
               </div>
             )}
 
-            {partialWarning && (
-              <div className="flex items-start gap-2 rounded-xl p-3 mb-5" style={{ background: "#FDF1DA", color: "#8A5A00" }}>
-                <AlertCircle size={14} className="mt-0.5 shrink-0" />
-                <p className="text-xs">{partialWarning}</p>
+            {et0Error && (
+              <div className="flex items-start gap-2 rounded-xl p-3 mb-5" style={{ background: AMBER_TINT, color: AMBER }}>
+                <TriangleAlert size={14} className="mt-0.5 shrink-0" />
+                <p className="text-xs">{et0Error}</p>
               </div>
             )}
 
             {result && (
               <>
-                <p className="text-xs text-gray-500 mb-3">
-                  Moyenne de zone sur <span className="font-medium" style={{ color: NAVY }}>{result.communesUtilisees.length} commune{result.communesUtilisees.length > 1 ? "s" : ""}</span> : {result.communesUtilisees.join(", ")}
-                </p>
-                <div className="grid grid-cols-3 gap-4 mb-5">
+                {/* KPI */}
+                <div className="grid grid-cols-3 lg:grid-cols-6 gap-4 mb-5">
                   <Card>
                     <CloudRain size={18} style={{ color: GOLD }} />
-                    <div className="font-serif text-2xl font-bold mt-2" style={{ color: NAVY }}>{result.cumulPluie.toFixed(1)} mm</div>
-                    <div className="text-xs text-gray-400">Cumul pluviométrique (moyenne de zone)</div>
+                    <div className="font-serif text-xl font-bold mt-2" style={{ color: NAVY }}>{result.cumulPluie.toFixed(1)} mm</div>
+                    <div className="text-xs text-gray-400">Cumul pluviométrique</div>
                   </Card>
                   <Card>
                     <Droplets size={18} style={{ color: GOLD }} />
-                    <div className="font-serif text-2xl font-bold mt-2" style={{ color: NAVY }}>{result.joursPluie} j</div>
-                    <div className="text-xs text-gray-400">Jours de pluie (≥ 10 mm) sur {result.n}</div>
+                    <div className="font-serif text-xl font-bold mt-2" style={{ color: NAVY }}>{result.joursPluie} j</div>
+                    <div className="text-xs text-gray-400">Jours de pluie (≥ 1 mm) sur {result.n}</div>
                   </Card>
                   <Card>
-                    <Thermometer size={18} style={{ color: "#B3413A" }} />
-                    <div className="font-serif text-2xl font-bold mt-2" style={{ color: NAVY }}>{result.tMaxAbs.toFixed(1)} °C</div>
-                    <div className="text-xs text-gray-400">Température maximale (moyenne de zone)</div>
+                    <Thermometer size={18} style={{ color: RED }} />
+                    <div className="font-serif text-xl font-bold mt-2" style={{ color: NAVY }}>{result.tMaxAbs.toFixed(1)} °C</div>
+                    <div className="text-xs text-gray-400">Température maximale</div>
                   </Card>
                   <Card>
                     <Thermometer size={18} style={{ color: "#3592C4" }} />
-                    <div className="font-serif text-2xl font-bold mt-2" style={{ color: NAVY }}>{result.tMinAbs.toFixed(1)} °C</div>
-                    <div className="text-xs text-gray-400">Température minimale (moyenne de zone)</div>
+                    <div className="font-serif text-xl font-bold mt-2" style={{ color: NAVY }}>{result.tMinAbs.toFixed(1)} °C</div>
+                    <div className="text-xs text-gray-400">Température minimale</div>
                   </Card>
                   <Card>
-                    <Sun size={18} style={{ color: "#C9832E" }} />
-                    <div className="font-serif text-2xl font-bold mt-2" style={{ color: NAVY }}>{result.cumulEto !== null ? `${result.cumulEto.toFixed(1)} mm` : "ND"}</div>
-                    <div className="text-xs text-gray-400">Évapotranspiration cumulée (ET0)</div>
+                    <Sun size={18} style={{ color: "#B5651D" }} />
+                    <div className="font-serif text-xl font-bold mt-2" style={{ color: NAVY }}>
+                      {result.et0Cumule > 0 ? `${result.et0Cumule.toFixed(1)} mm` : "—"}
+                    </div>
+                    <div className="text-xs text-gray-400">ET0 cumulée</div>
                   </Card>
                   <Card>
-                    <Wind size={18} style={{ color: "#3E9C6B" }} />
-                    <div className="font-serif text-2xl font-bold mt-2" style={{ color: NAVY }}>{result.ventMoyen !== null ? `${result.ventMoyen.toFixed(1)} m/s` : "ND"}</div>
-                    <div className="text-xs text-gray-400">Vitesse du vent à 2 m (moyenne)</div>
+                    <Waves size={18} style={{ color: result.bilanNet >= 0 ? GREEN : RED }} />
+                    <div className="font-serif text-xl font-bold mt-2" style={{ color: result.bilanNet >= 0 ? GREEN : RED }}>
+                      {result.bilanNet !== null ? `${result.bilanNet >= 0 ? "+" : ""}${result.bilanNet.toFixed(1)} mm` : "—"}
+                    </div>
+                    <div className="text-xs text-gray-400">Bilan hydrique net (P − ET0)</div>
                   </Card>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
-                  <Card>
-                    <h2 className="font-serif font-semibold mb-3" style={{ color: NAVY }}>Précipitations journalières (moyenne de zone)</h2>
-                    <ResponsiveContainer width="100%" height={220}>
-                      <BarChart data={result.daily}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="#EDEDED" />
-                        <XAxis dataKey="date" tick={{ fontSize: 10 }} interval={Math.ceil(result.daily.length / 8)} />
-                        <YAxis tick={{ fontSize: 11 }} unit=" mm" width={50} />
-                        <Tooltip />
-                        <Bar dataKey="pluie" fill="#3592C4" radius={[3, 3, 0, 0]} name="Pluie (mm)" />
-                      </BarChart>
-                    </ResponsiveContainer>
-                  </Card>
-                  <Card>
-                    <h2 className="font-serif font-semibold mb-3" style={{ color: NAVY }}>Températures journalières (moyenne de zone)</h2>
+                {/* Vue Jour / Mois / Trimestre */}
+                <Card className="mb-5">
+                  <div className="flex items-center justify-between mb-3">
+                    <h2 className="font-serif font-semibold" style={{ color: NAVY }}>Précipitations et températures</h2>
+                    <div className="flex gap-1.5">
+                      {[["jour", "Jour"], ["mois", "Cumul mensuel"], ["trimestre", "Cumul trimestriel"]].map(([k, l]) => (
+                        <button key={k} onClick={() => setView(k)}
+                          className="px-3 py-1.5 rounded-lg text-xs font-medium"
+                          style={view === k ? { background: NAVY, color: "white" } : { background: "#F1F2F6", color: "#5A6478" }}>
+                          {l}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <p className="text-xs text-gray-400 mb-2">{view === "jour" ? "Pluie journalière (mm)" : `Pluie cumulée par ${view} (mm)`}</p>
+                      <ResponsiveContainer width="100%" height={220}>
+                        <BarChart data={periodData}>
+                          <CartesianGrid strokeDasharray="3 3" stroke="#EDEDED" />
+                          <XAxis dataKey={periodKey} tick={{ fontSize: 10 }} interval={view === "jour" ? Math.ceil((periodData?.length || 1) / 8) : 0} />
+                          <YAxis tick={{ fontSize: 11 }} unit=" mm" width={50} />
+                          <Tooltip />
+                          <Bar dataKey="pluie" fill="#3592C4" radius={[3, 3, 0, 0]} name="Pluie (mm)" />
+                        </BarChart>
+                      </ResponsiveContainer>
+                    </div>
+                    <div>
+                      <p className="text-xs text-gray-400 mb-2">{view === "jour" ? "Températures journalières (°C)" : `Température moyenne par ${view} (°C)`}</p>
+                      <ResponsiveContainer width="100%" height={220}>
+                        {view === "jour" ? (
+                          <LineChart data={periodData}>
+                            <CartesianGrid strokeDasharray="3 3" stroke="#EDEDED" />
+                            <XAxis dataKey="date" tick={{ fontSize: 10 }} interval={Math.ceil((periodData?.length || 1) / 8)} />
+                            <YAxis tick={{ fontSize: 11 }} unit="°C" width={45} />
+                            <Tooltip />
+                            <Line type="monotone" dataKey="tmax" stroke={RED} strokeWidth={2} dot={false} name="T° max" />
+                            <Line type="monotone" dataKey="tmin" stroke="#3592C4" strokeWidth={2} dot={false} name="T° min" />
+                          </LineChart>
+                        ) : (
+                          <LineChart data={periodData}>
+                            <CartesianGrid strokeDasharray="3 3" stroke="#EDEDED" />
+                            <XAxis dataKey="periode" tick={{ fontSize: 10 }} />
+                            <YAxis tick={{ fontSize: 11 }} unit="°C" width={45} />
+                            <Tooltip />
+                            <Line type="monotone" dataKey="tmoyenne" stroke={RED} strokeWidth={2} dot name="T° moyenne" />
+                          </LineChart>
+                        )}
+                      </ResponsiveContainer>
+                    </div>
+                  </div>
+                </Card>
+
+                {/* Diagramme ombrothermique */}
+                <Card className="mb-5">
+                  <div className="flex items-center gap-2 mb-1">
+                    <Sun size={16} style={{ color: GOLD }} />
+                    <h2 className="font-serif font-semibold" style={{ color: NAVY }}>Diagramme ombrothermique (Gaussen)</h2>
+                  </div>
+                  <p className="text-xs text-gray-400 mb-3">
+                    Convention de Gaussen : un mois est considéré sec lorsque le cumul pluviométrique (mm) descend sous le double de la température moyenne (°C) — zone grisée sur le graphique.
+                  </p>
+                  <ResponsiveContainer width="100%" height={260}>
+                    <ComposedChart data={monthlyData}>
+                      <CartesianGrid strokeDasharray="3 3" stroke="#EDEDED" />
+                      <XAxis dataKey="periode" tick={{ fontSize: 11 }} />
+                      <YAxis yAxisId="temp" tick={{ fontSize: 11 }} unit="°C" width={45} domain={[0, ombroMax.temp]} />
+                      <YAxis yAxisId="pluie" orientation="right" tick={{ fontSize: 11 }} unit=" mm" width={50} domain={[0, ombroMax.pluie]} />
+                      <Tooltip />
+                      <Legend wrapperStyle={{ fontSize: 11 }} />
+                      <Bar yAxisId="pluie" dataKey="pluie" fill="#A9C7E8" name="Pluie cumulée (mm)" radius={[3, 3, 0, 0]} />
+                      <Line yAxisId="temp" type="monotone" dataKey="tmoyenne" stroke={RED} strokeWidth={2.5} name="Température moyenne (°C)" dot />
+                    </ComposedChart>
+                  </ResponsiveContainer>
+                </Card>
+
+                {/* Bilan hydrique */}
+                <Card className="mb-5">
+                  <div className="flex items-center gap-2 mb-1">
+                    <Waves size={16} style={{ color: "#3592C4" }} />
+                    <h2 className="font-serif font-semibold" style={{ color: NAVY }}>Bilan hydrique séquentiel (P − ET0)</h2>
+                  </div>
+                  <p className="text-xs text-gray-400 mb-3">
+                    Bilan cumulé = somme courante de (pluie − ET0) depuis le début de la période affichée. Une valeur positive indique un excédent hydrique disponible, une valeur négative un déficit. Estimation simplifiée, sans prise en compte de la réserve utile du sol ni du ruissellement.
+                  </p>
+                  {result.daily.some((d) => d.et0 !== null) ? (
                     <ResponsiveContainer width="100%" height={220}>
                       <LineChart data={result.daily}>
                         <CartesianGrid strokeDasharray="3 3" stroke="#EDEDED" />
                         <XAxis dataKey="date" tick={{ fontSize: 10 }} interval={Math.ceil(result.daily.length / 8)} />
-                        <YAxis tick={{ fontSize: 11 }} unit="°C" width={45} />
+                        <YAxis tick={{ fontSize: 11 }} unit=" mm" width={55} />
                         <Tooltip />
-                        <Line type="monotone" dataKey="tmax" stroke="#B3413A" strokeWidth={2} dot={false} name="T° max" />
-                        <Line type="monotone" dataKey="tmin" stroke="#3592C4" strokeWidth={2} dot={false} name="T° min" />
+                        <ReferenceLine y={0} stroke="#B0B7C6" strokeDasharray="4 4" />
+                        <Line type="monotone" dataKey="bilanCumule" stroke={GREEN} strokeWidth={2} dot={false} name="Bilan cumulé (mm)" />
                       </LineChart>
                     </ResponsiveContainer>
-                  </Card>
-                  <Card>
-                    <h2 className="font-serif font-semibold mb-3" style={{ color: NAVY }}>Évapotranspiration journalière — ET0 (moyenne de zone)</h2>
-                    <ResponsiveContainer width="100%" height={220}>
-                      <BarChart data={result.daily}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="#EDEDED" />
-                        <XAxis dataKey="date" tick={{ fontSize: 10 }} interval={Math.ceil(result.daily.length / 8)} />
-                        <YAxis tick={{ fontSize: 11 }} unit=" mm" width={50} />
-                        <Tooltip />
-                        <Bar dataKey="eto" fill="#C9832E" radius={[3, 3, 0, 0]} name="ET0 (mm)" />
-                      </BarChart>
-                    </ResponsiveContainer>
-                  </Card>
-                  <Card>
-                    <h2 className="font-serif font-semibold mb-3" style={{ color: NAVY }}>Vitesse du vent à 2 m (moyenne de zone)</h2>
-                    <ResponsiveContainer width="100%" height={220}>
-                      <LineChart data={result.daily}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="#EDEDED" />
-                        <XAxis dataKey="date" tick={{ fontSize: 10 }} interval={Math.ceil(result.daily.length / 8)} />
-                        <YAxis tick={{ fontSize: 11 }} unit=" m/s" width={50} />
-                        <Tooltip />
-                        <Line type="monotone" dataKey="vent" stroke="#3E9C6B" strokeWidth={2} dot={false} name="Vent (m/s)" />
-                      </LineChart>
-                    </ResponsiveContainer>
-                  </Card>
-                </div>
+                  ) : (
+                    <div className="rounded-xl p-3 text-xs text-gray-400 italic" style={{ background: "#F7F8FA" }}>
+                      Le bilan hydrique ne peut pas être calculé : l'évapotranspiration de référence (ET0) n'a pas pu être récupérée pour cette période.
+                    </div>
+                  )}
+                </Card>
+
+                {/* Séquences sèches */}
+                <Card className="mb-5">
+                  <div className="flex items-center justify-between mb-1">
+                    <div className="flex items-center gap-2">
+                      <TriangleAlert size={16} style={{ color: AMBER }} />
+                      <h2 className="font-serif font-semibold" style={{ color: NAVY }}>Séquences sèches</h2>
+                    </div>
+                    <div className="flex items-center gap-2 text-xs text-gray-500">
+                      Seuil de signalement :
+                      <input type="number" min={2} max={30} value={drySpellMinLength}
+                        onChange={(e) => setDrySpellMinLength(e.target.value)}
+                        className="w-16 text-xs rounded-lg border border-gray-200 p-1.5 focus:outline-none" />
+                      jours consécutifs sans pluie utile (&lt; 1 mm)
+                    </div>
+                  </div>
+                  {drySpellsRecalc && drySpellsRecalc.significant.length > 0 ? (
+                    <>
+                      <p className="text-xs text-gray-500 mb-3">
+                        {drySpellsRecalc.countSignificant} séquence{drySpellsRecalc.countSignificant > 1 ? "s" : ""} sèche{drySpellsRecalc.countSignificant > 1 ? "s" : ""} significative{drySpellsRecalc.countSignificant > 1 ? "s" : ""} détectée{drySpellsRecalc.countSignificant > 1 ? "s" : ""} sur la période — la plus longue dure {drySpellsRecalc.longest?.length} jours ({drySpellsRecalc.longest?.start} → {drySpellsRecalc.longest?.end}).
+                      </p>
+                      <div className="space-y-1.5">
+                        {drySpellsRecalc.significant.slice(0, 8).map((s, i) => (
+                          <div key={i} className="flex items-center justify-between rounded-lg px-3 py-2 text-xs" style={{ background: AMBER_TINT }}>
+                            <span style={{ color: AMBER }}>Du {s.start} au {s.end}</span>
+                            <span className="font-semibold" style={{ color: AMBER }}>{s.length} jours</span>
+                          </div>
+                        ))}
+                      </div>
+                    </>
+                  ) : (
+                    <div className="rounded-xl p-3 text-xs text-gray-400 italic" style={{ background: "#F7F8FA" }}>
+                      Aucune séquence sèche d'au moins {drySpellMinLength} jours consécutifs détectée sur la période.
+                    </div>
+                  )}
+                </Card>
+
+                {/* Analyse par culture */}
+                <Card>
+                  <div className="flex items-center gap-2 mb-1">
+                    <Sprout size={16} style={{ color: GREEN }} />
+                    <h2 className="font-serif font-semibold" style={{ color: NAVY }}>Satisfaction des besoins en eau par culture</h2>
+                  </div>
+                  <p className="text-xs text-gray-400 mb-3">
+                    Méthode des coefficients culturaux (Kc) — FAO Irrigation and Drainage Paper n°56 (Allen et al., 1998), valeurs indicatives pour la zone soudano-guinéenne. ETc = Kc × ET0 ; indice de satisfaction = pluie décadaire / ETc décadaire.
+                  </p>
+                  <div className="grid grid-cols-3 gap-3 mb-4">
+                    <div>
+                      <label className="text-xs font-medium text-gray-600 block mb-1.5">Culture</label>
+                      <select value={cropKey} onChange={(e) => setCropKey(e.target.value)}
+                        className="w-full text-sm rounded-xl border border-gray-200 p-2.5 bg-white focus:outline-none">
+                        {Object.entries(CROP_KC_TABLE).map(([k, c]) => <option key={k} value={k}>{c.label}</option>)}
+                      </select>
+                    </div>
+                    <div>
+                      <label className="text-xs font-medium text-gray-600 block mb-1.5">Date de semis</label>
+                      <input type="date" value={sowingDate} onChange={(e) => setSowingDate(e.target.value)}
+                        className="w-full text-sm rounded-xl border border-gray-200 p-2.5 focus:outline-none" />
+                    </div>
+                    {cropAnalysis && (
+                      <div className="rounded-xl p-3 flex flex-col justify-center" style={{ background: NAVY_TINT }}>
+                        <span className="text-[11px] text-gray-500">Fin de cycle estimée</span>
+                        <span className="text-sm font-semibold" style={{ color: NAVY }}>{cropAnalysis.dateFinCycleISO} ({cropAnalysis.cycleLength} j)</span>
+                      </div>
+                    )}
+                  </div>
+
+                  {!result.daily.some((d) => d.et0 !== null) ? (
+                    <div className="rounded-xl p-3 text-xs text-gray-400 italic" style={{ background: "#F7F8FA" }}>
+                      L'analyse par culture nécessite l'évapotranspiration de référence (ET0), indisponible pour cette période.
+                    </div>
+                  ) : cropAnalysis && cropAnalysis.decades.length > 0 ? (
+                    <>
+                      <div className="rounded-xl p-3 mb-4 flex items-center gap-3" style={{ background: cropAnalysis.iseGlobal >= 1 ? GREEN_TINT : cropAnalysis.iseGlobal >= 0.5 ? AMBER_TINT : RED_TINT }}>
+                        <Info size={15} style={{ color: cropAnalysis.iseGlobal >= 1 ? GREEN : cropAnalysis.iseGlobal >= 0.5 ? AMBER : RED }} />
+                        <p className="text-xs" style={{ color: cropAnalysis.iseGlobal >= 1 ? GREEN : cropAnalysis.iseGlobal >= 0.5 ? AMBER : RED }}>
+                          Sur la portion du cycle couverte par les données disponibles : {cropAnalysis.totalPluie.toFixed(0)} mm de pluie pour {cropAnalysis.totalEtc.toFixed(0)} mm de besoins (ETc) — indice de satisfaction global {cropAnalysis.iseGlobal !== null ? cropAnalysis.iseGlobal.toFixed(2) : "—"}.
+                          {cropAnalysis.periodesStress.length > 0 && ` ${cropAnalysis.periodesStress.length} décade(s) en situation de déficit hydrique.`}
+                        </p>
+                      </div>
+                      <div className="overflow-x-auto">
+                        <table className="text-xs w-full">
+                          <thead>
+                            <tr>
+                              <th className="text-left text-[10px] text-gray-400 uppercase pb-2">Période (décade)</th>
+                              <th className="text-left text-[10px] text-gray-400 uppercase pb-2">Stade</th>
+                              <th className="text-right text-[10px] text-gray-400 uppercase pb-2">Pluie (mm)</th>
+                              <th className="text-right text-[10px] text-gray-400 uppercase pb-2">ETc (mm)</th>
+                              <th className="text-right text-[10px] text-gray-400 uppercase pb-2">ISE</th>
+                              <th className="text-right text-[10px] text-gray-400 uppercase pb-2">Statut</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {cropAnalysis.decades.map((d, i) => (
+                              <tr key={i} className="border-t border-gray-50">
+                                <td className="py-1.5 text-gray-700">{d.dateDebut} → {d.dateFin}</td>
+                                <td className="py-1.5 text-gray-500">{d.stage}</td>
+                                <td className="py-1.5 text-right text-gray-700">{d.pluieCumul.toFixed(1)}</td>
+                                <td className="py-1.5 text-right text-gray-700">{d.etcCumul.toFixed(1)}</td>
+                                <td className="py-1.5 text-right font-mono text-gray-600">{d.ise !== null ? d.ise.toFixed(2) : "—"}</td>
+                                <td className="py-1.5 text-right"><StatusPill statut={d.statut} /></td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </>
+                  ) : (
+                    <div className="rounded-xl p-3 text-xs text-gray-400 italic" style={{ background: "#F7F8FA" }}>
+                      Choisissez une date de semis comprise dans (ou proche de) la période importée pour lancer l'analyse.
+                    </div>
+                  )}
+                </Card>
               </>
             )}
 
             {!result && !error && !loading && (
               <Card className="text-center py-12">
                 <MapPin size={32} className="mx-auto text-gray-300 mb-3" />
-                <p className="text-sm text-gray-500">Choisissez une ou plusieurs communes et une période, puis cliquez « Afficher ».</p>
+                <p className="text-sm text-gray-500">Choisissez une commune et une période, puis cliquez « Afficher ».</p>
               </Card>
             )}
           </main>

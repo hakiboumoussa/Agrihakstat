@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import {
   LayoutDashboard, ClipboardList, BarChart3, FileText, Settings, Sprout,
   Bell, ChevronDown, Wand2, Pencil, Plus, X, Play, Check, Info,
-  TrendingUp, Layers, Sigma, ShieldCheck, AlertTriangle, XCircle, CheckCircle2, MapPin, Star,
+  TrendingUp, Layers, Sigma, ShieldCheck, AlertTriangle, XCircle, CheckCircle2, MapPin,
 } from "lucide-react";
 import UserMenu from "./UserMenu.jsx";
 import Sidebar from "./Sidebar.jsx";
@@ -288,28 +288,12 @@ export default function AnalysisConfig({ active, onNavigate, userEmail, roleLabe
   const [x, setX] = useState("sup_semee");
   const [y, setY] = useState("pluvio_decade");
   const [override, setOverride] = useState(null);
-  const [multiXMode, setMultiXMode] = useState(false);
-  const [selectedXs, setSelectedXs] = useState([]);
   const [confirmed, setConfirmed] = useState({});
+  const [selectedXs, setSelectedXs] = useState([]); // sélection multiple de variables X pour lancement groupé face à un même Y
   const queue = analysisQueue || [];
+  const setQueue = onAnalysisQueueChange || (() => {});
   const uniQueue = univariateQueue || [];
   const setUniQueue = onUnivariateQueueChange || (() => {});
-
-  const toggleUnivariateValidated = (variable, computed) => {
-    const exists = uniQueue.some((u) => u.variableId === variable.id);
-    if (exists) {
-      setUniQueue(uniQueue.filter((u) => u.variableId !== variable.id));
-    } else {
-      setUniQueue([...uniQueue, {
-        id: Date.now() + Math.random(),
-        variableId: variable.id,
-        variableLabel: variable.label,
-        isQuantitative: variable.isQuantitative,
-        stats: computed,
-      }]);
-    }
-  };
-  const setQueue = onAnalysisQueueChange || (() => {});
 
   const variables = dataset
     ? dataset.columns.filter((c) => c.type !== "Vide" && c.type !== "Texte libre").map((c) => ({
@@ -334,39 +318,6 @@ export default function AnalysisConfig({ active, onNavigate, userEmail, roleLabe
 
   const toggleIncluded = (id) =>
     setIncluded((prev) => (prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]));
-
-  // Variables jugées prioritaires car mentionnées (même partiellement) dans le nom ou la formule d'un indicateur déclaré
-  function normalizeTxt(s) {
-    return String(s).normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[_\-]/g, " ");
-  }
-  const indicateurTexts = (context?.indicateurs || []).map((k) => normalizeTxt(`${k.nom} ${k.formule || ""}`));
-  const isPriority = (v) => {
-    if (indicateurTexts.length === 0) return false;
-    const tokens = normalizeTxt(v.label).split(/\s+/).filter((t) => t.length >= 4);
-    return tokens.some((t) => indicateurTexts.some((txt) => txt.includes(t)));
-  };
-  const variablesWithPriority = variables.map((v) => ({ ...v, priority: isPriority(v) }));
-  const priorityVariables = variablesWithPriority.filter((v) => v.priority);
-
-  const [variableSearch, setVariableSearch] = useState("");
-  const searchNorm = normalizeTxt(variableSearch);
-  const filteredVariables = variablesWithPriority.filter((v) => !searchNorm || normalizeTxt(v.label).includes(searchNorm));
-  const sortByPriority = (a, b) => (b.priority === a.priority ? 0 : b.priority ? 1 : -1);
-  const groupedVariables = {
-    quantitative: filteredVariables.filter((v) => v.isQuantitative).sort(sortByPriority),
-    qualitative: filteredVariables.filter((v) => !v.isQuantitative).sort(sortByPriority),
-  };
-
-  // Propose automatiquement des analyses dès qu'une base et des indicateurs sont disponibles (une seule fois par import)
-  const autoSuggestDone = useRef(false);
-  useEffect(() => {
-    if (dataset && context?.indicateurs?.length > 0 && !autoSuggestDone.current) {
-      autoSuggestDone.current = true;
-      fetchSuggestions();
-    }
-    if (!dataset) autoSuggestDone.current = false;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dataset]);
 
   const fetchSuggestions = async () => {
     if (!dataset) return;
@@ -408,7 +359,11 @@ export default function AnalysisConfig({ active, onNavigate, userEmail, roleLabe
   const realStat = activeTest ? computeRealStat(activeTest, x, y, dataset) : null;
 
   useEffect(() => { setConfirmed({}); }, [activeTest, x, y]);
+  // La sélection multiple de X repart à zéro dès que Y ou la base change, pour éviter les croisements incohérents
+  useEffect(() => { setSelectedXs([]); }, [y, dataset]);
 
+  // Les conditions de validation restent affichées et peuvent être cochées à titre de traçabilité,
+  // mais ne bloquent plus l'ajout à la file — seule l'existence d'un test proposé est requise.
   const addToQueue = () => {
     if (!proposal) return;
     setQueue([
@@ -423,6 +378,7 @@ export default function AnalysisConfig({ active, onNavigate, userEmail, roleLabe
         test: activeTest,
         status: override ? "adjusted" : "auto",
         conditionsCount: conditions.length,
+        conditionsConfirmedCount: conditions.filter((_, i) => confirmed[i]).length,
         detail: realStat?.detail,
       },
     ]);
@@ -430,25 +386,34 @@ export default function AnalysisConfig({ active, onNavigate, userEmail, roleLabe
     setConfirmed({});
   };
 
+  const toggleSelectedX = (id) =>
+    setSelectedXs((prev) => (prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]));
+
+  // Lancement groupé : pour le Y actuellement choisi, calcule et ajoute une entrée de file
+  // pour chacune des variables X cochées, sans exiger la confirmation individuelle des conditions.
   const addBatchToQueue = () => {
-    if (selectedXs.length === 0) return;
-    const newItems = selectedXs.map((xid) => {
-      const xv = variables.find((v) => v.id === xid);
-      const prop = proposeTest(xid, y, variables, dataset);
-      const stat = prop ? computeRealStat(prop.test, xid, y, dataset) : null;
-      return {
-        id: Date.now() + Math.random(),
-        label: `${xv.label} × ${yVar.label}`,
-        xId: xid,
-        yId: y,
-        xLabel: xv.label,
-        yLabel: yVar.label,
-        test: prop?.test,
-        status: "auto",
-        conditionsCount: 0,
-        detail: stat?.detail,
-      };
-    }).filter((item) => item.test);
+    if (!yVar || selectedXs.length === 0) return;
+    const newItems = selectedXs
+      .map((xId) => {
+        const xv = variables.find((v) => v.id === xId);
+        if (!xv) return null;
+        const prop = proposeTest(xId, y, variables, dataset);
+        if (!prop) return null;
+        const stat = computeRealStat(prop.test, xId, y, dataset);
+        const cond = getConditions(prop.test, { dataset, xId, yId: y });
+        return {
+          id: Date.now() + Math.random(),
+          label: `${xv.label} × ${yVar.label}`,
+          xId, yId: y,
+          xLabel: xv.label, yLabel: yVar.label,
+          test: prop.test,
+          status: "auto",
+          conditionsCount: cond.length,
+          conditionsConfirmedCount: 0,
+          detail: stat?.detail,
+        };
+      })
+      .filter(Boolean);
     setQueue([...queue, ...newItems]);
     setSelectedXs([]);
   };
@@ -493,53 +458,23 @@ export default function AnalysisConfig({ active, onNavigate, userEmail, roleLabe
                     ? `Variables détectées dans ${dataset.fileName}. Seules celles cochées seront proposées dans les analyses ci-dessous.`
                     : "Seules les variables cochées seront proposées dans les analyses ci-dessous (exemple illustratif — importez un fichier pour vos propres variables)."}
                 </p>
-
-                {variables.length > 8 && (
-                  <input
-                    type="text"
-                    value={variableSearch}
-                    onChange={(e) => setVariableSearch(e.target.value)}
-                    placeholder={`Rechercher parmi les ${variables.length} variables…`}
-                    className="w-full text-sm rounded-xl border border-gray-200 p-2.5 mb-3 focus:outline-none focus:ring-2"
-                    style={{ "--tw-ring-color": GOLD }}
-                  />
-                )}
-
-                {priorityVariables.length > 0 && (
-                  <p className="text-[11px] mb-2 flex items-center gap-1" style={{ color: "#8A5A00" }}>
-                    <Star size={11} fill="#C99A2E" style={{ color: GOLD }} /> {priorityVariables.length} variable{priorityVariables.length > 1 ? "s" : ""} en lien avec vos indicateurs déclarés — mise{priorityVariables.length > 1 ? "s" : ""} en avant ci-dessous.
-                  </p>
-                )}
-
-                {[
-                  { label: "Quantitatives", list: groupedVariables.quantitative },
-                  { label: "Qualitatives", list: groupedVariables.qualitative },
-                ].map(({ label, list }) => list.length > 0 && (
-                  <div key={label} className="mb-3">
-                    <div className="text-[10px] uppercase tracking-wide text-gray-400 font-medium mb-1.5">{label} · {list.length}</div>
-                    <div className="flex flex-wrap gap-2">
-                      {list.map((v) => (
-                        <button
-                          key={v.id}
-                          onClick={() => toggleIncluded(v.id)}
-                          className="px-3 py-1.5 rounded-full text-xs font-medium border transition-colors flex items-center gap-1"
-                          style={
-                            included.includes(v.id)
-                              ? { background: v.priority ? "#FDF1DA" : NAVY_TINT, borderColor: v.priority ? GOLD : NAVY, color: v.priority ? "#8A5A00" : NAVY }
-                              : { background: "white", borderColor: "#D8DEE9", color: "#B0B7C6" }
-                          }
-                        >
-                          {v.priority && <Star size={10} fill={included.includes(v.id) ? "#C99A2E" : "none"} style={{ color: GOLD }} />}
-                          {included.includes(v.id) ? <Check size={11} /> : null}
-                          {v.label}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-                {variables.length > 0 && groupedVariables.quantitative.length === 0 && groupedVariables.qualitative.length === 0 && (
-                  <p className="text-xs text-gray-400 italic">Aucune variable ne correspond à cette recherche.</p>
-                )}
+                <div className="flex flex-wrap gap-2">
+                  {variables.map((v) => (
+                    <button
+                      key={v.id}
+                      onClick={() => toggleIncluded(v.id)}
+                      className="px-3 py-1.5 rounded-full text-xs font-medium border transition-colors"
+                      style={
+                        included.includes(v.id)
+                          ? { background: NAVY_TINT, borderColor: NAVY, color: NAVY }
+                          : { background: "white", borderColor: "#D8DEE9", color: "#B0B7C6" }
+                      }
+                    >
+                      {included.includes(v.id) ? <Check size={11} className="inline mr-1 -mt-0.5" /> : null}
+                      {v.label}
+                    </button>
+                  ))}
+                </div>
               </Card>
 
               {/* Suggestions d'analyses proposées par Claude, à valider avant configuration */}
@@ -593,81 +528,47 @@ export default function AnalysisConfig({ active, onNavigate, userEmail, roleLabe
               {tab === "bivariee" && (
                 <Card>
                   <h2 className="font-serif font-semibold mb-1" style={{ color: NAVY }}>Analyse bivariée</h2>
-                  <p className="text-xs text-gray-400 mb-3">Sélectionnez deux variables : le test statistique adapté est proposé automatiquement.</p>
+                  <p className="text-xs text-gray-400 mb-5">Sélectionnez deux variables : le test statistique adapté est proposé automatiquement.</p>
 
-                  <label className="flex items-center gap-2 mb-5 text-xs cursor-pointer select-none w-fit">
-                    <input type="checkbox" checked={multiXMode} onChange={(e) => { setMultiXMode(e.target.checked); setSelectedXs([]); }}
-                      className="w-4 h-4 rounded" style={{ accentColor: NAVY }} />
-                    <span className="font-medium" style={{ color: NAVY }}>Comparer plusieurs variables X à la fois, pour la même variable Y</span>
-                  </label>
-
-                  {multiXMode ? (
-                    <>
-                      <div className="mb-4">
-                        <label className="text-xs font-medium text-gray-600 block mb-1.5">Variable Y (commune à toutes les comparaisons)</label>
-                        <Select value={y} onChange={(v) => setY(v)} options={availableVars} placeholder="Choisir une variable" />
-                      </div>
-                      <label className="text-xs font-medium text-gray-600 block mb-1.5">Variables X à comparer</label>
-                      <div className="flex flex-wrap gap-2 mb-4">
-                        {availableVars.filter((v) => v.id !== y).map((v) => (
-                          <button key={v.id}
-                            onClick={() => setSelectedXs((prev) => prev.includes(v.id) ? prev.filter((i) => i !== v.id) : [...prev, v.id])}
-                            className="px-3 py-1.5 rounded-full text-xs font-medium border transition-colors"
-                            style={selectedXs.includes(v.id) ? { background: NAVY, borderColor: NAVY, color: "white" } : { background: "white", borderColor: "#D8DEE9", color: "#5A6478" }}>
-                            {v.label}
-                          </button>
-                        ))}
-                      </div>
-
-                      {selectedXs.length > 0 && (
-                        <div className="rounded-2xl border border-gray-100 overflow-hidden mb-4">
-                          <table className="w-full text-xs">
-                            <thead>
-                              <tr className="text-left text-[10px] text-gray-400 uppercase bg-gray-50">
-                                <th className="px-4 py-2 font-medium">Variable X</th>
-                                <th className="px-4 py-2 font-medium">Test proposé</th>
-                                <th className="px-4 py-2 font-medium">Résultat</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {selectedXs.map((xid) => {
-                                const xv = variables.find((v) => v.id === xid);
-                                const prop = proposeTest(xid, y, variables, dataset);
-                                const stat = prop ? computeRealStat(prop.test, xid, y, dataset) : null;
-                                return (
-                                  <tr key={xid} className="border-t border-gray-50">
-                                    <td className="px-4 py-2.5 text-gray-800">{xv.label}</td>
-                                    <td className="px-4 py-2.5 text-gray-600">{prop?.test || "—"}</td>
-                                    <td className="px-4 py-2.5 font-mono text-gray-500">{stat?.detail || (dataset ? "—" : "exemple illustratif")}</td>
-                                  </tr>
-                                );
-                              })}
-                            </tbody>
-                          </table>
-                        </div>
-                      )}
-
-                      <button
-                        onClick={addBatchToQueue}
-                        disabled={selectedXs.length === 0}
-                        className="px-4 py-2.5 rounded-xl text-sm font-medium flex items-center gap-1.5 text-white shadow-md disabled:opacity-40 disabled:cursor-not-allowed"
-                        style={{ background: `linear-gradient(135deg, ${NAVY}, #2A4A82)` }}
-                      >
-                        <Plus size={15} /> Ajouter les {selectedXs.length || ""} analyses à la file
-                      </button>
-                    </>
-                  ) : (
-                  <>
-                  <div className="grid grid-cols-2 gap-4 mb-5">
+                  <div className="grid grid-cols-2 gap-4 mb-4">
                     <div>
-                      <label className="text-xs font-medium text-gray-600 block mb-1.5">Variable X</label>
+                      <label className="text-xs font-medium text-gray-600 block mb-1.5">Variable X (aperçu détaillé)</label>
                       <Select value={x} onChange={(v) => { setX(v); setOverride(null); }} options={availableVars} placeholder="Choisir une variable" />
                       {xVar && <div className="text-[11px] text-gray-400 mt-1">{xVar.type}</div>}
                     </div>
                     <div>
-                      <label className="text-xs font-medium text-gray-600 block mb-1.5">Variable Y</label>
+                      <label className="text-xs font-medium text-gray-600 block mb-1.5">Variable Y (fixe pour le lancement groupé)</label>
                       <Select value={y} onChange={(v) => { setY(v); setOverride(null); }} options={availableVars} placeholder="Choisir une variable" />
                       {yVar && <div className="text-[11px] text-gray-400 mt-1">{yVar.type}</div>}
+                    </div>
+                  </div>
+
+                  {/* Sélection multiple de X : lancement simultané de plusieurs tableaux croisés avec un même Y */}
+                  <div className="rounded-2xl p-4 border border-gray-100 mb-5" style={{ background: "#FAFBFD" }}>
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center gap-2">
+                        <Layers size={14} style={{ color: NAVY }} />
+                        <span className="text-xs font-semibold" style={{ color: NAVY }}>Sélection multiple de X — lancement groupé face à {yVar ? yVar.label : "Y"}</span>
+                      </div>
+                      {selectedXs.length > 0 && (
+                        <button onClick={addBatchToQueue}
+                          className="text-[11px] font-medium flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-white"
+                          style={{ background: `linear-gradient(135deg, ${NAVY}, #2A4A82)` }}>
+                          <Plus size={12} /> Ajouter les {selectedXs.length} tableau{selectedXs.length > 1 ? "x" : ""} à la file
+                        </button>
+                      )}
+                    </div>
+                    <p className="text-[11px] text-gray-400 mb-2">
+                      Cochez plusieurs variables X pour calculer et ajouter simultanément un tableau croisé avec {yVar ? yVar.label : "la variable Y choisie"} pour chacune — sans repasser par la confirmation individuelle des conditions.
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {availableVars.filter((v) => v.id !== y).map((v) => (
+                        <label key={v.id} className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-[11px] font-medium border cursor-pointer"
+                          style={selectedXs.includes(v.id) ? { background: NAVY_TINT, borderColor: NAVY, color: NAVY } : { background: "white", borderColor: "#D8DEE9", color: "#5A6478" }}>
+                          <input type="checkbox" className="w-3 h-3" checked={selectedXs.includes(v.id)} onChange={() => toggleSelectedX(v.id)} style={{ accentColor: NAVY }} />
+                          {v.label}
+                        </label>
+                      ))}
                     </div>
                   </div>
 
@@ -750,7 +651,12 @@ export default function AnalysisConfig({ active, onNavigate, userEmail, roleLabe
                           })}
                         </div>
                         <p className="text-[11px] text-gray-400 mt-3">
-                          Ces conditions sont calculées à titre indicatif — leur confirmation n'est plus requise pour ajouter l'analyse à la file, mais elles restent recommandées avant toute conclusion.
+                          La confirmation des conditions est facultative et sert de traçabilité méthodologique — elle n'est plus requise pour poursuivre le traitement.
+                          {conditions.length > 0 && (
+                            <span className="ml-1 font-medium" style={{ color: allConfirmed ? GREEN : "#B0B7C6" }}>
+                              ({conditions.filter((_, i) => confirmed[i]).length}/{conditions.length} confirmée{conditions.filter((_, i) => confirmed[i]).length > 1 ? "s" : ""})
+                            </span>
+                          )}
                         </p>
                       </div>
                     </>
@@ -760,24 +666,21 @@ export default function AnalysisConfig({ active, onNavigate, userEmail, roleLabe
                     onClick={addToQueue}
                     disabled={!proposal}
                     className="mt-5 px-4 py-2.5 rounded-xl text-sm font-medium flex items-center gap-1.5 text-white shadow-md disabled:opacity-40 disabled:cursor-not-allowed"
-                    style={{ background: `linear-gradient(135deg, ${NAVY}, #2A4A82)` }}
+                    style={{ background: proposal ? `linear-gradient(135deg, ${NAVY}, #2A4A82)` : "#B0B7C6" }}
                   >
                     <Plus size={15} /> Ajouter à la file d'analyses
                   </button>
-                  </>
-                  )}
                 </Card>
               )}
 
               {/* UNIVARIÉE */}
               {tab === "univariee" && (
                 <Card>
-                  <div className="flex items-center justify-between mb-1">
-                    <h2 className="font-serif font-semibold" style={{ color: NAVY }}>Analyse univariée</h2>
-                    <span className="text-[11px] text-gray-400">{uniQueue.length} variable{uniQueue.length > 1 ? "s" : ""} validée{uniQueue.length > 1 ? "s" : ""} pour le rapport</span>
-                  </div>
+                  <h2 className="font-serif font-semibold mb-1" style={{ color: NAVY }}>Analyse univariée</h2>
                   <p className="text-xs text-gray-400 mb-5">
-                    {dataset ? "Statistiques calculées réellement à partir du fichier importé. Validez chaque variable pour l'inclure au rapport." : "Cochez les variables à décrire : les statistiques calculées s'adaptent au type détecté."}
+                    {dataset
+                      ? "Statistiques calculées réellement à partir du fichier importé. Validez chaque variable pour qu'elle soit reprise dans les résultats et le rapport."
+                      : "Importez un fichier pour calculer les statistiques réelles et valider les variables à inclure dans le rapport."}
                   </p>
                   <div className="space-y-2">
                     {availableVars.map((v) => {
@@ -787,31 +690,40 @@ export default function AnalysisConfig({ active, onNavigate, userEmail, roleLabe
                           real = v.isQuantitative ? descriptiveStats(dataset.rows, v.id) : frequencies(dataset.rows, v.id).slice(0, 3);
                         } catch (e) { real = null; }
                       }
-                      const validated = uniQueue.some((u) => u.variableId === v.id);
+                      const isValidated = uniQueue.some((u) => u.variableId === v.id);
+                      const toggleValidated = () => {
+                        if (!real) return;
+                        if (isValidated) {
+                          setUniQueue(uniQueue.filter((u) => u.variableId !== v.id));
+                        } else {
+                          setUniQueue([
+                            ...uniQueue,
+                            { id: Date.now() + Math.random(), variableId: v.id, variableLabel: v.label, isQuantitative: v.isQuantitative, stats: real },
+                          ]);
+                        }
+                      };
+                      const outliers = real && v.isQuantitative ? real.outliers : null;
                       return (
-                        <div key={v.id} className="rounded-xl border p-3" style={{ borderColor: validated ? GREEN : "#EEE", background: validated ? "#F3FAF6" : "white" }}>
+                        <div key={v.id} className="rounded-xl border border-gray-100 p-3">
                           <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-3">
+                            <label className="flex items-center gap-3 cursor-pointer">
+                              <input type="checkbox" checked={isValidated} onChange={toggleValidated} disabled={!real}
+                                className="w-4 h-4 rounded disabled:opacity-40" style={{ accentColor: GREEN }} />
                               <span className="text-sm text-gray-800">{v.label}</span>
-                            </div>
-                            <div className="flex items-center gap-3">
-                              {!dataset && (
-                                <span className="text-[11px] text-gray-400">
-                                  {v.isQuantitative ? "Moyenne, médiane, écart-type" : "Fréquences, mode"}
-                                </span>
-                              )}
-                              {dataset && real && (
-                                <label className="flex items-center gap-1.5 text-[11px] cursor-pointer select-none">
-                                  <input type="checkbox" checked={validated} onChange={() => toggleUnivariateValidated(v, real)}
-                                    className="w-3.5 h-3.5 rounded" style={{ accentColor: GREEN }} />
-                                  <span style={{ color: validated ? GREEN : "#9CA3AF" }}>{validated ? "Validée" : "Valider pour le rapport"}</span>
-                                </label>
-                              )}
-                            </div>
+                            </label>
+                            {isValidated ? (
+                              <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full" style={{ background: GREEN_TINT, color: GREEN }}>Validée pour le rapport</span>
+                            ) : !dataset ? (
+                              <span className="text-[11px] text-gray-400">
+                                {v.isQuantitative ? "Moyenne, médiane, écart-type, min/max" : "Fréquences, mode"}
+                              </span>
+                            ) : (
+                              <span className="text-[11px] text-gray-400">À valider</span>
+                            )}
                           </div>
                           {real && v.isQuantitative && (
                             <>
-                              <div className="grid grid-cols-6 gap-2 mt-2 text-center">
+                              <div className="grid grid-cols-3 gap-2 mt-2 text-center">
                                 {[["Moyenne", real.moyenne], ["Médiane", real.mediane], ["Écart-type", real.ecartType], ["CV (%)", real.cv], ["Min", real.min], ["Max", real.max]].map(([l, val]) => (
                                   <div key={l} className="rounded-lg py-1.5" style={{ background: NAVY_TINT }}>
                                     <div className="text-[10px] text-gray-500">{l}</div>
@@ -819,12 +731,13 @@ export default function AnalysisConfig({ active, onNavigate, userEmail, roleLabe
                                   </div>
                                 ))}
                               </div>
-                              <div className="mt-2 text-[11px] flex items-center gap-1.5" style={{ color: real.outliers.count > 0 ? "#8A5A00" : "#9CA3AF" }}>
-                                <AlertTriangle size={12} />
-                                {real.outliers.count > 0
-                                  ? `${real.outliers.count} valeur${real.outliers.count > 1 ? "s" : ""} atypique${real.outliers.count > 1 ? "s" : ""} détectée${real.outliers.count > 1 ? "s" : ""} (méthode interquartile) — hors [${real.outliers.lowerBound.toFixed(1)} ; ${real.outliers.upperBound.toFixed(1)}]`
-                                  : "Aucune valeur atypique détectée (méthode interquartile)"}
-                              </div>
+                              {outliers && outliers.count !== null && (
+                                <p className="text-[11px] mt-2" style={{ color: outliers.count > 0 ? AMBER : "#9CA3AF" }}>
+                                  {outliers.count > 0
+                                    ? `${outliers.count} valeur${outliers.count > 1 ? "s" : ""} atypique${outliers.count > 1 ? "s" : ""} détectée${outliers.count > 1 ? "s" : ""} (méthode interquartile) — hors de l'intervalle [${outliers.lowerBound.toFixed(1)} ; ${outliers.upperBound.toFixed(1)}] (Q1=${outliers.q1.toFixed(1)}, Q3=${outliers.q3.toFixed(1)}, IQR=${outliers.iqr.toFixed(1)})`
+                                    : "Aucune valeur atypique détectée (méthode interquartile)."}
+                                </p>
+                              )}
                             </>
                           )}
                           {real && !v.isQuantitative && (
@@ -924,9 +837,12 @@ export default function AnalysisConfig({ active, onNavigate, userEmail, roleLabe
                   ))}
                   {queue.length === 0 && <div className="text-xs text-gray-400 italic">Aucune analyse ajoutée pour l'instant.</div>}
                 </div>
+                {uniQueue.length > 0 && (
+                  <p className="text-[11px] text-gray-400 mb-2">{uniQueue.length} variable{uniQueue.length > 1 ? "s" : ""} univariée{uniQueue.length > 1 ? "s" : ""} validée{uniQueue.length > 1 ? "s" : ""} pour le rapport.</p>
+                )}
                 <button
                   onClick={() => onNavigate("results")}
-                  disabled={queue.length === 0}
+                  disabled={queue.length === 0 && uniQueue.length === 0}
                   className="w-full px-4 py-2.5 rounded-xl text-sm font-medium flex items-center justify-center gap-1.5 text-white shadow-md disabled:opacity-40 disabled:cursor-not-allowed"
                   style={{ background: `linear-gradient(135deg, #3E9C6B, ${GREEN})` }}
                 >
