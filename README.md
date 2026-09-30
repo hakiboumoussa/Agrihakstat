@@ -81,13 +81,23 @@ Le site inclut désormais une page d'accueil publique, un système de compte
 1. Créez un compte gratuit sur **https://supabase.com** → **New project**
 2. Une fois le projet créé, allez dans **Project Settings → API** et notez
    deux valeurs : **Project URL** et **anon public key**
-3. Ouvrez `src/config.js` dans ce projet et remplacez les deux valeurs
-   d'exemple par les vôtres
+3. Ces deux valeurs sont lues depuis les variables d'environnement de build
+   `SUPABASE_URL` et `SUPABASE_ANON_KEY` (voir `scripts/build.mjs`) — dans
+   Vercel, **Project → Settings → Environment Variables**, ajoutez-les avec
+   vos propres valeurs, puis redéployez. Pour un build local sans ces
+   variables, `src/config.js` retombe sur les valeurs du projet de
+   démonstration.
 4. Dans Supabase, ouvrez **SQL Editor → New query**, collez le contenu du
    fichier `supabase_setup.sql` fourni à la racine de ce projet, puis **Run**
-5. Dans Supabase, **Authentication → Providers**, vérifiez que **Email** est
+5. Toujours dans **SQL Editor**, exécutez ensuite `supabase_migration_persistence.sql`
+   (également à la racine du projet) : il ajoute la table `work_sessions`,
+   qui permet de reprendre automatiquement la base importée, la file
+   d'analyses et le rapport en cours d'un appareil à l'autre, une fois
+   connecté (sans elle, seul le localStorage du navigateur conserve ce
+   travail, et l'application continue de fonctionner normalement).
+6. Dans Supabase, **Authentication → Providers**, vérifiez que **Email** est
    activé (c'est le cas par défaut)
-6. `npm run build`, puis `git add . && git commit -m "Connexion Supabase" && git push`
+7. `npm run build`, puis `git add . && git commit -m "Connexion Supabase" && git push`
    — Vercel redéploiera automatiquement
 
 ### Vous désigner comme administrateur

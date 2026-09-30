@@ -20,6 +20,7 @@ import Login from "./auth/Login.jsx";
 import Signup from "./auth/Signup.jsx";
 import ResetPassword from "./auth/ResetPassword.jsx";
 import { supabase, isSupabaseConfigured } from "./supabaseClient.js";
+import { loadWorkSession, saveWorkSession } from "./persistence.js";
 
 const SCREENS = {
   dashboard: Dashboard, import: ImportWizard, config: AnalysisConfig,
@@ -70,11 +71,49 @@ export default function App() {
   const [univariateQueue, setUnivariateQueue] = useState(persisted?.univariateQueue || []); // variables univariées validées pour le rapport
   const [context, setContext] = useState(persisted?.context || null); // contexte de l'étude (objectif, communes, filières, période, indicateurs)
   const [recoveryMode, setRecoveryMode] = useState(false);
+  // true une fois la tentative de reprise depuis Supabase terminée (réussie, échouée, ou non
+  // applicable — invité/hors ligne) : évite d'enregistrer un état encore incomplet par-dessus une
+  // session distante avant même d'avoir tenté de la charger.
+  const [remoteSessionReady, setRemoteSessionReady] = useState(false);
 
   // Sauvegarde automatique du travail en cours (survit à une fermeture d'onglet ou un rechargement)
   useEffect(() => {
     savePersisted({ active, dataset, analysisQueue, univariateQueue, context, guestMode });
   }, [active, dataset, analysisQueue, univariateQueue, context, guestMode]);
+
+  // Reprise du travail depuis Supabase (public.work_sessions, cf. persistence.js) à la connexion :
+  // permet de retrouver la base importée, la file d'analyses et le rapport depuis un autre appareil,
+  // ou après suppression du localStorage — le localStorage reste le filet de sécurité immédiat,
+  // cette couche est la persistance durable multi-appareil. N'écrase l'état local que sur les champs
+  // où Supabase a effectivement quelque chose (un dataset non vide, une file non vide...), pour ne
+  // pas effacer un travail en cours dans cet onglet par une session distante encore vide.
+  useEffect(() => {
+    if (!session || !isSupabaseConfigured || guestMode) { setRemoteSessionReady(true); return; }
+    let cancelled = false;
+    loadWorkSession(session.user.id).then((remote) => {
+      if (cancelled) return;
+      if (remote) {
+        if (remote.dataset) setDataset(remote.dataset);
+        if (Array.isArray(remote.analysis_queue) && remote.analysis_queue.length > 0) setAnalysisQueue(remote.analysis_queue);
+        if (Array.isArray(remote.univariate_queue) && remote.univariate_queue.length > 0) setUnivariateQueue(remote.univariate_queue);
+        if (remote.context) setContext(remote.context);
+      }
+      setRemoteSessionReady(true);
+    });
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [session?.user?.id, guestMode]);
+
+  // Sauvegarde différée (anti-rebond) vers Supabase, une fois la reprise initiale terminée — pour ne
+  // pas déclencher un upsert à chaque frappe/changement d'état, ni écraser la session distante avant
+  // d'avoir eu la chance de la charger (cf. effet précédent).
+  useEffect(() => {
+    if (!session || !isSupabaseConfigured || guestMode || !remoteSessionReady) return;
+    const timer = setTimeout(() => {
+      saveWorkSession(session.user.id, { dataset, analysisQueue, univariateQueue, context });
+    }, 1500);
+    return () => clearTimeout(timer);
+  }, [session, guestMode, remoteSessionReady, dataset, analysisQueue, univariateQueue, context]);
 
   useEffect(() => {
     if (!isSupabaseConfigured) { setSession(null); return; }

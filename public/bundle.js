@@ -20517,6 +20517,38 @@ function ResetPassword({ onDone }) {
   )))));
 }
 
+// src/persistence.js
+async function loadWorkSession(userId) {
+  if (!isSupabaseConfigured || !userId) return null;
+  try {
+    const { data, error } = await supabase.from("work_sessions").select("dataset, analysis_queue, univariate_queue, context, updated_at").eq("user_id", userId).maybeSingle();
+    if (error) {
+      console.warn("Reprise de la session de travail Supabase impossible :", error.message);
+      return null;
+    }
+    return data;
+  } catch (e) {
+    console.warn("Reprise de la session de travail Supabase impossible :", e.message);
+    return null;
+  }
+}
+async function saveWorkSession(userId, { dataset, analysisQueue, univariateQueue, context }) {
+  if (!isSupabaseConfigured || !userId) return;
+  try {
+    const { error } = await supabase.from("work_sessions").upsert({
+      user_id: userId,
+      dataset: dataset || null,
+      analysis_queue: analysisQueue || [],
+      univariate_queue: univariateQueue || [],
+      context: context || null,
+      updated_at: (/* @__PURE__ */ new Date()).toISOString()
+    });
+    if (error) console.warn("Enregistrement de la session de travail Supabase impossible :", error.message);
+  } catch (e) {
+    console.warn("Enregistrement de la session de travail Supabase impossible :", e.message);
+  }
+}
+
 // src/App.jsx
 var Dashboard = (0, import_react5.lazy)(() => import("./chunks/Dashboard-RJME3CPY.js"));
 var ImportWizard = (0, import_react5.lazy)(() => import("./chunks/ImportWizard-67WT5TRY.js"));
@@ -20568,9 +20600,37 @@ function App() {
   const [univariateQueue, setUnivariateQueue] = (0, import_react5.useState)(persisted?.univariateQueue || []);
   const [context, setContext] = (0, import_react5.useState)(persisted?.context || null);
   const [recoveryMode, setRecoveryMode] = (0, import_react5.useState)(false);
+  const [remoteSessionReady, setRemoteSessionReady] = (0, import_react5.useState)(false);
   (0, import_react5.useEffect)(() => {
     savePersisted({ active, dataset, analysisQueue, univariateQueue, context, guestMode });
   }, [active, dataset, analysisQueue, univariateQueue, context, guestMode]);
+  (0, import_react5.useEffect)(() => {
+    if (!session || !isSupabaseConfigured || guestMode) {
+      setRemoteSessionReady(true);
+      return;
+    }
+    let cancelled = false;
+    loadWorkSession(session.user.id).then((remote) => {
+      if (cancelled) return;
+      if (remote) {
+        if (remote.dataset) setDataset(remote.dataset);
+        if (Array.isArray(remote.analysis_queue) && remote.analysis_queue.length > 0) setAnalysisQueue(remote.analysis_queue);
+        if (Array.isArray(remote.univariate_queue) && remote.univariate_queue.length > 0) setUnivariateQueue(remote.univariate_queue);
+        if (remote.context) setContext(remote.context);
+      }
+      setRemoteSessionReady(true);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [session?.user?.id, guestMode]);
+  (0, import_react5.useEffect)(() => {
+    if (!session || !isSupabaseConfigured || guestMode || !remoteSessionReady) return;
+    const timer = setTimeout(() => {
+      saveWorkSession(session.user.id, { dataset, analysisQueue, univariateQueue, context });
+    }, 1500);
+    return () => clearTimeout(timer);
+  }, [session, guestMode, remoteSessionReady, dataset, analysisQueue, univariateQueue, context]);
   (0, import_react5.useEffect)(() => {
     if (!isSupabaseConfigured) {
       setSession(null);
