@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useMemo } from "react";
 import {
   LayoutDashboard, ClipboardList, BarChart3, FileText, Settings, Sprout,
   Bell, ChevronDown, Check, Pencil, FileDown, FileType2, Layers,
@@ -97,7 +97,72 @@ function AnalysisResultCard({ item, dataset, index, validated, onToggleValidated
     </label>
   );
 
-  if (!dataset) {
+  // Mémoïsation du calcul statistique proprement dit : sans elle, chaque test (Mann-Whitney,
+  // ANOVA, Khi²...) était recalculé à chaque rendu du composant — y compris lors d'un rendu
+  // déclenché par la validation d'une AUTRE analyse de la file, ou par toute interaction ailleurs
+  // sur la page — ce qui devient coûteux dès que la file compte plusieurs analyses sur une base
+  // volumineuse. Le calcul ne se relance désormais que si l'analyse, les colonnes ou la base
+  // changent réellement.
+  const computed = useMemo(() => {
+    if (!dataset) return { kind: "no-dataset" };
+    const xCol = dataset.columns.find((c) => c.name === item.xId);
+    const yCol = dataset.columns.find((c) => c.name === item.yId);
+    if (!xCol || !yCol) return { kind: "missing-columns" };
+
+    const isXQuant = xCol.isQuantitative;
+    const test = item.test;
+
+    try {
+      // ---- Corrélations (Pearson / Spearman) ----
+      if (test === "Corrélation de Pearson" || test === "Corrélation de Spearman") {
+        const r = test === "Corrélation de Pearson"
+          ? pearsonCorrelation(dataset.rows, item.xId, item.yId)
+          : spearmanCorrelation(dataset.rows, item.xId, item.yId);
+        const scatter = dataset.rows
+          .map((row) => ({ x: Number(row[item.xId]), y: Number(row[item.yId]) }))
+          .filter((p) => !isNaN(p.x) && !isNaN(p.y));
+        return { kind: "correlation", test, r, scatter };
+      }
+
+      // ---- Comparaison de groupes (Student / ANOVA / Mann-Whitney / Kruskal-Wallis) ----
+      if (["Test de Student", "ANOVA à un facteur", "Test de Mann-Whitney", "Test de Kruskal-Wallis"].includes(test)) {
+        const [quantCol, qualCol] = isXQuant ? [item.xId, item.yId] : [item.yId, item.xId];
+        const [quantLabel, qualLabel] = isXQuant ? [item.xLabel, item.yLabel] : [item.yLabel, item.xLabel];
+        const isNonParam = test === "Test de Mann-Whitney" || test === "Test de Kruskal-Wallis";
+
+        if (isNonParam) {
+          const res = test === "Test de Mann-Whitney" ? mannWhitneyU(dataset.rows, quantCol, qualCol) : kruskalWallis(dataset.rows, quantCol, qualCol);
+          const groups = {};
+          dataset.rows.forEach((r) => {
+            const g = String(r[qualCol] ?? "").trim(); const v = Number(r[quantCol]);
+            if (g === "" || isNaN(v)) return; (groups[g] = groups[g] || []).push(v);
+          });
+          const chartData = Object.entries(groups).map(([g, vals]) => {
+            const sorted = [...vals].sort((a, b) => a - b);
+            return { groupe: g, mediane: sorted[Math.floor(sorted.length / 2)], n: vals.length };
+          });
+          return { kind: "nonparam", test, res, chartData, quantLabel, qualLabel };
+        }
+
+        const a = oneWayAnova(dataset.rows, quantCol, qualCol);
+        const chartData = a.groupStats.map((g) => ({ groupe: g.groupe, moyenne: g.moyenne, ecart: [g.ecartType, g.ecartType], n: g.n }));
+        return { kind: "anova", test, a, chartData, quantLabel, qualLabel };
+      }
+
+      // ---- Khi² / V de Cramér ----
+      if (test === "Test du Khi² d'indépendance" || test === "V de Cramér (mesure d'association)") {
+        const c = chiSquareTest(dataset.rows, item.xId, item.yId);
+        return { kind: "chi2", test, c };
+      }
+
+      return { kind: "unknown" };
+    } catch (e) {
+      return { kind: "error", message: e.message };
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dataset, item.id, item.xId, item.yId, item.test]);
+
+  if (computed.kind === "no-dataset") {
     return (
       <Card>
         {validationBar}
@@ -109,9 +174,7 @@ function AnalysisResultCard({ item, dataset, index, validated, onToggleValidated
     );
   }
 
-  const xCol = dataset.columns.find((c) => c.name === item.xId);
-  const yCol = dataset.columns.find((c) => c.name === item.yId);
-  if (!xCol || !yCol) {
+  if (computed.kind === "missing-columns") {
     return (
       <Card>
         {validationBar}
@@ -123,164 +186,137 @@ function AnalysisResultCard({ item, dataset, index, validated, onToggleValidated
     );
   }
 
-
-  const isXQuant = xCol.isQuantitative, isYQuant = yCol.isQuantitative;
-  const test = item.test;
-
-  try {
-    // ---- Corrélations (Pearson / Spearman) ----
-    if (test === "Corrélation de Pearson" || test === "Corrélation de Spearman") {
-      const r = test === "Corrélation de Pearson"
-        ? pearsonCorrelation(dataset.rows, item.xId, item.yId)
-        : spearmanCorrelation(dataset.rows, item.xId, item.yId);
-      const scatter = dataset.rows
-        .map((row) => ({ x: Number(row[item.xId]), y: Number(row[item.yId]) }))
-        .filter((p) => !isNaN(p.x) && !isNaN(p.y));
-      const symbol = test === "Corrélation de Pearson" ? "r" : "ρ";
-      return (
-        <Card>
-          {validationBar}
-          <ResultHeader title={item.label} subtitle={`${test} · ${symbol} = ${r.r.toFixed(3)}, n = ${r.n}, p = ${fmtP(r.p)}`} status={item.status} />
-          <div className="flex justify-end mb-1">
-            <ChartExportButton targetRef={chartRef} filename={item.label} />
-          </div>
-          <div ref={chartRef}>
-            <ResponsiveContainer width="100%" height={190}>
-              <ScatterChart>
-                <CartesianGrid strokeDasharray="3 3" stroke="#EDEDED" />
-                <XAxis dataKey="x" tick={{ fontSize: 11 }} stroke="#999" name={item.xLabel} type="number" domain={["dataMin", "dataMax"]} />
-                <YAxis dataKey="y" tick={{ fontSize: 11 }} stroke="#999" name={item.yLabel} width={55} type="number" domain={["dataMin", "dataMax"]} />
-                <Tooltip cursor={{ strokeDasharray: "3 3" }} />
-                <Scatter data={scatter} fill={NAVY} />
-              </ScatterChart>
-            </ResponsiveContainer>
-          </div>
-          <p className="text-xs text-gray-500 mt-2">
-            {Math.abs(r.r) < 0.1 ? "Association quasi nulle" : Math.abs(r.r) < 0.3 ? "Association faible" : Math.abs(r.r) < 0.5 ? "Association modérée" : "Association forte"}
-            {" "}entre {item.xLabel} et {item.yLabel}, {r.p < 0.05 ? "statistiquement significative (p < 0,05)" : "non significative au seuil de 5 %"}.
-          </p>
-        </Card>
-      );
-    }
-
-    // ---- Comparaison de groupes (Student / ANOVA / Mann-Whitney / Kruskal-Wallis) ----
-    if (["Test de Student", "ANOVA à un facteur", "Test de Mann-Whitney", "Test de Kruskal-Wallis"].includes(test)) {
-      const [quantCol, qualCol] = isXQuant ? [item.xId, item.yId] : [item.yId, item.xId];
-      const [quantLabel, qualLabel] = isXQuant ? [item.xLabel, item.yLabel] : [item.yLabel, item.xLabel];
-      const isNonParam = test === "Test de Mann-Whitney" || test === "Test de Kruskal-Wallis";
-
-      if (isNonParam) {
-        const res = test === "Test de Mann-Whitney" ? mannWhitneyU(dataset.rows, quantCol, qualCol) : kruskalWallis(dataset.rows, quantCol, qualCol);
-        // Médianes par groupe pour l'illustration graphique
-        const groups = {};
-        dataset.rows.forEach((r) => {
-          const g = String(r[qualCol] ?? "").trim(); const v = Number(r[quantCol]);
-          if (g === "" || isNaN(v)) return; (groups[g] = groups[g] || []).push(v);
-        });
-        const chartData = Object.entries(groups).map(([g, vals]) => {
-          const sorted = [...vals].sort((a, b) => a - b);
-          return { groupe: g, mediane: sorted[Math.floor(sorted.length / 2)], n: vals.length };
-        });
-        const stat = test === "Test de Mann-Whitney" ? `U = ${res.U.toFixed(1)}, z = ${res.z.toFixed(2)}` : `H(${res.df}) = ${res.H.toFixed(2)}`;
-        return (
-          <Card>
-            {validationBar}
-            <ResultHeader title={item.label} subtitle={`${test} · ${stat}, p = ${fmtP(res.p)}`} status={item.status} />
-            <div className="flex justify-end mb-1">
-              <ChartExportButton targetRef={chartRef} filename={item.label} />
-            </div>
-            <div ref={chartRef}>
-              <ResponsiveContainer width="100%" height={180}>
-                <BarChart data={chartData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#EDEDED" />
-                  <XAxis dataKey="groupe" tick={{ fontSize: 11 }} stroke="#999" />
-                  <YAxis tick={{ fontSize: 11 }} stroke="#999" width={55} />
-                  <Tooltip />
-                  <Bar dataKey="mediane" name={`Médiane de ${quantLabel}`} radius={[6, 6, 0, 0]}>
-                    {chartData.map((d, i) => <Cell key={d.groupe} fill={PALETTE[i % PALETTE.length]} />)}
-                  </Bar>
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-            <p className="text-xs text-gray-500 mt-2">
-              Différence {res.p < 0.05 ? "statistiquement significative" : "non significative"} de {quantLabel} selon {qualLabel} (test non paramétrique, p = {fmtP(res.p)}).
-            </p>
-          </Card>
-        );
-      }
-
-      const a = oneWayAnova(dataset.rows, quantCol, qualCol);
-      const chartData = a.groupStats.map((g) => ({ groupe: g.groupe, moyenne: g.moyenne, ecart: [g.ecartType, g.ecartType], n: g.n }));
-      const statLabel = test === "Test de Student" ? `t ≈ ${Math.sqrt(a.F).toFixed(2)}` : `F(${a.dfBetween},${a.dfWithin}) = ${a.F.toFixed(2)}, η² = ${a.etaSq.toFixed(2)}`;
-      return (
-        <Card>
-          {validationBar}
-          <ResultHeader title={item.label} subtitle={`${test} · ${statLabel}, p = ${fmtP(a.p)}`} status={item.status} />
-          <div className="flex justify-end mb-1">
-            <ChartExportButton targetRef={chartRef} filename={item.label} />
-          </div>
-          <div ref={chartRef}>
-            <ResponsiveContainer width="100%" height={190}>
-              <BarChart data={chartData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#EDEDED" />
-                <XAxis dataKey="groupe" tick={{ fontSize: 11 }} stroke="#999" />
-                <YAxis tick={{ fontSize: 11 }} stroke="#999" width={55} />
-                <Tooltip />
-                <Bar dataKey="moyenne" name={`Moyenne de ${quantLabel}`} radius={[6, 6, 0, 0]}>
-                  {chartData.map((d, i) => <Cell key={d.groupe} fill={PALETTE[i % PALETTE.length]} />)}
-                  <ErrorBar dataKey="ecart" width={4} strokeWidth={1.5} stroke="#7A7A7A" />
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-          <p className="text-xs text-gray-500 mt-2">
-            Le {quantLabel.toLowerCase()} moyen {a.p < 0.05 ? "diffère significativement" : "ne diffère pas significativement"} selon {qualLabel.toLowerCase()} (p = {fmtP(a.p)}).
-          </p>
-        </Card>
-      );
-    }
-
-    // ---- Khi² / V de Cramér ----
-    if (test === "Test du Khi² d'indépendance" || test === "V de Cramér (mesure d'association)") {
-      const c = chiSquareTest(dataset.rows, item.xId, item.yId);
-      return (
-        <Card>
-          {validationBar}
-          <ResultHeader title={item.label} subtitle={`${test} · χ²(${c.df}) = ${c.chi2.toFixed(2)}, p = ${fmtP(c.p)}, V = ${c.cramersV.toFixed(2)}`} status={item.status} />
-          <div className="overflow-x-auto">
-            <table className="text-xs w-full">
-              <thead>
-                <tr>
-                  <th className="text-left text-[10px] text-gray-400 uppercase pb-1 pr-3">{item.xLabel} \ {item.yLabel}</th>
-                  {c.yList.map((y) => <th key={y} className="text-[10px] text-gray-400 uppercase pb-1 px-2">{y}</th>)}
-                </tr>
-              </thead>
-              <tbody>
-                {c.xList.map((x) => (
-                  <tr key={x} className="border-t border-gray-50">
-                    <td className="py-1.5 pr-3 font-medium text-gray-700">{x}</td>
-                    {c.yList.map((y) => (
-                      <td key={y} className="py-1.5 px-2 text-center text-gray-600">{c.table[x]?.[y] || 0}</td>
-                    ))}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          <p className="text-xs text-gray-500 mt-2">
-            Association {c.p < 0.05 ? "statistiquement significative" : "non significative"} entre {item.xLabel} et {item.yLabel} (p = {fmtP(c.p)}, V de Cramér = {c.cramersV.toFixed(2)}).
-          </p>
-        </Card>
-      );
-    }
-  } catch (e) {
+  if (computed.kind === "error") {
     return (
       <Card>
         {validationBar}
         <ResultHeader title={item.label} subtitle={item.test} status={item.status} />
         <div className="rounded-xl px-3 py-2 text-xs" style={{ background: "#FBE7E5", color: "#B3413A" }}>
-          Calcul impossible sur les données actuelles : {e.message}
+          Calcul impossible sur les données actuelles : {computed.message}
         </div>
+      </Card>
+    );
+  }
+
+  if (computed.kind === "correlation") {
+    const { test, r, scatter } = computed;
+    const symbol = test === "Corrélation de Pearson" ? "r" : "ρ";
+    return (
+      <Card>
+        {validationBar}
+        <ResultHeader title={item.label} subtitle={`${test} · ${symbol} = ${r.r.toFixed(3)}, n = ${r.n}, p = ${fmtP(r.p)}`} status={item.status} />
+        <div className="flex justify-end mb-1">
+          <ChartExportButton targetRef={chartRef} filename={item.label} />
+        </div>
+        <div ref={chartRef}>
+          <ResponsiveContainer width="100%" height={190}>
+            <ScatterChart>
+              <CartesianGrid strokeDasharray="3 3" stroke="#EDEDED" />
+              <XAxis dataKey="x" tick={{ fontSize: 11 }} stroke="#999" name={item.xLabel} type="number" domain={["dataMin", "dataMax"]} />
+              <YAxis dataKey="y" tick={{ fontSize: 11 }} stroke="#999" name={item.yLabel} width={55} type="number" domain={["dataMin", "dataMax"]} />
+              <Tooltip cursor={{ strokeDasharray: "3 3" }} />
+              <Scatter data={scatter} fill={NAVY} />
+            </ScatterChart>
+          </ResponsiveContainer>
+        </div>
+        <p className="text-xs text-gray-500 mt-2">
+          {Math.abs(r.r) < 0.1 ? "Association quasi nulle" : Math.abs(r.r) < 0.3 ? "Association faible" : Math.abs(r.r) < 0.5 ? "Association modérée" : "Association forte"}
+          {" "}entre {item.xLabel} et {item.yLabel}, {r.p < 0.05 ? "statistiquement significative (p < 0,05)" : "non significative au seuil de 5 %"}.
+        </p>
+      </Card>
+    );
+  }
+
+  if (computed.kind === "nonparam") {
+    const { test, res, chartData, quantLabel, qualLabel } = computed;
+    const stat = test === "Test de Mann-Whitney" ? `U = ${res.U.toFixed(1)}, z = ${res.z.toFixed(2)}` : `H(${res.df}) = ${res.H.toFixed(2)}`;
+    return (
+      <Card>
+        {validationBar}
+        <ResultHeader title={item.label} subtitle={`${test} · ${stat}, p = ${fmtP(res.p)}`} status={item.status} />
+        <div className="flex justify-end mb-1">
+          <ChartExportButton targetRef={chartRef} filename={item.label} />
+        </div>
+        <div ref={chartRef}>
+          <ResponsiveContainer width="100%" height={180}>
+            <BarChart data={chartData}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#EDEDED" />
+              <XAxis dataKey="groupe" tick={{ fontSize: 11 }} stroke="#999" />
+              <YAxis tick={{ fontSize: 11 }} stroke="#999" width={55} />
+              <Tooltip />
+              <Bar dataKey="mediane" name={`Médiane de ${quantLabel}`} radius={[6, 6, 0, 0]}>
+                {chartData.map((d, i) => <Cell key={d.groupe} fill={PALETTE[i % PALETTE.length]} />)}
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+        <p className="text-xs text-gray-500 mt-2">
+          Différence {res.p < 0.05 ? "statistiquement significative" : "non significative"} de {quantLabel} selon {qualLabel} (test non paramétrique, p = {fmtP(res.p)}).
+        </p>
+      </Card>
+    );
+  }
+
+  if (computed.kind === "anova") {
+    const { test, a, chartData, quantLabel, qualLabel } = computed;
+    const statLabel = test === "Test de Student" ? `t ≈ ${Math.sqrt(a.F).toFixed(2)}` : `F(${a.dfBetween},${a.dfWithin}) = ${a.F.toFixed(2)}, η² = ${a.etaSq.toFixed(2)}`;
+    return (
+      <Card>
+        {validationBar}
+        <ResultHeader title={item.label} subtitle={`${test} · ${statLabel}, p = ${fmtP(a.p)}`} status={item.status} />
+        <div className="flex justify-end mb-1">
+          <ChartExportButton targetRef={chartRef} filename={item.label} />
+        </div>
+        <div ref={chartRef}>
+          <ResponsiveContainer width="100%" height={190}>
+            <BarChart data={chartData}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#EDEDED" />
+              <XAxis dataKey="groupe" tick={{ fontSize: 11 }} stroke="#999" />
+              <YAxis tick={{ fontSize: 11 }} stroke="#999" width={55} />
+              <Tooltip />
+              <Bar dataKey="moyenne" name={`Moyenne de ${quantLabel}`} radius={[6, 6, 0, 0]}>
+                {chartData.map((d, i) => <Cell key={d.groupe} fill={PALETTE[i % PALETTE.length]} />)}
+                <ErrorBar dataKey="ecart" width={4} strokeWidth={1.5} stroke="#7A7A7A" />
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+        <p className="text-xs text-gray-500 mt-2">
+          Le {quantLabel.toLowerCase()} moyen {a.p < 0.05 ? "diffère significativement" : "ne diffère pas significativement"} selon {qualLabel.toLowerCase()} (p = {fmtP(a.p)}).
+        </p>
+      </Card>
+    );
+  }
+
+  if (computed.kind === "chi2") {
+    const { test, c } = computed;
+    return (
+      <Card>
+        {validationBar}
+        <ResultHeader title={item.label} subtitle={`${test} · χ²(${c.df}) = ${c.chi2.toFixed(2)}, p = ${fmtP(c.p)}, V = ${c.cramersV.toFixed(2)}`} status={item.status} />
+        <div className="overflow-x-auto">
+          <table className="text-xs w-full">
+            <thead>
+              <tr>
+                <th className="text-left text-[10px] text-gray-400 uppercase pb-1 pr-3">{item.xLabel} \ {item.yLabel}</th>
+                {c.yList.map((y) => <th key={y} className="text-[10px] text-gray-400 uppercase pb-1 px-2">{y}</th>)}
+              </tr>
+            </thead>
+            <tbody>
+              {c.xList.map((x) => (
+                <tr key={x} className="border-t border-gray-50">
+                  <td className="py-1.5 pr-3 font-medium text-gray-700">{x}</td>
+                  {c.yList.map((y) => (
+                    <td key={y} className="py-1.5 px-2 text-center text-gray-600">{c.table[x]?.[y] || 0}</td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p className="text-xs text-gray-500 mt-2">
+          Association {c.p < 0.05 ? "statistiquement significative" : "non significative"} entre {item.xLabel} et {item.yLabel} (p = {fmtP(c.p)}, V de Cramér = {c.cramersV.toFixed(2)}).
+        </p>
       </Card>
     );
   }
@@ -344,7 +380,11 @@ export default function ResultsReport({ active, onNavigate, userEmail, roleLabel
 
   const validatedQueue = queue.filter((item) => item.validated);
   const queueForReport = validatedQueue.length > 0 ? validatedQueue : queue;
-  const significantCount = queueForReport.filter((item) => item.detail && /p\s*=\s*(0[,.]0[0-4]|<\s*0[,.]001)/.test(item.detail)).length;
+  // Significativité déterminée à partir de la valeur p numérique réellement calculée (item.p),
+  // et non par une expression régulière appliquée au texte déjà formaté (item.detail) : cette
+  // dernière approche ratait par exemple p = 0,032 (arrondi à 2 décimales dans certains libellés)
+  // ou toute variante de mise en forme non anticipée par le motif.
+  const significantCount = queueForReport.filter((item) => typeof item.p === "number" && !isNaN(item.p) && item.p < 0.05).length;
 
   const generateWithClaude = async () => {
     setAiLoading(true);

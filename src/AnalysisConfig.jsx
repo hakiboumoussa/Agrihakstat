@@ -380,6 +380,7 @@ export default function AnalysisConfig({ active, onNavigate, userEmail, roleLabe
         conditionsCount: conditions.length,
         conditionsConfirmedCount: conditions.filter((_, i) => confirmed[i]).length,
         detail: realStat?.detail,
+        p: realStat?.p,
       },
     ]);
     setOverride(null);
@@ -411,6 +412,7 @@ export default function AnalysisConfig({ active, onNavigate, userEmail, roleLabe
           conditionsCount: cond.length,
           conditionsConfirmedCount: 0,
           detail: stat?.detail,
+          p: stat?.p,
         };
       })
       .filter(Boolean);

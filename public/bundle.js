@@ -21548,14 +21548,14 @@
           return x2 === y2 && (0 !== x2 || 1 / x2 === 1 / y2) || x2 !== x2 && y2 !== y2;
         }
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-        var React73 = require_react(), shim = require_shim(), objectIs = "function" === typeof Object.is ? Object.is : is3, useSyncExternalStore2 = shim.useSyncExternalStore, useRef29 = React73.useRef, useEffect30 = React73.useEffect, useMemo17 = React73.useMemo, useDebugValue2 = React73.useDebugValue;
+        var React73 = require_react(), shim = require_shim(), objectIs = "function" === typeof Object.is ? Object.is : is3, useSyncExternalStore2 = shim.useSyncExternalStore, useRef29 = React73.useRef, useEffect30 = React73.useEffect, useMemo18 = React73.useMemo, useDebugValue2 = React73.useDebugValue;
         exports.useSyncExternalStoreWithSelector = function(subscribe, getSnapshot, getServerSnapshot, selector, isEqual2) {
           var instRef = useRef29(null);
           if (null === instRef.current) {
             var inst = { hasValue: false, value: null };
             instRef.current = inst;
           } else inst = instRef.current;
-          instRef = useMemo17(
+          instRef = useMemo18(
             function() {
               function memoizedSelector(nextSnapshot) {
                 if (!hasMemo) {
@@ -21627,14 +21627,14 @@
           return x2 === y2 && (0 !== x2 || 1 / x2 === 1 / y2) || x2 !== x2 && y2 !== y2;
         }
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-        var React73 = require_react(), objectIs = "function" === typeof Object.is ? Object.is : is3, useSyncExternalStore2 = React73.useSyncExternalStore, useRef29 = React73.useRef, useEffect30 = React73.useEffect, useMemo17 = React73.useMemo, useDebugValue2 = React73.useDebugValue;
+        var React73 = require_react(), objectIs = "function" === typeof Object.is ? Object.is : is3, useSyncExternalStore2 = React73.useSyncExternalStore, useRef29 = React73.useRef, useEffect30 = React73.useEffect, useMemo18 = React73.useMemo, useDebugValue2 = React73.useDebugValue;
         exports.useSyncExternalStoreWithSelector = function(subscribe, getSnapshot, getServerSnapshot, selector, isEqual2) {
           var instRef = useRef29(null);
           if (null === instRef.current) {
             var inst = { hasValue: false, value: null };
             instRef.current = inst;
           } else inst = instRef.current;
-          instRef = useMemo17(
+          instRef = useMemo18(
             function() {
               function memoizedSelector(nextSnapshot) {
                 if (!hasMemo) {
@@ -122152,7 +122152,8 @@ ${suffix2}`;
           status: override ? "adjusted" : "auto",
           conditionsCount: conditions.length,
           conditionsConfirmedCount: conditions.filter((_, i) => confirmed[i]).length,
-          detail: realStat?.detail
+          detail: realStat?.detail,
+          p: realStat?.p
         }
       ]);
       setOverride(null);
@@ -122179,7 +122180,8 @@ ${suffix2}`;
           status: "auto",
           conditionsCount: cond.length,
           conditionsConfirmedCount: 0,
-          detail: stat?.detail
+          detail: stat?.detail,
+          p: stat?.p
         };
       }).filter(Boolean);
       setQueue([...queue2, ...newItems]);
@@ -140629,54 +140631,78 @@ ${suffix2}`;
   function AnalysisResultCard({ item, dataset, index, validated, onToggleValidated }) {
     const chartRef = (0, import_react77.useRef)(null);
     const validationBar = /* @__PURE__ */ import_react77.default.createElement("label", { className: "flex items-center gap-2 mb-3 text-xs cursor-pointer select-none" }, /* @__PURE__ */ import_react77.default.createElement("input", { type: "checkbox", checked: !!validated, onChange: onToggleValidated, className: "w-4 h-4 rounded", style: { accentColor: "#256B45" } }), /* @__PURE__ */ import_react77.default.createElement("span", { className: validated ? "font-medium" : "text-gray-400", style: validated ? { color: "#256B45" } : {} }, validated ? "Valid\xE9 pour le rapport" : "Valider cette analyse pour l'inclure au rapport"));
-    if (!dataset) {
+    const computed = (0, import_react77.useMemo)(() => {
+      if (!dataset) return { kind: "no-dataset" };
+      const xCol = dataset.columns.find((c2) => c2.name === item.xId);
+      const yCol = dataset.columns.find((c2) => c2.name === item.yId);
+      if (!xCol || !yCol) return { kind: "missing-columns" };
+      const isXQuant = xCol.isQuantitative;
+      const test = item.test;
+      try {
+        if (test === "Corr\xE9lation de Pearson" || test === "Corr\xE9lation de Spearman") {
+          const r2 = test === "Corr\xE9lation de Pearson" ? pearsonCorrelation(dataset.rows, item.xId, item.yId) : spearmanCorrelation(dataset.rows, item.xId, item.yId);
+          const scatter = dataset.rows.map((row) => ({ x: Number(row[item.xId]), y: Number(row[item.yId]) })).filter((p2) => !isNaN(p2.x) && !isNaN(p2.y));
+          return { kind: "correlation", test, r: r2, scatter };
+        }
+        if (["Test de Student", "ANOVA \xE0 un facteur", "Test de Mann-Whitney", "Test de Kruskal-Wallis"].includes(test)) {
+          const [quantCol, qualCol] = isXQuant ? [item.xId, item.yId] : [item.yId, item.xId];
+          const [quantLabel, qualLabel] = isXQuant ? [item.xLabel, item.yLabel] : [item.yLabel, item.xLabel];
+          const isNonParam = test === "Test de Mann-Whitney" || test === "Test de Kruskal-Wallis";
+          if (isNonParam) {
+            const res = test === "Test de Mann-Whitney" ? mannWhitneyU(dataset.rows, quantCol, qualCol) : kruskalWallis(dataset.rows, quantCol, qualCol);
+            const groups = {};
+            dataset.rows.forEach((r2) => {
+              const g = String(r2[qualCol] ?? "").trim();
+              const v = Number(r2[quantCol]);
+              if (g === "" || isNaN(v)) return;
+              (groups[g] = groups[g] || []).push(v);
+            });
+            const chartData2 = Object.entries(groups).map(([g, vals]) => {
+              const sorted = [...vals].sort((a3, b) => a3 - b);
+              return { groupe: g, mediane: sorted[Math.floor(sorted.length / 2)], n: vals.length };
+            });
+            return { kind: "nonparam", test, res, chartData: chartData2, quantLabel, qualLabel };
+          }
+          const a2 = oneWayAnova(dataset.rows, quantCol, qualCol);
+          const chartData = a2.groupStats.map((g) => ({ groupe: g.groupe, moyenne: g.moyenne, ecart: [g.ecartType, g.ecartType], n: g.n }));
+          return { kind: "anova", test, a: a2, chartData, quantLabel, qualLabel };
+        }
+        if (test === "Test du Khi\xB2 d'ind\xE9pendance" || test === "V de Cram\xE9r (mesure d'association)") {
+          const c2 = chiSquareTest(dataset.rows, item.xId, item.yId);
+          return { kind: "chi2", test, c: c2 };
+        }
+        return { kind: "unknown" };
+      } catch (e) {
+        return { kind: "error", message: e.message };
+      }
+    }, [dataset, item.id, item.xId, item.yId, item.test]);
+    if (computed.kind === "no-dataset") {
       return /* @__PURE__ */ import_react77.default.createElement(Card3, null, validationBar, /* @__PURE__ */ import_react77.default.createElement(ResultHeader, { title: item.label, subtitle: item.test, status: item.status }), /* @__PURE__ */ import_react77.default.createElement("div", { className: "rounded-xl bg-gray-50 px-3 py-2 text-xs text-gray-400 italic" }, "Exemple illustratif \u2014 aucune base de donn\xE9es r\xE9elle n'\xE9tait import\xE9e lors de la configuration de cette analyse."));
     }
-    const xCol = dataset.columns.find((c2) => c2.name === item.xId);
-    const yCol = dataset.columns.find((c2) => c2.name === item.yId);
-    if (!xCol || !yCol) {
+    if (computed.kind === "missing-columns") {
       return /* @__PURE__ */ import_react77.default.createElement(Card3, null, validationBar, /* @__PURE__ */ import_react77.default.createElement(ResultHeader, { title: item.label, subtitle: item.test, status: item.status }), /* @__PURE__ */ import_react77.default.createElement("div", { className: "rounded-xl px-3 py-2 text-xs", style: { background: "#FBE7E5", color: "#B3413A" } }, "Les colonnes de cette analyse ne sont plus pr\xE9sentes dans la base actuellement import\xE9e."));
     }
-    const isXQuant = xCol.isQuantitative, isYQuant = yCol.isQuantitative;
-    const test = item.test;
-    try {
-      if (test === "Corr\xE9lation de Pearson" || test === "Corr\xE9lation de Spearman") {
-        const r2 = test === "Corr\xE9lation de Pearson" ? pearsonCorrelation(dataset.rows, item.xId, item.yId) : spearmanCorrelation(dataset.rows, item.xId, item.yId);
-        const scatter = dataset.rows.map((row) => ({ x: Number(row[item.xId]), y: Number(row[item.yId]) })).filter((p2) => !isNaN(p2.x) && !isNaN(p2.y));
-        const symbol = test === "Corr\xE9lation de Pearson" ? "r" : "\u03C1";
-        return /* @__PURE__ */ import_react77.default.createElement(Card3, null, validationBar, /* @__PURE__ */ import_react77.default.createElement(ResultHeader, { title: item.label, subtitle: `${test} \xB7 ${symbol} = ${r2.r.toFixed(3)}, n = ${r2.n}, p = ${fmtP(r2.p)}`, status: item.status }), /* @__PURE__ */ import_react77.default.createElement("div", { className: "flex justify-end mb-1" }, /* @__PURE__ */ import_react77.default.createElement(ChartExportButton, { targetRef: chartRef, filename: item.label })), /* @__PURE__ */ import_react77.default.createElement("div", { ref: chartRef }, /* @__PURE__ */ import_react77.default.createElement(ResponsiveContainer, { width: "100%", height: 190 }, /* @__PURE__ */ import_react77.default.createElement(ScatterChart, null, /* @__PURE__ */ import_react77.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react77.default.createElement(XAxis, { dataKey: "x", tick: { fontSize: 11 }, stroke: "#999", name: item.xLabel, type: "number", domain: ["dataMin", "dataMax"] }), /* @__PURE__ */ import_react77.default.createElement(YAxis, { dataKey: "y", tick: { fontSize: 11 }, stroke: "#999", name: item.yLabel, width: 55, type: "number", domain: ["dataMin", "dataMax"] }), /* @__PURE__ */ import_react77.default.createElement(Tooltip, { cursor: { strokeDasharray: "3 3" } }), /* @__PURE__ */ import_react77.default.createElement(Scatter, { data: scatter, fill: NAVY7 })))), /* @__PURE__ */ import_react77.default.createElement("p", { className: "text-xs text-gray-500 mt-2" }, Math.abs(r2.r) < 0.1 ? "Association quasi nulle" : Math.abs(r2.r) < 0.3 ? "Association faible" : Math.abs(r2.r) < 0.5 ? "Association mod\xE9r\xE9e" : "Association forte", " ", "entre ", item.xLabel, " et ", item.yLabel, ", ", r2.p < 0.05 ? "statistiquement significative (p < 0,05)" : "non significative au seuil de 5 %", "."));
-      }
-      if (["Test de Student", "ANOVA \xE0 un facteur", "Test de Mann-Whitney", "Test de Kruskal-Wallis"].includes(test)) {
-        const [quantCol, qualCol] = isXQuant ? [item.xId, item.yId] : [item.yId, item.xId];
-        const [quantLabel, qualLabel] = isXQuant ? [item.xLabel, item.yLabel] : [item.yLabel, item.xLabel];
-        const isNonParam = test === "Test de Mann-Whitney" || test === "Test de Kruskal-Wallis";
-        if (isNonParam) {
-          const res = test === "Test de Mann-Whitney" ? mannWhitneyU(dataset.rows, quantCol, qualCol) : kruskalWallis(dataset.rows, quantCol, qualCol);
-          const groups = {};
-          dataset.rows.forEach((r2) => {
-            const g = String(r2[qualCol] ?? "").trim();
-            const v = Number(r2[quantCol]);
-            if (g === "" || isNaN(v)) return;
-            (groups[g] = groups[g] || []).push(v);
-          });
-          const chartData2 = Object.entries(groups).map(([g, vals]) => {
-            const sorted = [...vals].sort((a3, b) => a3 - b);
-            return { groupe: g, mediane: sorted[Math.floor(sorted.length / 2)], n: vals.length };
-          });
-          const stat = test === "Test de Mann-Whitney" ? `U = ${res.U.toFixed(1)}, z = ${res.z.toFixed(2)}` : `H(${res.df}) = ${res.H.toFixed(2)}`;
-          return /* @__PURE__ */ import_react77.default.createElement(Card3, null, validationBar, /* @__PURE__ */ import_react77.default.createElement(ResultHeader, { title: item.label, subtitle: `${test} \xB7 ${stat}, p = ${fmtP(res.p)}`, status: item.status }), /* @__PURE__ */ import_react77.default.createElement("div", { className: "flex justify-end mb-1" }, /* @__PURE__ */ import_react77.default.createElement(ChartExportButton, { targetRef: chartRef, filename: item.label })), /* @__PURE__ */ import_react77.default.createElement("div", { ref: chartRef }, /* @__PURE__ */ import_react77.default.createElement(ResponsiveContainer, { width: "100%", height: 180 }, /* @__PURE__ */ import_react77.default.createElement(BarChart, { data: chartData2 }, /* @__PURE__ */ import_react77.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react77.default.createElement(XAxis, { dataKey: "groupe", tick: { fontSize: 11 }, stroke: "#999" }), /* @__PURE__ */ import_react77.default.createElement(YAxis, { tick: { fontSize: 11 }, stroke: "#999", width: 55 }), /* @__PURE__ */ import_react77.default.createElement(Tooltip, null), /* @__PURE__ */ import_react77.default.createElement(Bar, { dataKey: "mediane", name: `M\xE9diane de ${quantLabel}`, radius: [6, 6, 0, 0] }, chartData2.map((d, i) => /* @__PURE__ */ import_react77.default.createElement(Cell, { key: d.groupe, fill: PALETTE[i % PALETTE.length] })))))), /* @__PURE__ */ import_react77.default.createElement("p", { className: "text-xs text-gray-500 mt-2" }, "Diff\xE9rence ", res.p < 0.05 ? "statistiquement significative" : "non significative", " de ", quantLabel, " selon ", qualLabel, " (test non param\xE9trique, p = ", fmtP(res.p), ")."));
-        }
-        const a2 = oneWayAnova(dataset.rows, quantCol, qualCol);
-        const chartData = a2.groupStats.map((g) => ({ groupe: g.groupe, moyenne: g.moyenne, ecart: [g.ecartType, g.ecartType], n: g.n }));
-        const statLabel = test === "Test de Student" ? `t \u2248 ${Math.sqrt(a2.F).toFixed(2)}` : `F(${a2.dfBetween},${a2.dfWithin}) = ${a2.F.toFixed(2)}, \u03B7\xB2 = ${a2.etaSq.toFixed(2)}`;
-        return /* @__PURE__ */ import_react77.default.createElement(Card3, null, validationBar, /* @__PURE__ */ import_react77.default.createElement(ResultHeader, { title: item.label, subtitle: `${test} \xB7 ${statLabel}, p = ${fmtP(a2.p)}`, status: item.status }), /* @__PURE__ */ import_react77.default.createElement("div", { className: "flex justify-end mb-1" }, /* @__PURE__ */ import_react77.default.createElement(ChartExportButton, { targetRef: chartRef, filename: item.label })), /* @__PURE__ */ import_react77.default.createElement("div", { ref: chartRef }, /* @__PURE__ */ import_react77.default.createElement(ResponsiveContainer, { width: "100%", height: 190 }, /* @__PURE__ */ import_react77.default.createElement(BarChart, { data: chartData }, /* @__PURE__ */ import_react77.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react77.default.createElement(XAxis, { dataKey: "groupe", tick: { fontSize: 11 }, stroke: "#999" }), /* @__PURE__ */ import_react77.default.createElement(YAxis, { tick: { fontSize: 11 }, stroke: "#999", width: 55 }), /* @__PURE__ */ import_react77.default.createElement(Tooltip, null), /* @__PURE__ */ import_react77.default.createElement(Bar, { dataKey: "moyenne", name: `Moyenne de ${quantLabel}`, radius: [6, 6, 0, 0] }, chartData.map((d, i) => /* @__PURE__ */ import_react77.default.createElement(Cell, { key: d.groupe, fill: PALETTE[i % PALETTE.length] })), /* @__PURE__ */ import_react77.default.createElement(ErrorBar, { dataKey: "ecart", width: 4, strokeWidth: 1.5, stroke: "#7A7A7A" }))))), /* @__PURE__ */ import_react77.default.createElement("p", { className: "text-xs text-gray-500 mt-2" }, "Le ", quantLabel.toLowerCase(), " moyen ", a2.p < 0.05 ? "diff\xE8re significativement" : "ne diff\xE8re pas significativement", " selon ", qualLabel.toLowerCase(), " (p = ", fmtP(a2.p), ")."));
-      }
-      if (test === "Test du Khi\xB2 d'ind\xE9pendance" || test === "V de Cram\xE9r (mesure d'association)") {
-        const c2 = chiSquareTest(dataset.rows, item.xId, item.yId);
-        return /* @__PURE__ */ import_react77.default.createElement(Card3, null, validationBar, /* @__PURE__ */ import_react77.default.createElement(ResultHeader, { title: item.label, subtitle: `${test} \xB7 \u03C7\xB2(${c2.df}) = ${c2.chi2.toFixed(2)}, p = ${fmtP(c2.p)}, V = ${c2.cramersV.toFixed(2)}`, status: item.status }), /* @__PURE__ */ import_react77.default.createElement("div", { className: "overflow-x-auto" }, /* @__PURE__ */ import_react77.default.createElement("table", { className: "text-xs w-full" }, /* @__PURE__ */ import_react77.default.createElement("thead", null, /* @__PURE__ */ import_react77.default.createElement("tr", null, /* @__PURE__ */ import_react77.default.createElement("th", { className: "text-left text-[10px] text-gray-400 uppercase pb-1 pr-3" }, item.xLabel, " \\ ", item.yLabel), c2.yList.map((y2) => /* @__PURE__ */ import_react77.default.createElement("th", { key: y2, className: "text-[10px] text-gray-400 uppercase pb-1 px-2" }, y2)))), /* @__PURE__ */ import_react77.default.createElement("tbody", null, c2.xList.map((x2) => /* @__PURE__ */ import_react77.default.createElement("tr", { key: x2, className: "border-t border-gray-50" }, /* @__PURE__ */ import_react77.default.createElement("td", { className: "py-1.5 pr-3 font-medium text-gray-700" }, x2), c2.yList.map((y2) => /* @__PURE__ */ import_react77.default.createElement("td", { key: y2, className: "py-1.5 px-2 text-center text-gray-600" }, c2.table[x2]?.[y2] || 0))))))), /* @__PURE__ */ import_react77.default.createElement("p", { className: "text-xs text-gray-500 mt-2" }, "Association ", c2.p < 0.05 ? "statistiquement significative" : "non significative", " entre ", item.xLabel, " et ", item.yLabel, " (p = ", fmtP(c2.p), ", V de Cram\xE9r = ", c2.cramersV.toFixed(2), ")."));
-      }
-    } catch (e) {
-      return /* @__PURE__ */ import_react77.default.createElement(Card3, null, validationBar, /* @__PURE__ */ import_react77.default.createElement(ResultHeader, { title: item.label, subtitle: item.test, status: item.status }), /* @__PURE__ */ import_react77.default.createElement("div", { className: "rounded-xl px-3 py-2 text-xs", style: { background: "#FBE7E5", color: "#B3413A" } }, "Calcul impossible sur les donn\xE9es actuelles : ", e.message));
+    if (computed.kind === "error") {
+      return /* @__PURE__ */ import_react77.default.createElement(Card3, null, validationBar, /* @__PURE__ */ import_react77.default.createElement(ResultHeader, { title: item.label, subtitle: item.test, status: item.status }), /* @__PURE__ */ import_react77.default.createElement("div", { className: "rounded-xl px-3 py-2 text-xs", style: { background: "#FBE7E5", color: "#B3413A" } }, "Calcul impossible sur les donn\xE9es actuelles : ", computed.message));
+    }
+    if (computed.kind === "correlation") {
+      const { test, r: r2, scatter } = computed;
+      const symbol = test === "Corr\xE9lation de Pearson" ? "r" : "\u03C1";
+      return /* @__PURE__ */ import_react77.default.createElement(Card3, null, validationBar, /* @__PURE__ */ import_react77.default.createElement(ResultHeader, { title: item.label, subtitle: `${test} \xB7 ${symbol} = ${r2.r.toFixed(3)}, n = ${r2.n}, p = ${fmtP(r2.p)}`, status: item.status }), /* @__PURE__ */ import_react77.default.createElement("div", { className: "flex justify-end mb-1" }, /* @__PURE__ */ import_react77.default.createElement(ChartExportButton, { targetRef: chartRef, filename: item.label })), /* @__PURE__ */ import_react77.default.createElement("div", { ref: chartRef }, /* @__PURE__ */ import_react77.default.createElement(ResponsiveContainer, { width: "100%", height: 190 }, /* @__PURE__ */ import_react77.default.createElement(ScatterChart, null, /* @__PURE__ */ import_react77.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react77.default.createElement(XAxis, { dataKey: "x", tick: { fontSize: 11 }, stroke: "#999", name: item.xLabel, type: "number", domain: ["dataMin", "dataMax"] }), /* @__PURE__ */ import_react77.default.createElement(YAxis, { dataKey: "y", tick: { fontSize: 11 }, stroke: "#999", name: item.yLabel, width: 55, type: "number", domain: ["dataMin", "dataMax"] }), /* @__PURE__ */ import_react77.default.createElement(Tooltip, { cursor: { strokeDasharray: "3 3" } }), /* @__PURE__ */ import_react77.default.createElement(Scatter, { data: scatter, fill: NAVY7 })))), /* @__PURE__ */ import_react77.default.createElement("p", { className: "text-xs text-gray-500 mt-2" }, Math.abs(r2.r) < 0.1 ? "Association quasi nulle" : Math.abs(r2.r) < 0.3 ? "Association faible" : Math.abs(r2.r) < 0.5 ? "Association mod\xE9r\xE9e" : "Association forte", " ", "entre ", item.xLabel, " et ", item.yLabel, ", ", r2.p < 0.05 ? "statistiquement significative (p < 0,05)" : "non significative au seuil de 5 %", "."));
+    }
+    if (computed.kind === "nonparam") {
+      const { test, res, chartData, quantLabel, qualLabel } = computed;
+      const stat = test === "Test de Mann-Whitney" ? `U = ${res.U.toFixed(1)}, z = ${res.z.toFixed(2)}` : `H(${res.df}) = ${res.H.toFixed(2)}`;
+      return /* @__PURE__ */ import_react77.default.createElement(Card3, null, validationBar, /* @__PURE__ */ import_react77.default.createElement(ResultHeader, { title: item.label, subtitle: `${test} \xB7 ${stat}, p = ${fmtP(res.p)}`, status: item.status }), /* @__PURE__ */ import_react77.default.createElement("div", { className: "flex justify-end mb-1" }, /* @__PURE__ */ import_react77.default.createElement(ChartExportButton, { targetRef: chartRef, filename: item.label })), /* @__PURE__ */ import_react77.default.createElement("div", { ref: chartRef }, /* @__PURE__ */ import_react77.default.createElement(ResponsiveContainer, { width: "100%", height: 180 }, /* @__PURE__ */ import_react77.default.createElement(BarChart, { data: chartData }, /* @__PURE__ */ import_react77.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react77.default.createElement(XAxis, { dataKey: "groupe", tick: { fontSize: 11 }, stroke: "#999" }), /* @__PURE__ */ import_react77.default.createElement(YAxis, { tick: { fontSize: 11 }, stroke: "#999", width: 55 }), /* @__PURE__ */ import_react77.default.createElement(Tooltip, null), /* @__PURE__ */ import_react77.default.createElement(Bar, { dataKey: "mediane", name: `M\xE9diane de ${quantLabel}`, radius: [6, 6, 0, 0] }, chartData.map((d, i) => /* @__PURE__ */ import_react77.default.createElement(Cell, { key: d.groupe, fill: PALETTE[i % PALETTE.length] })))))), /* @__PURE__ */ import_react77.default.createElement("p", { className: "text-xs text-gray-500 mt-2" }, "Diff\xE9rence ", res.p < 0.05 ? "statistiquement significative" : "non significative", " de ", quantLabel, " selon ", qualLabel, " (test non param\xE9trique, p = ", fmtP(res.p), ")."));
+    }
+    if (computed.kind === "anova") {
+      const { test, a: a2, chartData, quantLabel, qualLabel } = computed;
+      const statLabel = test === "Test de Student" ? `t \u2248 ${Math.sqrt(a2.F).toFixed(2)}` : `F(${a2.dfBetween},${a2.dfWithin}) = ${a2.F.toFixed(2)}, \u03B7\xB2 = ${a2.etaSq.toFixed(2)}`;
+      return /* @__PURE__ */ import_react77.default.createElement(Card3, null, validationBar, /* @__PURE__ */ import_react77.default.createElement(ResultHeader, { title: item.label, subtitle: `${test} \xB7 ${statLabel}, p = ${fmtP(a2.p)}`, status: item.status }), /* @__PURE__ */ import_react77.default.createElement("div", { className: "flex justify-end mb-1" }, /* @__PURE__ */ import_react77.default.createElement(ChartExportButton, { targetRef: chartRef, filename: item.label })), /* @__PURE__ */ import_react77.default.createElement("div", { ref: chartRef }, /* @__PURE__ */ import_react77.default.createElement(ResponsiveContainer, { width: "100%", height: 190 }, /* @__PURE__ */ import_react77.default.createElement(BarChart, { data: chartData }, /* @__PURE__ */ import_react77.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react77.default.createElement(XAxis, { dataKey: "groupe", tick: { fontSize: 11 }, stroke: "#999" }), /* @__PURE__ */ import_react77.default.createElement(YAxis, { tick: { fontSize: 11 }, stroke: "#999", width: 55 }), /* @__PURE__ */ import_react77.default.createElement(Tooltip, null), /* @__PURE__ */ import_react77.default.createElement(Bar, { dataKey: "moyenne", name: `Moyenne de ${quantLabel}`, radius: [6, 6, 0, 0] }, chartData.map((d, i) => /* @__PURE__ */ import_react77.default.createElement(Cell, { key: d.groupe, fill: PALETTE[i % PALETTE.length] })), /* @__PURE__ */ import_react77.default.createElement(ErrorBar, { dataKey: "ecart", width: 4, strokeWidth: 1.5, stroke: "#7A7A7A" }))))), /* @__PURE__ */ import_react77.default.createElement("p", { className: "text-xs text-gray-500 mt-2" }, "Le ", quantLabel.toLowerCase(), " moyen ", a2.p < 0.05 ? "diff\xE8re significativement" : "ne diff\xE8re pas significativement", " selon ", qualLabel.toLowerCase(), " (p = ", fmtP(a2.p), ")."));
+    }
+    if (computed.kind === "chi2") {
+      const { test, c: c2 } = computed;
+      return /* @__PURE__ */ import_react77.default.createElement(Card3, null, validationBar, /* @__PURE__ */ import_react77.default.createElement(ResultHeader, { title: item.label, subtitle: `${test} \xB7 \u03C7\xB2(${c2.df}) = ${c2.chi2.toFixed(2)}, p = ${fmtP(c2.p)}, V = ${c2.cramersV.toFixed(2)}`, status: item.status }), /* @__PURE__ */ import_react77.default.createElement("div", { className: "overflow-x-auto" }, /* @__PURE__ */ import_react77.default.createElement("table", { className: "text-xs w-full" }, /* @__PURE__ */ import_react77.default.createElement("thead", null, /* @__PURE__ */ import_react77.default.createElement("tr", null, /* @__PURE__ */ import_react77.default.createElement("th", { className: "text-left text-[10px] text-gray-400 uppercase pb-1 pr-3" }, item.xLabel, " \\ ", item.yLabel), c2.yList.map((y2) => /* @__PURE__ */ import_react77.default.createElement("th", { key: y2, className: "text-[10px] text-gray-400 uppercase pb-1 px-2" }, y2)))), /* @__PURE__ */ import_react77.default.createElement("tbody", null, c2.xList.map((x2) => /* @__PURE__ */ import_react77.default.createElement("tr", { key: x2, className: "border-t border-gray-50" }, /* @__PURE__ */ import_react77.default.createElement("td", { className: "py-1.5 pr-3 font-medium text-gray-700" }, x2), c2.yList.map((y2) => /* @__PURE__ */ import_react77.default.createElement("td", { key: y2, className: "py-1.5 px-2 text-center text-gray-600" }, c2.table[x2]?.[y2] || 0))))))), /* @__PURE__ */ import_react77.default.createElement("p", { className: "text-xs text-gray-500 mt-2" }, "Association ", c2.p < 0.05 ? "statistiquement significative" : "non significative", " entre ", item.xLabel, " et ", item.yLabel, " (p = ", fmtP(c2.p), ", V de Cram\xE9r = ", c2.cramersV.toFixed(2), ")."));
     }
     return null;
   }
@@ -140701,7 +140727,7 @@ ${suffix2}`;
     };
     const validatedQueue = queue2.filter((item) => item.validated);
     const queueForReport = validatedQueue.length > 0 ? validatedQueue : queue2;
-    const significantCount = queueForReport.filter((item) => item.detail && /p\s*=\s*(0[,.]0[0-4]|<\s*0[,.]001)/.test(item.detail)).length;
+    const significantCount = queueForReport.filter((item) => typeof item.p === "number" && !isNaN(item.p) && item.p < 0.05).length;
     const generateWithClaude = async () => {
       setAiLoading(true);
       setAiError("");
