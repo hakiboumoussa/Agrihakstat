@@ -1206,6 +1206,10 @@ video {
   border-style: dashed;
 }
 
+.border-\[\#1F3864\]\/20 {
+  border-color: rgb(31 56 100 / 0.2);
+}
+
 .border-black\/5 {
   border-color: rgb(0 0 0 / 0.05);
 }
@@ -1227,6 +1231,11 @@ video {
 
 .border-white\/10 {
   border-color: rgb(255 255 255 / 0.1);
+}
+
+.border-t-\[\#1F3864\] {
+  --tw-border-opacity: 1;
+  border-top-color: rgb(31 56 100 / var(--tw-border-opacity, 1));
 }
 
 .bg-\[\#16294B\] {

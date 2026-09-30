@@ -4,12 +4,12 @@
   "description": "Maquette interactive AgriHakStat (tableau de bord, import, analyses, résultats, cartographie)",
   "main": "src/entry.jsx",
   "scripts": {
-    "build:js": "esbuild src/entry.jsx --bundle --outfile=public/bundle.js --loader:.js=jsx",
+    "build:js": "rm -rf public/chunks && esbuild src/entry.jsx --bundle --splitting --format=esm --outdir=public --chunk-names=chunks/[name]-[hash] --entry-names=bundle --loader:.js=jsx",
     "build:worker": "esbuild src/importWorker.js --bundle --outfile=public/importWorker.js --format=iife",
     "build:css": "tailwindcss -i input.css -o public/styles.css",
     "build:vendor": "cp node_modules/leaflet/dist/leaflet.css public/leaflet.css",
     "build": "npm run build:js && npm run build:worker && npm run build:css && npm run build:vendor",
-    "watch:js": "esbuild src/entry.jsx --bundle --outfile=public/bundle.js --loader:.js=jsx --watch",
+    "watch:js": "esbuild src/entry.jsx --bundle --splitting --format=esm --outdir=public --chunk-names=chunks/[name]-[hash] --entry-names=bundle --loader:.js=jsx --watch",
     "watch:css": "tailwindcss -i input.css -o public/styles.css --watch",
     "serve": "npx serve public"
   },

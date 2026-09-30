@@ -1,23 +1,41 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense, lazy } from "react";
 import { LogOut, ShieldCheck } from "lucide-react";
-import Dashboard from "./Dashboard.jsx";
-import ImportWizard from "./ImportWizard.jsx";
-import AnalysisConfig from "./AnalysisConfig.jsx";
-import ResultsReport from "./ResultsReport.jsx";
-import Cartographie from "./Cartographie.jsx";
+// Écrans chargés à la demande (découpage du bundle par route) : le bundle unique (5,7 Mo avant
+// cette optimisation) embarquait la totalité des dépendances propres à chaque écran — Leaflet pour
+// la seule Cartographie, xlsx/PapaParse pour le seul Assistant d'import, docx/recharts pour le seul
+// module Résultats — dans le paquet initial chargé par tout le monde, y compris un visiteur qui ne
+// consulte que le tableau de bord. React.lazy + import() dynamique laisse esbuild découper ces
+// dépendances en fragments séparés (cf. package.json, build:js), chargés uniquement à la navigation
+// vers l'écran correspondant.
+const Dashboard = lazy(() => import("./Dashboard.jsx"));
+const ImportWizard = lazy(() => import("./ImportWizard.jsx"));
+const AnalysisConfig = lazy(() => import("./AnalysisConfig.jsx"));
+const ResultsReport = lazy(() => import("./ResultsReport.jsx"));
+const Cartographie = lazy(() => import("./Cartographie.jsx"));
+const Climate = lazy(() => import("./Climate.jsx"));
+const Settings = lazy(() => import("./Settings.jsx"));
+const AdminDashboard = lazy(() => import("./admin/AdminDashboard.jsx"));
 import Landing from "./auth/Landing.jsx";
 import Login from "./auth/Login.jsx";
 import Signup from "./auth/Signup.jsx";
 import ResetPassword from "./auth/ResetPassword.jsx";
-import Settings from "./Settings.jsx";
-import Climate from "./Climate.jsx";
-import AdminDashboard from "./admin/AdminDashboard.jsx";
 import { supabase, isSupabaseConfigured } from "./supabaseClient.js";
 
 const SCREENS = {
   dashboard: Dashboard, import: ImportWizard, config: AnalysisConfig,
   results: ResultsReport, map: Cartographie, climate: Climate, settings: Settings,
 };
+
+function ScreenLoading() {
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-[#F4F6FB]">
+      <div className="flex items-center gap-3 text-sm text-gray-400">
+        <div className="w-4 h-4 rounded-full border-2 border-[#1F3864]/20 border-t-[#1F3864] animate-spin" />
+        Chargement du module…
+      </div>
+    </div>
+  );
+}
 
 const STORAGE_KEY = "agrihakstat_session_v1";
 
@@ -130,29 +148,31 @@ export default function App() {
         </div>
       )}
 
-      {showAdmin ? (
-        <AdminDashboard onBack={() => setShowAdmin(false)} />
-      ) : (
-        <Active
-          active={active}
-          onNavigate={handleNavigate}
-          userEmail={userEmail}
-          userId={session?.user?.id}
-          roleLabel={roleLabel}
-          isAdmin={isAdmin}
-          isGuest={isGuest}
-          onLogout={handleTopRightLogout}
-          onOpenAdmin={() => setShowAdmin(true)}
-          dataset={dataset}
-          onDatasetParsed={setDataset}
-          analysisQueue={analysisQueue}
-          onAnalysisQueueChange={setAnalysisQueue}
-          univariateQueue={univariateQueue}
-          onUnivariateQueueChange={setUnivariateQueue}
-          context={context}
-          onContextChange={setContext}
-        />
-      )}
+      <Suspense fallback={<ScreenLoading />}>
+        {showAdmin ? (
+          <AdminDashboard onBack={() => setShowAdmin(false)} />
+        ) : (
+          <Active
+            active={active}
+            onNavigate={handleNavigate}
+            userEmail={userEmail}
+            userId={session?.user?.id}
+            roleLabel={roleLabel}
+            isAdmin={isAdmin}
+            isGuest={isGuest}
+            onLogout={handleTopRightLogout}
+            onOpenAdmin={() => setShowAdmin(true)}
+            dataset={dataset}
+            onDatasetParsed={setDataset}
+            analysisQueue={analysisQueue}
+            onAnalysisQueueChange={setAnalysisQueue}
+            univariateQueue={univariateQueue}
+            onUnivariateQueueChange={setUnivariateQueue}
+            context={context}
+            onContextChange={setContext}
+          />
+        )}
+      </Suspense>
     </div>
   );
 }
