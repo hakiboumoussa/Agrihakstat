@@ -9,6 +9,18 @@ function normalCDF(z) {
   return p;
 }
 
+// Somme Σ(t³ - t) sur les groupes de valeurs ex æquo, utilisée par la correction de continuité
+// des tests de rangs (Mann-Whitney, Kruskal-Wallis) en présence d'égalités — cf. Conover, W.J.
+// (1999), Practical Nonparametric Statistics, 3ᵉ éd., Wiley, p. 288 (Kruskal-Wallis) et p. 313
+// (Mann-Whitney). Sans cette correction, la variance de la statistique est surestimée dès que les
+// données comportent des ex æquo (échelles de satisfaction, classes de rendement discrètes...),
+// ce qui rend le test p-value systématiquement conservateur (p trop élevé).
+function tieCorrectionSum(values) {
+  const counts = {};
+  values.forEach((v) => { counts[v] = (counts[v] || 0) + 1; });
+  return Object.values(counts).reduce((acc, t) => acc + (t ** 3 - t), 0);
+}
+
 function rank(values) {
   const idx = values.map((v, i) => i).sort((a, b) => values[a] - values[b]);
   const ranks = new Array(values.length);
@@ -161,8 +173,13 @@ export function mannWhitneyU(rows, quantCol, qualCol) {
   const U2 = n1 * n2 - U1;
   const U = Math.min(U1, U2);
   const mU = (n1 * n2) / 2;
-  const sigmaU = Math.sqrt((n1 * n2 * (n1 + n2 + 1)) / 12);
-  const z = (U - mU) / sigmaU;
+  // Correction pour ex æquo (Conover, 1999, p.313) : sans elle, la variance de U est surestimée
+  // dès que des valeurs sont liées (ranks moyennés), ce qui rend le test conservateur.
+  const N = n1 + n2;
+  const tieCorr = tieCorrectionSum(combined.map((c) => c.v));
+  const varAdjust = N > 1 ? (N + 1) - tieCorr / (N * (N - 1)) : N + 1;
+  const sigmaU = Math.sqrt((n1 * n2 / 12) * Math.max(varAdjust, 0));
+  const z = sigmaU > 0 ? (U - mU) / sigmaU : 0;
   const p = 2 * (1 - normalCDF(Math.abs(z)));
   return { U, z, p, n1, n2, groupes: [g1, g2] };
 }
@@ -186,6 +203,12 @@ export function kruskalWallis(rows, quantCol, qualCol) {
   let H = 0;
   groupNames.forEach((g) => { H += (rankSums[g] ** 2) / groups[g].length; });
   H = (12 / (N * (N + 1))) * H - 3 * (N + 1);
+  // Correction pour ex æquo (Conover, 1999, p.288) : divise H par (1 − ΣΣ(t³−t) / (N³−N)) pour
+  // compenser la sous-dispersion des rangs induite par les valeurs liées (échelles discrètes,
+  // classes de rendement...). Sans elle, la statistique H est sous-estimée et p artificiellement élevé.
+  const tieCorr = tieCorrectionSum(all.map((a) => a.v));
+  const correctionFactor = N > 1 ? 1 - tieCorr / (N ** 3 - N) : 1;
+  if (correctionFactor > 0 && correctionFactor < 1) H = H / correctionFactor;
   const df = k - 1;
   const p = chiSquarePValue(H, df);
   return { H, df, p, N, k };

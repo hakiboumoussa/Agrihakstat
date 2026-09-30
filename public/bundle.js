@@ -121143,6 +121143,13 @@ ${suffix2}`;
     if (z > 0) p2 = 1 - p2;
     return p2;
   }
+  function tieCorrectionSum(values) {
+    const counts = {};
+    values.forEach((v) => {
+      counts[v] = (counts[v] || 0) + 1;
+    });
+    return Object.values(counts).reduce((acc, t) => acc + (t ** 3 - t), 0);
+  }
   function rank(values) {
     const idx = values.map((v, i2) => i2).sort((a2, b) => values[a2] - values[b]);
     const ranks = new Array(values.length);
@@ -121285,8 +121292,11 @@ ${suffix2}`;
     const U2 = n1 * n2 - U1;
     const U = Math.min(U1, U2);
     const mU = n1 * n2 / 2;
-    const sigmaU = Math.sqrt(n1 * n2 * (n1 + n2 + 1) / 12);
-    const z = (U - mU) / sigmaU;
+    const N = n1 + n2;
+    const tieCorr = tieCorrectionSum(combined.map((c2) => c2.v));
+    const varAdjust = N > 1 ? N + 1 - tieCorr / (N * (N - 1)) : N + 1;
+    const sigmaU = Math.sqrt(n1 * n2 / 12 * Math.max(varAdjust, 0));
+    const z = sigmaU > 0 ? (U - mU) / sigmaU : 0;
     const p2 = 2 * (1 - normalCDF(Math.abs(z)));
     return { U, z, p: p2, n1, n2, groupes: [g1, g2] };
   }
@@ -121312,6 +121322,9 @@ ${suffix2}`;
       H += rankSums[g] ** 2 / groups[g].length;
     });
     H = 12 / (N * (N + 1)) * H - 3 * (N + 1);
+    const tieCorr = tieCorrectionSum(all.map((a2) => a2.v));
+    const correctionFactor = N > 1 ? 1 - tieCorr / (N ** 3 - N) : 1;
+    if (correctionFactor > 0 && correctionFactor < 1) H = H / correctionFactor;
     const df = k2 - 1;
     const p2 = chiSquarePValue(H, df);
     return { H, df, p: p2, N, k: k2 };
