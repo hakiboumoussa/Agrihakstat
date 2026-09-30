@@ -21548,14 +21548,14 @@
           return x2 === y2 && (0 !== x2 || 1 / x2 === 1 / y2) || x2 !== x2 && y2 !== y2;
         }
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-        var React73 = require_react(), shim = require_shim(), objectIs = "function" === typeof Object.is ? Object.is : is3, useSyncExternalStore2 = shim.useSyncExternalStore, useRef29 = React73.useRef, useEffect30 = React73.useEffect, useMemo18 = React73.useMemo, useDebugValue2 = React73.useDebugValue;
+        var React73 = require_react(), shim = require_shim(), objectIs = "function" === typeof Object.is ? Object.is : is3, useSyncExternalStore2 = shim.useSyncExternalStore, useRef29 = React73.useRef, useEffect30 = React73.useEffect, useMemo19 = React73.useMemo, useDebugValue2 = React73.useDebugValue;
         exports.useSyncExternalStoreWithSelector = function(subscribe, getSnapshot, getServerSnapshot, selector, isEqual2) {
           var instRef = useRef29(null);
           if (null === instRef.current) {
             var inst = { hasValue: false, value: null };
             instRef.current = inst;
           } else inst = instRef.current;
-          instRef = useMemo18(
+          instRef = useMemo19(
             function() {
               function memoizedSelector(nextSnapshot) {
                 if (!hasMemo) {
@@ -21627,14 +21627,14 @@
           return x2 === y2 && (0 !== x2 || 1 / x2 === 1 / y2) || x2 !== x2 && y2 !== y2;
         }
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-        var React73 = require_react(), objectIs = "function" === typeof Object.is ? Object.is : is3, useSyncExternalStore2 = React73.useSyncExternalStore, useRef29 = React73.useRef, useEffect30 = React73.useEffect, useMemo18 = React73.useMemo, useDebugValue2 = React73.useDebugValue;
+        var React73 = require_react(), objectIs = "function" === typeof Object.is ? Object.is : is3, useSyncExternalStore2 = React73.useSyncExternalStore, useRef29 = React73.useRef, useEffect30 = React73.useEffect, useMemo19 = React73.useMemo, useDebugValue2 = React73.useDebugValue;
         exports.useSyncExternalStoreWithSelector = function(subscribe, getSnapshot, getServerSnapshot, selector, isEqual2) {
           var instRef = useRef29(null);
           if (null === instRef.current) {
             var inst = { hasValue: false, value: null };
             instRef.current = inst;
           } else inst = instRef.current;
-          instRef = useMemo18(
+          instRef = useMemo19(
             function() {
               function memoizedSelector(nextSnapshot) {
                 if (!hasMemo) {
@@ -122076,13 +122076,16 @@ ${suffix2}`;
     const uniQueue = univariateQueue || [];
     const setUniQueue = onUnivariateQueueChange || (() => {
     });
-    const variables = dataset ? dataset.columns.filter((c2) => c2.type !== "Vide" && c2.type !== "Texte libre").map((c2) => ({
-      id: c2.name,
-      label: c2.name,
-      type: c2.type,
-      isQuantitative: c2.isQuantitative,
-      modalites: c2.modalites
-    })) : VARIABLES;
+    const variables = (0, import_react76.useMemo)(
+      () => dataset ? dataset.columns.filter((c2) => c2.type !== "Vide" && c2.type !== "Texte libre").map((c2) => ({
+        id: c2.name,
+        label: c2.name,
+        type: c2.type,
+        isQuantitative: c2.isQuantitative,
+        modalites: c2.modalites
+      })) : VARIABLES,
+      [dataset]
+    );
     (0, import_react76.useEffect)(() => {
       if (dataset) {
         const ids = variables.map((v) => v.id);
@@ -122124,13 +122127,19 @@ ${suffix2}`;
       setOverride(null);
       setSuggestions((prev) => prev.filter((sg) => sg !== s2));
     };
-    const proposal = proposeTest(x2, y2, variables, dataset);
+    const proposal = (0, import_react76.useMemo)(() => proposeTest(x2, y2, variables, dataset), [x2, y2, variables, dataset]);
     const activeTest = override || proposal?.test;
     const xVar = variables.find((v) => v.id === x2);
     const yVar = variables.find((v) => v.id === y2);
-    const conditions = activeTest ? getConditions(activeTest, { dataset, xId: x2, yId: y2 }) : [];
+    const conditions = (0, import_react76.useMemo)(
+      () => activeTest ? getConditions(activeTest, { dataset, xId: x2, yId: y2 }) : [],
+      [activeTest, dataset, x2, y2]
+    );
     const allConfirmed = conditions.length > 0 && conditions.every((_, i) => confirmed[i]);
-    const realStat = activeTest ? computeRealStat(activeTest, x2, y2, dataset) : null;
+    const realStat = (0, import_react76.useMemo)(
+      () => activeTest ? computeRealStat(activeTest, x2, y2, dataset) : null,
+      [activeTest, x2, y2, dataset]
+    );
     (0, import_react76.useEffect)(() => {
       setConfirmed({});
     }, [activeTest, x2, y2]);

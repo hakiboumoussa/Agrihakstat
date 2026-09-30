@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import {
   LayoutDashboard, ClipboardList, BarChart3, FileText, Settings, Sprout,
   Bell, ChevronDown, Wand2, Pencil, Plus, X, Play, Check, Info,
@@ -295,11 +295,18 @@ export default function AnalysisConfig({ active, onNavigate, userEmail, roleLabe
   const uniQueue = univariateQueue || [];
   const setUniQueue = onUnivariateQueueChange || (() => {});
 
-  const variables = dataset
-    ? dataset.columns.filter((c) => c.type !== "Vide" && c.type !== "Texte libre").map((c) => ({
-        id: c.name, label: c.name, type: c.type, isQuantitative: c.isQuantitative, modalites: c.modalites,
-      }))
-    : VARIABLES;
+  // Mémoïsée : sans elle, ce tableau (et donc proposal/conditions/realStat en aval, qui en dépendent
+  // par référence) était recréé à chaque rendu même quand ni le dataset ni la sélection X/Y n'avaient
+  // changé — par exemple pendant le chargement des suggestions de Claude ou toute autre interaction.
+  const variables = useMemo(
+    () =>
+      dataset
+        ? dataset.columns.filter((c) => c.type !== "Vide" && c.type !== "Texte libre").map((c) => ({
+            id: c.name, label: c.name, type: c.type, isQuantitative: c.isQuantitative, modalites: c.modalites,
+          }))
+        : VARIABLES,
+    [dataset]
+  );
 
   // Réinitialise la sélection dès qu'un nouveau fichier réel est importé
   useEffect(() => {
@@ -350,13 +357,23 @@ export default function AnalysisConfig({ active, onNavigate, userEmail, roleLabe
     setSuggestions((prev) => prev.filter((sg) => sg !== s));
   };
 
-  const proposal = proposeTest(x, y, variables, dataset);
+  // proposeTest/getConditions/computeRealStat relancent chacun un calcul (potentiellement un vrai
+  // test statistique sur toutes les lignes importées) : mémoïsés ici pour n'être recalculés que si
+  // les variables croisées, le test retenu ou la base elle-même changent réellement, et non à chaque
+  // rendu du composant (ex. frappe dans un champ sans rapport, chargement des suggestions...).
+  const proposal = useMemo(() => proposeTest(x, y, variables, dataset), [x, y, variables, dataset]);
   const activeTest = override || proposal?.test;
   const xVar = variables.find((v) => v.id === x);
   const yVar = variables.find((v) => v.id === y);
-  const conditions = activeTest ? getConditions(activeTest, { dataset, xId: x, yId: y }) : [];
+  const conditions = useMemo(
+    () => (activeTest ? getConditions(activeTest, { dataset, xId: x, yId: y }) : []),
+    [activeTest, dataset, x, y]
+  );
   const allConfirmed = conditions.length > 0 && conditions.every((_, i) => confirmed[i]);
-  const realStat = activeTest ? computeRealStat(activeTest, x, y, dataset) : null;
+  const realStat = useMemo(
+    () => (activeTest ? computeRealStat(activeTest, x, y, dataset) : null),
+    [activeTest, x, y, dataset]
+  );
 
   useEffect(() => { setConfirmed({}); }, [activeTest, x, y]);
   // La sélection multiple de X repart à zéro dès que Y ou la base change, pour éviter les croisements incohérents
