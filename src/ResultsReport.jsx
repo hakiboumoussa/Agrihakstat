@@ -15,7 +15,7 @@ import {
   mannWhitneyU, chiSquareTest, numericValues,
 } from "./realStats.js";
 import { exportReportToDocx } from "./exportDocx.js";
-import { ChartExportButton } from "./chartExport.js";
+import { ChartExportButton, captureChartAsDataURL } from "./chartExport.js";
 
 const NAVY = "#1F3864";
 const GOLD = "#C99A2E";
@@ -86,8 +86,14 @@ function ResultHeader({ title, subtitle, status }) {
 }
 
 // Rendu réel d'une analyse de la file, à partir des vraies données importées
-function AnalysisResultCard({ item, dataset, index, validated, onToggleValidated }) {
+function AnalysisResultCard({ item, dataset, index, validated, onToggleValidated, onChartRef }) {
   const chartRef = useRef(null);
+  // Enregistre le nœud DOM du graphe auprès du parent (ResultsReport), qui le réutilise pour
+  // capturer une image PNG de chaque graphe au moment de l'export Word (cf. handleExport).
+  const setChartRef = (el) => {
+    chartRef.current = el;
+    if (onChartRef) onChartRef(item.id, el);
+  };
   const validationBar = (
     <label className="flex items-center gap-2 mb-3 text-xs cursor-pointer select-none">
       <input type="checkbox" checked={!!validated} onChange={onToggleValidated} className="w-4 h-4 rounded" style={{ accentColor: "#256B45" }} />
@@ -208,7 +214,7 @@ function AnalysisResultCard({ item, dataset, index, validated, onToggleValidated
         <div className="flex justify-end mb-1">
           <ChartExportButton targetRef={chartRef} filename={item.label} />
         </div>
-        <div ref={chartRef}>
+        <div ref={setChartRef}>
           <ResponsiveContainer width="100%" height={190}>
             <ScatterChart>
               <CartesianGrid strokeDasharray="3 3" stroke="#EDEDED" />
@@ -237,7 +243,7 @@ function AnalysisResultCard({ item, dataset, index, validated, onToggleValidated
         <div className="flex justify-end mb-1">
           <ChartExportButton targetRef={chartRef} filename={item.label} />
         </div>
-        <div ref={chartRef}>
+        <div ref={setChartRef}>
           <ResponsiveContainer width="100%" height={180}>
             <BarChart data={chartData}>
               <CartesianGrid strokeDasharray="3 3" stroke="#EDEDED" />
@@ -267,7 +273,7 @@ function AnalysisResultCard({ item, dataset, index, validated, onToggleValidated
         <div className="flex justify-end mb-1">
           <ChartExportButton targetRef={chartRef} filename={item.label} />
         </div>
-        <div ref={chartRef}>
+        <div ref={setChartRef}>
           <ResponsiveContainer width="100%" height={190}>
             <BarChart data={chartData}>
               <CartesianGrid strokeDasharray="3 3" stroke="#EDEDED" />
@@ -368,6 +374,9 @@ export default function ResultsReport({ active, onNavigate, userEmail, roleLabel
   const [exporting, setExporting] = useState(false);
   const queue = analysisQueue || [];
   const uniQueue = univariateQueue || [];
+  // Nœuds DOM des graphes de chaque analyse, alimentés par AnalysisResultCard (onChartRef) :
+  // réutilisés à l'export pour capturer une image PNG de chaque graphe et l'intégrer au .docx.
+  const chartRefsMap = useRef({});
 
   const toggleSection = (s) =>
     setSections((prev) => (prev.includes(s) ? prev.filter((i) => i !== s) : [...prev, s]));
@@ -409,7 +418,20 @@ export default function ResultsReport({ active, onNavigate, userEmail, roleLabel
   const handleExport = async () => {
     setExporting(true);
     try {
-      await exportReportToDocx({ context, queue: queueForReport, uniQueue, aiReport, dataset });
+      // Capture chaque graphe actuellement rendu à l'écran (nœuds enregistrés via onChartRef)
+      // en image PNG, pour les intégrer au rapport Word plutôt que de s'en tenir au seul texte
+      // du résultat statistique. Une analyse dont la carte n'est pas montée (repliée, filtrée...)
+      // n'a simplement pas d'image dans le rapport — le texte reste présent dans tous les cas.
+      const chartImages = {};
+      await Promise.all(
+        queueForReport.map(async (item) => {
+          const el = chartRefsMap.current[item.id];
+          if (!el) return;
+          const captured = await captureChartAsDataURL(el);
+          if (captured) chartImages[item.id] = captured;
+        })
+      );
+      await exportReportToDocx({ context, queue: queueForReport, uniQueue, aiReport, dataset, chartImages });
     } catch (e) {
       setAiError("Échec de l'export : " + e.message);
     } finally {
@@ -479,7 +501,8 @@ export default function ResultsReport({ active, onNavigate, userEmail, roleLabel
 
                   {queue.map((item, i) => (
                     <AnalysisResultCard key={item.id || i} item={item} dataset={dataset} index={i}
-                      validated={item.validated} onToggleValidated={() => toggleValidated(i)} />
+                      validated={item.validated} onToggleValidated={() => toggleValidated(i)}
+                      onChartRef={(id, el) => { chartRefsMap.current[id] = el; }} />
                   ))}
 
                   {validatedQueue.length > 0 && validatedQueue.length < queue.length && (

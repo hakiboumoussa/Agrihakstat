@@ -1,7 +1,8 @@
 import {
   Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType, BorderStyle,
-  Table, TableRow, TableCell, WidthType, ShadingType,
+  Table, TableRow, TableCell, WidthType, ShadingType, ImageRun,
 } from "docx";
+import { chiSquareTest } from "./realStats.js";
 
 const NAVY = "1F3864";
 const GOLD = "C99A2E";
@@ -38,7 +39,58 @@ function table(rows) {
   });
 }
 
-export async function exportReportToDocx({ context, queue, uniQueue, aiReport, dataset }) {
+// Décode une data URL "data:image/png;base64,...." (produite par captureChartAsDataURL, cf.
+// chartExport.js) en tableau d'octets exploitable par ImageRun — docx ne sait pas lire une data
+// URL directement, il lui faut les octets bruts de l'image.
+function dataUrlToUint8Array(dataUrl) {
+  const base64 = dataUrl.split(",")[1] || "";
+  const binary = atob(base64);
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+  return bytes;
+}
+
+// Insère l'image d'un graphe (si capturée à l'export) redimensionnée pour tenir sur la largeur de
+// page utile (env. 560 px en conservant les proportions d'origine), sans jamais l'agrandir au-delà
+// de sa taille source.
+function chartImageParagraph(captured) {
+  if (!captured?.dataUrl) return null;
+  const MAX_WIDTH = 560;
+  const ratio = captured.width > 0 ? Math.min(1, MAX_WIDTH / captured.width) : 1;
+  const width = Math.round(captured.width * ratio);
+  const height = Math.round(captured.height * ratio);
+  try {
+    return new Paragraph({
+      spacing: { before: 80, after: 160 },
+      children: [
+        new ImageRun({
+          data: dataUrlToUint8Array(captured.dataUrl),
+          transformation: { width, height },
+          type: "png",
+        }),
+      ],
+    });
+  } catch {
+    return null;
+  }
+}
+
+// Tableau croisé (contingence) pour les tests du Khi²/V de Cramér, recalculé directement à partir
+// de la base importée — au même titre que celui affiché à l'écran dans Résultats & rapport — plutôt
+// que de s'en tenir au seul résumé chiffré (χ², p, V) déjà présent dans item.detail.
+function crosstabTable(item, dataset) {
+  if (!dataset || !item.xId || !item.yId) return null;
+  try {
+    const c = chiSquareTest(dataset.rows, item.xId, item.yId);
+    const header = [`${item.xLabel} \\ ${item.yLabel}`, ...c.yList];
+    const rows = c.xList.map((x) => [x, ...c.yList.map((y) => String(c.table[x]?.[y] || 0))]);
+    return table([header, ...rows]);
+  } catch {
+    return null;
+  }
+}
+
+export async function exportReportToDocx({ context, queue, uniQueue, aiReport, dataset, chartImages }) {
   const ctx = context || {};
   const indicateurs = ctx.indicateurs || [];
 
@@ -57,13 +109,28 @@ export async function exportReportToDocx({ context, queue, uniQueue, aiReport, d
     ];
   });
 
-  const resultParagraphs = (queue || []).flatMap((item) => [
-    new Paragraph({
-      spacing: { before: 160, after: 40 },
-      children: [new TextRun({ text: `${item.label} — ${item.test}`, bold: true, color: NAVY, size: 22 })],
-    }),
-    p(item.detail || "Résultat non disponible."),
-  ]);
+  // Tableaux croisés (Khi²/Cramér) et images de graphes (captureChartAsDataURL, cf.
+  // ResultsReport.jsx) : chaque analyse est désormais accompagnée, quand elle est disponible, de
+  // sa représentation visuelle ou de sa table de contingence, plutôt que du seul texte du résultat.
+  const resultParagraphs = (queue || []).flatMap((item) => {
+    const blocks = [
+      new Paragraph({
+        spacing: { before: 160, after: 40 },
+        children: [new TextRun({ text: `${item.label} — ${item.test}`, bold: true, color: NAVY, size: 22 })],
+      }),
+      p(item.detail || "Résultat non disponible."),
+    ];
+    const isChi2 = item.test === "Test du Khi² d'indépendance" || item.test === "V de Cramér (mesure d'association)";
+    if (isChi2) {
+      const ct = crosstabTable(item, dataset);
+      if (ct) blocks.push(ct, new Paragraph({ spacing: { after: 160 }, children: [] }));
+    } else {
+      const captured = chartImages?.[item.id];
+      const img = captured ? chartImageParagraph(captured) : null;
+      if (img) blocks.push(img);
+    }
+    return blocks;
+  });
 
   const doc = new Document({
     sections: [

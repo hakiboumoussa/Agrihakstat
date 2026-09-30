@@ -68904,33 +68904,51 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
 
   // src/chartExport.js
   var import_react73 = __toESM(require_react());
+  function svgContainerToCanvas(containerEl, scale = 2) {
+    return new Promise((resolve, reject) => {
+      if (!containerEl) {
+        resolve(null);
+        return;
+      }
+      const svg = containerEl.querySelector(".recharts-wrapper > svg.recharts-surface") || containerEl.querySelector(".recharts-wrapper > svg") || containerEl.querySelector("svg");
+      if (!svg) {
+        resolve(null);
+        return;
+      }
+      const svgClone = svg.cloneNode(true);
+      svgClone.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+      const bbox = svg.getBoundingClientRect();
+      const width = Math.max(1, Math.round(bbox.width) || 800);
+      const height = Math.max(1, Math.round(bbox.height) || 400);
+      svgClone.setAttribute("width", width);
+      svgClone.setAttribute("height", height);
+      const svgData = new XMLSerializer().serializeToString(svgClone);
+      const svgBlob = new Blob([svgData], { type: "image/svg+xml;charset=utf-8" });
+      const url = URL.createObjectURL(svgBlob);
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        canvas.width = width * scale;
+        canvas.height = height * scale;
+        const ctx = canvas.getContext("2d");
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.scale(scale, scale);
+        ctx.drawImage(img, 0, 0, width, height);
+        URL.revokeObjectURL(url);
+        resolve({ canvas, width, height });
+      };
+      img.onerror = () => {
+        URL.revokeObjectURL(url);
+        reject(new Error("\xC9chec du rendu SVG en image."));
+      };
+      img.src = url;
+    });
+  }
   function downloadChartAsPNG(containerEl, filename) {
-    if (!containerEl) return;
-    const svg = containerEl.querySelector(".recharts-wrapper > svg.recharts-surface") || containerEl.querySelector(".recharts-wrapper > svg") || containerEl.querySelector("svg");
-    if (!svg) return;
-    const svgClone = svg.cloneNode(true);
-    svgClone.setAttribute("xmlns", "http://www.w3.org/2000/svg");
-    const bbox = svg.getBoundingClientRect();
-    const width = Math.max(1, Math.round(bbox.width) || 800);
-    const height = Math.max(1, Math.round(bbox.height) || 400);
-    svgClone.setAttribute("width", width);
-    svgClone.setAttribute("height", height);
-    const svgData = new XMLSerializer().serializeToString(svgClone);
-    const svgBlob = new Blob([svgData], { type: "image/svg+xml;charset=utf-8" });
-    const url = URL.createObjectURL(svgBlob);
-    const img = new Image();
-    img.onload = () => {
-      const scale = 2;
-      const canvas = document.createElement("canvas");
-      canvas.width = width * scale;
-      canvas.height = height * scale;
-      const ctx = canvas.getContext("2d");
-      ctx.fillStyle = "#ffffff";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.scale(scale, scale);
-      ctx.drawImage(img, 0, 0, width, height);
-      URL.revokeObjectURL(url);
-      canvas.toBlob((blob) => {
+    svgContainerToCanvas(containerEl, 2).then((result) => {
+      if (!result) return;
+      result.canvas.toBlob((blob) => {
         if (!blob) return;
         const link = document.createElement("a");
         const safeName = (filename || "graphe").replace(/[^a-zA-Z0-9_\-À-ÿ]+/g, "_");
@@ -68941,9 +68959,17 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         document.body.removeChild(link);
         setTimeout(() => URL.revokeObjectURL(link.href), 2e3);
       }, "image/png");
-    };
-    img.onerror = () => URL.revokeObjectURL(url);
-    img.src = url;
+    }).catch(() => {
+    });
+  }
+  async function captureChartAsDataURL(containerEl, scale = 2) {
+    try {
+      const result = await svgContainerToCanvas(containerEl, scale);
+      if (!result) return null;
+      return { dataUrl: result.canvas.toDataURL("image/png"), width: result.width, height: result.height };
+    } catch {
+      return null;
+    }
   }
   function ChartExportButton({ targetRef, filename, title }) {
     return /* @__PURE__ */ import_react73.default.createElement(
@@ -95950,8 +95976,8 @@ ${suffix2}`;
     var Dictionary = -1, DictObj = {};
     for (i = 0; i != NumProps; ++i) {
       var PropID = blob.read_shift(4);
-      var Offset = blob.read_shift(4);
-      Props[i] = [PropID, Offset + start_addr];
+      var Offset2 = blob.read_shift(4);
+      Props[i] = [PropID, Offset2 + start_addr];
     }
     Props.sort(function(x2, y2) {
       return x2[1] - y2[1];
@@ -132362,11 +132388,977 @@ ${suffix2}`;
   };
   var abstractNumUniqueNumericIdGen = () => uniqueNumericIdCreator();
   var concreteNumUniqueNumericIdGen = () => uniqueNumericIdCreator(1);
+  var docPropertiesUniqueNumericIdGen = () => uniqueNumericIdCreator();
   var bookmarkUniqueNumericIdGen = () => uniqueNumericIdCreator();
   var uniqueId2 = () => nanoid2().toLowerCase();
+  var hashedId = (data) => import_hash.default.sha1().update(data instanceof ArrayBuffer ? new Uint8Array(data) : data).digest("hex");
   var generateUuidPart = (count) => customAlphabet("1234567890abcdef", count)();
   var uniqueUuid = () => `${generateUuidPart(8)}-${generateUuidPart(4)}-${generateUuidPart(4)}-${generateUuidPart(4)}-${generateUuidPart(12)}`;
   var encodeUtf8 = (str) => new Uint8Array(new TextEncoder().encode(str));
+  var HorizontalPositionRelativeFrom = {
+    /**
+    * ## Character
+    *
+    * Specifies that the horizontal positioning shall be relative to the position of the anchor within its run content.
+    */
+    CHARACTER: "character",
+    /**
+    * ## Column
+    *
+    * Specifies that the horizontal positioning shall be relative to the extents of the column which contains its anchor.
+    */
+    COLUMN: "column",
+    /**
+    * ## Inside Margin
+    *
+    * Specifies that the horizontal positioning shall be relative to the inside margin of the current page (the left margin on odd pages, right on even pages).
+    */
+    INSIDE_MARGIN: "insideMargin",
+    /**
+    * ## Left Margin
+    *
+    * Specifies that the horizontal positioning shall be relative to the left margin of the page.
+    */
+    LEFT_MARGIN: "leftMargin",
+    /**
+    * ## Page Margin
+    *
+    * Specifies that the horizontal positioning shall be relative to the page margins.
+    */
+    MARGIN: "margin",
+    /**
+    * ## Outside Margin
+    *
+    * Specifies that the horizontal positioning shall be relative to the outside margin of the current page (the right margin on odd pages, left on even pages).
+    */
+    OUTSIDE_MARGIN: "outsideMargin",
+    /**
+    * ## Page Edge
+    *
+    * Specifies that the horizontal positioning shall be relative to the edge of the page.
+    */
+    PAGE: "page",
+    /**
+    * ## Right Margin
+    *
+    * Specifies that the horizontal positioning shall be relative to the right margin of the page.
+    */
+    RIGHT_MARGIN: "rightMargin"
+  };
+  var VerticalPositionRelativeFrom = {
+    /**
+    * ## Bottom Margin
+    *
+    * Specifies that the vertical positioning shall be relative to the bottom margin of the current page.
+    */
+    BOTTOM_MARGIN: "bottomMargin",
+    /**
+    * ## Inside Margin
+    *
+    * Specifies that the vertical positioning shall be relative to the inside margin of the current page.
+    */
+    INSIDE_MARGIN: "insideMargin",
+    /**
+    * ## Line
+    *
+    * Specifies that the vertical positioning shall be relative to the line containing the anchor character.
+    */
+    LINE: "line",
+    /**
+    * ## Page Margin
+    *
+    * Specifies that the vertical positioning shall be relative to the page margins.
+    */
+    MARGIN: "margin",
+    /**
+    * ## Outside Margin
+    *
+    * Specifies that the vertical positioning shall be relative to the outside margin of the current page.
+    */
+    OUTSIDE_MARGIN: "outsideMargin",
+    /**
+    * ## Page Edge
+    *
+    * Specifies that the vertical positioning shall be relative to the edge of the page.
+    */
+    PAGE: "page",
+    /**
+    * ## Paragraph
+    *
+    * Specifies that the vertical positioning shall be relative to the paragraph which contains the drawing anchor.
+    */
+    PARAGRAPH: "paragraph",
+    /**
+    * ## Top Margin
+    *
+    * Specifies that the vertical positioning shall be relative to the top margin of the current page.
+    */
+    TOP_MARGIN: "topMargin"
+  };
+  var createSimplePos = () => new BuilderElement({
+    name: "wp:simplePos",
+    attributes: {
+      x: {
+        key: "x",
+        value: 0
+      },
+      y: {
+        key: "y",
+        value: 0
+      }
+    }
+  });
+  var createAlign = (value) => new BuilderElement({
+    name: "wp:align",
+    children: [value]
+  });
+  var createPositionOffset = (offsetValue) => new BuilderElement({
+    name: "wp:posOffset",
+    children: [offsetValue.toString()]
+  });
+  var createHorizontalPosition = ({ relative, align, offset }) => new BuilderElement({
+    name: "wp:positionH",
+    attributes: { relativeFrom: {
+      key: "relativeFrom",
+      value: relative !== null && relative !== void 0 ? relative : HorizontalPositionRelativeFrom.PAGE
+    } },
+    children: [(() => {
+      if (align) return createAlign(align);
+      else if (offset !== void 0) return createPositionOffset(offset);
+      else throw new Error("There is no configuration provided for floating position (Align or offset)");
+    })()]
+  });
+  var createVerticalPosition = ({ relative, align, offset }) => new BuilderElement({
+    name: "wp:positionV",
+    attributes: { relativeFrom: {
+      key: "relativeFrom",
+      value: relative !== null && relative !== void 0 ? relative : VerticalPositionRelativeFrom.PAGE
+    } },
+    children: [(() => {
+      if (align) return createAlign(align);
+      else if (offset !== void 0) return createPositionOffset(offset);
+      else throw new Error("There is no configuration provided for floating position (Align or offset)");
+    })()]
+  });
+  var createBodyProperties = (options = {}) => {
+    var _options$margins, _options$margins2, _options$margins3, _options$margins4;
+    return new BuilderElement({
+      name: "wps:bodyPr",
+      attributes: {
+        lIns: {
+          key: "lIns",
+          value: (_options$margins = options.margins) === null || _options$margins === void 0 ? void 0 : _options$margins.left
+        },
+        rIns: {
+          key: "rIns",
+          value: (_options$margins2 = options.margins) === null || _options$margins2 === void 0 ? void 0 : _options$margins2.right
+        },
+        tIns: {
+          key: "tIns",
+          value: (_options$margins3 = options.margins) === null || _options$margins3 === void 0 ? void 0 : _options$margins3.top
+        },
+        bIns: {
+          key: "bIns",
+          value: (_options$margins4 = options.margins) === null || _options$margins4 === void 0 ? void 0 : _options$margins4.bottom
+        },
+        anchor: {
+          key: "anchor",
+          value: options.verticalAnchor
+        }
+      },
+      children: [...options.noAutoFit ? [new OnOffElement("a:noAutofit", options.noAutoFit)] : []]
+    });
+  };
+  var createNonVisualShapeProperties = (options = { txBox: "1" }) => new BuilderElement({
+    name: "wps:cNvSpPr",
+    attributes: { txBox: {
+      key: "txBox",
+      value: options.txBox
+    } }
+  });
+  var createTextBoxContent = (children) => new BuilderElement({
+    name: "w:txbxContent",
+    children: [...children]
+  });
+  var createWpsTextBox = (children) => new BuilderElement({
+    name: "wps:txbx",
+    children: [createTextBoxContent(children)]
+  });
+  var ExtentsAttributes = class extends XmlAttributeComponent {
+    constructor(..._args) {
+      super(..._args);
+      _defineProperty54(this, "xmlKeys", {
+        cx: "cx",
+        cy: "cy"
+      });
+    }
+  };
+  var Extents = class extends XmlComponent {
+    constructor(x2, y2) {
+      super("a:ext");
+      _defineProperty54(this, "attributes", void 0);
+      this.attributes = new ExtentsAttributes({
+        cx: x2,
+        cy: y2
+      });
+      this.root.push(this.attributes);
+    }
+  };
+  var OffsetAttributes = class extends XmlAttributeComponent {
+    constructor(..._args) {
+      super(..._args);
+      _defineProperty54(this, "xmlKeys", {
+        x: "x",
+        y: "y"
+      });
+    }
+  };
+  var Offset = class extends XmlComponent {
+    constructor(x2, y2) {
+      super("a:off");
+      this.root.push(new OffsetAttributes({
+        x: x2 !== null && x2 !== void 0 ? x2 : 0,
+        y: y2 !== null && y2 !== void 0 ? y2 : 0
+      }));
+    }
+  };
+  var FormAttributes = class extends XmlAttributeComponent {
+    constructor(..._args) {
+      super(..._args);
+      _defineProperty54(this, "xmlKeys", {
+        flipVertical: "flipV",
+        flipHorizontal: "flipH",
+        rotation: "rot"
+      });
+    }
+  };
+  var Form = class extends XmlComponent {
+    constructor(options) {
+      var _options$flip, _options$flip2, _options$offset, _options$offset2;
+      super("a:xfrm");
+      _defineProperty54(this, "extents", void 0);
+      _defineProperty54(this, "offset", void 0);
+      this.root.push(new FormAttributes({
+        flipVertical: (_options$flip = options.flip) === null || _options$flip === void 0 ? void 0 : _options$flip.vertical,
+        flipHorizontal: (_options$flip2 = options.flip) === null || _options$flip2 === void 0 ? void 0 : _options$flip2.horizontal,
+        rotation: options.rotation
+      }));
+      this.offset = new Offset((_options$offset = options.offset) === null || _options$offset === void 0 || (_options$offset = _options$offset.emus) === null || _options$offset === void 0 ? void 0 : _options$offset.x, (_options$offset2 = options.offset) === null || _options$offset2 === void 0 || (_options$offset2 = _options$offset2.emus) === null || _options$offset2 === void 0 ? void 0 : _options$offset2.y);
+      this.extents = new Extents(options.emus.x, options.emus.y);
+      this.root.push(this.offset);
+      this.root.push(this.extents);
+    }
+  };
+  var createNoFill = () => new BuilderElement({ name: "a:noFill" });
+  var createSolidRgbColor = (options) => new BuilderElement({
+    name: "a:srgbClr",
+    attributes: { value: {
+      key: "val",
+      value: options.value
+    } }
+  });
+  var createSchemeColor = (options) => new BuilderElement({
+    name: "a:schemeClr",
+    attributes: { value: {
+      key: "val",
+      value: options.value
+    } }
+  });
+  var createSolidFill = (options) => new BuilderElement({
+    name: "a:solidFill",
+    children: [options.type === "rgb" ? createSolidRgbColor(options) : createSchemeColor(options)]
+  });
+  var createOutline = (options) => new BuilderElement({
+    name: "a:ln",
+    attributes: {
+      width: {
+        key: "w",
+        value: options.width
+      },
+      cap: {
+        key: "cap",
+        value: options.cap
+      },
+      compoundLine: {
+        key: "cmpd",
+        value: options.compoundLine
+      },
+      align: {
+        key: "algn",
+        value: options.align
+      }
+    },
+    children: [options.type === "noFill" ? createNoFill() : options.solidFillType === "rgb" ? createSolidFill({
+      type: "rgb",
+      value: options.value
+    }) : createSolidFill({
+      type: "scheme",
+      value: options.value
+    })]
+  });
+  var AdjustmentValues = class extends XmlComponent {
+    constructor() {
+      super("a:avLst");
+    }
+  };
+  var PresetGeometryAttributes = class extends XmlAttributeComponent {
+    constructor(..._args) {
+      super(..._args);
+      _defineProperty54(this, "xmlKeys", { prst: "prst" });
+    }
+  };
+  var PresetGeometry = class extends XmlComponent {
+    constructor() {
+      super("a:prstGeom");
+      this.root.push(new PresetGeometryAttributes({ prst: "rect" }));
+      this.root.push(new AdjustmentValues());
+    }
+  };
+  var ShapePropertiesAttributes = class extends XmlAttributeComponent {
+    constructor(..._args) {
+      super(..._args);
+      _defineProperty54(this, "xmlKeys", { bwMode: "bwMode" });
+    }
+  };
+  var ShapeProperties = class extends XmlComponent {
+    constructor({ element, outline, solidFill, transform }) {
+      super(`${element}:spPr`);
+      _defineProperty54(this, "form", void 0);
+      this.root.push(new ShapePropertiesAttributes({ bwMode: "auto" }));
+      this.form = new Form(transform);
+      this.root.push(this.form);
+      this.root.push(new PresetGeometry());
+      if (outline) {
+        this.root.push(createNoFill());
+        this.root.push(createOutline(outline));
+      }
+      if (solidFill) this.root.push(createSolidFill(solidFill));
+    }
+  };
+  var createWpsShape = (options) => new BuilderElement({
+    name: "wps:wsp",
+    children: [
+      createNonVisualShapeProperties(options.nonVisualProperties),
+      new ShapeProperties({
+        element: "wps",
+        transform: options.transformation,
+        outline: options.outline,
+        solidFill: options.solidFill
+      }),
+      createWpsTextBox(options.children),
+      createBodyProperties(options.bodyProperties)
+    ]
+  });
+  var GraphicDataAttributes = class extends XmlAttributeComponent {
+    constructor(..._args) {
+      super(..._args);
+      _defineProperty54(this, "xmlKeys", { uri: "uri" });
+    }
+  };
+  var createSvgBlip = (mediaData) => new BuilderElement({
+    name: "asvg:svgBlip",
+    attributes: {
+      asvg: {
+        key: "xmlns:asvg",
+        value: "http://schemas.microsoft.com/office/drawing/2016/SVG/main"
+      },
+      embed: {
+        key: "r:embed",
+        value: `rId{${mediaData.fileName}}`
+      }
+    }
+  });
+  var createExtention = (mediaData) => new BuilderElement({
+    name: "a:ext",
+    attributes: { uri: {
+      key: "uri",
+      value: "{96DAC541-7B7A-43D3-8B79-37D633B846F1}"
+    } },
+    children: [createSvgBlip(mediaData)]
+  });
+  var createExtentionList = (mediaData) => new BuilderElement({
+    name: "a:extLst",
+    children: [createExtention(mediaData)]
+  });
+  var createBlip = (mediaData) => new BuilderElement({
+    name: "a:blip",
+    attributes: {
+      embed: {
+        key: "r:embed",
+        value: `rId{${mediaData.type === "svg" ? mediaData.fallback.fileName : mediaData.fileName}}`
+      },
+      cstate: {
+        key: "cstate",
+        value: "none"
+      }
+    },
+    children: mediaData.type === "svg" ? [createExtentionList(mediaData)] : []
+  });
+  var SourceRectangle = class extends XmlComponent {
+    constructor() {
+      super("a:srcRect");
+    }
+  };
+  var FillRectangle = class extends XmlComponent {
+    constructor() {
+      super("a:fillRect");
+    }
+  };
+  var Stretch = class extends XmlComponent {
+    constructor() {
+      super("a:stretch");
+      this.root.push(new FillRectangle());
+    }
+  };
+  var BlipFill = class extends XmlComponent {
+    constructor(mediaData) {
+      super("pic:blipFill");
+      this.root.push(createBlip(mediaData));
+      this.root.push(new SourceRectangle());
+      this.root.push(new Stretch());
+    }
+  };
+  var PicLocksAttributes = class extends XmlAttributeComponent {
+    constructor(..._args) {
+      super(..._args);
+      _defineProperty54(this, "xmlKeys", {
+        noChangeAspect: "noChangeAspect",
+        noChangeArrowheads: "noChangeArrowheads"
+      });
+    }
+  };
+  var PicLocks = class extends XmlComponent {
+    constructor() {
+      super("a:picLocks");
+      this.root.push(new PicLocksAttributes({
+        noChangeAspect: 1,
+        noChangeArrowheads: 1
+      }));
+    }
+  };
+  var ChildNonVisualProperties = class extends XmlComponent {
+    constructor() {
+      super("pic:cNvPicPr");
+      this.root.push(new PicLocks());
+    }
+  };
+  var createHyperlinkClick = (linkId, hasXmlNs) => new BuilderElement({
+    name: "a:hlinkClick",
+    attributes: _objectSpread213(_objectSpread213({}, hasXmlNs ? { xmlns: {
+      key: "xmlns:a",
+      value: "http://schemas.openxmlformats.org/drawingml/2006/main"
+    } } : {}), {}, { id: {
+      key: "r:id",
+      value: `rId${linkId}`
+    } })
+  });
+  var NonVisualPropertiesAttributes = class extends XmlAttributeComponent {
+    constructor(..._args) {
+      super(..._args);
+      _defineProperty54(this, "xmlKeys", {
+        id: "id",
+        name: "name",
+        descr: "descr"
+      });
+    }
+  };
+  var NonVisualProperties = class extends XmlComponent {
+    constructor() {
+      super("pic:cNvPr");
+      this.root.push(new NonVisualPropertiesAttributes({
+        id: 0,
+        name: "",
+        descr: ""
+      }));
+    }
+    prepForXml(context) {
+      for (let i = context.stack.length - 1; i >= 0; i--) {
+        const element = context.stack[i];
+        if (!(element instanceof ConcreteHyperlink)) continue;
+        this.root.push(createHyperlinkClick(element.linkId, false));
+        break;
+      }
+      return super.prepForXml(context);
+    }
+  };
+  var NonVisualPicProperties = class extends XmlComponent {
+    constructor() {
+      super("pic:nvPicPr");
+      this.root.push(new NonVisualProperties());
+      this.root.push(new ChildNonVisualProperties());
+    }
+  };
+  var PicAttributes = class extends XmlAttributeComponent {
+    constructor(..._args) {
+      super(..._args);
+      _defineProperty54(this, "xmlKeys", { xmlns: "xmlns:pic" });
+    }
+  };
+  var Pic = class extends XmlComponent {
+    constructor({ mediaData, transform, outline }) {
+      super("pic:pic");
+      this.root.push(new PicAttributes({ xmlns: "http://schemas.openxmlformats.org/drawingml/2006/picture" }));
+      this.root.push(new NonVisualPicProperties());
+      this.root.push(new BlipFill(mediaData));
+      this.root.push(new ShapeProperties({
+        element: "pic",
+        transform,
+        outline
+      }));
+    }
+  };
+  var createGroupProperties = (transform) => new BuilderElement({
+    name: "wpg:grpSpPr",
+    children: [new Form(transform)]
+  });
+  var createNonVisualGroupProperties = () => new BuilderElement({ name: "wpg:cNvGrpSpPr" });
+  var createWpgGroup = (options) => new BuilderElement({
+    name: "wpg:wgp",
+    children: [
+      createNonVisualGroupProperties(),
+      createGroupProperties(options.transformation),
+      ...options.children
+    ]
+  });
+  var GraphicData = class extends XmlComponent {
+    constructor({ mediaData, transform, outline, solidFill }) {
+      super("a:graphicData");
+      if (mediaData.type === "wps") {
+        this.root.push(new GraphicDataAttributes({ uri: "http://schemas.microsoft.com/office/word/2010/wordprocessingShape" }));
+        const wps = createWpsShape(_objectSpread213(_objectSpread213({}, mediaData.data), {}, {
+          transformation: transform,
+          outline,
+          solidFill
+        }));
+        this.root.push(wps);
+      } else if (mediaData.type === "wpg") {
+        this.root.push(new GraphicDataAttributes({ uri: "http://schemas.microsoft.com/office/word/2010/wordprocessingGroup" }));
+        const wpg = createWpgGroup({
+          children: mediaData.children.map((child) => {
+            if (child.type === "wps") return createWpsShape(_objectSpread213(_objectSpread213({}, child.data), {}, {
+              transformation: child.transformation,
+              outline: child.outline,
+              solidFill: child.solidFill
+            }));
+            else return new Pic({
+              mediaData: child,
+              transform: child.transformation,
+              outline: child.outline
+            });
+          }),
+          transformation: transform
+        });
+        this.root.push(wpg);
+      } else {
+        this.root.push(new GraphicDataAttributes({ uri: "http://schemas.openxmlformats.org/drawingml/2006/picture" }));
+        const pic = new Pic({
+          mediaData,
+          transform,
+          outline
+        });
+        this.root.push(pic);
+      }
+    }
+  };
+  var GraphicAttributes = class extends XmlAttributeComponent {
+    constructor(..._args) {
+      super(..._args);
+      _defineProperty54(this, "xmlKeys", { a: "xmlns:a" });
+    }
+  };
+  var Graphic = class extends XmlComponent {
+    constructor({ mediaData, transform, outline, solidFill }) {
+      super("a:graphic");
+      _defineProperty54(this, "data", void 0);
+      this.root.push(new GraphicAttributes({ a: "http://schemas.openxmlformats.org/drawingml/2006/main" }));
+      this.data = new GraphicData({
+        mediaData,
+        transform,
+        outline,
+        solidFill
+      });
+      this.root.push(this.data);
+    }
+  };
+  var TextWrappingType = {
+    NONE: 0,
+    SQUARE: 1,
+    TIGHT: 2,
+    TOP_AND_BOTTOM: 3
+  };
+  var TextWrappingSide = {
+    /** Text wraps on both sides of the drawing */
+    BOTH_SIDES: "bothSides",
+    /** Text wraps only on the left side */
+    LEFT: "left",
+    /** Text wraps only on the right side */
+    RIGHT: "right",
+    /** Text wraps on the side with more space */
+    LARGEST: "largest"
+  };
+  var createWrapNone = () => new BuilderElement({ name: "wp:wrapNone" });
+  var createWrapSquare = (textWrapping, margins = {
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0
+  }) => new BuilderElement({
+    name: "wp:wrapSquare",
+    attributes: {
+      wrapText: {
+        key: "wrapText",
+        value: textWrapping.side || TextWrappingSide.BOTH_SIDES
+      },
+      distT: {
+        key: "distT",
+        value: margins.top
+      },
+      distB: {
+        key: "distB",
+        value: margins.bottom
+      },
+      distL: {
+        key: "distL",
+        value: margins.left
+      },
+      distR: {
+        key: "distR",
+        value: margins.right
+      }
+    }
+  });
+  var createWrapTight = (margins = {
+    top: 0,
+    bottom: 0
+  }) => new BuilderElement({
+    name: "wp:wrapTight",
+    attributes: {
+      distT: {
+        key: "distT",
+        value: margins.top
+      },
+      distB: {
+        key: "distB",
+        value: margins.bottom
+      }
+    }
+  });
+  var createWrapTopAndBottom = (margins = {
+    top: 0,
+    bottom: 0
+  }) => new BuilderElement({
+    name: "wp:wrapTopAndBottom",
+    attributes: {
+      distT: {
+        key: "distT",
+        value: margins.top
+      },
+      distB: {
+        key: "distB",
+        value: margins.bottom
+      }
+    }
+  });
+  var DocProperties = class extends XmlComponent {
+    constructor({ name, description, title, id } = {
+      name: "",
+      description: "",
+      title: ""
+    }) {
+      super("wp:docPr");
+      _defineProperty54(this, "docPropertiesUniqueNumericId", docPropertiesUniqueNumericIdGen());
+      const attributes = {
+        id: {
+          key: "id",
+          value: id !== null && id !== void 0 ? id : this.docPropertiesUniqueNumericId()
+        },
+        name: {
+          key: "name",
+          value: name
+        }
+      };
+      if (description !== null && description !== void 0) attributes.description = {
+        key: "descr",
+        value: description
+      };
+      if (title !== null && title !== void 0) attributes.title = {
+        key: "title",
+        value: title
+      };
+      this.root.push(new NextAttributeComponent(attributes));
+    }
+    prepForXml(context) {
+      for (let i = context.stack.length - 1; i >= 0; i--) {
+        const element = context.stack[i];
+        if (!(element instanceof ConcreteHyperlink)) continue;
+        this.root.push(createHyperlinkClick(element.linkId, true));
+        break;
+      }
+      return super.prepForXml(context);
+    }
+  };
+  var createEffectExtent = ({ top, right, bottom, left }) => new BuilderElement({
+    name: "wp:effectExtent",
+    attributes: {
+      top: {
+        key: "t",
+        value: top
+      },
+      right: {
+        key: "r",
+        value: right
+      },
+      bottom: {
+        key: "b",
+        value: bottom
+      },
+      left: {
+        key: "l",
+        value: left
+      }
+    }
+  });
+  var createExtent = ({ x: x2, y: y2 }) => new BuilderElement({
+    name: "wp:extent",
+    attributes: {
+      x: {
+        key: "cx",
+        value: x2
+      },
+      y: {
+        key: "cy",
+        value: y2
+      }
+    }
+  });
+  var GraphicFrameLockAttributes = class extends XmlAttributeComponent {
+    constructor(..._args) {
+      super(..._args);
+      _defineProperty54(this, "xmlKeys", {
+        xmlns: "xmlns:a",
+        noChangeAspect: "noChangeAspect"
+      });
+    }
+  };
+  var GraphicFrameLocks = class extends XmlComponent {
+    constructor() {
+      super("a:graphicFrameLocks");
+      this.root.push(new GraphicFrameLockAttributes({
+        xmlns: "http://schemas.openxmlformats.org/drawingml/2006/main",
+        noChangeAspect: 1
+      }));
+    }
+  };
+  var createGraphicFrameProperties = () => new BuilderElement({
+    name: "wp:cNvGraphicFramePr",
+    children: [new GraphicFrameLocks()]
+  });
+  var AnchorAttributes = class extends XmlAttributeComponent {
+    constructor(..._args) {
+      super(..._args);
+      _defineProperty54(this, "xmlKeys", {
+        distT: "distT",
+        distB: "distB",
+        distL: "distL",
+        distR: "distR",
+        allowOverlap: "allowOverlap",
+        behindDoc: "behindDoc",
+        layoutInCell: "layoutInCell",
+        locked: "locked",
+        relativeHeight: "relativeHeight",
+        simplePos: "simplePos"
+      });
+    }
+  };
+  var Anchor = class extends XmlComponent {
+    constructor({ mediaData, transform, drawingOptions }) {
+      super("wp:anchor");
+      const floating = _objectSpread213({
+        allowOverlap: true,
+        behindDocument: false,
+        lockAnchor: false,
+        layoutInCell: true,
+        verticalPosition: {},
+        horizontalPosition: {}
+      }, drawingOptions.floating);
+      this.root.push(new AnchorAttributes({
+        distT: floating.margins ? floating.margins.top || 0 : 0,
+        distB: floating.margins ? floating.margins.bottom || 0 : 0,
+        distL: floating.margins ? floating.margins.left || 0 : 0,
+        distR: floating.margins ? floating.margins.right || 0 : 0,
+        simplePos: "0",
+        allowOverlap: floating.allowOverlap === true ? "1" : "0",
+        behindDoc: floating.behindDocument === true ? "1" : "0",
+        locked: floating.lockAnchor === true ? "1" : "0",
+        layoutInCell: floating.layoutInCell === true ? "1" : "0",
+        relativeHeight: floating.zIndex ? floating.zIndex : transform.emus.y
+      }));
+      this.root.push(createSimplePos());
+      this.root.push(createHorizontalPosition(floating.horizontalPosition));
+      this.root.push(createVerticalPosition(floating.verticalPosition));
+      this.root.push(createExtent({
+        x: transform.emus.x,
+        y: transform.emus.y
+      }));
+      this.root.push(createEffectExtent({
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0
+      }));
+      if (drawingOptions.floating !== void 0 && drawingOptions.floating.wrap !== void 0) switch (drawingOptions.floating.wrap.type) {
+        case TextWrappingType.SQUARE:
+          this.root.push(createWrapSquare(drawingOptions.floating.wrap, drawingOptions.floating.margins));
+          break;
+        case TextWrappingType.TIGHT:
+          this.root.push(createWrapTight(drawingOptions.floating.margins));
+          break;
+        case TextWrappingType.TOP_AND_BOTTOM:
+          this.root.push(createWrapTopAndBottom(drawingOptions.floating.margins));
+          break;
+        case TextWrappingType.NONE:
+        default:
+          this.root.push(createWrapNone());
+      }
+      else this.root.push(createWrapNone());
+      this.root.push(new DocProperties(drawingOptions.docProperties));
+      this.root.push(createGraphicFrameProperties());
+      this.root.push(new Graphic({
+        mediaData,
+        transform,
+        outline: drawingOptions.outline,
+        solidFill: drawingOptions.solidFill
+      }));
+    }
+  };
+  var createInline = ({ mediaData, transform, docProperties, outline, solidFill }) => {
+    var _outline$width, _outline$width2, _outline$width3, _outline$width4;
+    return new BuilderElement({
+      name: "wp:inline",
+      attributes: {
+        distanceTop: {
+          key: "distT",
+          value: 0
+        },
+        distanceBottom: {
+          key: "distB",
+          value: 0
+        },
+        distanceLeft: {
+          key: "distL",
+          value: 0
+        },
+        distanceRight: {
+          key: "distR",
+          value: 0
+        }
+      },
+      children: [
+        createExtent({
+          x: transform.emus.x,
+          y: transform.emus.y
+        }),
+        createEffectExtent(outline ? {
+          top: ((_outline$width = outline.width) !== null && _outline$width !== void 0 ? _outline$width : 9525) * 2,
+          right: ((_outline$width2 = outline.width) !== null && _outline$width2 !== void 0 ? _outline$width2 : 9525) * 2,
+          bottom: ((_outline$width3 = outline.width) !== null && _outline$width3 !== void 0 ? _outline$width3 : 9525) * 2,
+          left: ((_outline$width4 = outline.width) !== null && _outline$width4 !== void 0 ? _outline$width4 : 9525) * 2
+        } : {
+          top: 0,
+          right: 0,
+          bottom: 0,
+          left: 0
+        }),
+        new DocProperties(docProperties),
+        createGraphicFrameProperties(),
+        new Graphic({
+          mediaData,
+          transform,
+          outline,
+          solidFill
+        })
+      ]
+    });
+  };
+  var Drawing = class extends XmlComponent {
+    constructor(imageData, drawingOptions = {}) {
+      super("w:drawing");
+      if (!drawingOptions.floating) this.root.push(createInline({
+        mediaData: imageData,
+        transform: imageData.transformation,
+        docProperties: drawingOptions.docProperties,
+        outline: drawingOptions.outline,
+        solidFill: drawingOptions.solidFill
+      }));
+      else this.root.push(new Anchor({
+        mediaData: imageData,
+        transform: imageData.transformation,
+        drawingOptions
+      }));
+    }
+  };
+  var convertDataURIToBinary = (dataURI) => {
+    const base64Index = dataURI.indexOf(";base64,");
+    const base64IndexWithOffset = base64Index === -1 ? 0 : base64Index + 8;
+    return new Uint8Array(atob(dataURI.substring(base64IndexWithOffset)).split("").map((c2) => c2.charCodeAt(0)));
+  };
+  var standardizeData = (data) => typeof data === "string" ? convertDataURIToBinary(data) : data;
+  var createImageData = (options, key) => ({
+    data: standardizeData(options.data),
+    fileName: key,
+    transformation: {
+      pixels: {
+        x: Math.round(options.transformation.width),
+        y: Math.round(options.transformation.height)
+      },
+      emus: {
+        x: Math.round(options.transformation.width * 9525),
+        y: Math.round(options.transformation.height * 9525)
+      },
+      flip: options.transformation.flip,
+      rotation: options.transformation.rotation ? options.transformation.rotation * 6e4 : void 0
+    }
+  });
+  var ImageRun = class extends XmlComponent {
+    constructor(options) {
+      var _super = (..._args) => (super(..._args), _defineProperty54(this, "imageData", void 0), this);
+      const key = `${hashedId(options.data)}.${options.type}`;
+      const imageData = options.type === "svg" ? _objectSpread213(_objectSpread213({ type: options.type }, createImageData(options, key)), {}, { fallback: _objectSpread213({ type: options.fallback.type }, createImageData(_objectSpread213(_objectSpread213({}, options.fallback), {}, { transformation: options.transformation }), `${hashedId(options.fallback.data)}.${options.fallback.type}`)) }) : _objectSpread213({ type: options.type }, createImageData(options, key));
+      const drawing = new Drawing(imageData, {
+        floating: options.floating,
+        docProperties: options.altText,
+        outline: options.outline
+      });
+      const run = new Run({ children: [drawing] });
+      if (options.insertion) {
+        _super("w:ins");
+        this.root.push(new ChangeAttributes({
+          id: options.insertion.id,
+          author: options.insertion.author,
+          date: options.insertion.date
+        }));
+        this.addChildElement(run);
+      } else if (options.deletion) {
+        _super("w:del");
+        this.root.push(new ChangeAttributes({
+          id: options.deletion.id,
+          author: options.deletion.author,
+          date: options.deletion.date
+        }));
+        this.addChildElement(run);
+      } else {
+        _super("w:r");
+        this.root.push(new RunProperties({}));
+        this.root.push(drawing);
+      }
+      this.imageData = imageData;
+    }
+    prepForXml(context) {
+      context.file.Media.addImage(this.imageData.fileName, this.imageData);
+      if (this.imageData.type === "svg") context.file.Media.addImage(this.imageData.fallback.fileName, this.imageData.fallback);
+      return super.prepForXml(context);
+    }
+  };
   var RelationshipsAttributes = class extends XmlAttributeComponent {
     constructor(..._args) {
       super(..._args);
@@ -140596,7 +141588,46 @@ ${suffix2}`;
       rows: rows.map((r2, i) => new TableRow({ children: r2.map((v) => cell(v, i === 0)) }))
     });
   }
-  async function exportReportToDocx({ context, queue: queue2, uniQueue, aiReport, dataset }) {
+  function dataUrlToUint8Array(dataUrl) {
+    const base64 = dataUrl.split(",")[1] || "";
+    const binary = atob(base64);
+    const bytes = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+    return bytes;
+  }
+  function chartImageParagraph(captured) {
+    if (!captured?.dataUrl) return null;
+    const MAX_WIDTH = 560;
+    const ratio = captured.width > 0 ? Math.min(1, MAX_WIDTH / captured.width) : 1;
+    const width = Math.round(captured.width * ratio);
+    const height = Math.round(captured.height * ratio);
+    try {
+      return new Paragraph({
+        spacing: { before: 80, after: 160 },
+        children: [
+          new ImageRun({
+            data: dataUrlToUint8Array(captured.dataUrl),
+            transformation: { width, height },
+            type: "png"
+          })
+        ]
+      });
+    } catch {
+      return null;
+    }
+  }
+  function crosstabTable(item, dataset) {
+    if (!dataset || !item.xId || !item.yId) return null;
+    try {
+      const c2 = chiSquareTest(dataset.rows, item.xId, item.yId);
+      const header = [`${item.xLabel} \\ ${item.yLabel}`, ...c2.yList];
+      const rows = c2.xList.map((x2) => [x2, ...c2.yList.map((y2) => String(c2.table[x2]?.[y2] || 0))]);
+      return table([header, ...rows]);
+    } catch {
+      return null;
+    }
+  }
+  async function exportReportToDocx({ context, queue: queue2, uniQueue, aiReport, dataset, chartImages }) {
     const ctx = context || {};
     const indicateurs = ctx.indicateurs || [];
     const univariateParagraphs = (uniQueue || []).flatMap((u) => {
@@ -140610,13 +141641,25 @@ ${suffix2}`;
         p(detail)
       ];
     });
-    const resultParagraphs = (queue2 || []).flatMap((item) => [
-      new Paragraph({
-        spacing: { before: 160, after: 40 },
-        children: [new TextRun({ text: `${item.label} \u2014 ${item.test}`, bold: true, color: NAVY6, size: 22 })]
-      }),
-      p(item.detail || "R\xE9sultat non disponible.")
-    ]);
+    const resultParagraphs = (queue2 || []).flatMap((item) => {
+      const blocks = [
+        new Paragraph({
+          spacing: { before: 160, after: 40 },
+          children: [new TextRun({ text: `${item.label} \u2014 ${item.test}`, bold: true, color: NAVY6, size: 22 })]
+        }),
+        p(item.detail || "R\xE9sultat non disponible.")
+      ];
+      const isChi2 = item.test === "Test du Khi\xB2 d'ind\xE9pendance" || item.test === "V de Cram\xE9r (mesure d'association)";
+      if (isChi2) {
+        const ct = crosstabTable(item, dataset);
+        if (ct) blocks.push(ct, new Paragraph({ spacing: { after: 160 }, children: [] }));
+      } else {
+        const captured = chartImages?.[item.id];
+        const img = captured ? chartImageParagraph(captured) : null;
+        if (img) blocks.push(img);
+      }
+      return blocks;
+    });
     const doc = new File2({
       sections: [
         {
@@ -140722,8 +141765,12 @@ ${suffix2}`;
   function ResultHeader({ title, subtitle, status }) {
     return /* @__PURE__ */ import_react77.default.createElement("div", { className: "flex items-start justify-between mb-3" }, /* @__PURE__ */ import_react77.default.createElement("div", null, /* @__PURE__ */ import_react77.default.createElement("h3", { className: "font-serif font-semibold text-sm", style: { color: NAVY7 } }, title), /* @__PURE__ */ import_react77.default.createElement("p", { className: "text-[11px] text-gray-400 mt-0.5" }, subtitle)), /* @__PURE__ */ import_react77.default.createElement(StatusBadge, { status }));
   }
-  function AnalysisResultCard({ item, dataset, index, validated, onToggleValidated }) {
+  function AnalysisResultCard({ item, dataset, index, validated, onToggleValidated, onChartRef }) {
     const chartRef = (0, import_react77.useRef)(null);
+    const setChartRef = (el) => {
+      chartRef.current = el;
+      if (onChartRef) onChartRef(item.id, el);
+    };
     const validationBar = /* @__PURE__ */ import_react77.default.createElement("label", { className: "flex items-center gap-2 mb-3 text-xs cursor-pointer select-none" }, /* @__PURE__ */ import_react77.default.createElement("input", { type: "checkbox", checked: !!validated, onChange: onToggleValidated, className: "w-4 h-4 rounded", style: { accentColor: "#256B45" } }), /* @__PURE__ */ import_react77.default.createElement("span", { className: validated ? "font-medium" : "text-gray-400", style: validated ? { color: "#256B45" } : {} }, validated ? "Valid\xE9 pour le rapport" : "Valider cette analyse pour l'inclure au rapport"));
     const computed = (0, import_react77.useMemo)(() => {
       if (!dataset) return { kind: "no-dataset" };
@@ -140782,17 +141829,17 @@ ${suffix2}`;
     if (computed.kind === "correlation") {
       const { test, r: r2, scatter } = computed;
       const symbol = test === "Corr\xE9lation de Pearson" ? "r" : "\u03C1";
-      return /* @__PURE__ */ import_react77.default.createElement(Card3, null, validationBar, /* @__PURE__ */ import_react77.default.createElement(ResultHeader, { title: item.label, subtitle: `${test} \xB7 ${symbol} = ${r2.r.toFixed(3)}, n = ${r2.n}, p = ${fmtP(r2.p)}`, status: item.status }), /* @__PURE__ */ import_react77.default.createElement("div", { className: "flex justify-end mb-1" }, /* @__PURE__ */ import_react77.default.createElement(ChartExportButton, { targetRef: chartRef, filename: item.label })), /* @__PURE__ */ import_react77.default.createElement("div", { ref: chartRef }, /* @__PURE__ */ import_react77.default.createElement(ResponsiveContainer, { width: "100%", height: 190 }, /* @__PURE__ */ import_react77.default.createElement(ScatterChart, null, /* @__PURE__ */ import_react77.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react77.default.createElement(XAxis, { dataKey: "x", tick: { fontSize: 11 }, stroke: "#999", name: item.xLabel, type: "number", domain: ["dataMin", "dataMax"] }), /* @__PURE__ */ import_react77.default.createElement(YAxis, { dataKey: "y", tick: { fontSize: 11 }, stroke: "#999", name: item.yLabel, width: 55, type: "number", domain: ["dataMin", "dataMax"] }), /* @__PURE__ */ import_react77.default.createElement(Tooltip, { cursor: { strokeDasharray: "3 3" } }), /* @__PURE__ */ import_react77.default.createElement(Scatter, { data: scatter, fill: NAVY7 })))), /* @__PURE__ */ import_react77.default.createElement("p", { className: "text-xs text-gray-500 mt-2" }, Math.abs(r2.r) < 0.1 ? "Association quasi nulle" : Math.abs(r2.r) < 0.3 ? "Association faible" : Math.abs(r2.r) < 0.5 ? "Association mod\xE9r\xE9e" : "Association forte", " ", "entre ", item.xLabel, " et ", item.yLabel, ", ", r2.p < 0.05 ? "statistiquement significative (p < 0,05)" : "non significative au seuil de 5 %", "."));
+      return /* @__PURE__ */ import_react77.default.createElement(Card3, null, validationBar, /* @__PURE__ */ import_react77.default.createElement(ResultHeader, { title: item.label, subtitle: `${test} \xB7 ${symbol} = ${r2.r.toFixed(3)}, n = ${r2.n}, p = ${fmtP(r2.p)}`, status: item.status }), /* @__PURE__ */ import_react77.default.createElement("div", { className: "flex justify-end mb-1" }, /* @__PURE__ */ import_react77.default.createElement(ChartExportButton, { targetRef: chartRef, filename: item.label })), /* @__PURE__ */ import_react77.default.createElement("div", { ref: setChartRef }, /* @__PURE__ */ import_react77.default.createElement(ResponsiveContainer, { width: "100%", height: 190 }, /* @__PURE__ */ import_react77.default.createElement(ScatterChart, null, /* @__PURE__ */ import_react77.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react77.default.createElement(XAxis, { dataKey: "x", tick: { fontSize: 11 }, stroke: "#999", name: item.xLabel, type: "number", domain: ["dataMin", "dataMax"] }), /* @__PURE__ */ import_react77.default.createElement(YAxis, { dataKey: "y", tick: { fontSize: 11 }, stroke: "#999", name: item.yLabel, width: 55, type: "number", domain: ["dataMin", "dataMax"] }), /* @__PURE__ */ import_react77.default.createElement(Tooltip, { cursor: { strokeDasharray: "3 3" } }), /* @__PURE__ */ import_react77.default.createElement(Scatter, { data: scatter, fill: NAVY7 })))), /* @__PURE__ */ import_react77.default.createElement("p", { className: "text-xs text-gray-500 mt-2" }, Math.abs(r2.r) < 0.1 ? "Association quasi nulle" : Math.abs(r2.r) < 0.3 ? "Association faible" : Math.abs(r2.r) < 0.5 ? "Association mod\xE9r\xE9e" : "Association forte", " ", "entre ", item.xLabel, " et ", item.yLabel, ", ", r2.p < 0.05 ? "statistiquement significative (p < 0,05)" : "non significative au seuil de 5 %", "."));
     }
     if (computed.kind === "nonparam") {
       const { test, res, chartData, quantLabel, qualLabel } = computed;
       const stat = test === "Test de Mann-Whitney" ? `U = ${res.U.toFixed(1)}, z = ${res.z.toFixed(2)}` : `H(${res.df}) = ${res.H.toFixed(2)}`;
-      return /* @__PURE__ */ import_react77.default.createElement(Card3, null, validationBar, /* @__PURE__ */ import_react77.default.createElement(ResultHeader, { title: item.label, subtitle: `${test} \xB7 ${stat}, p = ${fmtP(res.p)}`, status: item.status }), /* @__PURE__ */ import_react77.default.createElement("div", { className: "flex justify-end mb-1" }, /* @__PURE__ */ import_react77.default.createElement(ChartExportButton, { targetRef: chartRef, filename: item.label })), /* @__PURE__ */ import_react77.default.createElement("div", { ref: chartRef }, /* @__PURE__ */ import_react77.default.createElement(ResponsiveContainer, { width: "100%", height: 180 }, /* @__PURE__ */ import_react77.default.createElement(BarChart, { data: chartData }, /* @__PURE__ */ import_react77.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react77.default.createElement(XAxis, { dataKey: "groupe", tick: { fontSize: 11 }, stroke: "#999" }), /* @__PURE__ */ import_react77.default.createElement(YAxis, { tick: { fontSize: 11 }, stroke: "#999", width: 55 }), /* @__PURE__ */ import_react77.default.createElement(Tooltip, null), /* @__PURE__ */ import_react77.default.createElement(Bar, { dataKey: "mediane", name: `M\xE9diane de ${quantLabel}`, radius: [6, 6, 0, 0] }, chartData.map((d, i) => /* @__PURE__ */ import_react77.default.createElement(Cell, { key: d.groupe, fill: PALETTE[i % PALETTE.length] })))))), /* @__PURE__ */ import_react77.default.createElement("p", { className: "text-xs text-gray-500 mt-2" }, "Diff\xE9rence ", res.p < 0.05 ? "statistiquement significative" : "non significative", " de ", quantLabel, " selon ", qualLabel, " (test non param\xE9trique, p = ", fmtP(res.p), ")."));
+      return /* @__PURE__ */ import_react77.default.createElement(Card3, null, validationBar, /* @__PURE__ */ import_react77.default.createElement(ResultHeader, { title: item.label, subtitle: `${test} \xB7 ${stat}, p = ${fmtP(res.p)}`, status: item.status }), /* @__PURE__ */ import_react77.default.createElement("div", { className: "flex justify-end mb-1" }, /* @__PURE__ */ import_react77.default.createElement(ChartExportButton, { targetRef: chartRef, filename: item.label })), /* @__PURE__ */ import_react77.default.createElement("div", { ref: setChartRef }, /* @__PURE__ */ import_react77.default.createElement(ResponsiveContainer, { width: "100%", height: 180 }, /* @__PURE__ */ import_react77.default.createElement(BarChart, { data: chartData }, /* @__PURE__ */ import_react77.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react77.default.createElement(XAxis, { dataKey: "groupe", tick: { fontSize: 11 }, stroke: "#999" }), /* @__PURE__ */ import_react77.default.createElement(YAxis, { tick: { fontSize: 11 }, stroke: "#999", width: 55 }), /* @__PURE__ */ import_react77.default.createElement(Tooltip, null), /* @__PURE__ */ import_react77.default.createElement(Bar, { dataKey: "mediane", name: `M\xE9diane de ${quantLabel}`, radius: [6, 6, 0, 0] }, chartData.map((d, i) => /* @__PURE__ */ import_react77.default.createElement(Cell, { key: d.groupe, fill: PALETTE[i % PALETTE.length] })))))), /* @__PURE__ */ import_react77.default.createElement("p", { className: "text-xs text-gray-500 mt-2" }, "Diff\xE9rence ", res.p < 0.05 ? "statistiquement significative" : "non significative", " de ", quantLabel, " selon ", qualLabel, " (test non param\xE9trique, p = ", fmtP(res.p), ")."));
     }
     if (computed.kind === "anova") {
       const { test, a: a2, chartData, quantLabel, qualLabel } = computed;
       const statLabel = test === "Test de Student" ? `t \u2248 ${Math.sqrt(a2.F).toFixed(2)}` : `F(${a2.dfBetween},${a2.dfWithin}) = ${a2.F.toFixed(2)}, \u03B7\xB2 = ${a2.etaSq.toFixed(2)}`;
-      return /* @__PURE__ */ import_react77.default.createElement(Card3, null, validationBar, /* @__PURE__ */ import_react77.default.createElement(ResultHeader, { title: item.label, subtitle: `${test} \xB7 ${statLabel}, p = ${fmtP(a2.p)}`, status: item.status }), /* @__PURE__ */ import_react77.default.createElement("div", { className: "flex justify-end mb-1" }, /* @__PURE__ */ import_react77.default.createElement(ChartExportButton, { targetRef: chartRef, filename: item.label })), /* @__PURE__ */ import_react77.default.createElement("div", { ref: chartRef }, /* @__PURE__ */ import_react77.default.createElement(ResponsiveContainer, { width: "100%", height: 190 }, /* @__PURE__ */ import_react77.default.createElement(BarChart, { data: chartData }, /* @__PURE__ */ import_react77.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react77.default.createElement(XAxis, { dataKey: "groupe", tick: { fontSize: 11 }, stroke: "#999" }), /* @__PURE__ */ import_react77.default.createElement(YAxis, { tick: { fontSize: 11 }, stroke: "#999", width: 55 }), /* @__PURE__ */ import_react77.default.createElement(Tooltip, null), /* @__PURE__ */ import_react77.default.createElement(Bar, { dataKey: "moyenne", name: `Moyenne de ${quantLabel}`, radius: [6, 6, 0, 0] }, chartData.map((d, i) => /* @__PURE__ */ import_react77.default.createElement(Cell, { key: d.groupe, fill: PALETTE[i % PALETTE.length] })), /* @__PURE__ */ import_react77.default.createElement(ErrorBar, { dataKey: "ecart", width: 4, strokeWidth: 1.5, stroke: "#7A7A7A" }))))), /* @__PURE__ */ import_react77.default.createElement("p", { className: "text-xs text-gray-500 mt-2" }, "Le ", quantLabel.toLowerCase(), " moyen ", a2.p < 0.05 ? "diff\xE8re significativement" : "ne diff\xE8re pas significativement", " selon ", qualLabel.toLowerCase(), " (p = ", fmtP(a2.p), ")."));
+      return /* @__PURE__ */ import_react77.default.createElement(Card3, null, validationBar, /* @__PURE__ */ import_react77.default.createElement(ResultHeader, { title: item.label, subtitle: `${test} \xB7 ${statLabel}, p = ${fmtP(a2.p)}`, status: item.status }), /* @__PURE__ */ import_react77.default.createElement("div", { className: "flex justify-end mb-1" }, /* @__PURE__ */ import_react77.default.createElement(ChartExportButton, { targetRef: chartRef, filename: item.label })), /* @__PURE__ */ import_react77.default.createElement("div", { ref: setChartRef }, /* @__PURE__ */ import_react77.default.createElement(ResponsiveContainer, { width: "100%", height: 190 }, /* @__PURE__ */ import_react77.default.createElement(BarChart, { data: chartData }, /* @__PURE__ */ import_react77.default.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "#EDEDED" }), /* @__PURE__ */ import_react77.default.createElement(XAxis, { dataKey: "groupe", tick: { fontSize: 11 }, stroke: "#999" }), /* @__PURE__ */ import_react77.default.createElement(YAxis, { tick: { fontSize: 11 }, stroke: "#999", width: 55 }), /* @__PURE__ */ import_react77.default.createElement(Tooltip, null), /* @__PURE__ */ import_react77.default.createElement(Bar, { dataKey: "moyenne", name: `Moyenne de ${quantLabel}`, radius: [6, 6, 0, 0] }, chartData.map((d, i) => /* @__PURE__ */ import_react77.default.createElement(Cell, { key: d.groupe, fill: PALETTE[i % PALETTE.length] })), /* @__PURE__ */ import_react77.default.createElement(ErrorBar, { dataKey: "ecart", width: 4, strokeWidth: 1.5, stroke: "#7A7A7A" }))))), /* @__PURE__ */ import_react77.default.createElement("p", { className: "text-xs text-gray-500 mt-2" }, "Le ", quantLabel.toLowerCase(), " moyen ", a2.p < 0.05 ? "diff\xE8re significativement" : "ne diff\xE8re pas significativement", " selon ", qualLabel.toLowerCase(), " (p = ", fmtP(a2.p), ")."));
     }
     if (computed.kind === "chi2") {
       const { test, c: c2 } = computed;
@@ -140813,6 +141860,7 @@ ${suffix2}`;
     const [exporting, setExporting] = (0, import_react77.useState)(false);
     const queue2 = analysisQueue || [];
     const uniQueue = univariateQueue || [];
+    const chartRefsMap = (0, import_react77.useRef)({});
     const toggleSection = (s2) => setSections((prev) => prev.includes(s2) ? prev.filter((i) => i !== s2) : [...prev, s2]);
     const toggleValidated = (idx) => {
       if (!onAnalysisQueueChange) return;
@@ -140844,7 +141892,16 @@ ${suffix2}`;
     const handleExport = async () => {
       setExporting(true);
       try {
-        await exportReportToDocx({ context, queue: queueForReport, uniQueue, aiReport, dataset });
+        const chartImages = {};
+        await Promise.all(
+          queueForReport.map(async (item) => {
+            const el = chartRefsMap.current[item.id];
+            if (!el) return;
+            const captured = await captureChartAsDataURL(el);
+            if (captured) chartImages[item.id] = captured;
+          })
+        );
+        await exportReportToDocx({ context, queue: queueForReport, uniQueue, aiReport, dataset, chartImages });
       } catch (e) {
         setAiError("\xC9chec de l'export : " + e.message);
       } finally {
@@ -140885,7 +141942,10 @@ ${suffix2}`;
         dataset,
         index: i,
         validated: item.validated,
-        onToggleValidated: () => toggleValidated(i)
+        onToggleValidated: () => toggleValidated(i),
+        onChartRef: (id, el) => {
+          chartRefsMap.current[id] = el;
+        }
       }
     )), validatedQueue.length > 0 && validatedQueue.length < queue2.length && /* @__PURE__ */ import_react77.default.createElement("div", { className: "flex items-start gap-2 rounded-xl p-3", style: { background: NAVY_TINT2 } }, /* @__PURE__ */ import_react77.default.createElement(Check, { size: 14, style: { color: NAVY7 }, className: "mt-0.5 shrink-0" }), /* @__PURE__ */ import_react77.default.createElement("p", { className: "text-xs", style: { color: NAVY7 } }, validatedQueue.length, " analyse", validatedQueue.length > 1 ? "s" : "", " sur ", queue2.length, " valid\xE9e", validatedQueue.length > 1 ? "s" : "", " \u2014 seules celles-ci seront reprises dans le rapport et l'export.")), /* @__PURE__ */ import_react77.default.createElement(Card3, { className: "border-2", style: { borderColor: GOLD6 } }, /* @__PURE__ */ import_react77.default.createElement("div", { className: "flex items-center justify-between mb-2" }, /* @__PURE__ */ import_react77.default.createElement("div", { className: "flex items-center gap-2" }, /* @__PURE__ */ import_react77.default.createElement(Sparkles, { size: 16, style: { color: GOLD6 } }), /* @__PURE__ */ import_react77.default.createElement("h3", { className: "font-serif font-semibold text-sm", style: { color: NAVY7 } }, "6. Analyse")), /* @__PURE__ */ import_react77.default.createElement(
       "button",
