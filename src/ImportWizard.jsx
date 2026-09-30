@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   LayoutDashboard, ClipboardList, BarChart3, FileText, Settings, Sprout,
   Bell, ChevronDown, Upload, FileSpreadsheet, FileCheck2, Link2, MapPin,
@@ -167,7 +167,12 @@ export default function ImportWizard({ active, onNavigate, userEmail, userId, ro
   const [submitted, setSubmitted] = useState(false);
   const [submitError, setSubmitError] = useState("");
   const [parsing, setParsing] = useState(false);
+  const [parseProgress, setParseProgress] = useState(0); // 0-100, progression réelle de la lecture/analyse
+  const [parsePhase, setParsePhase] = useState(""); // libellé de l'étape en cours (lecture, analyse, typage)
   const [fileError, setFileError] = useState("");
+  const [fileWarnings, setFileWarnings] = useState([]); // avertissements de validation structurelle (non bloquants)
+  const workerRef = useRef(null);
+  const parseIdRef = useRef(0);
 
   // Synchronise le contexte d'étude vers l'application (persistance + disponible pour le rapport)
   useEffect(() => {
@@ -203,43 +208,130 @@ export default function ImportWizard({ active, onNavigate, userEmail, userId, ro
     setEditingIndicateur(null);
   };
 
+  // Compte les lignes entièrement vides (toutes valeurs "" / null / undefined), utilisé pour la
+  // validation structurelle avant analyse (cf. finish()).
+  const isEmptyRow = (row) => Object.values(row).every((v) => v === "" || v === null || v === undefined);
+
   const handleFileUpload = (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
     setFileError("");
+    setFileWarnings([]);
     setParsing(true);
+    setParseProgress(0);
+    setParsePhase("lecture");
     const extension = file.name.split(".").pop().toLowerCase();
 
-    const finish = (parsedRows) => {
+    const finish = (parsedRows, warnings = [], precomputedColumns = null) => {
       setParsing(false);
+      setParsePhase("");
       if (!parsedRows || !parsedRows.length) {
         setFileError("Le fichier semble vide ou n'a pas pu être lu. Vérifiez qu'il contient une ligne d'en-têtes et au moins une ligne de données.");
         return;
       }
-      const columns = buildColumnsMeta(parsedRows);
+      const columns = precomputedColumns || buildColumnsMeta(parsedRows);
+      setFileWarnings(warnings);
       onDatasetParsed({ rows: parsedRows, columns, fileName: file.name });
     };
 
     if (extension === "xlsx" || extension === "xls") {
+      // Le décodage du classeur Excel (XLSX.read + sheet_to_json) est déporté vers un Web Worker
+      // dédié (src/importWorker.js) : exécuté sur le fil principal, ce calcul est strictement
+      // synchrone et peut geler l'interface plusieurs secondes sur un fichier volumineux.
       const reader = new FileReader();
+      reader.onprogress = (ev) => {
+        if (ev.lengthComputable) setParseProgress(Math.min(35, Math.round((ev.loaded / ev.total) * 35)));
+      };
       reader.onload = (ev) => {
         try {
-          const wb = XLSX.read(ev.target.result, { type: "array" });
-          const sheet = wb.Sheets[wb.SheetNames[0]];
-          const rows = XLSX.utils.sheet_to_json(sheet, { defval: "" });
-          finish(rows);
+          if (!workerRef.current) workerRef.current = new Worker("/importWorker.js");
         } catch (err) {
-          setParsing(false);
-          setFileError("Erreur de lecture du fichier Excel : " + err.message);
+          // Environnement sans support des Web Workers (rare) : on retombe sur un décodage synchrone.
+          try {
+            const wb = XLSX.read(ev.target.result, { type: "array" });
+            const sheet = wb.Sheets[wb.SheetNames[0]];
+            const rows = XLSX.utils.sheet_to_json(sheet, { defval: "" });
+            finish(rows);
+          } catch (err2) {
+            setParsing(false);
+            setFileError("Erreur de lecture du fichier Excel : " + err2.message);
+          }
+          return;
         }
+        const worker = workerRef.current;
+        const id = ++parseIdRef.current;
+        const handleMessage = (msgEvent) => {
+          const msg = msgEvent.data;
+          if (msg.id !== id) return;
+          if (msg.type === "progress") {
+            setParsePhase(msg.phase);
+            setParseProgress(msg.pct);
+          } else if (msg.type === "done") {
+            worker.removeEventListener("message", handleMessage);
+            setParseProgress(100);
+            finish(msg.rows, msg.warnings, msg.columns);
+          } else if (msg.type === "error") {
+            worker.removeEventListener("message", handleMessage);
+            setParsing(false);
+            setFileError("Erreur de lecture du fichier Excel : " + msg.message);
+          }
+        };
+        worker.addEventListener("message", handleMessage);
+        worker.postMessage({ id, fileName: file.name, buffer: ev.target.result }, [ev.target.result]);
       };
       reader.onerror = () => { setParsing(false); setFileError("Erreur de lecture du fichier."); };
       reader.readAsArrayBuffer(file);
     } else if (extension === "csv") {
+      // Un premier passage léger (preview: 1, sans en-tête interprétée) récupère la ligne d'en-têtes
+      // brute pour détecter d'éventuels doublons AVANT que PapaParse ne les renomme automatiquement
+      // (ex. « zone » → « zone », « zone_1 »), afin d'en avertir explicitement l'utilisateur plutôt
+      // que de le laisser découvrir des colonnes renommées sans explication.
       Papa.parse(file, {
-        header: true,
-        skipEmptyLines: true,
-        complete: (results) => finish(results.data),
+        preview: 1,
+        skipEmptyLines: "greedy",
+        complete: (headerPreview) => {
+          const rawHeader = (headerPreview.data && headerPreview.data[0]) || [];
+          const headerCounts = {};
+          rawHeader.forEach((h) => {
+            const key = String(h ?? "").trim().toLowerCase();
+            if (key) headerCounts[key] = (headerCounts[key] || 0) + 1;
+          });
+          const dupHeaders = Object.entries(headerCounts).filter(([, n]) => n > 1).map(([k]) => k);
+
+          // worker: true délègue ensuite le découpage/parsing complet à un thread PapaParse dédié
+          // (intégré à la bibliothèque) ; step permet une progression réelle basée sur les octets
+          // déjà traités (results.meta.cursor / taille du fichier), plutôt qu'une barre simulée.
+          const rows = [];
+          Papa.parse(file, {
+            header: true,
+            skipEmptyLines: "greedy",
+            worker: true,
+            step: (results) => {
+              rows.push(results.data);
+              if (file.size > 0) setParseProgress(Math.min(99, Math.round((results.meta.cursor / file.size) * 100)));
+            },
+            complete: (results) => {
+              // Avec worker: true combiné à step, certaines versions de PapaParse invoquent complete()
+              // sans argument exploitable (les données/erreurs ayant déjà été consommées via step) :
+              // on se protège donc d'un results manquant plutôt que de supposer sa présence.
+              const errors = results?.errors || [];
+              const warnings = [];
+              if (dupHeaders.length > 0) {
+                warnings.push(`En-tête(s) en double détecté(s) dans le fichier source (${dupHeaders.join(", ")}) — les colonnes concernées ont été automatiquement renommées (ex. « ${dupHeaders[0]}_1 ») pour éviter toute perte de données ; vérifiez qu'il s'agit bien de colonnes distinctes.`);
+              }
+              const emptyCount = rows.filter(isEmptyRow).length;
+              const cleanRows = rows.filter((r) => !isEmptyRow(r));
+              if (emptyCount > 0) warnings.push(`${emptyCount} ligne(s) entièrement vide(s) détectée(s) et exclue(s) de l'analyse.`);
+              if (errors.length > 0) {
+                const distinctCodes = [...new Set(errors.map((er) => er.code))];
+                warnings.push(`${errors.length} anomalie(s) de format détectée(s) pendant la lecture (${distinctCodes.join(", ")}) — certaines lignes peuvent être décalées.`);
+              }
+              setParseProgress(100);
+              finish(cleanRows, warnings);
+            },
+            error: (err) => { setParsing(false); setFileError("Erreur de lecture du fichier CSV : " + err.message); },
+          });
+        },
         error: (err) => { setParsing(false); setFileError("Erreur de lecture du fichier CSV : " + err.message); },
       });
     } else {
@@ -247,6 +339,12 @@ export default function ImportWizard({ active, onNavigate, userEmail, userId, ro
       setFileError("Format non reconnu — utilisez un fichier .csv, .xlsx ou .xls.");
     }
   };
+
+  // Le worker est réutilisé entre imports successifs pour éviter le coût de son rechargement ;
+  // il est explicitement terminé si le composant est démonté (changement de page) pendant une analyse.
+  useEffect(() => {
+    return () => { if (workerRef.current) { workerRef.current.terminate(); workerRef.current = null; } };
+  }, []);
 
   const toggle = (list, setList, item) =>
     setList(list.includes(item) ? list.filter((x) => x !== item) : [...list, item]);
@@ -340,8 +438,37 @@ export default function ImportWizard({ active, onNavigate, userEmail, userId, ro
                   </div>
                 </div>
 
+                {parsing && (
+                  <div className="mt-4">
+                    <div className="flex items-center justify-between text-[11px] text-gray-500 mb-1">
+                      <span>
+                        {parsePhase === "lecture" && "Lecture du fichier…"}
+                        {parsePhase === "analyse" && "Analyse des feuilles et des lignes…"}
+                        {parsePhase === "typage" && "Détection des types de colonnes…"}
+                        {!parsePhase && "Analyse en cours…"}
+                        {" "}— exécutée en arrière-plan, l'interface reste utilisable.
+                      </span>
+                      <span className="font-medium" style={{ color: NAVY }}>{parseProgress}%</span>
+                    </div>
+                    <div className="w-full h-1.5 rounded-full bg-gray-100 overflow-hidden">
+                      <div className="h-full rounded-full transition-all" style={{ width: `${parseProgress}%`, background: NAVY }} />
+                    </div>
+                  </div>
+                )}
+
                 {fileError && (
                   <div className="mt-4 rounded-xl p-3 text-xs" style={{ background: "#FBE7E5", color: "#B3413A" }}>{fileError}</div>
+                )}
+
+                {fileWarnings.length > 0 && (
+                  <div className="mt-4 rounded-xl p-3 text-xs space-y-1" style={{ background: "#FDF1DA", color: "#8A5A00" }}>
+                    {fileWarnings.map((w, i) => (
+                      <div key={i} className="flex items-start gap-1.5">
+                        <AlertCircle size={13} className="mt-0.5 shrink-0" />
+                        <span>{w}</span>
+                      </div>
+                    ))}
+                  </div>
                 )}
 
                 {dataset && (

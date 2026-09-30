@@ -21548,9 +21548,9 @@
           return x2 === y2 && (0 !== x2 || 1 / x2 === 1 / y2) || x2 !== x2 && y2 !== y2;
         }
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-        var React73 = require_react(), shim = require_shim(), objectIs = "function" === typeof Object.is ? Object.is : is3, useSyncExternalStore2 = shim.useSyncExternalStore, useRef29 = React73.useRef, useEffect30 = React73.useEffect, useMemo19 = React73.useMemo, useDebugValue2 = React73.useDebugValue;
+        var React73 = require_react(), shim = require_shim(), objectIs = "function" === typeof Object.is ? Object.is : is3, useSyncExternalStore2 = shim.useSyncExternalStore, useRef30 = React73.useRef, useEffect30 = React73.useEffect, useMemo19 = React73.useMemo, useDebugValue2 = React73.useDebugValue;
         exports.useSyncExternalStoreWithSelector = function(subscribe, getSnapshot, getServerSnapshot, selector, isEqual2) {
-          var instRef = useRef29(null);
+          var instRef = useRef30(null);
           if (null === instRef.current) {
             var inst = { hasValue: false, value: null };
             instRef.current = inst;
@@ -21627,9 +21627,9 @@
           return x2 === y2 && (0 !== x2 || 1 / x2 === 1 / y2) || x2 !== x2 && y2 !== y2;
         }
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-        var React73 = require_react(), objectIs = "function" === typeof Object.is ? Object.is : is3, useSyncExternalStore2 = React73.useSyncExternalStore, useRef29 = React73.useRef, useEffect30 = React73.useEffect, useMemo19 = React73.useMemo, useDebugValue2 = React73.useDebugValue;
+        var React73 = require_react(), objectIs = "function" === typeof Object.is ? Object.is : is3, useSyncExternalStore2 = React73.useSyncExternalStore, useRef30 = React73.useRef, useEffect30 = React73.useEffect, useMemo19 = React73.useMemo, useDebugValue2 = React73.useDebugValue;
         exports.useSyncExternalStoreWithSelector = function(subscribe, getSnapshot, getServerSnapshot, selector, isEqual2) {
-          var instRef = useRef29(null);
+          var instRef = useRef30(null);
           if (null === instRef.current) {
             var inst = { hasValue: false, value: null };
             instRef.current = inst;
@@ -121545,7 +121545,12 @@ ${suffix2}`;
     const [submitted, setSubmitted] = (0, import_react75.useState)(false);
     const [submitError, setSubmitError] = (0, import_react75.useState)("");
     const [parsing, setParsing] = (0, import_react75.useState)(false);
+    const [parseProgress, setParseProgress] = (0, import_react75.useState)(0);
+    const [parsePhase, setParsePhase] = (0, import_react75.useState)("");
     const [fileError, setFileError] = (0, import_react75.useState)("");
+    const [fileWarnings, setFileWarnings] = (0, import_react75.useState)([]);
+    const workerRef = (0, import_react75.useRef)(null);
+    const parseIdRef = (0, import_react75.useRef)(0);
     (0, import_react75.useEffect)(() => {
       if (onContextChange) {
         onContextChange({ departement, communes, filieres, objectif, periodeDebut, periodeFin, uniteAnalyse, indicateurs });
@@ -121573,33 +121578,67 @@ ${suffix2}`;
       }
       setEditingIndicateur(null);
     };
+    const isEmptyRow = (row) => Object.values(row).every((v) => v === "" || v === null || v === void 0);
     const handleFileUpload = (e) => {
       const file = e.target.files?.[0];
       if (!file) return;
       setFileError("");
+      setFileWarnings([]);
       setParsing(true);
+      setParseProgress(0);
+      setParsePhase("lecture");
       const extension = file.name.split(".").pop().toLowerCase();
-      const finish = (parsedRows) => {
+      const finish = (parsedRows, warnings = [], precomputedColumns = null) => {
         setParsing(false);
+        setParsePhase("");
         if (!parsedRows || !parsedRows.length) {
           setFileError("Le fichier semble vide ou n'a pas pu \xEAtre lu. V\xE9rifiez qu'il contient une ligne d'en-t\xEAtes et au moins une ligne de donn\xE9es.");
           return;
         }
-        const columns = buildColumnsMeta(parsedRows);
+        const columns = precomputedColumns || buildColumnsMeta(parsedRows);
+        setFileWarnings(warnings);
         onDatasetParsed({ rows: parsedRows, columns, fileName: file.name });
       };
       if (extension === "xlsx" || extension === "xls") {
         const reader = new FileReader();
+        reader.onprogress = (ev) => {
+          if (ev.lengthComputable) setParseProgress(Math.min(35, Math.round(ev.loaded / ev.total * 35)));
+        };
         reader.onload = (ev) => {
           try {
-            const wb = readSync(ev.target.result, { type: "array" });
-            const sheet = wb.Sheets[wb.SheetNames[0]];
-            const rows = utils.sheet_to_json(sheet, { defval: "" });
-            finish(rows);
+            if (!workerRef.current) workerRef.current = new Worker("/importWorker.js");
           } catch (err) {
-            setParsing(false);
-            setFileError("Erreur de lecture du fichier Excel : " + err.message);
+            try {
+              const wb = readSync(ev.target.result, { type: "array" });
+              const sheet = wb.Sheets[wb.SheetNames[0]];
+              const rows = utils.sheet_to_json(sheet, { defval: "" });
+              finish(rows);
+            } catch (err2) {
+              setParsing(false);
+              setFileError("Erreur de lecture du fichier Excel : " + err2.message);
+            }
+            return;
           }
+          const worker = workerRef.current;
+          const id = ++parseIdRef.current;
+          const handleMessage = (msgEvent) => {
+            const msg = msgEvent.data;
+            if (msg.id !== id) return;
+            if (msg.type === "progress") {
+              setParsePhase(msg.phase);
+              setParseProgress(msg.pct);
+            } else if (msg.type === "done") {
+              worker.removeEventListener("message", handleMessage);
+              setParseProgress(100);
+              finish(msg.rows, msg.warnings, msg.columns);
+            } else if (msg.type === "error") {
+              worker.removeEventListener("message", handleMessage);
+              setParsing(false);
+              setFileError("Erreur de lecture du fichier Excel : " + msg.message);
+            }
+          };
+          worker.addEventListener("message", handleMessage);
+          worker.postMessage({ id, fileName: file.name, buffer: ev.target.result }, [ev.target.result]);
         };
         reader.onerror = () => {
           setParsing(false);
@@ -121608,9 +121647,47 @@ ${suffix2}`;
         reader.readAsArrayBuffer(file);
       } else if (extension === "csv") {
         import_papaparse.default.parse(file, {
-          header: true,
-          skipEmptyLines: true,
-          complete: (results) => finish(results.data),
+          preview: 1,
+          skipEmptyLines: "greedy",
+          complete: (headerPreview) => {
+            const rawHeader = headerPreview.data && headerPreview.data[0] || [];
+            const headerCounts = {};
+            rawHeader.forEach((h) => {
+              const key = String(h ?? "").trim().toLowerCase();
+              if (key) headerCounts[key] = (headerCounts[key] || 0) + 1;
+            });
+            const dupHeaders = Object.entries(headerCounts).filter(([, n]) => n > 1).map(([k2]) => k2);
+            const rows = [];
+            import_papaparse.default.parse(file, {
+              header: true,
+              skipEmptyLines: "greedy",
+              worker: true,
+              step: (results) => {
+                rows.push(results.data);
+                if (file.size > 0) setParseProgress(Math.min(99, Math.round(results.meta.cursor / file.size * 100)));
+              },
+              complete: (results) => {
+                const errors2 = results?.errors || [];
+                const warnings = [];
+                if (dupHeaders.length > 0) {
+                  warnings.push(`En-t\xEAte(s) en double d\xE9tect\xE9(s) dans le fichier source (${dupHeaders.join(", ")}) \u2014 les colonnes concern\xE9es ont \xE9t\xE9 automatiquement renomm\xE9es (ex. \xAB ${dupHeaders[0]}_1 \xBB) pour \xE9viter toute perte de donn\xE9es ; v\xE9rifiez qu'il s'agit bien de colonnes distinctes.`);
+                }
+                const emptyCount = rows.filter(isEmptyRow).length;
+                const cleanRows = rows.filter((r2) => !isEmptyRow(r2));
+                if (emptyCount > 0) warnings.push(`${emptyCount} ligne(s) enti\xE8rement vide(s) d\xE9tect\xE9e(s) et exclue(s) de l'analyse.`);
+                if (errors2.length > 0) {
+                  const distinctCodes = [...new Set(errors2.map((er) => er.code))];
+                  warnings.push(`${errors2.length} anomalie(s) de format d\xE9tect\xE9e(s) pendant la lecture (${distinctCodes.join(", ")}) \u2014 certaines lignes peuvent \xEAtre d\xE9cal\xE9es.`);
+                }
+                setParseProgress(100);
+                finish(cleanRows, warnings);
+              },
+              error: (err) => {
+                setParsing(false);
+                setFileError("Erreur de lecture du fichier CSV : " + err.message);
+              }
+            });
+          },
           error: (err) => {
             setParsing(false);
             setFileError("Erreur de lecture du fichier CSV : " + err.message);
@@ -121621,6 +121698,14 @@ ${suffix2}`;
         setFileError("Format non reconnu \u2014 utilisez un fichier .csv, .xlsx ou .xls.");
       }
     };
+    (0, import_react75.useEffect)(() => {
+      return () => {
+        if (workerRef.current) {
+          workerRef.current.terminate();
+          workerRef.current = null;
+        }
+      };
+    }, []);
     const toggle = (list, setList, item) => setList(list.includes(item) ? list.filter((x2) => x2 !== item) : [...list, item]);
     return /* @__PURE__ */ import_react75.default.createElement("div", { className: "min-h-screen relative bg-gradient-to-br from-[#F4F6FB] via-[#FAF7F0] to-[#F1F7F3] font-sans" }, /* @__PURE__ */ import_react75.default.createElement(Watermark2, null), /* @__PURE__ */ import_react75.default.createElement("div", { className: "relative z-10 flex" }, /* @__PURE__ */ import_react75.default.createElement(Sidebar, { active, onNavigate }), /* @__PURE__ */ import_react75.default.createElement("div", { className: "flex-1 min-h-screen" }, /* @__PURE__ */ import_react75.default.createElement(
       "header",
@@ -121650,7 +121735,7 @@ ${suffix2}`;
         fg: NAVY4,
         onDelete: () => setQuestionnaire(null)
       }
-    )) : /* @__PURE__ */ import_react75.default.createElement("div", { className: "mt-5 rounded-xl p-3 border border-black/5 bg-gray-50 text-xs text-gray-500" }, "Aucun questionnaire import\xE9 pour l'instant.")), step === 2 && /* @__PURE__ */ import_react75.default.createElement(Card, null, /* @__PURE__ */ import_react75.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY4 } }, "Importer la base de donn\xE9es"), /* @__PURE__ */ import_react75.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, "Fichier Excel (.xlsx) ou CSV r\xE9el \u2014 les colonnes et leur type sont d\xE9tect\xE9s automatiquement."), /* @__PURE__ */ import_react75.default.createElement("div", { className: "grid grid-cols-2 gap-4" }, /* @__PURE__ */ import_react75.default.createElement("label", { className: "border-2 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center text-center gap-2 cursor-pointer hover:bg-[#FAFBFE]", style: { borderColor: "#C7D2E8" } }, /* @__PURE__ */ import_react75.default.createElement("input", { type: "file", accept: ".csv,.xlsx,.xls", className: "hidden", onChange: handleFileUpload }), /* @__PURE__ */ import_react75.default.createElement("div", { className: "w-12 h-12 rounded-xl flex items-center justify-center mb-1", style: { background: "#EBEEF7" } }, /* @__PURE__ */ import_react75.default.createElement(Upload, { size: 20, style: { color: NAVY4 } })), /* @__PURE__ */ import_react75.default.createElement("div", { className: "font-medium text-sm", style: { color: NAVY4 } }, parsing ? "Analyse en cours\u2026" : "Glisser-d\xE9poser un fichier"), /* @__PURE__ */ import_react75.default.createElement("div", { className: "text-xs text-gray-400" }, "ou cliquer pour parcourir"), /* @__PURE__ */ import_react75.default.createElement("span", { className: "text-[10px] px-2 py-1 rounded-full bg-[#F6E9DD] text-[#8A4A1D] font-medium mt-2" }, ".xlsx, .xls ou .csv")), /* @__PURE__ */ import_react75.default.createElement("div", { className: "border-2 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center text-center gap-2 cursor-pointer hover:bg-[#FAFBFE]", style: { borderColor: "#C7D2E8" } }, /* @__PURE__ */ import_react75.default.createElement("div", { className: "w-12 h-12 rounded-xl flex items-center justify-center mb-1", style: { background: "#E4F5EC" } }, /* @__PURE__ */ import_react75.default.createElement(Link2, { size: 20, style: { color: "#256B45" } })), /* @__PURE__ */ import_react75.default.createElement("div", { className: "font-medium text-sm", style: { color: NAVY4 } }, "Connecter Akvo Flow / KoboToolbox"), /* @__PURE__ */ import_react75.default.createElement("div", { className: "text-xs text-gray-400" }, "Synchronisation automatique (\xE0 venir)"))), fileError && /* @__PURE__ */ import_react75.default.createElement("div", { className: "mt-4 rounded-xl p-3 text-xs", style: { background: "#FBE7E5", color: "#B3413A" } }, fileError), dataset && /* @__PURE__ */ import_react75.default.createElement("div", { className: "mt-5 space-y-3" }, /* @__PURE__ */ import_react75.default.createElement(
+    )) : /* @__PURE__ */ import_react75.default.createElement("div", { className: "mt-5 rounded-xl p-3 border border-black/5 bg-gray-50 text-xs text-gray-500" }, "Aucun questionnaire import\xE9 pour l'instant.")), step === 2 && /* @__PURE__ */ import_react75.default.createElement(Card, null, /* @__PURE__ */ import_react75.default.createElement("h2", { className: "font-serif font-semibold mb-1", style: { color: NAVY4 } }, "Importer la base de donn\xE9es"), /* @__PURE__ */ import_react75.default.createElement("p", { className: "text-xs text-gray-400 mb-5" }, "Fichier Excel (.xlsx) ou CSV r\xE9el \u2014 les colonnes et leur type sont d\xE9tect\xE9s automatiquement."), /* @__PURE__ */ import_react75.default.createElement("div", { className: "grid grid-cols-2 gap-4" }, /* @__PURE__ */ import_react75.default.createElement("label", { className: "border-2 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center text-center gap-2 cursor-pointer hover:bg-[#FAFBFE]", style: { borderColor: "#C7D2E8" } }, /* @__PURE__ */ import_react75.default.createElement("input", { type: "file", accept: ".csv,.xlsx,.xls", className: "hidden", onChange: handleFileUpload }), /* @__PURE__ */ import_react75.default.createElement("div", { className: "w-12 h-12 rounded-xl flex items-center justify-center mb-1", style: { background: "#EBEEF7" } }, /* @__PURE__ */ import_react75.default.createElement(Upload, { size: 20, style: { color: NAVY4 } })), /* @__PURE__ */ import_react75.default.createElement("div", { className: "font-medium text-sm", style: { color: NAVY4 } }, parsing ? "Analyse en cours\u2026" : "Glisser-d\xE9poser un fichier"), /* @__PURE__ */ import_react75.default.createElement("div", { className: "text-xs text-gray-400" }, "ou cliquer pour parcourir"), /* @__PURE__ */ import_react75.default.createElement("span", { className: "text-[10px] px-2 py-1 rounded-full bg-[#F6E9DD] text-[#8A4A1D] font-medium mt-2" }, ".xlsx, .xls ou .csv")), /* @__PURE__ */ import_react75.default.createElement("div", { className: "border-2 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center text-center gap-2 cursor-pointer hover:bg-[#FAFBFE]", style: { borderColor: "#C7D2E8" } }, /* @__PURE__ */ import_react75.default.createElement("div", { className: "w-12 h-12 rounded-xl flex items-center justify-center mb-1", style: { background: "#E4F5EC" } }, /* @__PURE__ */ import_react75.default.createElement(Link2, { size: 20, style: { color: "#256B45" } })), /* @__PURE__ */ import_react75.default.createElement("div", { className: "font-medium text-sm", style: { color: NAVY4 } }, "Connecter Akvo Flow / KoboToolbox"), /* @__PURE__ */ import_react75.default.createElement("div", { className: "text-xs text-gray-400" }, "Synchronisation automatique (\xE0 venir)"))), parsing && /* @__PURE__ */ import_react75.default.createElement("div", { className: "mt-4" }, /* @__PURE__ */ import_react75.default.createElement("div", { className: "flex items-center justify-between text-[11px] text-gray-500 mb-1" }, /* @__PURE__ */ import_react75.default.createElement("span", null, parsePhase === "lecture" && "Lecture du fichier\u2026", parsePhase === "analyse" && "Analyse des feuilles et des lignes\u2026", parsePhase === "typage" && "D\xE9tection des types de colonnes\u2026", !parsePhase && "Analyse en cours\u2026", " ", "\u2014 ex\xE9cut\xE9e en arri\xE8re-plan, l'interface reste utilisable."), /* @__PURE__ */ import_react75.default.createElement("span", { className: "font-medium", style: { color: NAVY4 } }, parseProgress, "%")), /* @__PURE__ */ import_react75.default.createElement("div", { className: "w-full h-1.5 rounded-full bg-gray-100 overflow-hidden" }, /* @__PURE__ */ import_react75.default.createElement("div", { className: "h-full rounded-full transition-all", style: { width: `${parseProgress}%`, background: NAVY4 } }))), fileError && /* @__PURE__ */ import_react75.default.createElement("div", { className: "mt-4 rounded-xl p-3 text-xs", style: { background: "#FBE7E5", color: "#B3413A" } }, fileError), fileWarnings.length > 0 && /* @__PURE__ */ import_react75.default.createElement("div", { className: "mt-4 rounded-xl p-3 text-xs space-y-1", style: { background: "#FDF1DA", color: "#8A5A00" } }, fileWarnings.map((w, i) => /* @__PURE__ */ import_react75.default.createElement("div", { key: i, className: "flex items-start gap-1.5" }, /* @__PURE__ */ import_react75.default.createElement(CircleAlert, { size: 13, className: "mt-0.5 shrink-0" }), /* @__PURE__ */ import_react75.default.createElement("span", null, w)))), dataset && /* @__PURE__ */ import_react75.default.createElement("div", { className: "mt-5 space-y-3" }, /* @__PURE__ */ import_react75.default.createElement(
       UploadedFile,
       {
         icon: FileCheckCorner,
