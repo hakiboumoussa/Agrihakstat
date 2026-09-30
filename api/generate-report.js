@@ -2,9 +2,21 @@
 // à partir de ce fichier — aucune configuration supplémentaire requise,
 // hormis la variable d'environnement ANTHROPIC_API_KEY (voir README.md).
 
+const { checkRateLimit } = require("./_rateLimit.js");
+
 module.exports = async function handler(req, res) {
   if (req.method !== "POST") {
     res.status(405).json({ error: "Méthode non autorisée." });
+    return;
+  }
+
+  // Cette fonction appelle l'API Anthropic avec une clé facturée à l'usage, sans authentification
+  // applicative en amont (accessible à quiconque connaît l'URL) : une limitation de débit best-effort
+  // (cf. _rateLimit.js) réduit le risque d'abus/de coût incontrôlé.
+  const rl = checkRateLimit(req, { limit: 8, windowMs: 60000 });
+  if (!rl.allowed) {
+    res.setHeader("Retry-After", String(rl.retryAfterSeconds));
+    res.status(429).json({ error: `Trop de requêtes de génération de rapport en peu de temps. Réessayez dans ${rl.retryAfterSeconds} seconde(s).` });
     return;
   }
 
@@ -55,6 +67,12 @@ module.exports = async function handler(req, res) {
 
   const userPrompt = `Voici le contexte de l'étude :\n${contextText}\n\nVoici les statistiques univariées validées à intégrer :\n${univariateText || "aucune"}\n\nVoici les résultats statistiques bivariés réellement calculés à intégrer :\n${analysesText || "aucun"}\n\nRédige :\n1. "analyse" : une lecture croisée des résultats ci-dessus, reliés au contexte de l'étude et aux indicateurs déclarés, avec la significativité statistique de chaque résultat mentionnée explicitement.\n2. "recommandations" : des recommandations opérationnelles découlant strictement des constats de l'analyse, adaptées au contexte agricole décrit.\n3. "conclusion" : une synthèse générale en 3 à 4 phrases.`;
 
+  // Sans délai d'expiration explicite, un appel qui reste sans réponse (Anthropic indisponible,
+  // connexion réseau dégradée) bloquerait la fonction jusqu'à la limite d'exécution de la
+  // plateforme, sans retour exploitable pour l'utilisateur avant ce délai.
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 30000);
+
   try {
     const response = await fetch("https://api.anthropic.com/v1/messages", {
       method: "POST",
@@ -69,7 +87,9 @@ module.exports = async function handler(req, res) {
         system: systemPrompt,
         messages: [{ role: "user", content: userPrompt }],
       }),
+      signal: controller.signal,
     });
+    clearTimeout(timer);
 
     const data = await response.json();
 
@@ -95,6 +115,10 @@ module.exports = async function handler(req, res) {
       conclusion: parsed.conclusion || "",
     });
   } catch (e) {
-    res.status(500).json({ error: "Échec de l'appel à l'API Claude : " + e.message });
+    clearTimeout(timer);
+    const timedOut = e.name === "AbortError";
+    res.status(timedOut ? 504 : 500).json({
+      error: timedOut ? "Le service Claude n'a pas répondu à temps pour générer ce rapport — réessayez." : "Échec de l'appel à l'API Claude : " + e.message,
+    });
   }
 };

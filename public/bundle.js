@@ -20518,7 +20518,7 @@ function ResetPassword({ onDone }) {
 }
 
 // src/App.jsx
-var Dashboard = (0, import_react5.lazy)(() => import("./chunks/Dashboard-IQBCKPG3.js"));
+var Dashboard = (0, import_react5.lazy)(() => import("./chunks/Dashboard-RJME3CPY.js"));
 var ImportWizard = (0, import_react5.lazy)(() => import("./chunks/ImportWizard-67WT5TRY.js"));
 var AnalysisConfig = (0, import_react5.lazy)(() => import("./chunks/AnalysisConfig-L64F5RJC.js"));
 var ResultsReport = (0, import_react5.lazy)(() => import("./chunks/ResultsReport-UA2P26A4.js"));

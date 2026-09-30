@@ -2,9 +2,21 @@
 // + justification) à partir du contexte d'étude et des colonnes réellement détectées.
 // La clé ANTHROPIC_API_KEY reste côté serveur (voir README.md).
 
+const { checkRateLimit } = require("./_rateLimit.js");
+
 module.exports = async function handler(req, res) {
   if (req.method !== "POST") {
     res.status(405).json({ error: "Méthode non autorisée." });
+    return;
+  }
+
+  // Cette fonction appelle l'API Anthropic avec une clé facturée à l'usage, sans authentification
+  // applicative en amont : une limitation de débit best-effort (cf. _rateLimit.js) réduit le risque
+  // d'abus/de coût incontrôlé.
+  const rl = checkRateLimit(req, { limit: 12, windowMs: 60000 });
+  if (!rl.allowed) {
+    res.setHeader("Retry-After", String(rl.retryAfterSeconds));
+    res.status(429).json({ error: `Trop de requêtes de suggestion en peu de temps. Réessayez dans ${rl.retryAfterSeconds} seconde(s).` });
     return;
   }
 
@@ -43,6 +55,11 @@ module.exports = async function handler(req, res) {
 
   const userPrompt = `Variables disponibles :\n${columnsText}\n\nContexte de l'étude :\n${contextText}\n\nPropose les croisements de variables les plus pertinents.`;
 
+  // Sans délai d'expiration explicite, un appel resté sans réponse bloquerait la fonction jusqu'à
+  // la limite d'exécution de la plateforme, sans retour exploitable pour l'utilisateur.
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 30000);
+
   try {
     const response = await fetch("https://api.anthropic.com/v1/messages", {
       method: "POST",
@@ -57,7 +74,9 @@ module.exports = async function handler(req, res) {
         system: systemPrompt,
         messages: [{ role: "user", content: userPrompt }],
       }),
+      signal: controller.signal,
     });
+    clearTimeout(timer);
 
     const data = await response.json();
     if (!response.ok) {
@@ -84,6 +103,10 @@ module.exports = async function handler(req, res) {
 
     res.status(200).json({ suggestions });
   } catch (e) {
-    res.status(500).json({ error: "Échec de l'appel à l'API Claude : " + e.message });
+    clearTimeout(timer);
+    const timedOut = e.name === "AbortError";
+    res.status(timedOut ? 504 : 500).json({
+      error: timedOut ? "Le service Claude n'a pas répondu à temps pour proposer des analyses — réessayez." : "Échec de l'appel à l'API Claude : " + e.message,
+    });
   }
 };
